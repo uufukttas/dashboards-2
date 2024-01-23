@@ -34,6 +34,13 @@
           "buildTarget": "head-office:build:production",
           "dev": false
         }
+      },
+      "compilerOptions": {
+        "paths": {
+          "@dashboards/label": ["libs/label/src/index.ts"],
+          "@dashboards/button": ["libs/button/src/index.ts"],
+          "@dashboards/input": ["libs/input/src/index.ts"]
+        }
       }
     },
     "export": {
