@@ -16,7 +16,7 @@ export function Input({
   name
 }: InputProps) {
   return (
-    <input className={`shadow appearance-none border border-red-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outlin ${className}`} id={id} type={type} placeholder={placeholder} />
+    <input className={`shadow appearance-none border border-[#000000]-500 rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outlin ${className}`} id={id} type={type} placeholder={placeholder} />
 
   );
 }
