@@ -3,6 +3,7 @@ import { Label } from "@projects/label"
 import { Input } from "@projects/input"
 import './page.css';
 import Link from "next/link";
+import Main from '@projects/reporting'
 
 
 export default async function Index() {
@@ -33,6 +34,7 @@ export default async function Index() {
       <Link href="/about">
         About Page
       </Link>
+      <Main />
     </div>
   );
 }
