@@ -1,0 +1,40 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "preserve",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "types": [
+      "jest",
+      "node"
+    ]
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    "../../apps/<%= name %>/.next/types/**/*.ts",
+    "../../dist/apps/<%= name %>/.next/types/**/*.ts",
+    "next-env.d.ts",
+    ".next/types/**/*.ts"
+, "app/api/hello/route.ts.template", "app/layout.tsx.template", "app/page.tsx.template", "pages/about/index.tsx.template", "pages/dashboards/index.tsx.template", "src/components/Background.tsx.template", "src/components/LoginCard.tsx.template", "src/constants/index.ts.template", "src/constants/types.d.ts.template", "index.d.ts.template", "jest.config.ts.template", "next.config.js.template", "postcss.config.js.template", "tailwind.config.js.template"  ],
+  "exclude": [
+    "node_modules",
+    "jest.config.ts.template",
+    "src/**/*.spec.ts",
+    "src/**/*.test.ts"
+  ]
+}

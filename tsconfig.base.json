@@ -18,6 +18,7 @@
       "@projects/button": ["libs/button/src/index.ts"],
       "@projects/input": ["libs/input/src/index.ts"],
       "@projects/label": ["libs/label/src/index.ts"],
+      "@projects/my-plugin": ["libs/my-plugin/src/index.ts"],
       "@projects/reporting": ["apps/reporting/app/page.tsx"]
     }
   },
