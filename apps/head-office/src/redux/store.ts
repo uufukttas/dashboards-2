@@ -1,7 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit'
 import counterSlice from './features/counters/counterSlice'
 
-export const makeStore = () => {
+export const makeStore = (): EnhancedStore => {
   return configureStore({
     reducer: {
         counter: counterSlice
