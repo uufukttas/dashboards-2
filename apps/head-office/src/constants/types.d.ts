@@ -1,6 +1,6 @@
-declare const constantTypes: {
+declare type constantTypes = {
     backgroundImage: string;
   };
   
-  export default constantValues;
+  export default constantTypes;
   
