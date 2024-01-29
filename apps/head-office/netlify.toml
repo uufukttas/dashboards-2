@@ -1,7 +1,0 @@
-[[plugins]]
-  package = "@netlify/plugin-nextjs"
-
-[build]
-  base = "/"
-  command = "nx build head-office"
-  publish = "/dist/apps/head-office/"
