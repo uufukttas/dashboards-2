@@ -9,7 +9,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/head-office"
+        "outputPath": "/apps/head-office/dist"
       },
       "configurations": {
         "development": {

@@ -5,7 +5,6 @@
   "scripts": {},
   "private": true,
   "dependencies": {
-    "@netlify/plugin-nextjs": "^4.41.3",
     "@nx/next": "17.2.8",
     "@nx/webpack": "^17.2.8",
     "@reduxjs/toolkit": "^2.1.0",
@@ -19,6 +18,7 @@
   "devDependencies": {
     "@babel/core": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
+    "@netlify/plugin-nextjs": "^4.41.3",
     "@nx/devkit": "17.2.8",
     "@nx/eslint": "17.2.8",
     "@nx/eslint-plugin": "17.2.8",
@@ -52,6 +52,7 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "jest": "^29.4.1",
     "jest-environment-jsdom": "^29.4.1",
+    "netlify-cli": "^17.15.3",
     "nx": "17.2.8",
     "postcss": "8.4.21",
     "prettier": "^2.6.2",
