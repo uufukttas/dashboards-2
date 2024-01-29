@@ -3,5 +3,5 @@
 
 [build]
   base = "/"
-  publish = "/dist"
+  publish = "/dist/apps/head-office"
   command = "nx build"
