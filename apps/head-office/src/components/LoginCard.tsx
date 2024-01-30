@@ -5,6 +5,7 @@ import { Button } from '@projects/button'
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { increment } from '../../app/redux/features/counterSlice';
+import { RootState } from 'apps/head-office/app/redux/store'
 
 
 
@@ -15,7 +16,7 @@ interface CardProps {
 const Card = ({
   className,
 }: CardProps) => {
-  const count = useSelector((state) => state.counterReducer.value);
+  const count = useSelector((state: RootState) => state.counterReducer.value);
   const dispatch = useDispatch()
 
 
