@@ -1,7 +1,12 @@
+'use client'
 import { Input } from '@projects/input'
 import { Label } from '@projects/label'
 import { Button } from '@projects/button'
 import React from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { increment } from '../../app/redux/features/counterSlice';
+
+
 
 interface CardProps {
   className?: string
@@ -10,10 +15,19 @@ interface CardProps {
 const Card = ({
   className,
 }: CardProps) => {
+  const count = useSelector((state) => state.counterReducer.value);
+  const dispatch = useDispatch()
+
+
+  const handleClick = () => {
+    event?.preventDefault();
+    dispatch(increment())
+  }
+
   return (
     <div className={`flex items-center justify-center min-h-screen bg-gray-100 ${className}`}>
       <div className="bg-white p-8 rounded shadow-md md:w-96">
-        <h2 className="text-2xl font-semibold mb-6">Login</h2>
+        <h2 className="text-2xl font-semibold mb-6">Login {count}</h2>
         <form>
           <div className="mb-4">
             <Label htmlFor="username" labelText="Username" className='block text-sm font-medium text-gray-600' />
@@ -25,7 +39,7 @@ const Card = ({
             <Input id="password" name="password" className="mt-1 p-2 w-full border rounded-md" type="password" />
           </div>
 
-          <Button className="bg-blue-500 text-white p-2 rounded-md w-full" type="submit" buttonText='Submit' />
+          <Button className="bg-blue-500 text-white p-2 rounded-md w-full" type="submit" buttonText='Submit' onClick={handleClick}/>
         </form>
       </div>
     </div>
