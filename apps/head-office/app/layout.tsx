@@ -1,5 +1,4 @@
 import './global.css';
-import StoreProvider from './StoreProvider';
 
 export const metadata = {
   title: 'Welcome to Sharz.net',
@@ -12,10 +11,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <StoreProvider>
-      <html lang="en">
-        <body>{children}</body>
-      </html>
-    </StoreProvider>
+    <html lang="en">
+      <body>{children}</body>
+    </html>
   );
 }
