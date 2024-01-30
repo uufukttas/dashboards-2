@@ -1,4 +1,7 @@
+'use client'
+import { Provider } from 'react-redux';
 import './global.css';
+import { store } from './redux/store';
 
 export const metadata = {
   title: 'Welcome to Sharz.net',
@@ -12,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body><Provider store={store}>{children}</Provider></body>
     </html>
   );
 }
