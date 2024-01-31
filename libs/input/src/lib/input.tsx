@@ -16,7 +16,7 @@ export function Input({
   type,
 }: InputProps) {
   return (
-    <input className={`${className}`} id={id} name={name} type={type} placeholder={placeholder} />
+    <input className={`input ${className}`} id={id} name={name} type={type} placeholder={placeholder} />
 
   );
 }
