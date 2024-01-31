@@ -1,20 +1,17 @@
 'use client';
 
 import { Image } from '@projects/image';
-import { styles } from '../../constants/styles';
 import { userInfo } from "../../constants/styles";
 import { Label } from "@projects/label";
 import { Input } from "@projects/input";
 import { Button } from "@projects/button";
-
-
 
 interface CardProps {}
 
 export function Card(props: CardProps) {
   return (
     <>
-      <div className={`sh-card-container bg-[${styles.loginBackgroundColor}] items-center justify-center p-8 rounded shadow-custom w-full text-[${styles.textColor}]`}>
+      <div className={`sh-card-container items-center justify-center p-8 rounded shadow-custom w-full`}>
         <div className="sh-card-header-container flex items-center w-full justify-between">
           <div className="sh-card-title-container">
             <h2 className="sh-card-title-text text-2xl font-semibold mb-6">{userInfo.name}</h2>
@@ -33,7 +30,7 @@ export function Card(props: CardProps) {
                   labelText="Username"
                 />
                 <Input
-                  className={`mt-1 p-2 w-full border border-[${styles.borderColor}] focus:border-[${styles.inputBackgroundColor}] rounded-[${styles.borderRadius}] bg-[${styles.inputBackgroundColor}]`}
+                  className={`mt-1 p-2 w-full border`}
                   id="username"
                   name="username"
                   type="text"
@@ -46,7 +43,7 @@ export function Card(props: CardProps) {
                   labelText="Password"
                 />
                 <Input
-                  className={`mt-1 p-2 w-full border border-[${styles.borderColor}] focus:border-[${styles.inputBackgroundColor}] rounded-[${styles.borderRadius}] bg-[${styles.inputBackgroundColor}]`}
+                  className={`mt-1 p-2 w-full border`}
                   id="password"
                   name="password"
                   type="password"
@@ -55,7 +52,7 @@ export function Card(props: CardProps) {
               <div className="button-container">
                 <Button
                   buttonText="Submit"
-                  className={`bg-[${styles.buttonBackgroundColor}] text-[${styles.buttonColor}] p-2 rounded-[${styles.borderRadius}] w-full`}
+                  className={`p-2 w-full`}
                   type="submit"
                   onClick={() => {}}
                 />

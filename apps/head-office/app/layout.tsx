@@ -1,5 +1,6 @@
 import ClientComponent from './ClientComponent';
 import './global.css';
+import '../src/styles/style.css';
 
 export const metadata = {
   title: 'Welcome to Sharz.net',
