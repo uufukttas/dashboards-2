@@ -52,6 +52,7 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "jest": "^29.4.1",
     "jest-environment-jsdom": "^29.4.1",
+    "jest-environment-node": "^29.4.1",
     "netlify-cli": "^17.15.3",
     "nx": "17.2.8",
     "postcss": "8.4.21",

@@ -17,6 +17,7 @@
     "paths": {
       "@projects/button": ["libs/button/src/index.ts"],
       "@projects/card": ["libs/card/src/index.ts"],
+      "@projects/common": ["libs/common/src/index.ts"],
       "@projects/image": ["libs/image/src/index.ts"],
       "@projects/input": ["libs/input/src/index.ts"],
       "@projects/label": ["libs/label/src/index.ts"],
