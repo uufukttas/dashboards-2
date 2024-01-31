@@ -8,4 +8,3 @@ describe('Background', () => {
     expect(baseElement).toBeTruthy();
   });
 });
-``
