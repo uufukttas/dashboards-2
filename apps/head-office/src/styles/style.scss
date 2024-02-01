@@ -2,7 +2,7 @@ $borderColor: #000000;
 $borderFocusColor: #FFCE0B;
 $borderRadius: 6px;
 $buttonBackgroundColor: #FFCC00;
-$buttonHoverBackgroundColor: "";
+$buttonHoverBackgroundColor: #FFCC00B3;
 $fontSize: 32px;
 $inputBackgroundColor: #FFFFFF;
 $loginBackgroundColor: #FFFFFF;
@@ -31,4 +31,8 @@ $textColor: #000000;
     border-color: $borderColor;
     border-radius: $borderRadius;
     background-color: $buttonBackgroundColor;
+}
+
+.button:hover {
+    background-color: $buttonHoverBackgroundColor;
 }

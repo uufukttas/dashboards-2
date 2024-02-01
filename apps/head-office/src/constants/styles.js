@@ -8,7 +8,7 @@ export const stylesProp = {
   borderFocusColor: "#FFCE0B",
   borderRadius: "6px",
   buttonBackgroundColor: "#FFCE0B",
-  buttonHoverBackgroundColor: "",
+  buttonHoverBackgroundColor: "#FFCC00B3",
   fontColor: "#000000",
   fontSize: "16px",
   inputBackgroundColor: "#FFFFFF",
