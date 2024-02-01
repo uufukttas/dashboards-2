@@ -1,10 +1,10 @@
 import { render } from '@testing-library/react';
 
-import Icons from './icons';
+import PersonIcon from './person';
 
-describe('Icons', () => {
+describe('PersonIcon', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Icons />);
+    const { baseElement } = render(<PersonIcon />);
     expect(baseElement).toBeTruthy();
   });
 });

@@ -1,1 +1,5 @@
-export { default as LocationIcon } from './location/icons';
+export { default as LocationIcon } from './location/location';
+export { default as CloseIcon } from './close/close';
+export { default as GiftBoxIcon } from './giftBox/giftBox';
+export { default as PersonIcon } from './person/person';
+export { default as FAQIcon } from './faq/faq';
