@@ -6,12 +6,16 @@ import { Label } from "@projects/label";
 import { Input } from "@projects/input";
 import { Button } from "@projects/button";
 
-interface CardProps {}
+interface CardProps {
+  className?: string;
+}
 
-export function Card(props: CardProps) {
+export function Card({
+  className
+}: CardProps) {
   return (
     <>
-      <div className={`sh-card-container items-center justify-center p-8 rounded shadow-custom w-full`}>
+      <div className={`sh-card-container items-center justify-center p-8 rounded shadow-custom ${className}`}>
         <div className="sh-card-header-container flex items-center w-full justify-between">
           <div className="sh-card-title-container">
             <h2 className="sh-card-title-text text-2xl font-semibold mb-6">{userInfo.name}</h2>
@@ -54,7 +58,7 @@ export function Card(props: CardProps) {
                   buttonText="Submit"
                   className={`p-2 w-full`}
                   type="submit"
-                  onClick={() => {}}
+                  onClick={() => { }}
                 />
               </div>
             </form>
