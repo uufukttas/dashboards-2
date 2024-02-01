@@ -15,7 +15,7 @@ export function Card({
 }: CardProps) {
   return (
     <>
-      <div className={`sh-card-container items-center justify-center p-8 rounded shadow-custom ${className}`}>
+      <div className={`sh-card-container items-center justify-center p-8 rounded shadow-custom mx-8 ${className}`}>
         <div className="sh-card-header-container flex items-center w-full justify-between">
           <div className="sh-card-title-container">
             <h2 className="sh-card-title-text text-2xl font-semibold mb-6">{userInfo.name}</h2>
