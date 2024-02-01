@@ -1,18 +1,17 @@
 'use client';
 
-import { Image } from '@projects/image';
-import { userInfo } from "../../constants/styles";
-import { Label } from "@projects/label";
-import { Input } from "@projects/input";
 import { Button } from "@projects/button";
+import { Image } from '@projects/image';
+import { Input } from "@projects/input";
+import { Label } from "@projects/label";
+import { userInfo } from "../../constants/styles";
 
 interface CardProps {
   className?: string;
+  onClick: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-export function Card({
-  className
-}: CardProps) {
+export function Card({ className, onClick}: CardProps) {
   return (
     <>
       <div className={`sh-card-container items-center justify-center p-8 rounded shadow-custom mx-8 ${className}`}>
@@ -58,7 +57,7 @@ export function Card({
                   buttonText="Submit"
                   className={`p-2 w-full`}
                   type="submit"
-                  onClick={() => { }}
+                  onClick={onClick}
                 />
               </div>
             </form>

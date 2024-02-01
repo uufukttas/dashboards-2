@@ -3,7 +3,7 @@ export interface ButtonProps {
   buttonText: string;
   className?: string;
   type: 'button' | 'submit' | 'reset';
-  onClick?: () => void;
+  onClick: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 export function Button({
