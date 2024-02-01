@@ -11,7 +11,7 @@ export const detectDevice = () => {
 
   const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
   const mobileWidth = 767;
-  const tabletWidth = 991;
+  const tabletWidth = 1024;
 
   if (deviceType.isMobile || (screenWidth <= mobileWidth)) {
     deviceType.isMobile = true;

@@ -9,7 +9,7 @@ export function Background({
 }: BackgroundProps) {
   return (
     <div
-      className={`sh-background-container ${className}`}
+      className={`sh-background-container h-screen ${className}`}
       style={{ backgroundImage: `url("${backgroundUrl}")` }}
     >
     </div>

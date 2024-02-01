@@ -17,7 +17,7 @@ const Index = () => {
     isDetectedDevice &&
     <div className={`w-full flex items-center h-screen`}>
       <Card className={detectDevice().isDesktop ? 'w-1/4' : 'w-full'} />
-      <Background />
+      <Background className={detectDevice().isDesktop ? 'w-3/4' : 'hidden'}/>
     </div>
   );
 };
