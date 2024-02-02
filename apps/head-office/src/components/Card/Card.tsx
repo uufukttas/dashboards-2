@@ -1,73 +1,35 @@
 'use client';
 
-import { Button } from "@projects/button";
-import { Image } from '@projects/image';
-import { Input } from "@projects/input";
-import { Label } from "@projects/label";
-import { userInfo } from "../../constants/styles";
+import CardHeader from "./CardHeader";
+import CardBody from "./CardBody";
+import CardFooter from "./CardFooter";
 
 interface CardProps {
+  cardHeaderChildren?: React.JSX.Element;
+  cardBodyChildren: React.JSX.Element;
+  cardFooterChildren?: React.JSX.Element;
   className?: string;
   onClick: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
-export function Card({ className, onClick}: CardProps) {
+export function Card({
+  cardHeaderChildren,
+  cardBodyChildren,
+  cardFooterChildren,
+  className
+ }: CardProps) {
   return (
     <>
       <div className={`sh-card-container items-center justify-center p-8 rounded shadow-custom mx-8 ${className}`}>
-        <div className="sh-card-header-container flex items-center w-full justify-between">
-          <div className="sh-card-title-container">
-            <h2 className="sh-card-title-text text-2xl font-semibold mb-6">{userInfo.name}</h2>
-          </div>
-          <div className="sh-card-logo-container">
-            <Image alt={`${userInfo.name} logo`} className="sh-card-logo" src={userInfo.logo} />
-          </div>
-        </div>
-        <div className="sh-card-body-container">
-          <div className="sh-card-form-container">
-            <form className="sh-card-form-container">
-              <div className="mb-4">
-                <Label
-                  className="block text-sm font-medium text-gray-600"
-                  htmlFor="username"
-                  labelText="Username"
-                />
-                <Input
-                  className={`mt-1 p-2 w-full border`}
-                  id="username"
-                  name="username"
-                  type="text"
-                />
-              </div>
-              <div className="mb-4">
-                <Label
-                  className="block text-sm font-medium text-gray-600"
-                  htmlFor="password"
-                  labelText="Password"
-                />
-                <Input
-                  className={`mt-1 p-2 w-full border`}
-                  id="password"
-                  name="password"
-                  type="password"
-                />
-              </div>
-              <div className="button-container">
-                <Button
-                  buttonText="Submit"
-                  className={`sh-login-button p-2 w-full`}
-                  type="submit"
-                  onClick={onClick}
-                />
-              </div>
-            </form>
-          </div>
-        </div>
-        <div className="sh-card-footer-container mt-4">
-          <div className="sh-card-footer-text-container">
-            <p className="sh-card-footer-text italic text-center">SHARZNET</p>
-          </div>
-        </div>
+        <CardHeader>
+          {cardHeaderChildren}
+        </CardHeader>
+        <CardBody>
+          {cardBodyChildren}
+        </CardBody>
+        <CardFooter>
+          {cardFooterChildren}
+        </CardFooter>
       </div>
     </>
   );
