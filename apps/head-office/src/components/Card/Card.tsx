@@ -55,7 +55,7 @@ export function Card({ className, onClick}: CardProps) {
               <div className="button-container">
                 <Button
                   buttonText="Submit"
-                  className={`p-2 w-full`}
+                  className={`sh-login-button p-2 w-full`}
                   type="submit"
                   onClick={onClick}
                 />
