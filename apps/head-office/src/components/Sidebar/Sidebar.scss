@@ -1,15 +1,15 @@
 .sh-sidebar-container {
-  width: 17%;
+  width: 16%;
   overflow: hidden;
 }
 
 .expanded {
-  width: 17%;
+  width: 16%;
   animation: expand 1s forwards;
 }
 
 .collapsed {
-  width: 4.5%;
+  width: 4%;
   animation: collapse 1s forwards;
 }
 
@@ -22,19 +22,19 @@
   }
 
   100% {
-    width: 17%;
+    width: 16%;
   }
 }
 
 @keyframes collapse {
   0% {
-    width: 17%;
+    width: 16%;
   }
   50% {
     width: 0;
   }
 
   100% {
-    width: 4.5%;
+    width: 4%;
   }
 }

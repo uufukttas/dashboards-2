@@ -9,7 +9,9 @@ const Dashboards = () => {
   return (
     <Provider store={store}>
       <div className='sh-dashboard-container w-full h-screen'>
-        <Sidebar />
+        <aside>
+          <Sidebar />
+        </aside>
       </div>
     </Provider>
   )
