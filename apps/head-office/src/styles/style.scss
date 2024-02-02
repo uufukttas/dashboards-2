@@ -27,12 +27,12 @@ $textColor: #000000;
     border-color: $borderFocusColor;
 }
 
-.button {
+.login-button {
     border-color: $borderColor;
     border-radius: $borderRadius;
     background-color: $buttonBackgroundColor;
 }
 
-.button:hover {
+.login-button:hover {
     background-color: $buttonHoverBackgroundColor;
 }
