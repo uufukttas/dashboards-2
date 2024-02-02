@@ -1,8 +1,7 @@
 import { LocationIcon, CloseIcon, GiftBoxIcon, PersonIcon, FAQIcon } from '@projects/icons'
 import { Image } from '@projects/image';
 import { userInfo } from '../../constants/styles';
-import { useSelector, useDispatch } from 'react-redux';
-import { toggleExpanded } from 'apps/head-office/app/redux/features/isExpanded';
+import { useSelector } from 'react-redux';
 import { RootState } from 'apps/head-office/app/redux/store';
 import './Sidebar.scss';
 
@@ -22,7 +21,7 @@ const sidebarElement = [
   {
     name: 'Kullanici Yonetimi',
     link: '/user-management',
-    icon: <PersonIcon />
+    icon: <PersonIcon strokeColor={'black'} />
   },
   {
     name: 'FAQ',
@@ -33,11 +32,6 @@ const sidebarElement = [
 
 export function Sidebar(props: SidebarProps) {
   const isExpanded = useSelector((state: RootState) => state.expandedReducer.isExpanded);
-  const dispatch = useDispatch();
-
-  const handleClose = () => {
-    dispatch(toggleExpanded(isExpanded));
-  };
 
   return (
     <div className={`sh-sidebar-container shadow-custom h-screen flex flex-col justify-between ${isExpanded !== null && (isExpanded  ? 'expanded' : 'collapsed')}`}>
@@ -45,9 +39,6 @@ export function Sidebar(props: SidebarProps) {
       <div className="sh-sidebar-header flex items-center justify-between">
         <div className="sh-sidebar-header-logo mx-4">
           <Image alt={userInfo.name} src={userInfo.logo} />
-        </div>
-        <div className="sh-sidebar-header-toggle mx-4 cursor-pointer" onClick={handleClose}>
-          <CloseIcon />
         </div>
       </div>
 
