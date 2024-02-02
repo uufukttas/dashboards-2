@@ -1,0 +1,40 @@
+.sh-sidebar-container {
+  width: 17%;
+  overflow: hidden;
+}
+
+.expanded {
+  width: 17%;
+  animation: expand 1s forwards;
+}
+
+.collapsed {
+  width: 4.5%;
+  animation: collapse 1s forwards;
+}
+
+@keyframes expand {
+  0% {
+    width: 4%;
+  }
+  50% {
+    width: 0;
+  }
+
+  100% {
+    width: 17%;
+  }
+}
+
+@keyframes collapse {
+  0% {
+    width: 17%;
+  }
+  50% {
+    width: 0;
+  }
+
+  100% {
+    width: 4.5%;
+  }
+}
