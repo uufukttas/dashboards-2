@@ -16,21 +16,11 @@ export function Section(props: SectionProps) {
   );
 
   return (
-    <section className={`sh-dashboard-section-container flex-wrap w-full`}>
+    <section className={`sh-dashboard-section-container flex-wrap w-full px-20`}>
       <div className='flex justify-between items-center pt-12'>
         <Card
           cardBodyChildren={cardBodyChildren}
           className={'w-1/6 rounded-lg'}
-          onClick={() => { }}
-        />
-        <Card
-          cardBodyChildren={cardBodyChildren}
-          className={'w-1/6'}
-          onClick={() => { }}
-        />
-        <Card
-          cardBodyChildren={cardBodyChildren}
-          className={'w-1/6'}
           onClick={() => { }}
         />
         <Card
