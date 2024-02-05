@@ -9,7 +9,7 @@ import { Image } from '@projects/image';
 import { Label } from "@projects/label";
 import Background from '../src/components/Background/Background';
 import Card from '../src/components/Card/Card';
-import { userInfo } from '../src/constants/styles'
+import { userInfo, stylesProp } from '../src/constants/styles'
 import './page.css';
 
 const Index = () => {
@@ -92,6 +92,7 @@ const Index = () => {
       />
       <Background
         className={detectDevice().isDesktop ? 'w-3/4' : 'hidden'}
+        backgroundUrl={stylesProp.loginPageBackgroundImage}
       />
     </div>
   );

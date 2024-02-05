@@ -16,5 +16,5 @@ export const stylesProp = {
   loginBackgroundImage: "https://ho.sharz.net/images/theme/5000/background.jpg",
   loginFormBackgroundColor: "#54565A",
   loginFormBackgroundImage: "",
-  loginPageBackgroundImage: "",
+  loginPageBackgroundImage: "https://ho.sharz.net/images/theme/5000/background.jpg",
 }

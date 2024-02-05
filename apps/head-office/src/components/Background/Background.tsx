@@ -1,11 +1,13 @@
+import './Background.scss';
+
 interface BackgroundProps {
   className?: string;
-  backgroundUrl?: string;
+  backgroundUrl: string;
 }
 
 export function Background({
   className,
-  backgroundUrl = 'https://ho.sharz.net/images/theme/5000/background.jpg',
+  backgroundUrl,
 }: BackgroundProps) {
   return (
     <div
