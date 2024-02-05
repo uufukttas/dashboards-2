@@ -1,7 +1,11 @@
-/*
- * Replace this with your own classes
- *
- * e.g.
- * .container {
- * }
-*/
+.sh-background-container {
+  background-image: url("https://ho.sharz.net/images/theme/5000/background.jpg");
+}
+
+.sh-card-container {
+  background-image: url("http://sharz.aksa.com.tr:81/images/theme/5000/background.jpg");
+  color: #ffffff;
+}
+.sh-card-container label {
+  color: #ffffff;
+}

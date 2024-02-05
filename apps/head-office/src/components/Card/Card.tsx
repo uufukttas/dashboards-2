@@ -3,6 +3,7 @@
 import CardHeader from "./CardHeader";
 import CardBody from "./CardBody";
 import CardFooter from "./CardFooter";
+import styles from './Card.module.scss';
 
 interface CardProps {
   cardHeaderChildren?: React.JSX.Element;
@@ -20,7 +21,7 @@ export function Card({
  }: CardProps) {
   return (
     <>
-      <div className={`sh-card-container items-center justify-center p-8 rounded shadow-custom mx-8 ${className}`}>
+      <div className={`${styles['sh-card-container']} items-center justify-center p-8 rounded shadow-custom mx-8 ${className}`}>
         <CardHeader>
           {cardHeaderChildren}
         </CardHeader>
