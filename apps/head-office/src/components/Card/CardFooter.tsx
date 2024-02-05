@@ -1,14 +1,16 @@
 'use client';
 interface CardFooterProps {
+    className?: string;
     children: React.ReactNode;
- }
+}
 
 export function CardFooter({
-    children
+    children,
+    className
 }: CardFooterProps) {
     return (
         <>
-            <div className="sh-card-footer-container mt-4">
+            <div className={`sh-card-footer-container ${className ? (className + ' mt-4') : 'mt-0'}`}>
                 {children}
             </div>
         </>
