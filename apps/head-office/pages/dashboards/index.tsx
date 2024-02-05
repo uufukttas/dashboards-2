@@ -20,35 +20,35 @@ const Dashboards = () => {
     <Provider store={store}>
       <div className='sh-dashboard-container w-full h-screen flex'>
         <MainPage>
-          <div className='flex justify-between items-center pt-12'>
+          <div className='flex justify-between items-center pt-12 flex-wrap'>
             <Card
               cardBodyChildren={cardBodyChildren}
-              className={'w-1/6 rounded-lg'}
+              className={'w-full xl:w-3/4 my-8 '}
               onClick={() => { }}
             />
             <Card
               cardBodyChildren={cardBodyChildren}
-              className={'w-1/6'}
+              className={'w-full xl:w-3/4 my-8'}
               onClick={() => { }}
             />
             <Card
               cardBodyChildren={cardBodyChildren}
-              className={'w-1/6'}
+              className={'w-full xl:w-3/4 my-8'}
               onClick={() => { }}
             />
             <Card
               cardBodyChildren={cardBodyChildren}
-              className={'w-1/6'}
+              className={'w-full xl:w-3/4 my-8'}
               onClick={() => { }}
             />
             <Card
               cardBodyChildren={cardBodyChildren}
-              className={'w-1/6'}
+              className={'w-full xl:w-3/4 my-8'}
               onClick={() => { }}
             />
             <Card
               cardBodyChildren={cardBodyChildren}
-              className={'w-1/6'}
+              className={'w-full xl:w-3/4 my-8'}
               onClick={() => { }}
             />
           </div>

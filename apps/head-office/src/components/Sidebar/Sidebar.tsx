@@ -35,7 +35,7 @@ export function Sidebar(props: SidebarProps) {
   const isExpanded = useSelector((state: RootState) => state.expandedReducer.isExpanded);
 
   return (
-    <div className={`sh-sidebar-container shadow-custom h-screen flex flex-col justify-between ${isExpanded !== null && (isExpanded  ? 'expanded' : 'collapsed')}`}>
+    <div className={`sh-sidebar-container shadow-custom h-screen flex flex-col justify-between ${isExpanded !== null ? (isExpanded  ? 'expanded' : 'collapsed') : ''}`}>
 
       <div className="sh-sidebar-header flex items-center justify-between">
         <div className="sh-sidebar-header-logo mx-4">
