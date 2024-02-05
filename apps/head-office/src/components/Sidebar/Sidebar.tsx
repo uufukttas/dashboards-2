@@ -2,8 +2,9 @@ import { LocationIcon, CloseIcon, GiftBoxIcon, PersonIcon, FAQIcon } from '@proj
 import { Image } from '@projects/image';
 import { userInfo } from '../../constants/styles';
 import { useSelector } from 'react-redux';
-import { RootState } from 'apps/head-office/app/redux/store';
+import { RootState } from '../../../app/redux/store';
 import './Sidebar.scss';
+import Link from 'next/link';
 
 export interface SidebarProps { }
 
@@ -43,18 +44,24 @@ export function Sidebar(props: SidebarProps) {
       </div>
 
       <div className='sh-sidebar-content flex items-center justify-center flex-col'>
-        {sidebarElement.map((item, index) => {
-          return (
-            <div key={index} className="sh-sidebar-item w-full flex justify-start p-4">
-              <span className="sh-sidebar-item-icon">
-                {item.icon}
-              </span>
-              <span className={`sh-sidebar-item-name pl-4 ${isExpanded !== null && (isExpanded ? 'block' : 'hidden')}`}>
-                {item.name}
-              </span>
-            </div>
-          );
-        })}
+        <ul className='w-full sidebar-list-wrapper'>
+          {sidebarElement.map((item, index) => {
+            return (
+              <Link href={item.link} key={index}>
+                <li key={index} className={`cursor-pointer sidebar-list-item ${index === sidebarElement.length - 1 ? '' : 'border-b'} `}>
+                  <div className="sh-sidebar-item w-full flex justify-start p-4">
+                    <span className="sh-sidebar-item-icon">
+                      {item.icon}
+                    </span>
+                    <span className={`sh-sidebar-item-name pl-4 ${isExpanded !== null && (isExpanded ? 'block' : 'hidden')}`}>
+                      {item.name}
+                    </span>
+                  </div>
+                </li>
+              </Link>
+            );
+          })}
+        </ul>
       </div>
 
       <div className='sh-sidebar-footer flex items-center'>
