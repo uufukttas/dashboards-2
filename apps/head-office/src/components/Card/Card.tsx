@@ -20,7 +20,7 @@ export function Card({
  }: CardProps) {
   return (
     <>
-      <div className={`sh-card-container items-center justify-center p-4 rounded shadow-custom mx-4 ${className}`}>
+      <div className={`sh-card-container items-center justify-center p-8 rounded shadow-custom mx-8 ${className}`}>
         <CardHeader>
           {cardHeaderChildren}
         </CardHeader>

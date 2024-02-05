@@ -5,7 +5,7 @@ export type ServicePointStatusState = {
 };
 
 const initialState = {
-    isOpen: null,
+    isOpen: false,
 } as ServicePointStatusState;
 
 export const visibility = createSlice({
