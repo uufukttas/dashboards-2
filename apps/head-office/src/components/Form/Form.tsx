@@ -13,7 +13,7 @@ export function Form({
   onClick,
 }: FormProps) {
   return (
-    <div className="sh-card-form-container">
+    <div className={`sh-card-form-container ${className}`}>
       <form className="sh-card-form-container">
         <div className="mb-4">
           <Label

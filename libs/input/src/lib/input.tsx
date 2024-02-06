@@ -6,6 +6,7 @@ export interface InputProps {
   name: string;
   placeholder?: string;
   type: string;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export function Input({
@@ -14,9 +15,10 @@ export function Input({
   name,
   placeholder,
   type,
+  onChange
 }: InputProps) {
   return (
-    <input className={`input ${className}`} id={id} name={name} type={type} placeholder={placeholder} />
+    <input className={`input ${className}`} id={id} name={name} type={type} placeholder={placeholder} onChange={onChange}/>
 
   );
 }

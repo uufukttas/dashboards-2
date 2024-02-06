@@ -12,6 +12,9 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
+  env: {
+    LOGIN_URL: 'https://testapideneme.azurewebsites.net/Auth/Login',
+  },
 };
 
 const plugins = [

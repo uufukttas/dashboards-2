@@ -1,18 +1,26 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useRouter } from 'next/navigation'
-import { detectDevice } from '@projects/common'
 import { Button } from "@projects/button";
-import { Input } from "@projects/input";
+import { detectDevice } from '@projects/common'
 import { Image } from '@projects/image';
+import { Input } from "@projects/input";
 import { Label } from "@projects/label";
 import Background from '../src/components/Background/Background';
 import Card from '../src/components/Card/Card';
 import { userInfo, stylesProp } from '../src/constants/styles'
 import './page.css';
 
+interface RequestConfig {
+  headers: {
+    'Content-Type': string;
+  }
+}
+
 const Index = () => {
+  const [formData, setFormData] = useState({ username: '', password: '' });
   const [isDetectedDevice, setIsDetectedDevice] = useState(false);
   const router = useRouter();
 
@@ -20,9 +28,40 @@ const Index = () => {
     setIsDetectedDevice(true);
   }, []);
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  const handleClick = async (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    router.push('/dashboards')
+
+    const userData = JSON.stringify({
+      "userName": formData.username,
+      "password": formData.password,
+    });
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    const res = await fetchData(userData, config);
+
+    if (res === 200) {
+      setTimeout(() => {
+        router.push('/dashboards');
+      }, 750);
+    } else if(res === 401) {
+      alert('Kullanici veya sifre hatali!');
+    }
+  }
+
+
+  const fetchData = async (data: string, conf: RequestConfig) => {
+    try {
+      const res = await axios.post(process.env.LOGIN_URL || '', data, conf)
+
+      return res.data.statusCode;
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const cardHeaderChildren = (
@@ -48,6 +87,7 @@ const Index = () => {
             id="username"
             name="username"
             type="text"
+            onChange={(e) => setFormData({ ...formData, username: e.target.value })}
           />
         </div>
         <div className="mb-4">
@@ -61,6 +101,7 @@ const Index = () => {
             id="password"
             name="password"
             type="password"
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
           />
         </div>
         <div className="button-container">
@@ -83,7 +124,7 @@ const Index = () => {
   return (
     isDetectedDevice &&
     <div className={`w-full flex items-center h-screen`}>
-      <Card 
+      <Card
         cardHeaderChildren={cardHeaderChildren}
         cardBodyChildren={cardBodyChildren}
         cardFooterChildren={cardFooterChildren}

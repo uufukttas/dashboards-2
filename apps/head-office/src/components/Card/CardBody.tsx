@@ -11,7 +11,7 @@ export function CardBody({
 }: CardBodyProps) {
     return (
         <>
-            <div className="sh-card-body-container">
+            <div className="sh-card-body-container" onClick={onClick}>
                 {children}
             </div>
         </>
