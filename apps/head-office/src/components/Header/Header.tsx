@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'apps/head-office/app/redux/store';
 import { HamburgerMenuIcon, PersonIcon } from '@projects/icons';
 import { toggleExpanded } from 'apps/head-office/app/redux/features/isExpanded';
+import './Header.scss'
 
 /* eslint-disable-next-line */
 export interface HeaderProps {
@@ -20,7 +21,7 @@ export function Header({
     dispatch(toggleExpanded(isExpanded));
   };
   return (
-    <div className={`sh-header-container justify-between shadow-custom ${className}`}>
+    <div className={`sh-header-container justify-between shadow-custom ${className} bg-white`}>
       <Button className='sh-sidebar-toggle-button bg-white hover:bg-white mx-8' type='button' onClick={handleSidebarToggle}>
         <HamburgerMenuIcon />
       </Button>

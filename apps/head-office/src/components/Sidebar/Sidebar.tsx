@@ -3,7 +3,7 @@ import { Image } from '@projects/image';
 import { userInfo } from '../../constants/styles';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../app/redux/store';
-import './Sidebar.scss';
+import './Sidebar.css';
 import Link from 'next/link';
 
 export interface SidebarProps { }

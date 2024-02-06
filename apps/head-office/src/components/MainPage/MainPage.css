@@ -7,11 +7,9 @@
   .sh-main-page-container {
     width: 100%;
   }
-
   .sh-dashboard-container .expanded ~ .sh-main-page-container {
     width: 50%;
   }
-
   .sh-dashboard-container .collapsed ~ .sh-main-page-container {
     width: 100%;
   }

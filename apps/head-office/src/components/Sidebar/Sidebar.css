@@ -1,17 +1,15 @@
+@charset "UTF-8";
 /* Mobil cihazlar için */
 @media only screen and (max-width: 767px) {
   .sh-sidebar-container {
     overflow: hidden;
   }
-
   .expanded {
     animation: expand-mobile 1s forwards;
   }
-
   .collapsed {
     animation: collapse-mobile 1s forwards;
   }
-
   @keyframes expand-mobile {
     0% {
       width: 0;
@@ -20,7 +18,6 @@
       width: 50%;
     }
   }
-
   @keyframes collapse-mobile {
     0% {
       width: 50%;
@@ -30,24 +27,20 @@
     }
   }
 }
-
 /* Masaüstü/Tablet cihazlar için */
 @media only screen and (min-width: 768px) {
   .sh-sidebar-container {
     overflow: hidden;
     width: 25%;
   }
-
   .expanded {
     animation: expand-desktop 1s forwards;
     width: 25%;
   }
-
   .collapsed {
     animation: collapse-desktop 1s forwards;
     width: 4%;
   }
-
   @keyframes expand-desktop {
     0% {
       width: 4%;
@@ -59,7 +52,6 @@
       width: 25%;
     }
   }
-
   @keyframes collapse-desktop {
     0% {
       width: 25%;
