@@ -20,7 +20,7 @@ const Dashboards = () => {
     <Provider store={store}>
       <div className='sh-dashboard-container w-full h-screen flex'>
         <MainPage>
-          <div className='flex justify-between items-center pt-12 flex-wrap'>
+          <div className='flex justify-center items-center pt-12 flex-wrap'>
             <Card
               cardBodyChildren={cardBodyChildren}
               className={'w-full xl:w-3/4 my-8 '}
