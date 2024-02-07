@@ -21,7 +21,7 @@ export function Header({
     dispatch(toggleExpanded(isExpanded));
   };
   return (
-    <div className={`sh-header-container justify-between shadow-custom ${className} bg-white`}>
+    <div className={`sh-header-container justify-between shadow-custom ${className} bg-white sticky top-0`}>
       <Button className='sh-sidebar-toggle-button bg-white hover:bg-white mx-8' type='button' onClick={handleSidebarToggle}>
         <HamburgerMenuIcon />
       </Button>
