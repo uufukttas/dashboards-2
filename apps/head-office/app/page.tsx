@@ -128,12 +128,12 @@ const Index = () => {
 
   return (
     isDetectedDevice &&
-    <div className={`w-full flex items-center h-screen`}>
+    <div className={`w-full flex items-center justify-center h-screen bg-[#54565a33]`}>
       <Card
         cardHeaderChildren={cardHeaderChildren}
         cardBodyChildren={cardBodyChildren}
         cardFooterChildren={cardFooterChildren}
-        className={detectDevice().isDesktop ? 'w-1/4' : 'w-full'}
+        className={detectDevice().isDesktop ? 'w-1/4' : (detectDevice().isTablet ? 'w-3/4' : 'w-full')}
         onClick={handleClick}
       />
       <Background
