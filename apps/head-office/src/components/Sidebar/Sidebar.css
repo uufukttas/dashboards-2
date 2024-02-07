@@ -28,8 +28,37 @@
     }
   }
 }
-/* Masaüstü/Tablet cihazlar için */
-@media only screen and (min-width: 768px) {
+/* Tablet cihazlar için */
+@media only screen and (min-width: 768px) and (max-width: 1279px) {
+  .sh-sidebar-container {
+    width: 0;
+    overflow: hidden;
+  }
+  .expanded {
+    animation: expand-mobile 1s forwards;
+  }
+  .collapsed {
+    animation: collapse-mobile 1s forwards;
+  }
+  @keyframes expand-mobile {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 50%;
+    }
+  }
+  @keyframes collapse-mobile {
+    0% {
+      width: 50%;
+    }
+    100% {
+      width: 0;
+    }
+  }
+}
+/* Masaüstü cihazlar için */
+@media only screen and (min-width: 1280px) {
   .sh-sidebar-container {
     overflow: hidden;
     width: 20%;
