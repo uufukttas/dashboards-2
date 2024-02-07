@@ -35,12 +35,12 @@
 @media only screen and (min-width: 768px) {
   .sh-sidebar-container {
     overflow: hidden;
-    width: 25%;
+    width: 20%;
   }
 
   .expanded {
     animation: expand-desktop 1s forwards;
-    width: 25%;
+    width: 20%;
   }
 
   .collapsed {
@@ -50,19 +50,19 @@
 
   @keyframes expand-desktop {
     0% {
-      width: 4%;
+      width: 5%;
     }
     50% {
       width: 0;
     }
     100% {
-      width: 25%;
+      width: 20%;
     }
   }
 
   @keyframes collapse-desktop {
     0% {
-      width: 25%;
+      width: 20%;
     }
     50% {
       width: 0;
