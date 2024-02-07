@@ -81,6 +81,10 @@
   .collapsed {
     animation: collapse-desktop 1s forwards;
     width: 4%;
+
+    ul {
+      align-items: center;
+    }
   }
 
   @keyframes expand-desktop {

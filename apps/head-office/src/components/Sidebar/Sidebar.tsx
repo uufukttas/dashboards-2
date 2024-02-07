@@ -64,7 +64,7 @@ export function Sidebar(props: SidebarProps) {
         </div>
 
         <div className='sh-sidebar-content flex items-center justify-center flex-col'>
-          <ul className='w-full sidebar-list-wrapper'>
+          <ul className='w-full sidebar-list-wrapper flex flex-col'>
             {sidebarElement.map((item, index) => {
               return (
                 <Link href={item.link} key={index}>
@@ -84,11 +84,11 @@ export function Sidebar(props: SidebarProps) {
           </ul>
         </div>
 
-        <div className='sh-sidebar-footer flex items-center'>
+        <div className='sh-sidebar-footer flex items-center justify-center'>
           <div className="sh-sidebar-footer-icon">
             <CloseIcon />
           </div>
-          <div className="sh-sidebar-footer-name">
+          <div className={`sh-sidebar-footer-name ${isExpanded !== null ? (isExpanded ? 'block' : 'hidden') : 'hidden'}`}>
             Cikis Yap
           </div>
         </div>
