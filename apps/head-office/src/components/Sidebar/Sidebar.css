@@ -61,7 +61,7 @@
 @media only screen and (min-width: 1280px) {
   .sh-sidebar-container {
     overflow: hidden;
-    width: 20%;
+    width: 4%;
   }
   .expanded {
     animation: expand-desktop 1s forwards;
@@ -73,7 +73,7 @@
   }
   @keyframes expand-desktop {
     0% {
-      width: 5%;
+      width: 4%;
     }
     50% {
       width: 0;
