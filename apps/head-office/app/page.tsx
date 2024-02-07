@@ -25,8 +25,8 @@ interface RequestConfig {
 }
 
 const Index = () => {
-  const router = useRouter();
   const dispatch = useDispatch();
+  const router = useRouter();
   const isLoading = useSelector((state: RootState) => state.loginAlertReducer.isFailed);
 
   const [formData, setFormData] = useState({ username: '', password: '' });
@@ -63,12 +63,23 @@ const Index = () => {
     } else if (res.statusCode === 401) {
       dispatch(changeLoginAlertState(false));
       setLoginFailed({ isFailed: true, message: res.value.message });
+      closeAlert();
     } else {
       dispatch(changeLoginAlertState(false));
       setLoginFailed({ isFailed: true, message: 'Hay aksi. Bir şeyler ters gitti!' });
+      closeAlert();
     }
   }
 
+  const closeAlert = () => {
+    setTimeout(() => {
+      setLoginFailed({ isFailed: false, message: '' });
+    }, 5000);
+  }
+
+  const handleClose = () => {
+    setLoginFailed({ isFailed: false, message: '' });
+  }
 
   const fetchData = async (data: string, conf: RequestConfig) => {
     try {
@@ -88,7 +99,8 @@ const Index = () => {
       <div className="sh-card-logo-container">
         <Image alt={`${userInfo.name} logo`} className="sh-card-logo" src={userInfo.logo} />
       </div>
-    </>);
+    </>
+  );
   const cardBodyChildren = (
     <div className="sh-card-form-container">
       <form className="sh-card-form-container">
@@ -151,7 +163,7 @@ const Index = () => {
         className={detectDevice().isDesktop ? 'w-3/4' : 'hidden'}
         backgroundUrl={stylesProp.loginPageBackgroundImage}
       />
-      {loginFailed.isFailed && <Alert alertText={loginFailed.message} />}
+      {loginFailed.isFailed && <Alert alertText={loginFailed.message} onClick={handleClose} />}
       {isLoading && <Loading />}
     </div>
   );
