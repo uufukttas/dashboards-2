@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation'
+import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from '@projects/alert';
 import { Button } from "@projects/button";
 import { detectDevice } from '@projects/common'
@@ -13,6 +14,8 @@ import Background from '../src/components/Background/Background';
 import Card from '../src/components/Card/Card';
 import Loading from '../src/components/Loading/Loading';
 import { userInfo, stylesProp } from '../src/constants/styles'
+import { changeLoginAlertState } from './redux/features/loginAlert';
+import { RootState } from './redux/store';
 import './page.css';
 
 interface RequestConfig {
@@ -22,14 +25,14 @@ interface RequestConfig {
 }
 
 const Index = () => {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state: RootState) => state.loginAlertReducer.isFailed);
+
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [isDetectedDevice, setIsDetectedDevice] = useState(false);
-  const [loginFailed, setLoginFailed] = useState({
-    isFailed: false,
-    message: ''
-  });
-  const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
+  const [loginFailed, setLoginFailed] = useState({ isFailed: false, message: '' });
+
 
   useEffect(() => {
     setIsDetectedDevice(true);
@@ -37,7 +40,9 @@ const Index = () => {
 
   const handleClick = async (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    setIsLoading(true);
+
+    dispatch(changeLoginAlertState(true));
+
     const userData = JSON.stringify({
       "userName": formData.username,
       "password": formData.password,
@@ -52,13 +57,14 @@ const Index = () => {
     const res = await fetchData(userData, config);
 
     if (res.statusCode === 200) {
-      setIsLoading(false);
+      dispatch(changeLoginAlertState(false));
+
       router.push('/dashboards');
     } else if (res.statusCode === 401) {
-      setIsLoading(false);
+      dispatch(changeLoginAlertState(false));
       setLoginFailed({ isFailed: true, message: res.value.message });
     } else {
-      setIsLoading(false);
+      dispatch(changeLoginAlertState(false));
       setLoginFailed({ isFailed: true, message: 'Hay aksi. Bir şeyler ters gitti!' });
     }
   }
