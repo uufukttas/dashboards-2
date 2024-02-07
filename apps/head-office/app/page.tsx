@@ -11,6 +11,7 @@ import { Input } from "@projects/input";
 import { Label } from "@projects/label";
 import Background from '../src/components/Background/Background';
 import Card from '../src/components/Card/Card';
+import Loading from '../src/components/Loading/Loading';
 import { userInfo, stylesProp } from '../src/constants/styles'
 import './page.css';
 
@@ -27,6 +28,7 @@ const Index = () => {
     isFailed: false,
     message: ''
   });
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -35,7 +37,7 @@ const Index = () => {
 
   const handleClick = async (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-
+    setIsLoading(true);
     const userData = JSON.stringify({
       "userName": formData.username,
       "password": formData.password,
@@ -50,11 +52,14 @@ const Index = () => {
     const res = await fetchData(userData, config);
 
     if (res.statusCode === 200) {
-      setTimeout(() => {
-        router.push('/dashboards');
-      }, 750);
+      setIsLoading(false);
+      router.push('/dashboards');
     } else if (res.statusCode === 401) {
+      setIsLoading(false);
       setLoginFailed({ isFailed: true, message: res.value.message });
+    } else {
+      setIsLoading(false);
+      setLoginFailed({ isFailed: true, message: 'Hay aksi. Bir şeyler ters gitti!' });
     }
   }
 
@@ -141,6 +146,7 @@ const Index = () => {
         backgroundUrl={stylesProp.loginPageBackgroundImage}
       />
       {loginFailed.isFailed && <Alert alertText={loginFailed.message} />}
+      {isLoading && <Loading />}
     </div>
   );
 };
