@@ -3,9 +3,9 @@
 }
 
 .sh-card-container {
-  background-image: url("http://sharz.aksa.com.tr:81/images/theme/5000/background.jpg");
-  color: #ffffff;
+  background-color: #FFFFFF;
+  color: #000000;
 }
 .sh-card-container label {
-  color: #ffffff;
+  color: #000000;
 }
