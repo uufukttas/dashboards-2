@@ -11,7 +11,7 @@ export function MainPage({ children }: MainPageProps) {
   return (
     <div className="w-full h-screen flex">
       <Sidebar />
-      <div className='sh-main-page-container h-screen bg-white'>
+      <div className='sh-main-page-container h-screen bg-white w-full'>
         <Header className={`h-[77px] flex items-center w-full`} />
         <Section>
           {children}

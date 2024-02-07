@@ -10,7 +10,7 @@ export function CardFooter({
 }: CardFooterProps) {
     return (
         <>
-            <div className={`sh-card-footer-container ${className ? (className + ' mt-4') : 'mt-0'}`}>
+            <div className={`sh-card-footer-container ${className ? (className + ' mt-4') : 'mt-2'}`}>
                 {children}
             </div>
         </>

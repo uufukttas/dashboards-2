@@ -72,7 +72,7 @@ const Index = () => {
   const cardHeaderChildren = (
     <>
       <div className="sh-card-title-container">
-        <h2 className="sh-card-title-text text-2xl font-semibold mb-6">{userInfo.name}</h2>
+        <h2 className="sh-card-title-text text-2xl font-semibold">{userInfo.name}</h2>
       </div>
       <div className="sh-card-logo-container">
         <Image alt={`${userInfo.name} logo`} className="sh-card-logo" src={userInfo.logo} />
