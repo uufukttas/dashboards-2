@@ -8,9 +8,25 @@
     width: 100%;
   }
   .sh-dashboard-container .expanded ~ .sh-main-page-container {
-    width: 50%;
+    animation: collapse 1s forwards;
   }
   .sh-dashboard-container .collapsed ~ .sh-main-page-container {
-    width: 100%;
+    animation: expand 1s forwards;
+  }
+  @keyframes collapse {
+    0% {
+      width: 100%;
+    }
+    100% {
+      width: 0;
+    }
+  }
+  @keyframes expand {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 100%;
+    }
   }
 }

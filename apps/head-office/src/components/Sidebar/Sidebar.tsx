@@ -1,10 +1,11 @@
 import { LocationIcon, CloseIcon, GiftBoxIcon, PersonIcon, FAQIcon } from '@projects/icons'
-import { Image } from '@projects/image';
-import { userInfo } from '../../constants/styles';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../../app/redux/store';
-import './Sidebar.css';
+import { useSelector, useDispatch } from 'react-redux';
 import Link from 'next/link';
+import { Image } from '@projects/image';
+import { toggleExpanded } from '../../../app/redux/features/isExpanded';
+import { RootState } from '../../../app/redux/store';
+import { userInfo } from '../../constants/styles';
+import './Sidebar.css';
 
 export interface SidebarProps { }
 
@@ -33,13 +34,21 @@ const sidebarElement = [
 
 export function Sidebar(props: SidebarProps) {
   const isExpanded = useSelector((state: RootState) => state.expandedReducer.isExpanded);
+  const dispatch = useDispatch();
+
+  const handleClose = () => {
+    dispatch(toggleExpanded(isExpanded))
+  }
 
   return (
-    <div className={`sh-sidebar-container shadow-custom h-screen flex flex-col justify-between ${isExpanded !== null ? (isExpanded  ? 'expanded' : 'collapsed') : ''}`}>
+    <div className={`sh-sidebar-container shadow-custom h-screen flex flex-col justify-between ${isExpanded !== null ? (isExpanded ? 'expanded' : 'collapsed') : ''}`}>
 
-      <div className="sh-sidebar-header flex items-center justify-between">
+      <div className="sh-sidebar-header flex items-center justify-between h-[77px]">
         <div className="sh-sidebar-header-logo mx-4">
           <Image alt={userInfo.name} src={userInfo.logo} />
+        </div>
+        <div className='sh-sidebar-header-close mx-4'>
+          <CloseIcon onClick={handleClose} />
         </div>
       </div>
 

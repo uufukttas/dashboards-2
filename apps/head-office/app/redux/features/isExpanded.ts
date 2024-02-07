@@ -14,7 +14,7 @@ export const expanded = createSlice({
     reducers: {
         toggleExpanded: (state) => {
             if (state.isExpanded === null) {
-                state.isExpanded = false;
+                state.isExpanded = true;
             } else {
                 state.isExpanded = !state.isExpanded;
             }

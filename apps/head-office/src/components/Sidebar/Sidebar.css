@@ -2,6 +2,7 @@
 /* Mobil cihazlar için */
 @media only screen and (max-width: 767px) {
   .sh-sidebar-container {
+    width: 0;
     overflow: hidden;
   }
   .expanded {
@@ -15,12 +16,12 @@
       width: 0;
     }
     100% {
-      width: 50%;
+      width: 100%;
     }
   }
   @keyframes collapse-mobile {
     0% {
-      width: 50%;
+      width: 100%;
     }
     100% {
       width: 0;
