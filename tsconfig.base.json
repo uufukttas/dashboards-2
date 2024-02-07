@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@projects/alert": ["libs/alert/src/index.ts"],
       "@projects/button": ["libs/button/src/index.ts"],
       "@projects/card": ["libs/card/src/index.ts"],
       "@projects/common": ["libs/common/src/index.ts"],
