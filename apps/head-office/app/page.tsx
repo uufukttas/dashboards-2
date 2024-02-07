@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation'
+import { Alert } from '@projects/alert';
 import { Button } from "@projects/button";
 import { detectDevice } from '@projects/common'
 import { Image } from '@projects/image';
@@ -22,6 +23,10 @@ interface RequestConfig {
 const Index = () => {
   const [formData, setFormData] = useState({ username: '', password: '' });
   const [isDetectedDevice, setIsDetectedDevice] = useState(false);
+  const [loginFailed, setLoginFailed] = useState({
+    isFailed: false,
+    message: ''
+  });
   const router = useRouter();
 
   useEffect(() => {
@@ -44,12 +49,12 @@ const Index = () => {
 
     const res = await fetchData(userData, config);
 
-    if (res === 200) {
+    if (res.statusCode === 200) {
       setTimeout(() => {
         router.push('/dashboards');
       }, 750);
-    } else if(res === 401) {
-      alert('Kullanici veya sifre hatali!');
+    } else if (res.statusCode === 401) {
+      setLoginFailed({ isFailed: true, message: res.value.message });
     }
   }
 
@@ -58,7 +63,7 @@ const Index = () => {
     try {
       const res = await axios.post(process.env.LOGIN_URL || '', data, conf)
 
-      return res.data.statusCode;
+      return res.data;
     } catch (error) {
       console.log(error);
     }
@@ -135,6 +140,7 @@ const Index = () => {
         className={detectDevice().isDesktop ? 'w-3/4' : 'hidden'}
         backgroundUrl={stylesProp.loginPageBackgroundImage}
       />
+      {loginFailed.isFailed && <Alert alertText={loginFailed.message} />}
     </div>
   );
 };
