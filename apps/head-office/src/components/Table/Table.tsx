@@ -17,7 +17,7 @@ export function Table(props: TableProps) {
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
       <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white dark:bg-gray-900 w-full">
         <div className="sh-table-actions">
-          <Button type="button" onClick={handleClick}>+ Sharz Point</Button>
+          <Button type="button" onClick={handleClick}>+ Hizmet Noktasi</Button>
         </div>
         <label htmlFor="table-search" className="sr-only">Search</label>
         <div className="relative">

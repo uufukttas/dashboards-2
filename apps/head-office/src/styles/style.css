@@ -3,16 +3,6 @@
   color: #000000;
 }
 
-.input {
-  border-color: #000000;
-  border-radius: 6px;
-  background-color: #FFFFFF;
-}
-
-.input:focus {
-  border-color: #FFCE0B;
-}
-
 .login-button {
   border-color: #000000;
   border-radius: 6px;

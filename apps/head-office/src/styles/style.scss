@@ -17,15 +17,6 @@ $textColor: #000000;
     color: $textColor;
 }
 
-.input {
-    border-color: $borderColor;
-    border-radius: $borderRadius;
-    background-color: $inputBackgroundColor;
-}
-
-.input:focus {
-    border-color: $borderFocusColor;
-}
 
 .login-button {
     border-color: $borderColor;
