@@ -23,8 +23,6 @@ input[type=number] {
   border-radius: 0px;
   padding: 20px 30px;
   box-sizing: border-box;
-  width: 80%;
-  margin: 0 10%;
   /*stacking fieldsets above each other*/
   position: relative;
 }
@@ -157,7 +155,7 @@ input[type=number] {
 
 fieldset.active {
   position: absolute !important;
-  display: block !important;
+  display: flex !important;
   right: -75px;
   animation: slide 1s forwards;
 }
