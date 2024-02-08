@@ -13,12 +13,15 @@ interface ModalBodyProps {
 const ModalBody = (props: ModalBodyProps) => {
     const [activeModal, setActiveModal] = useState(1);
     const [isAddedSecondPhone, setIsAddedSecondPhone] = useState(false);
+    const city: string[] = ['Adana', 'Adıyaman', 'Afyon', 'Ağrı', 'Amasya', 'Ankara', 'Antalya', 'Artvin', 'Aydın', 'Balıkesir', 'Bilecik', 'Bingöl', 'Bitlis', 'Bolu', 'Burdur', 'Bursa', 'Çanakkale', 'Çankırı', 'Çorum', 'Denizli', 'Diyarbakır', 'Edirne', 'Elazığ', 'Erzincan', 'Erzurum', 'Eskişehir', 'Gaziantep', 'Giresun', 'Gümüşhane', 'Hakkari', 'Hatay', 'Isparta', 'Mersin', 'İstanbul', 'İzmir', 'Kars', 'Kastamonu', 'Kayseri', 'Kırklareli', 'Kırşehir', 'Kocaeli', 'Konya', 'Kütahya', 'Malatya', 'Manisa', 'Kahramanmaraş', 'Mardin', 'Muğla', 'Muş', 'Nevşehir', 'Niğde', 'Ordu', 'Rize', 'Sakarya', 'Samsun', 'Siirt', 'Sinop', 'Sivas', 'Tekirdağ', 'Tokat', 'Trabzon', 'Tunceli', 'Şanlıurfa', 'Uşak', 'Van', 'Yozgat', 'Zonguldak', 'Aksaray', 'Bayburt', 'Karaman', 'Kırıkkale', 'Batman', 'Şırnak', 'Bartın', 'Ardahan', 'Iğdır', 'Yalova', 'Karabük', 'Kilis', 'Osmaniye', 'Düzce'];
+    const district: string[] = ['Adana', 'Adıyaman', 'Afyon', 'Ağrı', 'Amasya', 'Ankara', 'Antalya', 'Artvin', 'Aydın', 'Balıkesir', 'Bilecik', 'Bingöl', 'Bitlis', 'Bolu', 'Burdur', 'Bursa', 'Çanakkale', 'Çankırı', 'Çorum', 'Denizli', 'Diyarbakır', 'Edirne', 'Elazığ', 'Erzincan', 'Erzurum', 'Eskişehir', 'Gaziantep', 'Giresun', 'Gümüşhane', 'Hakkari', 'Hatay', 'Isparta', 'Mersin', 'İstanbul', 'İzmir', 'Kars', 'Kastamonu', 'Kayseri', 'Kırklareli', 'Kırşehir', 'Kocaeli', 'Konya', 'Kütahya', 'Malatya', 'Manisa', 'Kahramanmaraş', 'Mardin', 'Muğla', 'Muş', 'Nevşehir', 'Niğde', 'Ordu', 'Rize', 'Sakarya', 'Samsun', 'Siirt', 'Sinop', 'Sivas', 'Tekirdağ', 'Tokat', 'Trabzon', 'Tunceli', 'Şanlıurfa', 'Uşak', 'Van', 'Yozgat', 'Zonguldak', 'Aksaray', 'Bayburt', 'Karaman', 'Kırıkkale', 'Batman', 'Şırnak', 'Bartın', 'Ardahan', 'Iğdır', 'Yalova', 'Karabük', 'Kilis', 'Osmaniye', 'Düzce'];
+    const paymentMethods = ['Kredi Karti', 'Sharz Ugyulamasi'];
     return (
         <form action="#" id="create-service-point" className='relative'>
             <ul id="progressbar" className='text-center py-2.5'>
-                <li className="active">Personal Details</li>
-                <li className='active'>Social Profiles</li>
-                <li className='active'>Account Setup</li>
+                <li className="active"></li>
+                <li className='active'></li>
+                <li className='active'></li>
             </ul>
             <div className='sh-fieldset-container flex w-full min-h-[450px] text-left justify-center mt-5'>
                 <fieldset data-create-form-fieldset-id={1} className={`w-full flex ${activeModal === 1 ? 'active' : 'hidden'}`}>
@@ -70,8 +73,69 @@ const ModalBody = (props: ModalBodyProps) => {
                         <div className='row w-full flex'>
                             <div className='service-point-maps-wrapper w-full h-[300px] px-2'>
                                 <>
-                                Harita gelecek
+                                    Harita gelecek
                                 </>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset data-create-form-fieldset-id={3} className={`w-full flex ${activeModal === 3 ? 'active' : 'hidden'}`}>
+                    <div className='row-wrapper w-full'>
+                        <div className='row w-full flex'>
+                            <div className='service-point-city-wrapper w-1/2 px-2'>
+                                <Label htmlFor='city' labelText='Hizmet Noktasi İl' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white' />
+                                <Dropdown id='city' name='city' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 mb-4' required={true} items={city} />
+                            </div>
+                            <div className='service-point-district-wrapper w-1/2 px-2'>
+                                <Label htmlFor='district' labelText='Hizmet Noktasi İlçe' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white' />
+                                <Dropdown id='district' name='district' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 mb-4' required={true} items={district} />
+                            </div>
+                        </div>
+
+                        <div className='row w-full flex'>
+                            <div className='service-point-payment-wrapper w-1/2 px-2'>
+                                <Label htmlFor='payment' labelText='Odeme Yontemleri' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white' />
+                                <Dropdown id='payment' name='payment' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 mb-4' required={true} items={paymentMethods} />
+                            </div>
+                            <div className='service-point-parking-wrapper w-1/2 px-2'>
+                                <Label htmlFor='parking' labelText='Ucretsiz Park' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white' />
+                                <div className='flex items-center justify-center py-2.5'>
+                                    <Label htmlFor='parking' labelText='Var' className='block text-sm font-medium text-gray-900 mb-0' />
+                                    <Input id='free' name='parking' type='radio' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500' required={true} />
+                                    <Label htmlFor='parking' labelText='Yok' className='block text-sm font-medium text-gray-900 mb-0' />
+                                    <Input id='paid' name='parking' type='radio' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500' required={true} />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className='row w-full flex'>
+                            <div className='service-point-opportunity-wrapper'>
+                                <Label htmlFor='opportunity' labelText='Hizmet Noktasi Olanaklari' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white' />
+                                <div className='flex items-center justify-center py-2.5'>
+                                    <Label htmlFor='opportunity' labelText='Otopark' className='block text-sm font-medium text-gray-900 mb-0 w-1/6 no-wrap' />
+                                    <Input id='park' name='opportunity' type='checkbox' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500' required={true} />
+
+                                    <Label htmlFor='opportunity' labelText='Wifi' className='block text-sm font-medium text-gray-900 mb-0 w-1/6 no-wrap' />
+                                    <Input id='wifi' name='opportunity' type='checkbox' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500' required={true} />
+
+                                    <Label htmlFor='opportunity' labelText='Oyun Alanı' className='block text-sm font-medium text-gray-900 mb-0 w-1/6 no-wrap' />
+                                    <Input id='game-center' name='opportunity' type='checkbox' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500' required={true} />
+
+                                    <Label htmlFor='opportunity' labelText='Cocuk Oyun Alanı' className='block text-sm font-medium text-gray-900 mb-0 w-1/6 no-wrap' />
+                                    <Input id='child' name='opportunity' type='checkbox' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500' required={true} />
+
+                                    <Label htmlFor='opportunity' labelText='Sinema' className='block text-sm font-medium text-gray-900 mb-0 w-1/6 no-wrap' />
+                                    <Input id='cinema' name='opportunity' type='checkbox' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500' required={true} />
+
+                                    <Label htmlFor='opportunity' labelText='Restoran' className='block text-sm font-medium text-gray-900 mb-0 w-1/6 no-wrap' />
+                                    <Input id='restaurant' name='opportunity' type='checkbox' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500' required={true} />
+
+                                    <Label htmlFor='opportunity' labelText='AVM' className='block text-sm font-medium text-gray-900 mb-0 w-1/6 no-wrap' />
+                                    <Input id='avm' name='opportunity' type='checkbox' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500' required={true} />
+
+                                    
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -79,7 +143,7 @@ const ModalBody = (props: ModalBodyProps) => {
             </div>
             <div className='sh-fieldset-action-button-container flex justify-between w-full float-right mt-5 relative'>
                 <Button type="button" className={`bg-blue-500 button font-bold font-medium hover:bg-blue-800 px-4 px-5 py-2 py-2.5 mx-2 rounded-lg text-black text-sm flex justify-start absolute -top-16 left-0 ${activeModal !== 1 ? 'flex' : 'hidden'}`} onClick={() => setActiveModal(activeModal - 1)}>Geri</Button>
-                <Button type="button" className='bg-blue-500 button font-bold font-medium hover:bg-blue-800 px-4 px-5 py-2 py-2.5 mx-2 rounded-lg text-black text-sm flex justify-end absolute -top-16 right-0' onClick={() => setActiveModal(activeModal + 1)}>Sonraki</Button>
+                <Button type="button" className='bg-blue-500 button font-bold font-medium hover:bg-blue-800 px-4 px-5 py-2 py-2.5 mx-2 rounded-lg text-black text-sm flex justify-end absolute -top-16 right-0' onClick={() => setActiveModal(activeModal + 1)}>{activeModal === 3 ? 'Kaydet' : 'Sonraki'}</Button>
             </div>
         </form>
     )
