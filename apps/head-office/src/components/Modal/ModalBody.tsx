@@ -1,43 +1,55 @@
-import React from 'react'
+import { Input } from '@projects/input'
+import { Label } from '@projects/label'
+import { Dropdown } from '@projects/dropdown'
+import React, { useState } from 'react'
+import { Button } from '@projects/button'
+import { Textarea } from '@projects/textarea'
+import './Modal.css'
+
 
 interface ModalBodyProps {
 }
 
 const ModalBody = (props: ModalBodyProps) => {
+    const [activeModal, setActiveModal] = useState(1);
+    const [isAddedSecondPhone, setIsAddedSecondPhone] = useState(false);
     return (
-        <form action="#">
-            <div className="grid gap-4 mb-4 sm:grid-cols-2">
-                <div>
-                    <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                    <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Type product name" required />
-                </div>
-                <div>
-                    <label htmlFor="brand" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brand</label>
-                    <input type="text" name="brand" id="brand" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Product brand" required />
-                </div>
-                <div>
-                    <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
-                    <input type="number" name="price" id="price" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="$2999" required />
-                </div>
-                <div>
-                    <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Category</label>
-                    <select id="category" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                        <option defaultValue={'Select Category'}>Select category</option>
-                        <option value="TV">TV/Monitors</option>
-                        <option value="PC">PC</option>
-                        <option value="GA">Gaming/Console</option>
-                        <option value="PH">Phones & Tablets</option>
-                    </select>
-                </div>
-                <div className="sm:col-span-2">
-                    <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                    <textarea id="description" rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Write product description here"></textarea>
-                </div>
-            </div>
-            <button type="submit" className="text-white inline-flex items-center bg-blue-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-                <svg className="mr-1 -ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd"></path></svg>
-                Add new product
-            </button>
+        <form action="#" id="create-service-point" className='relative'>
+            <ul id="progressbar" className='text-center py-2.5'>
+                <li className="active">Personal Details</li>
+                <li className='active'>Social Profiles</li>
+                <li className='active'>Account Setup</li>
+            </ul>
+            {/* <div className="flex w-full min-h-[500px] text-left">
+                <fieldset data-create-form-fieldset-id={1} className={`${activeModal === 1 ? 'active' : 'hidden'}`}>
+                    <Label htmlFor='name' labelText='Hizmet Noktasi Ismi' />
+                    <Input id='name' name='name' type='text' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 mb-4' required={true} />
+
+                    <Label htmlFor='title' labelText='Title' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white' />
+                    <Dropdown id='title' name='title' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 mb-4' required={true} items={['AVM', 'Sosyal Tesis']} />
+
+                    <Label htmlFor='service-point-phone1' labelText='Hizmet Nokasi Sorumlu Telefon' />
+                    <div className='flex items-baseline mb-4'>
+                        <div className='phone-numbers w-full'>
+                            <Input id='service-point-phone1' name='service-point-phone1' type='number' className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 my-2 p-2.5' placeholder={'(555) - 123 - 23 - 23'} required={true} />
+                            <Input id='service-point-phone1' name='service-point-phone1' type='number' className={`bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 my-2 ${isAddedSecondPhone ? 'block' : 'hidden'}`} placeholder={'(555) - 123 - 23 - 23'} required={false} />
+                        </div>
+                        <Button type='button' className={`bg-blue-800 button font-bold font-medium hover:bg-gray-200 px-4 px-5 py-2 py-2.5 mx-2 rounded-lg text-black text-sm ${isAddedSecondPhone ? 'hidden' : ''}`} onClick={() => setIsAddedSecondPhone(true)}>+</Button>
+                    </div>
+                    <Button type='button' className='bg-gray-100 button font-bold font-medium hover:bg-gray-200 px-4 px-5 py-2 py-2.5 rounded-lg text-black text-sm rounded-lg' onClick={() => setActiveModal(2)}>+</Button>
+                </fieldset>
+                <fieldset data-create-form-fieldset-id={2} className={`${activeModal === 2 ? 'active' : ''}`}>
+                    <Label htmlFor='description' labelText='Adres' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white ' />
+                    <Textarea placeholder="Adresi giriniz..." className={'mb-4'} />
+                    <Button type='button' className='bg-gray-100 button font-bold font-medium hover:bg-gray-200 px-4 px-5 py-2 py-2.5 rounded-lg text-black text-sm rounded-lg' onClick={() => setActiveModal(4)}>+</Button>
+                </fieldset>
+
+
+                <fieldset data-create-form-fieldset-id={4} className={`${activeModal === 4 ? 'active' : ''}`}>
+                    <Button type='button' className='bg-gray-100 button font-bold font-medium hover:bg-gray-200 px-4 px-5 py-2 py-2.5 rounded-lg text-black text-sm rounded-lg' onClick={() => { }}>+</Button>
+                </fieldset>
+
+            </div> */}
         </form>
     )
 }

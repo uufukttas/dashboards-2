@@ -6,7 +6,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type='number'] {
+input[type=number] {
   -moz-appearance: textfield;
 }
 
@@ -21,12 +21,10 @@ input[type='number'] {
   background: white;
   border: 0 none;
   border-radius: 0px;
-  // box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
   padding: 20px 30px;
   box-sizing: border-box;
   width: 80%;
   margin: 0 10%;
-
   /*stacking fieldsets above each other*/
   position: relative;
 }
@@ -37,23 +35,8 @@ input[type='number'] {
 }
 
 /*inputs*/
-#create-form input,
-#create-form textarea {
-  // padding: 15px;
-  // border: 1px solid #ccc;
-  // border-radius: 0px;
-  // // margin-bottom: 10px;
-  // width: 100%;
-  // box-sizing: border-box;
-  // font-family: montserrat;
-  // color: #2c3e50;
-  // font-size: 13px;
-}
-
 #create-form input:focus,
 #create-form textarea:focus {
-  -moz-box-shadow: none !important;
-  -webkit-box-shadow: none !important;
   box-shadow: none !important;
   border: 1px solid #ee0979;
   outline-width: 0;
@@ -150,14 +133,13 @@ input[type='number'] {
 
 /*progressbar connectors*/
 #progressbar li:after {
-  content: '';
+  content: "";
   width: 100%;
   height: 2px;
   background: #ccc;
   position: absolute;
   left: -50%;
   top: 9px;
-  // z-index: -1; /*put it behind the numbers*/
 }
 
 #progressbar li:first-child:after {
@@ -177,18 +159,13 @@ fieldset.active {
   position: absolute !important;
   display: block !important;
   right: -75px;
-  -webkit-animation: slide 1s forwards;
   animation: slide 1s forwards;
 }
-
-@-webkit-keyframes slide {
-  100% { right: 0; }
-}
-
 @keyframes slide {
-  100% { right: 0; }
+  100% {
+    right: 0;
+  }
 }
-
 #map {
   width: 400px;
   height: 400px;
