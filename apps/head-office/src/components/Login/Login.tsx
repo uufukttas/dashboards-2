@@ -25,6 +25,7 @@ const Login = ({ setLoginFailedData }: LoginProps) => {
     const dispatch = useDispatch();
     const router = useRouter();
     const [loginFormData, setLoginFormData] = useState({ username: '', password: '' });
+    const loginInputs = ['Username', 'Password'];
 
     const handleLoginSubmit = async (event: React.MouseEvent<HTMLElement>) => {
         event.preventDefault();
@@ -89,34 +90,24 @@ const Login = ({ setLoginFailedData }: LoginProps) => {
         <>
             <div className="sh-card-form-container">
                 <form className='sh-card-form'>
-                    <div className="mb-4">
-                        <Label
-                            className={`block text-sm font-medium text-gray-600`}
-                            htmlFor="username"
-                            labelText="Username"
-                        />
-                        <Input
-                            className={`mt-1 p-2 w-full border`}
-                            id="username"
-                            name="username"
-                            type="text"
-                            onChange={(e) => setLoginFormData({ ...loginFormData, username: e.target.value })}
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <Label
-                            className={`block text-sm font-medium text-gray-600`}
-                            htmlFor="password"
-                            labelText="Password"
-                        />
-                        <Input
-                            className={`mt-1 p-2 w-full border`}
-                            id="password"
-                            name="password"
-                            type="password"
-                            onChange={(e) => setLoginFormData({ ...loginFormData, password: e.target.value })}
-                        />
-                    </div>
+                    {
+                        loginInputs.map((input, index) => (
+                            <div key={index} className="mb-4">
+                                <Label
+                                    className={`block text-sm font-medium text-gray-600`}
+                                    htmlFor={input.toLowerCase()}
+                                    labelText={input}
+                                />
+                                <Input
+                                    className={`mt-1 p-2 w-full border`}
+                                    id={input.toLowerCase()}
+                                    name={input.toLowerCase()}
+                                    type={input.toLowerCase() === 'password' ? 'password' : 'text'}
+                                    onChange={(event) => setLoginFormData({ ...loginFormData, [input.toLowerCase()]: event.target.value })}
+                                />
+                            </div>
+                        ))
+                    }
                     <div className="mb-4">
                         <Button
                             buttonText="Submit"
