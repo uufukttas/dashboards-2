@@ -1,6 +1,6 @@
+import ClientComponent from './ClientComponent';
 import './global.css';
 import '../src/styles/style.css';
-import ClientComponent from './ClientComponent';
 
 export const metadata = {
   title: 'Welcome to Sharz.net',
@@ -21,4 +21,4 @@ export default function RootLayout({
       </body>
     </html>
   );
-}
+};
