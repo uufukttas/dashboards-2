@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { detectDevice } from '@projects/common';
 import { LocationIcon, CloseIcon, GiftBoxIcon, PersonIcon, FAQIcon } from '@projects/icons'
 import { Image } from '@projects/image';
-import { toggleExpanded } from '../../../app/redux/features/isExpanded';
+import { toggleExpanded } from '../../../app/redux/features/isSidebarExpand';
 import { RootState } from '../../../app/redux/store';
 import { userInfo } from '../../constants/styles';
 import './Sidebar.css';
@@ -35,19 +35,19 @@ const sidebarElements = [
 export function Sidebar() {
   const dispatch = useDispatch();
   const [isDetectedDevice, setIsDetectedDevice] = useState(false);
-  const isExpanded = useSelector((state: RootState) => state.expandedReducer.isExpanded);
+  const isSidebarExpanded = useSelector((state: RootState) => state.sidebarExpandReducer.isSidebarExpanded);
 
   useEffect(() => {
     setIsDetectedDevice(true);
   }, []);
 
   const handleSidebarClose = () => {
-    dispatch(toggleExpanded(isExpanded));
+    dispatch(toggleExpanded(isSidebarExpanded));
   };
 
   return (
     isDetectedDevice && (
-      <div className={`sh-sidebar-container shadow-custom h-screen flex flex-col justify-between ${isExpanded !== null ? (isExpanded ? 'expanded' : 'collapsed') : ''}`}>
+      <div className={`sh-sidebar-container shadow-custom h-screen flex flex-col justify-between ${isSidebarExpanded !== null ? (isSidebarExpanded ? 'expanded' : 'collapsed') : ''}`}>
         <div className="sh-sidebar-header flex items-center justify-between h-[80px]">
           <div className="sh-sidebar-header-logo mx-4">
             <Image alt={userInfo.name} src={userInfo.logo} />
@@ -71,7 +71,7 @@ export function Sidebar() {
                         <span className="sh-sidebar-item-icon">
                           {item.icon}
                         </span>
-                        <span className={`sh-sidebar-item-name pl-4 ${isExpanded !== null ? (isExpanded ? 'block' : 'hidden') : 'hidden'}`}>
+                        <span className={`sh-sidebar-item-name pl-4 ${isSidebarExpanded !== null ? (isSidebarExpanded ? 'block' : 'hidden') : 'hidden'}`}>
                           {item.name}
                         </span>
                       </div>

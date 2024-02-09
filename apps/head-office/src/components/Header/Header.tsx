@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { HamburgerMenuIcon, PersonIcon } from '@projects/icons';
 import { RootState } from '../../../app/redux/store';
-import { toggleExpanded } from '../../../app/redux/features/isExpanded';
+import { toggleExpanded } from '../../../app/redux/features/isSidebarExpand';
 import './Header.scss';
 
 export interface HeaderProps {
@@ -12,11 +12,11 @@ export interface HeaderProps {
 export function Header({
   className
 }: HeaderProps) {
-  const isExpanded = useSelector((state: RootState) => state.expandedReducer.isExpanded);
+  const isSidebarExpanded = useSelector((state: RootState) => state.sidebarExpandReducer.isSidebarExpanded);
   const dispatch = useDispatch();
 
   const handleSidebarToggle = () => {
-    dispatch(toggleExpanded(isExpanded));
+    dispatch(toggleExpanded(isSidebarExpanded));
   };
 
   return (

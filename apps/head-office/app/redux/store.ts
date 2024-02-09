@@ -1,13 +1,13 @@
 import { configureStore, EnhancedStore } from "@reduxjs/toolkit";
 import counterReducer from "./features/counterSlice";
-import expandedReducer from "./features/isExpanded";
+import sidebarExpandReducer from "./features/isSidebarExpand";
 import loadingReducer from './features/isLoading';
 import modalStatusReducer from "./features/ServicePointCreateModal";
 
 export const store: EnhancedStore = configureStore({
   reducer: {
     counterReducer,
-    expandedReducer,
+    sidebarExpandReducer,
     loadingReducer,
     modalStatusReducer,
   },
