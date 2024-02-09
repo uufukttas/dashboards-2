@@ -2,7 +2,7 @@ import { CloseIcon, InfoIcon } from '@projects/icons'
 export interface AlertProps {
   alertText: string;
   onClick?: () => void;
-}
+};
 
 export function Alert({
   alertText,
@@ -20,6 +20,6 @@ export function Alert({
       </button>
     </div>
   );
-}
+};
 
 export default Alert;
