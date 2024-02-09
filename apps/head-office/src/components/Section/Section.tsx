@@ -3,15 +3,14 @@ export interface SectionProps {
  }
 
 export function Section({
-  children
+  children,
 }: SectionProps) {
-
 
   return (
     <section className={`sh-dashboard-section-container flex-wrap w-full px-8 xl:px-20`}>
       {children}
     </section>
   );
-}
+};
 
 export default Section;

@@ -12,10 +12,10 @@
   .sh-main-page-container {
     width: 100%;
   }
-  .sh-dashboard-container .expanded ~ .sh-main-page-container {
+  .sh-dashboard-page-container .expanded ~ .sh-main-page-container {
     animation: collapse 1s forwards;
   }
-  .sh-dashboard-container .collapsed ~ .sh-main-page-container {
+  .sh-dashboard-page-container .collapsed ~ .sh-main-page-container {
     animation: expand 1s forwards;
   }
   @keyframes collapse {
@@ -39,10 +39,10 @@
   .sh-main-page-container {
     width: 100%;
   }
-  .sh-dashboard-container .expanded ~ .sh-main-page-container {
+  .sh-dashboard-page-container .expanded ~ .sh-main-page-container {
     animation: collapse 1s forwards;
   }
-  .sh-dashboard-container .collapsed ~ .sh-main-page-container {
+  .sh-dashboard-page-container .collapsed ~ .sh-main-page-container {
     animation: expand 1s forwards;
   }
   @keyframes collapse {

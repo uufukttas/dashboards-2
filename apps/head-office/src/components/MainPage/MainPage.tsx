@@ -9,10 +9,10 @@ interface MainPageProps {
 
 export function MainPage({ children }: MainPageProps) {
   return (
-    <div className="w-full h-screen flex">
+    <div className="sh-dashboard-wrapper w-full h-screen flex">
       <Sidebar />
       <div className='sh-main-page-container h-screen bg-white'>
-        <Header className={`h-[77px] flex items-center w-full`} />
+        <Header className={`h-[80px] flex items-center w-full`} />
         <Section>
           {children}
         </Section>
