@@ -10,6 +10,7 @@ interface CardProps {
   cardBodyChildren: React.JSX.Element;
   cardFooterChildren?: React.JSX.Element;
   className?: string;
+  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
 export function Card({
@@ -17,13 +18,14 @@ export function Card({
   cardBodyChildren,
   cardFooterChildren,
   className,
+  onClick,
 }: CardProps) {
   return (
     <div className={`${styles['sh-card-container']} p-8 rounded shadow-custom mx-8 ${className}`}>
       <CardHeader>
         {cardHeaderChildren}
       </CardHeader>
-      <CardBody>
+      <CardBody onClick={onClick}>
         {cardBodyChildren}
       </CardBody>
       <CardFooter>
