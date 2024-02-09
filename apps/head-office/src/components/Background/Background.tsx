@@ -3,7 +3,7 @@ import './Background.scss';
 interface BackgroundProps {
   className?: string;
   backgroundUrl: string;
-}
+};
 
 export function Background({
   className,
@@ -16,6 +16,6 @@ export function Background({
     >
     </div>
   );
-}
+};
 
 export default Background;
