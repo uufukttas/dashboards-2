@@ -1,12 +1,19 @@
-/* eslint-disable-next-line */
-export interface DropdownProps {
+interface CitiesProps {
+  CountryID?: number;
+  IsDeleted?: string;
+  Name?: string;
+  PlateCode?: string;
+  RID?: string | number | undefined;
+}
+interface DropdownProps {
   className?: string;
   id: string;
-  items: string[];
+  items: (string | CitiesProps)[];
   name: string;
   required?: boolean;
+  value?: string;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
- }
+};
 
 export function Dropdown({
   className,
@@ -14,14 +21,16 @@ export function Dropdown({
   items,
   name,
   required,
+  value,
   onChange
 
 }: DropdownProps) {
   return (
-    <select id={id} className={className} required={required} name={name} onChange={onChange}>
-      {items?.map((item, index) => (
-        <option key={index} value={item}>{item}</option>
-      ))}
+    <select className={className}  id={id} name={name} required={required} value={value} onChange={onChange}>
+      {
+        items?.map((item, index) => (
+          <option key={index} value={typeof item === 'object' ? item.RID : item}>{typeof item === 'object' ? item.Name : item}</option>
+        ))}
     </select>
   );
 }

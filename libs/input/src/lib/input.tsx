@@ -1,6 +1,7 @@
 
 /* eslint-disable-next-line */
 export interface InputProps {
+  ariaInvalid?: boolean;
   className?: string;
   disabled?: boolean;
   id: string;
@@ -12,6 +13,7 @@ export interface InputProps {
 }
 
 export function Input({
+  ariaInvalid,
   className,
   disabled,
   id,
@@ -22,7 +24,7 @@ export function Input({
   onChange
 }: InputProps) {
   return (
-    <input className={`input ${className}`} disabled={disabled} id={id} name={name} type={type} placeholder={placeholder} required={required} onChange={onChange} />
+    <input aria-invalid={ariaInvalid} className={`input ${className}`} disabled={disabled} id={id} name={name} type={type} placeholder={placeholder} required={required} onChange={onChange} />
 
   );
 }
