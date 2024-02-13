@@ -6,6 +6,7 @@ export interface InputProps {
   disabled?: boolean;
   id: string;
   name: string;
+  pattern?: string;
   placeholder?: string;
   required?: boolean;
   type: string;
@@ -18,13 +19,14 @@ export function Input({
   disabled,
   id,
   name,
+  pattern,
   placeholder,
   required,
   type,
   onChange
 }: InputProps) {
   return (
-    <input aria-invalid={ariaInvalid} className={`input ${className}`} disabled={disabled} id={id} name={name} type={type} placeholder={placeholder} required={required} onChange={onChange} />
+    <input aria-invalid={ariaInvalid} className={`input ${className}`} disabled={disabled} id={id} name={name} type={type} pattern={pattern} placeholder={placeholder} required={required} onChange={onChange} />
 
   );
 }
