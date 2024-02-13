@@ -3,6 +3,7 @@ import counterReducer from "./features/counterSlice";
 import sidebarExpandReducer from "./features/isSidebarExpand";
 import loadingReducer from './features/isLoading';
 import modalStatusReducer from "./features/ServicePointCreateModal";
+import getSelectedCityReducer from './features/setSelectedCity'
 
 export const store: EnhancedStore = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store: EnhancedStore = configureStore({
     sidebarExpandReducer,
     loadingReducer,
     modalStatusReducer,
+    getSelectedCityReducer
   },
   devTools: process.env.NODE_ENV !== "production",
 });
