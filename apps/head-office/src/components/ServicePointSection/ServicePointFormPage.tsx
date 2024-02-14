@@ -400,7 +400,7 @@ const ServicePointFormPage = () => {
                                             className={input.inputClassName}
                                             items={dropdownItems}
                                             required={input.required}
-                                            onChange={input.onChange}
+                                            onChange={(event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => input.onChange && input.onChange(event as React.ChangeEvent<HTMLInputElement>)}
                                         />
                                     </div>
                                 );
@@ -433,7 +433,7 @@ const ServicePointFormPage = () => {
                                             className={input.inputClassName}
                                             placeholder={input.placeholder}
                                             required={input.required}
-                                            onChange={input.onChange}
+                                            onChange={input.onChange as (event: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>) => void}
                                         />
                                     </div>
                                 );

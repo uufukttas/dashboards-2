@@ -13,7 +13,7 @@ interface DropdownProps {
   required?: boolean;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => void;
-  
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 export function Dropdown({
