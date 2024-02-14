@@ -12,7 +12,7 @@ interface DropdownProps {
   name: string;
   required?: boolean;
   value?: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => void;
   
 };
 
@@ -26,7 +26,7 @@ export function Dropdown({
   onChange
 
 }: DropdownProps) {
-  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     if (onChange) {
       onChange(event);
     }
