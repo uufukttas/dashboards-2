@@ -12,7 +12,8 @@ interface DropdownProps {
   name: string;
   required?: boolean;
   value?: string;
-  onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  
 };
 
 export function Dropdown({
@@ -25,8 +26,14 @@ export function Dropdown({
   onChange
 
 }: DropdownProps) {
+  const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (onChange) {
+      onChange(event);
+    }
+  };
+
   return (
-    <select className={className}  id={id} name={name} required={required} value={value} onChange={onChange}>
+    <select className={className}  id={id} name={name} required={required} value={value} onChange={handleOnChange}>
       {
         items?.map((item, index) => (
           <option key={index} value={typeof item === 'object' ? item.RID : item}>{typeof item === 'object' ? item.Name : item}</option>
