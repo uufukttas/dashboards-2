@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .sh-sidebar-container {
   width: 16%;
   overflow: hidden;
@@ -34,4 +35,13 @@
   100% {
     width: 4%;
   }
+}
+.row {
+  display: table-row; /* Açıldığında maksimum yükseklik */
+}
+
+.hidden-row {
+  display: none;
+  overflow: hidden;
+  transition: display 0.7s ease-out;
 }

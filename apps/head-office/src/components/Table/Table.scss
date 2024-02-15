@@ -38,3 +38,13 @@
     width: 4%;
   }
 }
+
+.row {
+  display: table-row; /* Açıldığında maksimum yükseklik */
+}
+
+.hidden-row {
+  display: none;
+  overflow: hidden;
+  transition: display 0.7s ease-out;
+}

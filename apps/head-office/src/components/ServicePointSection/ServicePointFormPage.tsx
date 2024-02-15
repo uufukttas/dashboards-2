@@ -14,6 +14,7 @@ import { setSelectedCity } from '../../../app/redux/features/setSelectedCity';
 const ServicePointFormPage = () => {
     const dispatch = useDispatch();
     const isVisible = useSelector((state: RootState) => state.modalStatusReducer.isOpen);
+    const updatedServicePoint = useSelector((state: RootState) => state.updatedServicePointReducer.updatedServicePoint);
     const [activePage, setActivePage] = useState(0);
     const [cities, setCities] = useState([]);
     const [districts, setDistricts] = useState([]);
@@ -32,7 +33,6 @@ const ServicePointFormPage = () => {
         'service-point-x-coor': '',
         'service-point-y-coor': ''
     });
-
 
     const getCities = async () => {
         try {
@@ -103,6 +103,7 @@ const ServicePointFormPage = () => {
         dispatch(toggleVisibility(isVisible));
     };
 
+    console.log('updatedServicePoint', updatedServicePoint.name)
     const inputs = [
         [
             {
@@ -118,7 +119,8 @@ const ServicePointFormPage = () => {
                 required: true,
                 error: 'Hizmet Noktasi Ismi Bos Birakilamaz.',
                 wrapperClassName: '',
-                onChange: (e: React.ChangeEvent<HTMLInputElement>) => { setFormData({ ...formData, 'service-point-name': e.target.value }) }
+                value: (updatedServicePoint ? updatedServicePoint.name : ''),
+                onChange: (e: React.ChangeEvent<HTMLInputElement>) => { setFormData({ ...formData, 'service-point-name': e.target.value }) },
             }, {
                 inputClassName: 'bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4',
                 id: 'service-point-property',
@@ -134,7 +136,8 @@ const ServicePointFormPage = () => {
                 required: false,
                 error: 'Hizmet Noktasi Ozelligi Bos Birakilamaz.',
                 wrapperClassName: '',
-                onChange: (e: React.ChangeEvent<HTMLInputElement>) => { setFormData({ ...formData, 'service-point-property': e.target.value })}
+                value: (updatedServicePoint ? updatedServicePoint.title : ''),
+                onChange: (e: React.ChangeEvent<HTMLInputElement>) => { setFormData({ ...formData, 'service-point-property': e.target.value }) }
             }, {
                 inputClassName: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 my-2 p-2.5',
                 id: 'service-point-number1',
@@ -148,6 +151,7 @@ const ServicePointFormPage = () => {
                 required: true,
                 error: 'Hizmet Noktasi Telefon Numarasi Bos Birakilamaz',
                 wrapperClassName: '',
+                value: (updatedServicePoint ? (updatedServicePoint.phoneNumbers && updatedServicePoint.phoneNumbers[0]) : 0),
                 onChange: (e: React.ChangeEvent<HTMLInputElement>) => { setFormData({ ...formData, 'service-point-number1': e.target.value }) }
             }, {
                 inputClassName: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 my-2 p-2.5',
@@ -162,6 +166,7 @@ const ServicePointFormPage = () => {
                 required: false,
                 error: 'Hizmet Noktasi Telefon Numarasi Bos Birakilamaz',
                 wrapperClassName: 'flex flex-col',
+                value: (updatedServicePoint ? (updatedServicePoint.phoneNumbers && updatedServicePoint.phoneNumbers[1]) : 0),
                 onChange: (e: React.ChangeEvent<HTMLInputElement>) => { setFormData({ ...formData, 'service-point-number2': e.target.value }) }
             }, {
                 inputClassName: 'mb-4',
@@ -176,6 +181,7 @@ const ServicePointFormPage = () => {
                 required: true,
                 error: 'Hizmet Noktasi Adresi Bos Birakilamaz',
                 wrapperClassName: 'flex flex-col',
+                value: (updatedServicePoint ? updatedServicePoint.address : ''),
                 onChange: (e: React.ChangeEvent<HTMLInputElement>) => { setFormData({ ...formData, 'service-point-address': e.target.value }) }
             }, {
                 inputClassName: '',
@@ -206,6 +212,7 @@ const ServicePointFormPage = () => {
                 required: true,
                 error: 'Hizmet Noktasi X Koordinati Bos Birakilamaz.',
                 wrapperClassName: 'flex flex-col',
+                value: (updatedServicePoint ? updatedServicePoint.longitude : ''),
                 onChange: (e: React.ChangeEvent<HTMLInputElement>) => { setFormData({ ...formData, 'service-point-x-coor': e.target.value }) }
             }, {
                 inputClassName: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 my-2 p-2.5',
@@ -220,6 +227,7 @@ const ServicePointFormPage = () => {
                 required: true,
                 error: 'Hizmet Noktasi Y Koordinati Bos Birakilamaz.',
                 wrapperClassName: 'flex flex-col',
+                value: (updatedServicePoint ? updatedServicePoint.latitude : ''),
                 onChange: (e: React.ChangeEvent<HTMLInputElement>) => { setFormData({ ...formData, 'service-point-y-coor': e.target.value }) }
             }, {
                 inputClassName: '',
@@ -266,6 +274,7 @@ const ServicePointFormPage = () => {
                 required: true,
                 error: 'Hizmet Noktasi Sehri Bos Birakilamaz.',
                 wrapperClassName: 'flex flex-col',
+                value: (updatedServicePoint ? updatedServicePoint.city : ''),
                 onChange: (e: React.ChangeEvent<HTMLInputElement>) => { setFormData({ ...formData, 'service-point-city': e.target.value }); dispatch(setSelectedCity(Number(e.target.value))) }
             }, {
                 inputClassName: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 my-2 p-2.5',
@@ -282,6 +291,7 @@ const ServicePointFormPage = () => {
                 required: true,
                 error: 'Hizmet Noktasi Ilce Bos Birakilamaz.',
                 wrapperClassName: 'flex flex-col',
+                value: (updatedServicePoint ? updatedServicePoint.district : ''),
                 onChange: (e: React.ChangeEvent<HTMLInputElement>) => { setFormData({ ...formData, 'service-point-district': e.target.value }) }
             }, {
                 inputClassName: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 my-2 p-2.5',
@@ -298,6 +308,7 @@ const ServicePointFormPage = () => {
                 required: true,
                 error: 'Hizmet Noktasi Odeme Yontemi Bos Birakilamaz',
                 wrapperClassName: 'flex flex-col',
+                value: (updatedServicePoint ? (updatedServicePoint.paymentMethods && updatedServicePoint.paymentMethods[0]) : 0),
                 onChange: (e: React.ChangeEvent<HTMLInputElement>) => { setFormData({ ...formData, 'service-point-payment-methods': e.target.value }) }
             }, {
                 inputClassName: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 my-2 p-2.5',
@@ -312,6 +323,7 @@ const ServicePointFormPage = () => {
                 required: false,
                 error: '',
                 wrapperClassName: 'flex flex-col',
+                value: (updatedServicePoint ? updatedServicePoint.freePark : ''),
                 onChange: (e: React.ChangeEvent<HTMLInputElement>) => { setFormData({ ...formData, 'service-point-parking': e.target.value }) }
             }, {
                 inputClassName: 'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 my-2 p-2.5',
@@ -326,6 +338,7 @@ const ServicePointFormPage = () => {
                 required: false,
                 error: '',
                 wrapperClassName: 'flex flex-col',
+                value: (updatedServicePoint ? updatedServicePoint.opportunities : ''),
                 onChange: (e: React.ChangeEvent<HTMLInputElement>) => { setFormData({ ...formData, 'service-point-opportunity': e.target.value }) }
             }, {
                 inputClassName: '',
@@ -383,6 +396,7 @@ const ServicePointFormPage = () => {
                                             pattern={input.pattern}
                                             required={input.required}
                                             onChange={input.onChange}
+                                            value={input.value}
                                         />
                                     </div>
                                 );
@@ -390,7 +404,7 @@ const ServicePointFormPage = () => {
                                 const dropdownItems: string[] =
                                     typeof input.extra === 'string' ? [] : input.extra.items;
                                 return (
-                                    <div key={inputIndex} className={`mb-4 ${input.wrapperClassName}`}>
+                                    <div key={`${pageIndex}-${inputIndex}`} className={`mb-4 ${input.wrapperClassName}`}>
                                         <Label htmlFor={input.name} labelText={input.label}
                                             className={input.labelClassName}
                                         />
@@ -407,7 +421,7 @@ const ServicePointFormPage = () => {
                             }
                             case 'number':
                                 return (
-                                    <div key={inputIndex} className="mb-4">
+                                    <div key={`${pageIndex}-${inputIndex}`} className="mb-4">
                                         <Label htmlFor={input.name} labelText={input.label} className={input.labelClassName} />
                                         <Input
                                             id={input.label}
@@ -418,12 +432,13 @@ const ServicePointFormPage = () => {
                                             pattern={input.pattern}
                                             required={input.required}
                                             onChange={input.onChange}
+                                            value={input.value}
                                         />
                                     </div>
                                 );
                             case 'textarea':
                                 return (
-                                    <div key={inputIndex} className="mb-4">
+                                    <div key={`${pageIndex}-${inputIndex}`} className="mb-4">
                                         <Label htmlFor={input.name} labelText={input.label}
                                             className={input.labelClassName}
                                         />
@@ -434,6 +449,7 @@ const ServicePointFormPage = () => {
                                             placeholder={input.placeholder}
                                             required={input.required}
                                             onChange={input.onChange as (event: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement>) => void}
+                                            value={updatedServicePoint ? updatedServicePoint['address'] : ''}
                                         />
                                     </div>
                                 );
@@ -441,7 +457,7 @@ const ServicePointFormPage = () => {
                             case 'submit':
                             case 'reset':
                                 return (
-                                    <div className={`mb-4 ${input.wrapperClassName}`}>
+                                    <div key={`${pageIndex}-${inputIndex}`} className={`mb-4 ${input.wrapperClassName}`}>
                                         <Button
                                             buttonText={input.label}
                                             className={input.inputClassName}
@@ -452,7 +468,7 @@ const ServicePointFormPage = () => {
                                 );
                             default:
                                 return (
-                                    <div key={inputIndex} className="mb-4">
+                                    <div key={`${pageIndex}-${inputIndex}`} className="mb-4">
                                         <Label htmlFor={input.name} labelText={input.label}
                                             className={input.labelClassName}
                                         />
