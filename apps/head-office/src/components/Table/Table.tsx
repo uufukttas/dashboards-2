@@ -27,7 +27,8 @@ export function Table(props: TableProps) {
 
   const getUpdatedUserInfo = async (event: React.MouseEvent) => {
     console.log('test')
-    const userId = Number((event.target as HTMLElement)?.attributes['data-user-id']?.nodeValue);
+    const userIdAttr = (event.target as HTMLElement)?.getAttribute('data-user-id');
+    const userId = userIdAttr ? parseInt(userIdAttr) : NaN;
 
     try {
       await axios.post('https://testapideneme.azurewebsites.net/ServicePoint/GetById', ({
