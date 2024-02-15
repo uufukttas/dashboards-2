@@ -10,6 +10,7 @@ export interface InputProps {
   placeholder?: string;
   required?: boolean;
   type: string;
+  value?: string | undefined;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -23,10 +24,11 @@ export function Input({
   placeholder,
   required,
   type,
+  value,
   onChange
 }: InputProps) {
   return (
-    <input aria-invalid={ariaInvalid} className={`input ${className}`} disabled={disabled} id={id} name={name} type={type} pattern={pattern} placeholder={placeholder} required={required} onChange={onChange} />
+    <input aria-invalid={ariaInvalid} className={`input ${className}`} disabled={disabled} id={id} name={name} type={type} pattern={pattern} placeholder={placeholder} required={required} value={value} onChange={onChange} />
 
   );
 }
