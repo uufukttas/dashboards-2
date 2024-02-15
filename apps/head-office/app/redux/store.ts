@@ -4,6 +4,7 @@ import sidebarExpandReducer from "./features/isSidebarExpand";
 import loadingReducer from './features/isLoading';
 import modalStatusReducer from "./features/ServicePointCreateModal";
 import selectedCityReducer from './features/setSelectedCity'
+import updatedServicePointReducer from './features/selectedServicePoint'
 
 export const store: EnhancedStore = configureStore({
   reducer: {
@@ -11,7 +12,8 @@ export const store: EnhancedStore = configureStore({
     sidebarExpandReducer,
     loadingReducer,
     modalStatusReducer,
-    selectedCityReducer
+    selectedCityReducer,
+    updatedServicePointReducer
   },
   devTools: process.env.NODE_ENV !== "production",
 });
