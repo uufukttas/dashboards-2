@@ -6,14 +6,14 @@ import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { Textarea } from '@projects/textarea';
-import { toggleVisibility } from '../../../app/redux/features/ServicePointCreateModal';
 import { RootState } from '../../../app/redux/store';
 import { setSelectedCity } from '../../../app/redux/features/setSelectedCity';
+import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 
 
 const ServicePointFormPage = () => {
     const dispatch = useDispatch();
-    const isVisible = useSelector((state: RootState) => state.modalStatusReducer.isOpen);
+    const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
     const updatedServicePoint = useSelector((state: RootState) => state.updatedServicePointReducer.updatedServicePoint);
     const [activePage, setActivePage] = useState(0);
     const [cities, setCities] = useState([]);
@@ -100,7 +100,7 @@ const ServicePointFormPage = () => {
             });
 
 
-        dispatch(toggleVisibility(isVisible));
+        dispatch(toggleModalVisibility(isModalVisible));
     };
 
     console.log('updatedServicePoint', updatedServicePoint.name)

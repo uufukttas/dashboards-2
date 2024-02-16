@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../../app/redux/store';
-import { toggleVisibility } from '../../../app/redux/features/ServicePointCreateModal';
+import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 
 interface MofalHeaderProps {
     modalHeaderTitle: string;
@@ -10,10 +10,10 @@ interface MofalHeaderProps {
 const MofalHeader = ({
     modalHeaderTitle,
 }: MofalHeaderProps) => {
-    const isVisible = useSelector((state: RootState) => state.modalStatusReducer.isOpen);
+    const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
     const dispatch = useDispatch();
     const handleClose = () => {
-        dispatch(toggleVisibility(isVisible))
+        dispatch(toggleModalVisibility(isModalVisible))
     }
     return (
         <div className="flex justify-between items-center border-b ">

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from "@projects/button";
 import { RootState } from '../../../app/redux/store';
-import { toggleVisibility } from '../../../app/redux/features/ServicePointCreateModal';
+import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './Table.css'
@@ -10,14 +10,14 @@ import { setUpdatedServicePoint } from '../../../app/redux/features/selectedServ
 export interface TableProps { }
 
 export function Table(props: TableProps) {
-  const isVisible = useSelector((state: RootState) => state.modalStatusReducer.isOpen);
+  const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
   const updatedServicePoint = useSelector((state: RootState) => state.updatedServicePointReducer.updatedServicePoint);
   const dispatch = useDispatch();
   const [users, setUsers] = useState([])
   // const [selectedUser, setSelectedUser] = useState({})
 
   const handleClick = (e: React.MouseEvent) => {
-    dispatch(toggleVisibility(isVisible))
+    dispatch(toggleModalVisibility(isModalVisible))
   }
   const [isHidden, setIsHidden] = useState(true);
   const toggleTableRow = () => {
@@ -41,7 +41,7 @@ export function Table(props: TableProps) {
       console.error(error);
     }
 
-    typeof updatedServicePoint?.id !== 'undefined' && dispatch(toggleVisibility(isVisible));
+    typeof updatedServicePoint?.id !== 'undefined' && dispatch(toggleModalVisibility(isModalVisible));
   }
 
   console.log('updatedServicePoint', updatedServicePoint)
