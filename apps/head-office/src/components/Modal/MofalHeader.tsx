@@ -5,7 +5,7 @@ import { toggleModalVisibility } from '../../../app/redux/features/isModalVisibl
 
 interface MofalHeaderProps {
     modalHeaderTitle: string;
-}
+};
 
 const MofalHeader = ({
     modalHeaderTitle,
@@ -13,8 +13,9 @@ const MofalHeader = ({
     const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
     const dispatch = useDispatch();
     const handleClose = () => {
-        dispatch(toggleModalVisibility(isModalVisible))
-    }
+        dispatch(toggleModalVisibility(isModalVisible));
+    };
+
     return (
         <div className="flex justify-between items-center border-b ">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
