@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import './Table.css'
 import { setUpdatedServicePoint } from '../../../app/redux/features/selectedServicePoint'
+import { Input } from '@projects/input';
 
 export interface TableProps { }
 
@@ -31,15 +32,21 @@ export function Table(props: TableProps) {
     try {
       await axios.post('https://testapideneme.azurewebsites.net/ServicePoint/GetById', ({
         "id": userId
-      })).then((response) => response.data).then(response => dispatch(setUpdatedServicePoint(response.data))).catch((error) => {
-        console.log(error);
-      });
-
+      }))
+        .then((response) => response.data)
+        .then(response => {
+          dispatch(setUpdatedServicePoint(response.data));
+          console.log(response.data)
+          dispatch(toggleModalVisibility(isModalVisible))
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } catch (error) {
       console.error(error);
     }
 
-    typeof updatedServicePoint?.id !== 'undefined' && dispatch(toggleModalVisibility(isModalVisible));
+    // typeof updatedServicePoint?.id !== 'undefined' && dispatch(toggleModalVisibility(isModalVisible));
   }
 
   const getFirstTenUsers = async () => {
@@ -61,6 +68,7 @@ export function Table(props: TableProps) {
   }, []);
 
   return (
+    users.length > 0 &&
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
       <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white w-full">
         <div className="sh-table-actions">
@@ -68,12 +76,13 @@ export function Table(props: TableProps) {
         </div>
         <label htmlFor="table-search" className="sr-only">Search</label>
         <div className="relative">
-          <div className="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+          <div className="absolute inset-y-0 flex items-center ps-3 pointer-events-none px-2 justify-end border-r">
             <svg className="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
             </svg>
           </div>
-          <input type="text" id="table-search-users" className="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search htmlFor users" />
+          <Input name="search" type="text" id="table-search" className="block p-2 pl-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search users" />
+
         </div>
       </div>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 shadow-custom">
@@ -123,7 +132,7 @@ export function Table(props: TableProps) {
                   <td className='px-6 py-3'>{user.Longitude}</td>
                   <td className='px-6 py-3'>{user.Latitude}</td>
                   <td className="px-6 py-4">
-                    <a data-modal-show="editUserModal" data-user-id={user.Id} className="font-medium text-blue-600  hover:underline" onClick={getUpdatedUserInfo}>Edit user</a>
+                    <a data-modal-show="editUserModal" data-user-id={user.Id} className="font-medium text-blue-600 cursor-pointer" onClick={getUpdatedUserInfo}>Edit user</a>
                   </td>
                   <td className="px-6 py-4">
                     <Button type="button" data-modal-show="editUserModal" className="font-medium text-blue-600" onClick={() => { toggleTableRow() }}>&#11206;</Button>
