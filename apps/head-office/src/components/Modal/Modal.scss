@@ -193,3 +193,17 @@ fieldset.active {
   width: 400px;
   height: 400px;
 }
+
+.modal-prev-button,
+.modal-next-button {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.modal-prev-button {
+  float: left;
+}
+
+.modal-next-button {
+  float: right;
+}

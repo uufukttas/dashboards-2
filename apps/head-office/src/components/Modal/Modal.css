@@ -168,3 +168,18 @@ fieldset.active {
   width: 400px;
   height: 400px;
 }
+
+.modal-prev-button-wrapper,
+.modal-next-button-wrapper {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.modal-prev-button-wrapper {
+  float: left;
+}
+
+.modal-next-button-wrapper,
+.modal-submit-button-wrapper {
+  float: right;
+}
