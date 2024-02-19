@@ -1,4 +1,5 @@
 import React from 'react'
+import Head from 'next/head'
 import { Provider } from 'react-redux'
 import Card from '../../src/components/Card/Card';
 import MainPage from '../../src/components/MainPage/MainPage'
@@ -17,19 +18,24 @@ const Dashboards = () => {
   );
 
   return (
-    <Provider store={store}>
-      <div className='sh-dashboard-page-container w-full h-screen flex'>
-        <MainPage>
-          <div className='flex justify-center items-center pt-12 flex-wrap'>
-            <Card
-              cardBodyChildren={cardBodyChildren}
-              className={'w-full xl:w-3/4 my-8 '}
-              onClick={() => { }}
-            />
-          </div>
-        </MainPage>
-      </div >
-    </Provider>
+    <>
+      <Head>
+        <title>Dashboards | Sharz.net</title>
+      </Head>
+      <Provider store={store}>
+        <div className='sh-dashboard-page-container w-full h-screen flex'>
+          <MainPage>
+            <div className='flex justify-center items-center pt-12 flex-wrap'>
+              <Card
+                cardBodyChildren={cardBodyChildren}
+                className={'w-full xl:w-3/4 my-8 '}
+                onClick={() => { }}
+              />
+            </div>
+          </MainPage>
+        </div >
+      </Provider>
+    </>
   )
 }
 
