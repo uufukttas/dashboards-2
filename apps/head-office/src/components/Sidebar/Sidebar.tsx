@@ -12,7 +12,7 @@ import './Sidebar.css';
 const sidebarElements = [
   {
     name: 'Hizmet Noktasi',
-    link: '/service-point',
+    link: '/service-points',
     icon: <LocationIcon />,
   },
   {
@@ -22,7 +22,7 @@ const sidebarElements = [
   },
   {
     name: 'Kullanici Yonetimi',
-    link: '/user-management',
+    link: '/user-managements',
     icon: <PersonIcon strokeColor={'black'} />,
   },
   {
