@@ -9,9 +9,13 @@ import '../../src/styles/style.css';
 const ServicePoint = () => {
     return (
         <Provider store={store}>
-            <MainPage>
-                <ServicePointSection />
-            </MainPage>
+            <div className='sh-service-point-page-container w-full h-screen flex'>
+                <MainPage>
+                    <div className='flex justify-center items-center pt-12 flex-wrap'>
+                        <ServicePointSection />
+                    </div>
+                </MainPage>
+            </div>
         </Provider >
     )
 };

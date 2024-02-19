@@ -3,19 +3,38 @@
   overflow-x: hidden;
 }
 
-@media screen and (min-width: 1280px) {
-  .sh-page-container {
-    width: 100%;
+@media screen and (max-width: 767px) {
+  .expanded ~ .sh-page-container {
+    animation: collapse 1s forwards;
+  }
+  .collapsed ~ .sh-page-container {
+    animation: expand 1s forwards;
+  }
+  @keyframes collapse {
+    0% {
+      width: 100%;
+    }
+    100% {
+      width: 0;
+    }
+  }
+  @keyframes expand {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 100%;
+    }
   }
 }
 @media screen and (min-width: 768px) and (max-width: 1279px) {
   .sh-page-container {
     width: 100%;
   }
-  .sh-dashboard-page-container .expanded ~ .sh-page-container {
+  .expanded ~ .sh-page-container {
     animation: collapse 1s forwards;
   }
-  .sh-dashboard-page-container .collapsed ~ .sh-page-container {
+  .collapsed ~ .sh-page-container {
     animation: expand 1s forwards;
   }
   @keyframes collapse {
@@ -35,30 +54,8 @@
     }
   }
 }
-@media screen and (max-width: 767px) {
+@media screen and (min-width: 1280px) {
   .sh-page-container {
-    width: 100%;
-  }
-  .sh-dashboard-page-container .expanded ~ .sh-page-container {
-    animation: collapse 1s forwards;
-  }
-  .sh-dashboard-page-container .collapsed ~ .sh-page-container {
-    animation: expand 1s forwards;
-  }
-  @keyframes collapse {
-    0% {
-      width: 100%;
-    }
-    100% {
-      width: 0;
-    }
-  }
-  @keyframes expand {
-    0% {
-      width: 0;
-    }
-    100% {
-      width: 100%;
-    }
+    width: 100% !important;
   }
 }
