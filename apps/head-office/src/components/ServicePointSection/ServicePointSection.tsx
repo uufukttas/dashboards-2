@@ -5,12 +5,12 @@ import ServicePointModalForm from './ServicePointModalForm';
 
 export interface ServicePointSectionProps {
   children?: React.ReactNode;
-}
+};
 
 export function ServicePointSection() {
   return (
     <div className={`service-point-container flex justify-between items-center pt-12 flex-col`}>
-      <Modal>
+      <Modal modalId={"service-point-create-modal"}>
         <ServicePointModalForm />
       </Modal>
       <div className='flex items-center w-full'>
