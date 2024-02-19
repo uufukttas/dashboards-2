@@ -7,7 +7,7 @@ interface ModalBodyProps {
 
 const ModalBody = ({ children }: ModalBodyProps) => {
     return (
-        <div className="relative p-4 bg-white rounded-lg dark:bg-gray-800 sm:p-5 max-h-[650px]">
+        <div className="relative p-4 bg-white rounded-lg sm:p-5 max-h-[650px]">
             {children}
         </div>
     );

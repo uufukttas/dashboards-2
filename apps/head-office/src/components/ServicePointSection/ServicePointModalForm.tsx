@@ -83,7 +83,7 @@ const ServicePointModalForm = () => {
   return (
     <div className='form-wrapper'>
       <form>
-        <div className="relative p-4 bg-white rounded-lg dark:bg-gray-800 sm:p-5 max-h-[650px]">
+        <div className="relative p-4 bg-white rounded-lg sm:p-5 max-h-[650px]">
           {modalInputs.map((modalPageInputs, modalPageIndex) => (
             <ServicePointFormPage key={modalPageIndex} modalPageInputs={modalPageInputs} modalPageIndex={modalPageIndex} activePage={activePage} setActivePage={setActivePage} cities={cities} districts={districts} formData={formData} setFormData={setFormData} submitFNC={createServicePoint} />
           ))}
