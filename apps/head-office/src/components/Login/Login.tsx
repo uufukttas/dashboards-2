@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Button } from "@projects/button";
 import { detectDevice } from '@projects/common';
@@ -24,12 +25,11 @@ interface LoginProps {
 const Login = ({ setLoginFailedData }: LoginProps) => {
     const dispatch = useDispatch();
     const router = useRouter();
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const [loginFormData, setLoginFormData] = useState({ username: '', password: '' });
     const loginInputs = ['Username', 'Password'];
 
-    const handleLoginSubmit = async (event: React.MouseEvent<HTMLElement>) => {
-        event.preventDefault();
-
+    const handleLoginSubmit = async () => {
         dispatch(toggleLoading(true));
 
         const userLoginData = JSON.stringify({
@@ -89,7 +89,7 @@ const Login = ({ setLoginFailedData }: LoginProps) => {
     const cardBodyChildren = (
         <>
             <div className="sh-card-form-container">
-                <form className='sh-card-form'>
+                <form className="sh-card-form" onSubmit={handleSubmit(handleLoginSubmit)}>
                     {
                         loginInputs.map((input, index) => (
                             <div key={index} className="mb-4">
@@ -102,18 +102,42 @@ const Login = ({ setLoginFailedData }: LoginProps) => {
                                     className={`mt-1 p-2 w-full border`}
                                     id={input.toLowerCase()}
                                     name={input.toLowerCase()}
+                                    register={register(input.toLowerCase(), {
+                                        required: `${input} is required.`,
+                                        pattern: {
+                                            // TODO: Add pattern for username email // /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/
+                                            value: input.toLowerCase() === 'username' ? /^.*$/ : /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$.*])/,
+                                            message: `${input} is not valid.`,
+                                        },
+                                        validate: input.toLowerCase() === 'password'
+                                            ? {
+                                                checkLength: (value) => value.length >= 8,
+                                                matchPattern: (value) =>
+                                                    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.*-]).{8,}$/.test(
+                                                        value
+                                                    )
+                                            }
+                                            : {},
+                                        onChange: (event) => setLoginFormData({ ...loginFormData, [input.toLowerCase()]: event.target.value }),
+                                    })}
                                     type={input.toLowerCase() === 'password' ? 'password' : 'text'}
-                                    onChange={(event) => setLoginFormData({ ...loginFormData, [input.toLowerCase()]: event.target.value })}
+
                                 />
+                                {errors[input.toLowerCase()] && errors[input.toLowerCase()]?.message && (
+                                    <div className={`${input.toLowerCase()}-error-wrapper`}>
+                                        <p className={`${input.toLowerCase()}-error-message`}>
+                                            {String(errors[input.toLowerCase()]?.message)}
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                         ))
                     }
                     <div className="mb-4">
                         <Button
-                            buttonText="Submit"
-                            className={`sh-login-button p-2 w-full`}
+                            buttonText='Login'
+                            className={`button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline sh-login-button p-2 w-full`}
                             type="submit"
-                            onClick={handleLoginSubmit}
                         />
                     </div>
                 </form>

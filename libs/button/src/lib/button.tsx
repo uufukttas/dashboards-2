@@ -1,10 +1,9 @@
-/* eslint-disable-next-line */
-export interface ButtonProps {
+interface ButtonProps {
   buttonText?: string;
   children?: React.ReactNode;
   className?: string;
   type: 'button' | 'submit' | 'reset';
-  onClick: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
+  onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 }
 
 export function Button({
