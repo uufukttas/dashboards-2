@@ -1,4 +1,5 @@
 import React from 'react'
+import { useForm } from 'react-hook-form';
 import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
@@ -29,7 +30,6 @@ interface ServicePointFormPageProps {
     cities: string[],
     districts: string[],
     formData: { [key: string]: string },
-    submitFNC: () => void,
     setFormData: (formData: { [key: string]: string }) => void,
     setActivePage: (page: number) => void,
 };
@@ -60,10 +60,11 @@ const ServicePointFormPage = ({
     cities,
     districts,
     formData,
-    submitFNC,
     setFormData,
     setActivePage,
 }: ServicePointFormPageProps) => {
+    const { register } = useForm();
+
     const getDropdownItems = (input: { id: string; extra: string | { items: string[]; } }, cities: string[], districts: string[]): string[] => {
         switch (input.id) {
             case 'service-point-city':
@@ -82,7 +83,7 @@ const ServicePointFormPage = ({
             case inputId.indexOf('prev') > -1:
                 return () => setActivePage(activePage - 1);
             case inputId.indexOf('submit') > -1:
-                return () => submitFNC();
+                return () => { };
             default:
                 return () => { }; // Varsayılan olarak boş bir fonksiyon döndür
         }
@@ -106,10 +107,10 @@ const ServicePointFormPage = ({
                                         className={input.inputClassName}
                                         type={input.type}
                                         placeholder={input.placeholder}
-                                        pattern={input.pattern}
-                                        required={input.required}
-                                        onChange={(event) => { setFormData({ ...formData, [input.name]: event.target.value }) }}
-                                        value={input.value}
+                                        register={register(input.name.toLowerCase(), {
+                                            required: `${input} is required.`,
+                                            onChange: (event) => { setFormData({ ...formData, [input.name]: event.target.value }) },
+                                        })}
                                     />
                                 </div>
                             );
@@ -125,8 +126,10 @@ const ServicePointFormPage = ({
                                         name={input.name}
                                         className={input.inputClassName}
                                         items={dropdownItems}
-                                        required={input.required}
-                                        onChange={(event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => { setFormData({ ...formData, [input.name]: event.target.value }) }}
+                                        register={register(input.name.toLowerCase(), {
+                                            required: `${input} is required.`,
+                                            onChange: (event) => { setFormData({ ...formData, [input.name]: event.target.value }) },
+                                        })}
                                     />
                                 </div>
                             );
@@ -141,10 +144,10 @@ const ServicePointFormPage = ({
                                         className={input.inputClassName}
                                         type={input.type}
                                         placeholder={input.placeholder}
-                                        pattern={input.pattern}
-                                        required={input.required}
-                                        onChange={(event) => { setFormData({ ...formData, [input.name]: event.target.value }) }}
-                                        value={input.value}
+                                        register={register(input.name.toLowerCase(), {
+                                            required: `${input} is required.`,
+                                            onChange: (event) => { setFormData({ ...formData, [input.name]: event.target.value }) },
+                                        })}
                                     />
                                 </div>
                             );
@@ -159,13 +162,24 @@ const ServicePointFormPage = ({
                                         name={input.name}
                                         className={input.inputClassName}
                                         placeholder={input.placeholder}
-                                        required={input.required}
-                                        onChange={(event) => { setFormData({ ...formData, [input.name]: event.target.value }) }}
+                                        register={register(input.name.toLowerCase(), {
+                                            required: `${input} is required.`,
+                                            onChange: (event) => { setFormData({ ...formData, [input.name]: event.target.value }) },
+                                        })}
+                                    />
+                                </div>
+                            );
+                        case 'submit':
+                            return (
+                                <div key={`${modalPageIndex}-${inputIndex}`} className={`${input.name}-wrapper`}>
+                                    <Button
+                                        buttonText={input.label}
+                                        className={input.inputClassName}
+                                        type={input.type}
                                     />
                                 </div>
                             );
                         case 'button':
-                        case 'submit':
                         case 'reset':
                             return (
                                 <div key={`${modalPageIndex}-${inputIndex}`} className={`${input.name}-wrapper`}>
@@ -183,7 +197,7 @@ const ServicePointFormPage = ({
                 })
             }
         </fieldset >
-    )
+    );
 }
 
 export default ServicePointFormPage;

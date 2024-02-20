@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios';
+import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { servicePointModalInputs } from './ServicePointModalFormInputs';
 import ServicePointFormPage from './ServicePointFormPage';
@@ -14,6 +15,7 @@ const ServicePointModalForm = () => {
   const [districts, setDistricts] = useState([]);
   const [activePage, setActivePage] = useState(0);
   const [formData, setFormData] = useState<{ [key: string]: string }>({});
+  const { handleSubmit } = useForm();
 
   const getCities = async () => {
     try {
@@ -81,16 +83,16 @@ const ServicePointModalForm = () => {
   }, [activePage, formData['service-point-city']]);
 
   return (
-    <div className='form-wrapper'>
-      <form>
+    <div className='create-service-point-form-wrapper'>
+      <form onSubmit={handleSubmit(createServicePoint)}>
         <div className="relative p-4 bg-white rounded-lg sm:p-5 max-h-[650px]">
           {modalInputs.map((modalPageInputs, modalPageIndex) => (
-            <ServicePointFormPage key={modalPageIndex} modalPageInputs={modalPageInputs} modalPageIndex={modalPageIndex} activePage={activePage} setActivePage={setActivePage} cities={cities} districts={districts} formData={formData} setFormData={setFormData} submitFNC={createServicePoint} />
+            <ServicePointFormPage key={modalPageIndex} modalPageInputs={modalPageInputs} modalPageIndex={modalPageIndex} activePage={activePage} setActivePage={setActivePage} cities={cities} districts={districts} formData={formData} setFormData={setFormData} />
           ))}
         </div>
       </form>
     </div>
-  )
+  );
 }
 
 export default ServicePointModalForm;
