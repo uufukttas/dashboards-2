@@ -78,7 +78,7 @@ const ServicePointModalForm = () => {
     if (formData['service-point-city']) {
       getDistricts();
     }
-  }, [activePage, formData]);
+  }, [activePage, formData['service-point-city']]);
 
   return (
     <div className='form-wrapper'>
