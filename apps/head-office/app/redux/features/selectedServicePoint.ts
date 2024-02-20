@@ -1,11 +1,25 @@
 import { createSlice, Reducer } from "@reduxjs/toolkit";
 
+interface ISelectedServicePoint {
+    name: string;
+    title: string;
+    phoneNumbers: string[];
+    address: string;
+    city: number;
+    district: number;
+    paymentMethods: string[];
+    freePark: boolean;
+    opportunities: string[];
+    longitude: number;
+    latitude: number;
+};
+
 export type UpdatedServicePoint = {
-    updatedServicePoint: string;
+    updatedServicePoint: ISelectedServicePoint;
 };
 
 const initialState = {
-    updatedServicePoint: '01',
+    updatedServicePoint: {},
 } as UpdatedServicePoint;
 
 export const updatedServicePoint = createSlice({

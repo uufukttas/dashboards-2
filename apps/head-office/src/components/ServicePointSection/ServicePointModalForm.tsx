@@ -56,6 +56,7 @@ const ServicePointModalForm = () => {
       "longitude": Number(formData['service-point-x-coor']),
       "latitude": Number(formData['service-point-y-coor']),
     });
+
     axios.post('https://testapideneme.azurewebsites.net/ServicePoint/AddPoint', data, {
       headers: {
         'Content-Type': 'application/json',

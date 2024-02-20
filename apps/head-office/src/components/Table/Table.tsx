@@ -12,7 +12,6 @@ export interface TableProps { }
 
 export function Table(props: TableProps) {
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
-  const updatedServicePoint = useSelector((state: RootState) => state.updatedServicePointReducer.updatedServicePoint);
   const dispatch = useDispatch();
   const [users, setUsers] = useState([])
 
@@ -23,7 +22,6 @@ export function Table(props: TableProps) {
   const toggleTableRow = () => {
     setIsHidden(!isHidden);
   }
-
 
   const getUpdatedUserInfo = async (event: React.MouseEvent) => {
     const userIdAttr = (event.target as HTMLElement)?.getAttribute('data-user-id');
@@ -36,7 +34,6 @@ export function Table(props: TableProps) {
         .then((response) => response.data)
         .then(response => {
           dispatch(setUpdatedServicePoint(response.data));
-          console.log(response.data)
           dispatch(toggleModalVisibility(isModalVisible))
         })
         .catch((error) => {
@@ -45,8 +42,6 @@ export function Table(props: TableProps) {
     } catch (error) {
       console.error(error);
     }
-
-    // typeof updatedServicePoint?.id !== 'undefined' && dispatch(toggleModalVisibility(isModalVisible));
   }
 
   const getFirstTenUsers = async () => {

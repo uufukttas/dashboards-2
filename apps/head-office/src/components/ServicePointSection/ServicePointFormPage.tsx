@@ -1,10 +1,12 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { Textarea } from '@projects/textarea';
+import { RootState } from '../../../app/redux/store';
 
 interface ServicePointFormPageProps {
     modalPageInputs: {
@@ -64,6 +66,7 @@ const ServicePointFormPage = ({
     setActivePage,
 }: ServicePointFormPageProps) => {
     const { register } = useForm();
+    const updatedServicePoint = useSelector((state: RootState) => state.updatedServicePointReducer.updatedServicePoint);
 
     const getDropdownItems = (input: { id: string; extra: string | { items: string[]; } }, cities: string[], districts: string[]): string[] => {
         switch (input.id) {
@@ -89,6 +92,49 @@ const ServicePointFormPage = ({
         }
     };
 
+    const getValueName = (inputName: string, updatedServicePoint: {
+        name: string;
+        title: string;
+        phoneNumbers: string[];
+        address: string;
+        city: number;
+        district: number;
+        paymentMethods: string[];
+        freePark: boolean;
+        opportunities: string[];
+        longitude: number;
+        latitude: number;
+    }) => {
+        switch (inputName) {
+            case 'service-point-name':
+                return updatedServicePoint?.name;
+            case 'service-point-property':
+                return updatedServicePoint?.title;
+            case 'service-point-number1':
+                return updatedServicePoint?.phoneNumbers[0];
+            case 'service-point-number2':
+                return updatedServicePoint?.phoneNumbers[1];
+            case 'service-point-address':
+                return updatedServicePoint?.address;
+            case 'service-point-city':
+                return updatedServicePoint?.city;
+            case 'service-point-district':
+                return updatedServicePoint?.district;
+            case 'service-point-payment-methods':
+                return updatedServicePoint?.paymentMethods[0];
+            case 'service-point-parking':
+                return updatedServicePoint?.freePark;
+            case 'service-point-opportunity':
+                return updatedServicePoint?.opportunities;
+            case 'service-point-x-coor':
+                return updatedServicePoint?.longitude;
+            case 'service-point-y-coor':
+                return updatedServicePoint?.latitude;
+            default:
+                return '';
+        }
+    }
+
     return (
         <fieldset key={modalPageIndex} className={`sh-modal-page-${modalPageIndex} ${activePage === modalPageIndex ? 'block' : 'hidden'}`}>
             {
@@ -111,6 +157,7 @@ const ServicePointFormPage = ({
                                             required: `${input} is required.`,
                                             onChange: (event) => { setFormData({ ...formData, [input.name]: event.target.value }) },
                                         })}
+                                        value={String(getValueName(input.name, updatedServicePoint))}
                                     />
                                 </div>
                             );
