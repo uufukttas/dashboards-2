@@ -52,7 +52,7 @@ export function Table(props: TableProps) {
   const getFirstTenUsers = async () => {
     try {
       await axios.post('https://testapideneme.azurewebsites.net/ServicePoint/GetAllPoints', ({
-        "pageNumber": 2,
+        "pageNumber": 3,
         "pageSize": 10
       })).then((response) => response.data).then(response => setUsers(response.data)).catch((error) => {
         console.log(error);
@@ -68,7 +68,7 @@ export function Table(props: TableProps) {
   }, []);
 
   return (
-    users.length > 0 &&
+    users?.length > 0 &&
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
       <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white w-full">
         <div className="sh-table-actions">
