@@ -7,23 +7,53 @@ import { RootState } from '../../../app/redux/store';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { setUpdatedServicePoint } from '../../../app/redux/features/selectedServicePoint'
 import { CITIES, DISTRICTS } from '../../constants/city_districts';
-import './Table.css'
+import './Table.css';
 
 export interface TableProps { }
+
+interface IUserProps {
+  user: {
+    Id: number;
+    Name: string;
+    Title: string;
+    Longitude: number;
+    Latitude: number;
+    PhoneNumbers: string;
+    Address: string;
+    City: number;
+    District: number;
+    Opportunuties: string;
+    FreePark: string;
+    PaymentMethods: string
+  }
+};
 
 export function Table(props: TableProps) {
   const dispatch = useDispatch();
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
   const [users, setUsers] = useState([]);
   const [isHidden, setIsHidden] = useState(true);
+  const [selectedRow, setSelectedRow] = useState(0);
 
   const handleClick = (e: React.MouseEvent) => {
     dispatch(toggleModalVisibility(isModalVisible))
-  }
+  };
 
-  const toggleTableRow = () => {
+  const toggleTableRow = (id: number) => {
     setIsHidden(!isHidden);
-  }
+
+    if (selectedRow !== id) {
+      setSelectedRow(id);
+      return;
+    }
+
+    if (!isHidden) {
+      setSelectedRow(0);
+      return;
+    }
+
+    setSelectedRow(id);
+  };
 
   const getUpdatedUserInfo = async (event: React.MouseEvent) => {
     const userIdAttr = (event.target as HTMLElement)?.getAttribute('data-user-id');
@@ -44,9 +74,9 @@ export function Table(props: TableProps) {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
-  const getFirstTenUsers = async () => {
+  const getFirstTenUsers = async() => {
     try {
       await axios.post('https://testapideneme.azurewebsites.net/ServicePoint/GetAllPoints', ({
         "pageNumber": 3,
@@ -58,7 +88,7 @@ export function Table(props: TableProps) {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   const setPhoneNumbers = (phoneNumbers: string) => {
     const parsedPhoneNumbers = JSON.parse(phoneNumbers);
@@ -66,7 +96,7 @@ export function Table(props: TableProps) {
     return parsedPhoneNumbers.length > 1
       ? (<><div>{parsedPhoneNumbers[0]}</div><div>{parsedPhoneNumbers[1]}</div></>)
       : String(parsedPhoneNumbers);
-  }
+  };
 
   const getCity = (plateCode: number) => {
     return CITIES[plateCode];
@@ -77,9 +107,53 @@ export function Table(props: TableProps) {
     return DISTRICTS[districtCodeString as keyof typeof DISTRICTS];
   };
 
+  const createTableRow = ({ user }: IUserProps) => {
+    return (
+      <>
+        <tr data-userId={user.Id}>
+          <td className='px-6 py-3'>{user.Name}</td>
+          <td className='px-6 py-3'>{user.Title}</td>
+          <td className='px-6 py-3'>{setPhoneNumbers(user.PhoneNumbers)}</td>
+          <td className='px-6 py-3'>{user.Address}</td>
+          <td className='px-6 py-3'>{getCity((user.City))}</td>
+          <td className='px-6 py-3'>{getDistricts(user.District)}</td>
+          <td className="px-6 py-4 items-center ">
+            <a data-modal-show="editUserModal" data-user-id={user.Id} className="font-medium text-blue-600 cursor-pointer px-4" onClick={getUpdatedUserInfo}>Edit user</a>
+            <Button type="button" data-modal-show="editUserModal" className="font-medium text-blue-600" onClick={() => { toggleTableRow(user.Id) }}>&#11206;</Button>
+          </td>
+        </tr>
+        {user.Id === selectedRow && (
+          <>
+            <tr className='text-xs text-gray-700 uppercase bg-gray-50'>
+              <th className='px-6 py-3'>Longitude</th>
+              <th className='px-6 py-3'>Latitude</th>
+              <th className='px-6 py-3'>Payment Methods</th>
+              <th className='px-6 py-3'>Free Park</th>
+              <th className='px-6 py-3'>Opportunuties</th>
+              <th className='px-6 py-3'> </th>
+              <th className='px-6 py-3'> </th>
+
+            </tr>
+            <tr>
+              <td className='px-6 py-3'>{user.Longitude}</td>
+              <td className='px-6 py-3'>{user.Latitude}</td>
+              <td className='px-6 py-3'>{user.PaymentMethods}</td>
+              <td className='px-6 py-3'>{user.FreePark}</td>
+              <td className='px-6 py-3'>{user.Opportunuties}</td>
+            </tr>
+          </>
+        )}
+        <td colSpan={8} style={{ height: "2px", backgroundColor: "#ececec" }}></td>
+      </>
+    )
+  };
+
   useEffect(() => {
-    getFirstTenUsers();
-  }, []);
+    if (users.length === 0) {
+      getFirstTenUsers();
+    }
+
+  }, [selectedRow]);
 
   return (
     users?.length > 0 &&
@@ -121,27 +195,16 @@ export function Table(props: TableProps) {
               Ilce
             </th>
             <th scope="col" className="px-6 py-3">
-              Edit
+              Actions
             </th>
           </tr>
         </thead>
         <tbody>
           {
             users &&
-            users.map((user: { Id: number, Name: string, Title: string, Longitude: number, Latitude: number, PhoneNumbers: string, Address: string, City: number, District: number }, index: number) => {
+            users.map((user: { Id: number, Name: string, Title: string, Longitude: number, Latitude: number, PhoneNumbers: string, Address: string, City: number, District: number, PaymentMethods: string, FreePark: string, Opportunuties: string }) => {
               return (
-                <tr key={index}>
-                  <td className='px-6 py-3'>{user.Name}</td>
-                  <td className='px-6 py-3'>{user.Title}</td>
-                  <td className='px-6 py-3'>{setPhoneNumbers(user.PhoneNumbers)}</td>
-                  <td className='px-6 py-3'>{user.Address}</td>
-                  <td className='px-6 py-3'>{getCity((user.City))}</td>
-                  <td className='px-6 py-3'>{getDistricts(user.District)}</td>
-                  <td className="px-6 py-4">
-                    <a data-modal-show="editUserModal" data-user-id={user.Id} className="font-medium text-blue-600 cursor-pointer" onClick={getUpdatedUserInfo}>Edit user</a>
-                    <Button type="button" data-modal-show="editUserModal" className="font-medium text-blue-600" onClick={() => { toggleTableRow() }}>&#11206;</Button>
-                  </td>
-                </tr>
+                createTableRow({ user })
               )
             })
           }

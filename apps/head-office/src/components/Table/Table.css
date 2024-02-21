@@ -1,10 +1,7 @@
-@charset "UTF-8";
-.row {
-  display: table-row; /* Açıldığında maksimum yükseklik */
+.service-point-container {
+  min-width: 1660px;
 }
 
-.hidden-row {
-  display: none;
-  overflow: hidden;
-  transition: display 0.7s ease-out;
+td {
+  width: calc(100% / 7);
 }
