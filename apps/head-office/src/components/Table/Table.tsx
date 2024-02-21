@@ -98,8 +98,9 @@ export function Table(props: TableProps) {
       : String(parsedPhoneNumbers);
   };
 
-  const getCity = (plateCode: number) => {
-    return CITIES[plateCode];
+  const getCity = (RID: number) => {
+    const RIDString = String(RID);  
+    return CITIES[RIDString as keyof typeof CITIES];
   };
 
   const getDistricts = (districtCode: number) => {
