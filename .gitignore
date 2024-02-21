@@ -45,3 +45,6 @@ Thumbs.db
 
 # Netlify
 *.netlify
+
+# Contentlayer
+.contentlayer
