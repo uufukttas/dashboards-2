@@ -22,7 +22,7 @@ interface IUserProps {
     Address: string;
     City: number;
     District: number;
-    Opportunuties: string;
+    Opportunities: string;
     FreePark: string;
     PaymentMethods: string
   }
@@ -76,7 +76,7 @@ export function Table(props: TableProps) {
     }
   };
 
-  const getFirstTenUsers = async() => {
+  const getFirstTenUsers = async () => {
     try {
       await axios.post('https://testapideneme.azurewebsites.net/ServicePoint/GetAllPoints', ({
         "pageNumber": 3,
@@ -107,6 +107,38 @@ export function Table(props: TableProps) {
     return DISTRICTS[districtCodeString as keyof typeof DISTRICTS];
   };
 
+  const getPaymentmethods = (paymentMethods: string) => {
+    const parsedPaymentMethods = JSON.parse(paymentMethods);
+
+    return parsedPaymentMethods.length > 1
+      ? (
+        <>
+          {parsedPaymentMethods.map((paymentMethod: string, index: number) => {
+            return (
+              <div key={index}>{paymentMethod}</div>
+            )
+          })}
+        </>
+      )
+      : String(parsedPaymentMethods);
+  };
+
+  const getOpportunuties = (opportunuties: string) => {
+    const parsedOpportunities = JSON.parse(opportunuties);
+
+    return parsedOpportunities.length > 1
+      ? (
+        <>
+          {parsedOpportunities.map((opportunity: string, index: number) => {
+            return (
+              <div key={index}>{opportunity}</div>
+            )
+          })}
+        </>
+      )
+      : String(parsedOpportunities);
+  };
+
   const createTableRow = ({ user }: IUserProps) => {
     return (
       <>
@@ -119,7 +151,9 @@ export function Table(props: TableProps) {
           <td className='px-6 py-3'>{getDistricts(user.District)}</td>
           <td className="px-6 py-4 items-center ">
             <a data-modal-show="editUserModal" data-user-id={user.Id} className="font-medium text-blue-600 cursor-pointer px-4" onClick={getUpdatedUserInfo}>Edit user</a>
-            <Button type="button" data-modal-show="editUserModal" className="font-medium text-blue-600" onClick={() => { toggleTableRow(user.Id) }}>&#11206;</Button>
+            <Button type="button" data-modal-show="editUserModal" className="font-medium text-blue-600" onClick={() => { toggleTableRow(user.Id) }}>
+              <div dangerouslySetInnerHTML={{ __html: `${user.Id === selectedRow ? '&#11205;' : '&#11206;'}` }} />
+            </Button>
           </td>
         </tr>
         {user.Id === selectedRow && (
@@ -132,14 +166,13 @@ export function Table(props: TableProps) {
               <th className='px-6 py-3'>Opportunuties</th>
               <th className='px-6 py-3'> </th>
               <th className='px-6 py-3'> </th>
-
             </tr>
             <tr>
               <td className='px-6 py-3'>{user.Longitude}</td>
               <td className='px-6 py-3'>{user.Latitude}</td>
-              <td className='px-6 py-3'>{user.PaymentMethods}</td>
-              <td className='px-6 py-3'>{user.FreePark}</td>
-              <td className='px-6 py-3'>{user.Opportunuties}</td>
+              <td className='px-6 py-3'>{getPaymentmethods(user.PaymentMethods)}</td>
+              <td className='px-6 py-3'>{user.FreePark ? 'Yes' : 'No'}</td>
+              <td className='px-6 py-3'>{getOpportunuties(user.Opportunities)}</td>
             </tr>
           </>
         )}
@@ -202,7 +235,7 @@ export function Table(props: TableProps) {
         <tbody>
           {
             users &&
-            users.map((user: { Id: number, Name: string, Title: string, Longitude: number, Latitude: number, PhoneNumbers: string, Address: string, City: number, District: number, PaymentMethods: string, FreePark: string, Opportunuties: string }) => {
+            users.map((user: { Id: number, Name: string, Title: string, Longitude: number, Latitude: number, PhoneNumbers: string, Address: string, City: number, District: number, PaymentMethods: string, FreePark: string, Opportunities: string }) => {
               return (
                 createTableRow({ user })
               )
