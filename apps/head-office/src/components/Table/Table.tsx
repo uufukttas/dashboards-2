@@ -1,24 +1,26 @@
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import { Button } from "@projects/button";
+import { Input } from '@projects/input';
 import { RootState } from '../../../app/redux/store';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import './Table.css'
 import { setUpdatedServicePoint } from '../../../app/redux/features/selectedServicePoint'
-import { Input } from '@projects/input';
+import { CITIES, DISTRICTS } from '../../constants/city_districts';
+import './Table.css'
 
 export interface TableProps { }
 
 export function Table(props: TableProps) {
-  const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
   const dispatch = useDispatch();
-  const [users, setUsers] = useState([])
+  const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
+  const [users, setUsers] = useState([]);
+  const [isHidden, setIsHidden] = useState(true);
 
   const handleClick = (e: React.MouseEvent) => {
     dispatch(toggleModalVisibility(isModalVisible))
   }
-  const [isHidden, setIsHidden] = useState(true);
+
   const toggleTableRow = () => {
     setIsHidden(!isHidden);
   }
@@ -58,6 +60,23 @@ export function Table(props: TableProps) {
     }
   }
 
+  const setPhoneNumbers = (phoneNumbers: string) => {
+    const parsedPhoneNumbers = JSON.parse(phoneNumbers);
+
+    return parsedPhoneNumbers.length > 1
+      ? (<><div>{parsedPhoneNumbers[0]}</div><div>{parsedPhoneNumbers[1]}</div></>)
+      : String(parsedPhoneNumbers);
+  }
+
+  const getCity = (plateCode: number) => {
+    return CITIES[plateCode];
+  };
+
+  const getDistricts = (districtCode: number) => {
+    const districtCodeString = String(districtCode);
+    return DISTRICTS[districtCodeString as keyof typeof DISTRICTS];
+  };
+
   useEffect(() => {
     getFirstTenUsers();
   }, []);
@@ -83,12 +102,6 @@ export function Table(props: TableProps) {
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 shadow-custom">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
-            <th scope="col" className="p-4">
-              <div className="flex items-center">
-                <input id="checkbox-all-search" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" />
-                <label htmlFor="checkbox-all-search" className="sr-only">checkbox</label>
-              </div>
-            </th>
             <th scope="col" className="px-6 py-3">
               Name
             </th>
@@ -96,10 +109,16 @@ export function Table(props: TableProps) {
               Position
             </th>
             <th scope="col" className="px-6 py-3">
-              Status
+              Phone Numbers
             </th>
             <th scope="col" className="px-6 py-3">
-              Action
+              Address
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Il
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Ilce
             </th>
             <th scope="col" className="px-6 py-3">
               Edit
@@ -109,27 +128,17 @@ export function Table(props: TableProps) {
         <tbody>
           {
             users &&
-            users.map((user: { Id: number, Name: string, Title: string, Longitude: number, Latitude: number }, index: number) => {
+            users.map((user: { Id: number, Name: string, Title: string, Longitude: number, Latitude: number, PhoneNumbers: string, Address: string, City: number, District: number }, index: number) => {
               return (
                 <tr key={index}>
-                  <td className='p-4'>
-                    <div className="flex items-center">
-                      <input id="checkbox-table-search-3" type="checkbox" className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" />
-                      <label htmlFor="checkbox-table-search-3" className="sr-only">checkbox</label>
-                    </div>
-                  </td>
-                  <td className='px-6 py-3'>
-                    <div className="flex items-center">
-                      {user.Name}
-                    </div>
-                  </td>
+                  <td className='px-6 py-3'>{user.Name}</td>
                   <td className='px-6 py-3'>{user.Title}</td>
-                  <td className='px-6 py-3'>{user.Longitude}</td>
-                  <td className='px-6 py-3'>{user.Latitude}</td>
+                  <td className='px-6 py-3'>{setPhoneNumbers(user.PhoneNumbers)}</td>
+                  <td className='px-6 py-3'>{user.Address}</td>
+                  <td className='px-6 py-3'>{getCity((user.City))}</td>
+                  <td className='px-6 py-3'>{getDistricts(user.District)}</td>
                   <td className="px-6 py-4">
                     <a data-modal-show="editUserModal" data-user-id={user.Id} className="font-medium text-blue-600 cursor-pointer" onClick={getUpdatedUserInfo}>Edit user</a>
-                  </td>
-                  <td className="px-6 py-4">
                     <Button type="button" data-modal-show="editUserModal" className="font-medium text-blue-600" onClick={() => { toggleTableRow() }}>&#11206;</Button>
                   </td>
                 </tr>
