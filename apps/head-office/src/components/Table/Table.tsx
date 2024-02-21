@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { Button } from "@projects/button";
@@ -141,8 +141,8 @@ export function Table(props: TableProps) {
 
   const createTableRow = ({ user }: IUserProps) => {
     return (
-      <>
-        <tr data-userId={user.Id}>
+      <Fragment key={user.Id}>
+        <tr data-user-id={user.Id}>
           <td className='px-6 py-3'>{user.Name}</td>
           <td className='px-6 py-3'>{user.Title}</td>
           <td className='px-6 py-3'>{setPhoneNumbers(user.PhoneNumbers)}</td>
@@ -176,8 +176,10 @@ export function Table(props: TableProps) {
             </tr>
           </>
         )}
-        <td colSpan={8} style={{ height: "2px", backgroundColor: "#ececec" }}></td>
-      </>
+        <tr>
+          <td colSpan={8} style={{ height: "2px", backgroundColor: "#ececec" }}></td>
+        </tr>
+      </Fragment>
     )
   };
 
