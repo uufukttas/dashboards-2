@@ -79,7 +79,7 @@ export function Table(props: TableProps) {
   const getFirstTenUsers = async () => {
     try {
       await axios.post('https://testapideneme.azurewebsites.net/ServicePoint/GetAllPoints', ({
-        "pageNumber": 3,
+        "pageNumber": 4,
         "pageSize": 10
       })).then((response) => response.data).then(response => setUsers(response.data)).catch((error) => {
         console.log(error);
