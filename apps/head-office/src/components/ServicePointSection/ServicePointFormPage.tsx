@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { Button } from '@projects/button';
@@ -92,48 +92,23 @@ const ServicePointFormPage = ({
         }
     };
 
-    const getValueName = (inputName: string, updatedServicePoint: {
-        name: string;
-        title: string;
-        phoneNumbers: string[];
-        address: string;
-        city: number;
-        district: number;
-        paymentMethods: string[];
-        freePark: boolean;
-        opportunities: string[];
-        longitude: number;
-        latitude: number;
-    }) => {
-        switch (inputName) {
-            case 'service-point-name':
-                return updatedServicePoint?.name;
-            case 'service-point-property':
-                return updatedServicePoint?.title;
-            case 'service-point-number1':
-                return updatedServicePoint?.phoneNumbers[0];
-            case 'service-point-number2':
-                return updatedServicePoint?.phoneNumbers[1];
-            case 'service-point-address':
-                return updatedServicePoint?.address;
-            case 'service-point-city':
-                return updatedServicePoint?.city;
-            case 'service-point-district':
-                return updatedServicePoint?.district;
-            case 'service-point-payment-methods':
-                return updatedServicePoint?.paymentMethods[0];
-            case 'service-point-parking':
-                return updatedServicePoint?.freePark;
-            case 'service-point-opportunity':
-                return updatedServicePoint?.opportunities;
-            case 'service-point-x-coor':
-                return updatedServicePoint?.longitude;
-            case 'service-point-y-coor':
-                return updatedServicePoint?.latitude;
-            default:
-                return '';
-        }
-    }
+    useEffect(() => {
+        setFormData({
+            ...formData,
+            'service-point-name': updatedServicePoint?.name,
+            'service-point-property': updatedServicePoint?.title,
+            'service-point-number1': JSON.parse(updatedServicePoint?.phoneNumbers || '[]')[0],
+            'service-point-number2': JSON.parse(updatedServicePoint?.phoneNumbers || '[]')[1],
+            'service-point-address': updatedServicePoint?.address,
+            'service-point-city': updatedServicePoint?.city,
+            'service-point-district': updatedServicePoint?.district,
+            'service-point-payment-methods': JSON.parse(updatedServicePoint?.paymentMethods || '[]')[0],
+            'service-point-parking': updatedServicePoint?.freePark,
+            'service-point-opportunity': updatedServicePoint?.opportunities,
+            'service-point-x-coor': updatedServicePoint?.longitude,
+            'service-point-y-coor': updatedServicePoint?.latitude,
+        });
+    }, [updatedServicePoint]);
 
     return (
         <fieldset key={modalPageIndex} className={`sh-modal-page-${modalPageIndex} ${activePage === modalPageIndex ? 'block' : 'hidden'}`}>
@@ -155,9 +130,9 @@ const ServicePointFormPage = ({
                                         placeholder={input.placeholder}
                                         register={register(input.name.toLowerCase(), {
                                             required: `${input} is required.`,
-                                            onChange: (event) => { setFormData({ ...formData, [input.name]: event.target.value }) },
+                                            onChange: (event) => { setFormData({ ...formData, [input.name]: event.target.value}) },
                                         })}
-                                        value={String(getValueName(input.name, updatedServicePoint))}
+                                        value={formData[input.name]}
                                     />
                                 </div>
                             );
@@ -176,6 +151,7 @@ const ServicePointFormPage = ({
                                         register={register(input.name.toLowerCase(), {
                                             required: `${input} is required.`,
                                             onChange: (event) => { setFormData({ ...formData, [input.name]: event.target.value }) },
+                                            value: formData[input.name]
                                         })}
                                     />
                                 </div>
@@ -194,6 +170,7 @@ const ServicePointFormPage = ({
                                         register={register(input.name.toLowerCase(), {
                                             required: `${input} is required.`,
                                             onChange: (event) => { setFormData({ ...formData, [input.name]: event.target.value }) },
+                                            value: formData[input.name]
                                         })}
                                     />
                                 </div>
@@ -212,6 +189,7 @@ const ServicePointFormPage = ({
                                         register={register(input.name.toLowerCase(), {
                                             required: `${input} is required.`,
                                             onChange: (event) => { setFormData({ ...formData, [input.name]: event.target.value }) },
+                                            value: formData[input.name]
                                         })}
                                     />
                                 </div>

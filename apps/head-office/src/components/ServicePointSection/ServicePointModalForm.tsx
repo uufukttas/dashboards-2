@@ -11,6 +11,7 @@ const ServicePointModalForm = () => {
   const dispatch = useDispatch();
   const modalInputs = servicePointModalInputs;
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
+  const updatedServicePoint = useSelector((state: RootState) => state.updatedServicePointReducer.updatedServicePoint);
   const [cities, setCities] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [activePage, setActivePage] = useState(0);
@@ -46,9 +47,7 @@ const ServicePointModalForm = () => {
       "address": formData['service-point-address'],
       "city": Number(formData['service-point-city']) || 1,
       "district": Number(formData['service-point-district']) || 1,
-      "paymentMethods": [
-        formData['service-point-payment-methods']
-      ],
+      "paymentMethods": [formData['service-point-payment-methods']],
       "freePark": formData['service-point-parking'] === 'true' ? true : false,
       "opportunities": [
         formData['service-point-opportunity']
@@ -63,14 +62,43 @@ const ServicePointModalForm = () => {
       }
     })
       .then((response) => {
-        console.log(JSON.stringify(response.data));
+        dispatch(toggleModalVisibility(isModalVisible));
       })
       .catch((error) => {
         console.log(error);
       });
 
 
-    dispatch(toggleModalVisibility(isModalVisible));
+  };
+
+  const updateServicePoint = () => {
+    const data = JSON.stringify({
+      "id": updatedServicePoint.id,
+      "name": formData['service-point-name'],
+      "title": formData['service-point-property'],
+      "phoneNumbers": [formData['service-point-number1'], formData['service-point-number2']],
+      "address": formData['service-point-address'],
+      "city": Number(formData['service-point-city']),
+      "district": Number(formData['service-point-district']),
+      "paymentMethods": [formData['service-point-payment-methods']],
+      "freePark": formData['service-point-parking'],
+      "opportunities": [formData['service-point-opportunity']],
+      "longitude": Number(formData['service-point-x-coor']),
+      "latitude": Number(formData['service-point-y-coor'])
+    });
+
+    axios.post('https://testapideneme.azurewebsites.net/ServicePoint/Update', data, {
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+      .then((response) => {
+        dispatch(toggleModalVisibility(isModalVisible));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
   };
 
   useEffect(() => {
@@ -85,7 +113,7 @@ const ServicePointModalForm = () => {
 
   return (
     <div className='create-service-point-form-wrapper'>
-      <form onSubmit={handleSubmit(createServicePoint)}>
+      <form onSubmit={handleSubmit(Object.keys(updatedServicePoint).length > 0 ? updateServicePoint : createServicePoint)}>
         <div className="relative p-4 bg-white rounded-lg sm:p-5 max-h-[650px]">
           {modalInputs.map((modalPageInputs, modalPageIndex) => (
             <ServicePointFormPage key={modalPageIndex} modalPageInputs={modalPageInputs} modalPageIndex={modalPageIndex} activePage={activePage} setActivePage={setActivePage} cities={cities} districts={districts} formData={formData} setFormData={setFormData} />
