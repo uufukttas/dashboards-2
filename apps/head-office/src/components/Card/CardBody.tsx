@@ -1,6 +1,6 @@
 'use client';
 
-interface CardBodyProps {
+interface ICardBodyProps {
     children?: React.ReactNode;
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
@@ -8,7 +8,7 @@ interface CardBodyProps {
 export function CardBody({
     children,
     onClick,
-}: CardBodyProps) {
+}: ICardBodyProps) {
     return (
         <div className="sh-card-body-container" onClick={onClick}>
             {children}

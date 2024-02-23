@@ -16,14 +16,19 @@ const Index = () => {
   const [isDetectedDevice, setIsDetectedDevice] = useState(false);
   const [loginFailedData, setLoginFailedData] = useState({ isFailed: false, message: '' });
 
+  const closeAlert = () => {
+    setLoginFailedData({ isFailed: false, message: '' });
+  };
+
   useEffect(() => {
     setIsDetectedDevice(true);
   }, []);
 
   return (
     isDetectedDevice &&
-    <div className={`w-full flex items-center justify-center h-screen bg-[#54565A33]`}>
+    <div className={`sharz-site w-full flex items-center justify-center h-screen bg-[#54565A33]`}>
       <Login
+        closeAlert={closeAlert}
         setLoginFailedData={setLoginFailedData}
       />
       <Background
@@ -31,7 +36,13 @@ const Index = () => {
         backgroundUrl={stylesProp.loginPageBackgroundImage}
       />
       {isLoading && (<Loading />)}
-      {loginFailedData.isFailed && (<Alert alertText={loginFailedData.message} />)}
+      {loginFailedData.isFailed && (
+        <Alert
+          alertText={loginFailedData.message}
+          id={'login-failed-alert'}
+          onClick={closeAlert}
+        />
+      )}
     </div>
   );
 };

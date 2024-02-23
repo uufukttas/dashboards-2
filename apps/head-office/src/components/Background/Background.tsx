@@ -1,14 +1,14 @@
-import './Background.scss';
+import './Background.css';
 
 interface BackgroundProps {
-  className?: string;
   backgroundUrl: string;
+  className?: string;
 };
 
-export function Background({
-  className,
+const Background = ({
   backgroundUrl,
-}: BackgroundProps) {
+  className,
+}: BackgroundProps) => {
   return (
     <div
       className={`sh-background-container h-screen ${className}`}

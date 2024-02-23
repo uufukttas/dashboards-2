@@ -1,48 +1,61 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { Button } from "@projects/button";
+import { Button } from '@projects/button';
 import { detectDevice } from '@projects/common';
 import { Image } from '@projects/image';
-import { Input } from "@projects/input";
-import { Label } from "@projects/label";
+import { Input } from '@projects/input';
+import { Label } from '@projects/label';
 import Card from '../Card/Card';
 import { userInfo } from '../../constants/styles';
 import { toggleLoading } from '../../../app/redux/features/isLoading';
 
-interface RequestConfig {
+interface ILoginProps {
+    closeAlert: () => void;
+    setLoginFailedData: (
+        data: {
+            isFailed: boolean;
+            message: string;
+        }
+    ) => void;
+};
+interface IRequestConfig {
     headers: {
         'Content-Type': string;
-    },
+    };
 };
 
-interface LoginProps {
-    setLoginFailedData: (data: { isFailed: boolean, message: string }) => void;
-};
-
-const Login = ({ setLoginFailedData }: LoginProps) => {
-    const dispatch = useDispatch();
-    const router = useRouter();
-    const { register, handleSubmit, formState: { errors } } = useForm();
-    const [loginFormData, setLoginFormData] = useState({ username: '', password: '' });
+const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
     const loginInputs = ['Username', 'Password'];
+    const [loginFormData, setLoginFormData] = useState({ username: '', password: '' });
+    const router = useRouter();
+    const dispatch = useDispatch();
+    const { register, handleSubmit, formState: { errors } } = useForm();
+
+    const fetchLoginData = async (data: string, config: IRequestConfig) => {
+        try {
+            const requestResponse = await axios.post(process.env.LOGIN_URL || '', data, config);
+
+            return requestResponse.data;
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const handleLoginSubmit = async () => {
         dispatch(toggleLoading(true));
 
         const userLoginData = JSON.stringify({
-            "userName": loginFormData.username,
-            "password": loginFormData.password,
+            'userName': loginFormData.username,
+            'password': loginFormData.password,
         });
-
         const requestConfig = {
             headers: {
                 'Content-Type': 'application/json',
             },
         };
-
         const loginResponse = await fetchLoginData(userLoginData, requestConfig);
 
         if (loginResponse.statusCode === 200) {
@@ -52,34 +65,22 @@ const Login = ({ setLoginFailedData }: LoginProps) => {
         } else if (loginResponse.statusCode === 401) {
             dispatch(toggleLoading(false));
             setLoginFailedData({ isFailed: true, message: loginResponse.value.message });
-            closeAlert();
+            setTimeout(() => {
+                closeAlert();
+            }, 5000);
         } else {
             dispatch(toggleLoading(false));
             setLoginFailedData({ isFailed: true, message: 'Hay aksi. Bir şeyler ters gitti!' });
-            closeAlert();
+            setTimeout(() => {
+                closeAlert();
+            }, 5000);
         }
-    };
-
-    const fetchLoginData = async (data: string, conf: RequestConfig) => {
-        try {
-            const requestResponse = await axios.post(process.env.LOGIN_URL || '', data, conf);
-
-            return requestResponse.data;
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    const closeAlert = () => {
-        setTimeout(() => {
-            setLoginFailedData({ isFailed: false, message: '' });
-        }, 5000);
     };
 
     const cardHeaderChildren = (
         <>
             <div className="sh-card-title-container">
-                <h2 className="sh-card-title-text text-2xl font-semibold">{userInfo.name}</h2>
+                <h2 className="sh-card-title text-2xl font-semibold">{userInfo.name}</h2>
             </div>
             <div className="sh-card-logo-container">
                 <Image alt={`${userInfo.name} logo`} className="sh-card-logo" src={userInfo.logo} />
@@ -91,25 +92,25 @@ const Login = ({ setLoginFailedData }: LoginProps) => {
             <div className="sh-card-form-container">
                 <form className="sh-card-form" onSubmit={handleSubmit(handleLoginSubmit)}>
                     {
-                        loginInputs.map((input, index) => (
+                        loginInputs.map((loginInput, index) => (
                             <div key={index} className="mb-4">
                                 <Label
-                                    className={`block text-sm font-medium text-gray-600`}
-                                    htmlFor={input.toLowerCase()}
-                                    labelText={input}
+                                    className={`${loginInput.toLowerCase()}-label block text-sm font-medium text-gray-600`}
+                                    htmlFor={loginInput.toLowerCase()}
+                                    labelText={loginInput}
                                 />
                                 <Input
-                                    className={`mt-1 p-2 w-full border`}
-                                    id={input.toLowerCase()}
-                                    name={input.toLowerCase()}
-                                    register={register(input.toLowerCase(), {
-                                        required: `${input} is required.`,
+                                    className={`${loginInput.toLowerCase()}-input mt-1 p-2 w-full border`}
+                                    id={loginInput.toLowerCase()}
+                                    name={loginInput.toLowerCase()}
+                                    register={register(loginInput.toLowerCase(), {
+                                        required: `${loginInput} is required`,
                                         pattern: {
                                             // TODO: Add pattern for username email // /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/
-                                            value: input.toLowerCase() === 'username' ? /^.*$/ : /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$.*])/,
-                                            message: `${input} is not valid.`,
+                                            value: loginInput.toLowerCase() === 'username' ? /^.*$/ : /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$.*])/,
+                                            message: `${loginInput} is not valid.`,
                                         },
-                                        validate: input.toLowerCase() === 'password'
+                                        validate: loginInput.toLowerCase() === 'password'
                                             ? {
                                                 checkLength: (value) => value.length >= 8,
                                                 matchPattern: (value) =>
@@ -118,15 +119,15 @@ const Login = ({ setLoginFailedData }: LoginProps) => {
                                                     )
                                             }
                                             : {},
-                                        onChange: (event) => setLoginFormData({ ...loginFormData, [input.toLowerCase()]: event.target.value }),
+                                        onChange: (event) => setLoginFormData({ ...loginFormData, [loginInput.toLowerCase()]: event.target.value }),
                                     })}
-                                    type={input.toLowerCase() === 'password' ? 'password' : 'text'}
+                                    type={loginInput.toLowerCase() === 'password' ? 'password' : 'text'}
 
                                 />
-                                {errors[input.toLowerCase()] && errors[input.toLowerCase()]?.message && (
-                                    <div className={`${input.toLowerCase()}-error-wrapper`}>
-                                        <p className={`${input.toLowerCase()}-error-message`}>
-                                            {String(errors[input.toLowerCase()]?.message)}
+                                {errors[loginInput.toLowerCase()] && errors[loginInput.toLowerCase()]?.message && (
+                                    <div className={`${loginInput.toLowerCase()}-error-wrapper my-4 font-bold text-error`}>
+                                        <p className={`${loginInput.toLowerCase()}-error-message`}>
+                                            {(errors[loginInput.toLowerCase()]?.message?.toString())}
                                         </p>
                                     </div>
                                 )}
@@ -135,9 +136,9 @@ const Login = ({ setLoginFailedData }: LoginProps) => {
                     }
                     <div className="mb-4">
                         <Button
-                            buttonText='Login'
-                            className={`button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline sh-login-button p-2 w-full`}
-                            type="submit"
+                            buttonText={'Login'}
+                            className={"button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline sh-login-button p-2 w-full"}
+                            type={'submit'}
                         />
                     </div>
                 </form>
@@ -147,7 +148,7 @@ const Login = ({ setLoginFailedData }: LoginProps) => {
     const cardFooterChildren = (
         <>
             <div className="sh-card-footer-text-container">
-                <p className="sh-card-footer-text italic text-center">SHARZNET</p>
+                <p className="sh-card-footer-text italic text-center text-sm">SHARZNET</p>
             </div>
         </>
     );

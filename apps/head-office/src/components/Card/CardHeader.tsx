@@ -1,14 +1,14 @@
 'use client';
 
-interface CardHeaderProps {
+interface ICardHeaderProps {
     children: React.ReactNode;
 };
 
 export function CardHeader({
     children,
-}: CardHeaderProps) {
+}: ICardHeaderProps) {
     return (
-        <div className="sh-card-header-container flex items-center w-full justify-between">
+        <div className={`sh-card-header-container flex items-center w-full justify-between`}>
             {children}
         </div>
     );

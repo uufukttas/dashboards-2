@@ -1,13 +1,13 @@
 'use client';
 
-import CardBody from "./CardBody";
-import CardFooter from "./CardFooter";
-import CardHeader from "./CardHeader";
-import styles from './Card.module.scss';
+import CardBody from './CardBody';
+import CardFooter from './CardFooter';
+import CardHeader from './CardHeader';
+import './Card.scss';
 
-interface CardProps {
+interface ICardProps {
   cardHeaderChildren?: React.JSX.Element;
-  cardBodyChildren: React.JSX.Element;
+  cardBodyChildren?: React.JSX.Element;
   cardFooterChildren?: React.JSX.Element;
   className?: string;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
@@ -19,9 +19,9 @@ export function Card({
   cardFooterChildren,
   className,
   onClick,
-}: CardProps) {
+}: ICardProps) {
   return (
-    <div className={`${styles['sh-card-container']} p-8 rounded shadow-custom mx-8 ${className}`}>
+    <div className={`sh-card-container p-8 rounded shadow-custom mx-8 ${className}`}>
       <CardHeader>
         {cardHeaderChildren}
       </CardHeader>
