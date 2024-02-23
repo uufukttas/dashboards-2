@@ -1,11 +1,10 @@
-import React from 'react';
 import './Modal.css';
 
-interface ModalBodyProps {
+interface IModalBodyProps {
     children: React.ReactNode;
 };
 
-const ModalBody = ({ children }: ModalBodyProps) => {
+const ModalBody = ({ children }: IModalBodyProps) => {
     return (
         <div className="relative p-4 bg-white rounded-lg sm:p-5 max-h-[650px]">
             {children}

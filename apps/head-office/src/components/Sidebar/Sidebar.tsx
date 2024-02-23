@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
+import { Button } from '@projects/button';
 import { detectDevice } from '@projects/common';
 import { LocationIcon, CloseIcon, GiftBoxIcon, PersonIcon, FAQIcon } from '@projects/icons';
 import { Image } from '@projects/image';
@@ -55,7 +56,9 @@ const Sidebar = () => {
           {
             detectDevice().isDesktop === false &&
             <div className='sh-sidebar-header-close-container mx-4'>
-              <CloseIcon className={'sh-sidebar-header-close'} onClick={handleSidebarClose} />
+              <Button className="sh-sidebar-header-close-button " type='button' onClick={handleSidebarClose}>
+                <CloseIcon />
+              </Button>
             </div>
           }
         </div>
@@ -83,7 +86,7 @@ const Sidebar = () => {
         </div>
         <div className="sh-sidebar-footer-container flex items-center justify-center">
           <div className="sh-sidebar-footer-icon-container">
-            <CloseIcon className={'sh-sidebar-footer-icon'} />
+            <CloseIcon />
           </div>
         </div>
       </div>

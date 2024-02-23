@@ -14,6 +14,52 @@ export const servicePointModalInputs = [
             error: 'Hizmet Noktasi Ismi Bos Birakilamaz.',
             wrapperClassName: '',
         }, {
+            id: 'service-point-reseller',
+            inputClassName: 'bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4',
+            name: 'service-point-reseller',
+            label: 'Hizmet Noktasi Saticisi',
+            labelClassName: 'block mb-2 text-sm font-medium text-gray-900',
+            type: 'dropdown',
+            placeholder: '',
+            pattern: '^[A-Za-z0-9]',
+            extra: {
+                items: ['Satici 1', 'Satici 2', 'Satici 3']
+            },
+            required: true,
+            error: 'Hizmet Noktasi Reseller Bos Birakilamaz.',
+            wrapperClassName: '',
+        }, {
+            id: 'service-point-company',
+            inputClassName: 'bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4',
+            name: 'service-point-company',
+            label: 'Hizmet Noktasi Sirketi',
+            labelClassName: 'block mb-2 text-sm font-medium text-gray-900',
+            type: 'dropdown',
+            placeholder: '',
+            pattern: '^[A-Za-z0-9]',
+            extra: {
+                items: ['Sirket 1', 'Sirket 2', 'Sirket 3']
+            },
+            required: true,
+            error: 'Hizmet Noktasi Sirketi Bos Birakilamaz.',
+            wrapperClassName: '',
+        }, {
+            inputClassName: '',
+            id: 'modal-next-button-to-2',
+            name: 'modal-next-button',
+            label: 'Ileri',
+            labelClassName: '',
+            type: 'button',
+            placeholder: '',
+            pattern: '',
+            extra: '',
+            required: false,
+            error: '',
+            wrapperClassName: 'flex flex-col',
+        }
+    ],
+    [
+        {
             id: 'service-point-property',
             inputClassName: 'bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4',
             name: 'service-point-property',

@@ -8,7 +8,6 @@ import { toggleModalVisibility } from '../../../app/redux/features/isModalVisibl
 import { RootState } from '../../../app/redux/store';
 
 const ServicePointModalForm = () => {
-  const dispatch = useDispatch();
   const modalInputs = servicePointModalInputs;
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
   const updatedServicePoint = useSelector((state: RootState) => state.updatedServicePointReducer.updatedServicePoint);
@@ -16,6 +15,7 @@ const ServicePointModalForm = () => {
   const [districts, setDistricts] = useState([]);
   const [activePage, setActivePage] = useState(0);
   const [formData, setFormData] = useState<{ [key: string]: string }>({});
+  const dispatch = useDispatch();
   const { handleSubmit } = useForm();
 
   const getCities = async () => {

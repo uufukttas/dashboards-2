@@ -5,11 +5,11 @@ import { RootState } from '../../../app/redux/store';
 import { toggleExpanded } from '../../../app/redux/features/isSidebarExpand';
 import './Header.scss';
 
-export interface IHeaderProps {
+interface IHeaderProps {
   className?: string;
 };
 
-export function Header({ className }: IHeaderProps) {
+const Header = ({ className }: IHeaderProps) => {
   const isSidebarExpanded = useSelector((state: RootState) => state.sidebarExpandReducer.isSidebarExpanded);
   const dispatch = useDispatch();
 
@@ -19,10 +19,10 @@ export function Header({ className }: IHeaderProps) {
 
   return (
     <div className={`sh-header-container justify-between shadow-custom ${className} bg-white sticky top-0`}>
-      <Button className='sh-sidebar-toggle-button bg-white hover:bg-white mx-8' type='button' onClick={handleSidebarToggle}>
+      <Button className="sh-sidebar-toggle-button bg-white hover:bg-white mx-8" type='button' onClick={handleSidebarToggle}>
         <HamburgerMenuIcon />
       </Button>
-      <Button className='sh-sidebar-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center mx-8 rounded-full px-2 ' type='button' onClick={() => {}}>
+      <Button className="sh-sidebar-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center mx-8 rounded-full px-2" type='button' onClick={() => {}}>
         <PersonIcon strokeColor={'black'} />
       </Button>
     </div>

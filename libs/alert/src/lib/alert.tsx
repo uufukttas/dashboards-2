@@ -17,9 +17,9 @@ export function Alert({
       <div className="sh-alert-text-container ms-3 text-sm font-medium px-5">
         {alertText}
       </div>
-      <button aria-label="Close" className="sh-alert-action-container ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8" type="button" >
+      <button aria-label="Close" className="sh-alert-action-container ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8" type="button"  onClick={onClick}>
         <span className="sr-only">Dismiss</span>
-        <CloseIcon onClick={onClick} />
+        <CloseIcon />
       </button>
     </div>
   );
