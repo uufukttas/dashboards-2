@@ -12,9 +12,9 @@ import { stylesProp } from '../src/constants/styles';
 import './page.css';
 
 const Index = () => {
-  const [isDetectedDevice, setIsDetectedDevice] = useState(false);
-  const [loginFailedData, setLoginFailed] = useState({ isFailed: false, message: '' });
   const isLoading = useSelector((state: RootState) => state.loadingReducer.isLoading);
+  const [isDetectedDevice, setIsDetectedDevice] = useState(false);
+  const [loginFailedData, setLoginFailedData] = useState({ isFailed: false, message: '' });
 
   useEffect(() => {
     setIsDetectedDevice(true);
@@ -23,7 +23,9 @@ const Index = () => {
   return (
     isDetectedDevice &&
     <div className={`w-full flex items-center justify-center h-screen bg-[#54565A33]`}>
-      <Login setLoginFailedData={setLoginFailed} />
+      <Login
+        setLoginFailedData={setLoginFailedData}
+      />
       <Background
         className={detectDevice().isDesktop ? 'w-3/4' : 'hidden'}
         backgroundUrl={stylesProp.loginPageBackgroundImage}
