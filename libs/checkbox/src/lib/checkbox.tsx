@@ -1,6 +1,6 @@
 import { UseFormRegisterReturn } from 'react-hook-form'
 /* eslint-disable-next-line */
-export interface CheckboxProps {
+interface ICheckboxProps {
   className: string;
   id: string;
   name: string;
@@ -12,7 +12,7 @@ export function Checkbox({
   id,
   name,
   register,
-}: CheckboxProps) {
+}: ICheckboxProps) {
   return <input className={className} id={id} name={name} type="checkbox" {...register} />;
 }
 

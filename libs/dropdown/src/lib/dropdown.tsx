@@ -7,7 +7,7 @@ interface CitiesProps {
   PlateCode?: string;
   RID?: string | number | undefined;
 }
-interface DropdownProps {
+interface IDropdownProps {
   className?: string;
   id: string;
   items: (string | CitiesProps)[];
@@ -28,8 +28,7 @@ export function Dropdown({
   required,
   value,
   onChange
-
-}: DropdownProps) {
+}: IDropdownProps) {
   const handleOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     if (onChange) {
       onChange(event);

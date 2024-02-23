@@ -1,6 +1,6 @@
 import './Background.css';
 
-interface BackgroundProps {
+interface IBackgroundProps {
   backgroundUrl: string;
   className?: string;
 };
@@ -8,7 +8,7 @@ interface BackgroundProps {
 const Background = ({
   backgroundUrl,
   className,
-}: BackgroundProps) => {
+}: IBackgroundProps) => {
   return (
     <div
       className={`sh-background-container h-screen ${className}`}

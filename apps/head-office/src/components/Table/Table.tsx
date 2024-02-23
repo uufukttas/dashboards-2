@@ -9,8 +9,6 @@ import { setUpdatedServicePoint } from '../../../app/redux/features/selectedServ
 import { CITIES, DISTRICTS } from '../../constants/city_districts';
 import './Table.css';
 
-export interface TableProps { }
-
 interface IUserProps {
   user: {
     Id: number;
@@ -28,7 +26,7 @@ interface IUserProps {
   }
 };
 
-export function Table(props: TableProps) {
+export function Table() {
   const dispatch = useDispatch();
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
   const [users, setUsers] = useState([]);

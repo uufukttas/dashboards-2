@@ -1,6 +1,6 @@
 import { UseFormRegisterReturn } from 'react-hook-form'
 /* eslint-disable-next-line */
-export interface RadioProps {
+interface IRadioProps {
   className: string;
   id: string;
   name: string;
@@ -12,7 +12,7 @@ export function Radio({
   id,
   name,
   register,
-}: RadioProps) {
+}: IRadioProps) {
   return <input className={className} id={id} name={name} type="radio" {...register} />;
 }
 

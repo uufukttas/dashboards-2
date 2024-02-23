@@ -1,7 +1,7 @@
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 /* eslint-disable-next-line */
-export interface InputProps {
+interface IInputProps {
   ariaInvalid?: boolean;
   className?: string;
   disabled?: boolean;
@@ -29,7 +29,7 @@ export function Input({
   type,
   value,
   onChange,
-}: InputProps) {
+}: IInputProps) {
   return (
     <input aria-invalid={ariaInvalid} className={`input ${className}`} disabled={disabled} id={id} name={name} type={type} pattern={pattern} placeholder={placeholder} required={required} value={value} onChange={onChange} {...register} />
   );

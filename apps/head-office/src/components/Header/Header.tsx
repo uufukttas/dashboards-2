@@ -5,13 +5,11 @@ import { RootState } from '../../../app/redux/store';
 import { toggleExpanded } from '../../../app/redux/features/isSidebarExpand';
 import './Header.scss';
 
-export interface HeaderProps {
+export interface IHeaderProps {
   className?: string;
 };
 
-export function Header({
-  className
-}: HeaderProps) {
+export function Header({ className }: IHeaderProps) {
   const isSidebarExpanded = useSelector((state: RootState) => state.sidebarExpandReducer.isSidebarExpanded);
   const dispatch = useDispatch();
 
