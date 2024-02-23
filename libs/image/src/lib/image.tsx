@@ -1,4 +1,4 @@
-interface ImageProps {
+interface IImageProps {
   alt: string;
   className?: string;
   height?: number;
@@ -14,7 +14,7 @@ export function Image({
   src = "https://sharz.net/build/img/logo.svg",
   srcset = "",
   width = 100,
-}: ImageProps) {
+}: IImageProps) {
   return (
     <img
       alt={alt}
@@ -25,6 +25,6 @@ export function Image({
       width={width}
     />
   );
-}
+};
 
 export default Image;
