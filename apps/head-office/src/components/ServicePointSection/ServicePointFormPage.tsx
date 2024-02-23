@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { Button } from '@projects/button';
@@ -8,76 +8,48 @@ import { Label } from '@projects/label';
 import { Textarea } from '@projects/textarea';
 import { RootState } from '../../../app/redux/store';
 
-interface ServicePointFormPageProps {
-    modalPageInputs: {
-        id: string,
-        name: string,
-        type: string,
-        className?: string,
-        placeholder?: string,
-        pattern?: string,
-        required: boolean,
-        value?: string,
-        wrapperClassName?: string,
-        label: string,
-        labelClassName?: string,
-        inputClassName?: string,
-        extra: string | { items: string[] },
-        error?: string,
-        onChange?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => void,
-        onClick?: () => void,
-    }[],
-    modalPageIndex: number,
-    activePage: number,
-    cities: string[],
-    districts: string[],
-    formData: { [key: string]: string },
-    setFormData: (formData: { [key: string]: string }) => void,
-    setActivePage: (page: number) => void,
-};
-
-interface InputProps {
+interface IInputProps {
+    className?: string,
+    error?: string,
+    extra: { items: string[] },
     id: string,
-    name: string,
-    type: string,
-    className?: string | undefined,
-    placeholder?: string,
-    pattern?: string,
-    required: boolean,
-    value?: string,
-    wrapperClassName?: string,
+    inputClassName?: string,
     label: string,
     labelClassName?: string,
-    inputClassName?: string,
-    extra: string | { items: string[] },
-    error?: string,
+    name: string,
+    pattern?: string,
+    placeholder?: string,
+    required: boolean,
+    type: string,
+    value?: string,
+    wrapperClassName?: string,
     onChange?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>) => void,
     onClick?: () => void,
 };
 
+interface IServicePointFormPageProps {
+    activePage: number,
+    cities: string[],
+    districts: string[],
+    formData: { [key: string]: string },
+    modalPageIndex: number,
+    modalPageInputs: IInputProps[],
+    setActivePage: (page: number) => void,
+    setFormData: (formData: { [key: string]: string }) => void,
+};
+
 const ServicePointFormPage = ({
-    modalPageInputs,
-    modalPageIndex,
     activePage,
     cities,
     districts,
     formData,
+    modalPageIndex,
+    modalPageInputs,
     setFormData,
     setActivePage,
-}: ServicePointFormPageProps) => {
-    const { register } = useForm();
+}: IServicePointFormPageProps) => {
     const updatedServicePoint = useSelector((state: RootState) => state.updatedServicePointReducer.updatedServicePoint);
-
-    const getDropdownItems = (input: { id: string; extra: string | { items: string[]; } }, cities: string[], districts: string[]): string[] => {
-        switch (input.id) {
-            case 'service-point-city':
-                return cities;
-            case 'service-point-district':
-                return districts;
-            default:
-                return typeof input.extra === 'string' ? [] : input.extra.items;
-        }
-    };
+    const { register } = useForm();
 
     const getClickHandler = (inputId: string, setActivePage: (page: number) => void, activePage: number) => {
         switch (true) {
@@ -92,34 +64,45 @@ const ServicePointFormPage = ({
         }
     };
 
+    const getDropdownItems = (input: { id: string; extra: { items: string[]; } }, cities: string[], districts: string[]): string[] => {
+        switch (input.id) {
+            case 'service-point-city':
+                return cities;
+            case 'service-point-district':
+                return districts;
+            default:
+                return input.extra.items;
+        };
+    };
+
     useEffect(() => {
         setFormData({
             ...formData,
-            'service-point-name': updatedServicePoint?.name,
-            'service-point-property': updatedServicePoint?.title,
-            'service-point-number1': JSON.parse(updatedServicePoint?.phoneNumbers || '[]')[0],
-            'service-point-number2': JSON.parse(updatedServicePoint?.phoneNumbers || '[]')[1],
-            'service-point-address': updatedServicePoint?.address,
-            'service-point-city': updatedServicePoint?.city,
-            'service-point-district': updatedServicePoint?.district,
-            'service-point-payment-methods': JSON.parse(updatedServicePoint?.paymentMethods || '[]')[0],
-            'service-point-parking': updatedServicePoint?.freePark,
-            'service-point-opportunity': updatedServicePoint?.opportunities,
-            'service-point-x-coor': updatedServicePoint?.longitude,
-            'service-point-y-coor': updatedServicePoint?.latitude,
+            'service-point-name': updatedServicePoint.name,
+            'service-point-property': updatedServicePoint.title,
+            'service-point-number1': JSON.parse(updatedServicePoint.phoneNumbers || '[]')[0],
+            'service-point-number2': JSON.parse(updatedServicePoint.phoneNumbers || '[]')[1],
+            'service-point-address': updatedServicePoint.address,
+            'service-point-city': updatedServicePoint.city,
+            'service-point-district': updatedServicePoint.district,
+            'service-point-payment-methods': JSON.parse(updatedServicePoint.paymentMethods || '[]')[0],
+            'service-point-parking': updatedServicePoint.freePark,
+            'service-point-opportunity': updatedServicePoint.opportunities,
+            'service-point-x-coor': updatedServicePoint.longitude,
+            'service-point-y-coor': updatedServicePoint.latitude,
         });
     }, [updatedServicePoint]);
 
     return (
         <fieldset key={modalPageIndex} className={`sh-modal-page-${modalPageIndex} ${activePage === modalPageIndex ? 'block' : 'hidden'}`}>
             {
-                modalPageInputs.map((input: InputProps, inputIndex: number) => {
+                modalPageInputs.map((input: IInputProps, inputIndex: number) => {
                     switch (input.type) {
                         case 'text':
                         case 'radio':
                         case 'checkbox':
                             return (
-                                <div key={`${modalPageIndex}-${inputIndex}`} className={`${input.name}-wrapper`}>
+                                <div key={`${modalPageIndex}-${inputIndex}`} className={`${input.name}-container`}>
                                     <Label htmlFor={input.name} labelText={input.label} className={input.labelClassName} />
                                     <Input
                                         ariaInvalid={input.required}
@@ -130,7 +113,7 @@ const ServicePointFormPage = ({
                                         placeholder={input.placeholder}
                                         register={register(input.name.toLowerCase(), {
                                             required: `${input} is required.`,
-                                            onChange: (event) => { setFormData({ ...formData, [input.name]: event.target.value}) },
+                                            onChange: (event) => { setFormData({ ...formData, [input.name]: event.target.value }) },
                                         })}
                                         value={formData[input.name]}
                                     />
@@ -139,7 +122,7 @@ const ServicePointFormPage = ({
                         case 'dropdown': {
                             const dropdownItems: string[] = getDropdownItems(input, cities, districts);
                             return (
-                                <div key={`${modalPageIndex}-${inputIndex}`} className={`${input.name}-wrapper`}>
+                                <div key={`${modalPageIndex}-${inputIndex}`} className={`${input.name}-container`}>
                                     <Label htmlFor={input.name} labelText={input.label}
                                         className={input.labelClassName}
                                     />
@@ -159,7 +142,7 @@ const ServicePointFormPage = ({
                         }
                         case 'number':
                             return (
-                                <div key={`${modalPageIndex}-${inputIndex}`} className={`${input.name}-wrapper`}>
+                                <div key={`${modalPageIndex}-${inputIndex}`} className={`${input.name}-container`}>
                                     <Label htmlFor={input.name} labelText={input.label} className={input.labelClassName} />
                                     <Input
                                         id={input.label}
@@ -177,7 +160,7 @@ const ServicePointFormPage = ({
                             );
                         case 'textarea':
                             return (
-                                <div key={`${modalPageIndex}-${inputIndex}`} className={`${input.name}-wrapper`}>
+                                <div key={`${modalPageIndex}-${inputIndex}`} className={`${input.name}-container`}>
                                     <Label htmlFor={input.name} labelText={input.label}
                                         className={input.labelClassName}
                                     />
@@ -196,7 +179,7 @@ const ServicePointFormPage = ({
                             );
                         case 'submit':
                             return (
-                                <div key={`${modalPageIndex}-${inputIndex}`} className={`${input.name}-wrapper`}>
+                                <div key={`${modalPageIndex}-${inputIndex}`} className={`${input.name}-container`}>
                                     <Button
                                         buttonText={input.label}
                                         className={input.inputClassName}
@@ -207,7 +190,7 @@ const ServicePointFormPage = ({
                         case 'button':
                         case 'reset':
                             return (
-                                <div key={`${modalPageIndex}-${inputIndex}`} className={`${input.name}-wrapper`}>
+                                <div key={`${modalPageIndex}-${inputIndex}`} className={`${input.name}-container`}>
                                     <Button
                                         buttonText={input.label}
                                         className={input.inputClassName}
@@ -223,6 +206,6 @@ const ServicePointFormPage = ({
             }
         </fieldset >
     );
-}
+};
 
 export default ServicePointFormPage;
