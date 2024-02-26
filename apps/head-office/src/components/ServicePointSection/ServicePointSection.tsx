@@ -5,7 +5,7 @@ import Table from '../Table/Table';
 
 export function ServicePointSection() {
   return (
-    <div className={`service-point-container flex justify-between items-center pt-12 flex-col`}>
+    <div className={`service-point-container flex justify-between items-center pt-6 md:pt-12 flex-col`}>
       <Modal modalId={'service-point-create-modal'}>
         <ServicePointModalForm />
       </Modal>
