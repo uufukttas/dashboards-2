@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '@projects/button';
+import { Checkbox } from '@projects/checkbox';
+import { Dropdown } from '@projects/dropdown';
+import { Input } from '@projects/input';
+import { Label } from '@projects/label';
+import { Radio } from '@projects/radio';
+import { Textarea } from '@projects/textarea';
 import { servicePointModalInputs } from './ServicePointModalFormInputs';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../app/redux/store';
-import { Label } from '@projects/label';
-import { Input } from '@projects/input';
-import { Dropdown } from '@projects/dropdown';
-import { Button } from '@projects/button';
-import { Textarea } from '@projects/textarea';
-import { Radio } from '@projects/radio';
-import { Checkbox } from 'flowbite-react';
 
 const ServicePointModalForm = () => {
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
