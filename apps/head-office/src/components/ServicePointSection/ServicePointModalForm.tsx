@@ -11,6 +11,7 @@ import { Radio } from '@projects/radio';
 import { Textarea } from '@projects/textarea';
 import { servicePointModalInputs } from './ServicePointModalFormInputs';
 import ServicePointModalFormFirstPage from './ServicePointModalFormFirstPage';
+import ServicePointModalFormSecondPage from './ServicePointModalFormSecondPage';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../app/redux/store';
 
@@ -129,14 +130,17 @@ const ServicePointModalForm = () => {
   return (
     <div className="service-point-create-form-wrapper">
       {/* <form onSubmit={handleSubmit(Object.keys(updatedServicePoint).length > 0 ? updateServicePoint : createServicePoint)}> */}
-        <div className="service-point-create-modal-fieldset-container relative p-4 bg-white rounded-lg sm:p-5 max-h-[650px]">
-          {/* {servicePointModalInputs.map((modalPageInputs, modalPageIndex) => { */}
-            {/* return ( */}
-              <>
-              <ServicePointModalFormFirstPage
-                activePage={0}
-              />
-                {/* {
+      <div className="service-point-create-modal-fieldset-container relative p-4 bg-white rounded-lg sm:p-5 max-h-[650px]">
+        {/* {servicePointModalInputs.map((modalPageInputs, modalPageIndex) => { */}
+        {/* return ( */}
+        <>
+          {/* <ServicePointModalFormFirstPage
+            activePage={0}
+          /> */}
+          <ServicePointModalFormSecondPage
+            activePage={0}
+          />
+          {/* {
                   modalPageIndex === 0 &&
                   <fieldset key={modalPageIndex} className={`sh-modal-page-${modalPageIndex} ${activePage === 0 ? 'block' : 'hidden'}`} onSubmit={getClickHandler(modalPageInputs[3].id, setActivePage, activePage)}>
                     <div className={`${modalPageInputs[0].name}-container`}>
@@ -452,10 +456,10 @@ const ServicePointModalForm = () => {
                     </div>
                   </fieldset>
                 } */}
-              </>
-            {/* ) */}
-          {/* })} */}
-        </div>
+        </>
+        {/* ) */}
+        {/* })} */}
+      </div>
       {/* </form> */}
     </div>
   );

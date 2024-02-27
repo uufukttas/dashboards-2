@@ -12,7 +12,7 @@ interface IInputProps {
   register?: UseFormRegisterReturn;
   required?: boolean;
   type: string;
-  value?: string | undefined;
+  value?: string | number | undefined;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
