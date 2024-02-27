@@ -1,0 +1,149 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useForm, SubmitHandler, UseFormRegister } from 'react-hook-form';
+import { Button } from '@projects/button';
+import { Dropdown } from '@projects/dropdown';
+import { Input } from '@projects/input';
+import { Label } from '@projects/label';
+
+interface IFormData {
+  [key: string]: string | number;
+};
+
+interface IModalPageInputs {
+  activePage: number;
+};
+
+const ServicePointModalFormFirstPage = ({ activePage }: IModalPageInputs) => {
+  const [formData, setFormData] = useState<IFormData>({});
+  const { formState: { errors }, handleSubmit, register } = useForm();
+  const [resellers, setResellers] = useState<{ id: number; name: string }[]>([]);
+  const [companies, setCompanies] = useState<{ id: number; name: string }[]>([]);
+
+  const getResellers = async () => {
+    try {
+      await axios.get('https://testapideneme.azurewebsites.net/ServicePoint/GetResellers')
+        .then((response) => response.data)
+        .then((data) => setResellers(data.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getCompanies = async () => {
+    try {
+      await axios.get('https://testapideneme.azurewebsites.net/ServicePoint/GetCompanies')
+        .then((response) => response.data)
+        .then((data) => setCompanies(data.data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const createServicePointData = () => {
+    return ({
+      name: formData['service-point-name'],
+      resellerCompanyId: formData['service-point-reseller'],
+      companyId: formData['service-point-company'],
+    });
+  };
+
+  const handleFormSubmit: SubmitHandler<IFormData> = () => {
+    const data = JSON.stringify(createServicePointData());
+
+
+    try {
+      axios.post(
+        'https://testapideneme.azurewebsites.net/ServicePoint/AddStation',
+        data, {
+        headers: { 'Content-Type': 'application/json' }
+      })
+        .then((response) => { return response.data })
+        .then((data) => { console.log(data) });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+
+    if (resellers.length === 0 || companies.length === 0) {
+      getResellers();
+      getCompanies();
+    }
+
+    if (resellers.length > 0 || companies.length > 0) {
+      if (formData['service-point-reseller'] === undefined || formData['service-point-company'] === undefined) {
+        setFormData({ ...formData, 'service-point-reseller': resellers[0]?.id, 'service-point-company': companies[0]?.id });
+      }
+    }
+
+  }, [resellers, companies]);
+
+  return (
+    resellers && companies &&
+    <form className={`sh-modal-page-1 ${activePage === 0 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
+      <div className={`service-point-name-container`}>
+        <Label htmlFor={`service-point-name`} labelText={`Hizmet Noktasi Ismi`} className={`block mb-2 text-sm font-medium text-gray-900`}>
+          <span className="text-md text-error">*</span>
+        </Label>
+        <Input
+          id={`service-point-name`}
+          name={`service-point-name`}
+          className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+          type={`text`}
+          register={register(`service-point-name`, {
+            minLength: { value: 3, message: 'En az 3 karakter girmelisiniz.' },
+            required: `Hizmet Noktasi Ismi zorunludur.`,
+            value: formData['service-point-name'],
+            onChange: (event: React.ChangeEvent<HTMLInputElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })) }
+          })}
+        />
+        {
+          errors['service-point-name'] && errors['service-point-name']?.message && (
+            <div className={`service-point-name-error-wrapper my-4 font-bold text-error`}>
+              <p className={`service-point-name-error-message`}>
+                {(errors['service-point-name']?.message?.toString())}
+              </p>
+            </div>
+          )
+        }
+      </div>
+      <div className={`service-point-reseller-container`}>
+        <Label htmlFor={`service-point-reseller`} labelText={`Hizmet Noktasi Bayi`} className={`block mb-2 text-sm font-medium text-gray-900`}>
+          <span className="text-md text-error">*</span>
+        </Label>
+        <Dropdown
+          id={`service-point-reseller`}
+          name={`service-point-reseller`}
+          className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+          items={resellers}
+          onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })); }}
+          value={formData['service-point-reseller']}
+        />
+      </div>
+      <div className={`service-point-company-container`}>
+        <Label htmlFor={`service-point-company`} labelText={`Hizmet Noktasi Sirketi`} className={`block mb-2 text-sm font-medium text-gray-900`}>
+          <span className="text-md text-error">*</span>
+        </Label>
+        <Dropdown
+          id={`service-point-company`}
+          name={`service-point-company`}
+          className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+          items={companies}
+          onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })); }}
+          value={formData['service-point-company']}
+        />
+      </div>
+      <div className={`service-point-buttons-container`}>
+        <Button
+          buttonText='Ileri'
+          className={`bg-blue-500 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+          type={`submit`}
+        />
+      </div>
+    </form>
+  )
+};
+
+export default ServicePointModalFormFirstPage

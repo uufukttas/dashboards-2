@@ -10,6 +10,7 @@ import { Label } from '@projects/label';
 import { Radio } from '@projects/radio';
 import { Textarea } from '@projects/textarea';
 import { servicePointModalInputs } from './ServicePointModalFormInputs';
+import ServicePointModalFormFirstPage from './ServicePointModalFormFirstPage';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../app/redux/store';
 
@@ -127,16 +128,21 @@ const ServicePointModalForm = () => {
 
   return (
     <div className="service-point-create-form-wrapper">
-      <form onSubmit={handleSubmit(Object.keys(updatedServicePoint).length > 0 ? updateServicePoint : createServicePoint)}>
+      {/* <form onSubmit={handleSubmit(Object.keys(updatedServicePoint).length > 0 ? updateServicePoint : createServicePoint)}> */}
         <div className="service-point-create-modal-fieldset-container relative p-4 bg-white rounded-lg sm:p-5 max-h-[650px]">
-          {servicePointModalInputs.map((modalPageInputs, modalPageIndex) => {
-            return (
+          {/* {servicePointModalInputs.map((modalPageInputs, modalPageIndex) => { */}
+            {/* return ( */}
               <>
-                {
+              <ServicePointModalFormFirstPage
+                activePage={0}
+              />
+                {/* {
                   modalPageIndex === 0 &&
-                  <fieldset key={modalPageIndex} className={`sh-modal-page-${modalPageIndex} ${activePage === 0 ? 'block' : 'hidden'}`}>
+                  <fieldset key={modalPageIndex} className={`sh-modal-page-${modalPageIndex} ${activePage === 0 ? 'block' : 'hidden'}`} onSubmit={getClickHandler(modalPageInputs[3].id, setActivePage, activePage)}>
                     <div className={`${modalPageInputs[0].name}-container`}>
-                      <Label htmlFor={modalPageInputs[0].name} labelText={modalPageInputs[0].label} className={modalPageInputs[0].labelClassName} />
+                      <Label htmlFor={modalPageInputs[0].name} labelText={modalPageInputs[0].label} className={modalPageInputs[0].labelClassName}>
+                        <span className="text-md text-error">*</span>
+                      </Label>
                       <Input
                         ariaInvalid={modalPageInputs[0].required}
                         id={modalPageInputs[0].id}
@@ -168,8 +174,8 @@ const ServicePointModalForm = () => {
                         items={getDropdownItems(modalPageInputs[1], cities, districts)}
                         register={register(modalPageInputs[1].name.toLowerCase(), {
                           required: `${modalPageInputs[1]} is required.`,
+                          value: formData[modalPageInputs[1].name],
                           onChange: (event) => { setFormData({ ...formData, [modalPageInputs[1].name]: event.target.value }) },
-                          value: formData[modalPageInputs[1].name]
                         })}
                       />
                     </div>
@@ -187,12 +193,11 @@ const ServicePointModalForm = () => {
                         })}
                       />
                     </div>
-                    <div className={`${modalPageInputs[3].name}-container`}>
+                    <div className={`${modalPageInputs[3].name}-container flex justify-end`}>
                       <Button
                         buttonText={modalPageInputs[3].label}
                         className={modalPageInputs[3].inputClassName}
-                        // onClick={getClickHandler(modalPageInputs[3].id, setActivePage, activePage)}
-                        onClick={() => console.log(errors)}
+                        id={modalPageInputs[3].id}
                         type={'submit'}
                       />
                     </div>
@@ -446,12 +451,12 @@ const ServicePointModalForm = () => {
                       />
                     </div>
                   </fieldset>
-                }
+                } */}
               </>
-            )
-          })}
+            {/* ) */}
+          {/* })} */}
         </div>
-      </form>
+      {/* </form> */}
     </div>
   );
 };
