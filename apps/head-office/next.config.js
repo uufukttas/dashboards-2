@@ -16,7 +16,7 @@ const nextConfig = {
     LOGIN_URL: 'https://testapideneme.azurewebsites.net/Auth/Login',
     CITY_URL:'https://testapideneme.azurewebsites.net/Values/GetCities',
     DISTRICT_URL:'https://testapideneme.azurewebsites.net/Values/GetDistricts',
-    ADD_SERVICE_POINT: 'https://testapideneme.azurewebsites.net/ServicePoint/AddPoint',
+    ADD_STATION: 'https://testapideneme.azurewebsites.net/ServicePoint/AddStation',
     UPDATE_SERVICE_POINT: 'https://testapideneme.azurewebsites.net/ServicePoint/Update',
   },
 };

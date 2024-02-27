@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useForm, SubmitHandler, UseFormRegister } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
@@ -19,6 +19,7 @@ const ServicePointModalFormFirstPage = ({ activePage }: IModalPageInputs) => {
   const { formState: { errors }, handleSubmit, register } = useForm();
   const [resellers, setResellers] = useState<{ id: number; name: string }[]>([]);
   const [companies, setCompanies] = useState<{ id: number; name: string }[]>([]);
+  const [stationId, setStationId] = useState<number>(0);
 
   const getResellers = async () => {
     try {
@@ -51,15 +52,14 @@ const ServicePointModalFormFirstPage = ({ activePage }: IModalPageInputs) => {
   const handleFormSubmit: SubmitHandler<IFormData> = () => {
     const data = JSON.stringify(createServicePointData());
 
-
     try {
       axios.post(
-        'https://testapideneme.azurewebsites.net/ServicePoint/AddStation',
+        process.env.ADD_STATION || '',
         data, {
         headers: { 'Content-Type': 'application/json' }
       })
         .then((response) => { return response.data })
-        .then((data) => { console.log(data) });
+        .then((data) => { setStationId(data.data[0].id) });
     } catch (error) {
       console.log(error);
     }
@@ -146,4 +146,4 @@ const ServicePointModalFormFirstPage = ({ activePage }: IModalPageInputs) => {
   )
 };
 
-export default ServicePointModalFormFirstPage
+export default ServicePointModalFormFirstPage;
