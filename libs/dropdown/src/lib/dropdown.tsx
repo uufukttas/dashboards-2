@@ -1,22 +1,15 @@
+import React, { useEffect, useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
-interface CitiesProps {
-  CountryID?: number;
-  IsDeleted?: string;
-  Name?: string;
-  PlateCode?: string;
-  RID?: string | number | undefined;
-}
 interface IDropdownProps {
   className?: string;
   id: string;
-  items: (string | CitiesProps)[];
+  items: { name: string, id: number }[];
   name: string;
   register?: UseFormRegisterReturn;
   required?: boolean;
-  value?: string;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => void;
-  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  value?: string | number;
+  onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
 
 export function Dropdown({
@@ -27,20 +20,25 @@ export function Dropdown({
   register,
   required,
   value,
-  onChange
+  onChange,
 }: IDropdownProps) {
-  const handleOnChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    if (onChange) {
-      onChange(event);
-    }
+  const [selectedValue, setSelectedValue] = useState<string>('');
+
+  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedValue(event.target.value);
+    onChange && onChange(event);
   };
 
+  useEffect(() => {
+    setSelectedValue(value?.toString() || '');
+  }, [value]);
   return (
-    <select className={className}  id={id} name={name} required={required} value={value} onChange={handleOnChange} {...register}>
+    <select className={className} id={id} name={name} required={required} {...register} value={selectedValue} onChange={handleChange}>
       {
         items?.map((item, index) => (
-          <option key={index} value={typeof item === 'object' ? item.RID : item}>{typeof item === 'object' ? item.Name : item}</option>
-        ))}
+          <option key={index} value={item.id}> {item.name} </option>
+        ))
+      }
     </select>
   );
 }
