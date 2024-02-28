@@ -12,11 +12,12 @@ interface IFormData {
 
 interface IModalPageInputs {
   activePage: number;
+  stationId: number;
   setActivePage: React.Dispatch<React.SetStateAction<number>>;
   setStationId: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const ServicePointModalFormFirstPage = ({ activePage, setActivePage, setStationId }: IModalPageInputs) => {
+const ServicePointModalFormFirstPage = ({ activePage, stationId, setActivePage, setStationId }: IModalPageInputs) => {
   const [companies, setCompanies] = useState<{ id: number; name: string }[]>([]);
   const [formData, setFormData] = useState<IFormData>({});
   const [resellers, setResellers] = useState<{ id: number; name: string }[]>([]);
@@ -57,6 +58,11 @@ const ServicePointModalFormFirstPage = ({ activePage, setActivePage, setStationI
   const handleFormSubmit: SubmitHandler<IFormData> = () => {
     const data = JSON.stringify(createServicePointConfigData());
 
+    if (stationId !== 0) {
+      setActivePage(activePage + 1);
+      return;
+    }
+
     try {
       axios.post(
         process.env.ADD_STATION_URL || '',
@@ -95,9 +101,10 @@ const ServicePointModalFormFirstPage = ({ activePage, setActivePage, setStationI
           <span className="text-md text-error">*</span>
         </Label>
         <Input
+          disabled={stationId !== 0}
           id={`service-point-name`}
           name={`service-point-name`}
-          className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+          className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
           type={`text`}
           register={register(`service-point-name`, {
             minLength: { value: 3, message: 'En az 3 karakter girmelisiniz.' },
@@ -119,9 +126,10 @@ const ServicePointModalFormFirstPage = ({ activePage, setActivePage, setStationI
       <div className={`service-point-reseller-container`}>
         <Label htmlFor={`service-point-reseller`} labelText={`Hizmet Noktasi Bayi`} className={`block mb-2 text-sm font-medium text-gray-900`} />
         <Dropdown
+          disabled={stationId !== 0}
           id={`service-point-reseller`}
           name={`service-point-reseller`}
-          className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+          className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
           items={resellers}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })); }}
           value={formData['service-point-reseller']}
@@ -130,9 +138,10 @@ const ServicePointModalFormFirstPage = ({ activePage, setActivePage, setStationI
       <div className={`service-point-company-container`}>
         <Label htmlFor={`service-point-company`} labelText={`Hizmet Noktasi Sirketi`} className={`block mb-2 text-sm font-medium text-gray-900`} />
         <Dropdown
+          disabled={stationId !== 0}
           id={`service-point-company`}
           name={`service-point-company`}
-          className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+          className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
           items={companies}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })); }}
           value={formData['service-point-company']}
