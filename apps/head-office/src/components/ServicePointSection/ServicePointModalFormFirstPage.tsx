@@ -6,7 +6,7 @@ import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 
-interface IFormData {
+interface IFormDataProps {
   [key: string]: string | number;
 };
 
@@ -18,21 +18,17 @@ interface IModalPageInputs {
 };
 
 const ServicePointModalFormFirstPage = ({ activePage, stationId, setActivePage, setStationId }: IModalPageInputs) => {
-  const [companies, setCompanies] = useState<{ id: number; name: string }[]>([]);
-  const [formData, setFormData] = useState<IFormData>({});
-  const [resellers, setResellers] = useState<{ id: number; name: string }[]>([]);
+  const [companies, setCompanies] = useState<{ id: number; name: string; rid: null; }[]>([]);
+  const [formData, setFormData] = useState<IFormDataProps>({});
+  const [resellers, setResellers] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const { formState: { errors }, handleSubmit, register } = useForm();
 
-  const getResellers = async () => {
-    try {
-      await axios.get(
-        process.env.GET_RESELLERS_URL || ''
-      )
-        .then((response) => response.data)
-        .then((data) => setResellers(data.data));
-    } catch (error) {
-      console.log(error);
-    };
+  const createServicePointConfigData = () => {
+    return ({
+      name: formData['service-point-name'],
+      resellerCompanyId: formData['service-point-reseller'],
+      companyId: formData['service-point-company'],
+    });
   };
 
   const getCompanies = async () => {
@@ -47,26 +43,28 @@ const ServicePointModalFormFirstPage = ({ activePage, stationId, setActivePage, 
     };
   };
 
-  const createServicePointConfigData = () => {
-    return ({
-      name: formData['service-point-name'],
-      resellerCompanyId: formData['service-point-reseller'],
-      companyId: formData['service-point-company'],
-    });
+  const getResellers = async () => {
+    try {
+      await axios.get(
+        process.env.GET_RESELLERS_URL || ''
+      )
+        .then((response) => response.data)
+        .then((data) => setResellers(data.data));
+    } catch (error) {
+      console.log(error);
+    };
   };
 
-  const handleFormSubmit: SubmitHandler<IFormData> = () => {
-    const data = JSON.stringify(createServicePointConfigData());
-
+  const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
     if (stationId !== 0) {
       setActivePage(activePage + 1);
       return;
     }
 
     try {
-      axios.post(
+      await axios.post(
         process.env.ADD_STATION_URL || '',
-        data, {
+        JSON.stringify(createServicePointConfigData()), {
         headers: { 'Content-Type': 'application/json' }
       })
         .then((response) => { return response.data })
@@ -80,17 +78,15 @@ const ServicePointModalFormFirstPage = ({ activePage, stationId, setActivePage, 
   };
 
   useEffect(() => {
-    if (resellers.length === 0 || companies.length === 0) {
+    if (resellers.length === 0 && companies.length === 0) {
       getResellers();
       getCompanies();
     }
 
-    if (resellers.length > 0 || companies.length > 0) {
-      if (formData['service-point-reseller'] === undefined || formData['service-point-company'] === undefined) {
-        setFormData({ ...formData, 'service-point-reseller': resellers[0]?.id, 'service-point-company': companies[0]?.id });
-      }
+    if (formData['service-point-reseller'] === undefined || formData['service-point-company'] === undefined) {
+      setFormData({ ...formData, 'service-point-reseller': resellers[0]?.id, 'service-point-company': companies[0]?.id });
     }
-
+    console.log('stationId', stationId)
   }, [resellers, companies]);
 
   return (
