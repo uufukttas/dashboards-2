@@ -12,36 +12,41 @@ interface IFormData {
 
 interface IModalPageInputs {
   activePage: number;
+  setActivePage: React.Dispatch<React.SetStateAction<number>>;
+  setStationId: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const ServicePointModalFormFirstPage = ({ activePage }: IModalPageInputs) => {
-  const [formData, setFormData] = useState<IFormData>({});
-  const { formState: { errors }, handleSubmit, register } = useForm();
-  const [resellers, setResellers] = useState<{ id: number; name: string }[]>([]);
+const ServicePointModalFormFirstPage = ({ activePage, setActivePage, setStationId }: IModalPageInputs) => {
   const [companies, setCompanies] = useState<{ id: number; name: string }[]>([]);
-  const [stationId, setStationId] = useState<number>(0);
+  const [formData, setFormData] = useState<IFormData>({});
+  const [resellers, setResellers] = useState<{ id: number; name: string }[]>([]);
+  const { formState: { errors }, handleSubmit, register } = useForm();
 
   const getResellers = async () => {
     try {
-      await axios.get('https://testapideneme.azurewebsites.net/ServicePoint/GetResellers')
+      await axios.get(
+        process.env.GET_RESELLERS_URL || ''
+      )
         .then((response) => response.data)
         .then((data) => setResellers(data.data));
     } catch (error) {
       console.log(error);
-    }
+    };
   };
 
   const getCompanies = async () => {
     try {
-      await axios.get('https://testapideneme.azurewebsites.net/ServicePoint/GetCompanies')
+      await axios.get(
+        process.env.GET_COMPANIES_URL || ''
+      )
         .then((response) => response.data)
         .then((data) => setCompanies(data.data));
     } catch (error) {
       console.log(error);
-    }
+    };
   };
 
-  const createServicePointData = () => {
+  const createServicePointConfigData = () => {
     return ({
       name: formData['service-point-name'],
       resellerCompanyId: formData['service-point-reseller'],
@@ -50,23 +55,25 @@ const ServicePointModalFormFirstPage = ({ activePage }: IModalPageInputs) => {
   };
 
   const handleFormSubmit: SubmitHandler<IFormData> = () => {
-    const data = JSON.stringify(createServicePointData());
+    const data = JSON.stringify(createServicePointConfigData());
 
     try {
       axios.post(
-        process.env.ADD_STATION || '',
+        process.env.ADD_STATION_URL || '',
         data, {
         headers: { 'Content-Type': 'application/json' }
       })
         .then((response) => { return response.data })
-        .then((data) => { setStationId(data.data[0].id) });
+        .then((data) => {
+          setStationId(data.data[0].id);
+          setActivePage(activePage + 1);
+        });
     } catch (error) {
       console.log(error);
-    }
+    };
   };
 
   useEffect(() => {
-
     if (resellers.length === 0 || companies.length === 0) {
       getResellers();
       getCompanies();
@@ -82,7 +89,7 @@ const ServicePointModalFormFirstPage = ({ activePage }: IModalPageInputs) => {
 
   return (
     resellers && companies &&
-    <form className={`sh-modal-page-1 ${activePage === 0 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
+    <form className={`sh-modal-page-1 ${activePage === 1 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
       <div className={`service-point-name-container`}>
         <Label htmlFor={`service-point-name`} labelText={`Hizmet Noktasi Ismi`} className={`block mb-2 text-sm font-medium text-gray-900`}>
           <span className="text-md text-error">*</span>
@@ -110,9 +117,7 @@ const ServicePointModalFormFirstPage = ({ activePage }: IModalPageInputs) => {
         }
       </div>
       <div className={`service-point-reseller-container`}>
-        <Label htmlFor={`service-point-reseller`} labelText={`Hizmet Noktasi Bayi`} className={`block mb-2 text-sm font-medium text-gray-900`}>
-          <span className="text-md text-error">*</span>
-        </Label>
+        <Label htmlFor={`service-point-reseller`} labelText={`Hizmet Noktasi Bayi`} className={`block mb-2 text-sm font-medium text-gray-900`} />
         <Dropdown
           id={`service-point-reseller`}
           name={`service-point-reseller`}
@@ -123,9 +128,7 @@ const ServicePointModalFormFirstPage = ({ activePage }: IModalPageInputs) => {
         />
       </div>
       <div className={`service-point-company-container`}>
-        <Label htmlFor={`service-point-company`} labelText={`Hizmet Noktasi Sirketi`} className={`block mb-2 text-sm font-medium text-gray-900`}>
-          <span className="text-md text-error">*</span>
-        </Label>
+        <Label htmlFor={`service-point-company`} labelText={`Hizmet Noktasi Sirketi`} className={`block mb-2 text-sm font-medium text-gray-900`} />
         <Dropdown
           id={`service-point-company`}
           name={`service-point-company`}
@@ -138,7 +141,7 @@ const ServicePointModalFormFirstPage = ({ activePage }: IModalPageInputs) => {
       <div className={`service-point-buttons-container`}>
         <Button
           buttonText='Ileri'
-          className={`bg-blue-500 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+          className={`bg-blue-500 border text-gray-900 text-sm rounded-lg block w-full p-2.5`}
           type={`submit`}
         />
       </div>
