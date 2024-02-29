@@ -7,19 +7,20 @@ import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 
 interface IFormDataProps {
-  [key: string]: string | number;
+  [key: string]: string | number | boolean | string[];
 };
 
 interface IModalPageInputs {
   activePage: number;
+  formData: IFormDataProps;
   stationId: number;
   setActivePage: React.Dispatch<React.SetStateAction<number>>;
+  setFormData: React.Dispatch<React.SetStateAction<IFormDataProps>>;
   setStationId: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const ServicePointModalFormFirstPage = ({ activePage, stationId, setActivePage, setStationId }: IModalPageInputs) => {
+const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setActivePage, setFormData, setStationId }: IModalPageInputs) => {
   const [companies, setCompanies] = useState<{ id: number; name: string; rid: null; }[]>([]);
-  const [formData, setFormData] = useState<IFormDataProps>({});
   const [resellers, setResellers] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const { formState: { errors }, handleSubmit, register } = useForm();
 
@@ -128,7 +129,7 @@ const ServicePointModalFormFirstPage = ({ activePage, stationId, setActivePage, 
           className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
           items={resellers}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })); }}
-          value={formData['service-point-reseller']}
+          value={formData['service-point-reseller']?.toString()}
         />
       </div>
       <div className={`service-point-company-container`}>
@@ -140,7 +141,7 @@ const ServicePointModalFormFirstPage = ({ activePage, stationId, setActivePage, 
           className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
           items={companies}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })); }}
-          value={formData['service-point-company']}
+          value={formData['service-point-company']?.toString()}
         />
       </div>
       <div className={`service-point-buttons-container`}>
