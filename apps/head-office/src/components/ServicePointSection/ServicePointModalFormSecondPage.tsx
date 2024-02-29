@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
+import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { Button } from '@projects/button';
 import { Input } from '@projects/input';
@@ -6,23 +7,59 @@ import { Label } from '@projects/label';
 import { Textarea } from '@projects/textarea';
 
 interface IFormData {
-  [key: string]: string | number;
+  [key: string]: string | number | boolean | string[];
 };
 
 interface IModalPageInputs {
   activePage: number;
+  cities: { rid: number; plateCode: number; name: string; }[];
+  formData: IFormData;
+  setActivePage: React.Dispatch<React.SetStateAction<number>>;
+  setCities: React.Dispatch<React.SetStateAction<{ rid: number; plateCode: number; name: string; id: null }[]>>;
+  setDistricts: React.Dispatch<React.SetStateAction<{ rid: number; name: string; plateCode: number; id: null }[]>>;
+  setFormData: React.Dispatch<React.SetStateAction<IFormData>>;
 };
 
-const ServicePointModalFormSecondPage = ({ activePage }: IModalPageInputs) => {
-  const [formData, setFormData] = useState<IFormData>({});
+const ServicePointModalFormSecondPage = ({ activePage, cities, formData, setActivePage, setCities, setDistricts, setFormData }: IModalPageInputs) => {
   const { formState: { errors }, handleSubmit, register } = useForm();
 
-  const handleFormSubmit: SubmitHandler<IFormData> = () => {
-    console.log('formData', formData)
+  const getCities = async () => {
+    try {
+      await axios.get(
+        process.env.CITY_URL || ''
+      )
+        .then((response) => response.data.data)
+        .then((cities) => { setCities(cities); getDistricts() });
+    } catch (error) {
+      console.log(error);
+    };
   };
 
+  const getDistricts = async () => {
+    try {
+      await axios.post(
+        process.env.DISTRICT_URL || '',
+        { 'plateNumber': Number(formData['service-point-city'] || 1) }
+      )
+        .then((response) => response.data.data)
+        .then(data => setDistricts(data));
+    } catch (error) {
+      console.log(error);
+    };
+  };
+
+  const handleFormSubmit: SubmitHandler<IFormData> = () => {
+    setActivePage(activePage + 1);
+  };
+
+  useEffect(() => {
+    if (cities.length === 0 && activePage === 2) {
+      getCities();
+    }
+  }, [cities, activePage]);
+
   return (
-    <form className={`sh-modal-page-2 ${activePage === 0 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
+    <form className={`sh-modal-page-2 ${activePage === 2 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
       <div className={`service-point-phone-numbers-container`}>
         <Label htmlFor={`service-point-phone-number-1`} labelText={`Hizmet Noktasi Telefon Numarasi`} className={`block mb-2 text-sm font-medium text-gray-900`}>
           <span className="text-md text-error">*</span>
@@ -57,7 +94,7 @@ const ServicePointModalFormSecondPage = ({ activePage }: IModalPageInputs) => {
           className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
           type={`number`}
           placeholder={`05551234567`}
-          value={formData['service-point-phone-number-2']}
+          value={formData['service-point-phone-number-2']?.toString()}
           onChange={(event) => { setFormData({ ...formData, [event.target.name]: event.target.value }) }}
         />
       </div>
@@ -89,7 +126,8 @@ const ServicePointModalFormSecondPage = ({ activePage }: IModalPageInputs) => {
         <Button
           buttonText='Geri'
           className={`bg-blue-500 border text-gray-900 text-sm rounded-lg block w-1/4 p-2.5`}
-          type={`submit`}
+          type={`button`}
+          onClick={() => setActivePage(activePage - 1)}
         />
         <Button
           buttonText='Ileri'
