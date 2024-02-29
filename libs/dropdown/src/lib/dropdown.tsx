@@ -3,8 +3,10 @@ import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface IDropdownProps {
   className?: string;
+  disabled?: boolean;
   id: string;
-  items: { name: string, id: number }[];
+  items: { id: null; rid: number; plateCode: number; name: string; }[] | { name: string, id: number; rid: null; }[];
+  multiple?: boolean;
   name: string;
   register?: UseFormRegisterReturn;
   required?: boolean;
@@ -14,8 +16,10 @@ interface IDropdownProps {
 
 export function Dropdown({
   className,
+  disabled,
   id,
   items,
+  multiple,
   name,
   register,
   required,
@@ -33,10 +37,10 @@ export function Dropdown({
     setSelectedValue(value?.toString() || '');
   }, [value]);
   return (
-    <select className={className} id={id} name={name} required={required} {...register} value={selectedValue} onChange={handleChange}>
+    <select className={className} disabled={disabled} id={id} multiple={multiple} name={name} required={required} {...register} value={selectedValue} onChange={handleChange}>
       {
         items?.map((item, index) => (
-          <option key={index} value={item.id}> {item.name} </option>
+          <option key={index} value={item?.rid ?? item?.id}> {item.name} </option>
         ))
       }
     </select>
