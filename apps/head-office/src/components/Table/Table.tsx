@@ -96,8 +96,8 @@ export function Table() {
       : String(parsedPhoneNumbers);
   };
 
-  const getCity = (RID: number) => {
-    const RIDString = String(RID);  
+  const getCity = (rid: number) => {
+    const RIDString = String(rid);  
     return CITIES[RIDString as keyof typeof CITIES];
   };
 
