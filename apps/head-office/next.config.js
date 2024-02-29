@@ -20,8 +20,9 @@ const nextConfig = {
     ADD_STATION_INFO_URL: 'https://testapideneme.azurewebsites.net/StationInfo/AddStationInfo',
     GET_ALL_SERVICE_POINTS: 'https://testapideneme.azurewebsites.net/ServicePoint/GetAllPoints',
     GET_RESELLERS_URL: 'https://testapideneme.azurewebsites.net/ServicePoint/GetResellers',
+    GET_STATION_BY_ID: 'https://testapideneme.azurewebsites.net/ServicePoint/GetStationById',
     GET_COMPANIES_URL: 'https://testapideneme.azurewebsites.net/ServicePoint/GetCompanies',
-    UPDATE_SERVICE_POINT: 'https://testapideneme.azurewebsites.net/ServicePoint/Update',
+    UPDATE_STATION_URL: 'https://testapideneme.azurewebsites.net/ServicePoint/UpdateStation',
   },
 };
 
