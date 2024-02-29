@@ -10,6 +10,7 @@ interface IDropdownProps {
   name: string;
   register?: UseFormRegisterReturn;
   required?: boolean;
+  selectedValue?: string;
   value?: string | number;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 };
@@ -23,21 +24,27 @@ export function Dropdown({
   name,
   register,
   required,
+  selectedValue,
   value,
   onChange,
 }: IDropdownProps) {
-  const [selectedValue, setSelectedValue] = useState<string>('');
+  const [selectedOption, setSelectedOption] = useState<string>(selectedValue || '1');
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedValue(event.target.value);
+    setSelectedOption(event.target.value);
     onChange && onChange(event);
   };
 
   useEffect(() => {
-    setSelectedValue(value?.toString() || '');
+    if (selectedValue === selectedOption) {
+      setSelectedOption(selectedValue);
+    } else {
+      setSelectedOption(value?.toString() || '');
+    }
   }, [value]);
+
   return (
-    <select className={className} disabled={disabled} id={id} multiple={multiple} name={name} required={required} {...register} value={selectedValue} onChange={handleChange}>
+    <select className={className} disabled={disabled} id={id} multiple={multiple} name={name} required={required} {...register} value={selectedOption} onChange={handleChange}>
       {
         items?.map((item, index) => (
           <option key={index} value={item?.rid ?? item?.id}> {item.name} </option>
