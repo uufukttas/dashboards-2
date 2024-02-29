@@ -5,7 +5,7 @@ import { Button } from "@projects/button";
 import { Input } from '@projects/input';
 import { RootState } from '../../../app/redux/store';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
-import { setUpdatedServicePoint } from '../../../app/redux/features/selectedServicePoint'
+import { setUpdatedServicePointData } from '../../../app/redux/features/updatedServicePointData';
 import { CITIES, DISTRICTS } from '../../constants/city_districts';
 import './Table.css';
 
@@ -51,18 +51,19 @@ export function Table() {
 
     setSelectedRow(id);
   };
-  const getUpdatedUserInfo = async (event: React.MouseEvent) => {
-    const userIdAttr = (event.target as HTMLElement)?.getAttribute('data-user-id');
+  const getUpdatedUserInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const userIdAttr = event.currentTarget.getAttribute('data-user-id');
     const userId = userIdAttr ? parseInt(userIdAttr) : NaN;
 
     try {
-      await axios.post('https://testapideneme.azurewebsites.net/ServicePoint/GetById', ({
+      await axios.post(
+        process.env.GET_STATION_BY_ID || '', ({
         "id": userId
       }))
         .then((response) => response.data)
         .then(response => {
-          dispatch(setUpdatedServicePoint(response.data));
-          dispatch(toggleModalVisibility(isModalVisible))
+          dispatch(toggleModalVisibility(isModalVisible));
+          dispatch(setUpdatedServicePointData(response.data[0]));
         })
         .catch((error) => {
           console.log(error);
@@ -178,7 +179,6 @@ export function Table() {
     if (users.length === 0) {
       getFirstTenUsers();
     }
-
   }, [selectedRow]);
 
   return (
