@@ -18,6 +18,7 @@ const nextConfig = {
     DISTRICT_URL:'https://testapideneme.azurewebsites.net/Values/GetDistricts',
     ADD_STATION_URL: 'https://testapideneme.azurewebsites.net/ServicePoint/AddStation',
     ADD_STATION_INFO_URL: 'https://testapideneme.azurewebsites.net/StationInfo/AddStationInfo',
+    GET_ALL_SERVICE_POINTS: 'https://testapideneme.azurewebsites.net/ServicePoint/GetAllPoints',
     GET_RESELLERS_URL: 'https://testapideneme.azurewebsites.net/ServicePoint/GetResellers',
     GET_COMPANIES_URL: 'https://testapideneme.azurewebsites.net/ServicePoint/GetCompanies',
     UPDATE_SERVICE_POINT: 'https://testapideneme.azurewebsites.net/ServicePoint/Update',

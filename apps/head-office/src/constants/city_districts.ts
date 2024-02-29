@@ -1,4 +1,12 @@
-export const CITIES = {
+interface ICityMap {
+    [key: string]: string;
+};
+
+interface IDistrictMap {
+    [key: string]: string;
+};
+
+export const CITIES: ICityMap = {
     '1': 'Adana',
     '2': 'Adıyaman',
     '3': 'Afyonkarahisar',
@@ -94,7 +102,7 @@ export const CITIES = {
     '93': 'Larnaka',
 };
 
-export const DISTRICTS = {
+export const DISTRICTS: IDistrictMap = {
     '1039': 'Larnaka',
     '1038': 'Limasol',
     '1037': 'Baf',
@@ -1075,4 +1083,4 @@ export const DISTRICTS = {
     '3': 'ÇUKUROVA',
     '2': 'CEYHAN',
     '1': 'ALADAĞ',
-}
+};

@@ -11,18 +11,18 @@ import './Table.css';
 
 interface IUserProps {
   user: {
-    Id: number;
-    Name: string;
-    Title: string;
-    Longitude: number;
-    Latitude: number;
-    PhoneNumbers: string;
-    Address: string;
-    City: number;
-    District: number;
-    Opportunities: string;
-    FreePark: string;
-    PaymentMethods: string
+    id: number;
+    name: string;
+    type: string;
+    longitude: number;
+    latitude: number;
+    phone: string;
+    address: string;
+    city: number;
+    district: number;
+    opportunities: string;
+    freePark: string;
+    paymentMethods: string
   }
 };
 
@@ -36,7 +36,6 @@ export function Table() {
   const handleClick = (e: React.MouseEvent) => {
     dispatch(toggleModalVisibility(isModalVisible))
   };
-
   const toggleTableRow = (id: number) => {
     setIsHidden(!isHidden);
 
@@ -52,7 +51,6 @@ export function Table() {
 
     setSelectedRow(id);
   };
-
   const getUpdatedUserInfo = async (event: React.MouseEvent) => {
     const userIdAttr = (event.target as HTMLElement)?.getAttribute('data-user-id');
     const userId = userIdAttr ? parseInt(userIdAttr) : NaN;
@@ -73,105 +71,99 @@ export function Table() {
       console.error(error);
     }
   };
-
   const getFirstTenUsers = async () => {
     try {
-      await axios.post('https://testapideneme.azurewebsites.net/ServicePoint/GetAllPoints', ({
-        "pageNumber": 4,
-        "pageSize": 10
-      })).then((response) => response.data).then(response => setUsers(response.data)).catch((error) => {
-        console.log(error);
-      });
+      await axios.post(
+        (process.env.GET_ALL_SERVICE_POINTS || ''),
+        ({
+          "pageNumber": 4,
+          "pageSize": 10
+        })
+      )
+        .then((response) => response.data)
+        .then(response => {
+          setUsers(response.data)
+          console.log('response.data', response.data)
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 
     } catch (error) {
       console.error(error);
     }
   };
-
-  const setPhoneNumbers = (phoneNumbers: string) => {
-    const parsedPhoneNumbers = JSON.parse(phoneNumbers);
-
-    return parsedPhoneNumbers.length > 1
-      ? (<><div>{parsedPhoneNumbers[0]}</div><div>{parsedPhoneNumbers[1]}</div></>)
-      : String(parsedPhoneNumbers);
-  };
-
   const getCity = (rid: number) => {
-    const RIDString = String(rid);  
-    return CITIES[RIDString as keyof typeof CITIES];
+    return CITIES[rid.toString()];
   };
-
   const getDistricts = (districtCode: number) => {
-    const districtCodeString = String(districtCode);
-    return DISTRICTS[districtCodeString as keyof typeof DISTRICTS];
+    return DISTRICTS[districtCode.toString()];
   };
+  // const getPaymentmethods = (paymentMethods: string) => {
+  //   const parsedPaymentMethods = JSON.parse(paymentMethods || '[]');
 
-  const getPaymentmethods = (paymentMethods: string) => {
-    const parsedPaymentMethods = JSON.parse(paymentMethods);
+  //   return parsedPaymentMethods.length > 1
+  //     ? (
+  //       <>
+  //         {parsedPaymentMethods.map((paymentMethod: string, index: number) => {
+  //           return (
+  //             <div key={index}>{paymentMethod}</div>
+  //           )
+  //         })}
+  //       </>
+  //     )
+  //     : (parsedPaymentMethods).toString();
+  // };
+  // const getOpportunuties = (opportunuties: string) => {
+  //   const parsedOpportunities = JSON.parse(opportunuties);
 
-    return parsedPaymentMethods.length > 1
-      ? (
-        <>
-          {parsedPaymentMethods.map((paymentMethod: string, index: number) => {
-            return (
-              <div key={index}>{paymentMethod}</div>
-            )
-          })}
-        </>
-      )
-      : String(parsedPaymentMethods);
-  };
-
-  const getOpportunuties = (opportunuties: string) => {
-    const parsedOpportunities = JSON.parse(opportunuties);
-
-    return parsedOpportunities.length > 1
-      ? (
-        <>
-          {parsedOpportunities.map((opportunity: string, index: number) => {
-            return (
-              <div key={index}>{opportunity}</div>
-            )
-          })}
-        </>
-      )
-      : String(parsedOpportunities);
-  };
+  //   return parsedOpportunities.length > 1
+  //     ? (
+  //       <>
+  //         {parsedOpportunities.map((opportunity: string, index: number) => {
+  //           return (
+  //             <div key={index}>{opportunity}</div>
+  //           )
+  //         })}
+  //       </>
+  //     )
+  //     : String(parsedOpportunities);
+  // };
 
   const createTableRow = ({ user }: IUserProps) => {
     return (
-      <Fragment key={user.Id}>
-        <tr data-user-id={user.Id}>
-          <td className='px-6 py-3'>{user.Name}</td>
-          <td className='px-6 py-3'>{user.Title}</td>
-          <td className='px-6 py-3'>{setPhoneNumbers(user.PhoneNumbers)}</td>
-          <td className='px-6 py-3'>{user.Address}</td>
-          <td className='px-6 py-3'>{getCity((user.City))}</td>
-          <td className='px-6 py-3'>{getDistricts(user.District)}</td>
+      <Fragment key={user.id}>
+        <tr data-user-id={user.id}>
+          <td className='px-6 py-3'>{user.name}</td>
+          <td className='px-6 py-3'>{user.type}</td>
+          <td className='px-6 py-3'>{user.phone}</td>
+          <td className='px-6 py-3'>{user.address}</td>
+          <td className='px-6 py-3'>{getCity((user.city))}</td>
+          <td className='px-6 py-3'>{getDistricts(user.district)}</td>
           <td className="px-6 py-4 items-center ">
-            <a data-modal-show="editUserModal" data-user-id={user.Id} className="font-medium text-blue-600 cursor-pointer px-4" onClick={getUpdatedUserInfo}>Edit user</a>
-            <Button type="button" data-modal-show="editUserModal" className="font-medium text-blue-600" onClick={() => { toggleTableRow(user.Id) }}>
-              <div dangerouslySetInnerHTML={{ __html: `${user.Id === selectedRow ? '&#11205;' : '&#11206;'}` }} />
+            <a data-modal-show="editUserModal" data-user-id={user.id} className="font-medium text-blue-600 cursor-pointer px-4" onClick={getUpdatedUserInfo}>Edit user</a>
+            <Button type="button" data-modal-show="editUserModal" className="font-medium text-blue-600" onClick={() => { toggleTableRow(user.id) }}>
+              <div dangerouslySetInnerHTML={{ __html: `${user.id === selectedRow ? '&#11205;' : '&#11206;'}` }} />
             </Button>
           </td>
         </tr>
-        {user.Id === selectedRow && (
+        {user.id === selectedRow && (
           <>
             <tr className='text-xs text-gray-700 uppercase bg-gray-50'>
-              <th className='px-6 py-3'>Longitude</th>
-              <th className='px-6 py-3'>Latitude</th>
-              <th className='px-6 py-3'>Payment Methods</th>
-              <th className='px-6 py-3'>Free Park</th>
-              <th className='px-6 py-3'>Opportunuties</th>
-              <th className='px-6 py-3'> </th>
-              <th className='px-6 py-3'> </th>
+              <th className='px-6'>Longitude</th>
+              <th className='px-6'>Latitude</th>
+              <th className='px-6'>Payment Methods</th>
+              <th className='px-6'>Free Park</th>
+              <th className='px-6'>Opportunuties</th>
+              <th className='px-6'> </th>
+              <th className='px-6'> </th>
             </tr>
             <tr>
-              <td className='px-6 py-3'>{user.Longitude}</td>
-              <td className='px-6 py-3'>{user.Latitude}</td>
-              <td className='px-6 py-3'>{getPaymentmethods(user.PaymentMethods)}</td>
-              <td className='px-6 py-3'>{user.FreePark ? 'Yes' : 'No'}</td>
-              <td className='px-6 py-3'>{getOpportunuties(user.Opportunities)}</td>
+              <td className='px-6 py-3'>{user.longitude}</td>
+              <td className='px-6 py-3'>{user.latitude}</td>
+              {/* <td className='px-6 py-3'>{getPaymentmethods(user.paymentMethods)}</td> */}
+              {/* <td className='px-6 py-3'>{user.freePark ? 'Yes' : 'No'}</td> */}
+              {/* <td className='px-6 py-3'>{getOpportunuties(user.opportunities)}</td> */}
             </tr>
           </>
         )}
@@ -211,16 +203,16 @@ export function Table() {
         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
             <th scope="col" className="px-6 py-3">
-              Name
+              Servis Noktasi
             </th>
             <th scope="col" className="px-6 py-3">
-              Position
+              Tip
             </th>
             <th scope="col" className="px-6 py-3">
-              Phone Numbers
+              Telefon No
             </th>
             <th scope="col" className="px-6 py-3">
-              Address
+              Adres
             </th>
             <th scope="col" className="px-6 py-3">
               Il
@@ -229,14 +221,14 @@ export function Table() {
               Ilce
             </th>
             <th scope="col" className="px-6 py-3">
-              Actions
+              Aksiyonlar
             </th>
           </tr>
         </thead>
         <tbody>
           {
             users &&
-            users.map((user: { Id: number, Name: string, Title: string, Longitude: number, Latitude: number, PhoneNumbers: string, Address: string, City: number, District: number, PaymentMethods: string, FreePark: string, Opportunities: string }) => {
+            users.map((user: { id: number, name: string, type: string, longitude: number, latitude: number, phone: string, address: string, city: number, district: number, paymentMethods: string, freePark: string, opportunities: string }) => {
               return (
                 createTableRow({ user })
               )
