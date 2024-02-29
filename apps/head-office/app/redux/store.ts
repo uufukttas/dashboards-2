@@ -5,6 +5,7 @@ import loadingReducer from './features/isLoading';
 import selectedCityReducer from './features/setSelectedCity'
 import updatedServicePointReducer from './features/selectedServicePoint'
 import isModalVisibleReducer from "./features/isModalVisible";
+import updatedServicePointData from "./features/updatedServicePointData";
 
 export const store: EnhancedStore = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store: EnhancedStore = configureStore({
     selectedCityReducer,
     updatedServicePointReducer,
     isModalVisibleReducer,
+    updatedServicePointData,
   },
   devTools: process.env.NODE_ENV !== "production",
 });

@@ -11,7 +11,6 @@ const ServicePointModalForm = () => {
   const [formData, setFormData] = useState<{ [key: string]: string | number | boolean | string[] }>({});
   const [stationId, setStationId] = useState<number>(0);
 
-  console.log('formData', formData);
   return (
     <div className="service-point-create-form-wrapper">
       <div className="service-point-create-modal-fieldset-container relative p-4 bg-white rounded-lg sm:p-5 max-h-[650px]">

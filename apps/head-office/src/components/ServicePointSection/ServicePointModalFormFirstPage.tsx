@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
+import { RootState } from '../../../app/redux/store';
 
 interface IFormDataProps {
   [key: string]: string | number | boolean | string[];
@@ -20,15 +22,24 @@ interface IModalPageInputs {
 };
 
 const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setActivePage, setFormData, setStationId }: IModalPageInputs) => {
+  const updatedServicePointData = useSelector((state: RootState) => state.updatedServicePointData.updatedServicePointData);
+  const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
   const [companies, setCompanies] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const [resellers, setResellers] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const { formState: { errors }, handleSubmit, register } = useForm();
 
   const createServicePointConfigData = () => {
-    return ({
+    return (updatedServicePointData.id > 0 ? {
+      id: updatedServicePointData.id,
       name: formData['service-point-name'],
       resellerCompanyId: formData['service-point-reseller'],
       companyId: formData['service-point-company'],
+      isActive: true,
+    } : {
+      name: formData['service-point-name'],
+      resellerCompanyId: formData['service-point-reseller'],
+      companyId: formData['service-point-company'],
+      isActive: true,
     });
   };
 
@@ -62,6 +73,14 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
       return;
     }
 
+    if (updatedServicePointData.id === 0) {
+      createServicePoint();
+    } else {
+      updateServicePoint();
+    }
+  };
+
+  const createServicePoint = async () => {
     try {
       await axios.post(
         process.env.ADD_STATION_URL || '',
@@ -75,8 +94,26 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
         });
     } catch (error) {
       console.log(error);
-    };
-  };
+    }
+  }
+
+  const updateServicePoint = async () => {
+    try {
+      await axios.post(
+        process.env.UPDATE_STATION_URL || '',
+        JSON.stringify(createServicePointConfigData()), {
+        headers: { 'Content-Type': 'application/json' }
+      })
+        .then((response) => { return response.data })
+        .then((data) => {
+          if (data.success) {
+            setActivePage(activePage + 1);
+          }
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     if (resellers.length === 0 && companies.length === 0) {
@@ -87,8 +124,12 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
     if (formData['service-point-reseller'] === undefined || formData['service-point-company'] === undefined) {
       setFormData({ ...formData, 'service-point-reseller': resellers[0]?.id, 'service-point-company': companies[0]?.id });
     }
-    console.log('stationId', stationId)
-  }, [resellers, companies]);
+
+    if (!isModalVisible) {
+      setFormData({ ...formData, 'service-point-reseller': resellers[0]?.id, 'service-point-company': companies[0]?.id });
+    }
+
+  }, [resellers, companies, updatedServicePointData, isModalVisible]);
 
   return (
     resellers && companies &&
@@ -106,7 +147,7 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
           register={register(`service-point-name`, {
             minLength: { value: 3, message: 'En az 3 karakter girmelisiniz.' },
             required: `Hizmet Noktasi Ismi zorunludur.`,
-            value: formData['service-point-name'],
+            value: updatedServicePointData.id > 0 ? updatedServicePointData['name'] : formData['service-point-name'],
             onChange: (event: React.ChangeEvent<HTMLInputElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })) }
           })}
         />
@@ -130,6 +171,7 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
           items={resellers}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })); }}
           value={formData['service-point-reseller']?.toString()}
+          selectedValue={updatedServicePointData.id > 0 ? updatedServicePointData['resellerCompanyId'].toString() : ''}
         />
       </div>
       <div className={`service-point-company-container`}>
@@ -142,6 +184,7 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
           items={companies}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })); }}
           value={formData['service-point-company']?.toString()}
+          selectedValue={updatedServicePointData.id > 0 ? updatedServicePointData['companyId'].toString() : ''}
         />
       </div>
       <div className={`service-point-buttons-container`}>
