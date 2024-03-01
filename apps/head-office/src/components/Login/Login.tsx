@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import { useForm, UseFormReturn } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { detectDevice } from '@projects/common';
@@ -10,7 +10,7 @@ import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import Card from '../Card/Card';
 import { userInfo } from '../../constants/styles';
-import { toggleLoading } from '../../../app/redux/features/isLoading';
+import { toggleLoadingVisibility } from '../../../app/redux/features/isLoading';
 
 interface ILoginFailedDataProps {
     isFailed: boolean;
@@ -51,10 +51,8 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
             ).then((response) => {
                 return response.data;
             }).then((data) => {
-                dispatch(toggleLoading(true));
-
                 if (data.statusCode !== 200) {
-                    dispatch(toggleLoading(false));
+                    dispatch(toggleLoadingVisibility(false));
                     setLoginFailedData({
                         isFailed: true,
                         message: data.statusCode === 500 ? 'Hay aksi bir şeyler ters gitti...' : data.value.message,
@@ -66,7 +64,7 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
                     return;
                 }
 
-                dispatch(toggleLoading(false));
+                dispatch(toggleLoadingVisibility(false));
 
                 router.push('/dashboards');
             }).catch((error) => {
@@ -87,6 +85,7 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
                 'Content-Type': 'application/json',
             },
         };
+        dispatch(toggleLoadingVisibility(true));
 
         await fetchLoginData(JSON.stringify((userLoginData)), requestConfig);
     };

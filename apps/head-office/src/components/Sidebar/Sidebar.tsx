@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { detectDevice } from '@projects/common';
 import { LocationIcon, CloseIcon, GiftBoxIcon, PersonIcon, FAQIcon } from '@projects/icons';
 import { Image } from '@projects/image';
-import { toggleExpanded } from '../../../app/redux/features/isSidebarExpand';
+import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpand';
 import { RootState } from '../../../app/redux/store';
 import { userInfo } from '../../constants/styles';
 import './Sidebar.css';
@@ -24,7 +24,7 @@ const sidebarElements = [
   {
     name: 'Kullanici Yonetimi',
     link: '/user-managements',
-    icon: <PersonIcon strokeColor={'black'} />,
+    icon: <PersonIcon />,
   },
   {
     name: 'FAQ',
@@ -35,11 +35,11 @@ const sidebarElements = [
 
 const Sidebar = () => {
   const isSidebarExpanded = useSelector((state: RootState) => state.sidebarExpandReducer.isSidebarExpanded);
-  const [isDetectedDevice, setIsDetectedDevice] = useState(false);
+  const [isDetectedDevice, setIsDetectedDevice] = useState<boolean>(false);
   const dispatch = useDispatch();
 
   const handleSidebarClose = () => {
-    dispatch(toggleExpanded(isSidebarExpanded));
+    dispatch(toggleSidebarExpanded(isSidebarExpanded));
   };
 
   useEffect(() => {

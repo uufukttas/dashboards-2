@@ -2,8 +2,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { HamburgerMenuIcon, PersonIcon } from '@projects/icons';
 import { RootState } from '../../../app/redux/store';
-import { toggleExpanded } from '../../../app/redux/features/isSidebarExpand';
-import './Header.scss';
+import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpand';
+import './Header.css';
 
 interface IHeaderProps {
   className?: string;
@@ -14,7 +14,7 @@ const Header = ({ className }: IHeaderProps) => {
   const dispatch = useDispatch();
 
   const handleSidebarToggle = () => {
-    dispatch(toggleExpanded(isSidebarExpanded));
+    dispatch(toggleSidebarExpanded(isSidebarExpanded));
   };
 
   return (
@@ -23,7 +23,7 @@ const Header = ({ className }: IHeaderProps) => {
         <HamburgerMenuIcon />
       </Button>
       <Button className="sh-sidebar-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center mx-8 rounded-full px-2" type='button' onClick={() => {}}>
-        <PersonIcon strokeColor={'black'} />
+        <PersonIcon />
       </Button>
     </div>
   );
