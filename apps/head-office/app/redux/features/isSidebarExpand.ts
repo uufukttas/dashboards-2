@@ -12,7 +12,7 @@ export const sidebarExpand = createSlice({
     name: "sidebarExpand",
     initialState,
     reducers: {
-        toggleExpanded: (state) => {
+        toggleSidebarExpanded: (state) => {
             if (state.isSidebarExpanded === null) {
                 state.isSidebarExpanded = true;
             } else {
@@ -23,7 +23,7 @@ export const sidebarExpand = createSlice({
 });
 
 export const {
-    toggleExpanded,
+    toggleSidebarExpanded,
 } = sidebarExpand.actions;
 export const getExpandState = (state: { expand: SidebarExpandState }) => state.expand.isSidebarExpanded;
 export default sidebarExpand.reducer as Reducer<SidebarExpandState>;

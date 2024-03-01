@@ -12,12 +12,11 @@ export const loading = createSlice({
     name: "loading",
     initialState,
     reducers: {
-        toggleLoading: (state, action) => {
+        toggleLoadingVisibility: (state, action) => {
             state.isLoading = action.payload;
         },
     },
 });
 
-export const { toggleLoading } = loading.actions;
-export const getExpandState = (state: { expand: LoadingState }) => state.expand.isLoading;
+export const { toggleLoadingVisibility } = loading.actions;
 export default loading.reducer as Reducer<LoadingState>;
