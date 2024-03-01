@@ -97,7 +97,7 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
                 <h2 className="sh-card-title text-2xl font-semibold">{userInfo.name}</h2>
             </div>
             <div className="sh-card-logo-container">
-                <Image alt={`${userInfo.name} logo`} className="sh-card-logo" src={userInfo.logo} />
+                <Image alt={`${userInfo.name} logo`} className="sh-card-logo" height={100} src={userInfo.logo} width={100}/>
             </div>
         </>
     );
