@@ -93,11 +93,13 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
 
     const cardHeaderChildren = (
         <>
-            <div className="sh-card-title-container">
-                <h2 className="sh-card-title text-2xl font-semibold">{userInfo.name}</h2>
+            <div className="sh-card-header-container">
+                <div className="sh-card-title-container">
+                    <h2 className="sh-card-title text-2xl font-semibold">{userInfo.name}</h2>
+                </div>
             </div>
             <div className="sh-card-logo-container">
-                <Image alt={`${userInfo.name} logo`} className="sh-card-logo" height={100} src={userInfo.logo} width={100}/>
+                <Image alt={`${userInfo.name} logo`} className="sh-card-logo" height={100} src={userInfo.logo} width={100} />
             </div>
         </>
     );

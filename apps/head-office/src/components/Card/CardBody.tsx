@@ -5,10 +5,7 @@ interface ICardBodyProps {
     onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
-export function CardBody({
-    children,
-    onClick,
-}: ICardBodyProps) {
+export function CardBody({ children, onClick }: ICardBodyProps) {
     return (
         <div className="sh-card-body-container" onClick={onClick}>
             {children}

@@ -3,11 +3,11 @@
 import CardBody from './CardBody';
 import CardFooter from './CardFooter';
 import CardHeader from './CardHeader';
-import './Card.scss';
+import './Card.css';
 
 interface ICardProps {
   cardHeaderChildren?: React.JSX.Element;
-  cardBodyChildren?: React.JSX.Element;
+  cardBodyChildren: React.JSX.Element;
   cardFooterChildren?: React.JSX.Element;
   className?: string;
   onClick?: (event: React.MouseEvent<HTMLElement>) => void;
