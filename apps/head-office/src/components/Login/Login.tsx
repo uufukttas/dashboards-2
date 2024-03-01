@@ -36,10 +36,10 @@ const initialLoginFormData = {
 };
 
 const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
-    const loginFormInputs = ['Username', 'Password'];
+    const loginFormInputs= ['Username', 'Password'];
     const [loginFormData, setLoginFormData] = useState<ILoginFormDataProps>(initialLoginFormData);
     const dispatch = useDispatch();
-    const { formState: { errors }, register, handleSubmit } = useForm<UseFormReturn>();
+    const { formState: { errors }, register, handleSubmit } = useForm();
     const router = useRouter();
 
     const fetchLoginData = async (data: string, config: IRequestConfig) => {
@@ -108,7 +108,7 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
             <div className="sh-card-form-container">
                 <form className="sh-card-form" onSubmit={handleSubmit(handleLoginSubmit)}>
                     {
-                        loginFormInputs.map((loginFormInput: string[], index: number) => (
+                        loginFormInputs.map((loginFormInput: string, index: number) => (
                             <div key={index} className="mb-4">
                                 <Label
                                     className={`${loginFormInput.toLowerCase()}-label block text-sm font-medium text-gray-600`}
@@ -135,7 +135,7 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
                                                     matchPattern: (value) => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.*-]).{8,}$/.test(value),
                                                 }
                                                 : {},
-                                            onChange: (event: React<InputElement>) => setLoginFormData({
+                                            onChange: (event: React.ChangeEvent<HTMLInputElement>) => setLoginFormData({
                                                 ...loginFormData,
                                                 [loginFormInput.toLowerCase()]: event.target.value,
                                             }),
