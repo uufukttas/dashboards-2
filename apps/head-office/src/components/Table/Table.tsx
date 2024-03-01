@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from "@projects/button";
 import { Input } from '@projects/input';
+import { Label } from '@projects/label';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { setUpdatedServicePointData } from '../../../app/redux/features/updatedServicePointData';
 import { RootState } from '../../../app/redux/store';
@@ -101,36 +102,6 @@ export function Table() {
   const getDistricts = (districtCode: number) => {
     return DISTRICTS[districtCode.toString()];
   };
-  // const getPaymentmethods = (paymentMethods: string) => {
-  //   const parsedPaymentMethods = JSON.parse(paymentMethods || '[]');
-
-  //   return parsedPaymentMethods.length > 1
-  //     ? (
-  //       <>
-  //         {parsedPaymentMethods.map((paymentMethod: string, index: number) => {
-  //           return (
-  //             <div key={index}>{paymentMethod}</div>
-  //           )
-  //         })}
-  //       </>
-  //     )
-  //     : (parsedPaymentMethods).toString();
-  // };
-  // const getOpportunuties = (opportunuties: string) => {
-  //   const parsedOpportunities = JSON.parse(opportunuties);
-
-  //   return parsedOpportunities.length > 1
-  //     ? (
-  //       <>
-  //         {parsedOpportunities.map((opportunity: string, index: number) => {
-  //           return (
-  //             <div key={index}>{opportunity}</div>
-  //           )
-  //         })}
-  //       </>
-  //     )
-  //     : String(parsedOpportunities);
-  // };
 
   const createTableRow = ({ user }: IUserProps) => {
     return (
@@ -151,7 +122,7 @@ export function Table() {
         </tr>
         {user.id === selectedRow && (
           <>
-            <tr className='text-xs text-gray-700 uppercase bg-gray-50'>
+            <tr className='bg-gray-50'>
               <th className='px-6'>Longitude</th>
               <th className='px-6'>Latitude</th>
               <th className='px-6'>Payment Methods</th>
@@ -163,9 +134,6 @@ export function Table() {
             <tr>
               <td className='px-6 py-3'>{user.longitude}</td>
               <td className='px-6 py-3'>{user.latitude}</td>
-              {/* <td className='px-6 py-3'>{getPaymentmethods(user.paymentMethods)}</td> */}
-              {/* <td className='px-6 py-3'>{user.freePark ? 'Yes' : 'No'}</td> */}
-              {/* <td className='px-6 py-3'>{getOpportunuties(user.opportunities)}</td> */}
             </tr>
           </>
         )}
@@ -184,20 +152,19 @@ export function Table() {
 
   return (
     users?.length > 0 &&
-    <div className="relative overflow-x-auto shadow-md sm:rounded-lg w-full">
-      <div className="flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white w-full">
-        <div className="sh-table-actions">
-          <Button type="button" onClick={handleClick}>+ Hizmet Noktasi</Button>
+    <div className="sh-table-container relative overflow-x-auto shadow-md sm:rounded-lg max-w-[330px] md:max-w-full w-full">
+      <div className="sh-table-wrapper flex flex-col items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white w-full md:flex-row">
+        <div className="sh-table-actions w-4/5 md:w-1/6">
+          <Button className={`sh-add-service-point-button-container w-full`} type="button" onClick={handleClick}>+ Hizmet Noktasi</Button>
         </div>
-        <label htmlFor="table-search" className="sr-only">Search</label>
-        <div className="relative">
-          <div className="absolute inset-y-0 flex items-center ps-3 pointer-events-none px-2 justify-end border-r">
+        <Label className="sr-only" htmlFor="table-search" labelText={`Search`} />
+        <div className="sh-service-point-search-input-container relative w-4/5 md:w-1/6 mx-2">
+          <div className="sh-service-point-search-icon-container absolute inset-y-0 flex items-center ps-3 pointer-events-none pl-3 pr-2 justify-end border-r">
             <svg className="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
             </svg>
           </div>
-          <Input name="search" type="text" id="table-search" className="block p-2 pl-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-40 md:w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500" placeholder="Search users" />
-
+          <Input className="sh-service-point-search-input w-full block p-2 md:mx-2 pl-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" id="table-search-input" name="search" placeholder="Search users" type="text" />
         </div>
       </div>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 shadow-custom">
@@ -239,6 +206,6 @@ export function Table() {
       </table>
     </div>
   );
-}
+};
 
 export default Table;
