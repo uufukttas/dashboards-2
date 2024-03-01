@@ -1,10 +1,9 @@
-/* eslint-disable-next-line */
 interface ILabelProps {
   children?: React.ReactNode;
   className?: string;
   htmlFor: string;
   labelText: string;
-}
+};
 
 export function Label({
   children,
@@ -13,16 +12,10 @@ export function Label({
   labelText
 }: ILabelProps) {
   return (
-    children ? (
-      <label className={`block text-gray-700 text-sm font-bold mb-2 ${className}`} htmlFor={htmlFor}>
-        {labelText} {children}
-      </label>) :
-      (
-        <label className={`block text-gray-700 text-sm font-bold mb-2 ${className}`} htmlFor={htmlFor}>
-          {labelText}
-        </label>
-      )
+    <label className={`block text-gray-700 text-sm font-bold mb-2 ${className}`} htmlFor={htmlFor}>
+      {labelText ? labelText : children}
+    </label>
   );
-}
+};
 
 export default Label;
