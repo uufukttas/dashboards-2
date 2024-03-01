@@ -68,6 +68,8 @@ export function Table() {
         .catch((error) => {
           console.log(error);
         });
+
+        //GET_STATION_INFO_BY_ID
     } catch (error) {
       console.error(error);
     }
@@ -84,7 +86,6 @@ export function Table() {
         .then((response) => response.data)
         .then(response => {
           setUsers(response.data)
-          console.log('response.data', response.data)
         })
         .catch((error) => {
           console.log(error);

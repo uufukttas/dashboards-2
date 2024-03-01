@@ -1,7 +1,7 @@
 import { createSlice, Reducer } from "@reduxjs/toolkit";
 
 export type UpdatedServicePointInfoDataState = {
-    updatedServicePointData: {
+    updatedServicePointInfoData: {
         id: number;
         name: string;
         type: string;
@@ -18,7 +18,7 @@ export type UpdatedServicePointInfoDataState = {
 };
 
 const initialState = {
-    updatedServicePointData: {
+    updatedServicePointInfoData: {
         id: 0,
         name: '',
         type: '',
@@ -38,12 +38,23 @@ export const updatedServicePointInfoData = createSlice({
     name: "updatedServicePointInfoData",
     initialState,
     reducers: {
-        setUpdatedServicePoint: (state, action) => {
-            state.updatedServicePointData = action.payload;
+        setUpdatedServicePointInfo: (state, action) => {
+            state.updatedServicePointInfoData.address = action.payload.address;
+            state.updatedServicePointInfoData.city = action.payload.city;
+            state.updatedServicePointInfoData.district = action.payload.district;
+            state.updatedServicePointInfoData.freePark = action.payload.freePark;
+            state.updatedServicePointInfoData.id = action.payload.id;
+            state.updatedServicePointInfoData.latitude = action.payload.latitude;
+            state.updatedServicePointInfoData.longitude = action.payload.longitude;
+            state.updatedServicePointInfoData.name = action.payload.name;
+            state.updatedServicePointInfoData.opportunities = action.payload.opportunities;
+            state.updatedServicePointInfoData.paymentMethods = action.payload.paymentMethods;
+            state.updatedServicePointInfoData.phone = action.payload.phone;
+            state.updatedServicePointInfoData.type = action.payload.type;
         },
     },
 });
 
-export const { setUpdatedServicePoint } = updatedServicePointInfoData.actions;
-export const getUpdatedServicePointInfoData = (state: { updatedServicePointInfoData: UpdatedServicePointInfoDataState }) => state.updatedServicePointInfoData.updatedServicePointData;
+export const { setUpdatedServicePointInfo } = updatedServicePointInfoData.actions;
+export const getUpdatedServicePointInfoData = (state: { updatedServicePointInfoData: UpdatedServicePointInfoDataState }) => state.updatedServicePointInfoData.updatedServicePointInfoData;
 export default updatedServicePointInfoData.reducer as Reducer<UpdatedServicePointInfoDataState>;
