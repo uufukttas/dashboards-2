@@ -1,11 +1,11 @@
-import { Fragment, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from "@projects/button";
 import { Input } from '@projects/input';
-import { RootState } from '../../../app/redux/store';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { setUpdatedServicePointData } from '../../../app/redux/features/updatedServicePointData';
+import { RootState } from '../../../app/redux/store';
 import { CITIES, DISTRICTS } from '../../constants/city_districts';
 import './Table.css';
 
@@ -22,8 +22,8 @@ interface IUserProps {
     district: number;
     opportunities: string;
     freePark: string;
-    paymentMethods: string
-  }
+    paymentMethods: string;
+  };
 };
 
 export function Table() {

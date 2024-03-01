@@ -13,7 +13,7 @@ interface IInputProps {
   type: string;
   value?: string | number | undefined;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+};
 
 export function Input({
   ariaInvalid,

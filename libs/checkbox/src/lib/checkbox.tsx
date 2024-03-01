@@ -6,7 +6,7 @@ interface ICheckboxProps {
   name: string;
   register?: UseFormRegisterReturn;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+};
 
 export function Checkbox({
   className,

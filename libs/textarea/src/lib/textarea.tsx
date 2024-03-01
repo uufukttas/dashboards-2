@@ -9,7 +9,7 @@ interface ITextareaProps {
   required?: boolean;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-}
+};
 
 export function Textarea({
   id,

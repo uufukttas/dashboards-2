@@ -6,7 +6,7 @@ interface IRadioProps {
   name: string;
   register?: UseFormRegisterReturn;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+};
 
 export function Radio({
   className,
