@@ -31,9 +31,9 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
   const createServicePointConfigData = () => {
     return (updatedServicePointData.id > 0 ? {
       id: updatedServicePointData.id,
-      name: formData['service-point-name'],
-      resellerCompanyId: formData['service-point-reseller'],
-      companyId: formData['service-point-company'],
+      name: updatedServicePointData.name,
+      resellerCompanyId: updatedServicePointData.resellerCompanyId,
+      companyId: updatedServicePointData.companyId,
       isActive: true,
     } : {
       name: formData['service-point-name'],

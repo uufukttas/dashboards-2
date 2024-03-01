@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import ServicePointModalFormFirstPage from './ServicePointModalFormFirstPage';
 import ServicePointModalFormSecondPage from './ServicePointModalFormSecondPage';
 import ServicePointModalFormThirdPage from './ServicePointModalFormThirdPage';
 import ServicePointModalFormFourthPage from './ServicePointModalFormFourthPage';
+import { RootState } from '../../../app/redux/store';
 
 const ServicePointModalForm = () => {
+  const updatedServicePointData = useSelector((state: RootState) => state.updatedServicePointData.updatedServicePointData);
+  const updatedServicePointInfoData = useSelector((state: RootState) => state.updatedServicePointInfoData.updatedServicePointInfoData);
   const [activePage, setActivePage] = useState(1);
   const [cities, setCities] = useState<{ id: null; rid: number; plateCode: number; name: string; }[]>([]);
   const [districts, setDistricts] = useState<{ id: null; rid: number; name: string; plateCode: number; }[]>([]);
   const [formData, setFormData] = useState<{ [key: string]: string | number | boolean | string[] }>({});
   const [stationId, setStationId] = useState<number>(0);
+
+  console.log('updatedServicePointData', updatedServicePointData);
+  console.log('updatedServicePointInfoData', updatedServicePointInfoData);
 
   return (
     <div className="service-point-create-form-wrapper">
