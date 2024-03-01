@@ -21,7 +21,7 @@ export function Button({
       id={id}
       type={type}
       onClick={onClick}>
-      {buttonText ? buttonText : children }
+      {buttonText ? buttonText : children}
     </button>
   );
 };
