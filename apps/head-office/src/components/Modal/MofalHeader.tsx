@@ -11,20 +11,21 @@ interface IModalHeaderProps {
 const MofalHeader = ({ modalHeaderTitle }: IModalHeaderProps) => {
     const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
     const dispatch = useDispatch();
+
     const handleClose = () => {
         dispatch(toggleModalVisibility(isModalVisible));
     };
 
     return (
-        <div className="modal-header-title-container flex justify-between items-center border-b ">
-            <h3 className="modal-header-title text-lg font-semibold text-gray-900">
+        <div className="sh-modal-header-title-container flex justify-between items-center border-b">
+            <h3 className="sh-modal-header-title text-lg font-semibold text-gray-900">
                 {modalHeaderTitle}
             </h3>
-            <div className="modal-close-button-container">
+            <div className="sh-modal-close-button-container">
                 <Button
-                    className="modal-close-button text-sm p-1.5 ml-auto inline-flex items-center"
-                    onClick={handleClose}
+                    className="sh-modal-close-button text-sm p-1.5 ml-auto inline-flex items-center bg-white text-black hover:bg-white hover:text-black"
                     type='button'
+                    onClick={handleClose}
                 >
                     <CloseIcon />
                 </Button>
