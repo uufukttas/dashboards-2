@@ -5,15 +5,15 @@ interface IImageProps {
   src: string;
   srcset?: string;
   width?: number;
-}
+};
 
 export function Image({
-  alt = "sharz logo",
-  className = "",
-  height = 100,
-  src = "https://sharz.net/build/img/logo.svg",
-  srcset = "",
-  width = 100,
+  alt,
+  className,
+  height,
+  src,
+  srcset,
+  width,
 }: IImageProps) {
   return (
     <img
