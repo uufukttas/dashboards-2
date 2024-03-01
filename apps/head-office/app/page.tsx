@@ -11,10 +11,15 @@ import { RootState } from './redux/store';
 import { stylesProp } from '../src/constants/styles';
 import './page.css';
 
+interface ILoginFailedData {
+  isFailed: boolean;
+  message: string;
+};
+
 const Index = () => {
   const isLoading = useSelector((state: RootState) => state.loadingReducer.isLoading);
-  const [isDetectedDevice, setIsDetectedDevice] = useState(false);
-  const [loginFailedData, setLoginFailedData] = useState({ isFailed: false, message: '' });
+  const [isDetectedDevice, setIsDetectedDevice] = useState<boolean>(false);
+  const [loginFailedData, setLoginFailedData] = useState<ILoginFailedData>({ isFailed: false, message: '' });
 
   const closeAlert = () => {
     setLoginFailedData({ isFailed: false, message: '' });
@@ -32,8 +37,8 @@ const Index = () => {
         setLoginFailedData={setLoginFailedData}
       />
       <Background
-        className={detectDevice().isDesktop ? 'w-3/4' : 'hidden'}
         backgroundUrl={stylesProp.loginPageBackgroundImage}
+        className={detectDevice().isDesktop ? 'w-3/4' : 'hidden'}
       />
       {isLoading && (<Loading />)}
       {loginFailedData.isFailed && (
