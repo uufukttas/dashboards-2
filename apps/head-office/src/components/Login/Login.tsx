@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import axios from 'axios';
-import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { useForm, UseFormReturn } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { detectDevice } from '@projects/common';
@@ -12,14 +12,17 @@ import Card from '../Card/Card';
 import { userInfo } from '../../constants/styles';
 import { toggleLoading } from '../../../app/redux/features/isLoading';
 
+interface ILoginFailedDataProps {
+    isFailed: boolean;
+    message: string;
+};
+interface ILoginFormDataProps {
+    username: string;
+    password: string;
+};
 interface ILoginProps {
     closeAlert: () => void;
-    setLoginFailedData: (
-        data: {
-            isFailed: boolean;
-            message: string;
-        }
-    ) => void;
+    setLoginFailedData: (loginFailedDataProps: ILoginFailedDataProps) => void;
 };
 interface IRequestConfig {
     headers: {
@@ -27,54 +30,65 @@ interface IRequestConfig {
     };
 };
 
+const initialLoginFormData = {
+    username: '',
+    password: '',
+};
+
 const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
-    const loginInputs = ['Username', 'Password'];
-    const [loginFormData, setLoginFormData] = useState({ username: '', password: '' });
-    const router = useRouter();
+    const loginFormInputs = ['Username', 'Password'];
+    const [loginFormData, setLoginFormData] = useState<ILoginFormDataProps>(initialLoginFormData);
     const dispatch = useDispatch();
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { formState: { errors }, register, handleSubmit } = useForm<UseFormReturn>();
+    const router = useRouter();
 
     const fetchLoginData = async (data: string, config: IRequestConfig) => {
         try {
-            const requestResponse = await axios.post(process.env.LOGIN_URL || '', data, config);
+            await axios.post(
+                process.env.LOGIN_URL || '',
+                data,
+                config
+            ).then((response) => {
+                return response.data;
+            }).then((data) => {
+                dispatch(toggleLoading(true));
 
-            return requestResponse.data;
+                if (data.statusCode !== 200) {
+                    dispatch(toggleLoading(false));
+                    setLoginFailedData({
+                        isFailed: true,
+                        message: data.statusCode === 500 ? 'Hay aksi bir şeyler ters gitti...' : data.value.message,
+                    });
+                    setTimeout(() => {
+                        closeAlert();
+                    }, 5000);
+
+                    return;
+                }
+
+                dispatch(toggleLoading(false));
+
+                router.push('/dashboards');
+            }).catch((error) => {
+                console.log(error);
+            });
         } catch (error) {
             console.log(error);
         }
     };
 
     const handleLoginSubmit = async () => {
-        dispatch(toggleLoading(true));
-
-        const userLoginData = JSON.stringify({
+        const userLoginData = {
             'userName': loginFormData.username,
             'password': loginFormData.password,
-        });
+        };
         const requestConfig = {
             headers: {
                 'Content-Type': 'application/json',
             },
         };
-        const loginResponse = await fetchLoginData(userLoginData, requestConfig);
 
-        if (loginResponse.statusCode === 200) {
-            dispatch(toggleLoading(false));
-
-            router.push('/dashboards');
-        } else if (loginResponse.statusCode === 401) {
-            dispatch(toggleLoading(false));
-            setLoginFailedData({ isFailed: true, message: loginResponse.value.message });
-            setTimeout(() => {
-                closeAlert();
-            }, 5000);
-        } else {
-            dispatch(toggleLoading(false));
-            setLoginFailedData({ isFailed: true, message: 'Hay aksi. Bir şeyler ters gitti!' });
-            setTimeout(() => {
-                closeAlert();
-            }, 5000);
-        }
+        await fetchLoginData(JSON.stringify((userLoginData)), requestConfig);
     };
 
     const cardHeaderChildren = (
@@ -92,51 +106,55 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
             <div className="sh-card-form-container">
                 <form className="sh-card-form" onSubmit={handleSubmit(handleLoginSubmit)}>
                     {
-                        loginInputs.map((loginInput, index) => (
+                        loginFormInputs.map((loginFormInput: string[], index: number) => (
                             <div key={index} className="mb-4">
                                 <Label
-                                    className={`${loginInput.toLowerCase()}-label block text-sm font-medium text-gray-600`}
-                                    htmlFor={loginInput.toLowerCase()}
-                                    labelText={loginInput}
+                                    className={`${loginFormInput.toLowerCase()}-label block text-sm font-medium text-gray-600`}
+                                    htmlFor={loginFormInput.toLowerCase()}
+                                    labelText={loginFormInput === 'Username' ? 'Kullanıcı Adı' : 'Şifre'}
                                 />
                                 <Input
-                                    className={`${loginInput.toLowerCase()}-input mt-1 p-2 w-full border`}
-                                    id={loginInput.toLowerCase()}
-                                    name={loginInput.toLowerCase()}
-                                    register={register(loginInput.toLowerCase(), {
-                                        required: `${loginInput} is required`,
-                                        pattern: {
-                                            // TODO: Add pattern for username email // /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/
-                                            value: loginInput.toLowerCase() === 'username' ? /^.*$/ : /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$.*])/,
-                                            message: `${loginInput} is not valid.`,
-                                        },
-                                        validate: loginInput.toLowerCase() === 'password'
-                                            ? {
-                                                checkLength: (value) => value.length >= 8,
-                                                matchPattern: (value) =>
-                                                    /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.*-]).{8,}$/.test(
-                                                        value
-                                                    )
-                                            }
-                                            : {},
-                                        onChange: (event) => setLoginFormData({ ...loginFormData, [loginInput.toLowerCase()]: event.target.value }),
-                                    })}
-                                    type={loginInput.toLowerCase() === 'password' ? 'password' : 'text'}
-
+                                    className={`${loginFormInput.toLowerCase()}-input mt-1 p-2 w-full border`}
+                                    id={loginFormInput.toLowerCase()}
+                                    name={loginFormInput.toLowerCase()}
+                                    register={
+                                        register(loginFormInput.toLowerCase(), {
+                                            pattern: {
+                                                message: `Geçersiz ${loginFormInput}. girişi.`,
+                                                // TODO: Add pattern for username email if it need // /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/
+                                                value: loginFormInput.toLowerCase() === 'username'
+                                                    ? /^.*$/
+                                                    : /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$.*])/,
+                                            },
+                                            required: `${loginFormInput} zorunlu bir alandır.`,
+                                            validate: loginFormInput.toLowerCase() === 'password'
+                                                ? {
+                                                    checkLength: (value) => value.length >= 8,
+                                                    matchPattern: (value) => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.*-]).{8,}$/.test(value),
+                                                }
+                                                : {},
+                                            onChange: (event: React<InputElement>) => setLoginFormData({
+                                                ...loginFormData,
+                                                [loginFormInput.toLowerCase()]: event.target.value,
+                                            }),
+                                        })}
+                                    type={loginFormInput.toLowerCase() === 'password' ? 'password' : 'text'}
                                 />
-                                {errors[loginInput.toLowerCase()] && errors[loginInput.toLowerCase()]?.message && (
-                                    <div className={`${loginInput.toLowerCase()}-error-wrapper my-4 font-bold text-error`}>
-                                        <p className={`${loginInput.toLowerCase()}-error-message`}>
-                                            {(errors[loginInput.toLowerCase()]?.message?.toString())}
-                                        </p>
-                                    </div>
-                                )}
+                                {errors[loginFormInput.toLowerCase()] &&
+                                    errors[loginFormInput.toLowerCase()]?.message &&
+                                    (
+                                        <div className={`${loginFormInput.toLowerCase()}-error-wrapper my-4 font-bold text-error`}>
+                                            <p className={`${loginFormInput.toLowerCase()}-error-message`}>
+                                                {(errors[loginFormInput.toLowerCase()]?.message?.toString())}
+                                            </p>
+                                        </div>
+                                    )}
                             </div>
                         ))
                     }
                     <div className="mb-4">
                         <Button
-                            buttonText={'Login'}
+                            buttonText={'Giriş Yap'}
                             className={"button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline sh-login-button p-2 w-full"}
                             type={'submit'}
                         />
