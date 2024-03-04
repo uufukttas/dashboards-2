@@ -10,27 +10,28 @@ import { setUpdatedServicePointInfoData } from '../../../app/redux/features/upda
 import { RootState } from '../../../app/redux/store';
 import { CITIES, DISTRICTS } from '../../constants/city_districts';
 import './Table.css';
+import { PenIcon } from '@projects/icons';
 
-interface IUserProps {
-  user: {
+interface IServicePointProps {
+  servicePoint: {
     id: number;
     name: string;
-    type: string;
+    type?: string | null | undefined;
     longitude: number;
     latitude: number;
-    phone: string;
-    address: string;
+    phone?: string | null | undefined;
+    address?: string | null | undefined;
     cityId: number;
     districtId: number;
-    opportunities: string;
-    freePark: string;
-    paymentMethods: string;
+    opportunities?: string[] | null | undefined;
+    freePark?: string | null | undefined;
+    paymentMethods?: string[] | null | undefined;
   };
 };
 
 export function Table() {
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
-  const [users, setUsers] = useState([]);
+  const [servicePoints, setServicePoints] = useState([]);
   const [isHidden, setIsHidden] = useState(true);
   const [selectedRow, setSelectedRow] = useState(0);
   const dispatch = useDispatch();
@@ -53,14 +54,14 @@ export function Table() {
 
     setSelectedRow(id);
   };
-  const getUpdatedUserInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
-    const userIdAttr = event.currentTarget.getAttribute('data-user-id');
-    const userId = userIdAttr ? parseInt(userIdAttr) : NaN;
+  const getUpdatedServicePointsInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const servicePointIdAttr = event.currentTarget.getAttribute('data-service-point-id');
+    const servicePointId = servicePointIdAttr ? parseInt(servicePointIdAttr) : NaN;
 
     try {
       await axios.post(
         process.env.GET_STATION_BY_ID || '', ({
-          "id": userId
+          "id": servicePointId
         }))
         .then((response) => response.data)
         .then(response => {
@@ -73,7 +74,7 @@ export function Table() {
 
       await axios.post(
         process.env.GET_STATION_INFO_BY_ID || '', ({
-          "stationId": userId
+          "stationId": servicePointId
         }))
         .then((response) => response.data)
         .then(response => {
@@ -98,7 +99,7 @@ export function Table() {
       )
         .then((response) => response.data)
         .then(response => {
-          setUsers(response.data)
+          setServicePoints(response.data)
         })
         .catch((error) => {
           console.log(error);
@@ -109,29 +110,31 @@ export function Table() {
     }
   };
   const getCity = (rid: number) => {
-    return CITIES[rid.toString()];
+    return CITIES[rid?.toString()];
   };
   const getDistricts = (districtCode: number) => {
-    return DISTRICTS[districtCode.toString()];
+    return DISTRICTS[districtCode?.toString()];
   };
-  const createTableRow = ({ user }: IUserProps) => {
+  const createTableRow = ({ servicePoint }: IServicePointProps) => {
     return (
-      <Fragment key={user.id}>
-        <tr data-user-id={user.id}>
-          <td className='px-6 py-3'>{user.name}</td>
-          <td className='px-6 py-3'>{user.type}</td>
-          <td className='px-6 py-3'>{user.phone}</td>
-          <td className='px-6 py-3'>{user.address}</td>
-          <td className='px-6 py-3'>{getCity((user.cityId))}</td>
-          <td className='px-6 py-3'>{getDistricts(user.districtId)}</td>
-          <td className="px-6 py-4 items-center ">
-            <a data-modal-show="editUserModal" data-user-id={user.id} className="font-medium text-blue-600 cursor-pointer px-4" onClick={getUpdatedUserInfo}>Edit user</a>
-            <Button type="button" data-modal-show="editUserModal" className="font-medium text-blue-600" onClick={() => { toggleTableRow(user.id) }}>
-              <div dangerouslySetInnerHTML={{ __html: `${user.id === selectedRow ? '&#11205;' : '&#11206;'}` }} />
+      <Fragment key={servicePoint.id}>
+        <tr data-service-point-id={servicePoint.id}>
+          <td className='px-6 py-3'>{servicePoint.name}</td>
+          <td className='px-6 py-3'>{servicePoint.type}</td>
+          <td className='px-6 py-3'>{servicePoint.phone}</td>
+          <td className='px-6 py-3'>{servicePoint.address}</td>
+          <td className='px-6 py-3'>{getCity((servicePoint.cityId))}</td>
+          <td className='px-6 py-3'>{getDistricts(servicePoint.districtId)}</td>
+          <td className="px-6 py-4 items-center flex">
+            <a data-modal-show="editUserModal" data-service-point-id={servicePoint.id} className="font-medium text-blue-600 cursor-pointer px-4" onClick={getUpdatedServicePointsInfo}>
+              <PenIcon />
+            </a>
+            <Button type="button" data-modal-show="editUserModal" className="font-medium text-blue-600" onClick={() => { toggleTableRow(servicePoint.id) }}>
+              <div dangerouslySetInnerHTML={{ __html: `${servicePoint.id === selectedRow ? '&#11205;' : '&#11206;'}` }} />
             </Button>
           </td>
         </tr>
-        {user.id === selectedRow && (
+        {servicePoint.id === selectedRow && (
           <>
             <tr className='bg-gray-50'>
               <th className='px-6'>Longitude</th>
@@ -143,8 +146,8 @@ export function Table() {
               <th className='px-6'> </th>
             </tr>
             <tr>
-              <td className='px-6 py-3'>{user.longitude}</td>
-              <td className='px-6 py-3'>{user.latitude}</td>
+              <td className='px-6 py-3'>{servicePoint.longitude}</td>
+              <td className='px-6 py-3'>{servicePoint.latitude}</td>
             </tr>
           </>
         )}
@@ -156,13 +159,13 @@ export function Table() {
   };
 
   useEffect(() => {
-    if (users.length === 0) {
+    if (servicePoints.length === 0) {
       getFirstTenUsers();
     }
   }, [selectedRow]);
 
   return (
-    users?.length > 0 &&
+    servicePoints?.length > 0 &&
     <div className="sh-table-container relative overflow-x-auto shadow-md sm:rounded-lg max-w-[330px] md:max-w-full w-full">
       <div className="sh-table-wrapper flex flex-col items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white w-full md:flex-row">
         <div className="sh-table-actions w-4/5 md:w-1/6">
@@ -206,10 +209,10 @@ export function Table() {
         </thead>
         <tbody>
           {
-            users &&
-            users.map((user: { id: number, name: string, type: string, longitude: number, latitude: number, phone: string, address: string, city: number, district: number, paymentMethods: string, freePark: string, opportunities: string }) => {
+            servicePoints &&
+            servicePoints.map((servicePoint) => {
               return (
-                createTableRow({ user })
+                createTableRow({ servicePoint })
               )
             })
           }
