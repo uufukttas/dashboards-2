@@ -102,7 +102,7 @@ const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setA
 
   const createServicePointDetails = () => {
     axios.post(
-      'https://testapideneme.azurewebsites.net/StationInfo/AddStationInfo',
+      'https://sharztestapi.azurewebsites.net/StationInfo/AddStationInfo',
       JSON.stringify(createConfigData()),
       { headers: { 'Content-Type': 'application/json' } }
     ).then((response) => {

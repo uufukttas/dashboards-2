@@ -21,6 +21,8 @@ interface IModalPageInputs {
 };
 
 const ServicePointModalFormSecondPage = ({ activePage, cities, formData, setActivePage, setCities, setDistricts, setFormData }: IModalPageInputs) => {
+  const prefixSP = 'sh-service-point';
+  const formProperties = ['service-point-phone-number-1', 'service-point-phone-number-2', 'service-point-address'];
   const { formState: { errors }, handleSubmit, register } = useForm();
 
   const getCities = async () => {
@@ -60,64 +62,64 @@ const ServicePointModalFormSecondPage = ({ activePage, cities, formData, setActi
 
   return (
     <form className={`sh-modal-page-2 ${activePage === 2 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
-      <div className={`service-point-phone-numbers-container`}>
-        <Label htmlFor={`service-point-phone-number-1`} labelText={`Hizmet Noktasi Telefon Numarasi`} className={`block mb-2 text-sm font-medium text-gray-900`}>
+      <div className={`${prefixSP}-phone-numbers-container`}>
+        <Label htmlFor={`${formProperties[0]}`} labelText={`Hizmet Noktasi Telefon Numarasi`} className={`${prefixSP}-phone-number-1-label block mb-2 text-sm font-medium text-gray-900`}>
           <span className="text-md text-error">*</span>
         </Label>
         <Input
           ariaInvalid={true}
-          id={`service-point-phone-number-1`}
-          name={`service-point-phone-number-1`}
+          id={`${prefixSP}-phone-number-1`}
+          name={`${formProperties[0]}`}
           className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
           type={`number`}
           placeholder={`05551234567`}
-          register={register('service-point-phone-number-1', {
+          register={register(`${formProperties[0]}`, {
             required: `Telefon numarasi alani zorunludur.`,
             minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
             maxLength: { value: 11, message: 'En fazla 11 karakter girebilirsiniz.' },
-            value: formData['service-point-phone-number-1'],
+            value: formData[`${formProperties[0]}`],
             onChange: (event) => { setFormData({ ...formData, [event.target.name]: event.target.value }) },
           })}
         />
-        {errors['service-point-phone-number-1'] && errors['service-point-phone-number-1']?.message && (
+        {errors[`${formProperties[0]}`] && errors[`${formProperties[0]}`]?.message && (
           <div className={`service-point-phone-number-error-wrapper my-4 font-bold text-error`}>
             <p className={`service-point-phone-number-error-message`}>
-              {(errors['service-point-phone-number-1']?.message?.toString())}
+              {(errors[`${formProperties[0]}`]?.message?.toString())}
             </p>
           </div>
         )}
-        <Label htmlFor={`service-point-phone-number-2`} labelText={`Hizmet Noktasi Telefon Numarasi`} className={`block mb-2 text-sm font-medium text-gray-900`} />
+        <Label htmlFor={`${formProperties[1]}`} labelText={`Hizmet Noktasi Telefon Numarasi`} className={`block mb-2 text-sm font-medium text-gray-900`} />
         <Input
           ariaInvalid={true}
-          id={`service-point-phone-number-2`}
-          name={`service-point-phone-number-2`}
+          id={`${prefixSP}-phone-number-2`}
+          name={`${formProperties[1]}`}
           className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
           type={`number`}
           placeholder={`05551234567`}
-          value={formData['service-point-phone-number-2']?.toString()}
+          value={formData[`${formProperties[1]}`]?.toString()}
           onChange={(event) => { setFormData({ ...formData, [event.target.name]: event.target.value }) }}
         />
       </div>
-      <div className={`service-point-address-container`}>
+      <div className={`${prefixSP}-address-container`}>
         <Label htmlFor={`service-point-address`} labelText={'Hizmet Noktasi Adresi'} className={`block mb-2 text-sm font-medium text-gray-900`}>
           <span className="text-md text-error">*</span>
         </Label>
         <Textarea
-          id={'service-point-address'}
-          name={'service-point-address'}
+          id={`${formProperties[2]}`}
+          name={`${formProperties[2]}`}
           className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
           placeholder={'Cumhuriyet Mahallesi 123.Sokak...'}
-          register={register('service-point-address', {
+          register={register(`${formProperties[2]}`, {
             required: `Hizmet Noktasi Adresi zorunludur.`,
             minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
-            onChange: (event) => { setFormData({ ...formData, ['service-point-address']: event.target.value }) },
-            value: formData['service-point-address']
+            onChange: (event) => { setFormData({ ...formData, [`${formProperties[2]}`]: event.target.value }) },
+            value: formData[`${formProperties[2]}`]
           })}
         />
-        {errors['service-point-address'] && errors['service-point-address']?.message && (
+        {errors[`${formProperties[2]}`] && errors[`${formProperties[2]}`]?.message && (
           <div className={`service-point-address-error-wrapper my-4 font-bold text-error`}>
             <p className={`service-point-address-error-message`}>
-              {(errors['service-point-address']?.message?.toString())}
+              {(errors[`${formProperties[2]}`]?.message?.toString())}
             </p>
           </div>
         )}

@@ -13,9 +13,8 @@ export function ServicePointSection() {
       <div className="sh-service-point-table-container flex items-center w-full">
         <Table />
       </div>
-      {
-        isModalVisible &&
-        <Modal modalId={'sh-service-point-create-modal'}>
+      { isModalVisible &&
+        <Modal modalId={'sh-service-point-modal'}>
           <ServicePointModalForm />
         </Modal>
       }

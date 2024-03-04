@@ -1,26 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import ServicePointModalFormFirstPage from './ServicePointModalFormFirstPage';
-import ServicePointModalFormSecondPage from './ServicePointModalFormSecondPage';
-import ServicePointModalFormThirdPage from './ServicePointModalFormThirdPage';
-import ServicePointModalFormFourthPage from './ServicePointModalFormFourthPage';
+import ServicePointModalFormFirstPage from './ServicePointModalFormPages/ServicePointModalFormFirstPage';
+import ServicePointModalFormFourthPage from './ServicePointModalFormPages/ServicePointModalFormFourthPage';
+import ServicePointModalFormSecondPage from './ServicePointModalFormPages/ServicePointModalFormSecondPage';
+import ServicePointModalFormThirdPage from './ServicePointModalFormPages/ServicePointModalFormThirdPage';
 import { RootState } from '../../../app/redux/store';
 
 const ServicePointModalForm = () => {
   const updatedServicePointData = useSelector((state: RootState) => state.updatedServicePointData.updatedServicePointData);
-  const updatedServicePointInfoData = useSelector((state: RootState) => state.updatedServicePointInfoData.updatedServicePointInfoData);
   const [activePage, setActivePage] = useState(1);
   const [cities, setCities] = useState<{ id: null; rid: number; plateCode: number; name: string; }[]>([]);
   const [districts, setDistricts] = useState<{ id: null; rid: number; name: string; plateCode: number; }[]>([]);
   const [formData, setFormData] = useState<{ [key: string]: string | number | boolean | string[] }>({});
   const [stationId, setStationId] = useState<number>(0);
 
-  console.log('updatedServicePointData', updatedServicePointData);
-  console.log('updatedServicePointInfoData', updatedServicePointInfoData);
+  useEffect(() => {
+    console.log('updatedServicePointData', updatedServicePointData)
+    if (updatedServicePointData.id > 0) {
+      setFormData({
+        'service-point-name': updatedServicePointData.name,
+        'service-point-reseller': updatedServicePointData.resellerCompanyId,
+        'service-point-company': updatedServicePointData.companyId,
+      });
+    }
+console.log('formData', formData)
+  },[updatedServicePointData]);
 
   return (
-    <div className="service-point-create-form-wrapper">
-      <div className="service-point-create-modal-fieldset-container relative p-4 bg-white rounded-lg sm:p-5 max-h-[650px]">
+    <div className={`sh-service-point-${updatedServicePointData.id > 0 ? 'update' : 'create'}-form-wrapper`}>
+      <div className={`sh-service-point-${updatedServicePointData.id > 0 ? 'update' : 'create'}-modal-page-container relative p-4 bg-white rounded-lg sm:p-5 max-h-[650px]`}>
           {activePage === 1 &&
             <ServicePointModalFormFirstPage
               activePage={activePage}

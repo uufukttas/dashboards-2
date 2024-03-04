@@ -22,8 +22,9 @@ interface IModalPageInputs {
 
 const ServicePointModalFormThirdPage = ({ activePage, cities, districts, formData, setActivePage, setDistricts, setFormData }: IModalPageInputs) => {
   const { formState: { errors }, handleSubmit, register } = useForm();
-  const [selectedCity, setSelectedCity] = useState<number>(1);
-  const [selectedDistrict, setSelectedDistrict] = useState<number>(1);
+  const [selectedCity, setSelectedCity] = useState<number>(Number(formData['service-point-city']) || 1);
+  console.log('formData[service-point-district]', formData['service-point-district'])
+  const [selectedDistrict, setSelectedDistrict] = useState<number>(Number(formData['service-point-district']) || 1);
 
   const getDistricts = async (selectedCity: number) => {
     try {
@@ -32,7 +33,7 @@ const ServicePointModalFormThirdPage = ({ activePage, cities, districts, formDat
         { 'plateNumber': selectedCity }
       )
         .then((response) => response.data.data)
-        .then(data => { setDistricts(data); setSelectedDistrict(data[0].rid) });
+        .then(data => { setDistricts(data); Number(formData['service-point-district']) > 1 ? setSelectedDistrict(Number(formData['service-point-district'])) : setSelectedDistrict(data[0].rid) });
     } catch (error) {
       console.log(error);
     };
@@ -41,6 +42,7 @@ const ServicePointModalFormThirdPage = ({ activePage, cities, districts, formDat
   const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCity(Number(event.target.value));
     setFormData(({ ...formData, ['service-point-city']: event.target.value }));
+    console.log('selectedCity', selectedCity);
   };
 
   const handleDistrictChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -53,6 +55,9 @@ const ServicePointModalFormThirdPage = ({ activePage, cities, districts, formDat
 
   useEffect(() => {
     getDistricts(selectedCity);
+    console.log('selectedCity', selectedCity)
+    console.log('selectedDistrict', selectedDistrict)
+
     setFormData(({ ...formData, ['service-point-city']: selectedCity, ['service-point-district']: selectedDistrict }));
   }, [selectedCity, selectedDistrict]);
 
@@ -65,7 +70,9 @@ const ServicePointModalFormThirdPage = ({ activePage, cities, districts, formDat
           name={`service-point-city`}
           className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
           items={cities}
-          onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { handleCityChange(event) }}
+          onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { handleCityChange(event); }}
+          selectedValue={formData['service-point-city'] ? formData['service-point-city'].toString() : '0'}
+          value={formData[`service-point-city`]?.toString()}
         />
       </div>
       <div className={`service-point-district-container`}>
@@ -75,7 +82,9 @@ const ServicePointModalFormThirdPage = ({ activePage, cities, districts, formDat
           name={`service-point-district`}
           className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
           items={districts}
-          onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { handleDistrictChange(event) }}
+          onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { handleDistrictChange(event); }}
+          selectedValue={formData['service-point-district'] ? formData['service-point-district'].toString() : '0'}
+          value={formData[`service-point-district`]?.toString()}
         />
       </div>
       <div className={`service-point-coordinates-container flex justify-center items-center`}>
