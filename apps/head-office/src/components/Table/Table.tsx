@@ -6,6 +6,7 @@ import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { setUpdatedServicePointData } from '../../../app/redux/features/updatedServicePointData';
+import { setUpdatedServicePointInfoData } from '../../../app/redux/features/updatedServicePointInfoData';
 import { RootState } from '../../../app/redux/store';
 import { CITIES, DISTRICTS } from '../../constants/city_districts';
 import './Table.css';
@@ -28,11 +29,11 @@ interface IUserProps {
 };
 
 export function Table() {
-  const dispatch = useDispatch();
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
   const [users, setUsers] = useState([]);
   const [isHidden, setIsHidden] = useState(true);
   const [selectedRow, setSelectedRow] = useState(0);
+  const dispatch = useDispatch();
 
   const handleClick = (e: React.MouseEvent) => {
     dispatch(toggleModalVisibility(isModalVisible))
@@ -59,8 +60,8 @@ export function Table() {
     try {
       await axios.post(
         process.env.GET_STATION_BY_ID || '', ({
-        "id": userId
-      }))
+          "id": userId
+        }))
         .then((response) => response.data)
         .then(response => {
           dispatch(toggleModalVisibility(isModalVisible));
@@ -70,7 +71,18 @@ export function Table() {
           console.log(error);
         });
 
-        //GET_STATION_INFO_BY_ID
+      await axios.post(
+        process.env.GET_STATION_INFO_BY_ID || '', ({
+          "stationId": userId
+        }))
+        .then((response) => response.data)
+        .then(response => {
+          dispatch(setUpdatedServicePointInfoData(response.data[0]));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
     } catch (error) {
       console.error(error);
     }
@@ -102,7 +114,6 @@ export function Table() {
   const getDistricts = (districtCode: number) => {
     return DISTRICTS[districtCode.toString()];
   };
-
   const createTableRow = ({ user }: IUserProps) => {
     return (
       <Fragment key={user.id}>
