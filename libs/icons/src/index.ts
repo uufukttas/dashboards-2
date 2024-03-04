@@ -5,3 +5,4 @@ export { default as PersonIcon } from './person/person';
 export { default as FAQIcon } from './faq/faq';
 export { default as HamburgerMenuIcon } from './hamburgerMenu/hamburgerMenu'
 export { default as InfoIcon } from './info/info';
+export { default as PenIcon } from './pen/pen';
