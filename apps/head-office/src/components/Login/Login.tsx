@@ -10,6 +10,7 @@ import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import Card from '../Card/Card';
 import { userInfo } from '../../constants/styles';
+import { AppDispatch } from '../../../app/redux/store';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoading';
 
 interface ILoginFailedDataProps {
@@ -38,7 +39,7 @@ const initialLoginFormData = {
 const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
     const loginFormInputs= ['Username', 'Password'];
     const [loginFormData, setLoginFormData] = useState<ILoginFormDataProps>(initialLoginFormData);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const { formState: { errors }, register, handleSubmit } = useForm();
     const router = useRouter();
 
@@ -127,7 +128,7 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
                                                     ? /^.*$/
                                                     : /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$.*])/,
                                             },
-                                            required: `${loginFormInput} zorunlu bir alandır.`,
+                                            required: `${loginFormInput === 'Username' ? 'Kullanıcı Adı' : 'Şifre' } zorunlu bir alandır.`,
                                             validate: loginFormInput.toLowerCase() === 'password'
                                                 ? {
                                                     checkLength: (value) => value.length >= 8,
