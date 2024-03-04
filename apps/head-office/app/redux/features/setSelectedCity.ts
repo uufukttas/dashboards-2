@@ -1,11 +1,11 @@
 import { createSlice, Reducer } from "@reduxjs/toolkit";
 
 export type SelectedCityState = {
-    city: string;
+    cityId: string;
 };
 
 const initialState = {
-    city: '01',
+    cityId: '01',
 } as SelectedCityState;
 
 export const selectedCity = createSlice({
@@ -13,11 +13,11 @@ export const selectedCity = createSlice({
     initialState,
     reducers: {
         setSelectedCity: (state, action) => {
-            state.city = action.payload;
+            state.cityId = action.payload;
         },
     },
 });
 
 export const { setSelectedCity } = selectedCity.actions;
-export const getSelectedCity = (state: SelectedCityState) => state.city;
+export const getSelectedCity = (state: SelectedCityState) => state.cityId;
 export default selectedCity.reducer as Reducer<SelectedCityState>;

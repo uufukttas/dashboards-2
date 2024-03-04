@@ -5,8 +5,8 @@ interface ISelectedServicePoint {
     title: string;
     phoneNumbers: string[];
     address: string;
-    city: number;
-    district: number;
+    cityId: number;
+    districtId: number;
     paymentMethods: string[];
     freePark: boolean;
     opportunities: string[];

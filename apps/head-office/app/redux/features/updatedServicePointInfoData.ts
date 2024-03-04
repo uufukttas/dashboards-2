@@ -9,8 +9,8 @@ export type UpdatedServicePointInfoDataState = {
         latitude: number;
         phone: string[];
         address: string;
-        city: number;
-        district: number;
+        cityId: number;
+        districtId: number;
         opportunities: string;
         freePark: string;
         paymentMethods: string
@@ -26,8 +26,8 @@ const initialState = {
         latitude: 0,
         phone: [],
         address: '',
-        city: 0,
-        district: 0,
+        cityId: 0,
+        districtId: 0,
         opportunities: '',
         freePark: '',
         paymentMethods: ''
@@ -40,8 +40,8 @@ export const updatedServicePointInfoData = createSlice({
     reducers: {
         setUpdatedServicePointInfoData: (state, action) => {
             state.updatedServicePointInfoData.address = action.payload.Address;
-            state.updatedServicePointInfoData.city = action.payload.CityID;
-            state.updatedServicePointInfoData.district = action.payload.DistrictID;
+            state.updatedServicePointInfoData.cityId = action.payload.CityID;
+            state.updatedServicePointInfoData.districtId = action.payload.DistrictID;
             state.updatedServicePointInfoData.freePark = action.payload.freePark;
             state.updatedServicePointInfoData.id = action.payload.ID;
             state.updatedServicePointInfoData.latitude = action.payload.Lat;
