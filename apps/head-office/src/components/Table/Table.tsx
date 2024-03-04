@@ -20,8 +20,8 @@ interface IUserProps {
     latitude: number;
     phone: string;
     address: string;
-    city: number;
-    district: number;
+    cityId: number;
+    districtId: number;
     opportunities: string;
     freePark: string;
     paymentMethods: string;
@@ -92,7 +92,7 @@ export function Table() {
       await axios.post(
         (process.env.GET_ALL_SERVICE_POINTS || ''),
         ({
-          "pageNumber": 4,
+          "pageNumber": 45,
           "pageSize": 10
         })
       )
@@ -122,8 +122,8 @@ export function Table() {
           <td className='px-6 py-3'>{user.type}</td>
           <td className='px-6 py-3'>{user.phone}</td>
           <td className='px-6 py-3'>{user.address}</td>
-          <td className='px-6 py-3'>{getCity((user.city))}</td>
-          <td className='px-6 py-3'>{getDistricts(user.district)}</td>
+          <td className='px-6 py-3'>{getCity((user.cityId))}</td>
+          <td className='px-6 py-3'>{getDistricts(user.districtId)}</td>
           <td className="px-6 py-4 items-center ">
             <a data-modal-show="editUserModal" data-user-id={user.id} className="font-medium text-blue-600 cursor-pointer px-4" onClick={getUpdatedUserInfo}>Edit user</a>
             <Button type="button" data-modal-show="editUserModal" className="font-medium text-blue-600" onClick={() => { toggleTableRow(user.id) }}>
