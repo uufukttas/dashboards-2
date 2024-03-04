@@ -7,7 +7,7 @@ export type UpdatedServicePointInfoDataState = {
         type: string;
         longitude: number;
         latitude: number;
-        phone: string;
+        phone: string[];
         address: string;
         city: number;
         district: number;
@@ -24,7 +24,7 @@ const initialState = {
         type: '',
         longitude: 0,
         latitude: 0,
-        phone: '',
+        phone: [],
         address: '',
         city: 0,
         district: 0,
@@ -38,23 +38,23 @@ export const updatedServicePointInfoData = createSlice({
     name: "updatedServicePointInfoData",
     initialState,
     reducers: {
-        setUpdatedServicePointInfo: (state, action) => {
-            state.updatedServicePointInfoData.address = action.payload.address;
-            state.updatedServicePointInfoData.city = action.payload.city;
-            state.updatedServicePointInfoData.district = action.payload.district;
+        setUpdatedServicePointInfoData: (state, action) => {
+            state.updatedServicePointInfoData.address = action.payload.Address;
+            state.updatedServicePointInfoData.city = action.payload.CityID;
+            state.updatedServicePointInfoData.district = action.payload.DistrictID;
             state.updatedServicePointInfoData.freePark = action.payload.freePark;
-            state.updatedServicePointInfoData.id = action.payload.id;
-            state.updatedServicePointInfoData.latitude = action.payload.latitude;
-            state.updatedServicePointInfoData.longitude = action.payload.longitude;
+            state.updatedServicePointInfoData.id = action.payload.ID;
+            state.updatedServicePointInfoData.latitude = action.payload.Lat;
+            state.updatedServicePointInfoData.longitude = action.payload.Lon;
             state.updatedServicePointInfoData.name = action.payload.name;
             state.updatedServicePointInfoData.opportunities = action.payload.opportunities;
             state.updatedServicePointInfoData.paymentMethods = action.payload.paymentMethods;
-            state.updatedServicePointInfoData.phone = action.payload.phone;
+            state.updatedServicePointInfoData.phone = [action.payload.Phone1 + ',' + action.payload.Phone2];
             state.updatedServicePointInfoData.type = action.payload.type;
         },
     },
 });
 
-export const { setUpdatedServicePointInfo } = updatedServicePointInfoData.actions;
+export const { setUpdatedServicePointInfoData } = updatedServicePointInfoData.actions;
 export const getUpdatedServicePointInfoData = (state: { updatedServicePointInfoData: UpdatedServicePointInfoDataState }) => state.updatedServicePointInfoData.updatedServicePointInfoData;
 export default updatedServicePointInfoData.reducer as Reducer<UpdatedServicePointInfoDataState>;
