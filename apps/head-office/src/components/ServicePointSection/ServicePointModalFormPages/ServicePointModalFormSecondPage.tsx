@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { Textarea } from '@projects/textarea';
+import { RootState } from '../../../../app/redux/store';
 
 interface IFormData {
   [key: string]: string | number | boolean | string[];
@@ -21,6 +23,7 @@ interface IModalPageInputs {
 };
 
 const ServicePointModalFormSecondPage = ({ activePage, cities, formData, setActivePage, setCities, setDistricts, setFormData }: IModalPageInputs) => {
+  const updatedServicePointInfoData = useSelector((state: RootState) => state.updatedServicePointInfoData.updatedServicePointInfoData);
   const prefixSP = 'sh-service-point';
   const formProperties = ['service-point-phone-number-1', 'service-point-phone-number-2', 'service-point-address'];
   const { formState: { errors }, handleSubmit, register } = useForm();
@@ -58,7 +61,15 @@ const ServicePointModalFormSecondPage = ({ activePage, cities, formData, setActi
     if (cities.length === 0 && activePage === 2) {
       getCities();
     }
-  }, [cities, activePage]);
+
+    if (updatedServicePointInfoData.id > 0) {
+      setFormData({
+        ['service-point-phone-number-1']: updatedServicePointInfoData.phone[0].split(',')[0],
+        ['service-point-phone-number-2']: updatedServicePointInfoData.phone[0].split(',')[1],
+        ['service-point-address']: updatedServicePointInfoData.address,
+      });
+    }
+  }, [cities, activePage, updatedServicePointInfoData]);
 
   return (
     <form className={`sh-modal-page-2 ${activePage === 2 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
@@ -77,7 +88,7 @@ const ServicePointModalFormSecondPage = ({ activePage, cities, formData, setActi
             required: `Telefon numarasi alani zorunludur.`,
             minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
             maxLength: { value: 11, message: 'En fazla 11 karakter girebilirsiniz.' },
-            value: formData[`${formProperties[0]}`],
+            value: updatedServicePointInfoData.id > 0 ? updatedServicePointInfoData.phone[0].split(',')[0] : formData[`${formProperties[0]}`],
             onChange: (event) => { setFormData({ ...formData, [event.target.name]: event.target.value }) },
           })}
         />
@@ -113,8 +124,8 @@ const ServicePointModalFormSecondPage = ({ activePage, cities, formData, setActi
             required: `Hizmet Noktasi Adresi zorunludur.`,
             minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
             onChange: (event) => { setFormData({ ...formData, [`${formProperties[2]}`]: event.target.value }) },
-            value: formData[`${formProperties[2]}`]
           })}
+          value={formData[`${formProperties[2]}`]?.toString()}
         />
         {errors[`${formProperties[2]}`] && errors[`${formProperties[2]}`]?.message && (
           <div className={`service-point-address-error-wrapper my-4 font-bold text-error`}>

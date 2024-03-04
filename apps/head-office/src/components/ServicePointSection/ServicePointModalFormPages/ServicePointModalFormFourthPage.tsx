@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Label } from '@projects/label';
 import { Radio } from '@projects/radio';
 import { Checkbox } from '@projects/checkbox';
+import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import { RootState } from '../../../../app/redux/store';
 
 interface IFormData {
   [key: string]: string | number | boolean | string[];
@@ -20,6 +23,8 @@ interface IModalPageInputs {
 };
 
 const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setActivePage, setFormData }: IModalPageInputs) => {
+  const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
+  const dispatch = useDispatch();
   const { handleSubmit } = useForm();
   const paymentMethods = [
     {
@@ -102,11 +107,12 @@ const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setA
 
   const createServicePointDetails = () => {
     axios.post(
-      'https://sharztestapi.azurewebsites.net/StationInfo/AddStationInfo',
+      process.env.ADD_STATION_INFO_URL || '',
       JSON.stringify(createConfigData()),
       { headers: { 'Content-Type': 'application/json' } }
     ).then((response) => {
       console.log(response);
+      dispatch(toggleModalVisibility(isModalVisible));
     }).catch((error) => {
       console.log(error);
     });

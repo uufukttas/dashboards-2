@@ -25,8 +25,9 @@ interface IModalPageInputs {
 const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setActivePage, setFormData, setStationId }: IModalPageInputs) => {
   const prefixSP = 'sh-service-point';
   const formProperties = ['service-point-name', 'service-point-reseller', 'service-point-company'];
-  const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
+  // const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
   const updatedServicePointData = useSelector((state: RootState) => state.updatedServicePointData.updatedServicePointData);
+  // const updatedServicePointInfoData = useSelector((state: RootState) => state.updatedServicePointInfoData.updatedServicePointInfoData);
   const [companies, setCompanies] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const [resellers, setResellers] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const { formState: { errors }, handleSubmit, register } = useForm();
@@ -108,8 +109,6 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
     } catch (error) {
       console.error(error);
     };
-
-    console.log('formData', formData)
   };
 
   useEffect(() => {
@@ -118,9 +117,15 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
       getCompanies();
     }
 
-  }, [resellers, companies, updatedServicePointData, isModalVisible]);
+    if (updatedServicePointData.id > 0) {
+      setFormData({
+        [`${formProperties[0]}`]: updatedServicePointData.name,
+        [`${formProperties[1]}`]: updatedServicePointData.resellerCompanyId,
+        [`${formProperties[2]}`]: updatedServicePointData.companyId,
+      });
+    }
+  }, []);
 
-  console.log('formData[`${formProperties[0]}`]', formData[`${formProperties[0]}`])
   return (
     resellers && companies &&
     <form className={`sh-modal-form-page-1 ${activePage === 1 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
@@ -136,7 +141,7 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
           register={register(`${formProperties[0]}`, {
             minLength: { value: 3, message: 'En az 3 karakter girmelisiniz.' },
             required: `Hizmet Noktasi Ismi zorunludur.`,
-            value: formData[`${formProperties[0]}`],
+            value: updatedServicePointData.id > 0 ? updatedServicePointData.name : formData[`${formProperties[0]}`],
             onChange: (event: React.ChangeEvent<HTMLInputElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })) }
           })}
           type={`text`}
