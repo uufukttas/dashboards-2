@@ -18,7 +18,13 @@ module.exports = {
       },
     },
     colors: {
-      error: '#ef3e55',
+      primary: '#FCD800',
+      secondary: '#656567',
+      heading: '#0A0A0A',
+      text: '#0F0F0F',
+      error: '#E02424',
+      success: '#057A55',
+      info: '#1C64f2',
     }
   },
   plugins: [
