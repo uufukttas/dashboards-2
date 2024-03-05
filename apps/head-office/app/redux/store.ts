@@ -7,6 +7,7 @@ import updatedServicePointReducer from './features/selectedServicePoint'
 import isModalVisibleReducer from "./features/isModalVisible";
 import updatedServicePointData from "./features/updatedServicePointData";
 import updatedServicePointInfoData from "./features/updatedServicePointInfoData";
+import isAlertVisibleReducer from "./features/isAlertVisible";
 
 export const store: EnhancedStore = configureStore({
   reducer: {
@@ -18,6 +19,7 @@ export const store: EnhancedStore = configureStore({
     isModalVisibleReducer,
     updatedServicePointData,
     updatedServicePointInfoData,
+    isAlertVisibleReducer,
   },
   devTools: process.env.NODE_ENV !== "production",
 });
