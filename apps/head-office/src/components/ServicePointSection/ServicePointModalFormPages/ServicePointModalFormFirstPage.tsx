@@ -186,7 +186,7 @@ const ServicePointModalFormFirstPage = ({
       </div>
       <div className={`${prefixSP}-buttons-container flex flex-row-reverse`}>
         <Button
-          buttonText='Sonraki'
+          buttonText='Ileri'
           className={`${prefixSP}-submit-button bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`submit`}
         />

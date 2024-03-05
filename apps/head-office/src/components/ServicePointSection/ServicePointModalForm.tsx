@@ -9,7 +9,7 @@ import { RootState } from '../../../app/redux/store';
 const ServicePointModalForm = () => {
   const updatedServicePointData = useSelector((state: RootState) => state.updatedServicePointData.updatedServicePointData);
   const updatedServicePointInfoData = useSelector((state: RootState) => state.updatedServicePointInfoData.updatedServicePointInfoData);
-  const [activePage, setActivePage] = useState(1);
+  const [activePage, setActivePage] = useState(4);
   const [cities, setCities] = useState<{ id: null; rid: number; plateCode: number; name: string; }[]>([]);
   const [districts, setDistricts] = useState<{ id: null; rid: number; name: string; plateCode: number; }[]>([]);
   const [formData, setFormData] = useState<{ [key: string]: string | number | boolean | string[] }>({});

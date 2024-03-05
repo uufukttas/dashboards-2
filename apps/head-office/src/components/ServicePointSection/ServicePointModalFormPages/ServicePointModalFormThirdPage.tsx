@@ -150,7 +150,7 @@ const ServicePointModalFormThirdPage = ({ activePage, cities, districts, formDat
           onClick={() => setActivePage(activePage - 1)}
         />
         <Button
-          buttonText='Sonraki'
+          buttonText='Ileri'
           className={`${prefixSP}-next-button bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`submit`}
         />

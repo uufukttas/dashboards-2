@@ -22,10 +22,7 @@ interface IModalPageInputs {
 };
 
 const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setActivePage, setFormData }: IModalPageInputs) => {
-  const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
-  const updatedServicePointInfoData = useSelector((state: RootState) => state.updatedServicePointInfoData.updatedServicePointInfoData);
-  const dispatch = useDispatch();
-  const { handleSubmit } = useForm();
+  const formProperties = ['service-point-payment-methods', 'service-point-parking', 'service-point-opportunities'];
   const paymentMethods = [
     {
       name: 'Nakit',
@@ -46,6 +43,7 @@ const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setA
       rid: null
     }
   ];
+  const prefixSP = 'sh-service-point';
   const opportunities = [
     {
       name: 'AVM',
@@ -84,13 +82,13 @@ const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setA
       id: 9,
       rid: null
     }
-  ]
+  ];
+  const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
+  const updatedServicePointInfoData = useSelector((state: RootState) => state.updatedServicePointInfoData.updatedServicePointInfoData);
+  const dispatch = useDispatch();
+  const { handleSubmit } = useForm();
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
-    setCheckedItems({ ...checkedItems, [name.replace('service-point-opportunities-', '')]: checked });
-  };
 
   const createConfigData = () => {
     return ({
@@ -118,6 +116,10 @@ const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setA
     });
   };
 
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, checked } = event.target;
+    setCheckedItems({ ...checkedItems, [name.replace('service-point-opportunities-', '')]: checked });
+  };
   const handleFormSubmit: SubmitHandler<IFormData> = () => {
     console.log(stationId)
     const selectedItems = Object.keys(checkedItems).filter(key => checkedItems[key]);
@@ -137,57 +139,56 @@ const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setA
 
   return (
     <form className={`sh-modal-page-4 ${activePage === 4 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
-      <div className={`service-point-payment-methods-container`}>
-        <Label htmlFor={`service-point-payment-methods`} labelText={`Hizmet Noktasi Odeme Yontemleri`} className={`block mb-2 text-sm font-medium text-gray-900`} />
+      <div className={`${prefixSP}-payment-methods-container`}>
+        <Label className={`${prefixSP}-payment-methods-label block mb-2 text-sm font-medium text-gray-900`} htmlFor={`service-point-payment-methods`} labelText={`Hizmet Noktasi Odeme Yontemleri`} />
         <Dropdown
+          className={`${prefixSP}-payment-methods-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
           id={`service-point-payment-methods`}
-          name={`service-point-payment-methods`}
-          className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
           items={paymentMethods}
-
+          name={`service-point-payment-methods`}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })); }}
           selectedValue={formData['service-point-payment-methods']?.toString()}
           value={formData[`service-point-payment-methods`]?.toString()}
         />
       </div>
-      <div className={`service-point-parking-container`}>
-        <div className={`service-point-parking-header`}>
-          <h2 className="block mb-2 text-sm font-medium text-gray-900">Hizmet Noktasi Park Yeri</h2>
+      <div className={`${prefixSP}-parking-container`}>
+        <div className={`${prefixSP}-parking-header`}>
+          <h2 className={`${prefixSP}-parking-text block mb-2 text-sm font-medium text-gray-900`}>Hizmet Noktasi Park Yeri</h2>
         </div>
-        <div className="service-point-parking-inputs-container flex">
-          <div className="service-point-parking-option-container flex w-1/2 items-center mb-4">
-            <Label htmlFor={`service-point-parking-yes`} labelText={`Var`} className={`block mb-0 pr-4`} />
+        <div className={`${prefixSP}-parking-inputs-container flex`}>
+          <div className={`${prefixSP}-parking-option-container flex w-1/2 items-center mb-4`}>
+            <Label className={`${prefixSP}-parking-yes-label block mb-0 pr-4`} htmlFor={`${prefixSP}-parking-yes`} labelText={`Var`}  />
             <Radio
-              id={`service-point-parking-yes`}
-              name={`service-point-parking`}
-              className={`text-blue-500 text-sm block`}
+              className={`${prefixSP}-parking-input text-blue-500 text-sm block`}
+              id={`${prefixSP}-parking-yes`}
+              name={`${prefixSP}-parking`}
               onChange={(event) => { setFormData({ ...formData, [event.target.name]: (event.target.value === 'on' ? true : false) }) }}
             />
           </div>
-          <div className="service-point-parking-option-container flex w-1/2 items-center mb-4">
-            <Label htmlFor={`service-point-parking-no`} labelText={`Yok`} className={`block mb-0 pr-4`} />
+          <div className={`${prefixSP}-parking-option-container flex w-1/2 items-center mb-4`}>
+            <Label htmlFor={`${prefixSP}-parking-no`} labelText={`Yok`} className={`block mb-0 pr-4`} />
             <Radio
-              id={`service-point-parking-no`}
-              name={`service-point-parking`}
-              className={`text-blue-500 text-sm block`}
+              className={`${prefixSP}-parking-input text-blue-500 text-sm block`}
+              id={`${prefixSP}-parking-no`}
+              name={`${prefixSP}-parking`}
               onChange={(event) => { setFormData({ ...formData, [event.target.name]: (event.target.value === 'on' ? false : true) }) }}
             />
           </div>
         </div>
       </div>
 
-      <div className={`service-point-opportunities-container`}>
-        <div className={`service-point-opportunities-header`}>
+      <div className={`${prefixSP}-opportunities-container`}>
+        <div className={`${prefixSP}-opportunities-header`}>
           <h2 className="block mb-2 text-sm font-medium text-gray-900">Hizmet Noktasi Olanaklari</h2>
         </div>
-        <div className="service-point-opportunities-inputs-container flex flex-wrap">
+        <div className={`${prefixSP}-opportunities-inputs-container flex flex-wrap`}>
           {
             opportunities.map((opportunity, index) => (
-              <div className="service-point-opportunities-option-container flex items-center mb-4" key={index}>
-                <Label htmlFor={`service-point-opportunities-${opportunity.name}`} labelText={opportunity.name} className={`block mb-0 pr-4`} />
+              <div className={`${prefixSP}-opportunities-option-container flex items-center mb-4`} key={index}>
+                <Label htmlFor={`${prefixSP}-opportunities-${opportunity.name}`} labelText={opportunity.name} className={`block mb-0 pr-4`} />
                 <Checkbox
-                  id={`service-point-opportunities-${opportunity.name}`}
-                  name={`service-point-opportunities-${opportunity.name}`}
+                  id={`${prefixSP}-opportunities-${opportunity.name}`}
+                  name={`${prefixSP}-opportunities-${opportunity.name}`}
                   className={`text-blue-500 text-sm block mr-4`}
                   onChange={handleCheckboxChange}
                 />
@@ -197,16 +198,16 @@ const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setA
         </div>
       </div>
 
-      <div className={`service-point-buttons-container flex justify-between items-center`}>
+      <div className={`${prefixSP}-buttons-container flex justify-between items-center`}>
         <Button
           buttonText='Geri'
-          className={`bg-blue-500 border text-gray-900 text-sm rounded-lg block w-1/4 p-2.5`}
+          className={`${prefixSP}-next-button  bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`submit`}
           onClick={() => setActivePage(activePage - 1)}
         />
         <Button
           buttonText='Kaydet'
-          className={`bg-blue-500 border text-gray-900 text-sm rounded-lg block w-1/4 p-2.5`}
+          className={`${prefixSP}-submit-button  bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`submit`}
         />
       </div>
