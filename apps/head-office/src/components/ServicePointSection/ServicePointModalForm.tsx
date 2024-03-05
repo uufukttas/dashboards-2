@@ -17,7 +17,7 @@ const ServicePointModalForm = () => {
 
   return (
     <div className={`sh-service-point-${updatedServicePointData.id > 0 ? 'update' : 'create'}-form-wrapper`}>
-      <div className={`sh-service-point-${updatedServicePointData.id > 0 ? 'update' : 'create'}-modal-page-container relative p-4 bg-white rounded-lg sm:p-5 max-h-[650px]`}>
+      <div className={`sh-service-point-${updatedServicePointData.id > 0 ? 'update' : 'create'}-modal-page-container relative p-6 bg-white rounded-lg max-h-[650px]`}>
         {activePage === 1 &&
           <ServicePointModalFormFirstPage
             activePage={activePage}

@@ -18,7 +18,7 @@ const MofalHeader = ({ modalHeaderTitle }: IModalHeaderProps) => {
 
     return (
         <div className="sh-modal-header-title-container flex justify-between items-center border-b">
-            <h3 className="sh-modal-header-title text-lg font-semibold text-gray-900">
+            <h3 className="sh-modal-header-title text-lg font-bold text-heading">
                 {modalHeaderTitle}
             </h3>
             <div className="sh-modal-close-button-container">

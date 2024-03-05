@@ -124,11 +124,11 @@ const ServicePointModalFormFirstPage = ({
     companies && resellers &&
     <form className={`sh-modal-form-page-1 ${activePage === 1 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
       <div className={`${prefixSP}-name-container`}>
-        <Label className={`${prefixSP}-name-label block mb-2 text-sm font-medium text-gray-900`} htmlFor={`${formProperties[0]}`} labelText={`Hizmet Noktasi Ismi`}>
+        <Label className={`${prefixSP}-name-label block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[0]}`} labelText={`Hizmet Noktasi Ismi`}>
           <span className="text-md text-error">*</span>
         </Label>
         <Input
-          className={`${prefixSP}-name-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
+          className={`${prefixSP}-name-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
           disabled={stationId !== 0}
           id={`${prefixSP}-name`}
           name={`${formProperties[0]}`}
@@ -155,11 +155,11 @@ const ServicePointModalFormFirstPage = ({
         }
       </div>
       <div className={`${prefixSP}-reseller-container`}>
-        <Label className={`${prefixSP}-reseller-label block mb-2 text-sm font-medium text-gray-900`} htmlFor={`${formProperties[1]}`} labelText={`Hizmet Noktasi Bayi`}>
+        <Label className={`${prefixSP}-reseller-label block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[1]}`} labelText={`Hizmet Noktasi Bayi`}>
           <span className="text-md text-error">*</span>
         </Label>
         <Dropdown
-          className={`${prefixSP}-reserller-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
+          className={`${prefixSP}-reserller-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
           disabled={stationId !== 0}
           id={`${formProperties[1]}`}
           items={resellers}
@@ -170,11 +170,11 @@ const ServicePointModalFormFirstPage = ({
         />
       </div>
       <div className={`${prefixSP}-company-container`}>
-        <Label className={`${prefixSP}-company-label block mb-2 text-sm font-medium text-gray-900`} htmlFor={`${formProperties[2]}`} labelText={`Hizmet Noktasi Sirketi`}>
+        <Label className={`${prefixSP}-company-label block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[2]}`} labelText={`Hizmet Noktasi Sirketi`}>
           <span className="text-md text-error">*</span>
         </Label>
         <Dropdown
-          className={`${prefixSP}-company-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
+          className={`${prefixSP}-company-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
           disabled={stationId !== 0}
           id={`${formProperties[2]}`}
           items={companies}
@@ -184,10 +184,10 @@ const ServicePointModalFormFirstPage = ({
           value={formData[`${formProperties[2]}`]?.toString()}
         />
       </div>
-      <div className={`${prefixSP}-buttons-container`}>
+      <div className={`${prefixSP}-buttons-container flex flex-row-reverse`}>
         <Button
           buttonText='Sonraki'
-          className={`${prefixSP}-submit-button bg-blue-500 border text-gray-900 text-sm rounded-lg block w-full p-2.5`}
+          className={`${prefixSP}-submit-button bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`submit`}
         />
       </div>
