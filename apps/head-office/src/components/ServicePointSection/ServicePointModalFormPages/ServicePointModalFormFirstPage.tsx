@@ -6,6 +6,7 @@ import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
+import { toggleAlertVisibility } from '../../../../app/redux/features/isAlertVisible';
 import { setUpdatedServicePointData } from '../../../../app/redux/features/updatedServicePointData';
 import { RootState } from '../../../../app/redux/store';
 
@@ -30,33 +31,22 @@ const ServicePointModalFormFirstPage = ({
   setFormData,
   setStationId
 }: IModalPageInputs) => {
-  const formProperties = ['service-point-name', 'service-point-reseller', 'service-point-company'];
-  const prefixSP = 'sh-service-point';
-  const updatedServicePointData = useSelector((state: RootState) => {
-    return state.updatedServicePointData.updatedServicePointData;
-  });
+  const prefixBrand = 'sh';
+  const sectionPrefix = 'service-point';
+  const formProperties = ['name', 'reseller', 'company'];
+  const updatedServicePointData = useSelector((state: RootState) => state.updatedServicePointData.updatedServicePointData);
   const [companies, setCompanies] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const [resellers, setResellers] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const { formState: { errors }, handleSubmit, register } = useForm();
   const dispatch = useDispatch();
 
-  const createServicePointConfigData = () => {
-    const requestData = {
-      name: formData[`${formProperties[0]}`],
-      resellerCompanyId: Number(formData[`${formProperties[1]}`]),
-      companyId: Number(formData[`${formProperties[2]}`]),
-      isActive: true,
-    };
-
-    if (updatedServicePointData.id > 0) {
-      return {
-        id: updatedServicePointData.id,
-        ...requestData,
-      };
-    };
-
-    return requestData;
-  };
+  const createServicePointConfigData = () => ({
+    name: formData[`${sectionPrefix}-${formProperties[0]}`],
+    resellerCompanyId: Number(formData[`${sectionPrefix}-${formProperties[1]}`]) || resellers[0].id,
+    companyId: Number(formData[`${sectionPrefix}-${formProperties[2]}`]) || companies[0].id,
+    isActive: true,
+    ...(updatedServicePointData.id > 0 && { id: updatedServicePointData.id })
+  });
 
   const getDropdownItems = async (dropdownDataUrl: string) => {
     try {
@@ -89,7 +79,7 @@ const ServicePointModalFormFirstPage = ({
       await axios.post(
         actionURL,
         actionData,
-        { headers: { 'Content-Type': 'application/json' } })
+        { headers: { 'Content-Type': '' } })
         .then(response => response.data)
         .then(data => {
           updatedServicePointData.id === 0
@@ -98,9 +88,10 @@ const ServicePointModalFormFirstPage = ({
 
           setActivePage(activePage + 1);
         })
-        .catch(error => { console.error(error); }
+        .catch(error => { dispatch(toggleAlertVisibility(true)); console.error(error); }
         )
     } catch (error) {
+      dispatch(toggleAlertVisibility(true));
       console.error(error);
     };
   };
@@ -113,81 +104,105 @@ const ServicePointModalFormFirstPage = ({
 
     if (updatedServicePointData.id > 0) {
       setFormData({
-        [`${formProperties[0]}`]: updatedServicePointData.name,
-        [`${formProperties[1]}`]: updatedServicePointData.resellerCompanyId,
-        [`${formProperties[2]}`]: updatedServicePointData.companyId,
+        [`${sectionPrefix}-${formProperties[0]}`]: updatedServicePointData.name,
+        [`${sectionPrefix}-${formProperties[1]}`]: updatedServicePointData.resellerCompanyId,
+        [`${sectionPrefix}-${formProperties[2]}`]: updatedServicePointData.companyId,
       });
     }
   }, []);
 
   return (
     companies && resellers &&
-    <form className={`sh-modal-form-page-1 ${activePage === 1 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
-      <div className={`${prefixSP}-name-container`}>
-        <Label className={`${prefixSP}-name-label block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[0]}`} labelText={`Hizmet Noktasi Ismi`}>
+    <form className={`${prefixBrand}-modal-form-page-1 ${activePage === 1 ? 'block' : 'hidden'}`}
+      onSubmit={handleSubmit(handleFormSubmit)}>
+      <div className={`${sectionPrefix}-${formProperties[0]}-container`}>
+        <Label
+          className={`${sectionPrefix}-${formProperties[0]}-label block mb-2 text-heading font-semibold`}
+          htmlFor={`${sectionPrefix}-${formProperties[0]}`}
+          labelText={`Hizmet Noktasi Ismi`}>
           <span className="text-md text-error">*</span>
         </Label>
         <Input
-          className={`${prefixSP}-name-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
+          className={`${sectionPrefix}-${formProperties[0]}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
           disabled={stationId !== 0}
-          id={`${prefixSP}-name`}
-          name={`${formProperties[0]}`}
+          id={`${sectionPrefix}-${formProperties[0]}`}
+          name={`${sectionPrefix}-${formProperties[0]}`}
           register={
-            register(`${formProperties[0]}`, {
+            register(`${sectionPrefix}-${formProperties[0]}`, {
               minLength: {
                 value: 3,
                 message: 'En az 3 karakter girmelisiniz.'
               },
               required: `Hizmet Noktasi Ismi zorunludur.`,
-              value: updatedServicePointData.id > 0 ? updatedServicePointData.name : formData[`${formProperties[0]}`],
-              onChange: (event: React.ChangeEvent<HTMLInputElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })) }
+              value: updatedServicePointData.id > 0
+                ? updatedServicePointData.name
+                : formData[`${sectionPrefix}-${formProperties[0]}`],
+              onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                setFormData(({ ...formData, [event.target.name]: event.target.value }))
+              }
             })}
           type={`text`}
         />
         {
-          errors[`${formProperties[0]}`] && errors[`${formProperties[0]}`]?.message && (
-            <div className={`${prefixSP}-name-error-wrapper my-4 font-bold text-error`}>
-              <p className={`${prefixSP}-name-error-message`}>
-                {(errors[`${formProperties[0]}`]?.message?.toString())}
+          errors[`${sectionPrefix}-${formProperties[0]}`]
+          && errors[`${sectionPrefix}-${formProperties[0]}`]?.message
+          && (
+            <div className={`${sectionPrefix}-${formProperties[0]}-error-wrapper my-4 font-bold text-error`}>
+              <p className={`${sectionPrefix}-${formProperties[0]}-error-message`}>
+                {(errors[`${sectionPrefix}-${formProperties[0]}`]?.message?.toString())}
               </p>
             </div>
           )
         }
       </div>
-      <div className={`${prefixSP}-reseller-container`}>
-        <Label className={`${prefixSP}-reseller-label block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[1]}`} labelText={`Hizmet Noktasi Bayi`}>
+      <div className={`${sectionPrefix}-${formProperties[1]}-container`}>
+        <Label
+          className={`${sectionPrefix}-${formProperties[1]}-label block mb-2 text-heading font-semibold`}
+          htmlFor={`${sectionPrefix}-${formProperties[1]}`}
+          labelText={`Hizmet Noktasi Bayi`}>
           <span className="text-md text-error">*</span>
         </Label>
         <Dropdown
-          className={`${prefixSP}-reserller-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
+          className={`${sectionPrefix}-${formProperties[1]}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
           disabled={stationId !== 0}
-          id={`${formProperties[1]}`}
+          id={`${sectionPrefix}-${formProperties[1]}`}
           items={resellers}
-          name={`${formProperties[1]}`}
-          onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })); }}
-          selectedValue={updatedServicePointData.id > 0 ? updatedServicePointData['resellerCompanyId'].toString() : (stationId !== 0 ? formData[`${formProperties[1]}`]?.toString() : '')}
-          value={formData[`${formProperties[1]}`]?.toString()}
+          name={`${sectionPrefix}-${formProperties[1]}`}
+          onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
+            setFormData(({ ...formData, [event.target.name]: event.target.value }));
+          }}
+          selectedValue={updatedServicePointData.id > 0
+            ? updatedServicePointData['resellerCompanyId'].toString()
+            : (stationId !== 0 ? formData[`${sectionPrefix}-${formProperties[1]}`]?.toString() : resellers[0])}
+          value={formData[`${sectionPrefix}-${formProperties[1]}`]?.toString()}
         />
       </div>
-      <div className={`${prefixSP}-company-container`}>
-        <Label className={`${prefixSP}-company-label block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[2]}`} labelText={`Hizmet Noktasi Sirketi`}>
+      <div className={`${sectionPrefix}-${formProperties[2]}-container`}>
+        <Label
+          className={`${sectionPrefix}-${formProperties[2]}-label block mb-2 text-heading font-semibold`}
+          htmlFor={`${sectionPrefix}-${formProperties[2]}`}
+          labelText={`Hizmet Noktasi Sirketi`}>
           <span className="text-md text-error">*</span>
         </Label>
         <Dropdown
-          className={`${prefixSP}-company-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
+          className={`${sectionPrefix}-${formProperties[2]}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
           disabled={stationId !== 0}
-          id={`${formProperties[2]}`}
+          id={`${sectionPrefix}-${formProperties[2]}`}
           items={companies}
-          name={`${formProperties[2]}`}
-          onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })); }}
-          selectedValue={updatedServicePointData.id > 0 ? updatedServicePointData['companyId'].toString() : (stationId !== 0 ? formData[`${formProperties[2]}`]?.toString() : '')}
-          value={formData[`${formProperties[2]}`]?.toString()}
+          name={`${sectionPrefix}-${formProperties[2]}`}
+          onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
+            setFormData(({ ...formData, [event.target.name]: event.target.value }));
+          }}
+          selectedValue={updatedServicePointData.id > 0
+            ? updatedServicePointData['companyId'].toString()
+            : (stationId !== 0 ? formData[`${sectionPrefix}-${formProperties[2]}`]?.toString() : companies[0])}
+          value={formData[`${sectionPrefix}-${formProperties[2]}`]?.toString()}
         />
       </div>
-      <div className={`${prefixSP}-buttons-container flex flex-row-reverse`}>
+      <div className={`${sectionPrefix}-buttons-container flex flex-row-reverse`}>
         <Button
           buttonText='Ileri'
-          className={`${prefixSP}-submit-button bg-primary text-text text-sm rounded-lg block p-2.5`}
+          className={`${sectionPrefix}-submit-button bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`submit`}
         />
       </div>
