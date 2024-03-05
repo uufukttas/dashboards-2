@@ -12,8 +12,8 @@ export function Label({
   labelText
 }: ILabelProps) {
   return (
-    <label className={`block text-gray-700 text-sm font-bold mb-2 ${className}`} htmlFor={htmlFor}>
-      {labelText ? labelText : children}
+    <label className={`block text-sm mb-2 ${className}`} htmlFor={htmlFor}>
+      {labelText} {children}
     </label>
   );
 };
