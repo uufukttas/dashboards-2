@@ -23,9 +23,9 @@ interface IModalPageInputs {
 };
 
 const ServicePointModalFormSecondPage = ({ activePage, cities, formData, setActivePage, setCities, setDistricts, setFormData }: IModalPageInputs) => {
-  const updatedServicePointInfoData = useSelector((state: RootState) => state.updatedServicePointInfoData.updatedServicePointInfoData);
-  const prefixSP = 'sh-service-point';
   const formProperties = ['service-point-phone-number-1', 'service-point-phone-number-2', 'service-point-address'];
+  const prefixSP = 'sh-service-point';
+  const updatedServicePointInfoData = useSelector((state: RootState) => state.updatedServicePointInfoData.updatedServicePointInfoData);
   const { formState: { errors }, handleSubmit, register } = useForm();
 
   const getCities = async () => {
@@ -64,8 +64,8 @@ const ServicePointModalFormSecondPage = ({ activePage, cities, formData, setActi
 
     if (updatedServicePointInfoData.id > 0) {
       setFormData({
-        ['service-point-phone-number-1']: updatedServicePointInfoData.phone[0].split(',')[0],
-        ['service-point-phone-number-2']: updatedServicePointInfoData.phone[0].split(',')[1],
+        ['service-point-phone-number-1']: updatedServicePointInfoData.Phone1,
+        ['service-point-phone-number-2']: updatedServicePointInfoData.Phone2,
         ['service-point-address']: updatedServicePointInfoData.address,
       });
     }
@@ -74,23 +74,25 @@ const ServicePointModalFormSecondPage = ({ activePage, cities, formData, setActi
   return (
     <form className={`sh-modal-page-2 ${activePage === 2 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
       <div className={`${prefixSP}-phone-numbers-container`}>
-        <Label htmlFor={`${formProperties[0]}`} labelText={`Hizmet Noktasi Telefon Numarasi`} className={`${prefixSP}-phone-number-1-label block mb-2 text-sm font-medium text-gray-900`}>
+        <Label className={`${prefixSP}-phone-number-1-label block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[0]}`} labelText={`Hizmet Noktasi Birinci Telefon Numarasi`} >
           <span className="text-md text-error">*</span>
         </Label>
         <Input
-          ariaInvalid={true}
+          className={`${prefixSP}-phone-number-1-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
           id={`${prefixSP}-phone-number-1`}
           name={`${formProperties[0]}`}
-          className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+          placeholder={`0555 123 45 67`}
+          register={
+            register(`${formProperties[0]}`, {
+              required: `Telefon numarasi alani zorunludur.`,
+              minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
+              maxLength: { value: 11, message: 'En fazla 11 karakter girebilirsiniz.' },
+              value: updatedServicePointInfoData.id > 0
+                ? updatedServicePointInfoData.Phone1
+                : formData[`${formProperties[0]}`],
+              onChange: (event) => { setFormData({ ...formData, [event.target.name]: event.target.value }) },
+            })}
           type={`number`}
-          placeholder={`05551234567`}
-          register={register(`${formProperties[0]}`, {
-            required: `Telefon numarasi alani zorunludur.`,
-            minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
-            maxLength: { value: 11, message: 'En fazla 11 karakter girebilirsiniz.' },
-            value: updatedServicePointInfoData.id > 0 ? updatedServicePointInfoData.phone[0].split(',')[0] : formData[`${formProperties[0]}`],
-            onChange: (event) => { setFormData({ ...formData, [event.target.name]: event.target.value }) },
-          })}
         />
         {errors[`${formProperties[0]}`] && errors[`${formProperties[0]}`]?.message && (
           <div className={`service-point-phone-number-error-wrapper my-4 font-bold text-error`}>
@@ -99,32 +101,39 @@ const ServicePointModalFormSecondPage = ({ activePage, cities, formData, setActi
             </p>
           </div>
         )}
-        <Label htmlFor={`${formProperties[1]}`} labelText={`Hizmet Noktasi Telefon Numarasi`} className={`block mb-2 text-sm font-medium text-gray-900`} />
+        <Label className={`${prefixSP}-phone-number-2-input block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[1]}`} labelText={`Hizmet Noktasi Ikinci Telefon Numarasi`} />
         <Input
-          ariaInvalid={true}
+          className={`${prefixSP}-phone-number-2-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
           id={`${prefixSP}-phone-number-2`}
           name={`${formProperties[1]}`}
-          className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+          placeholder={`0555 123 45 67`}
+          register={
+            register(`${formProperties[1]}`, {
+              minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
+              maxLength: { value: 11, message: 'En fazla 11 karakter girebilirsiniz.' },
+              value: updatedServicePointInfoData.id > 0
+                ? updatedServicePointInfoData.Phone2
+                : formData[`${formProperties[1]}`],
+              onChange: (event) => { setFormData({ ...formData, [event.target.name]: event.target.value }) },
+            })}
           type={`number`}
-          placeholder={`05551234567`}
-          value={formData[`${formProperties[1]}`]?.toString()}
-          onChange={(event) => { setFormData({ ...formData, [event.target.name]: event.target.value }) }}
         />
       </div>
       <div className={`${prefixSP}-address-container`}>
-        <Label htmlFor={`service-point-address`} labelText={'Hizmet Noktasi Adresi'} className={`block mb-2 text-sm font-medium text-gray-900`}>
+        <Label className={`${prefixSP}-adress-input block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[2]}`} labelText={'Hizmet Noktasi Adresi'} >
           <span className="text-md text-error">*</span>
         </Label>
         <Textarea
+          className={`${prefixSP}-adress-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
           id={`${formProperties[2]}`}
           name={`${formProperties[2]}`}
-          className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
           placeholder={'Cumhuriyet Mahallesi 123.Sokak...'}
-          register={register(`${formProperties[2]}`, {
-            required: `Hizmet Noktasi Adresi zorunludur.`,
-            minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
-            onChange: (event) => { setFormData({ ...formData, [`${formProperties[2]}`]: event.target.value }) },
-          })}
+          register={
+            register(`${formProperties[2]}`, {
+              required: `Hizmet Noktasi Adresi zorunludur.`,
+              minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
+              onChange: (event) => { setFormData({ ...formData, [`${formProperties[2]}`]: event.target.value }) },
+            })}
           value={formData[`${formProperties[2]}`]?.toString()}
         />
         {errors[`${formProperties[2]}`] && errors[`${formProperties[2]}`]?.message && (
@@ -135,16 +144,16 @@ const ServicePointModalFormSecondPage = ({ activePage, cities, formData, setActi
           </div>
         )}
       </div>
-      <div className={`service-point-buttons-container flex justify-between items-center`}>
+      <div className={`${performance}-buttons-container flex justify-between items-center`}>
         <Button
           buttonText='Geri'
-          className={`bg-blue-500 border text-gray-900 text-sm rounded-lg block w-1/4 p-2.5`}
+          className={`${prefixSP}-prev-button bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`button`}
           onClick={() => setActivePage(activePage - 1)}
         />
         <Button
-          buttonText='Ileri'
-          className={`bg-blue-500 border text-gray-900 text-sm rounded-lg block w-1/4 p-2.5`}
+          buttonText='Sonraki'
+          className={`${prefixSP}-next-button bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`submit`}
         />
       </div>
