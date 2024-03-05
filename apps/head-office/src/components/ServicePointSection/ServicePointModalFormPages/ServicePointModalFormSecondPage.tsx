@@ -22,10 +22,21 @@ interface IModalPageInputs {
   setFormData: React.Dispatch<React.SetStateAction<IFormData>>;
 };
 
-const ServicePointModalFormSecondPage = ({ activePage, cities, formData, setActivePage, setCities, setDistricts, setFormData }: IModalPageInputs) => {
-  const formProperties = ['service-point-phone-number-1', 'service-point-phone-number-2', 'service-point-address'];
-  const prefixSP = 'sh-service-point';
-  const updatedServicePointInfoData = useSelector((state: RootState) => state.updatedServicePointInfoData.updatedServicePointInfoData);
+const ServicePointModalFormSecondPage = ({
+  activePage,
+  cities,
+  formData,
+  setActivePage,
+  setCities,
+  setDistricts,
+  setFormData
+}: IModalPageInputs) => {
+  const brandPrefix = 'sh';
+  const formProperties = ['phone-number-1', 'phone-number-2', 'address'];
+  const sectionPrefix = 'service-point';
+  const updatedServicePointInfoData = useSelector((state: RootState) => {
+    return state.updatedServicePointInfoData.updatedServicePointInfoData
+  });
   const { formState: { errors }, handleSubmit, register } = useForm();
 
   const getCities = async () => {
@@ -44,7 +55,7 @@ const ServicePointModalFormSecondPage = ({ activePage, cities, formData, setActi
     try {
       await axios.post(
         process.env.DISTRICT_URL || '',
-        { 'plateNumber': Number(formData['service-point-city'] || 1) }
+        { 'plateNumber': formData[`${sectionPrefix}-city`] }
       )
         .then((response) => response.data.data)
         .then(data => setDistricts(data));
@@ -64,96 +75,114 @@ const ServicePointModalFormSecondPage = ({ activePage, cities, formData, setActi
 
     if (updatedServicePointInfoData.id > 0) {
       setFormData({
-        [`${formProperties[0]}`]: updatedServicePointInfoData.Phone1,
-        [`${formProperties[1]}`]: updatedServicePointInfoData.Phone2,
-        [`${formProperties[2]}`]: updatedServicePointInfoData.address,
+        [`${sectionPrefix}-${formProperties[0]}`]: updatedServicePointInfoData.Phone1,
+        [`${sectionPrefix}-${formProperties[1]}`]: updatedServicePointInfoData.Phone2,
+        [`${sectionPrefix}-${formProperties[2]}`]: updatedServicePointInfoData.Address,
       });
     }
   }, [cities, activePage, updatedServicePointInfoData]);
 
   return (
-    <form className={`sh-modal-page-2 ${activePage === 2 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
-      <div className={`${prefixSP}-phone-numbers-container`}>
-        <Label className={`${prefixSP}-phone-number-1-label block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[0]}`} labelText={`Hizmet Noktasi Birinci Telefon Numarasi`} >
+    <form
+      className={`${brandPrefix}-modal-page-2 ${activePage === 2 ? 'block' : 'hidden'}`}
+      onSubmit={handleSubmit(handleFormSubmit)}>
+      <div className={`${sectionPrefix}-phone-numbers-container`}>
+        <Label
+          className={`${sectionPrefix}-${formProperties[0]}-label block mb-2 text-heading font-semibold`}
+          htmlFor={`${sectionPrefix}-${formProperties[0]}`}
+          labelText={`Hizmet Noktasi Birinci Telefon Numarasi`} >
           <span className="text-md text-error">*</span>
         </Label>
         <Input
-          className={`${prefixSP}-phone-number-1-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
-          id={`${prefixSP}-phone-number-1`}
-          name={`${formProperties[0]}`}
+          className={`${sectionPrefix}-${formProperties[0]}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
+          id={`${sectionPrefix}-${formProperties[0]}`}
+          name={`${sectionPrefix}-${formProperties[0]}`}
           placeholder={`0555 123 45 67`}
           register={
-            register(`${formProperties[0]}`, {
+            register(`${sectionPrefix}-${formProperties[0]}`, {
               required: `Telefon numarasi alani zorunludur.`,
               minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
               maxLength: { value: 11, message: 'En fazla 11 karakter girebilirsiniz.' },
               value: updatedServicePointInfoData.id > 0
                 ? updatedServicePointInfoData.Phone1
-                : formData[`${formProperties[0]}`],
+                : formData[`${sectionPrefix}-${formProperties[0]}`],
               onChange: (event) => { setFormData({ ...formData, [event.target.name]: event.target.value }) },
             })}
           type={`number`}
         />
-        {errors[`${formProperties[0]}`] && errors[`${formProperties[0]}`]?.message && (
-          <div className={`service-point-phone-number-error-wrapper my-4 font-bold text-error`}>
-            <p className={`service-point-phone-number-error-message`}>
-              {(errors[`${formProperties[0]}`]?.message?.toString())}
-            </p>
-          </div>
-        )}
-        <Label className={`${prefixSP}-phone-number-2-input block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[1]}`} labelText={`Hizmet Noktasi Ikinci Telefon Numarasi`} />
+        {
+          errors[`${sectionPrefix}-${formProperties[0]}`]
+          && errors[`${sectionPrefix}-${formProperties[0]}`]?.message
+          && (
+            <div className={`${sectionPrefix}-phone-number-error-wrapper my-4 font-bold text-error`}>
+              <p className={`${sectionPrefix}-phone-number-error-message`}>
+                {(errors[`${sectionPrefix}-${formProperties[0]}`]?.message?.toString())}
+              </p>
+            </div>
+          )}
+        <Label
+          className={`${sectionPrefix}-${formProperties[1]}-input block mb-2 text-heading font-semibold`}
+          htmlFor={`${sectionPrefix}-${formProperties[1]}`}
+          labelText={`Hizmet Noktasi Ikinci Telefon Numarasi`} />
         <Input
-          className={`${prefixSP}-phone-number-2-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
-          id={`${prefixSP}-phone-number-2`}
-          name={`${formProperties[1]}`}
+          className={`${sectionPrefix}-${formProperties[1]}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
+          id={`${sectionPrefix}-${formProperties[1]}`}
+          name={`${sectionPrefix}${formProperties[1]}`}
           placeholder={`0555 123 45 67`}
           register={
-            register(`${formProperties[1]}`, {
+            register(`${sectionPrefix}-${formProperties[1]}`, {
               minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
               maxLength: { value: 11, message: 'En fazla 11 karakter girebilirsiniz.' },
               value: updatedServicePointInfoData.id > 0
                 ? updatedServicePointInfoData.Phone2
-                : formData[`${formProperties[1]}`],
+                : formData[`${sectionPrefix}-${formProperties[1]}`],
               onChange: (event) => { setFormData({ ...formData, [event.target.name]: event.target.value }) },
             })}
           type={`number`}
         />
       </div>
-      <div className={`${prefixSP}-address-container`}>
-        <Label className={`${prefixSP}-adress-input block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[2]}`} labelText={'Hizmet Noktasi Adresi'} >
+      <div className={`${sectionPrefix}-${formProperties[2]}-container`}>
+        <Label
+          className={`${sectionPrefix}-adress-input block mb-2 text-heading font-semibold`}
+          htmlFor={`${sectionPrefix}-${formProperties[2]}`}
+          labelText={'Hizmet Noktasi Adresi'} >
           <span className="text-md text-error">*</span>
         </Label>
         <Textarea
-          className={`${prefixSP}-adress-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
-          id={`${formProperties[2]}`}
-          name={`${formProperties[2]}`}
+          className={`${sectionPrefix}-${formProperties[2]}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
+          id={`${sectionPrefix}-${formProperties[2]}`}
+          name={`${sectionPrefix}-${formProperties[2]}`}
           placeholder={'Cumhuriyet Mahallesi 123.Sokak...'}
           register={
-            register(`${formProperties[2]}`, {
+            register(`${sectionPrefix}-${formProperties[2]}`, {
               required: `Hizmet Noktasi Adresi zorunludur.`,
               minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
-              onChange: (event) => { setFormData({ ...formData, [`${formProperties[2]}`]: event.target.value }) },
+              onChange: (event) => {
+                setFormData({ ...formData, [`${sectionPrefix}-${formProperties[2]}`]: event.target.value })
+              },
             })}
-          value={formData[`${formProperties[2]}`]?.toString()}
+          value={formData[`${sectionPrefix}-${formProperties[2]}`]?.toString()}
         />
-        {errors[`${formProperties[2]}`] && errors[`${formProperties[2]}`]?.message && (
-          <div className={`${formProperties[2]}-error-wrapper my-4 font-bold text-error`}>
-            <p className={`${formProperties[2]}-error-message`}>
-              {(errors[`${formProperties[2]}`]?.message?.toString())}
-            </p>
-          </div>
-        )}
+        {errors[`${sectionPrefix}-${formProperties[2]}`]
+          && errors[`${sectionPrefix}-${formProperties[2]}`]?.message
+          && (
+            <div className={`${sectionPrefix}-${formProperties[2]}-error-wrapper my-4 font-bold text-error`}>
+              <p className={`${sectionPrefix}-${formProperties[2]}-error-message`}>
+                {(errors[`${sectionPrefix}-${formProperties[2]}`]?.message?.toString())}
+              </p>
+            </div>
+          )}
       </div>
-      <div className={`${prefixSP}-buttons-container flex justify-between items-center`}>
+      <div className={`${sectionPrefix}-buttons-container flex justify-between items-center`}>
         <Button
           buttonText='Geri'
-          className={`${prefixSP}-prev-button bg-primary text-text text-sm rounded-lg block p-2.5`}
+          className={`${sectionPrefix}-prev-button bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`button`}
           onClick={() => setActivePage(activePage - 1)}
         />
         <Button
           buttonText='Ileri'
-          className={`${prefixSP}-next-button bg-primary text-text text-sm rounded-lg block p-2.5`}
+          className={`${sectionPrefix}-next-button bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`submit`}
         />
       </div>

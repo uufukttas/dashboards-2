@@ -22,12 +22,23 @@ interface IModalPageInputs {
   setFormData: React.Dispatch<React.SetStateAction<IFormData>>;
 };
 
-const ServicePointModalFormThirdPage = ({ activePage, cities, districts, formData, setActivePage, setDistricts, setFormData }: IModalPageInputs) => {
-  const formProperties = ['service-point-city', 'service-point-district', 'service-point-x-coord', 'service-point-y-coord'];
-  const prefixSP = 'sh-service-point';
-  const updatedServicePointInfoData = useSelector((state: RootState) => state.updatedServicePointInfoData.updatedServicePointInfoData);
+const ServicePointModalFormThirdPage = ({
+  activePage,
+  cities,
+  districts,
+  formData,
+  setActivePage,
+  setDistricts,
+  setFormData
+}: IModalPageInputs) => {
+  const brandPrefix = 'sh';
+  const formProperties = ['city', 'district', 'x-coord', 'y-coord'];
+  const sectionPrefix = 'service-point';
   const [selectedCity, setSelectedCity] = useState<number>(Number(formData[`${formProperties[0]}`]) || 1);
   const [selectedDistrict, setSelectedDistrict] = useState<number>(Number(formData[`${formProperties[1]}`]) || 1);
+  const updatedServicePointInfoData = useSelector((state: RootState) => {
+    return state.updatedServicePointInfoData.updatedServicePointInfoData
+  });
   const { formState: { errors }, handleSubmit, register } = useForm();
 
   const getDistricts = async (selectedCity: number) => {
@@ -39,7 +50,9 @@ const ServicePointModalFormThirdPage = ({ activePage, cities, districts, formDat
         .then((response) => response.data.data)
         .then(data => {
           setDistricts(data);
-          updatedServicePointInfoData.districtId > 1 ? setSelectedDistrict(updatedServicePointInfoData.districtId) : setSelectedDistrict(data[0].rid);
+          updatedServicePointInfoData.districtId > 1
+            ? setSelectedDistrict(updatedServicePointInfoData.districtId)
+            : setSelectedDistrict(data[0].rid);
         });
     } catch (error) {
       console.log(error);
@@ -61,80 +74,109 @@ const ServicePointModalFormThirdPage = ({ activePage, cities, districts, formDat
 
   useEffect(() => {
     setFormData({
-      [`${formProperties[0]}`]: updatedServicePointInfoData.id > 0 ? updatedServicePointInfoData.cityId : selectedCity,
-      [`${formProperties[1]}`]: updatedServicePointInfoData.id > 0 ? updatedServicePointInfoData.districtId : selectedDistrict,
+      [`${formProperties[0]}`]: updatedServicePointInfoData.id > 0
+        ? updatedServicePointInfoData.cityId
+        : selectedCity,
+      [`${formProperties[1]}`]: updatedServicePointInfoData.id > 0
+        ? updatedServicePointInfoData.districtId
+        : selectedDistrict,
     });
 
     getDistricts(selectedCity);
   }, [selectedCity, selectedDistrict]);
 
   return (
-    <form className={`sh-modal-page-3 ${activePage === 3 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
-      <div className={`${prefixSP}-city-container`}>
-        <Label className={`${prefixSP}-city-label block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[0]}`} labelText={`Hizmet Noktasi İl`}  />
+    <form
+      className={`${brandPrefix}-modal-page-3 ${activePage === 3 ? 'block' : 'hidden'}`}
+      onSubmit={handleSubmit(handleFormSubmit)}>
+      <div className={`${sectionPrefix}-${formProperties[0]}-container`}>
+        <Label
+          className={`${sectionPrefix}-${formProperties[0]}-label block mb-2 text-heading font-semibold`}
+          htmlFor={`${sectionPrefix}-${formProperties[0]}`}
+          labelText={`Hizmet Noktasi İl`} />
         <Dropdown
-          className={`${prefixSP}-city-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
-          id={`${prefixSP}-city`}
+          className={`${sectionPrefix}-${formProperties[0]}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
+          id={`${sectionPrefix}-${formProperties[0]}`}
           items={cities}
-          name={`${formProperties[0]}`}
+          name={`${sectionPrefix}-${formProperties[0]}`}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { handleCityChange(event); }}
-          selectedValue={updatedServicePointInfoData?.cityId?.toString() || formData[`${formProperties[0]}`]?.toString() || '0'}
-          value={formData[`${formProperties[0]}`]?.toString()}
+          selectedValue={
+            updatedServicePointInfoData?.cityId?.toString()
+            || formData[`${sectionPrefix}-${formProperties[0]}`]?.toString()
+            || '0'}
+          value={formData[`${sectionPrefix}-${formProperties[0]}`]?.toString()}
         />
       </div>
-      <div className={`${prefixSP}-district-container`}>
-        <Label className={`${prefixSP}-district-label block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[1]}`} labelText={`Hizmet Noktasi İlcesi`}  />
+      <div className={`${sectionPrefix}-${formProperties[1]}-container`}>
+        <Label
+          className={`${sectionPrefix}-${formProperties[1]}-label block mb-2 text-heading font-semibold`}
+          htmlFor={`${sectionPrefix}-${formProperties[1]}`}
+          labelText={`Hizmet Noktasi İlcesi`} />
         <Dropdown
-          className={`${prefixSP}-district-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
-          id={`${prefixSP}-district`}
+          className={`${sectionPrefix}-${formProperties[1]}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
+          id={`${sectionPrefix}-${formProperties[1]}`}
           items={districts}
-          name={`${formProperties[1]}`}
+          name={`${sectionPrefix}-${formProperties[1]}`}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { handleDistrictChange(event); }}
           selectedValue={formData[`${formProperties[1]}`]?.toString() || '0'}
-          value={formData[`${formProperties[1]}`]?.toString()}
+          value={formData[`${sectionPrefix}-${formProperties[1]}`]?.toString()}
         />
       </div>
-      <div className={`service-point-coordinates-container flex justify-center items-center`}>
-        <div className={`${prefixSP}-x-coord-container w-1/2 flex flex-col justify-center `}>
-          <Label className={`${prefixSP}-x-coord-label block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[2]}`} labelText={`Hizmet Noktasi X Koordinati`}  />
+      <div className={`${sectionPrefix}-coordinates-container flex justify-center items-center`}>
+        <div className={`${sectionPrefix}-${formProperties[2]}-container w-1/2 flex flex-col justify-center `}>
+          <Label
+            className={`${sectionPrefix}-${formProperties[2]}-label block mb-2 text-heading font-semibold`}
+            htmlFor={`${sectionPrefix}-${formProperties[2]}`}
+            labelText={`Hizmet Noktasi X Koordinati`} />
           <Input
-            id={`${prefixSP}-x-coord`}
-            name={`${formProperties[2]}`}
-            className={`${prefixSP}-x-coord-input text-text text-sm rounded-lg block w-3/4 p-2.5 mb-4`}
-            type={`text`}
-            register={register(`${formProperties[2]}`, {
+            className={`${sectionPrefix}-${formProperties[2]}-input text-text text-sm rounded-lg block w-3/4 p-2.5 mb-4`}
+            id={`${sectionPrefix}-${formProperties[2]}`}
+            name={`${sectionPrefix}-${formProperties[2]}`}
+            register={register(`${sectionPrefix}-${formProperties[2]}`, {
               required: `Hizmet Noktasi X Koordinati zorunludur.`,
-              value: updatedServicePointInfoData?.longitude || formData[`${formProperties[2]}`],
-              onChange: (event: React.ChangeEvent<HTMLInputElement>): void => { setFormData(({ ...formData, [event.target.name]: Number(event.target.value) })) }
+              value: updatedServicePointInfoData?.longitude || formData[`${sectionPrefix}-${formProperties[2]}`],
+              onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                setFormData(({ ...formData, [event.target.name]: Number(event.target.value) }));
+              }
             })}
+            type={`text`}
           />
           {
-            errors[`${formProperties[2]}`] && errors[`${formProperties[2]}`]?.message && (
-              <div className={`${formProperties[2]}-error-wrapper mb-4 font-bold text-error`}>
-                <p className={`${formProperties[2]}-error-message`}>
+            errors[`${sectionPrefix}-${formProperties[2]}`]
+            && errors[`${sectionPrefix}-${formProperties[2]}`]?.message
+            && (
+              <div className={`${sectionPrefix}-${formProperties[2]}-error-wrapper mb-4 font-bold text-error`}>
+                <p className={`${sectionPrefix}-${formProperties[2]}-error-message`}>
                   {'X-Koordinatı zorunludur.'}
                 </p>
               </div>
             )
           }
         </div>
-        <div className={`${prefixSP}-y-coord-container w-1/2 flex flex-col items-end`}>
-          <Label className={`${prefixSP}-y-coord-label block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[3]}`} labelText={`Hizmet Noktasi Y Koordinati`}  />
+        <div className={`${sectionPrefix}-${formProperties[3]}-container w-1/2 flex flex-col items-end`}>
+          <Label
+            className={`${sectionPrefix}-${formProperties[3]}-label block mb-2 text-heading font-semibold`}
+            htmlFor={`${sectionPrefix}-${formProperties[3]}`}
+            labelText={`Hizmet Noktasi Y Koordinati`} />
           <Input
-            id={`${prefixSP}-y-coord`}
-            name={`${formProperties[3]}`}
-            className={`${prefixSP}-y-coord-input text-text text-sm rounded-lg block w-3/4 p-2.5 mb-4`}
-            type={`text`}
-            register={register(`${formProperties[3]}`, {
+            className={`${sectionPrefix}-${formProperties[3]}-input text-text text-sm rounded-lg block w-3/4 p-2.5 mb-4`}
+            id={`${sectionPrefix}-${formProperties[3]}`}
+            name={`${sectionPrefix}-${formProperties[3]}`}
+            register={register(`${sectionPrefix}-${formProperties[3]}`, {
               required: `Hizmet Noktasi Y Koordinati zorunludur.`,
-              value: updatedServicePointInfoData?.latitude || formData[`${formProperties[3]}`],
-              onChange: (event: React.ChangeEvent<HTMLInputElement>): void => { setFormData(({ ...formData, [event.target.name]: Number(event.target.value) })) }
+              value: updatedServicePointInfoData?.latitude || formData[`${sectionPrefix}-${formProperties[3]}`],
+              onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                setFormData(({ ...formData, [event.target.name]: Number(event.target.value) }));
+              }
             })}
+            type={`text`}
           />
           {
-            errors[`${formProperties[3]}`] && errors[`${formProperties[3]}`]?.message && (
-              <div className={`${formProperties[3]}-error-wrapper mb-4 font-bold text-error`}>
-                <p className={`${formProperties[3]}-error-message`}>
+            errors[`${sectionPrefix}-${formProperties[3]}`]
+            && errors[`${sectionPrefix}-${formProperties[3]}`]?.message
+            && (
+              <div className={`${sectionPrefix}-${formProperties[3]}-error-wrapper mb-4 font-bold text-error`}>
+                <p className={`${sectionPrefix}-${formProperties[3]}-error-message`}>
                   {'Y-Koordinatı zorunludur.'}
                 </p>
               </div>
@@ -142,16 +184,16 @@ const ServicePointModalFormThirdPage = ({ activePage, cities, districts, formDat
           }
         </div>
       </div>
-      <div className={`${prefixSP}-buttons-container flex justify-between items-center`}>
+      <div className={`${sectionPrefix}-buttons-container flex justify-between items-center`}>
         <Button
           buttonText='Geri'
-          className={`${prefixSP}-prev-button bg-primary text-text text-sm rounded-lg block p-2.5`}
+          className={`${sectionPrefix}-prev-button bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`button`}
           onClick={() => setActivePage(activePage - 1)}
         />
         <Button
           buttonText='Ileri'
-          className={`${prefixSP}-next-button bg-primary text-text text-sm rounded-lg block p-2.5`}
+          className={`${sectionPrefix}-next-button bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`submit`}
         />
       </div>

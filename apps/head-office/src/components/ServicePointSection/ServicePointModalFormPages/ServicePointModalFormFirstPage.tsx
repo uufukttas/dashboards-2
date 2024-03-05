@@ -31,10 +31,12 @@ const ServicePointModalFormFirstPage = ({
   setFormData,
   setStationId
 }: IModalPageInputs) => {
-  const prefixBrand = 'sh';
-  const sectionPrefix = 'service-point';
+  const brandPrefix = 'sh';
   const formProperties = ['name', 'reseller', 'company'];
-  const updatedServicePointData = useSelector((state: RootState) => state.updatedServicePointData.updatedServicePointData);
+  const sectionPrefix = 'service-point';
+  const updatedServicePointData = useSelector((state: RootState) => {
+    return state.updatedServicePointData.updatedServicePointData
+  });
   const [companies, setCompanies] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const [resellers, setResellers] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const { formState: { errors }, handleSubmit, register } = useForm();
@@ -113,7 +115,7 @@ const ServicePointModalFormFirstPage = ({
 
   return (
     companies && resellers &&
-    <form className={`${prefixBrand}-modal-form-page-1 ${activePage === 1 ? 'block' : 'hidden'}`}
+    <form className={`${brandPrefix}-modal-form-page-1 ${activePage === 1 ? 'block' : 'hidden'}`}
       onSubmit={handleSubmit(handleFormSubmit)}>
       <div className={`${sectionPrefix}-${formProperties[0]}-container`}>
         <Label
