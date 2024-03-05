@@ -2,6 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from "@projects/button";
+import { PenIcon, TrashIcon } from '@projects/icons';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
@@ -10,9 +11,8 @@ import { setUpdatedServicePointInfoData } from '../../../app/redux/features/upda
 import { RootState } from '../../../app/redux/store';
 import { CITIES, DISTRICTS } from '../../constants/city_districts';
 import './Table.css';
-import { PenIcon } from '@projects/icons';
 
-interface IServicePointProps {
+interface IServicePointInfoProps {
   servicePoint: {
     id: number;
     name: string;
@@ -28,6 +28,18 @@ interface IServicePointProps {
     paymentMethods?: string[] | null | undefined;
   };
 };
+
+interface IServicePointProps {
+  id: number;
+  name: string;
+  address: string;
+  phone: string;
+  cityId: number;
+  districtId: number;
+  longtitude: number;
+  latitude: number;
+  isActive: boolean;
+}
 
 export function Table() {
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
@@ -99,7 +111,8 @@ export function Table() {
       )
         .then((response) => response.data)
         .then(response => {
-          setServicePoints(response.data)
+          const filteredArr = response.data.filter((servicePoint: IServicePointProps) => servicePoint.isActive);
+          setServicePoints(filteredArr);
         })
         .catch((error) => {
           console.log(error);
@@ -115,7 +128,29 @@ export function Table() {
   const getDistricts = (districtCode: number) => {
     return DISTRICTS[districtCode?.toString()];
   };
-  const createTableRow = ({ servicePoint }: IServicePointProps) => {
+  const deleteServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const servicePointIdAttr = event.currentTarget.getAttribute('data-service-point-id');
+    const servicePointId = servicePointIdAttr ? parseInt(servicePointIdAttr) : NaN;
+
+    try {
+      await axios.post(
+        process.env.DELETE_STATION_URL || '', ({
+          "id": servicePointId
+        }))
+        .then((response) => response.data)
+        .then(response => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  const createTableRow = ({ servicePoint }: IServicePointInfoProps) => {
     return (
       <Fragment key={servicePoint.id}>
         <tr data-service-point-id={servicePoint.id}>
@@ -128,6 +163,9 @@ export function Table() {
           <td className="px-6 py-4 items-center flex">
             <a data-modal-show="editUserModal" data-service-point-id={servicePoint.id} className="font-medium text-blue-600 cursor-pointer px-4" onClick={getUpdatedServicePointsInfo}>
               <PenIcon />
+            </a>
+            <a data-modal-show="deleteUserModal" data-service-point-id={servicePoint.id} className="font-medium text-red-600 cursor-pointer px-4" onClick={deleteServicePointInfo}>
+              <TrashIcon />
             </a>
             <Button type="button" data-modal-show="editUserModal" className="font-medium text-blue-600" onClick={() => { toggleTableRow(servicePoint.id) }}>
               <div dangerouslySetInnerHTML={{ __html: `${servicePoint.id === selectedRow ? '&#11205;' : '&#11206;'}` }} />
