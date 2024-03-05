@@ -6,8 +6,8 @@ import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
-import { RootState } from '../../../../app/redux/store';
 import { setUpdatedServicePointData } from '../../../../app/redux/features/updatedServicePointData';
+import { RootState } from '../../../../app/redux/store';
 
 interface IFormDataProps {
   [key: string]: boolean | number | string | string[];
@@ -22,12 +22,19 @@ interface IModalPageInputs {
   setStationId: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setActivePage, setFormData, setStationId }: IModalPageInputs) => {
-  const prefixSP = 'sh-service-point';
+const ServicePointModalFormFirstPage = ({
+  activePage,
+  formData,
+  stationId,
+  setActivePage,
+  setFormData,
+  setStationId
+}: IModalPageInputs) => {
   const formProperties = ['service-point-name', 'service-point-reseller', 'service-point-company'];
-  // const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
-  const updatedServicePointData = useSelector((state: RootState) => state.updatedServicePointData.updatedServicePointData);
-  // const updatedServicePointInfoData = useSelector((state: RootState) => state.updatedServicePointInfoData.updatedServicePointInfoData);
+  const prefixSP = 'sh-service-point';
+  const updatedServicePointData = useSelector((state: RootState) => {
+    return state.updatedServicePointData.updatedServicePointData;
+  });
   const [companies, setCompanies] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const [resellers, setResellers] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const { formState: { errors }, handleSubmit, register } = useForm();
@@ -46,35 +53,21 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
         id: updatedServicePointData.id,
         ...requestData,
       };
-    }
-
-    // dispatch(setUpdatedServicePointData(requestData));
+    };
 
     return requestData;
   };
 
-  const getCompanies = async () => {
+  const getDropdownItems = async (dropdownDataUrl: string) => {
     try {
       await axios.get(
-        process.env.GET_COMPANIES_URL || ''
+        dropdownDataUrl
       )
         .then((response) => response.data)
-        .then((data) => setCompanies(data.data));
+        .then((data) => dropdownDataUrl.indexOf('Companies') > -1 ? setCompanies(data.data) : setResellers(data.data));
     } catch (error) {
-      console.log(error);
-    };
-  };
-
-  const getResellers = async () => {
-    try {
-      await axios.get(
-        process.env.GET_RESELLERS_URL || ''
-      )
-        .then((response) => response.data)
-        .then((data) => setResellers(data.data));
-    } catch (error) {
-      console.log(error);
-    };
+      console.log(error)
+    }
   };
 
   const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
@@ -87,21 +80,22 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
   };
 
   const handleServicePointOperation = async () => {
-    const operationURL = updatedServicePointData.id > 0 ? process.env.UPDATE_STATION_URL || '' : process.env.ADD_STATION_URL || '';
-    const opeartionData = createServicePointConfigData();
+    const actionURL = updatedServicePointData.id > 0
+      ? process.env.UPDATE_STATION_URL || ''
+      : process.env.ADD_STATION_URL || '';
+    const actionData = createServicePointConfigData();
 
     try {
       await axios.post(
-        operationURL,
-        opeartionData,
+        actionURL,
+        actionData,
         { headers: { 'Content-Type': 'application/json' } })
-        .then(response => { return response.data; })
+        .then(response => response.data)
         .then(data => {
-          if (updatedServicePointData.id === 0) {
-            setStationId(data.data[0].id);
-          } else {
-            dispatch(setUpdatedServicePointData(formData));
-          }
+          updatedServicePointData.id === 0
+            ? setStationId(data.data[0].id)
+            : dispatch(setUpdatedServicePointData(formData));
+
           setActivePage(activePage + 1);
         })
         .catch(error => { console.error(error); }
@@ -113,8 +107,8 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
 
   useEffect(() => {
     if (resellers.length === 0 && companies.length === 0) {
-      getResellers();
-      getCompanies();
+      getDropdownItems(process.env.GET_RESELLERS_URL || '');
+      getDropdownItems(process.env.GET_COMPANIES_URL || '');
     }
 
     if (updatedServicePointData.id > 0) {
@@ -127,7 +121,7 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
   }, []);
 
   return (
-    resellers && companies &&
+    companies && resellers &&
     <form className={`sh-modal-form-page-1 ${activePage === 1 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
       <div className={`${prefixSP}-name-container`}>
         <Label className={`${prefixSP}-name-label block mb-2 text-sm font-medium text-gray-900`} htmlFor={`${formProperties[0]}`} labelText={`Hizmet Noktasi Ismi`}>
@@ -138,12 +132,16 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
           disabled={stationId !== 0}
           id={`${prefixSP}-name`}
           name={`${formProperties[0]}`}
-          register={register(`${formProperties[0]}`, {
-            minLength: { value: 3, message: 'En az 3 karakter girmelisiniz.' },
-            required: `Hizmet Noktasi Ismi zorunludur.`,
-            value: updatedServicePointData.id > 0 ? updatedServicePointData.name : formData[`${formProperties[0]}`],
-            onChange: (event: React.ChangeEvent<HTMLInputElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })) }
-          })}
+          register={
+            register(`${formProperties[0]}`, {
+              minLength: {
+                value: 3,
+                message: 'En az 3 karakter girmelisiniz.'
+              },
+              required: `Hizmet Noktasi Ismi zorunludur.`,
+              value: updatedServicePointData.id > 0 ? updatedServicePointData.name : formData[`${formProperties[0]}`],
+              onChange: (event: React.ChangeEvent<HTMLInputElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })) }
+            })}
           type={`text`}
         />
         {
@@ -157,7 +155,9 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
         }
       </div>
       <div className={`${prefixSP}-reseller-container`}>
-        <Label className={`${prefixSP}-reseller-label block mb-2 text-sm font-medium text-gray-900`} htmlFor={`${formProperties[1]}`} labelText={`Hizmet Noktasi Bayi`} />
+        <Label className={`${prefixSP}-reseller-label block mb-2 text-sm font-medium text-gray-900`} htmlFor={`${formProperties[1]}`} labelText={`Hizmet Noktasi Bayi`}>
+          <span className="text-md text-error">*</span>
+        </Label>
         <Dropdown
           className={`${prefixSP}-reserller-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
           disabled={stationId !== 0}
@@ -170,7 +170,9 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
         />
       </div>
       <div className={`${prefixSP}-company-container`}>
-        <Label className={`${prefixSP}-company-label block mb-2 text-sm font-medium text-gray-900`} htmlFor={`${formProperties[2]}`} labelText={`Hizmet Noktasi Sirketi`} />
+        <Label className={`${prefixSP}-company-label block mb-2 text-sm font-medium text-gray-900`} htmlFor={`${formProperties[2]}`} labelText={`Hizmet Noktasi Sirketi`}>
+          <span className="text-md text-error">*</span>
+        </Label>
         <Dropdown
           className={`${prefixSP}-company-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
           disabled={stationId !== 0}
@@ -184,7 +186,7 @@ const ServicePointModalFormFirstPage = ({ activePage, formData, stationId, setAc
       </div>
       <div className={`${prefixSP}-buttons-container`}>
         <Button
-          buttonText='Ileri'
+          buttonText='Sonraki'
           className={`${prefixSP}-submit-button bg-blue-500 border text-gray-900 text-sm rounded-lg block w-full p-2.5`}
           type={`submit`}
         />
