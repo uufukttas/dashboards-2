@@ -79,7 +79,7 @@ const ServicePointModalFormFirstPage = ({
       await axios.post(
         actionURL,
         actionData,
-        { headers: { 'Content-Type': '' } })
+        { headers: { 'Content-Type': 'application/json' } })
         .then(response => response.data)
         .then(data => {
           updatedServicePointData.id === 0
