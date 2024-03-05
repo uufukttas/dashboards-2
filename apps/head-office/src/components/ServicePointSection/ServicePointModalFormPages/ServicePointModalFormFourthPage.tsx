@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +9,6 @@ import { Radio } from '@projects/radio';
 import { Checkbox } from '@projects/checkbox';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../../app/redux/store';
-
 interface IFormData {
   [key: string]: string | number | boolean | string[];
 };
@@ -24,6 +23,7 @@ interface IModalPageInputs {
 
 const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setActivePage, setFormData }: IModalPageInputs) => {
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
+  const updatedServicePointInfoData = useSelector((state: RootState) => state.updatedServicePointInfoData.updatedServicePointInfoData);
   const dispatch = useDispatch();
   const { handleSubmit } = useForm();
   const paymentMethods = [
@@ -125,6 +125,16 @@ const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setA
     createServicePointDetails();
   };
 
+  useEffect(() => {
+    if (updatedServicePointInfoData.id > 0) {
+      setFormData({
+        ['service-point-payment-methods']: updatedServicePointInfoData.paymentMethods,
+        ['service-point-parking']: updatedServicePointInfoData.parking,
+        ['service-point-opportunities']: updatedServicePointInfoData.opportunities
+      });
+    }
+  }, []);
+
   return (
     <form className={`sh-modal-page-4 ${activePage === 4 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
       <div className={`service-point-payment-methods-container`}>
@@ -134,7 +144,10 @@ const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setA
           name={`service-point-payment-methods`}
           className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
           items={paymentMethods}
-          onChange={(event) => { setFormData({ ...formData, [event.target.name]: event.target.value }) }}
+
+          onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })); }}
+          selectedValue={formData['service-point-payment-methods']?.toString()}
+          value={formData[`service-point-payment-methods`]?.toString()}
         />
       </div>
       <div className={`service-point-parking-container`}>
