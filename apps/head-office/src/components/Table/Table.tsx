@@ -67,8 +67,8 @@ export function Table() {
     setSelectedRow(id);
   };
   const getUpdatedServicePointsInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
-    const servicePointIdAttr = event.currentTarget.getAttribute('data-service-point-id');
-    const servicePointId = servicePointIdAttr ? parseInt(servicePointIdAttr) : NaN;
+    const servicePointIdAttr = event.currentTarget.getAttribute('data-service-point-id') || '0';
+    const servicePointId = parseInt(servicePointIdAttr);
 
     try {
       await axios.post(
