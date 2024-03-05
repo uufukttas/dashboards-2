@@ -64,9 +64,9 @@ const ServicePointModalFormSecondPage = ({ activePage, cities, formData, setActi
 
     if (updatedServicePointInfoData.id > 0) {
       setFormData({
-        ['service-point-phone-number-1']: updatedServicePointInfoData.Phone1,
-        ['service-point-phone-number-2']: updatedServicePointInfoData.Phone2,
-        ['service-point-address']: updatedServicePointInfoData.address,
+        [`${formProperties[0]}`]: updatedServicePointInfoData.Phone1,
+        [`${formProperties[1]}`]: updatedServicePointInfoData.Phone2,
+        [`${formProperties[2]}`]: updatedServicePointInfoData.address,
       });
     }
   }, [cities, activePage, updatedServicePointInfoData]);
@@ -137,14 +137,14 @@ const ServicePointModalFormSecondPage = ({ activePage, cities, formData, setActi
           value={formData[`${formProperties[2]}`]?.toString()}
         />
         {errors[`${formProperties[2]}`] && errors[`${formProperties[2]}`]?.message && (
-          <div className={`service-point-address-error-wrapper my-4 font-bold text-error`}>
-            <p className={`service-point-address-error-message`}>
+          <div className={`${formProperties[2]}-error-wrapper my-4 font-bold text-error`}>
+            <p className={`${formProperties[2]}-error-message`}>
               {(errors[`${formProperties[2]}`]?.message?.toString())}
             </p>
           </div>
         )}
       </div>
-      <div className={`${performance}-buttons-container flex justify-between items-center`}>
+      <div className={`${prefixSP}-buttons-container flex justify-between items-center`}>
         <Button
           buttonText='Geri'
           className={`${prefixSP}-prev-button bg-primary text-text text-sm rounded-lg block p-2.5`}

@@ -23,12 +23,13 @@ interface IModalPageInputs {
 };
 
 const ServicePointModalFormThirdPage = ({ activePage, cities, districts, formData, setActivePage, setDistricts, setFormData }: IModalPageInputs) => {
+  const formProperties = ['service-point-city', 'service-point-district', 'service-point-x-coord', 'service-point-y-coord'];
+  const prefixSP = 'sh-service-point';
   const updatedServicePointInfoData = useSelector((state: RootState) => state.updatedServicePointInfoData.updatedServicePointInfoData);
+  const [selectedCity, setSelectedCity] = useState<number>(Number(formData[`${formProperties[0]}`]) || 1);
+  const [selectedDistrict, setSelectedDistrict] = useState<number>(Number(formData[`${formProperties[1]}`]) || 1);
   const { formState: { errors }, handleSubmit, register } = useForm();
-  const [selectedCity, setSelectedCity] = useState<number>(Number(formData['service-point-city']) || 1);
-  const [selectedDistrict, setSelectedDistrict] = useState<number>(Number(formData['service-point-district']) || 1);
 
-  console.log('updatedServicePointInfoData', updatedServicePointInfoData)
   const getDistricts = async (selectedCity: number) => {
     try {
       await axios.post(
@@ -47,11 +48,11 @@ const ServicePointModalFormThirdPage = ({ activePage, cities, districts, formDat
 
   const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCity(Number(event.target.value));
-    setFormData(({ ...formData, ['service-point-city']: event.target.value }));
+    setFormData(({ ...formData, [`${formProperties[0]}`]: event.target.value }));
   };
 
   const handleDistrictChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormData(({ ...formData, ['service-point-district']: Number(event.target.value) }));
+    setFormData(({ ...formData, [`${formProperties[1]}`]: Number(event.target.value) }));
   };
 
   const handleFormSubmit: SubmitHandler<IFormData> = () => {
@@ -59,84 +60,81 @@ const ServicePointModalFormThirdPage = ({ activePage, cities, districts, formDat
   };
 
   useEffect(() => {
-    getDistricts(updatedServicePointInfoData?.cityId ?? selectedCity);
+    setFormData({
+      [`${formProperties[0]}`]: updatedServicePointInfoData.id > 0 ? updatedServicePointInfoData.cityId : selectedCity,
+      [`${formProperties[1]}`]: updatedServicePointInfoData.id > 0 ? updatedServicePointInfoData.districtId : selectedDistrict,
+    });
 
-    setFormData(({ ...formData, ['service-point-city']: selectedCity, ['service-point-district']: selectedDistrict }));
-    if (updatedServicePointInfoData.id > 0) {
-      setFormData({
-        ['service-point-city']: updatedServicePointInfoData.cityId,
-        ['service-point-district']: updatedServicePointInfoData.districtId,
-      });
-    }
+    getDistricts(selectedCity);
   }, [selectedCity, selectedDistrict]);
 
   return (
     <form className={`sh-modal-page-3 ${activePage === 3 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
-      <div className={`service-point-city-container`}>
-        <Label htmlFor={`service-point-city`} labelText={`Hizmet Noktasi İl`} className={`block mb-2 text-sm font-medium text-gray-900`} />
+      <div className={`${prefixSP}-city-container`}>
+        <Label className={`${prefixSP}-city-label block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[0]}`} labelText={`Hizmet Noktasi İl`}  />
         <Dropdown
-          id={`service-point-city`}
-          name={`service-point-city`}
-          className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+          className={`${prefixSP}-city-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
+          id={`${prefixSP}-city`}
           items={cities}
+          name={`${formProperties[0]}`}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { handleCityChange(event); }}
-          selectedValue={updatedServicePointInfoData?.cityId?.toString() || formData['service-point-city']?.toString() || '0'}
-          value={formData[`service-point-city`]?.toString()}
+          selectedValue={updatedServicePointInfoData?.cityId?.toString() || formData[`${formProperties[0]}`]?.toString() || '0'}
+          value={formData[`${formProperties[0]}`]?.toString()}
         />
       </div>
-      <div className={`service-point-district-container`}>
-        <Label htmlFor={`service-point-district`} labelText={`Hizmet Noktasi İlcesi`} className={`block mb-2 text-sm font-medium text-gray-900`} />
+      <div className={`${prefixSP}-district-container`}>
+        <Label className={`${prefixSP}-district-label block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[1]}`} labelText={`Hizmet Noktasi İlcesi`}  />
         <Dropdown
-          id={`service-point-district`}
-          name={`service-point-district`}
-          className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+          className={`${prefixSP}-district-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
+          id={`${prefixSP}-district`}
           items={districts}
+          name={`${formProperties[1]}`}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { handleDistrictChange(event); }}
-          selectedValue={formData['service-point-district']?.toString() || '0'}
-          value={formData[`service-point-district`]?.toString()}
+          selectedValue={formData[`${formProperties[1]}`]?.toString() || '0'}
+          value={formData[`${formProperties[1]}`]?.toString()}
         />
       </div>
       <div className={`service-point-coordinates-container flex justify-center items-center`}>
-        <div className={`service-point-x-coord-container w-1/2 flex flex-col justify-center `}>
-          <Label htmlFor={`service-point-x-coord`} labelText={`Hizmet Noktasi X Koordinati`} className={`block mb-2 text-sm font-medium text-gray-900`} />
+        <div className={`${prefixSP}-x-coord-container w-1/2 flex flex-col justify-center `}>
+          <Label className={`${prefixSP}-x-coord-label block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[2]}`} labelText={`Hizmet Noktasi X Koordinati`}  />
           <Input
-            id={`service-point-x-coord`}
-            name={`service-point-x-coord`}
-            className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-5/6 p-2.5 mb-4`}
+            id={`${prefixSP}-x-coord`}
+            name={`${formProperties[2]}`}
+            className={`${prefixSP}-x-coord-input text-text text-sm rounded-lg block w-3/4 p-2.5 mb-4`}
             type={`text`}
-            register={register('service-point-x-coord', {
+            register={register(`${formProperties[2]}`, {
               required: `Hizmet Noktasi X Koordinati zorunludur.`,
-              value: updatedServicePointInfoData?.longitude || formData['service-point-x-coord'],
+              value: updatedServicePointInfoData?.longitude || formData[`${formProperties[2]}`],
               onChange: (event: React.ChangeEvent<HTMLInputElement>): void => { setFormData(({ ...formData, [event.target.name]: Number(event.target.value) })) }
             })}
           />
           {
-            errors['service-point-x-coord'] && errors['service-point-x-coord']?.message && (
-              <div className={`service-point-x-coord-error-wrapper mb-4 font-bold text-error`}>
-                <p className={`service-point-x-coord-error-message`}>
+            errors[`${formProperties[2]}`] && errors[`${formProperties[2]}`]?.message && (
+              <div className={`${formProperties[2]}-error-wrapper mb-4 font-bold text-error`}>
+                <p className={`${formProperties[2]}-error-message`}>
                   {'X-Koordinatı zorunludur.'}
                 </p>
               </div>
             )
           }
         </div>
-        <div className={`service-point-y-coord-container w-1/2 flex flex-col items-end`}>
-          <Label htmlFor={`service-point-y-coord`} labelText={`Hizmet Noktasi Y Koordinati`} className={`block mb-2 text-sm font-medium text-gray-900`} />
+        <div className={`${prefixSP}-y-coord-container w-1/2 flex flex-col items-end`}>
+          <Label className={`${prefixSP}-y-coord-label block mb-2 text-heading font-semibold`} htmlFor={`${formProperties[3]}`} labelText={`Hizmet Noktasi Y Koordinati`}  />
           <Input
-            id={`service-point-y-coord`}
-            name={`service-point-y-coord`}
-            className={`bg-gray-50 border text-gray-900 text-sm rounded-lg block w-5/6 p-2.5 mb-4`}
+            id={`${prefixSP}-y-coord`}
+            name={`${formProperties[3]}`}
+            className={`${prefixSP}-y-coord-input text-text text-sm rounded-lg block w-3/4 p-2.5 mb-4`}
             type={`text`}
-            register={register('service-point-y-coord', {
+            register={register(`${formProperties[3]}`, {
               required: `Hizmet Noktasi Y Koordinati zorunludur.`,
-              value: updatedServicePointInfoData?.latitude || formData['service-point-y-coord'],
+              value: updatedServicePointInfoData?.latitude || formData[`${formProperties[3]}`],
               onChange: (event: React.ChangeEvent<HTMLInputElement>): void => { setFormData(({ ...formData, [event.target.name]: Number(event.target.value) })) }
             })}
           />
           {
-            errors['service-point-y-coord'] && errors['service-point-y-coord']?.message && (
-              <div className={`service-point-y-coord-error-wrapper mb-4 font-bold text-error`}>
-                <p className={`service-point-y-coord-error-message`}>
+            errors[`${formProperties[3]}`] && errors[`${formProperties[3]}`]?.message && (
+              <div className={`${formProperties[3]}-error-wrapper mb-4 font-bold text-error`}>
+                <p className={`${formProperties[3]}-error-message`}>
                   {'Y-Koordinatı zorunludur.'}
                 </p>
               </div>
@@ -144,16 +142,16 @@ const ServicePointModalFormThirdPage = ({ activePage, cities, districts, formDat
           }
         </div>
       </div>
-      <div className={`service-point-buttons-container flex justify-between items-center`}>
+      <div className={`${prefixSP}-buttons-container flex justify-between items-center`}>
         <Button
           buttonText='Geri'
-          className={`bg-blue-500 border text-gray-900 text-sm rounded-lg block w-1/4 p-2.5`}
+          className={`${prefixSP}-prev-button bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`button`}
           onClick={() => setActivePage(activePage - 1)}
         />
         <Button
-          buttonText='Ileri'
-          className={`bg-blue-500 border text-gray-900 text-sm rounded-lg block w-1/4 p-2.5`}
+          buttonText='Sonraki'
+          className={`${prefixSP}-next-button bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`submit`}
         />
       </div>
