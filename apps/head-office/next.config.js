@@ -17,6 +17,7 @@ const nextConfig = {
     CITY_URL:'https://sharztestapi.azurewebsites.net/Values/GetCities',
     DISTRICT_URL:'https://sharztestapi.azurewebsites.net/Values/GetDistricts',
     ADD_STATION_URL: 'https://sharztestapi.azurewebsites.net/ServicePoint/AddStation',
+    DELETE_STATION_URL: 'https://sharztestapi.azurewebsites.net/ServicePoint/DeleteStation',
     ADD_STATION_INFO_URL: 'https://sharztestapi.azurewebsites.net/StationInfo/AddStationInfo',
     GET_ALL_SERVICE_POINTS: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetAllPoints',
     GET_RESELLERS_URL: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetResellers',
