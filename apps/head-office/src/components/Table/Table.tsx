@@ -105,7 +105,7 @@ export function Table() {
       await axios.post(
         (process.env.GET_ALL_SERVICE_POINTS || ''),
         ({
-          "pageNumber": 45,
+          "pageNumber": 1,
           "pageSize": 10
         })
       )
