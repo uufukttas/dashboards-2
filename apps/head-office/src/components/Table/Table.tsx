@@ -1,8 +1,9 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
+import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from "@projects/button";
-import { PenIcon, TrashIcon } from '@projects/icons';
+import { InfoIcon, PenIcon, TrashIcon } from '@projects/icons';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
@@ -160,15 +161,18 @@ export function Table() {
           <td className='px-6 py-3'>{servicePoint.address}</td>
           <td className='px-6 py-3'>{getCity((servicePoint.cityId))}</td>
           <td className='px-6 py-3'>{getDistricts(servicePoint.districtId)}</td>
-          <td className="px-6 py-4 items-center flex">
-            <a data-modal-show="editUserModal" data-service-point-id={servicePoint.id} className="font-medium text-blue-600 cursor-pointer px-4" onClick={getUpdatedServicePointsInfo}>
+          <td className="px-6 py-4 items-center w-full justify-center flex">
+            <a data-modal-show="editUserModal" data-service-point-id={servicePoint.id} className="font-medium text-blue-600 cursor-pointer px-2" onClick={getUpdatedServicePointsInfo}>
               <PenIcon />
             </a>
-            <a data-modal-show="deleteUserModal" data-service-point-id={servicePoint.id} className="font-medium text-red-600 cursor-pointer px-4" onClick={deleteServicePointInfo}>
+            <a data-modal-show="deleteUserModal" data-service-point-id={servicePoint.id} className="font-medium text-red-600 cursor-pointer px-2" onClick={deleteServicePointInfo}>
               <TrashIcon />
             </a>
-            <Button type="button" data-modal-show="editUserModal" className="font-medium text-blue-600" onClick={() => { toggleTableRow(servicePoint.id) }}>
-              <div dangerouslySetInnerHTML={{ __html: `${servicePoint.id === selectedRow ? '&#11205;' : '&#11206;'}` }} />
+            <Link className='px-2' href={`/service-points/service-point/${servicePoint.id}`}>
+              <InfoIcon />
+            </Link>
+            <Button type="button" data-modal-show="editUserModal" className="font-medium text-blue-600 px-2" onClick={() => { toggleTableRow(servicePoint.id) }}>
+              <div className='text-lg' dangerouslySetInnerHTML={{ __html: `${servicePoint.id === selectedRow ? '&#11205;' : '&#11206;'}` }} />
             </Button>
           </td>
         </tr>
