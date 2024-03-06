@@ -3,12 +3,13 @@ import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
+import { Checkbox } from '@projects/checkbox';
 import { Dropdown } from '@projects/dropdown';
 import { Label } from '@projects/label';
 import { Radio } from '@projects/radio';
-import { Checkbox } from '@projects/checkbox';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../../app/redux/store';
+
 interface IFormData {
   [key: string]: string | number | boolean | string[];
 };
@@ -21,8 +22,16 @@ interface IModalPageInputs {
   setFormData: React.Dispatch<React.SetStateAction<IFormData>>;
 };
 
-const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setActivePage, setFormData }: IModalPageInputs) => {
-  const formProperties = ['service-point-payment-methods', 'service-point-parking', 'service-point-opportunities'];
+const ServicePointModalFormFourthPage = ({
+  activePage,
+  formData,
+  stationId,
+  setActivePage,
+  setFormData
+}: IModalPageInputs) => {
+  const brandPRefix = 'sh';
+  const formProperties = ['payment-methods', 'parking', 'opportunities'];
+  const sectionPrefix = 'service-point';
   const paymentMethods = [
     {
       name: 'Nakit',
@@ -43,7 +52,6 @@ const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setA
       rid: null
     }
   ];
-  const prefixSP = 'sh-service-point';
   const opportunities = [
     {
       name: 'AVM',
@@ -85,7 +93,9 @@ const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setA
   ];
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
-  const updatedServicePointInfoData = useSelector((state: RootState) => state.updatedServicePointInfoData.updatedServicePointInfoData);
+  const updatedServicePointInfoData = useSelector((state: RootState) => {
+    return state.updatedServicePointInfoData.updatedServicePointInfoData
+  });
   const dispatch = useDispatch();
   const { handleSubmit } = useForm();
 
@@ -109,7 +119,6 @@ const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setA
       JSON.stringify(createConfigData()),
       { headers: { 'Content-Type': 'application/json' } }
     ).then((response) => {
-      console.log(response);
       dispatch(toggleModalVisibility(isModalVisible));
     }).catch((error) => {
       console.log(error);
@@ -118,13 +127,20 @@ const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setA
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
-    setCheckedItems({ ...checkedItems, [name.replace('service-point-opportunities-', '')]: checked });
+
+    setCheckedItems({ ...checkedItems, [name.replace(`${sectionPrefix}-${formProperties[2]}-`, '')]: checked });
   };
   const handleFormSubmit: SubmitHandler<IFormData> = () => {
-    console.log(stationId)
     const selectedItems = Object.keys(checkedItems).filter(key => checkedItems[key]);
-    setFormData({ ...formData, ['service-point-opportunities']: selectedItems });
+
+    setFormData({ ...formData, [`${sectionPrefix}-${formProperties[2]}`]: selectedItems });
     createServicePointDetails();
+  };
+
+  const replacetoDash = (value: string) => {
+    value = value.replace(/\s+/g, '-').toLowerCase();
+
+    return value;
   };
 
   useEffect(() => {
@@ -138,58 +154,85 @@ const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setA
   }, []);
 
   return (
-    <form className={`sh-modal-page-4 ${activePage === 4 ? 'block' : 'hidden'}`} onSubmit={handleSubmit(handleFormSubmit)}>
-      <div className={`${prefixSP}-payment-methods-container`}>
-        <Label className={`${prefixSP}-payment-methods-label block mb-2 text-sm font-medium text-gray-900`} htmlFor={`service-point-payment-methods`} labelText={`Hizmet Noktasi Odeme Yontemleri`} />
+    <form
+      className={`${brandPRefix}-modal-page-4 ${activePage === 4 ? 'block' : 'hidden'}`}
+      onSubmit={handleSubmit(handleFormSubmit)}>
+      <div className={`${sectionPrefix}-${formProperties[0]}-container`}>
+        <Label
+          className={`${sectionPrefix}-${formProperties[0]}-label block mb-2 text-sm font-medium text-gray-900`}
+          htmlFor={`${sectionPrefix}-${formProperties[0]}`}
+          labelText={`Hizmet Noktasi Odeme Yontemleri`}
+        />
         <Dropdown
-          className={`${prefixSP}-payment-methods-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
-          id={`service-point-payment-methods`}
+          className={`${sectionPrefix}-${formProperties[0]}-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+          id={`${sectionPrefix}-${formProperties[0]}`}
           items={paymentMethods}
-          name={`service-point-payment-methods`}
-          onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { setFormData(({ ...formData, [event.target.name]: event.target.value })); }}
-          selectedValue={formData['service-point-payment-methods']?.toString()}
-          value={formData[`service-point-payment-methods`]?.toString()}
+          name={`${sectionPrefix}-${formProperties[0]}`}
+          onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
+            setFormData(({ ...formData, [event.target.name]: event.target.value }));
+          }}
+          selectedValue={formData[`${sectionPrefix}-${formProperties[0]}`]?.toString()}
+          value={formData[`${sectionPrefix}-${formProperties[0]}`]?.toString()}
         />
       </div>
-      <div className={`${prefixSP}-parking-container`}>
-        <div className={`${prefixSP}-parking-header`}>
-          <h2 className={`${prefixSP}-parking-text block mb-2 text-sm font-medium text-gray-900`}>Hizmet Noktasi Park Yeri</h2>
+      <div className={`${sectionPrefix}-${formProperties[1]}-container`}>
+        <div className={`${sectionPrefix}-${formProperties[1]}-header`}>
+          <h2 className={`${sectionPrefix}-${formProperties[1]}-text block mb-2 text-sm font-medium text-gray-900`}>
+            Hizmet Noktasi Park Yeri
+          </h2>
         </div>
-        <div className={`${prefixSP}-parking-inputs-container flex`}>
-          <div className={`${prefixSP}-parking-option-container flex w-1/2 items-center mb-4`}>
-            <Label className={`${prefixSP}-parking-yes-label block mb-0 pr-4`} htmlFor={`${prefixSP}-parking-yes`} labelText={`Var`}  />
+        <div className={`${sectionPrefix}-${formProperties[1]}-inputs-container flex`}>
+          <div className={`${sectionPrefix}-${formProperties[1]}-option-container flex w-1/2 items-center mb-4`}>
+            <Label
+              className={`${sectionPrefix}-${formProperties[1]}-yes-label block mb-0 pr-4`}
+              htmlFor={`${sectionPrefix}-${formProperties[1]}-yes`}
+              labelText={`Var`} />
             <Radio
-              className={`${prefixSP}-parking-input text-blue-500 text-sm block`}
-              id={`${prefixSP}-parking-yes`}
-              name={`${prefixSP}-parking`}
-              onChange={(event) => { setFormData({ ...formData, [event.target.name]: (event.target.value === 'on' ? true : false) }) }}
+              className={`${sectionPrefix}-${formProperties[1]}-input text-blue-500 text-sm block`}
+              id={`${sectionPrefix}-${formProperties[1]}-yes`}
+              name={`${sectionPrefix}-${formProperties[1]}`}
+              onChange={(event) => {
+                setFormData({ ...formData, [event.target.name]: (event.target.value === 'on' ? true : false) });
+              }}
             />
           </div>
-          <div className={`${prefixSP}-parking-option-container flex w-1/2 items-center mb-4`}>
-            <Label htmlFor={`${prefixSP}-parking-no`} labelText={`Yok`} className={`block mb-0 pr-4`} />
+          <div className={`${sectionPrefix}-${formProperties[1]}-option-container flex w-1/2 items-center mb-4`}>
+            <Label
+              className={`block mb-0 pr-4`}
+              htmlFor={`${sectionPrefix}-${formProperties[1]}-no`}
+              labelText={`Yok`}
+            />
             <Radio
-              className={`${prefixSP}-parking-input text-blue-500 text-sm block`}
-              id={`${prefixSP}-parking-no`}
-              name={`${prefixSP}-parking`}
-              onChange={(event) => { setFormData({ ...formData, [event.target.name]: (event.target.value === 'on' ? false : true) }) }}
+              className={`${sectionPrefix}-${formProperties[1]}-input text-blue-500 text-sm block`}
+              id={`${sectionPrefix}-${formProperties[1]}-no`}
+              name={`${sectionPrefix}-${formProperties[1]}`}
+              onChange={(event) => {
+                setFormData({ ...formData, [event.target.name]: (event.target.value === 'on' ? false : true) })
+              }}
             />
           </div>
         </div>
       </div>
 
-      <div className={`${prefixSP}-opportunities-container`}>
-        <div className={`${prefixSP}-opportunities-header`}>
+      <div className={`${sectionPrefix}-${formProperties[2]}-container`}>
+        <div className={`${sectionPrefix}-${formProperties[2]}-header`}>
           <h2 className="block mb-2 text-sm font-medium text-gray-900">Hizmet Noktasi Olanaklari</h2>
         </div>
-        <div className={`${prefixSP}-opportunities-inputs-container flex flex-wrap`}>
+        <div className={`${sectionPrefix}-${formProperties[2]}-inputs-container flex flex-wrap`}>
           {
             opportunities.map((opportunity, index) => (
-              <div className={`${prefixSP}-opportunities-option-container flex items-center mb-4`} key={index}>
-                <Label htmlFor={`${prefixSP}-opportunities-${opportunity.name}`} labelText={opportunity.name} className={`block mb-0 pr-4`} />
+              <div
+                className={`${sectionPrefix}-${formProperties[2]}-option-container flex items-center mb-4`}
+                key={index}>
+                <Label
+                  className={`block mb-0 pr-4`}
+                  htmlFor={`${sectionPrefix}-${formProperties[2]}-${replacetoDash(opportunity.name)}`}
+                  labelText={opportunity.name}
+                />
                 <Checkbox
-                  id={`${prefixSP}-opportunities-${opportunity.name}`}
-                  name={`${prefixSP}-opportunities-${opportunity.name}`}
                   className={`text-blue-500 text-sm block mr-4`}
+                  id={`${sectionPrefix}-${formProperties[2]}-${replacetoDash(opportunity.name)}`}
+                  name={`${sectionPrefix}-${formProperties[2]}-${replacetoDash(opportunity.name)}`}
                   onChange={handleCheckboxChange}
                 />
               </div>
@@ -198,16 +241,16 @@ const ServicePointModalFormFourthPage = ({ activePage, formData, stationId, setA
         </div>
       </div>
 
-      <div className={`${prefixSP}-buttons-container flex justify-between items-center`}>
+      <div className={`${sectionPrefix}-buttons-container flex justify-between items-center`}>
         <Button
           buttonText='Geri'
-          className={`${prefixSP}-next-button  bg-primary text-text text-sm rounded-lg block p-2.5`}
+          className={`${sectionPrefix}-next-button  bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`submit`}
           onClick={() => setActivePage(activePage - 1)}
         />
         <Button
           buttonText='Kaydet'
-          className={`${prefixSP}-submit-button  bg-primary text-text text-sm rounded-lg block p-2.5`}
+          className={`${sectionPrefix}-submit-button  bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`submit`}
         />
       </div>
