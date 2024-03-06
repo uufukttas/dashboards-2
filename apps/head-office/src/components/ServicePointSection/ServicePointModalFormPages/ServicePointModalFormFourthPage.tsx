@@ -7,6 +7,7 @@ import { Checkbox } from '@projects/checkbox';
 import { Dropdown } from '@projects/dropdown';
 import { Label } from '@projects/label';
 import { Radio } from '@projects/radio';
+import { toggleAlertVisibility } from '../../../../app/redux/features/isAlertVisible';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../../app/redux/store';
 
@@ -120,6 +121,7 @@ const ServicePointModalFormFourthPage = ({
       { headers: { 'Content-Type': 'application/json' } }
     ).then((response) => {
       dispatch(toggleModalVisibility(isModalVisible));
+      dispatch(toggleAlertVisibility(true));
     }).catch((error) => {
       console.log(error);
     });
@@ -249,7 +251,7 @@ const ServicePointModalFormFourthPage = ({
           onClick={() => setActivePage(activePage - 1)}
         />
         <Button
-          buttonText='Kaydet'
+          buttonText={updatedServicePointInfoData.id > 0 ? 'Guncelle' : 'Kaydet'}
           className={`${sectionPrefix}-submit-button  bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`submit`}
         />
