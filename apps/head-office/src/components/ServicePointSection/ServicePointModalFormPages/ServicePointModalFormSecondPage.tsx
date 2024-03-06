@@ -106,7 +106,9 @@ const ServicePointModalFormSecondPage = ({
               value: updatedServicePointInfoData.id > 0
                 ? updatedServicePointInfoData.Phone1
                 : formData[`${sectionPrefix}-${formProperties[0]}`],
-              onChange: (event) => { setFormData({ ...formData, [event.target.name]: event.target.value }) },
+              onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                setFormData(({ ...formData, [event.target.name]: event.target.value }));
+              },
             })}
           type={`number`}
         />
@@ -136,7 +138,9 @@ const ServicePointModalFormSecondPage = ({
               value: updatedServicePointInfoData.id > 0
                 ? updatedServicePointInfoData.Phone2
                 : formData[`${sectionPrefix}-${formProperties[1]}`],
-              onChange: (event) => { setFormData({ ...formData, [event.target.name]: event.target.value }) },
+              onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                setFormData(({ ...formData, [event.target.name]: event.target.value }));
+              },
             })}
           type={`number`}
         />
@@ -157,11 +161,13 @@ const ServicePointModalFormSecondPage = ({
             register(`${sectionPrefix}-${formProperties[2]}`, {
               required: `Hizmet Noktasi Adresi zorunludur.`,
               minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
-              onChange: (event) => {
-                setFormData({ ...formData, [`${sectionPrefix}-${formProperties[2]}`]: event.target.value })
+              value: updatedServicePointInfoData.id > 0
+                ? updatedServicePointInfoData.address
+                : formData[`${sectionPrefix}-${formProperties[2]}`]?.toString(),
+              onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                setFormData(({ ...formData, [`${sectionPrefix}-${formProperties[2]}`]: event.target.value }));
               },
             })}
-          value={formData[`${sectionPrefix}-${formProperties[2]}`]?.toString()}
         />
         {errors[`${sectionPrefix}-${formProperties[2]}`]
           && errors[`${sectionPrefix}-${formProperties[2]}`]?.message
