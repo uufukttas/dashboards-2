@@ -64,7 +64,6 @@ const ServicePointModalForm = () => {
             formData={formData}
             setActivePage={setActivePage}
             setFormData={setFormData}
-            stationId={stationId}
           />
         }
       </div>
