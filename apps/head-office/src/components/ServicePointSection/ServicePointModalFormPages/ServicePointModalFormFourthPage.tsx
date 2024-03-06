@@ -18,7 +18,6 @@ interface IFormData {
 interface IModalPageInputs {
   activePage: number;
   formData: IFormData;
-  stationId: number;
   setActivePage: React.Dispatch<React.SetStateAction<number>>;
   setFormData: React.Dispatch<React.SetStateAction<IFormData>>;
 };
@@ -26,7 +25,6 @@ interface IModalPageInputs {
 const ServicePointModalFormFourthPage = ({
   activePage,
   formData,
-  stationId,
   setActivePage,
   setFormData
 }: IModalPageInputs) => {
@@ -101,23 +99,26 @@ const ServicePointModalFormFourthPage = ({
   const { handleSubmit } = useForm();
 
 
-  const createConfigData = () => {
-    return ({
-      stationId: stationId,
+  const createConfigData = () => ({
+      id: updatedServicePointInfoData.id,
       address: formData['service-point-address'],
       phone1: formData['service-point-phone-number-1'],
       phone2: formData['service-point-phone-number-2'],
       lat: formData['service-point-x-coord'],
       lon: formData['service-point-y-coord'],
-      cityId: formData['service-point-city'],
-      districtId: formData['service-point-district'],
+      cityId: Number(formData['service-point-city']),
+      districtId: Number(formData['service-point-district']),
     });
-  }
 
   const createServicePointDetails = () => {
+    const actionURL = updatedServicePointInfoData.id > 0
+      ? process.env.UPDATE_STATION_INFO_URL || ''
+      : process.env.ADD_STATION_INFO_URL || '';
+    const actionData = (createConfigData());
+
     axios.post(
-      process.env.ADD_STATION_INFO_URL || '',
-      JSON.stringify(createConfigData()),
+      actionURL,
+      actionData,
       { headers: { 'Content-Type': 'application/json' } }
     ).then((response) => {
       dispatch(toggleModalVisibility(isModalVisible));
@@ -148,6 +149,7 @@ const ServicePointModalFormFourthPage = ({
   useEffect(() => {
     if (updatedServicePointInfoData.id > 0) {
       setFormData({
+        ...formData,
         ['service-point-payment-methods']: updatedServicePointInfoData.paymentMethods,
         ['service-point-parking']: updatedServicePointInfoData.parking,
         ['service-point-opportunities']: updatedServicePointInfoData.opportunities

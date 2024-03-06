@@ -106,6 +106,8 @@ const ServicePointModalFormFirstPage = ({
 
     if (updatedServicePointData.id > 0) {
       setFormData({
+        ...formData,
+        stationId: updatedServicePointData.id,
         [`${sectionPrefix}-${formProperties[0]}`]: updatedServicePointData.name,
         [`${sectionPrefix}-${formProperties[1]}`]: updatedServicePointData.resellerCompanyId,
         [`${sectionPrefix}-${formProperties[2]}`]: updatedServicePointData.companyId,

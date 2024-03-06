@@ -74,6 +74,16 @@ const ServicePointModalFormThirdPage = ({
 
   useEffect(() => {
     setSelectedCity(updatedServicePointInfoData.cityId > 0 ? updatedServicePointInfoData.cityId : selectedCity);
+
+    if (updatedServicePointInfoData.cityId > 0) {
+      setFormData({
+        ...formData,
+        [`${sectionPrefix}-${formProperties[0]}`]: updatedServicePointInfoData.cityId,
+        [`${sectionPrefix}-${formProperties[1]}`]: updatedServicePointInfoData.districtId,
+        [`${sectionPrefix}-${formProperties[2]}`]: updatedServicePointInfoData.longitude,
+        [`${sectionPrefix}-${formProperties[3]}`]: updatedServicePointInfoData.latitude
+      });
+    }
     getDistricts(selectedCity);
   }, [selectedCity, selectedDistrict]);
 
@@ -96,7 +106,9 @@ const ServicePointModalFormThirdPage = ({
             updatedServicePointInfoData?.cityId?.toString()
             || formData[`${sectionPrefix}-${formProperties[0]}`]?.toString()
             || '0'}
-          value={formData[`${sectionPrefix}-${formProperties[0]}`]?.toString()}
+          value={updatedServicePointInfoData?.cityId?.toString()
+            || formData[`${sectionPrefix}-${formProperties[0]}`]?.toString()
+            || '0'}
         />
       </div>
       <div className={`${sectionPrefix}-${formProperties[1]}-container`}>
@@ -114,7 +126,9 @@ const ServicePointModalFormThirdPage = ({
             updatedServicePointInfoData?.districtId?.toString()
             || formData[`${sectionPrefix}-${formProperties[1]}`]?.toString()
             || '0'}
-          value={formData[`${sectionPrefix}-${formProperties[1]}`]?.toString()}
+          value={updatedServicePointInfoData?.districtId?.toString()
+            || formData[`${sectionPrefix}-${formProperties[1]}`]?.toString()
+            || '0'}
         />
       </div>
       <div className={`${sectionPrefix}-coordinates-container flex justify-center items-center`}>
@@ -161,7 +175,7 @@ const ServicePointModalFormThirdPage = ({
             name={`${sectionPrefix}-${formProperties[3]}`}
             register={register(`${sectionPrefix}-${formProperties[3]}`, {
               required: `Hizmet Noktasi Y Koordinati zorunludur.`,
-              value: updatedServicePointInfoData?.latitude || formData[`${sectionPrefix}-${formProperties[3]}`],
+              value: updatedServicePointInfoData.id > 0 ? updatedServicePointInfoData?.latitude : formData[`${sectionPrefix}-${formProperties[3]}`],
               onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                 setFormData(({ ...formData, [event.target.name]: Number(event.target.value) }));
               }

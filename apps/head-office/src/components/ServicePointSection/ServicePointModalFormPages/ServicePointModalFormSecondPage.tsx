@@ -75,6 +75,7 @@ const ServicePointModalFormSecondPage = ({
 
     if (updatedServicePointInfoData.id > 0) {
       setFormData({
+        ...formData,
         [`${sectionPrefix}-${formProperties[0]}`]: updatedServicePointInfoData.Phone1,
         [`${sectionPrefix}-${formProperties[1]}`]: updatedServicePointInfoData.Phone2,
         [`${sectionPrefix}-${formProperties[2]}`]: updatedServicePointInfoData.Address,
