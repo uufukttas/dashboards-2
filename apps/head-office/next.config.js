@@ -25,6 +25,7 @@ const nextConfig = {
     GET_STATION_INFO_BY_ID: 'https://sharztestapi.azurewebsites.net/StationInfo/GetByStationId',
     GET_COMPANIES_URL: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetCompanies',
     UPDATE_STATION_URL: 'https://sharztestapi.azurewebsites.net/ServicePoint/UpdateStation',
+    UPDATE_STATION_INFO_URL: 'https://sharztestapi.azurewebsites.net/StationInfo/UpdateStationInfo',
   },
 };
 
