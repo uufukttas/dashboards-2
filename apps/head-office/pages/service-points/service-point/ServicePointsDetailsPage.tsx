@@ -90,11 +90,21 @@ const ServicePointsDetailsPage = ({ slug }: IServicePointsDetailsPageProps) => {
     const cardBody = (
         <>
             <div className='w-full flex itemse-center justify-between'>
-                <div className='flex justify-center items-baseline'>
-                    <p className='px-2'>Servis Noktasinin Ismi: </p>
-                    <h1 className='text-2xl'>{servicePointDetails.name}</h1>
+                <div className='left-side flex items-end justify-between flex-col'>
+                    <div className='flex justify-center items-baseline'>
+                        <p className='px-2'>Servis Noktasinin Ismi: </p>
+                        <h1 className='text-2xl'>{servicePointDetails.name}</h1>
+                    </div>
+                    <div className='flex justify-center items-baseline'>
+                        <p className='px-2'>Servis Noktasinin Sirketi: </p>
+                        <h1 className='text-2xl'>{servicePointDetails.companyName}</h1>
+                    </div>
+                    <div className='flex justify-center items-baseline'>
+                        <p className='px-2'>Servis Noktasinin Bayisi: </p>
+                        <h1 className='text-2xl'>{servicePointDetails.resellerName}</h1>
+                    </div>
                 </div>
-                <div className='flex items-center justify-center flex-col'>
+                <div className='right-side flex items-end justify-between flex-col'>
                     <div className='flex items-center '>
                         <h3 className='px-2'>Durum</h3>
                         {
@@ -103,29 +113,20 @@ const ServicePointsDetailsPage = ({ slug }: IServicePointsDetailsPageProps) => {
                                 : <div className='bg-red-500 rounded-full h-4 w-4 mx-2'></div>
                         }
                     </div>
+                    <div className='flex justify-end items-baseline'>
+                        <p className='px-2'>Sehir </p>
+                        <h1 className='text-2xl'>{getSelectedCity(servicePointDetailsInfo.CityID)}</h1>
+                    </div>
+                    <div className='flex justify-end items-baseline'>
+                        <p className='px-2'>Ilce </p>
+                        <h1 className='text-2xl'>{getSelectedDistrict(servicePointDetailsInfo.DistrictID)}</h1>
+                    </div>
+                    <div className='flex justify-end items-baseline'>
+                        <p className='px-2'>Adres </p>
+                        <h1 className='text-2xl flex-wrap'>{servicePointDetailsInfo.Address}</h1>
+                    </div>
                 </div>
             </div>
-            <div className='flex items-center justify-between'>
-                <div className='flex justify-center items-baseline'>
-                    <p className='px-2'>Servis Noktasinin Sirketi: </p>
-                    <h1 className='text-2xl'>{servicePointDetails.companyName}</h1>
-                </div>
-                <div className='flex justify-center items-baseline'>
-                    <p className='px-2'>Sehir </p>
-                    <h1 className='text-2xl'>{getSelectedCity(servicePointDetailsInfo.CityID)}</h1>
-                </div>
-            </div>
-            <div className='flex items-center justify-between'>
-                <div className='flex justify-center items-baseline'>
-                    <p className='px-2'>Servis Noktasinin Bayisi: </p>
-                    <h1 className='text-2xl'>{servicePointDetails.resellerName}</h1>
-                </div>
-                <div className='flex justify-center items-baseline'>
-                    <p className='px-2'>Ilce </p>
-                    <h1 className='text-2xl'>{getSelectedDistrict(servicePointDetailsInfo.DistrictID)}</h1>
-                </div>
-            </div>
-
         </>
     );
 
