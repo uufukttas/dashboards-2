@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { CloseIcon } from '@projects/icons';
+import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../app/redux/store';
 
@@ -17,13 +18,13 @@ const MofalHeader = ({ modalHeaderTitle }: IModalHeaderProps) => {
     };
 
     return (
-        <div className="sh-modal-header-title-container flex justify-between items-center border-b">
-            <h3 className="sh-modal-header-title text-lg font-bold text-heading">
+        <div className={`${BRAND_PREFIX}-modal-header-title-container flex justify-between items-center border-b`}>
+            <h3 className={`${BRAND_PREFIX}-modal-header-title text-lg font-bold text-heading`}>
                 {modalHeaderTitle}
             </h3>
-            <div className="sh-modal-close-button-container">
+            <div className={`${BRAND_PREFIX}-modal-close-button-container`}>
                 <Button
-                    className="sh-modal-close-button text-sm p-1.5 ml-auto inline-flex items-center bg-white text-black hover:bg-white hover:text-black"
+                    className={`${BRAND_PREFIX}modal-close-button text-sm p-1.5 ml-auto inline-flex items-center bg-white text-black hover:bg-white hover:text-black`}
                     type='button'
                     onClick={handleClose}
                 >

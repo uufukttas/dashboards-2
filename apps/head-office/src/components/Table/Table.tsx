@@ -6,11 +6,11 @@ import { Button } from "@projects/button";
 import { InfoIcon, PenIcon, TrashIcon } from '@projects/icons';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
+import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
+import { RootState } from '../../../app/redux/store';
 import { setUpdatedServicePointData } from '../../../app/redux/features/updatedServicePointData';
 import { setUpdatedServicePointInfoData } from '../../../app/redux/features/updatedServicePointInfoData';
-import { RootState } from '../../../app/redux/store';
-import { CITIES, DISTRICTS } from '../../constants/city_districts';
 import './Table.css';
 
 interface IServicePointInfoProps {
@@ -208,19 +208,25 @@ export function Table() {
 
   return (
     servicePoints?.length > 0 &&
-    <div className="sh-table-container relative overflow-x-auto shadow-md sm:rounded-lg max-w-[330px] md:max-w-full w-full">
-      <div className="sh-table-wrapper flex flex-col items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white w-full md:flex-row">
-        <div className="sh-table-actions w-4/5 md:w-1/6">
-          <Button className={`sh-add-service-point-button-container w-full`} type="button" onClick={handleClick}>+ Hizmet Noktasi</Button>
+    <div className={`${BRAND_PREFIX}-table-container relative overflow-x-auto shadow-md sm:rounded-lg max-w-[330px] md:max-w-full w-full`}>
+      <div className={`${BRAND_PREFIX}-table-wrapper flex flex-col items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white w-full md:flex-row`}>
+        <div className={`${BRAND_PREFIX}-table-actions w-4/5 md:w-1/6`}>
+          <Button className={`${BRAND_PREFIX}-add-service-point-button-container w-full`} type="button" onClick={handleClick}>+ Hizmet Noktasi</Button>
         </div>
         <Label className="sr-only" htmlFor="table-search" labelText={`Search`} />
-        <div className="sh-service-point-search-input-container relative w-4/5 md:w-1/6 mx-2">
-          <div className="sh-service-point-search-icon-container absolute inset-y-0 flex items-center ps-3 pointer-events-none pl-3 pr-2 justify-end border-r">
+        <div className={`${BRAND_PREFIX}-service-point-search-input-container relative w-4/5 md:w-1/6 mx-2`}>
+          <div className={`${BRAND_PREFIX}-service-point-search-icon-container absolute inset-y-0 flex items-center ps-3 pointer-events-none pl-3 pr-2 justify-end border-r`}>
             <svg className="w-4 h-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
             </svg>
           </div>
-          <Input className="sh-service-point-search-input w-full block p-2 md:mx-2 pl-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500" id="table-search-input" name="search" placeholder="Search users" type="text" />
+          <Input
+          className={`${BRAND_PREFIX}-service-point-search-input w-full block p-2 md:mx-2 pl-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500`}
+          id="table-search-input"
+          name="search"
+          placeholder="Search users"
+          type="text"
+          />
         </div>
       </div>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 shadow-custom">

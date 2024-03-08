@@ -1,3 +1,4 @@
+import { BRAND_PREFIX } from '../../constants/constants';
 import './Background.css';
 
 interface IBackgroundProps {
@@ -11,7 +12,7 @@ const Background = ({
 }: IBackgroundProps) => {
   return (
     <div
-      className={`sh-background-container h-screen ${className}`}
+      className={`${BRAND_PREFIX}-background-container h-screen ${className}`}
       style={{ backgroundImage: `url("${backgroundUrl}")` }}
     >
     </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Card from '../../../src/components/Card/Card';
-import { CITIES, DISTRICTS } from '../../../src/constants/city_districts';
+import { CITIES, DISTRICTS } from '../../../src/constants/constants';
 
 interface IServicePointsDetailsPageProps {
     slug: string;

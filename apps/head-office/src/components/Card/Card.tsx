@@ -3,6 +3,7 @@
 import CardBody from './CardBody';
 import CardFooter from './CardFooter';
 import CardHeader from './CardHeader';
+import { BRAND_PREFIX } from '../../constants/constants';
 import './Card.css';
 
 interface ICardProps {
@@ -21,7 +22,7 @@ export function Card({
   onClick,
 }: ICardProps) {
   return (
-    <div className={`sh-card-container p-8 rounded shadow-custom mx-8 ${className}`}>
+    <div className={`${BRAND_PREFIX}-card-container p-8 rounded shadow-custom mx-8 ${className}`}>
       <CardHeader>
         {cardHeaderChildren}
       </CardHeader>

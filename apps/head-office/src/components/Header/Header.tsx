@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { HamburgerMenuIcon, PersonIcon } from '@projects/icons';
+import { BRAND_PREFIX } from '../../constants/constants';
 import { RootState } from '../../../app/redux/store';
 import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpand';
 import './Header.css';
@@ -18,11 +19,21 @@ const Header = ({ className }: IHeaderProps) => {
   };
 
   return (
-    <div className={`sh-header-container justify-between shadow-custom ${className} bg-white sticky top-0`}>
-      <Button className="sh-sidebar-toggle-button bg-white hover:bg-white mx-8" type='button' onClick={handleSidebarToggle}>
+    <div
+      className={`${BRAND_PREFIX}-header-container justify-between shadow-custom ${className} bg-white sticky top-0`}
+    >
+      <Button
+        className={`${BRAND_PREFIX}-sidebar-toggle-button bg-white hover:bg-white mx-8`}
+        type='button'
+        onClick={handleSidebarToggle}
+      >
         <HamburgerMenuIcon />
       </Button>
-      <Button className="sh-sidebar-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center mx-8 rounded-full px-2" type='button' onClick={() => {}}>
+      <Button
+        className={`${BRAND_PREFIX}-sidebar-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center mx-8 rounded-full px-2`}
+        type='button'
+        onClick={() => { }}
+      >
         <PersonIcon />
       </Button>
     </div>

@@ -1084,3 +1084,7 @@ export const DISTRICTS: IDistrictMap = {
     '2': 'CEYHAN',
     '1': 'ALADAĞ',
 };
+
+export const BRAND_PREFIX = {
+    prefix: 'sh',
+};

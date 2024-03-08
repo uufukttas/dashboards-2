@@ -1,3 +1,4 @@
+import { BRAND_PREFIX } from '../../constants/constants';
 import './Modal.css';
 
 interface IModalBodyProps {
@@ -6,7 +7,7 @@ interface IModalBodyProps {
 
 const ModalBody = ({ children }: IModalBodyProps) => {
     return (
-        <div className="sh-service-point-modal-content-container relative bg-white rounded-lg max-h-[650px]">
+        <div className={`${BRAND_PREFIX}-service-point-modal-content-container relative bg-white rounded-lg max-h-[650px]`}>
             {children}
         </div>
     );

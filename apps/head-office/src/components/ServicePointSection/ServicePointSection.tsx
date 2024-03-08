@@ -4,6 +4,7 @@ import { Alert } from '@projects/alert';
 import Modal from '../Modal/Modal';
 import Table from '../Table/Table';
 import ServicePointModalForm from './ServicePointModalForm';
+import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleAlertVisibility } from '../../../app/redux/features/isAlertVisible';
 import { RootState } from '../../../app/redux/store';
 
@@ -13,13 +14,13 @@ export function ServicePointSection() {
   const dispatch = useDispatch();
 
   return (
-    <div className={`sh-service-point-container flex justify-between items-center pt-6 md:pt-12 flex-col`}>
-      <div className="sh-service-point-table-container flex items-center w-full">
+    <div className={`${BRAND_PREFIX}-service-point-container flex justify-between items-center pt-6 md:pt-12 flex-col`}>
+      <div className={`${BRAND_PREFIX}-service-point-table-container flex items-center w-full`}>
         <Table />
       </div>
       {
         isModalVisible &&
-        <Modal modalId={'sh-service-point-modal'}>
+        <Modal modalId={`${BRAND_PREFIX}-service-point-modal`}>
           <ServicePointModalForm />
         </Modal>
       }

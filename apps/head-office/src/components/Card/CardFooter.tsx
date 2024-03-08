@@ -1,5 +1,7 @@
 'use client';
 
+import { BRAND_PREFIX } from "../../constants/constants";
+
 interface ICardFooterProps {
     className?: string;
     children: React.ReactNode;
@@ -7,7 +9,7 @@ interface ICardFooterProps {
 
 export function CardFooter({ children, className }: ICardFooterProps) {
     return (
-        <div className={`sh-card-footer-container ${className ? (className + ' mt-4') : 'mt-2'}`}>
+        <div className={`${BRAND_PREFIX}-card-footer-container ${className ? (className + ' mt-4') : 'mt-2'}`}>
             {children}
         </div>
     );

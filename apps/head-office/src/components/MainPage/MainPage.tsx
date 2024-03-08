@@ -1,6 +1,7 @@
 import Header from '../Header/Header';
 import Section from '../Section/Section';
 import Sidebar from '../Sidebar/Sidebar';
+import { BRAND_PREFIX } from '../../constants/constants';
 import './MainPage.css';
 
 interface IMainPageProps {
@@ -9,9 +10,9 @@ interface IMainPageProps {
 
 const MainPage = ({ children }: IMainPageProps) => {
   return (
-    <div className="sh-page-wrapper w-full h-screen flex">
+    <div className={`${BRAND_PREFIX}-page-wrapper w-full h-screen flex`}>
       <Sidebar />
-      <div className="sh-page-container h-screen bg-white overflow-x-hidden no-scrollbar">
+      <div className={`${BRAND_PREFIX}-page-container h-screen bg-white overflow-x-hidden no-scrollbar`}>
         <Header className={`h-[80px] flex items-center w-full`} />
         <Section>
           {children}

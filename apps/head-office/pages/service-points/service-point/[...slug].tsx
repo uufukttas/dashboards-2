@@ -3,11 +3,12 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Provider } from 'react-redux';
 import { store } from '../../../app/redux/store';
-import ServicePointDetailsPage from './ServicePointsDetailsPage'
+import ServicePointDetailsPage from './ServicePointsDetailsPage';
+import Accordion from '../../../src/components/Accordion/Accordion';
 import MainPage from '../../../src/components/MainPage/MainPage';
+import { BRAND_PREFIX } from '../../../src/constants/constants';
 import '../../../app/global.css';
 import '../../../src/styles/style.css';
-import Accordion from '../../../src/components/Accordion/Accordion';
 
 
 const ServicePointInfoPage = () => {
@@ -26,7 +27,7 @@ const ServicePointInfoPage = () => {
         <title>{`Service Point Details - ${router.query.slug} | Sharz.net`}</title>
       </Head>
       <Provider store={store}>
-        <div className="sh-service-point-detail-page-container w-full h-screen flex">
+        <div className={`${BRAND_PREFIX}-service-point-detail-page-container w-full h-screen flex`}>
           <MainPage>
             <div className="service-point-page-wrapper flex justify-center items-center md:pt-12 flex-wrap w-full ">
               {

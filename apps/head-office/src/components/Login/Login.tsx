@@ -9,6 +9,7 @@ import { Image } from '@projects/image';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import Card from '../Card/Card';
+import { BRAND_PREFIX } from '../../constants/constants';
 import { userInfo } from '../../constants/styles';
 import { AppDispatch } from '../../../app/redux/store';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoading';
@@ -37,7 +38,7 @@ const initialLoginFormData = {
 };
 
 const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
-    const loginFormInputs= ['Username', 'Password'];
+    const loginFormInputs = ['Username', 'Password'];
     const [loginFormData, setLoginFormData] = useState<ILoginFormDataProps>(initialLoginFormData);
     const dispatch = useDispatch<AppDispatch>();
     const { formState: { errors }, register, handleSubmit } = useForm();
@@ -93,20 +94,26 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
 
     const cardHeaderChildren = (
         <>
-            <div className="sh-card-header-container">
-                <div className="sh-card-title-container">
-                    <h2 className="sh-card-title text-2xl font-semibold">{userInfo.name}</h2>
+            <div className={`${BRAND_PREFIX}-card-header-container`}>
+                <div className={`${BRAND_PREFIX}-card-title-container`}>
+                    <h2 className={`${BRAND_PREFIX}-card-title text-2xl font-semibold`}>{userInfo.name}</h2>
                 </div>
             </div>
-            <div className="sh-card-logo-container">
-                <Image alt={`${userInfo.name} logo`} className="sh-card-logo" height={100} src={userInfo.logo} width={100} />
+            <div className={`${BRAND_PREFIX}-card-logo-container`}>
+                <Image
+                    alt={`${userInfo.name} logo`}
+                    className={`${BRAND_PREFIX}-card-logo`}
+                    height={100}
+                    src={userInfo.logo}
+                    width={100}
+                />
             </div>
         </>
     );
     const cardBodyChildren = (
         <>
-            <div className="sh-card-form-container">
-                <form className="sh-card-form" onSubmit={handleSubmit(handleLoginSubmit)}>
+            <div className={`${BRAND_PREFIX}-card-form-container`}>
+                <form className={`${BRAND_PREFIX}-card-form`} onSubmit={handleSubmit(handleLoginSubmit)}>
                     {
                         loginFormInputs.map((loginFormInput: string, index: number) => (
                             <div key={index} className="mb-4">
@@ -128,7 +135,7 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
                                                     ? /^.*$/
                                                     : /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$.*])/,
                                             },
-                                            required: `${loginFormInput === 'Username' ? 'Kullanıcı Adı' : 'Şifre' } zorunlu bir alandır.`,
+                                            required: `${loginFormInput === 'Username' ? 'Kullanıcı Adı' : 'Şifre'} zorunlu bir alandır.`,
                                             validate: loginFormInput.toLowerCase() === 'password'
                                                 ? {
                                                     checkLength: (value) => value.length >= 8,
@@ -157,7 +164,7 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
                     <div className="mb-4">
                         <Button
                             buttonText={'Giriş Yap'}
-                            className={"button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline sh-login-button p-2 w-full"}
+                            className={`button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline ${BRAND_PREFIX}-login-button p-2 w-full`}
                             type={'submit'}
                         />
                     </div>
@@ -167,8 +174,8 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
     );
     const cardFooterChildren = (
         <>
-            <div className="sh-card-footer-text-container">
-                <p className="sh-card-footer-text italic text-center text-sm">SHARZNET</p>
+            <div className={`${BRAND_PREFIX}-card-footer-text-container`}>
+                <p className={`${BRAND_PREFIX}-card-footer-text italic text-center text-sm`}>SHARZNET</p>
             </div>
         </>
     );

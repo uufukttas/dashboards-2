@@ -4,6 +4,7 @@ import ServicePointModalFormFirstPage from './ServicePointModalFormPages/Service
 import ServicePointModalFormFourthPage from './ServicePointModalFormPages/ServicePointModalFormFourthPage';
 import ServicePointModalFormSecondPage from './ServicePointModalFormPages/ServicePointModalFormSecondPage';
 import ServicePointModalFormThirdPage from './ServicePointModalFormPages/ServicePointModalFormThirdPage';
+import { BRAND_PREFIX } from '../../constants/constants';
 import { RootState } from '../../../app/redux/store';
 
 const ServicePointModalForm = () => {
@@ -24,8 +25,8 @@ const ServicePointModalForm = () => {
   const [stationId, setStationId] = useState<number>(0);
 
   return (
-    <div className={`sh-service-point-${updatedServicePointData.id > 0 ? 'update' : 'create'}-form-wrapper`}>
-      <div className={`sh-service-point-${updatedServicePointData.id > 0 ? 'update' : 'create'}-modal-page-container relative p-6 bg-white rounded-lg max-h-[650px]`}>
+    <div className={`${BRAND_PREFIX}-service-point-${updatedServicePointData.id > 0 ? 'update' : 'create'}-form-wrapper`}>
+      <div className={`${BRAND_PREFIX}-service-point-${updatedServicePointData.id > 0 ? 'update' : 'create'}-modal-page-container relative p-6 bg-white rounded-lg max-h-[650px]`}>
         {activePage === 1 &&
           <ServicePointModalFormFirstPage
             activePage={activePage}
