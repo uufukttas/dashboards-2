@@ -18,6 +18,7 @@ interface IFormData {
 interface IModalPageInputs {
   activePage: number;
   formData: IFormData;
+  stationId: number;
   setActivePage: React.Dispatch<React.SetStateAction<number>>;
   setFormData: React.Dispatch<React.SetStateAction<IFormData>>;
 };
@@ -25,6 +26,7 @@ interface IModalPageInputs {
 const ServicePointModalFormFourthPage = ({
   activePage,
   formData,
+  stationId,
   setActivePage,
   setFormData
 }: IModalPageInputs) => {
@@ -100,7 +102,7 @@ const ServicePointModalFormFourthPage = ({
 
 
   const createConfigData = () => ({
-      id: updatedServicePointInfoData.id,
+      stationId: stationId,
       address: formData['service-point-address'],
       phone1: formData['service-point-phone-number-1'],
       phone2: formData['service-point-phone-number-2'],
