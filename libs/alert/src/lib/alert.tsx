@@ -3,18 +3,28 @@ import { CloseIcon, InfoIcon } from '@projects/icons';
 
 export interface IAlertProps {
   alertText: string;
+  alertType: 'success' | 'error' | 'warning' | 'info';
   id: string;
   onClick?: () => void;
 };
 
 export function Alert({
   alertText,
+  alertType,
   id,
   onClick,
 }: IAlertProps) {
+
+  const alertTypes = {
+    success: 'bg-green-50 border-green-300 text-green-800',
+    error: 'bg-red-50 border-red-300 text-red-800',
+    warning: 'bg-yellow-50 border-yellow-300 text-yellow-800',
+    info: 'bg-blue-50 border-blue-300 text-blue-800',
+  };
+
   return (
     <div
-      className={`alert-container flex items-center p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 absolute top-5 right-0 z-50`}
+      className={`alert-container flex items-center p-4 mb-4 border-t-4 absolute top-5 right-0 z-50 ${alertTypes[alertType]}`}
       id={id}
       role="alert">
       <InfoIcon />

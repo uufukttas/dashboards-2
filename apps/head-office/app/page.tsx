@@ -40,14 +40,19 @@ const Index = () => {
         backgroundUrl={stylesProp.loginPageBackgroundImage}
         className={detectDevice().isDesktop ? 'w-3/4' : 'hidden'}
       />
-      {isLoading && (<Loading />)}
-      {loginFailedData.isFailed && (
-        <Alert
-          alertText={loginFailedData.message}
-          id={'login-failed-alert'}
-          onClick={closeAlert}
-        />
-      )}
+      {
+        isLoading &&
+          <Loading />
+      }
+      {
+        loginFailedData.isFailed && 
+          <Alert
+            alertText={loginFailedData.message}
+            alertType={'success'}
+            id={'login-failed-alert'}
+            onClick={closeAlert}
+          />
+      }
     </div>
   );
 };
