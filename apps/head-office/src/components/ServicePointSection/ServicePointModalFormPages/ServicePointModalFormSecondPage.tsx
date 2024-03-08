@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useSelector } from 'react-redux';
@@ -7,19 +7,20 @@ import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { Textarea } from '@projects/textarea';
 import { RootState } from '../../../../app/redux/store';
+import { BRAND_PREFIX } from '../../../../src/constants/constants';
 
-interface IFormData {
+interface IFormDataProps {
   [key: string]: string | number | boolean | string[];
 };
 
 interface IModalPageInputs {
   activePage: number;
   cities: { rid: number; plateCode: number; name: string; }[];
-  formData: IFormData;
+  formData: IFormDataProps;
   setActivePage: React.Dispatch<React.SetStateAction<number>>;
   setCities: React.Dispatch<React.SetStateAction<{ rid: number; plateCode: number; name: string; id: null }[]>>;
   setDistricts: React.Dispatch<React.SetStateAction<{ rid: number; name: string; plateCode: number; id: null }[]>>;
-  setFormData: React.Dispatch<React.SetStateAction<IFormData>>;
+  setFormData: React.Dispatch<React.SetStateAction<IFormDataProps>>;
 };
 
 const ServicePointModalFormSecondPage = ({
@@ -31,11 +32,27 @@ const ServicePointModalFormSecondPage = ({
   setDistricts,
   setFormData
 }: IModalPageInputs) => {
-  const brandPrefix = 'sh';
-  const formProperties = ['phone-number-1', 'phone-number-2', 'address'];
-  const sectionPrefix = 'service-point';
   const updatedServicePointInfoData = useSelector((state: RootState) => {
     return state.updatedServicePointInfoData.updatedServicePointInfoData
+  });
+  const formName = ['phone-number-1', 'phone-number-2', 'address'];
+  const sectionPrefix = 'service-point';
+  const formProperties = {
+    phone1: `${sectionPrefix}-${formName[0]}`,
+    phone2: `${sectionPrefix}-${formName[1]}`,
+    address: `${sectionPrefix}-${formName[2]}`,
+  };
+  const isServicePointInfoDataUpdated = updatedServicePointInfoData.id > 0;
+  const [secondPageFormData, setSecondPageFormData] = useState<IFormDataProps>({
+    [`${formProperties.phone1}`]: isServicePointInfoDataUpdated
+      ? updatedServicePointInfoData.Phone1
+      : formData[`${formProperties.phone1}`] || '',
+    [`${formProperties.phone2}`]: isServicePointInfoDataUpdated
+      ? updatedServicePointInfoData.Phone2
+      : formData[`${formProperties.phone2}`] || '',
+    [`${formProperties.address}`]: isServicePointInfoDataUpdated
+      ? updatedServicePointInfoData.address
+      : formData[`${formProperties.address}`] || '',
   });
   const { formState: { errors }, handleSubmit, register } = useForm();
 
@@ -64,118 +81,116 @@ const ServicePointModalFormSecondPage = ({
     };
   };
 
-  const handleFormSubmit: SubmitHandler<IFormData> = () => {
+  const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
+    setFormData({
+      ...formData,
+      ...secondPageFormData,
+    });
     setActivePage(activePage + 1);
   };
 
   useEffect(() => {
-    if (cities.length === 0 && activePage === 2) {
+    if (cities.length === 0) {
       getCities();
     }
-
-    if (updatedServicePointInfoData.id > 0) {
-      setFormData({
-        ...formData,
-        [`${sectionPrefix}-${formProperties[0]}`]: updatedServicePointInfoData.Phone1,
-        [`${sectionPrefix}-${formProperties[1]}`]: updatedServicePointInfoData.Phone2,
-        [`${sectionPrefix}-${formProperties[2]}`]: updatedServicePointInfoData.Address,
-      });
-    }
-  }, [cities, activePage, updatedServicePointInfoData]);
+  }, [cities]);
 
   return (
     <form
-      className={`${brandPrefix}-modal-page-2 ${activePage === 2 ? 'block' : 'hidden'}`}
+      className={`${BRAND_PREFIX}-modal-page-2 ${activePage === 2 ? 'block' : 'hidden'}`}
       onSubmit={handleSubmit(handleFormSubmit)}>
       <div className={`${sectionPrefix}-phone-numbers-container`}>
         <Label
-          className={`${sectionPrefix}-${formProperties[0]}-label block mb-2 text-heading font-semibold`}
-          htmlFor={`${sectionPrefix}-${formProperties[0]}`}
+          className={`${formProperties.phone1}-label block mb-2 text-heading font-semibold`}
+          htmlFor={`${formProperties.phone1}`}
           labelText={`Hizmet Noktasi Birinci Telefon Numarasi`} >
           <span className="text-md text-error">*</span>
         </Label>
         <Input
-          className={`${sectionPrefix}-${formProperties[0]}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
-          id={`${sectionPrefix}-${formProperties[0]}`}
-          name={`${sectionPrefix}-${formProperties[0]}`}
+          className={`${formProperties.phone1}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
+          id={`${formProperties.phone1}`}
+          name={`${formProperties.phone1}`}
           placeholder={`0555 123 45 67`}
           register={
-            register(`${sectionPrefix}-${formProperties[0]}`, {
+            register(`${formProperties.phone1}`, {
               required: `Telefon numarasi alani zorunludur.`,
               minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
               maxLength: { value: 11, message: 'En fazla 11 karakter girebilirsiniz.' },
-              value: updatedServicePointInfoData.id > 0
-                ? updatedServicePointInfoData.Phone1
-                : formData[`${sectionPrefix}-${formProperties[0]}`],
+              value: secondPageFormData[`${formProperties.phone1}`],
               onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                setFormData(({ ...formData, [event.target.name]: event.target.value }));
+                setSecondPageFormData({
+                  ...secondPageFormData,
+                  [event.target.name]: event.target.value,
+                });
               },
             })}
           type={`number`}
         />
         {
-          errors[`${sectionPrefix}-${formProperties[0]}`]
-          && errors[`${sectionPrefix}-${formProperties[0]}`]?.message
+          errors[`${formProperties.phone1}`]
+          && errors[`${formProperties.phone1}`]?.message
           && (
             <div className={`${sectionPrefix}-phone-number-error-wrapper my-4 font-bold text-error`}>
               <p className={`${sectionPrefix}-phone-number-error-message`}>
-                {(errors[`${sectionPrefix}-${formProperties[0]}`]?.message?.toString())}
+                {(errors[`${formProperties.phone1}`]?.message?.toString())}
               </p>
             </div>
           )}
         <Label
-          className={`${sectionPrefix}-${formProperties[1]}-input block mb-2 text-heading font-semibold`}
-          htmlFor={`${sectionPrefix}-${formProperties[1]}`}
+          className={`${formProperties.phone2}-input block mb-2 text-heading font-semibold`}
+          htmlFor={`${formProperties.phone2}`}
           labelText={`Hizmet Noktasi Ikinci Telefon Numarasi`} />
         <Input
-          className={`${sectionPrefix}-${formProperties[1]}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
-          id={`${sectionPrefix}-${formProperties[1]}`}
-          name={`${sectionPrefix}${formProperties[1]}`}
+          className={`${formProperties.phone2}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
+          id={`${formProperties.phone2}`}
+          name={`${sectionPrefix}${formName[1]}`}
           placeholder={`0555 123 45 67`}
           register={
-            register(`${sectionPrefix}-${formProperties[1]}`, {
+            register(`${formProperties.phone2}`, {
               minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
               maxLength: { value: 11, message: 'En fazla 11 karakter girebilirsiniz.' },
-              value: updatedServicePointInfoData.id > 0
-                ? updatedServicePointInfoData.Phone2
-                : formData[`${sectionPrefix}-${formProperties[1]}`],
+              value: secondPageFormData[`${formProperties.phone2}`],
               onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                setFormData(({ ...formData, [event.target.name]: event.target.value }));
+                setSecondPageFormData({
+                  ...secondPageFormData,
+                  [event.target.name]: event.target.value,
+                });
               },
             })}
           type={`number`}
         />
       </div>
-      <div className={`${sectionPrefix}-${formProperties[2]}-container`}>
+      <div className={`${formProperties.address}-container`}>
         <Label
           className={`${sectionPrefix}-adress-input block mb-2 text-heading font-semibold`}
-          htmlFor={`${sectionPrefix}-${formProperties[2]}`}
+          htmlFor={`${formProperties.address}`}
           labelText={'Hizmet Noktasi Adresi'} >
           <span className="text-md text-error">*</span>
         </Label>
         <Textarea
-          className={`${sectionPrefix}-${formProperties[2]}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
-          id={`${sectionPrefix}-${formProperties[2]}`}
-          name={`${sectionPrefix}-${formProperties[2]}`}
+          className={`${formProperties.address}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
+          id={`${formProperties.address}`}
+          name={`${formProperties.address}`}
           placeholder={'Cumhuriyet Mahallesi 123.Sokak...'}
           register={
-            register(`${sectionPrefix}-${formProperties[2]}`, {
+            register(`${formProperties.address}`, {
               required: `Hizmet Noktasi Adresi zorunludur.`,
               minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
-              value: updatedServicePointInfoData.id > 0
-                ? updatedServicePointInfoData.address
-                : formData[`${sectionPrefix}-${formProperties[2]}`]?.toString(),
+              value: decodeURIComponent(secondPageFormData[`${formProperties.address}`].toString()),
               onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                setFormData(({ ...formData, [`${sectionPrefix}-${formProperties[2]}`]: event.target.value }));
+                setSecondPageFormData({
+                  ...secondPageFormData,
+                  [event.target.name]: encodeURIComponent(event.target.value),
+                });
               },
             })}
         />
-        {errors[`${sectionPrefix}-${formProperties[2]}`]
-          && errors[`${sectionPrefix}-${formProperties[2]}`]?.message
+        {errors[`${formProperties.address}`]
+          && errors[`${formProperties.address}`]?.message
           && (
-            <div className={`${sectionPrefix}-${formProperties[2]}-error-wrapper my-4 font-bold text-error`}>
-              <p className={`${sectionPrefix}-${formProperties[2]}-error-message`}>
-                {(errors[`${sectionPrefix}-${formProperties[2]}`]?.message?.toString())}
+            <div className={`${formProperties.address}-error-wrapper my-4 font-bold text-error`}>
+              <p className={`${formProperties.address}-error-message`}>
+                {(errors[`${formProperties.address}`]?.message?.toString())}
               </p>
             </div>
           )}
