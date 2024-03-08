@@ -9,6 +9,7 @@ import { Label } from '@projects/label';
 import { toggleAlertVisibility } from '../../../../app/redux/features/isAlertVisible';
 import { setUpdatedServicePointData } from '../../../../app/redux/features/updatedServicePointData';
 import { RootState } from '../../../../app/redux/store';
+import { BRAND_PREFIX } from '../../../../src/constants/constants';
 
 interface IFormDataProps {
   [key: string]: boolean | number | string | string[];
@@ -31,7 +32,6 @@ const ServicePointModalFormFirstPage = ({
   setFormData,
   setStationId
 }: IModalPageInputs) => {
-  const brandPrefix = 'sh';
   const formProperties = ['name', 'reseller', 'company'];
   const sectionPrefix = 'service-point';
   const updatedServicePointData = useSelector((state: RootState) => {
@@ -117,7 +117,7 @@ const ServicePointModalFormFirstPage = ({
 
   return (
     companies && resellers &&
-    <form className={`${brandPrefix}-modal-form-page-1 ${activePage === 1 ? 'block' : 'hidden'}`}
+    <form className={`${BRAND_PREFIX}-modal-form-page-1 ${activePage === 1 ? 'block' : 'hidden'}`}
       onSubmit={handleSubmit(handleFormSubmit)}>
       <div className={`${sectionPrefix}-${formProperties[0]}-container`}>
         <Label

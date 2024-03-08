@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from '@projects/alert';
-import ServicePointModalForm from './ServicePointModalForm';
+import ServicePointModalForm from './ServicePointModal';
 import Modal from '../Modal/Modal';
 import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
