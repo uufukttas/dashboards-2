@@ -58,23 +58,24 @@ const Sidebar = () => {
   return (
     isDetectedDevice && (
       <div
-        className={`${BRAND_PREFIX}-sidebar-container shadow-custom h-screen flex flex-col justify-between ${
-          isSidebarExpanded !== null
+        className={`${BRAND_PREFIX}-sidebar-container shadow-custom h-screen flex flex-col justify-between ${isSidebarExpanded !== null
             ? isSidebarExpanded
               ? 'expanded'
               : 'collapsed'
             : ''
-        }`}
+          }`}
       >
         <div
           className={`${BRAND_PREFIX}-sidebar-header-container flex items-center justify-between h-[80px]`}
         >
           <div className={`${BRAND_PREFIX}-sidebar-header-logo-container mx-4`}>
-            <Image
-              alt={userInfo.name}
-              className={`${BRAND_PREFIX}-sidebar-header-logo`}
-              src={userInfo.logo}
-            />
+            <Link href="/dashboards">
+              <Image
+                alt={userInfo.name}
+                className={`${BRAND_PREFIX}-sidebar-header-logo`}
+                src={userInfo.logo}
+              />
+            </Link>
           </div>
           {
             detectDevice().isMobile === true && (
@@ -106,9 +107,8 @@ const Sidebar = () => {
                   key={index}
                 >
                   <li
-                    className={`${BRAND_PREFIX}-sidebar-list-item cursor-pointer ${
-                      index === sidebarElements.length - 1 ? '' : 'border-b'
-                    } `}
+                    className={`${BRAND_PREFIX}-sidebar-list-item cursor-pointer ${index === sidebarElements.length - 1 ? '' : 'border-b'
+                      } `}
                   >
                     <div
                       className={`${BRAND_PREFIX}-sidebar-item-container w-full flex justify-start p-4`}
@@ -117,13 +117,12 @@ const Sidebar = () => {
                         {item.icon}
                       </span>
                       <span
-                        className={`${BRAND_PREFIX}-sidebar-item-name pl-4 ${
-                          isSidebarExpanded !== null
+                        className={`${BRAND_PREFIX}-sidebar-item-name pl-4 ${isSidebarExpanded !== null
                             ? isSidebarExpanded
                               ? 'block'
                               : 'hidden'
                             : 'hidden'
-                        }`}
+                          }`}
                       >
                         {item.name}
                       </span>
