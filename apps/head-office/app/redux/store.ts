@@ -1,7 +1,6 @@
 import { configureStore, EnhancedStore } from "@reduxjs/toolkit";
-import counterReducer from "./features/counterSlice";
 import sidebarExpandReducer from "./features/isSidebarExpand";
-import loadingReducer from './features/isLoading';
+import loadingReducer from './features/isLoadingVisible';
 import selectedCityReducer from './features/setSelectedCity'
 import updatedServicePointReducer from './features/selectedServicePoint'
 import isModalVisibleReducer from "./features/isModalVisible";
@@ -11,7 +10,6 @@ import isAlertVisibleReducer from "./features/isAlertVisible";
 
 export const store: EnhancedStore = configureStore({
   reducer: {
-    counterReducer,
     sidebarExpandReducer,
     loadingReducer,
     selectedCityReducer,

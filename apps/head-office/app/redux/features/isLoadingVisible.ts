@@ -9,7 +9,7 @@ const initialState = {
 } as LoadingState;
 
 export const loading = createSlice({
-    name: "loading",
+    name: "loadingVisibleStatus",
     initialState,
     reducers: {
         toggleLoadingVisibility: (state, action) => {

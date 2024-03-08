@@ -23,7 +23,7 @@ const initialState = {
 } as UpdatedServicePoint;
 
 export const updatedServicePoint = createSlice({
-    name: "updatedServicePoint",
+    name: "selectedServicePoint",
     initialState,
     reducers: {
         setUpdatedServicePoint: (state, action) => {
@@ -33,5 +33,4 @@ export const updatedServicePoint = createSlice({
 });
 
 export const { setUpdatedServicePoint } = updatedServicePoint.actions;
-export const getUpdatedServicePointInfo = (state: UpdatedServicePoint) => state.updatedServicePoint;
 export default updatedServicePoint.reducer as Reducer<UpdatedServicePoint>;

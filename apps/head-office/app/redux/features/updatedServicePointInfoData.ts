@@ -59,5 +59,4 @@ export const updatedServicePointInfoData = createSlice({
 });
 
 export const { setUpdatedServicePointInfoData } = updatedServicePointInfoData.actions;
-export const getUpdatedServicePointInfoData = (state: { updatedServicePointInfoData: UpdatedServicePointInfoDataState }) => state.updatedServicePointInfoData.updatedServicePointInfoData;
 export default updatedServicePointInfoData.reducer as Reducer<UpdatedServicePointInfoDataState>;

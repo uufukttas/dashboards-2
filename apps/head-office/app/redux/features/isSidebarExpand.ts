@@ -9,7 +9,7 @@ const initialState = {
 } as SidebarExpandState;
 
 export const sidebarExpand = createSlice({
-    name: "sidebarExpand",
+    name: "sidebarExpandStatus",
     initialState,
     reducers: {
         toggleSidebarExpanded: (state) => {

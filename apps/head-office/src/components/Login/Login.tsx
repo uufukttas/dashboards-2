@@ -12,7 +12,7 @@ import Card from '../Card/Card';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { userInfo } from '../../constants/styles';
 import { AppDispatch } from '../../../app/redux/store';
-import { toggleLoadingVisibility } from '../../../app/redux/features/isLoading';
+import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 
 interface ILoginFailedDataProps {
     isFailed: boolean;

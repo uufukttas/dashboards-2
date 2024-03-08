@@ -9,7 +9,7 @@ const initialState = {
 } as SelectedCityState;
 
 export const selectedCity = createSlice({
-    name: "city",
+    name: "selectedCity",
     initialState,
     reducers: {
         setSelectedCity: (state, action) => {
@@ -19,5 +19,4 @@ export const selectedCity = createSlice({
 });
 
 export const { setSelectedCity } = selectedCity.actions;
-export const getSelectedCity = (state: SelectedCityState) => state.cityId;
 export default selectedCity.reducer as Reducer<SelectedCityState>;
