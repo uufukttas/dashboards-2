@@ -32,10 +32,15 @@ const ServicePointModalFormFirstPage = ({
   setFormData,
   setStationId
 }: IModalPageInputs) => {
+  const dispatch = useDispatch();
+  const { formState: { errors }, handleSubmit, register } = useForm();
+
+  const hasStationId = stationId !== 0;
   const updatedServicePointData = useSelector((state: RootState) => {
     return state.updatedServicePointData.updatedServicePointData
   });
-  const isServicePointDataUpdated = updatedServicePointData.id > 0;
+  const [companies, setCompanies] = useState<{ id: number; name: string; rid: null; }[]>([]);
+  const [resellers, setResellers] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const formName = ['name', 'reseller', 'company'];
   const sectionPrefix = 'service-point';
   const formProperties = {
@@ -43,7 +48,7 @@ const ServicePointModalFormFirstPage = ({
     reseller: `${sectionPrefix}-${formName[1]}`,
     company: `${sectionPrefix}-${formName[2]}`
   };
-  const [companies, setCompanies] = useState<{ id: number; name: string; rid: null; }[]>([]);
+  const isServicePointDataUpdated = updatedServicePointData.id > 0;
   const [firstPageFormData, setFirstPageFormData] = useState<IFormDataProps>({
     [`${formProperties.name}`]: isServicePointDataUpdated
       ? updatedServicePointData.name
@@ -55,9 +60,7 @@ const ServicePointModalFormFirstPage = ({
       ? updatedServicePointData.companyId
       : (formData[`${formProperties.company}`] || 1),
   });
-  const [resellers, setResellers] = useState<{ id: number; name: string; rid: null; }[]>([]);
-  const { formState: { errors }, handleSubmit, register } = useForm();
-  const dispatch = useDispatch();
+
 
   const createServicePointConfigData = () => ({
     name: firstPageFormData[`${formProperties.name}`],
@@ -137,8 +140,8 @@ const ServicePointModalFormFirstPage = ({
           <span className="text-md text-error">*</span>
         </Label>
         <Input
-          className={`${formProperties.name}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
-          disabled={stationId !== 0}
+          className={`${formProperties.name}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${hasStationId ? 'cursor-not-allowed' : ''}`}
+          disabled={hasStationId}
           id={`${formProperties.name}`}
           name={`${formProperties.name}`}
           register={
@@ -175,15 +178,15 @@ const ServicePointModalFormFirstPage = ({
           <span className="text-md text-error">*</span>
         </Label>
         <Dropdown
-          className={`${formProperties.reseller}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
-          disabled={stationId !== 0}
+          className={`${formProperties.reseller}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${hasStationId ? 'cursor-not-allowed' : ''}`}
+          disabled={hasStationId}
           id={`${formProperties.reseller}`}
           items={resellers}
           name={`${formProperties.reseller}`}
           onChange={handleDropdownChange}
           selectedValue={isServicePointDataUpdated
             ? updatedServicePointData['resellerCompanyId'].toString()
-            : (stationId !== 0 ? formData[`${formProperties.reseller}`]?.toString() : resellers[0])}
+            : (hasStationId ? formData[`${formProperties.reseller}`]?.toString() : resellers[0])}
           value={formData[`${formProperties.reseller}`]?.toString()}
         />
       </div>
@@ -195,15 +198,15 @@ const ServicePointModalFormFirstPage = ({
           <span className="text-md text-error">*</span>
         </Label>
         <Dropdown
-          className={`${formProperties.company}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${stationId !== 0 ? 'cursor-not-allowed' : ''}`}
-          disabled={stationId !== 0}
+          className={`${formProperties.company}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${hasStationId ? 'cursor-not-allowed' : ''}`}
+          disabled={hasStationId}
           id={`${formProperties.company}`}
           items={companies}
           name={`${formProperties.company}`}
           onChange={handleDropdownChange}
           selectedValue={isServicePointDataUpdated
             ? updatedServicePointData['companyId'].toString()
-            : (stationId !== 0 ? formData[`${formProperties.company}`]?.toString() : companies[0])}
+            : (hasStationId ? formData[`${formProperties.company}`]?.toString() : companies[0])}
           value={formData[`${formProperties.company}`]?.toString()}
         />
       </div>
