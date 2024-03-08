@@ -13,7 +13,7 @@ const Background = ({
   return (
     <div
       className={`${BRAND_PREFIX}-background-container h-screen ${className}`}
-      style={{ backgroundImage: `url("${backgroundUrl}")` }}
+      style={{ backgroundImage: `url('${backgroundUrl}')` }}
     >
     </div>
   );

@@ -19,15 +19,15 @@ interface IServicePointsDetailsProps {
 };
 
 interface IServicePointsDetailsInfoProps {
-    "ID": number;
-    "StationID": number;
-    "Address": string;
-    "Phone1": string;
-    "Phone2": string;
-    "Lat": number;
-    "Lon": number;
-    "CityID": number;
-    "DistrictID": number;
+    'ID': number;
+    'StationID': number;
+    'Address': string;
+    'Phone1': string;
+    'Phone2': string;
+    'Lat': number;
+    'Lon': number;
+    'CityID': number;
+    'DistrictID': number;
 }
 
 const initialServicePointsDetailsStateValue = {
@@ -42,15 +42,15 @@ const initialServicePointsDetailsStateValue = {
 };
 
 const initialServicePointsDetailsInfoStateValue = {
-    "ID": 0,
-    "StationID": 0,
-    "Address": "",
-    "Phone1": "",
-    "Phone2": "",
-    "Lat": 0,
-    "Lon": 0,
-    "CityID": 0,
-    "DistrictID": 0
+    'ID': 0,
+    'StationID': 0,
+    'Address': '',
+    'Phone1': '',
+    'Phone2': '',
+    'Lat': 0,
+    'Lon': 0,
+    'CityID': 0,
+    'DistrictID': 0
 }
 
 const ServicePointsDetailsPage = ({ slug }: IServicePointsDetailsPageProps) => {

@@ -1,4 +1,4 @@
-import { createSlice, Reducer } from "@reduxjs/toolkit";
+import { createSlice, Reducer } from '@reduxjs/toolkit';
 
 export type SidebarExpandState = {
     isSidebarExpanded: boolean | null;
@@ -9,7 +9,7 @@ const initialState = {
 } as SidebarExpandState;
 
 export const sidebarExpand = createSlice({
-    name: "sidebarExpandStatus",
+    name: 'sidebarExpandStatus',
     initialState,
     reducers: {
         toggleSidebarExpanded: (state) => {

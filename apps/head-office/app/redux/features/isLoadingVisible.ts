@@ -1,4 +1,4 @@
-import { createSlice, Reducer } from "@reduxjs/toolkit";
+import { createSlice, Reducer } from '@reduxjs/toolkit';
 
 export type LoadingState = {
     isLoading: boolean;
@@ -9,7 +9,7 @@ const initialState = {
 } as LoadingState;
 
 export const loading = createSlice({
-    name: "loadingVisibleStatus",
+    name: 'loadingVisibleStatus',
     initialState,
     reducers: {
         toggleLoadingVisibility: (state, action) => {

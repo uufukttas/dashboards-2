@@ -1,4 +1,4 @@
-import { createSlice, Reducer } from "@reduxjs/toolkit";
+import { createSlice, Reducer } from '@reduxjs/toolkit';
 
 export type UpdatedServicePointInfoDataState = {
     updatedServicePointInfoData: {
@@ -37,7 +37,7 @@ const initialState = {
 } as UpdatedServicePointInfoDataState;
 
 export const updatedServicePointInfoData = createSlice({
-    name: "updatedServicePointInfoData",
+    name: 'updatedServicePointInfoData',
     initialState,
     reducers: {
         setUpdatedServicePointInfoData: (state, action) => {

@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from "@projects/button";
+import { Button } from '@projects/button';
 import { InfoIcon, PenIcon, TrashIcon } from '@projects/icons';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
@@ -74,7 +74,7 @@ export function Table() {
     try {
       await axios.post(
         process.env.GET_STATION_BY_ID || '', ({
-          "id": servicePointId
+          'id': servicePointId
         }))
         .then((response) => response.data)
         .then(response => {
@@ -87,7 +87,7 @@ export function Table() {
 
       await axios.post(
         process.env.GET_STATION_INFO_BY_ID || '', ({
-          "stationId": servicePointId
+          'stationId': servicePointId
         }))
         .then((response) => response.data)
         .then(response => {
@@ -106,8 +106,8 @@ export function Table() {
       await axios.post(
         (process.env.GET_ALL_SERVICE_POINTS || ''),
         ({
-          "pageNumber": 1,
-          "pageSize": 10
+          'pageNumber': 1,
+          'pageSize': 10
         })
       )
         .then((response) => response.data)
@@ -136,7 +136,7 @@ export function Table() {
     try {
       await axios.post(
         process.env.DELETE_STATION_URL || '', ({
-          "id": servicePointId
+          'id': servicePointId
         }))
         .then((response) => response.data)
         .then(response => {

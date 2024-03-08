@@ -1,12 +1,12 @@
-import { configureStore, EnhancedStore } from "@reduxjs/toolkit";
-import sidebarExpandReducer from "./features/isSidebarExpand";
+import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
+import sidebarExpandReducer from './features/isSidebarExpand';
 import loadingReducer from './features/isLoadingVisible';
 import selectedCityReducer from './features/setSelectedCity'
 import updatedServicePointReducer from './features/selectedServicePoint'
-import isModalVisibleReducer from "./features/isModalVisible";
-import updatedServicePointData from "./features/updatedServicePointData";
-import updatedServicePointInfoData from "./features/updatedServicePointInfoData";
-import isAlertVisibleReducer from "./features/isAlertVisible";
+import isModalVisibleReducer from './features/isModalVisible';
+import updatedServicePointData from './features/updatedServicePointData';
+import updatedServicePointInfoData from './features/updatedServicePointInfoData';
+import isAlertVisibleReducer from './features/isAlertVisible';
 
 export const store: EnhancedStore = configureStore({
   reducer: {
@@ -19,7 +19,7 @@ export const store: EnhancedStore = configureStore({
     updatedServicePointInfoData,
     isAlertVisibleReducer,
   },
-  devTools: process.env.NODE_ENV !== "production",
+  devTools: process.env.NODE_ENV !== 'production',
 });
 
 

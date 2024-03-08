@@ -1,4 +1,4 @@
-import { BRAND_PREFIX } from "../../constants/constants";
+import { BRAND_PREFIX } from '../../constants/constants';
 
 interface ISectionProps {
   children?: React.ReactNode;

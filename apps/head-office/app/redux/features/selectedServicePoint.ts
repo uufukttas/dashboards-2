@@ -1,4 +1,4 @@
-import { createSlice, Reducer } from "@reduxjs/toolkit";
+import { createSlice, Reducer } from '@reduxjs/toolkit';
 
 interface ISelectedServicePoint {
     name: string;
@@ -23,7 +23,7 @@ const initialState = {
 } as UpdatedServicePoint;
 
 export const updatedServicePoint = createSlice({
-    name: "selectedServicePoint",
+    name: 'selectedServicePoint',
     initialState,
     reducers: {
         setUpdatedServicePoint: (state, action) => {

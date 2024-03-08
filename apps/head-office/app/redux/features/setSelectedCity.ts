@@ -1,4 +1,4 @@
-import { createSlice, Reducer } from "@reduxjs/toolkit";
+import { createSlice, Reducer } from '@reduxjs/toolkit';
 
 export type SelectedCityState = {
     cityId: string;
@@ -9,7 +9,7 @@ const initialState = {
 } as SelectedCityState;
 
 export const selectedCity = createSlice({
-    name: "selectedCity",
+    name: 'selectedCity',
     initialState,
     reducers: {
         setSelectedCity: (state, action) => {

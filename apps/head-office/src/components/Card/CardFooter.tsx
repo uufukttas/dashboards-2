@@ -1,6 +1,6 @@
 'use client';
 
-import { BRAND_PREFIX } from "../../constants/constants";
+import { BRAND_PREFIX } from '../../constants/constants';
 
 interface ICardFooterProps {
     className?: string;

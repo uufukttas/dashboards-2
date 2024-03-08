@@ -1,4 +1,4 @@
-import { createSlice, Reducer } from "@reduxjs/toolkit";
+import { createSlice, Reducer } from '@reduxjs/toolkit';
 
 export type isModalVisibleState = {
     isModalVisible: boolean;
@@ -9,7 +9,7 @@ const initialState = {
 } as isModalVisibleState;
 
 export const modalVisibility = createSlice({
-    name: "modalVisibleStatus",
+    name: 'modalVisibleStatus',
     initialState,
     reducers: {
         toggleModalVisibility: (state) => {
