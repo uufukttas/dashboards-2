@@ -135,7 +135,9 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
                                                     ? /^.*$/
                                                     : /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$.*])/,
                                             },
-                                            required: `${loginFormInput === 'Username' ? 'Kullanıcı Adı' : 'Şifre'} zorunlu bir alandır.`,
+                                            required: `${loginFormInput === 'Username'
+                                                ? 'Kullanıcı Adı'
+                                                : 'Şifre'} zorunlu bir alandır.`,
                                             validate: loginFormInput.toLowerCase() === 'password'
                                                 ? {
                                                     checkLength: (value) => value.length >= 8,

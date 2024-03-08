@@ -4,10 +4,10 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Alert } from '@projects/alert';
 import { detectDevice } from '@projects/common';
+import { RootState } from './redux/store';
 import Background from '../src/components/Background/Background';
 import Loading from '../src/components/Loading/Loading';
 import Login from '../src/components/Login/Login';
-import { RootState } from './redux/store';
 import { stylesProp } from '../src/constants/styles';
 import './page.css';
 
