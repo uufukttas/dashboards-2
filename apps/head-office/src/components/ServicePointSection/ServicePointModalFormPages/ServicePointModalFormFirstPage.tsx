@@ -99,8 +99,13 @@ const ServicePointModalFormFirstPage = ({
       ...firstPageFormData,
     });
 
+    if (stationId !== 0) {
+      setActivePage(activePage + 1);
+
+      return;
+    }
+
     handleServicePointOperation();
-    setActivePage(activePage + 1);
   };
 
   const handleServicePointOperation = async () => {
@@ -119,6 +124,8 @@ const ServicePointModalFormFirstPage = ({
           updatedServicePointData.id === 0
             ? setStationId(data.data[0].id)
             : dispatch(setUpdatedServicePointData(formData));
+
+          setActivePage(activePage + 1);
         })
         .catch((error) => {
           dispatch(toggleAlertVisibility(true));
@@ -163,11 +170,11 @@ const ServicePointModalFormFirstPage = ({
                 message: 'En az 3 karakter girmelisiniz.',
               },
               required: `Hizmet Noktasi Ismi zorunludur.`,
-              value: firstPageFormData[`${formProperties.name}`],
+              value: decodeURIComponent(firstPageFormData[`${formProperties.name}`].toString()),
               onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                 setFirstPageFormData({
                   ...firstPageFormData,
-                  [event.target.name]: event.target.value,
+                  [event.target.name]: encodeURIComponent(event.target.value),
                 });
               },
             })}

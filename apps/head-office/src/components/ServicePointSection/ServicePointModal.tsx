@@ -66,6 +66,7 @@ const ServicePointModalForm = () => {
           <ServicePointModalFormFourthPage
             activePage={activePage}
             formData={formData}
+            stationId={stationId}
             setActivePage={setActivePage}
             setFormData={setFormData}
           />
