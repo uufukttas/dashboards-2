@@ -2,8 +2,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { HamburgerMenuIcon, PersonIcon } from '@projects/icons';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { RootState } from '../../../app/redux/store';
 import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpand';
+import { RootState } from '../../../app/redux/store';
 import './Header.css';
 
 interface IHeaderProps {

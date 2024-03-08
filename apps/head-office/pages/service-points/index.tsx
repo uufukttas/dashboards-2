@@ -17,7 +17,7 @@ const ServicePoint = () => {
             <Provider store={store}>
                 <div className={`${BRAND_PREFIX}-service-point-page-container w-full h-screen flex`}>
                     <MainPage>
-                        <div className="service-point-page-wrapper flex justify-center items-center md:pt-12 flex-wrap">
+                        <div className={`${BRAND_PREFIX}-service-point-page-wrapper flex justify-center items-center md:pt-12 flex-wrap`}>
                             <ServicePointSection />
                         </div>
                     </MainPage>

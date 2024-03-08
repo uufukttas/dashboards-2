@@ -1,9 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from '@projects/alert';
+import ServicePointModalForm from './ServicePointModalForm';
 import Modal from '../Modal/Modal';
 import Table from '../Table/Table';
-import ServicePointModalForm from './ServicePointModalForm';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleAlertVisibility } from '../../../app/redux/features/isAlertVisible';
 import { RootState } from '../../../app/redux/store';
