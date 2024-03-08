@@ -21,7 +21,7 @@ interface IServicePointInfoProps {
     longitude: number;
     latitude: number;
     phone?: string | null | undefined;
-    address?: string | null | undefined;
+    address: string;
     cityId: number;
     districtId: number;
     opportunities?: string[] | null | undefined;
@@ -53,10 +53,10 @@ export function Table() {
     return (
       <Fragment key={servicePoint.id}>
         <tr data-service-point-id={servicePoint.id}>
-          <td className="px-6 py-3">{servicePoint.name}</td>
+          <td className="px-6 py-3">{decodeURIComponent(servicePoint.name)}</td>
           <td className="px-6 py-3">{servicePoint.type}</td>
           <td className="px-6 py-3">{servicePoint.phone}</td>
-          <td className="px-6 py-3">{servicePoint.address}</td>
+          <td className="px-6 py-3">{decodeURIComponent(servicePoint.address)}</td>
           <td className="px-6 py-3">{getCity((servicePoint.cityId))}</td>
           <td className="px-6 py-3">{getDistricts(servicePoint.districtId)}</td>
           <td className="px-6 py-4 items-center w-full justify-center flex">
