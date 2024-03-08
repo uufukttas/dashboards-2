@@ -7,11 +7,18 @@ import ServicePointDetailsPage from './ServicePointsDetailsPage'
 import MainPage from '../../../src/components/MainPage/MainPage';
 import '../../../app/global.css';
 import '../../../src/styles/style.css';
+import Accordion from '../../../src/components/Accordion/Accordion';
 
 
 const ServicePointInfoPage = () => {
   const router = useRouter();
   const slug = router.query?.slug;
+
+  const workingHoursContent = (
+    <div className="working-hours-content py-8">
+    Bu servis istasyonunun calisma saatleri 08:00 - 18:00 arasindadir.
+    </div>
+  );
 
   return (
     <>
@@ -21,10 +28,14 @@ const ServicePointInfoPage = () => {
       <Provider store={store}>
         <div className="sh-service-point-detail-page-container w-full h-screen flex">
           <MainPage>
-            <div className="service-point-page-wrapper flex justify-center items-center md:pt-12 flex-wrap w-full">
+            <div className="service-point-page-wrapper flex justify-center items-center md:pt-12 flex-wrap w-full ">
               {
-                slug &&
-                <ServicePointDetailsPage slug={slug[0]}/>
+                slug && (
+                  <>
+                    <ServicePointDetailsPage slug={slug[0]} />
+                    <Accordion accordionTitle={'Calisma Saatleri'} accordionContent={workingHoursContent} className={`mx-8 rounded-lg`}/>
+                  </>
+                )
               }
             </div>
           </MainPage>
