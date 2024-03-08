@@ -14,8 +14,8 @@ const formDataInitialValues = {
   'service-point-phone-number-1': '',
   'service-point-phone-number-2': '',
   'service-point-address': '',
-  'service-point-city': 1,
-  'service-point-district': 1,
+  'service-point-cityId': 1,
+  'service-point-districtId': 1,
 };
 
 const ServicePointModalForm = () => {

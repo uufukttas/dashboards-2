@@ -7,8 +7,9 @@ import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { RootState } from '../../../../app/redux/store';
+import { BRAND_PREFIX } from '../../../../src/constants/constants';
 
-interface IFormData {
+interface IFormDataProps {
   [key: string]: string | number | boolean | string[];
 };
 
@@ -16,10 +17,10 @@ interface IModalPageInputs {
   activePage: number;
   cities: { rid: number; plateCode: number; name: string; id: null; }[];
   districts: { rid: number; name: string; plateCode: number; id: null }[];
-  formData: IFormData;
+  formData: IFormDataProps;
   setActivePage: React.Dispatch<React.SetStateAction<number>>;
   setDistricts: React.Dispatch<React.SetStateAction<{ rid: number; name: string; plateCode: number; id: null }[]>>;
-  setFormData: React.Dispatch<React.SetStateAction<IFormData>>;
+  setFormData: React.Dispatch<React.SetStateAction<IFormDataProps>>;
 };
 
 const ServicePointModalFormThirdPage = ({
@@ -31,14 +32,35 @@ const ServicePointModalFormThirdPage = ({
   setDistricts,
   setFormData
 }: IModalPageInputs) => {
-  const brandPrefix = 'sh';
-  const formProperties = ['city', 'district', 'x-coord', 'y-coord'];
-  const sectionPrefix = 'service-point';
-  const [selectedCity, setSelectedCity] = useState<number>(Number(formData[`${formProperties[0]}`]) || 1);
-  const [selectedDistrict, setSelectedDistrict] = useState<number>(Number(formData[`${formProperties[1]}`]) || 1);
+
   const updatedServicePointInfoData = useSelector((state: RootState) => {
     return state.updatedServicePointInfoData.updatedServicePointInfoData
   });
+  const formName = ['city', 'district', 'x-coord', 'y-coord'];
+  const sectionPrefix = 'service-point';
+  const formProperties = {
+    cityId: `${sectionPrefix}-${formName[0]}`,
+    districtId: `${sectionPrefix}-${formName[1]}`,
+    'x-coord': `${sectionPrefix}-${formName[2]}`,
+    'y-coord': `${sectionPrefix}-${formName[3]}`,
+  };
+  const isServicePointInfoDataUpdated = updatedServicePointInfoData.id > 0;
+  const [thirdPageFormData, setThirdPageFormData] = useState<IFormDataProps>({
+    [`${formProperties.cityId}`]: isServicePointInfoDataUpdated
+      ? updatedServicePointInfoData.cityId
+      : formData[`${formProperties.cityId}`] || 1,
+    [`${formProperties.districtId}`]: isServicePointInfoDataUpdated
+      ? updatedServicePointInfoData.districtId
+      : formData[`${formProperties.districtId}`] || 1,
+    [`${formProperties['x-coord']}`]: isServicePointInfoDataUpdated
+      ? updatedServicePointInfoData['longitude']
+      : formData[`${formProperties['x-coord']}`] || '',
+    [`${formProperties['y-coord']}`]: isServicePointInfoDataUpdated
+      ? updatedServicePointInfoData['latitude']
+      : formData[`${formProperties['y-coord']}`] || ''
+  });
+  const [selectedCity, setSelectedCity] = useState<number>(Number(thirdPageFormData[formProperties.cityId]));
+  const [selectedDistrict, setSelectedDistrict] = useState<number>(Number(thirdPageFormData.districtId));
   const { formState: { errors }, handleSubmit, register } = useForm();
 
   const getDistricts = async (selectedCity: number) => {
@@ -61,133 +83,116 @@ const ServicePointModalFormThirdPage = ({
 
   const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedCity(Number(event.target.value));
-    setFormData(({ ...formData, [`${sectionPrefix}-${formProperties[0]}`]: event.target.value }));
+    setThirdPageFormData(({ ...thirdPageFormData, [`${formProperties.cityId}`]: event.target.value }));
   };
 
   const handleDistrictChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFormData(({ ...formData, [`${sectionPrefix}-${formProperties[1]}`]: Number(event.target.value) }));
+    setSelectedDistrict(Number(event.target.value));
+    setThirdPageFormData(({ ...thirdPageFormData, [`${formProperties.districtId}`]: Number(event.target.value) }));
   };
 
-  const handleFormSubmit: SubmitHandler<IFormData> = () => {
+  const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
+    setFormData({
+      ...formData,
+      ...thirdPageFormData,
+    });
     setActivePage(activePage + 1);
   };
 
   useEffect(() => {
     setSelectedCity(updatedServicePointInfoData.cityId > 0 ? updatedServicePointInfoData.cityId : selectedCity);
-
-    if (updatedServicePointInfoData.cityId > 0) {
-      setFormData({
-        ...formData,
-        [`${sectionPrefix}-${formProperties[0]}`]: updatedServicePointInfoData.cityId,
-        [`${sectionPrefix}-${formProperties[1]}`]: updatedServicePointInfoData.districtId,
-        [`${sectionPrefix}-${formProperties[2]}`]: updatedServicePointInfoData.longitude,
-        [`${sectionPrefix}-${formProperties[3]}`]: updatedServicePointInfoData.latitude
-      });
-    }
     getDistricts(selectedCity);
   }, [selectedCity, selectedDistrict]);
 
   return (
     <form
-      className={`${brandPrefix}-modal-page-3 ${activePage === 3 ? 'block' : 'hidden'}`}
+      className={`${BRAND_PREFIX}-modal-page-3 ${activePage === 3 ? 'block' : 'hidden'}`}
       onSubmit={handleSubmit(handleFormSubmit)}>
-      <div className={`${sectionPrefix}-${formProperties[0]}-container`}>
+      <div className={`${formProperties.cityId}-container`}>
         <Label
-          className={`${sectionPrefix}-${formProperties[0]}-label block mb-2 text-heading font-semibold`}
-          htmlFor={`${sectionPrefix}-${formProperties[0]}`}
+          className={`${formProperties.cityId}-label block mb-2 text-heading font-semibold`}
+          htmlFor={`${formProperties.cityId}`}
           labelText={`Hizmet Noktasi İl`} />
         <Dropdown
-          className={`${sectionPrefix}-${formProperties[0]}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
-          id={`${sectionPrefix}-${formProperties[0]}`}
+          className={`${formProperties.cityId}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
+          id={`${formProperties.cityId}`}
           items={cities}
-          name={`${sectionPrefix}-${formProperties[0]}`}
+          name={`${formProperties.cityId}`}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { handleCityChange(event); }}
-          selectedValue={
-            updatedServicePointInfoData?.cityId?.toString()
-            || formData[`${sectionPrefix}-${formProperties[0]}`]?.toString()
-            || '0'}
-          value={updatedServicePointInfoData?.cityId?.toString()
-            || formData[`${sectionPrefix}-${formProperties[0]}`]?.toString()
-            || '0'}
+          selectedValue={thirdPageFormData.cityId?.toString()}
         />
       </div>
-      <div className={`${sectionPrefix}-${formProperties[1]}-container`}>
+      <div className={`${formProperties.districtId}-container`}>
         <Label
-          className={`${sectionPrefix}-${formProperties[1]}-label block mb-2 text-heading font-semibold`}
-          htmlFor={`${sectionPrefix}-${formProperties[1]}`}
+          className={`${formProperties.districtId}-label block mb-2 text-heading font-semibold`}
+          htmlFor={`${formProperties.districtId}`}
           labelText={`Hizmet Noktasi İlcesi`} />
         <Dropdown
-          className={`${sectionPrefix}-${formProperties[1]}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
-          id={`${sectionPrefix}-${formProperties[1]}`}
+          className={`${formProperties.districtId}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
+          id={`${formProperties.districtId}`}
           items={districts}
-          name={`${sectionPrefix}-${formProperties[1]}`}
+          name={`${formProperties.districtId}`}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { handleDistrictChange(event); }}
-          selectedValue={
-            updatedServicePointInfoData?.districtId?.toString()
-            || formData[`${sectionPrefix}-${formProperties[1]}`]?.toString()
-            || '0'}
-          value={updatedServicePointInfoData?.districtId?.toString()
-            || formData[`${sectionPrefix}-${formProperties[1]}`]?.toString()
-            || '0'}
+          selectedValue={thirdPageFormData.districtId?.toString()}
         />
       </div>
       <div className={`${sectionPrefix}-coordinates-container flex justify-center items-center`}>
-        <div className={`${sectionPrefix}-${formProperties[2]}-container w-1/2 flex flex-col justify-center `}>
+        <div className={`${formProperties['x-coord']}-container w-1/2 flex flex-col justify-center `}>
           <Label
-            className={`${sectionPrefix}-${formProperties[2]}-label block mb-2 text-heading font-semibold`}
-            htmlFor={`${sectionPrefix}-${formProperties[2]}`}
+            className={`${formProperties['x-coord']}-label block mb-2 text-heading font-semibold`}
+            htmlFor={`${formProperties['x-coord']}`}
             labelText={`Hizmet Noktasi X Koordinati`} />
           <Input
-            className={`${sectionPrefix}-${formProperties[2]}-input text-text text-sm rounded-lg block w-3/4 p-2.5 mb-4`}
-            id={`${sectionPrefix}-${formProperties[2]}`}
-            name={`${sectionPrefix}-${formProperties[2]}`}
-            register={register(`${sectionPrefix}-${formProperties[2]}`, {
+            className={`${formProperties['x-coord']}-input text-text text-sm rounded-lg block w-3/4 p-2.5 mb-4`}
+            id={`${formProperties['x-coord']}`}
+            name={`${formProperties['x-coord']}`}
+            register={
+              register(`${formProperties['x-coord']}`, {
               required: `Hizmet Noktasi X Koordinati zorunludur.`,
-              value: updatedServicePointInfoData.id > 0
-                ? updatedServicePointInfoData?.longitude
-                : formData[`${sectionPrefix}-${formProperties[2]}`],
+              value: thirdPageFormData[`${formProperties['x-coord']}`],
               onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                setFormData(({ ...formData, [event.target.name]: Number(event.target.value) }));
+                setThirdPageFormData(({ ...thirdPageFormData, [event.target.name]: Number(event.target.value) }));
               }
             })}
             type={`text`}
           />
           {
-            errors[`${sectionPrefix}-${formProperties[2]}`]
-            && errors[`${sectionPrefix}-${formProperties[2]}`]?.message
+            errors[`${formProperties['x-coord']}`]
+            && errors[`${formProperties['x-coord']}`]?.message
             && (
-              <div className={`${sectionPrefix}-${formProperties[2]}-error-wrapper mb-4 font-bold text-error`}>
-                <p className={`${sectionPrefix}-${formProperties[2]}-error-message`}>
+              <div className={`${formProperties['x-coord']}-error-wrapper mb-4 font-bold text-error`}>
+                <p className={`${formProperties['x-coord']}-error-message`}>
                   {'X-Koordinatı zorunludur.'}
                 </p>
               </div>
             )
           }
         </div>
-        <div className={`${sectionPrefix}-${formProperties[3]}-container w-1/2 flex flex-col items-end`}>
+        <div className={`${formProperties['y-coord']}-container w-1/2 flex flex-col items-end`}>
           <Label
-            className={`${sectionPrefix}-${formProperties[3]}-label block mb-2 text-heading font-semibold`}
-            htmlFor={`${sectionPrefix}-${formProperties[3]}`}
+            className={`${formProperties['y-coord']}-label block mb-2 text-heading font-semibold`}
+            htmlFor={`${formProperties['y-coord']}`}
             labelText={`Hizmet Noktasi Y Koordinati`} />
           <Input
-            className={`${sectionPrefix}-${formProperties[3]}-input text-text text-sm rounded-lg block w-3/4 p-2.5 mb-4`}
-            id={`${sectionPrefix}-${formProperties[3]}`}
-            name={`${sectionPrefix}-${formProperties[3]}`}
-            register={register(`${sectionPrefix}-${formProperties[3]}`, {
+            className={`${formProperties['y-coord']}-input text-text text-sm rounded-lg block w-3/4 p-2.5 mb-4`}
+            id={`${formProperties['y-coord']}`}
+            name={`${formProperties['y-coord']}`}
+            register={
+              register(`${formProperties['y-coord']}`, {
               required: `Hizmet Noktasi Y Koordinati zorunludur.`,
-              value: updatedServicePointInfoData.id > 0 ? updatedServicePointInfoData?.latitude : formData[`${sectionPrefix}-${formProperties[3]}`],
+              value: thirdPageFormData[`${formProperties['y-coord']}`],
               onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                setFormData(({ ...formData, [event.target.name]: Number(event.target.value) }));
+                setThirdPageFormData(({ ...thirdPageFormData, [event.target.name]: Number(event.target.value) }));
               }
             })}
             type={`text`}
           />
           {
-            errors[`${sectionPrefix}-${formProperties[3]}`]
-            && errors[`${sectionPrefix}-${formProperties[3]}`]?.message
+            errors[`${formProperties['y-coord']}`]
+            && errors[`${formProperties['y-coord']}`]?.message
             && (
-              <div className={`${sectionPrefix}-${formProperties[3]}-error-wrapper mb-4 font-bold text-error`}>
-                <p className={`${sectionPrefix}-${formProperties[3]}-error-message`}>
+              <div className={`${formProperties['y-coord']}-error-wrapper mb-4 font-bold text-error`}>
+                <p className={`${formProperties['y-coord']}-error-message`}>
                   {'Y-Koordinatı zorunludur.'}
                 </p>
               </div>
