@@ -11,6 +11,9 @@ import { RootState } from '../../../app/redux/store';
 export function ServicePointSection() {
   const isAlertVisible = useSelector((state: RootState) => state.isAlertVisibleReducer.isAlertVisible);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
+  const updatedServicePointData = useSelector((state: RootState) => {
+    return state.updatedServicePointData.updatedServicePointData
+  });
   const dispatch = useDispatch();
 
   return (
@@ -20,7 +23,10 @@ export function ServicePointSection() {
       </div>
       {
         isModalVisible &&
-        <Modal modalId={`${BRAND_PREFIX}-service-point-modal`}>
+        <Modal
+          modalHeaderTitle={`Hizmet Noktası ${updatedServicePointData.id > 0 ? 'Güncelle' : 'Ekle'}`}
+          modalId={`${BRAND_PREFIX}-service-point-modal`}
+        >
           <ServicePointModalForm />
         </Modal>
       }
@@ -28,6 +34,7 @@ export function ServicePointSection() {
         isAlertVisible &&
         <Alert
           alertText={'Servis Noktasi Olusurken Bir Hata Olustu'}
+          alertType={'error'}
           id={`service-point-alert`}
           onClick={() => dispatch(toggleAlertVisibility(false))}
         />

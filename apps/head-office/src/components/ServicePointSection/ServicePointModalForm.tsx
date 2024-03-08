@@ -7,21 +7,24 @@ import ServicePointModalFormThirdPage from './ServicePointModalFormPages/Service
 import { BRAND_PREFIX } from '../../constants/constants';
 import { RootState } from '../../../app/redux/store';
 
+const formDataInitialValues = {
+  'service-point-name': '',
+  'service-point-reseller': 1,
+  'service-point-company': 1,
+  'service-point-phone-number-1': '',
+  'service-point-phone-number-2': '',
+  'service-point-address': '',
+  'service-point-city': 1,
+  'service-point-district': 1,
+};
+
 const ServicePointModalForm = () => {
   const updatedServicePointData = useSelector((state: RootState) => state.updatedServicePointData.updatedServicePointData);
   const [activePage, setActivePage] = useState(1);
   const [cities, setCities] = useState<{ id: null; rid: number; plateCode: number; name: string; }[]>([]);
   const [districts, setDistricts] = useState<{ id: null; rid: number; name: string; plateCode: number; }[]>([]);
-  const [formData, setFormData] = useState<{ [key: string]: string | number | boolean | string[] }>({
-    'service-point-name': '',
-    'service-point-reseller': 1,
-    'service-point-company': 1,
-    'service-point-phone-number-1': '',
-    'service-point-phone-number-2': '',
-    'service-point-address': '',
-    'service-point-city': 1,
-    'service-point-district': 1,
-  });
+  const [formData, setFormData] =
+    useState<{ [key: string]: string | number | boolean | string[] }>(formDataInitialValues);
   const [stationId, setStationId] = useState<number>(0);
 
   return (
