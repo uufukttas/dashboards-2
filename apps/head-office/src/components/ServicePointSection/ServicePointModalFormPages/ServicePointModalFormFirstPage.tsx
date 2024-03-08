@@ -30,14 +30,14 @@ const ServicePointModalFormFirstPage = ({
   stationId,
   setActivePage,
   setFormData,
-  setStationId
+  setStationId,
 }: IModalPageInputs) => {
   const dispatch = useDispatch();
   const { formState: { errors }, handleSubmit, register } = useForm();
 
   const hasStationId = stationId !== 0;
   const updatedServicePointData = useSelector((state: RootState) => {
-    return state.updatedServicePointData.updatedServicePointData
+    return state.updatedServicePointData.updatedServicePointData;
   });
   const [companies, setCompanies] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const [resellers, setResellers] = useState<{ id: number; name: string; rid: null; }[]>([]);
@@ -46,50 +46,57 @@ const ServicePointModalFormFirstPage = ({
   const formProperties = {
     name: `${sectionPrefix}-${formName[0]}`,
     reseller: `${sectionPrefix}-${formName[1]}`,
-    company: `${sectionPrefix}-${formName[2]}`
+    company: `${sectionPrefix}-${formName[2]}`,
   };
   const isServicePointDataUpdated = updatedServicePointData.id > 0;
   const [firstPageFormData, setFirstPageFormData] = useState<IFormDataProps>({
     [`${formProperties.name}`]: isServicePointDataUpdated
       ? updatedServicePointData.name
-      : (formData[`${formProperties.name}`] || ''),
+      : formData[`${formProperties.name}`] || '',
     [`${formProperties.reseller}`]: isServicePointDataUpdated
       ? updatedServicePointData.resellerCompanyId
-      : (formData[`${formProperties.reseller}`] || 1),
+      : formData[`${formProperties.reseller}`] || 1,
     [`${formProperties.company}`]: isServicePointDataUpdated
       ? updatedServicePointData.companyId
-      : (formData[`${formProperties.company}`] || 1),
+      : formData[`${formProperties.company}`] || 1,
   });
-
 
   const createServicePointConfigData = () => ({
     name: firstPageFormData[`${formProperties.name}`],
     resellerCompanyId: firstPageFormData[`${formProperties.reseller}`],
     companyId: firstPageFormData[`${formProperties.company}`],
     isActive: true,
-    ...(isServicePointDataUpdated && { id: updatedServicePointData.id })
+    ...(isServicePointDataUpdated && { id: updatedServicePointData.id }),
   });
 
   const getDropdownItems = async (dropdownDataUrl: string) => {
     try {
-      await axios.get(
-        dropdownDataUrl
-      )
+      await axios
+        .get(dropdownDataUrl)
         .then((response) => response.data)
-        .then((data) => dropdownDataUrl.indexOf('Companies') > -1 ? setCompanies(data.data) : setResellers(data.data));
+        .then((data) =>
+          dropdownDataUrl.indexOf('Companies') > -1
+            ? setCompanies(data.data)
+            : setResellers(data.data),
+        );
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
-  const handleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFirstPageFormData(({ ...firstPageFormData, [event.target.name]: Number(event.target.value) }));
+  const handleDropdownChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setFirstPageFormData({
+      ...firstPageFormData,
+      [event.target.name]: Number(event.target.value),
+    });
   };
 
   const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
     setFormData({
       ...formData,
-      ...firstPageFormData
+      ...firstPageFormData,
     });
 
     handleServicePointOperation();
@@ -103,22 +110,24 @@ const ServicePointModalFormFirstPage = ({
     const actionData = createServicePointConfigData();
 
     try {
-      await axios.post(
-        actionURL,
-        actionData,
-        { headers: { 'Content-Type': 'application/json' } })
-        .then(response => response.data)
-        .then(data => {
+      await axios
+        .post(actionURL, actionData, {
+          headers: { 'Content-Type': 'application/json' },
+        })
+        .then((response) => response.data)
+        .then((data) => {
           updatedServicePointData.id === 0
             ? setStationId(data.data[0].id)
             : dispatch(setUpdatedServicePointData(formData));
         })
-        .catch(error => { dispatch(toggleAlertVisibility(true)); console.error(error); }
-        )
+        .catch((error) => {
+          dispatch(toggleAlertVisibility(true));
+          console.error(error);
+        });
     } catch (error) {
       dispatch(toggleAlertVisibility(true));
       console.error(error);
-    };
+    }
   };
 
   useEffect(() => {
@@ -129,95 +138,111 @@ const ServicePointModalFormFirstPage = ({
   }, []);
 
   return (
-    companies && resellers &&
-    <form className={`${BRAND_PREFIX}-modal-form-page-1 ${activePage === 1 ? 'block' : 'hidden'}`}
-      onSubmit={handleSubmit(handleFormSubmit)}>
-      <div className={`${formProperties.name}-container`}>
-        <Label
-          className={`${formProperties.name}-label block mb-2 text-heading font-semibold`}
-          htmlFor={`${formProperties.name}`}
-          labelText={`Hizmet Noktasi Ismi`}>
-          <span className="text-md text-error">*</span>
-        </Label>
-        <Input
-          className={`${formProperties.name}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${hasStationId ? 'cursor-not-allowed' : ''}`}
-          disabled={hasStationId}
-          id={`${formProperties.name}`}
-          name={`${formProperties.name}`}
-          register={
-            register(`${formProperties.name}`, {
+    companies &&
+    resellers && (
+      <form
+        className={`${BRAND_PREFIX}-modal-form-page-1 ${activePage === 1 ? 'block' : 'hidden'}`}
+        onSubmit={handleSubmit(handleFormSubmit)}
+      >
+        <div className={`${formProperties.name}-container`}>
+          <Label
+            className={`${formProperties.name}-label block mb-2 text-heading font-semibold`}
+            htmlFor={`${formProperties.name}`}
+            labelText={`Hizmet Noktasi Ismi`}
+          >
+            <span className="text-md text-error">*</span>
+          </Label>
+          <Input
+            className={`${formProperties.name}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${hasStationId ? 'cursor-not-allowed' : ''}`}
+            disabled={hasStationId}
+            id={`${formProperties.name}`}
+            name={`${formProperties.name}`}
+            register={register(`${formProperties.name}`, {
               minLength: {
                 value: 3,
-                message: 'En az 3 karakter girmelisiniz.'
+                message: 'En az 3 karakter girmelisiniz.',
               },
               required: `Hizmet Noktasi Ismi zorunludur.`,
               value: firstPageFormData[`${formProperties.name}`],
               onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                setFirstPageFormData(({ ...firstPageFormData, [event.target.name]: event.target.value }))
+                setFirstPageFormData({
+                  ...firstPageFormData,
+                  [event.target.name]: event.target.value,
+                });
               },
             })}
-          type={`text`}
-        />
-        {
-          errors[`${formProperties.name}`]
-          && errors[`${formProperties.name}`]?.message
-          && (
-            <div className={`${formProperties.name}-error-wrapper my-4 font-bold text-error`}>
-              <p className={`${formProperties.name}-error-message`}>
-                {(errors[`${formProperties.name}`]?.message?.toString())}
-              </p>
-            </div>
-          )
-        }
-      </div>
-      <div className={`${formProperties.reseller}-container`}>
-        <Label
-          className={`${formProperties.reseller}-label block mb-2 text-heading font-semibold`}
-          htmlFor={`${formProperties.reseller}`}
-          labelText={`Hizmet Noktasi Bayi`}>
-          <span className="text-md text-error">*</span>
-        </Label>
-        <Dropdown
-          className={`${formProperties.reseller}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${hasStationId ? 'cursor-not-allowed' : ''}`}
-          disabled={hasStationId}
-          id={`${formProperties.reseller}`}
-          items={resellers}
-          name={`${formProperties.reseller}`}
-          onChange={handleDropdownChange}
-          selectedValue={isServicePointDataUpdated
-            ? updatedServicePointData['resellerCompanyId'].toString()
-            : (hasStationId ? formData[`${formProperties.reseller}`]?.toString() : resellers[0])}
-          value={formData[`${formProperties.reseller}`]?.toString()}
-        />
-      </div>
-      <div className={`${formProperties.company}-container`}>
-        <Label
-          className={`${formProperties.company}-label block mb-2 text-heading font-semibold`}
-          htmlFor={`${formProperties.company}`}
-          labelText={`Hizmet Noktasi Sirketi`}>
-          <span className="text-md text-error">*</span>
-        </Label>
-        <Dropdown
-          className={`${formProperties.company}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${hasStationId ? 'cursor-not-allowed' : ''}`}
-          disabled={hasStationId}
-          id={`${formProperties.company}`}
-          items={companies}
-          name={`${formProperties.company}`}
-          onChange={handleDropdownChange}
-          selectedValue={isServicePointDataUpdated
-            ? updatedServicePointData['companyId'].toString()
-            : (hasStationId ? formData[`${formProperties.company}`]?.toString() : companies[0])}
-          value={formData[`${formProperties.company}`]?.toString()}
-        />
-      </div>
-      <div className={`${sectionPrefix}-buttons-container flex flex-row-reverse`}>
-        <Button
-          buttonText='Ileri'
-          className={`${sectionPrefix}-submit-button bg-primary text-text text-sm rounded-lg block p-2.5`}
-          type={`submit`}
-        />
-      </div>
-    </form>
+            type={`text`}
+          />
+          {errors[`${formProperties.name}`] &&
+            errors[`${formProperties.name}`]?.message && (
+              <div
+                className={`${formProperties.name}-error-wrapper my-4 font-bold text-error`}
+              >
+                <p className={`${formProperties.name}-error-message`}>
+                  {errors[`${formProperties.name}`]?.message?.toString()}
+                </p>
+              </div>
+            )}
+        </div>
+        <div className={`${formProperties.reseller}-container`}>
+          <Label
+            className={`${formProperties.reseller}-label block mb-2 text-heading font-semibold`}
+            htmlFor={`${formProperties.reseller}`}
+            labelText={`Hizmet Noktasi Bayi`}
+          >
+            <span className="text-md text-error">*</span>
+          </Label>
+          <Dropdown
+            className={`${formProperties.reseller}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${hasStationId ? 'cursor-not-allowed' : ''}`}
+            disabled={hasStationId}
+            id={`${formProperties.reseller}`}
+            items={resellers}
+            name={`${formProperties.reseller}`}
+            onChange={handleDropdownChange}
+            selectedValue={
+              isServicePointDataUpdated
+                ? updatedServicePointData['resellerCompanyId'].toString()
+                : hasStationId
+                  ? formData[`${formProperties.reseller}`]?.toString()
+                  : resellers[0]
+            }
+            value={formData[`${formProperties.reseller}`]?.toString()}
+          />
+        </div>
+        <div className={`${formProperties.company}-container`}>
+          <Label
+            className={`${formProperties.company}-label block mb-2 text-heading font-semibold`}
+            htmlFor={`${formProperties.company}`}
+            labelText={`Hizmet Noktasi Sirketi`}
+          >
+            <span className="text-md text-error">*</span>
+          </Label>
+          <Dropdown
+            className={`${formProperties.company}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${hasStationId ? 'cursor-not-allowed' : ''}`}
+            disabled={hasStationId}
+            id={`${formProperties.company}`}
+            items={companies}
+            name={`${formProperties.company}`}
+            onChange={handleDropdownChange}
+            selectedValue={
+              isServicePointDataUpdated
+                ? updatedServicePointData['companyId'].toString()
+                : hasStationId
+                  ? formData[`${formProperties.company}`]?.toString()
+                  : companies[0]
+            }
+            value={formData[`${formProperties.company}`]?.toString()}
+          />
+        </div>
+        <div className={`${sectionPrefix}-buttons-container flex flex-row-reverse`}>
+          <Button
+            buttonText="Ileri"
+            className={`${sectionPrefix}-submit-button bg-primary text-text text-sm rounded-lg block p-2.5`}
+            type={`submit`}
+          />
+        </div>
+      </form>
+    )
   );
 };
 
