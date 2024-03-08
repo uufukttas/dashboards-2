@@ -3,9 +3,9 @@ export const detectDevice = () => {
     isMobile: false,
     isTablet: false,
     isDesktop: false,
-  }
+  };
   const userAgent = navigator.userAgent;
-  
+
   deviceType.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
   deviceType.isTablet = /iPad|Android|Tablet/i.test(userAgent);
 
@@ -22,4 +22,4 @@ export const detectDevice = () => {
   }
 
   return deviceType;
-}
+};

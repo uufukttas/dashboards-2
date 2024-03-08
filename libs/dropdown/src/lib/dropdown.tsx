@@ -52,6 +52,6 @@ export function Dropdown({
       }
     </select>
   );
-}
+};
 
 export default Dropdown;

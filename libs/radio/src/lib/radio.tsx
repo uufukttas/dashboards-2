@@ -1,5 +1,5 @@
-import { UseFormRegisterReturn } from 'react-hook-form'
-/* eslint-disable-next-line */
+import { UseFormRegisterReturn } from 'react-hook-form';
+
 interface IRadioProps {
   className: string;
   id: string;
@@ -15,7 +15,16 @@ export function Radio({
   register,
   onChange,
 }: IRadioProps) {
-  return <input className={className} id={id} name={name} type="radio" onChange={onChange} {...register} />;
-}
+  return (
+    <input
+      className={className}
+      id={id}
+      name={name}
+      type="radio"
+      onChange={onChange}
+      {...register}
+    />
+  );
+};
 
 export default Radio;

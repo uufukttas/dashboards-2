@@ -1,12 +1,13 @@
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface ITextareaProps {
-  id: string;
   className?: string;
+  id: string;
   name: string;
   placeholder?: string;
   register?: UseFormRegisterReturn;
   required?: boolean;
+  rows?: number;
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
@@ -18,12 +19,24 @@ export function Textarea({
   placeholder,
   register,
   required,
+  rows,
   value,
   onChange,
 }: ITextareaProps) {
   return (
-    <textarea id={id} rows={4} className={`text-area ${className}`} name={name} placeholder={placeholder}  required={required} value={value} onChange={onChange} {...register}></textarea>
+    <textarea
+      className={`text-area ${className}`}
+      id={id}
+      name={name}
+      placeholder={placeholder}
+      required={required}
+      rows={rows}
+      value={value}
+      onChange={onChange}
+      {...register}
+    >
+    </textarea>
   );
-}
+};
 
 export default Textarea;
