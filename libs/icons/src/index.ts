@@ -6,4 +6,5 @@ export { default as InfoIcon } from './info/info';
 export { default as LocationIcon } from './location/location';
 export { default as PenIcon } from './pen/pen';
 export { default as PersonIcon } from './person/person';
+export { default as SearchIcon } from './search/search';
 export { default as TrashIcon } from './trash/trash';
