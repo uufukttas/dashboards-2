@@ -10,6 +10,7 @@ import { Radio } from '@projects/radio';
 import { toggleAlertVisibility } from '../../../../app/redux/features/isAlertVisible';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../../app/redux/store';
+import { PAYMENT_METHODS, OPPORTUNITIES, BRAND_PREFIX } from '../../../../src/constants/constants';
 
 interface IFormData {
   [key: string]: string | number | boolean | string[];
@@ -30,87 +31,43 @@ const ServicePointModalFormFourthPage = ({
   setActivePage,
   setFormData
 }: IModalPageInputs) => {
-  const brandPRefix = 'sh';
-  const formProperties = ['payment-methods', 'parking', 'opportunities'];
+  const formName = ['payment-methods', 'parking', 'opportunities'];
   const sectionPrefix = 'service-point';
-  const paymentMethods = [
-    {
-      name: 'Nakit',
-      id: 1,
-      rid: null
-    }, {
-      name: 'Kredi Karti',
-      id: 2,
-      rid: null
-    }, {
-      name: 'Banka Karti',
-      id: 3,
-      rid: null
-    },
-    {
-      name: 'Sharz Uygulamasi',
-      id: 4,
-      rid: null
-    }
-  ];
-  const opportunities = [
-    {
-      name: 'AVM',
-      id: 1,
-      rid: null
-    }, {
-      name: 'Wifi',
-      id: 2,
-      rid: null
-    }, {
-      name: 'Otopark',
-      id: 3,
-      rid: null
-    }, {
-      name: 'Cocuk Oyun Alani',
-      id: 4,
-      rid: null
-    }, {
-      name: 'Engelli Dostu',
-      id: 5,
-      rid: null
-    }, {
-      name: 'Klima',
-      id: 6,
-      rid: null
-    }, {
-      name: 'Kafe',
-      id: 7,
-      rid: null
-    }, {
-      name: 'Restoran',
-      id: 8,
-      rid: null
-    }, {
-      name: 'Market',
-      id: 9,
-      rid: null
-    }
-  ];
+  const formProperties = {
+    paymentMethods: `${sectionPrefix}-${formName[0]}`,
+    parking: `${sectionPrefix}-${formName[1]}`,
+    opportunities: `${sectionPrefix}-${formName[2]}`,
+  };
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
   const updatedServicePointInfoData = useSelector((state: RootState) => {
     return state.updatedServicePointInfoData.updatedServicePointInfoData
   });
+  const isServicePointInfoDataUpdated = updatedServicePointInfoData.id > 0;
+  const [fourthPageFormData, setFourthPageFormData] = useState<IFormData>({
+    [`${formProperties.paymentMethods}`]: isServicePointInfoDataUpdated
+      ? updatedServicePointInfoData.paymentMethods
+      : formData[`${formProperties.paymentMethods}`] || '1',
+    [`${formProperties.parking}`]: isServicePointInfoDataUpdated
+      ? updatedServicePointInfoData.parking
+      : formData[`${formProperties.parking}`] || false,
+    [`${formProperties.opportunities}`]: isServicePointInfoDataUpdated
+      ? updatedServicePointInfoData.opportunities
+      : formData[`${formProperties.opportunities}`] || [],
+  });
   const dispatch = useDispatch();
   const { handleSubmit } = useForm();
 
-
   const createConfigData = () => ({
-      stationId: stationId,
-      address: formData['service-point-address'],
-      phone1: formData['service-point-phone-number-1'],
-      phone2: formData['service-point-phone-number-2'],
-      lat: formData['service-point-x-coord'],
-      lon: formData['service-point-y-coord'],
-      cityId: Number(formData['service-point-city']),
-      districtId: Number(formData['service-point-district']),
-    });
+    stationId: stationId,
+    address: formData[`${sectionPrefix}-address`],
+    phone1: formData[`${sectionPrefix}-phone-number-1`],
+    phone2: formData[`${sectionPrefix}-phone-number-2`],
+    lat: formData[`${sectionPrefix}-x-coord`],
+    lon: formData[`${sectionPrefix}-y-coord`],
+    cityId: Number(formData[`${sectionPrefix}-cityId`]),
+    districtId: Number(formData[`${sectionPrefix}-districtId`]),
+  });
 
   const createServicePointDetails = () => {
     const actionURL = updatedServicePointInfoData.id > 0
@@ -133,12 +90,18 @@ const ServicePointModalFormFourthPage = ({
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
 
-    setCheckedItems({ ...checkedItems, [name.replace(`${sectionPrefix}-${formProperties[2]}-`, '')]: checked });
+    setCheckedItems(prevState => ({
+      ...prevState,
+      [name.replace(`${sectionPrefix}-${formName[2]}-`, '')]: checked
+    }));
   };
-  const handleFormSubmit: SubmitHandler<IFormData> = () => {
-    const selectedItems = Object.keys(checkedItems).filter(key => checkedItems[key]);
 
-    setFormData({ ...formData, [`${sectionPrefix}-${formProperties[2]}`]: selectedItems });
+  const handleFormSubmit: SubmitHandler<IFormData> = () => {
+    setFormData({
+      ...formData,
+      ...fourthPageFormData,
+    });
+
     createServicePointDetails();
   };
 
@@ -149,96 +112,107 @@ const ServicePointModalFormFourthPage = ({
   };
 
   useEffect(() => {
-    if (updatedServicePointInfoData.id > 0) {
-      setFormData({
-        ...formData,
-        ['service-point-payment-methods']: updatedServicePointInfoData.paymentMethods,
-        ['service-point-parking']: updatedServicePointInfoData.parking,
-        ['service-point-opportunities']: updatedServicePointInfoData.opportunities
-      });
-    }
-  }, []);
+    setFourthPageFormData({
+      ...fourthPageFormData,
+      [`${formProperties.opportunities}`]: Object.keys(checkedItems).filter(key => checkedItems[key])
+    });
+
+    setFormData({
+      ...formData,
+      ...fourthPageFormData,
+      [`${formProperties.opportunities}`]: Object.keys(checkedItems).filter(key => checkedItems[key])
+    });
+  }, [checkedItems]);
 
   return (
     <form
-      className={`${brandPRefix}-modal-page-4 ${activePage === 4 ? 'block' : 'hidden'}`}
+      className={`${BRAND_PREFIX}-modal-page-4 ${activePage === 4 ? 'block' : 'hidden'}`}
       onSubmit={handleSubmit(handleFormSubmit)}>
-      <div className={`${sectionPrefix}-${formProperties[0]}-container`}>
+      <div className={`${formProperties.paymentMethods}-container`}>
         <Label
-          className={`${sectionPrefix}-${formProperties[0]}-label block mb-2 text-sm font-medium text-gray-900`}
-          htmlFor={`${sectionPrefix}-${formProperties[0]}`}
+          className={`${formProperties.paymentMethods}-label block mb-2 text-sm font-medium text-gray-900`}
+          htmlFor={`${formProperties.paymentMethods}`}
           labelText={`Hizmet Noktasi Odeme Yontemleri`}
         />
         <Dropdown
-          className={`${sectionPrefix}-${formProperties[0]}-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
-          id={`${sectionPrefix}-${formProperties[0]}`}
-          items={paymentMethods}
-          name={`${sectionPrefix}-${formProperties[0]}`}
+          className={`${formProperties.paymentMethods}-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+          id={`${formProperties.paymentMethods}`}
+          items={PAYMENT_METHODS}
+          name={`${formProperties.paymentMethods}`}
+          selectedValue={fourthPageFormData[`${formProperties.paymentMethods}`]?.toString()}
+          value={fourthPageFormData[`${formProperties.paymentMethods}`]?.toString()}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
-            setFormData(({ ...formData, [event.target.name]: event.target.value }));
+            setFourthPageFormData(({
+              ...fourthPageFormData,
+              [event.target.name]: event.target.value
+            }));
           }}
-          selectedValue={formData[`${sectionPrefix}-${formProperties[0]}`]?.toString()}
-          value={formData[`${sectionPrefix}-${formProperties[0]}`]?.toString()}
         />
       </div>
-      <div className={`${sectionPrefix}-${formProperties[1]}-container`}>
-        <div className={`${sectionPrefix}-${formProperties[1]}-header`}>
-          <h2 className={`${sectionPrefix}-${formProperties[1]}-text block mb-2 text-sm font-medium text-gray-900`}>
+      <div className={`${formProperties.parking}-container`}>
+        <div className={`${formProperties.parking}-header`}>
+          <h2 className={`${formProperties.parking}-text block mb-2 text-sm font-medium text-gray-900`}>
             Hizmet Noktasi Park Yeri
           </h2>
         </div>
-        <div className={`${sectionPrefix}-${formProperties[1]}-inputs-container flex`}>
-          <div className={`${sectionPrefix}-${formProperties[1]}-option-container flex w-1/2 items-center mb-4`}>
+        <div className={`${formProperties.parking}-inputs-container flex`}>
+          <div className={`${formProperties.parking}-option-container flex w-1/2 items-center mb-4`}>
             <Label
-              className={`${sectionPrefix}-${formProperties[1]}-yes-label block mb-0 pr-4`}
-              htmlFor={`${sectionPrefix}-${formProperties[1]}-yes`}
+              className={`${formProperties.parking}-yes-label block mb-0 pr-4`}
+              htmlFor={`${formProperties.parking}-yes`}
               labelText={`Var`} />
             <Radio
-              className={`${sectionPrefix}-${formProperties[1]}-input text-blue-500 text-sm block`}
-              id={`${sectionPrefix}-${formProperties[1]}-yes`}
-              name={`${sectionPrefix}-${formProperties[1]}`}
+              className={`${formProperties.parking}-input text-blue-500 text-sm block`}
+              id={`${formProperties.parking}-yes`}
+              name={`${formProperties.parking}`}
               onChange={(event) => {
-                setFormData({ ...formData, [event.target.name]: (event.target.value === 'on' ? true : false) });
+                setFourthPageFormData({
+                  ...fourthPageFormData,
+                  [event.target.name]: (event.target.value === 'on' ? true : false)
+                });
               }}
             />
           </div>
-          <div className={`${sectionPrefix}-${formProperties[1]}-option-container flex w-1/2 items-center mb-4`}>
+          <div className={`${formProperties.parking}-option-container flex w-1/2 items-center mb-4`}>
             <Label
               className={`block mb-0 pr-4`}
-              htmlFor={`${sectionPrefix}-${formProperties[1]}-no`}
+              htmlFor={`${formProperties.parking}-no`}
               labelText={`Yok`}
             />
             <Radio
-              className={`${sectionPrefix}-${formProperties[1]}-input text-blue-500 text-sm block`}
-              id={`${sectionPrefix}-${formProperties[1]}-no`}
-              name={`${sectionPrefix}-${formProperties[1]}`}
+              className={`${formProperties.parking}-input text-blue-500 text-sm block`}
+              id={`${formProperties.parking}-no`}
+              name={`${formProperties.parking}`}
               onChange={(event) => {
-                setFormData({ ...formData, [event.target.name]: (event.target.value === 'on' ? false : true) })
+                setFourthPageFormData({
+                  ...fourthPageFormData,
+                  [event.target.name]: (event.target.value === 'on' ? false : true)
+                })
               }}
             />
           </div>
         </div>
       </div>
 
-      <div className={`${sectionPrefix}-${formProperties[2]}-container`}>
-        <div className={`${sectionPrefix}-${formProperties[2]}-header`}>
+      <div className={`${formProperties.opportunities}-container`}>
+        <div className={`${formProperties.opportunities}-header`}>
           <h2 className="block mb-2 text-sm font-medium text-gray-900">Hizmet Noktasi Olanaklari</h2>
         </div>
-        <div className={`${sectionPrefix}-${formProperties[2]}-inputs-container flex flex-wrap`}>
+        <div className={`${formProperties.opportunities}-inputs-container flex flex-wrap`}>
           {
-            opportunities.map((opportunity, index) => (
+            OPPORTUNITIES.map((opportunity, index) => (
               <div
-                className={`${sectionPrefix}-${formProperties[2]}-option-container flex items-center mb-4`}
+                className={`${formProperties.opportunities}-option-container flex items-center mb-4`}
                 key={index}>
                 <Label
                   className={`block mb-0 pr-4`}
-                  htmlFor={`${sectionPrefix}-${formProperties[2]}-${replacetoDash(opportunity.name)}`}
+                  htmlFor={`${formProperties.opportunities}-${replacetoDash(opportunity.name)}`}
                   labelText={opportunity.name}
                 />
                 <Checkbox
                   className={`text-blue-500 text-sm block mr-4`}
-                  id={`${sectionPrefix}-${formProperties[2]}-${replacetoDash(opportunity.name)}`}
-                  name={`${sectionPrefix}-${formProperties[2]}-${replacetoDash(opportunity.name)}`}
+                  id={`${formProperties.opportunities}-${replacetoDash(opportunity.name)}`}
+                  name={`${formProperties.opportunities}-${replacetoDash(opportunity.name)}`}
                   onChange={handleCheckboxChange}
                 />
               </div>
