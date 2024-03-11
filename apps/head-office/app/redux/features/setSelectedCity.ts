@@ -1,11 +1,11 @@
 import { createSlice, Reducer } from '@reduxjs/toolkit';
 
 export type SelectedCityState = {
-    cityId: string;
+    cityId: number;
 };
 
 const initialState = {
-    cityId: '01',
+    cityId: 1,
 } as SelectedCityState;
 
 export const selectedCity = createSlice({
