@@ -45,10 +45,10 @@ const ServicePointModalFormSecondPage = ({
   const isServicePointInfoDataUpdated = updatedServicePointInfoData.id > 0;
   const [secondPageFormData, setSecondPageFormData] = useState<IFormDataProps>({
     [`${formProperties.phone1}`]: isServicePointInfoDataUpdated
-      ? updatedServicePointInfoData.Phone1
+      ? updatedServicePointInfoData.phone1
       : formData[`${formProperties.phone1}`] || '',
     [`${formProperties.phone2}`]: isServicePointInfoDataUpdated
-      ? updatedServicePointInfoData.Phone2
+      ? updatedServicePointInfoData.phone2
       : formData[`${formProperties.phone2}`] || '',
     [`${formProperties.address}`]: isServicePointInfoDataUpdated
       ? updatedServicePointInfoData.address

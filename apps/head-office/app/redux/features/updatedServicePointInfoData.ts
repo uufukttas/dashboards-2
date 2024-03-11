@@ -12,9 +12,9 @@ export type UpdatedServicePointInfoDataState = {
         address: string;
         cityId: number;
         districtId: number;
-        opportunities: string;
-        freePark: string;
-        paymentMethods: string
+        opportunities: string[];
+        freePark: boolean;
+        paymentMethods: string;
     };
 };
 
@@ -30,9 +30,9 @@ const initialState = {
         address: '',
         cityId: 0,
         districtId: 0,
-        opportunities: '',
-        freePark: '',
-        paymentMethods: ''
+        opportunities: [],
+        freePark: false,
+        paymentMethods: '1',
     },
 } as UpdatedServicePointInfoDataState;
 
@@ -41,9 +41,10 @@ export const updatedServicePointInfoData = createSlice({
     initialState,
     reducers: {
         setUpdatedServicePointInfoData: (state, action) => {
+            console.log('action', action)
             state.updatedServicePointInfoData.address = action.payload.address;
-            state.updatedServicePointInfoData.cityId = action.payload.cityID;
-            state.updatedServicePointInfoData.districtId = action.payload.districtID;
+            state.updatedServicePointInfoData.cityId = action.payload.cityId;
+            state.updatedServicePointInfoData.districtId = action.payload.districtId;
             state.updatedServicePointInfoData.freePark = action.payload.freePark;
             state.updatedServicePointInfoData.id = action.payload.id;
             state.updatedServicePointInfoData.latitude = action.payload.lat;

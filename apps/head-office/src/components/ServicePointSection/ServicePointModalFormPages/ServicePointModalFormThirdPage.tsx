@@ -82,13 +82,17 @@ const ServicePointModalFormThirdPage = ({
   };
 
   const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedCity(Number(event.target.value));
-    setThirdPageFormData(({ ...thirdPageFormData, [`${formProperties.cityId}`]: event.target.value }));
+    const cityId = Number(event.target.value);
+
+    setSelectedCity(cityId);
+    setThirdPageFormData(({ ...thirdPageFormData, [`${formProperties.cityId}`]: cityId }));
   };
 
   const handleDistrictChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedDistrict(Number(event.target.value));
-    setThirdPageFormData(({ ...thirdPageFormData, [`${formProperties.districtId}`]: Number(event.target.value) }));
+    const districtId = Number(event.target.value);
+
+    setSelectedDistrict(districtId);
+    setThirdPageFormData(({ ...thirdPageFormData, [`${formProperties.districtId}`]: districtId }));
   };
 
   const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
