@@ -36,9 +36,14 @@ const ServicePointInfoPage = () => {
                   <>
                     <ServicePointDetailsPage slug={slug[0]} />
                     <Accordion
+                      accordionTitle={'Sarj Üniteleri'}
+                      accordionContent={workingHoursContent}
+                      className={`mx-8 my-8 rounded-lg`}
+                    />
+                    <Accordion
                       accordionTitle={'Calisma Saatleri'}
                       accordionContent={workingHoursContent}
-                      className={`mx-8 rounded-lg`}
+                      className={`mx-8 my-8 rounded-lg`}
                     />
                   </>
                 )

@@ -19,15 +19,15 @@ interface IServicePointsDetailsProps {
 };
 
 interface IServicePointsDetailsInfoProps {
-    'ID': number;
-    'StationID': number;
-    'Address': string;
-    'Phone1': string;
-    'Phone2': string;
-    'Lat': number;
-    'Lon': number;
-    'CityID': number;
-    'DistrictID': number;
+    id: number;
+    stationId: number;
+    address: string;
+    phone1: string;
+    phone2: string;
+    lat: number;
+    lon: number;
+    cityId: number;
+    districtId: number;
 }
 
 const initialServicePointsDetailsStateValue = {
@@ -42,15 +42,15 @@ const initialServicePointsDetailsStateValue = {
 };
 
 const initialServicePointsDetailsInfoStateValue = {
-    'ID': 0,
-    'StationID': 0,
-    'Address': '',
-    'Phone1': '',
-    'Phone2': '',
-    'Lat': 0,
-    'Lon': 0,
-    'CityID': 0,
-    'DistrictID': 0
+    id: 0,
+    stationId: 0,
+    address: '',
+    phone1: '',
+    phone2: '',
+    lat: 0,
+    lon: 0,
+    cityId: 0,
+    districtId: 0
 }
 
 const ServicePointsDetailsPage = ({ slug }: IServicePointsDetailsPageProps) => {
@@ -80,7 +80,7 @@ const ServicePointsDetailsPage = ({ slug }: IServicePointsDetailsPageProps) => {
     };
 
     const getSelectedCity = (cityId: number) => {
-        return CITIES[16];
+        return CITIES[cityId?.toString()];
     };
 
     const getSelectedDistrict = (districtId: number) => {
@@ -115,15 +115,15 @@ const ServicePointsDetailsPage = ({ slug }: IServicePointsDetailsPageProps) => {
                     </div>
                     <div className='flex justify-end items-baseline'>
                         <p className='px-2'>Sehir </p>
-                        <h1 className='text-2xl'>{getSelectedCity(servicePointDetailsInfo.CityID)}</h1>
+                        <h1 className='text-2xl'>{getSelectedCity(servicePointDetailsInfo.cityId)}</h1>
                     </div>
                     <div className='flex justify-end items-baseline'>
                         <p className='px-2'>Ilce </p>
-                        <h1 className='text-2xl'>{getSelectedDistrict(servicePointDetailsInfo.DistrictID)}</h1>
+                        <h1 className='text-2xl'>{getSelectedDistrict(servicePointDetailsInfo.districtId)}</h1>
                     </div>
                     <div className='flex justify-end items-baseline'>
                         <p className='px-2'>Adres </p>
-                        <h1 className='text-2xl flex-wrap'>{servicePointDetailsInfo.Address}</h1>
+                        <h1 className='text-2xl flex-wrap'>{servicePointDetailsInfo.address}</h1>
                     </div>
                 </div>
             </div>
@@ -136,7 +136,7 @@ const ServicePointsDetailsPage = ({ slug }: IServicePointsDetailsPageProps) => {
     }, [slug])
 
     return (
-        servicePointDetailsInfo.CityID !== 0 && servicePointDetailsInfo.DistrictID !== 0 &&
+        servicePointDetailsInfo.cityId !== 0 && servicePointDetailsInfo.districtId !== 0 &&
         <div className='w-full'>
             <Card cardBodyChildren={cardBody} className='my-5' />
         </div>
