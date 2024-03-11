@@ -137,10 +137,10 @@ export function Table() {
     }
   }
   const getCity = (rid: number) => {
-    return CITIES[rid?.toString()];
+    return (CITIES[rid?.toString()] || '').toUpperCase();
   };
   const getDistricts = (districtCode: number) => {
-    return DISTRICTS[districtCode?.toString()];
+    return (DISTRICTS[districtCode?.toString()] || '').toUpperCase();
   };
   const getFirstTenUsers = async () => {
     try {
