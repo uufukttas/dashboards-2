@@ -6,6 +6,18 @@ interface IDistrictMap {
     [key: string]: string;
 };
 
+interface IPaymentMethod {
+    name: string;
+    id: number;
+    rid: null;
+};
+
+interface IOpportunities {
+    name: string;
+    id: number;
+    rid: null;
+};
+
 export const CITIES: ICityMap = {
     '1': 'Adana',
     '2': 'Adıyaman',
@@ -1084,5 +1096,63 @@ export const DISTRICTS: IDistrictMap = {
     '2': 'CEYHAN',
     '1': 'ALADAĞ',
 };
+
+export const PAYMENT_METHODS: IPaymentMethod[] = [
+    {
+        id: 1,
+        name: 'Kredi Kartı',
+        rid: null
+    },
+    {
+        id: 2,
+        name: 'Nakit',
+        rid: null
+    },
+    {
+        id: 3,
+        name: 'Sharz Uygulaması',
+        rid: null
+    }
+];
+
+export const OPPORTUNITIES: IOpportunities[] = [
+    {
+        name: 'AVM',
+        id: 1,
+        rid: null
+    }, {
+        name: 'Wifi',
+        id: 2,
+        rid: null
+    }, {
+        name: 'Otopark',
+        id: 3,
+        rid: null
+    }, {
+        name: 'Cocuk Oyun Alani',
+        id: 4,
+        rid: null
+    }, {
+        name: 'Engelli Dostu',
+        id: 5,
+        rid: null
+    }, {
+        name: 'Klima',
+        id: 6,
+        rid: null
+    }, {
+        name: 'Kafe',
+        id: 7,
+        rid: null
+    }, {
+        name: 'Restoran',
+        id: 8,
+        rid: null
+    }, {
+        name: 'Market',
+        id: 9,
+        rid: null
+    }
+];
 
 export const BRAND_PREFIX = 'sh';
