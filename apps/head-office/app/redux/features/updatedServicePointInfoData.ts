@@ -5,8 +5,8 @@ export type UpdatedServicePointInfoDataState = {
         id: number;
         name: string;
         type: string;
-        longitude: number;
-        latitude: number;
+        lon: number;
+        lat: number;
         phone1: string;
         phone2: string;
         address: string;
@@ -23,8 +23,8 @@ const initialState = {
         id: 0,
         name: '',
         type: '',
-        longitude: 0,
-        latitude: 0,
+        lon: 0,
+        lat: 0,
         phone1: '',
         phone2: '',
         address: '',
@@ -41,19 +41,18 @@ export const updatedServicePointInfoData = createSlice({
     initialState,
     reducers: {
         setUpdatedServicePointInfoData: (state, action) => {
-            console.log('action', action)
-            state.updatedServicePointInfoData.address = action.payload.address;
-            state.updatedServicePointInfoData.cityId = action.payload.cityId;
-            state.updatedServicePointInfoData.districtId = action.payload.districtId;
+            state.updatedServicePointInfoData.address = action.payload.Address;
+            state.updatedServicePointInfoData.cityId = action.payload.CityID;
+            state.updatedServicePointInfoData.districtId = action.payload.DistrictID;
             state.updatedServicePointInfoData.freePark = action.payload.freePark;
-            state.updatedServicePointInfoData.id = action.payload.id;
-            state.updatedServicePointInfoData.latitude = action.payload.lat;
-            state.updatedServicePointInfoData.longitude = action.payload.lon;
-            state.updatedServicePointInfoData.name = action.payload.name;
+            state.updatedServicePointInfoData.id = action.payload.ID;
+            state.updatedServicePointInfoData.lat = action.payload.Lat;
+            state.updatedServicePointInfoData.lon = action.payload.Lon;
+            state.updatedServicePointInfoData.name = action.payload.Name;
             state.updatedServicePointInfoData.opportunities = action.payload.opportunities;
             state.updatedServicePointInfoData.paymentMethods = action.payload.paymentMethods;
-            state.updatedServicePointInfoData.phone1 = action.payload.phone1;
-            state.updatedServicePointInfoData.phone2 = action.payload.phone2;
+            state.updatedServicePointInfoData.phone1 = action.payload.Phone1;
+            state.updatedServicePointInfoData.phone2 = action.payload.Phone2;
             state.updatedServicePointInfoData.type = action.payload.type;
         },
     },
