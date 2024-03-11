@@ -36,7 +36,7 @@ const ServicePointModalFormThirdPage = ({
   const updatedServicePointInfoData = useSelector((state: RootState) => {
     return state.updatedServicePointInfoData.updatedServicePointInfoData
   });
-  const formName = ['city', 'district', 'x-coord', 'y-coord'];
+  const formName = ['cityId', 'districtId', 'x-coord', 'y-coord'];
   const sectionPrefix = 'service-point';
   const formProperties = {
     cityId: `${sectionPrefix}-${formName[0]}`,
@@ -123,7 +123,7 @@ const ServicePointModalFormThirdPage = ({
           items={cities}
           name={`${formProperties.cityId}`}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { handleCityChange(event); }}
-          selectedValue={thirdPageFormData.cityId?.toString()}
+          selectedValue={thirdPageFormData[`${formProperties.cityId}`].toString()}
         />
       </div>
       <div className={`${formProperties.districtId}-container`}>
@@ -137,7 +137,7 @@ const ServicePointModalFormThirdPage = ({
           items={districts}
           name={`${formProperties.districtId}`}
           onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { handleDistrictChange(event); }}
-          selectedValue={thirdPageFormData.districtId?.toString()}
+          selectedValue={thirdPageFormData[`${formProperties.districtId}`].toString()}
         />
       </div>
       <div className={`${sectionPrefix}-coordinates-container flex justify-center items-center`}>
