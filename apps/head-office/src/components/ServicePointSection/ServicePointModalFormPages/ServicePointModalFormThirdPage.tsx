@@ -53,10 +53,10 @@ const ServicePointModalFormThirdPage = ({
       ? updatedServicePointInfoData.districtId
       : formData[`${formProperties.districtId}`] || 1,
     [`${formProperties['x-coord']}`]: isServicePointInfoDataUpdated
-      ? updatedServicePointInfoData['longitude']
+      ? updatedServicePointInfoData.lon
       : formData[`${formProperties['x-coord']}`] || '',
     [`${formProperties['y-coord']}`]: isServicePointInfoDataUpdated
-      ? updatedServicePointInfoData['latitude']
+      ? updatedServicePointInfoData.lat
       : formData[`${formProperties['y-coord']}`] || ''
   });
   const [selectedCity, setSelectedCity] = useState<number>(Number(thirdPageFormData[formProperties.cityId]));
@@ -86,6 +86,7 @@ const ServicePointModalFormThirdPage = ({
 
     setSelectedCity(cityId);
     setThirdPageFormData(({ ...thirdPageFormData, [`${formProperties.cityId}`]: cityId }));
+    getDistricts(cityId);
   };
 
   const handleDistrictChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -106,7 +107,7 @@ const ServicePointModalFormThirdPage = ({
   useEffect(() => {
     setSelectedCity(updatedServicePointInfoData.cityId > 0 ? updatedServicePointInfoData.cityId : selectedCity);
     getDistricts(selectedCity);
-  }, [selectedCity, selectedDistrict]);
+  }, []);
 
   return (
     <form
