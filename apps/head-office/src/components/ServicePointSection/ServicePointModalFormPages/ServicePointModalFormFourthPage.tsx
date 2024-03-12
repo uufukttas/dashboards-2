@@ -59,7 +59,6 @@ const ServicePointModalFormFourthPage = ({
   const { handleSubmit } = useForm();
 
   const createConfigData = () => ({
-    stationId: stationId,
     address: formData[`${sectionPrefix}-address`],
     phone1: formData[`${sectionPrefix}-phone-number-1`],
     phone2: formData[`${sectionPrefix}-phone-number-2`],
@@ -67,6 +66,7 @@ const ServicePointModalFormFourthPage = ({
     lon: formData[`${sectionPrefix}-y-coord`],
     cityId: Number(formData[`${sectionPrefix}-cityId`]),
     districtId: Number(formData[`${sectionPrefix}-districtId`]),
+    ...(updatedServicePointInfoData.id > 0 ? { id: updatedServicePointInfoData.id } : { stationId: stationId })
   });
 
   const createServicePointDetails = () => {
