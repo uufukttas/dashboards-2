@@ -7,7 +7,7 @@ import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { toggleAlertVisibility } from '../../../../app/redux/features/isAlertVisible';
-import { setUpdatedServicePointData } from '../../../../app/redux/features/updatedServicePointData';
+import { setServicePointData } from '../../../../app/redux/features/servicePointData';
 import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 
@@ -17,28 +17,22 @@ interface IFormDataProps {
 
 interface IModalPageInputs {
   activePage: number;
-  formData: IFormDataProps;
   stationId: number;
   setActivePage: React.Dispatch<React.SetStateAction<number>>;
-  setFormData: React.Dispatch<React.SetStateAction<IFormDataProps>>;
   setStationId: React.Dispatch<React.SetStateAction<number>>;
 };
 
 const ServicePointModalFormFirstPage = ({
   activePage,
-  formData,
   stationId,
   setActivePage,
-  setFormData,
   setStationId,
 }: IModalPageInputs) => {
   const dispatch = useDispatch();
   const { formState: { errors }, handleSubmit, register } = useForm();
 
   const hasStationId = stationId !== 0;
-  const updatedServicePointData = useSelector((state: RootState) => {
-    return state.updatedServicePointData.updatedServicePointData;
-  });
+  const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const [companies, setCompanies] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const [resellers, setResellers] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const formName = ['name', 'reseller', 'company'];
@@ -48,17 +42,11 @@ const ServicePointModalFormFirstPage = ({
     reseller: `${sectionPrefix}-${formName[1]}`,
     company: `${sectionPrefix}-${formName[2]}`,
   };
-  const isServicePointDataUpdated = updatedServicePointData.id > 0;
+  const hasServicePointDataId = servicePointData.id > 0;
   const [firstPageFormData, setFirstPageFormData] = useState<IFormDataProps>({
-    [`${formProperties.name}`]: isServicePointDataUpdated
-      ? updatedServicePointData.name
-      : formData[`${formProperties.name}`] || '',
-    [`${formProperties.reseller}`]: isServicePointDataUpdated
-      ? updatedServicePointData.resellerCompanyId
-      : formData[`${formProperties.reseller}`] || 1,
-    [`${formProperties.company}`]: isServicePointDataUpdated
-      ? updatedServicePointData.companyId
-      : formData[`${formProperties.company}`] || 1,
+    [`${formProperties.name}`]: servicePointData.name || '',
+    [`${formProperties.reseller}`]: servicePointData.resellerCompanyId || 1,
+    [`${formProperties.company}`]: servicePointData.companyId || 1,
   });
 
   const createServicePointConfigData = () => ({
@@ -66,7 +54,7 @@ const ServicePointModalFormFirstPage = ({
     resellerCompanyId: firstPageFormData[`${formProperties.reseller}`],
     companyId: firstPageFormData[`${formProperties.company}`],
     isActive: true,
-    ...(isServicePointDataUpdated && { id: updatedServicePointData.id }),
+    ...(hasServicePointDataId && { id: servicePointData.id }),
   });
 
   const getDropdownItems = async (dropdownDataUrl: string) => {
@@ -94,10 +82,7 @@ const ServicePointModalFormFirstPage = ({
   };
 
   const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
-    setFormData({
-      ...formData,
-      ...firstPageFormData,
-    });
+    dispatch(setServicePointData(firstPageFormData));
 
     if (stationId !== 0) {
       setActivePage(activePage + 1);
@@ -109,7 +94,7 @@ const ServicePointModalFormFirstPage = ({
   };
 
   const handleServicePointOperation = async () => {
-    const actionURL = isServicePointDataUpdated
+    const actionURL = hasServicePointDataId
       ? process.env.UPDATE_STATION_URL || ''
       : process.env.ADD_STATION_URL || '';
     const actionData = createServicePointConfigData();
@@ -121,9 +106,9 @@ const ServicePointModalFormFirstPage = ({
         })
         .then((response) => response.data)
         .then((data) => {
-          if (updatedServicePointData.id > 0) {
-            setStationId(updatedServicePointData.id);
-            dispatch(setUpdatedServicePointData(formData));
+          if (hasServicePointDataId) {
+            setStationId(servicePointData.id);
+            dispatch(setServicePointData(firstPageFormData));
           } else {
             setStationId(data.data[0].id)
           }
@@ -210,13 +195,13 @@ const ServicePointModalFormFirstPage = ({
             name={`${formProperties.reseller}`}
             onChange={handleDropdownChange}
             selectedValue={
-              isServicePointDataUpdated
-                ? updatedServicePointData['resellerCompanyId'].toString()
+              hasServicePointDataId
+                ? servicePointData.resellerCompanyId.toString()
                 : hasStationId
-                  ? formData[`${formProperties.reseller}`]?.toString()
+                  ? servicePointData[`${formProperties.reseller}`]?.toString()
                   : resellers[0]
             }
-            value={formData[`${formProperties.reseller}`]?.toString()}
+            value={servicePointData[`${formProperties.reseller}`]?.toString()}
           />
         </div>
         <div className={`${formProperties.company}-container`}>
@@ -235,13 +220,13 @@ const ServicePointModalFormFirstPage = ({
             name={`${formProperties.company}`}
             onChange={handleDropdownChange}
             selectedValue={
-              isServicePointDataUpdated
-                ? updatedServicePointData['companyId'].toString()
+              hasServicePointDataId
+                ? servicePointData.companyId.toString()
                 : hasStationId
-                  ? formData[`${formProperties.company}`]?.toString()
+                  ? servicePointData[`${formProperties.company}`]?.toString()
                   : companies[0]
             }
-            value={formData[`${formProperties.company}`]?.toString()}
+            value={servicePointData[`${formProperties.company}`]?.toString()}
           />
         </div>
         <div className={`${sectionPrefix}-buttons-container flex flex-row-reverse`}>

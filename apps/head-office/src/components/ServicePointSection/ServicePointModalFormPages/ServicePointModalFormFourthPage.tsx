@@ -11,6 +11,7 @@ import { toggleAlertVisibility } from '../../../../app/redux/features/isAlertVis
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../../app/redux/store';
 import { PAYMENT_METHODS, OPPORTUNITIES, BRAND_PREFIX } from '../../../../src/constants/constants';
+import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
 
 interface IFormData {
   [key: string]: string | number | boolean | string[];
@@ -40,37 +41,30 @@ const ServicePointModalFormFourthPage = ({
   };
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
-  const updatedServicePointInfoData = useSelector((state: RootState) => {
-    return state.updatedServicePointInfoData.updatedServicePointInfoData
+  const servicePointInformation = useSelector((state: RootState) => {
+    return state.servicePointInformation.servicePointInformation;
   });
-  const isServicePointInfoDataUpdated = updatedServicePointInfoData.id > 0;
   const [fourthPageFormData, setFourthPageFormData] = useState<IFormData>({
-    [`${formProperties.paymentMethods}`]: isServicePointInfoDataUpdated
-      ? updatedServicePointInfoData.paymentMethods
-      : formData[`${formProperties.paymentMethods}`] || '1',
-    [`${formProperties.parking}`]: isServicePointInfoDataUpdated
-      ? updatedServicePointInfoData.parking
-      : formData[`${formProperties.parking}`] || false,
-    [`${formProperties.opportunities}`]: isServicePointInfoDataUpdated
-      ? updatedServicePointInfoData.opportunities
-      : formData[`${formProperties.opportunities}`] || [],
+    [`${formProperties.paymentMethods}`]: servicePointInformation?.paymentMethods || '1',
+    [`${formProperties.parking}`]: servicePointInformation?.parking || false,
+    [`${formProperties.opportunities}`]: servicePointInformation?.opportunities || [],
   });
   const dispatch = useDispatch();
   const { handleSubmit } = useForm();
 
   const createConfigData = () => ({
-    address: formData[`${sectionPrefix}-address`],
-    phone1: formData[`${sectionPrefix}-phone-number-1`],
-    phone2: formData[`${sectionPrefix}-phone-number-2`],
-    lat: formData[`${sectionPrefix}-x-coord`],
-    lon: formData[`${sectionPrefix}-y-coord`],
-    cityId: Number(formData[`${sectionPrefix}-cityId`]),
-    districtId: Number(formData[`${sectionPrefix}-districtId`]),
-    ...(updatedServicePointInfoData.id > 0 ? { id: updatedServicePointInfoData.id } : { stationId: stationId })
+    address: servicePointInformation.address,
+    phone1: servicePointInformation.phone1,
+    phone2: servicePointInformation.phone2,
+    lat: servicePointInformation.lat,
+    lon: servicePointInformation.lon,
+    cityId: servicePointInformation.cityId,
+    districtId: servicePointInformation.districtId,
+    ...(servicePointInformation?.id > 0 ? { id: servicePointInformation?.id } : { stationId: stationId })
   });
 
   const createServicePointDetails = () => {
-    const actionURL = updatedServicePointInfoData.id > 0
+    const actionURL = servicePointInformation?.id > 0
       ? process.env.UPDATE_STATION_INFO_URL || ''
       : process.env.ADD_STATION_INFO_URL || '';
     const actionData = (createConfigData());
@@ -97,10 +91,12 @@ const ServicePointModalFormFourthPage = ({
   };
 
   const handleFormSubmit: SubmitHandler<IFormData> = () => {
-    setFormData({
-      ...formData,
-      ...fourthPageFormData,
-    });
+    dispatch(setServicePointInformation({
+      ...servicePointInformation,
+      paymentMethods: fourthPageFormData[`${formProperties.paymentMethods}`].toString(),
+      parking: fourthPageFormData[`${formProperties.parking}`],
+      opportunities: Object.keys(checkedItems).filter(key => checkedItems[key])
+    }));
 
     createServicePointDetails();
   };
@@ -117,11 +113,12 @@ const ServicePointModalFormFourthPage = ({
       [`${formProperties.opportunities}`]: Object.keys(checkedItems).filter(key => checkedItems[key])
     });
 
-    setFormData({
-      ...formData,
-      ...fourthPageFormData,
-      [`${formProperties.opportunities}`]: Object.keys(checkedItems).filter(key => checkedItems[key])
-    });
+    dispatch(setServicePointInformation({
+      ...servicePointInformation,
+      paymentMethods: fourthPageFormData[`${formProperties.paymentMethods}`].toString(),
+      parking: fourthPageFormData[`${formProperties.parking}`],
+      opportunities: Object.keys(checkedItems).filter(key => checkedItems[key])
+    }))
   }, [checkedItems]);
 
   return (
@@ -229,7 +226,7 @@ const ServicePointModalFormFourthPage = ({
           onClick={() => setActivePage(activePage - 1)}
         />
         <Button
-          buttonText={updatedServicePointInfoData.id > 0 ? 'Guncelle' : 'Kaydet'}
+          buttonText={servicePointInformation?.id > 0 ? 'Guncelle' : 'Kaydet'}
           className={`${sectionPrefix}-submit-button  bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`submit`}
         />

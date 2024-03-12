@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import ServicePointModalFormFirstPage from './ServicePointModalFormPages/ServicePointModalFormFirstPage';
 import ServicePointModalFormFourthPage from './ServicePointModalFormPages/ServicePointModalFormFourthPage';
@@ -19,7 +19,7 @@ const formDataInitialValues = {
 };
 
 const ServicePointModalForm = () => {
-  const updatedServicePointData = useSelector((state: RootState) => state.updatedServicePointData.updatedServicePointData);
+  const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const [activePage, setActivePage] = useState(1);
   const [cities, setCities] = useState<{ id: null; rid: number; plateCode: number; name: string; }[]>([]);
   const [districts, setDistricts] = useState<{ id: null; rid: number; name: string; plateCode: number; }[]>([]);
@@ -28,15 +28,13 @@ const ServicePointModalForm = () => {
   const [stationId, setStationId] = useState<number>(0);
 
   return (
-    <div className={`${BRAND_PREFIX}-service-point-${updatedServicePointData.id > 0 ? 'update' : 'create'}-form-wrapper`}>
-      <div className={`${BRAND_PREFIX}-service-point-${updatedServicePointData.id > 0 ? 'update' : 'create'}-modal-page-container relative p-6 bg-white rounded-lg max-h-[650px]`}>
+    <div className={`${BRAND_PREFIX}-service-point-${servicePointData.id > 0 ? 'update' : 'create'}-form-wrapper`}>
+      <div className={`${BRAND_PREFIX}-service-point-${servicePointData.id > 0 ? 'update' : 'create'}-modal-page-container relative p-6 bg-white rounded-lg max-h-[650px]`}>
         {activePage === 1 &&
           <ServicePointModalFormFirstPage
             activePage={activePage}
-            formData={formData}
             stationId={stationId}
             setActivePage={setActivePage}
-            setFormData={setFormData}
             setStationId={setStationId}
           />
         }

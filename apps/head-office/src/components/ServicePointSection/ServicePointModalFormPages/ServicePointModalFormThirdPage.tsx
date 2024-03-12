@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
+import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 
@@ -32,9 +33,9 @@ const ServicePointModalFormThirdPage = ({
   setDistricts,
   setFormData
 }: IModalPageInputs) => {
-
-  const updatedServicePointInfoData = useSelector((state: RootState) => {
-    return state.updatedServicePointInfoData.updatedServicePointInfoData
+  const dispatch = useDispatch();
+  const servicePointInformation = useSelector((state: RootState) => {
+    return state.servicePointInformation.servicePointInformation;
   });
   const formName = ['cityId', 'districtId', 'x-coord', 'y-coord'];
   const sectionPrefix = 'service-point';
@@ -44,23 +45,14 @@ const ServicePointModalFormThirdPage = ({
     'x-coord': `${sectionPrefix}-${formName[2]}`,
     'y-coord': `${sectionPrefix}-${formName[3]}`,
   };
-  const isServicePointInfoDataUpdated = updatedServicePointInfoData.id > 0;
   const [thirdPageFormData, setThirdPageFormData] = useState<IFormDataProps>({
-    [`${formProperties.cityId}`]: isServicePointInfoDataUpdated
-      ? updatedServicePointInfoData.cityId
-      : formData[`${formProperties.cityId}`] || 1,
-    [`${formProperties.districtId}`]: isServicePointInfoDataUpdated
-      ? updatedServicePointInfoData.districtId
-      : formData[`${formProperties.districtId}`] || 1,
-    [`${formProperties['x-coord']}`]: isServicePointInfoDataUpdated
-      ? updatedServicePointInfoData.lon
-      : formData[`${formProperties['x-coord']}`] || '',
-    [`${formProperties['y-coord']}`]: isServicePointInfoDataUpdated
-      ? updatedServicePointInfoData.lat
-      : formData[`${formProperties['y-coord']}`] || ''
+    [`${formProperties.cityId}`]: servicePointInformation.cityId || 1,
+    [`${formProperties.districtId}`]: servicePointInformation.districtId || 1,
+    [`${formProperties['x-coord']}`]: servicePointInformation.lon || 0,
+    [`${formProperties['y-coord']}`]: servicePointInformation.lat || 0,
   });
   const [selectedCity, setSelectedCity] = useState<number>(Number(thirdPageFormData[formProperties.cityId]));
-  const [selectedDistrict, setSelectedDistrict] = useState<number>(Number(thirdPageFormData.districtId));
+  const [selectedDistrict, setSelectedDistrict] = useState<number>(Number(thirdPageFormData[formProperties.districtId]));
   const { formState: { errors }, handleSubmit, register } = useForm();
 
   const getDistricts = async (selectedCity: number) => {
@@ -72,8 +64,8 @@ const ServicePointModalFormThirdPage = ({
         .then((response) => response.data.data)
         .then(data => {
           setDistricts(data);
-          updatedServicePointInfoData.districtId > 1
-            ? setSelectedDistrict(updatedServicePointInfoData.districtId)
+          Number(thirdPageFormData[`${formProperties.cityId}`]) > 1
+            ? setSelectedDistrict(Number(thirdPageFormData[`${formProperties.districtId}`]))
             : setSelectedDistrict(data[0].rid);
         });
     } catch (error) {
@@ -97,15 +89,20 @@ const ServicePointModalFormThirdPage = ({
   };
 
   const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
-    setFormData({
-      ...formData,
-      ...thirdPageFormData,
-    });
+    dispatch(setServicePointInformation({
+      ...servicePointInformation,
+      cityId: thirdPageFormData[`${formProperties.cityId}`],
+      districtId: thirdPageFormData[`${formProperties.districtId}`],
+      lon: thirdPageFormData[`${formProperties['x-coord']}`],
+      lat: thirdPageFormData[`${formProperties['y-coord']}`],
+    }));
     setActivePage(activePage + 1);
   };
 
   useEffect(() => {
-    setSelectedCity(updatedServicePointInfoData.cityId > 0 ? updatedServicePointInfoData.cityId : selectedCity);
+    setSelectedCity(Number(thirdPageFormData[`${formProperties.cityId}`] !== 0
+      ? thirdPageFormData[`${formProperties.cityId}`]
+      : selectedCity));
     getDistricts(selectedCity);
   }, []);
 
@@ -153,12 +150,12 @@ const ServicePointModalFormThirdPage = ({
             name={`${formProperties['x-coord']}`}
             register={
               register(`${formProperties['x-coord']}`, {
-              required: `Hizmet Noktasi X Koordinati zorunludur.`,
-              value: thirdPageFormData[`${formProperties['x-coord']}`],
-              onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                setThirdPageFormData(({ ...thirdPageFormData, [event.target.name]: Number(event.target.value) }));
-              }
-            })}
+                required: `Hizmet Noktasi X Koordinati zorunludur.`,
+                value: thirdPageFormData[`${formProperties['x-coord']}`],
+                onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                  setThirdPageFormData(({ ...thirdPageFormData, [event.target.name]: Number(event.target.value) }));
+                }
+              })}
             type={`text`}
           />
           {
@@ -184,12 +181,12 @@ const ServicePointModalFormThirdPage = ({
             name={`${formProperties['y-coord']}`}
             register={
               register(`${formProperties['y-coord']}`, {
-              required: `Hizmet Noktasi Y Koordinati zorunludur.`,
-              value: thirdPageFormData[`${formProperties['y-coord']}`],
-              onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                setThirdPageFormData(({ ...thirdPageFormData, [event.target.name]: Number(event.target.value) }));
-              }
-            })}
+                required: `Hizmet Noktasi Y Koordinati zorunludur.`,
+                value: thirdPageFormData[`${formProperties['y-coord']}`],
+                onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                  setThirdPageFormData(({ ...thirdPageFormData, [event.target.name]: Number(event.target.value) }));
+                }
+              })}
             type={`text`}
           />
           {

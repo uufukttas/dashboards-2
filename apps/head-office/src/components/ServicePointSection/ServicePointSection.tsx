@@ -11,8 +11,8 @@ import { RootState } from '../../../app/redux/store';
 export function ServicePointSection() {
   const isAlertVisible = useSelector((state: RootState) => state.isAlertVisibleReducer.isAlertVisible);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
-  const updatedServicePointData = useSelector((state: RootState) => {
-    return state.updatedServicePointData.updatedServicePointData
+  const servicePointData = useSelector((state: RootState) => {
+    return state.servicePointData.servicePointData
   });
   const dispatch = useDispatch();
 
@@ -24,7 +24,7 @@ export function ServicePointSection() {
       {
         isModalVisible &&
         <Modal
-          modalHeaderTitle={`Hizmet Noktası ${updatedServicePointData.id > 0 ? 'Güncelle' : 'Ekle'}`}
+          modalHeaderTitle={`Hizmet Noktası ${servicePointData.id > 0 ? 'Güncelle' : 'Ekle'}`}
           modalId={`${BRAND_PREFIX}-service-point-modal`}
         >
           <ServicePointModalForm />

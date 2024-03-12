@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { Textarea } from '@projects/textarea';
+import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 
@@ -32,8 +33,9 @@ const ServicePointModalFormSecondPage = ({
   setDistricts,
   setFormData
 }: IModalPageInputs) => {
-  const updatedServicePointInfoData = useSelector((state: RootState) => {
-    return state.updatedServicePointInfoData.updatedServicePointInfoData
+  const dispatch = useDispatch();
+  const servicePointInformation = useSelector((state: RootState) => {
+    return state.servicePointInformation.servicePointInformation
   });
   const formName = ['phone-number-1', 'phone-number-2', 'address'];
   const sectionPrefix = 'service-point';
@@ -42,17 +44,10 @@ const ServicePointModalFormSecondPage = ({
     phone2: `${sectionPrefix}-${formName[1]}`,
     address: `${sectionPrefix}-${formName[2]}`,
   };
-  const isServicePointInfoDataUpdated = updatedServicePointInfoData.id > 0;
   const [secondPageFormData, setSecondPageFormData] = useState<IFormDataProps>({
-    [`${formProperties.phone1}`]: isServicePointInfoDataUpdated
-      ? updatedServicePointInfoData.phone1
-      : formData[`${formProperties.phone1}`] || '',
-    [`${formProperties.phone2}`]: isServicePointInfoDataUpdated
-      ? updatedServicePointInfoData.phone2
-      : formData[`${formProperties.phone2}`] || '',
-    [`${formProperties.address}`]: isServicePointInfoDataUpdated
-      ? updatedServicePointInfoData.address
-      : formData[`${formProperties.address}`] || '',
+    [`${formProperties.phone1}`]: servicePointInformation.phone1 || '',
+    [`${formProperties.phone2}`]: servicePointInformation.phone2 || '',
+    [`${formProperties.address}`]: servicePointInformation.address || '',
   });
   const { formState: { errors }, handleSubmit, register } = useForm();
 
@@ -82,10 +77,13 @@ const ServicePointModalFormSecondPage = ({
   };
 
   const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
-    setFormData({
-      ...formData,
-      ...secondPageFormData,
-    });
+    dispatch(setServicePointInformation({
+      ...servicePointInformation,
+      phone1: secondPageFormData[`${formProperties.phone1}`],
+      phone2: secondPageFormData[`${formProperties.phone2}`],
+      address: secondPageFormData[`${formProperties.address}`],
+    }));
+
     setActivePage(activePage + 1);
   };
 
