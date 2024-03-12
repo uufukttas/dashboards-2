@@ -9,8 +9,8 @@ import { Label } from '@projects/label';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../app/redux/store';
-import { setUpdatedServicePointData } from '../../../app/redux/features/updatedServicePointData';
-import { setUpdatedServicePointInfoData } from '../../../app/redux/features/updatedServicePointInfoData';
+import { setServicePointData } from '../../../app/redux/features/servicePointData';
+import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
 import './Table.css';
 
 interface IServicePointInfoProps {
@@ -48,7 +48,9 @@ export function Table() {
   const [selectedRow, setSelectedRow] = useState(0);
   const [servicePoints, setServicePoints] = useState([]);
   const dispatch = useDispatch();
-
+  const servicePointInformation = useSelector((state: RootState) => {
+    return state.servicePointInformation.servicePointInformation
+  });
   const createTableRow = ({ servicePoint }: IServicePointInfoProps) => {
     return (
       <Fragment key={servicePoint.id}>
@@ -174,7 +176,7 @@ export function Table() {
         .then((response) => response.data)
         .then(response => {
           dispatch(toggleModalVisibility(isModalVisible));
-          dispatch(setUpdatedServicePointData(response.data[0]));
+          dispatch(setServicePointData(response.data[0]));
         })
         .catch((error) => {
           console.log(error);
@@ -186,7 +188,7 @@ export function Table() {
         }))
         .then((response) => response.data)
         .then(response => {
-          dispatch(setUpdatedServicePointInfoData(response.data[0]));
+          dispatch(setServicePointInformation(response.data[0]));
         })
         .catch((error) => {
           console.log(error);
