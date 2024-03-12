@@ -121,9 +121,12 @@ const ServicePointModalFormFirstPage = ({
         })
         .then((response) => response.data)
         .then((data) => {
-          updatedServicePointData.id === 0
-            ? setStationId(data.data[0].id)
-            : dispatch(setUpdatedServicePointData(formData));
+          if (updatedServicePointData.id > 0) {
+            setStationId(updatedServicePointData.id);
+            dispatch(setUpdatedServicePointData(formData));
+          } else {
+            setStationId(data.data[0].id)
+          }
 
           setActivePage(activePage + 1);
         })
