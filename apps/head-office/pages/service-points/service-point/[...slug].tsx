@@ -21,8 +21,11 @@ const ServicePointInfoPage = () => {
       <Provider store={store}>
         <div className={`${BRAND_PREFIX}-service-point-details-page-container w-full h-screen flex`}>
           <MainPage>
-            <div className="service-point-page-wrapper flex justify-center items-center md:pt-12 flex-wrap w-full ">
-              { slug && <ServicePointDetails slug={slug[0]} />}
+            <div
+              className={`${BRAND_PREFIX}-service-point-detail-page-wrapper flex justify-center items-center md:pt-12 flex-wrap w-full`}>
+              {slug
+                && <ServicePointDetails slug={slug[0]} />
+              }
             </div>
           </MainPage>
         </div>

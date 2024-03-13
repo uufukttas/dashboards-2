@@ -3,8 +3,8 @@ import Head from 'next/head';
 import { Provider } from 'react-redux';
 import { store } from '../../app/redux/store';
 import MainPage from '../../src/components/MainPage/MainPage';
-import { BRAND_PREFIX } from '../../src/constants/constants';
 import ServicePointSection from '../../src/components/ServicePointSection/ServicePointSection';
+import { BRAND_PREFIX } from '../../src/constants/constants';
 import '../../app/global.css';
 import '../../src/styles/style.css';
 
@@ -17,7 +17,9 @@ const ServicePoint = () => {
             <Provider store={store}>
                 <div className={`${BRAND_PREFIX}-service-point-page-container w-full h-screen flex`}>
                     <MainPage>
-                        <div className={`${BRAND_PREFIX}-service-point-page-wrapper flex justify-center items-center md:pt-12 flex-wrap`}>
+                        <div
+                            className={`${BRAND_PREFIX}-service-point-page-wrapper flex justify-center items-center md:pt-12 flex-wrap`}
+                        >
                             <ServicePointSection />
                         </div>
                     </MainPage>
