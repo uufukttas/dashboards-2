@@ -9,7 +9,7 @@ const Accordion = ({ accordionTitle, accordionContent, className }: { accordionT
   };
 
   return (
-    <div className={`border w-full mx-8 my-8 rounded-lg`}>
+    <div className={`border w-full my-4 rounded-lg`}>
       <div className="accordion-header" onClick={toggleAccordion}>
         <div className={`title ${className}`}>{accordionTitle}</div>
         <div className={`arrow ${isOpen ? 'open' : ''}`}></div>
