@@ -1,0 +1,53 @@
+import React from 'react';
+import Link from 'next/link';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '@projects/button';
+import { detectDevice } from '@projects/common';
+import { CloseIcon } from '@projects/icons';
+import { Image } from '@projects/image';
+import { BRAND_PREFIX } from '../../constants/constants';
+import { userInfo } from '../../constants/styles';
+import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpand';
+import { RootState } from '../../../app/redux/store';
+
+const SidebarHeader = () => {
+    const dispatch = useDispatch();
+    const isSidebarExpanded = useSelector((state: RootState) => state.sidebarExpandReducer.isSidebarExpanded);
+
+    const handleSidebarClose = () => {
+        dispatch(toggleSidebarExpanded(isSidebarExpanded));
+    };
+
+    return (
+        <div
+            className={`${BRAND_PREFIX}-sidebar-header-container flex items-center justify-between h-[80px]`}
+        >
+            <div className={`${BRAND_PREFIX}-sidebar-header-logo-container mx-4`}>
+                <Link href="/dashboards">
+                    <Image
+                        alt={userInfo.name}
+                        className={`${BRAND_PREFIX}-sidebar-header-logo`}
+                        src={userInfo.logo}
+                    />
+                </Link>
+            </div>
+            {
+                detectDevice().isMobile === true && (
+                    <div
+                        className={`${BRAND_PREFIX}-sidebar-header-close-container mx-4`}
+                    >
+                        <Button
+                            className={`${BRAND_PREFIX}-sidebar-header-close-button`}
+                            type="button"
+                            onClick={handleSidebarClose}
+                        >
+                            <CloseIcon />
+                        </Button>
+                    </div>
+                )
+            }
+        </div>
+    );
+};
+
+export default SidebarHeader;
