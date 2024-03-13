@@ -1,0 +1,287 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '@projects/button';
+import Accordion from '../../../src/components/Accordion/Accordion';
+import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
+import { RootState } from '../../../app/redux/store';
+import Modal from '../../../src/components/Modal/Modal';
+import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../src/constants/constants';
+import ServicePointDetailsHeader from './ServicePointDetailsHeader';
+import ServicePointDetailsModal from './ServicePointDetailsModal';
+
+interface IChargeUnitsProps {
+  chargePointId: number;
+  connectorNumber: number;
+  count: number;
+  deviceCode: string;
+  externalAddress: string;
+  internalAddress: string;
+  investor: string;
+  isFreePoint: boolean;
+  lastHeartBeat: string;
+  limitedUsage: boolean;
+  model: string;
+  ocppVersion: number;
+  sendRoaming: boolean;
+  stationId: number;
+  status: string;
+};
+
+interface IServicePointsDetailsInfoProps {
+  id: number;
+  stationId: number;
+  address: string;
+  phone1: string;
+  phone2: string;
+  lat: number;
+  lon: number;
+  cityId: number;
+  districtId: number;
+};
+
+interface IServicePointsDetailsPageProps {
+  slug: string;
+};
+
+interface IServicePointsDetailsProps {
+  name: string;
+  id: string;
+  resellerId: string;
+  companyId: string;
+  resellerName: string;
+  companyName: string;
+  isActive: boolean;
+  isDeleted: boolean;
+};
+
+const initialChargeUnitsStateValue = {
+  chargePointId: 2026,
+  connectorNumber: 1,
+  count: 1,
+  deviceCode: "9081000201",
+  externalAddress: '',
+  internalAddress: '',
+  investor: "Operatör",
+  isFreePoint: false,
+  lastHeartBeat: '',
+  limitedUsage: false,
+  model: "Gersan",
+  ocppVersion: 1500,
+  sendRoaming: true,
+  stationId: 2022,
+  status: "Kullanılabilir",
+};
+
+const initialServicePointsDetailsInfoStateValue = {
+  id: 0,
+  stationId: 0,
+  address: '',
+  phone1: '',
+  phone2: '',
+  lat: 0,
+  lon: 0,
+  cityId: 0,
+  districtId: 0
+};
+
+const initialServicePointsDetailsStateValue = {
+  name: '',
+  id: '',
+  resellerId: '',
+  companyId: '',
+  resellerName: '',
+  companyName: '',
+  isActive: true,
+  isDeleted: false,
+};
+
+const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
+  const dispatch = useDispatch();
+  const [servicePointDetails, setServicePointDetails] = useState<IServicePointsDetailsProps>(initialServicePointsDetailsStateValue);
+  const [servicePointDetailsInfo, setServicePointDetailsInfo] = useState<IServicePointsDetailsInfoProps>(initialServicePointsDetailsInfoStateValue);
+  const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([initialChargeUnitsStateValue]);
+  const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
+
+  const getChargeUnits = () => {
+    axios.post(
+      'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationSettings',
+      JSON.stringify({ stationId: Number(slug), PageNumber: 1, PageSize: 5 }),
+      { headers: { 'Content-Type': 'application/json' } }
+    )
+      .then(response => response.data.data)
+      .then(data => setChargeUnits(data))
+      .catch(error => console.log(error));
+  };
+
+  const getServicePointsDetails = async (slug: string) => {
+    axios.post(
+      'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationById',
+      { id: slug },
+      { headers: { 'Content-Type': 'application/json' } }
+    )
+      .then(response => response.data)
+      .then(data => setServicePointDetails(data.data[0]))
+      .catch(error => console.log(error));
+  };
+
+  const getServicePointsDetailsInfo = async (slug: string) => {
+    axios.post(
+      'https://sharztestapi.azurewebsites.net/StationInfo/GetByStationId',
+      JSON.stringify({ stationId: Number(slug) }),
+      { headers: { 'Content-Type': 'application/json' } }
+    )
+      .then(response => response.data)
+      .then(data => setServicePointDetailsInfo(data.data[0]))
+      .catch(error => console.log(error));
+  };
+
+  const getSelectedCity = (cityId: number) => {
+    return CITIES[cityId?.toString()];
+  };
+
+  const getSelectedDistrict = (districtId: number) => {
+    return DISTRICTS[districtId?.toString()];
+  };
+
+  const handleClick = (e: React.MouseEvent) => {
+    dispatch(toggleModalVisibility(isModalVisible))
+  };
+
+  const chargeUnitsContent = (
+    <div className="charge-units-content py-8">
+      <div className="charge-units-header flex justify-end">
+        <Button
+          buttonText={`Ekle`}
+          className="charge-units-add-button bg-primary bg-primary text-white rounded-md px-4 py-2 mx-2"
+          type="button"
+          onClick={handleClick}
+        />
+      </div>
+      <div className="charge-units-list">
+        {
+          chargeUnits.map((chargeUnit, index) => (
+            <div
+              key={index}
+              className="charge-unit flex justify-between items-center border-b-2 border-gray-200 py-4">
+              <div className="charge-unit-info">
+                <h3 className="charge-unit-name text-lg font-bold">{chargeUnit.deviceCode}</h3>
+                <p className="charge-unit-status text-sm">{chargeUnit.status}</p>
+              </div>
+              <div className="charge-unit-actions mx-2">
+                <Button
+                  buttonText={`Düzenle`}
+                  className="charge-unit-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2"
+                  type={'button'}
+                  onClick={handleClick}
+                />
+                <Button
+                  buttonText={'Sil'}
+                  className="charge-unit-delete-button bg-secondary text-white rounded-md px-4 py-2"
+                  type={'button'}
+                />
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  );
+
+  const servicePointDetailsContent = (
+    <div className="service-point-details-content py-8">
+      <div className="service-point-details-info">
+        <div className="service-point-details-info-item flex justify-start items-center">
+          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Adres:</p>
+          <p className="service-point-details-info-item-value text-lg font-normal">
+            {decodeURI(servicePointDetailsInfo.address)}
+          </p>
+        </div>
+        <div className="service-point-details-info-item flex justify-start items-center">
+          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Telefon:</p>
+          <p className="service-point-details-info-item-value text-lg font-normal">{servicePointDetailsInfo.phone1}</p>
+        </div>
+        {
+          servicePointDetailsInfo.phone2 && (
+            <div className="service-point-details-info-item flex justify-start items-center">
+              <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Telefon 2:</p>
+              <p className="service-point-details-info-item-value text-lg">{servicePointDetailsInfo.phone2}</p>
+            </div>
+          )
+        }
+        <div className="service-point-details-info-item flex justify-start items-center">
+          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Il:</p>
+          <p className="service-point-details-info-item-value text-lg font-normal">
+            {getSelectedCity(servicePointDetailsInfo.cityId)}
+          </p>
+        </div>
+        <div className="service-point-details-info-item flex justify-start items-center">
+          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Ilce:</p>
+          <p className="service-point-details-info-item-value text-lg font-normal">
+            {getSelectedDistrict(servicePointDetailsInfo.districtId)}
+          </p>
+        </div>
+        <div className="service-point-details-info-item flex justify-start items-center">
+          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Konum:</p>
+          <p className="service-point-details-info-item-value text-lg font-normal">
+            {servicePointDetailsInfo.lat} - {servicePointDetailsInfo.lon}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+
+  const workingHoursContent = (
+    <div className="working-hours-content py-8">
+      Bu servis istasyonunun calisma saatleri 08:00 - 18:00 arasindadir.
+    </div>
+  );
+
+  useEffect(() => {
+    getServicePointsDetails(slug);
+    getServicePointsDetailsInfo(slug);
+    getChargeUnits();
+  }, [slug])
+
+  return (
+    servicePointDetailsInfo.cityId !== 0
+    && servicePointDetailsInfo.districtId !== 0
+    && (
+      <>
+        <ServicePointDetailsHeader
+          servicePointDetailsName={servicePointDetails.name}
+          servicePointDetailsStatus={servicePointDetails.isActive}
+        />
+        <div className='service-point-details-container w-full mx-8'>
+          <Accordion
+            accordionTitle='Servis Istasyonu Bilgileri'
+            accordionContent={servicePointDetailsContent}
+            className="font-bold"
+          />
+          <Accordion
+            accordionTitle={'Sarj Üniteleri'}
+            accordionContent={chargeUnitsContent}
+            className={`font-bold`}
+          />
+          <Accordion
+            accordionTitle={'Calisma Saatleri'}
+            accordionContent={workingHoursContent}
+            className={`font-bold`}
+          />
+        </div>
+        {
+          isModalVisible &&
+          <Modal
+            className="charge-units-modal"
+            modalHeaderTitle={`Şarj Ünitesi Ekle`}
+            modalId={`${BRAND_PREFIX}-service-point-modal`}
+          >
+            <ServicePointDetailsModal />
+          </Modal>
+        }
+      </>
+    )
+  );
+};
+
+export default ServicePointsDetails;
