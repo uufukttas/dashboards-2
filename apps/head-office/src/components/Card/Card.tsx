@@ -22,11 +22,11 @@ export function Card({
   onClick,
 }: ICardProps) {
   return (
-    <div className={`${BRAND_PREFIX}-card-container p-8 rounded shadow-custom mx-8 ${className}`}>
+    <div className={`${BRAND_PREFIX}-card-container p-8 shadow-custom mx-8 ${className}`}>
       <CardHeader>
         {cardHeaderChildren}
       </CardHeader>
-      <CardBody onClick={onClick}>
+      <CardBody>
         {cardBodyChildren}
       </CardBody>
       <CardFooter>
