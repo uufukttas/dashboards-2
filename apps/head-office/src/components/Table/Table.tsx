@@ -47,6 +47,7 @@ export function Table() {
   const [isHidden, setIsHidden] = useState(true);
   const [selectedRow, setSelectedRow] = useState(0);
   const [servicePoints, setServicePoints] = useState([]);
+  const [filteredServicePoints, setFilteredServicePoints] = useState([]);
   const dispatch = useDispatch();
   const servicePointInformation = useSelector((state: RootState) => {
     return state.servicePointInformation.servicePointInformation
@@ -56,7 +57,6 @@ export function Table() {
       <Fragment key={servicePoint.id}>
         <tr data-service-point-id={servicePoint.id}>
           <td className="px-6 py-3">{decodeURIComponent(servicePoint.name)}</td>
-          <td className="px-6 py-3">{servicePoint.type}</td>
           <td className="px-6 py-3">{servicePoint.phone}</td>
           <td className="px-6 py-3">{decodeURIComponent(servicePoint.address)}</td>
           <td className="px-6 py-3">{getCity((servicePoint.cityId))}</td>
@@ -102,7 +102,6 @@ export function Table() {
               <th className='px-6'>Payment Methods</th>
               <th className='px-6'>Free Park</th>
               <th className='px-6'>Opportunuties</th>
-              <th className='px-6'> </th>
               <th className='px-6'> </th>
             </tr>
             <tr>
@@ -155,8 +154,9 @@ export function Table() {
       )
         .then((response) => response.data)
         .then(response => {
+          setServicePoints(response.data);
           const filteredArr = response.data.filter((servicePoint: IServicePointProps) => servicePoint.isActive);
-          setServicePoints(filteredArr);
+          setFilteredServicePoints(filteredArr);
         })
         .catch((error) => console.log(error));
 
@@ -218,25 +218,23 @@ export function Table() {
   };
 
   useEffect(() => {
-    if (servicePoints.length === 0) {
       getFirstTenUsers();
-    }
-  }, [selectedRow]);
+  }, [servicePointInformation]);
 
   return (
-    servicePoints?.length > 0 &&
+    filteredServicePoints?.length > 0 &&
     <div className={`${BRAND_PREFIX}-table-container relative overflow-x-auto shadow-md sm:rounded-lg max-w-[330px] md:max-w-full w-full`}>
       <div className={`${BRAND_PREFIX}-table-wrapper flex flex-col items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 bg-white w-full md:flex-row`}>
         <div className={`${BRAND_PREFIX}-table-actions w-4/5 md:w-1/6`}>
           <Button
-            className={`${BRAND_PREFIX}-add-service-point-button-container w-full`}
+            className={`${BRAND_PREFIX}-add-service-point-button-container w-full bg-primary rounded-md font-semibold hover:bg-hover`}
             type="button"
             onClick={handleClick}
           >
             + Hizmet Noktasi
           </Button>
         </div>
-        <Label className="sr-only" htmlFor="table-search" labelText={`Search`} />
+        {/* <Label className="sr-only" htmlFor="table-search" labelText={`Search`} />
         <div className={`${BRAND_PREFIX}-service-point-search-input-container relative w-4/5 md:w-1/6 mx-2`}>
           <div className={`${BRAND_PREFIX}-service-point-search-icon-container absolute inset-y-0 flex items-center ps-3 pointer-events-none pl-3 pr-2 justify-end border-r`}>
             <SearchIcon />
@@ -248,16 +246,13 @@ export function Table() {
             placeholder="Search users"
             type="text"
           />
-        </div>
+        </div> */}
       </div>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 shadow-custom">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
             <th scope="col" className="px-6 py-3">
               Servis Noktasi
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Tip
             </th>
             <th scope="col" className="px-6 py-3">
               Telefon No
@@ -271,15 +266,15 @@ export function Table() {
             <th scope="col" className="px-6 py-3">
               Ilce
             </th>
-            <th scope="col" className="px-6 py-3">
+            <th scope="col" className="px-6 py-3 flex justify-center">
               Aksiyonlar
             </th>
           </tr>
         </thead>
         <tbody>
           {
-            servicePoints &&
-            servicePoints.map((servicePoint) => {
+            filteredServicePoints &&
+            filteredServicePoints.map((servicePoint) => {
               return (
                 createTableRow({ servicePoint })
               )

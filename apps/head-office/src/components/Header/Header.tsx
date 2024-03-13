@@ -20,7 +20,7 @@ const Header = ({ className }: IHeaderProps) => {
 
   return (
     <div
-      className={`${BRAND_PREFIX}-header-container justify-between shadow-custom ${className} bg-white sticky top-0`}
+      className={`${BRAND_PREFIX}-header-container justify-between shadow-custom ${className} bg-white sticky top-0 z-10`}
     >
       <Button
         className={`${BRAND_PREFIX}-sidebar-toggle-button bg-white hover:bg-white mx-8`}
