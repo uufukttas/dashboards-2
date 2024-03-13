@@ -2,8 +2,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Accordion from '../../../src/components/Accordion/Accordion';
 import Card from '../../../src/components/Card/Card';
-import { CITIES, DISTRICTS } from '../../../src/constants/constants';
+import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../src/constants/constants';
 import { Button } from '@projects/button';
+import Modal from '../../../src/components/Modal/Modal';
+import { Dropdown } from '@projects/dropdown';
+import { Radio } from '@projects/radio';
+import { Input } from '@projects/input';
+import { Label } from '@projects/label';
 
 interface IServicePointsDetailsPageProps {
     slug: string;
@@ -110,7 +115,7 @@ const ServicePointsDetailsPage = ({ slug }: IServicePointsDetailsPageProps) => {
     const getServicePointsDetails = async (slug: string) => {
         axios.post(
             'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationById',
-            { id: slug[0] },
+            { id: slug },
             { headers: { 'Content-Type': 'application/json' } }
         )
             .then(response => response.data)
@@ -121,7 +126,7 @@ const ServicePointsDetailsPage = ({ slug }: IServicePointsDetailsPageProps) => {
     const getServicePointsDetailsInfo = async (slug: string) => {
         axios.post(
             'https://sharztestapi.azurewebsites.net/StationInfo/GetByStationId',
-            JSON.stringify({ stationId: Number(slug[0]) }),
+            JSON.stringify({ stationId: Number(slug) }),
             { headers: { 'Content-Type': 'application/json' } }
         )
             .then(response => response.data)
@@ -140,9 +145,7 @@ const ServicePointsDetailsPage = ({ slug }: IServicePointsDetailsPageProps) => {
     const chargeUnitsContent = (
         <div className="charge-units-content py-8">
             <div className="charge-units-header flex justify-end">
-                {/* <h3 className="charge-units-title text-xl font-bold">Sarj Üniteleri</h3> */}
-                <Button className="charge-units-add-button bg-primary text-white rounded px-4 py-2 text-2xl tex-center item-center" type="button">
-                    <span>+</span>
+                <Button buttonText={`Ekle`} className="charge-units-add-button bg-primary bg-primary text-white rounded-md px-4 py-2 mx-2" type="button">
                 </Button>
             </div>
             <div className="charge-units-list">
@@ -154,8 +157,8 @@ const ServicePointsDetailsPage = ({ slug }: IServicePointsDetailsPageProps) => {
                                 <p className="charge-unit-status text-sm">{chargeUnit.status}</p>
                             </div>
                             <div className="charge-unit-actions mx-2">
-                                <button className="charge-unit-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2">Düzenle</button>
-                                <button className="charge-unit-delete-button bg-secondary text-white rounded-md px-4 py-2 mx-2">Sil</button>
+                                <Button buttonText={`Düzenle`} className="charge-unit-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2" type={'button'} />
+                                <Button buttonText={'Sil'} className="charge-unit-delete-button bg-secondary text-white rounded-md px-4 py-2" type={'button'} />
                             </div>
                         </div>
                     ))
@@ -164,79 +167,255 @@ const ServicePointsDetailsPage = ({ slug }: IServicePointsDetailsPageProps) => {
         </div>
     );
 
+    const servicePointDetailsContent = (
+        <div className="service-point-details-content py-8">
+            <div className="service-point-details-info">
+                <div className="service-point-details-info-item flex justify-start items-center">
+                    <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Adres:</p>
+                    <p className="service-point-details-info-item-value text-lg font-normal">{decodeURI(servicePointDetailsInfo.address)}</p>
+                </div>
+                <div className="service-point-details-info-item flex justify-start items-center">
+                    <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Telefon:</p>
+                    <p className="service-point-details-info-item-value text-lg font-normal">{servicePointDetailsInfo.phone1}</p>
+                </div>
+                {
+                    servicePointDetailsInfo.phone2 && (
+                        <div className="service-point-details-info-item flex justify-start items-center">
+                            <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Telefon 2:</p>
+                            <p className="service-point-details-info-item-value text-lg">{servicePointDetailsInfo.phone2}</p>
+                        </div>
+                    )
+                }
+                <div className="service-point-details-info-item flex justify-start items-center">
+                    <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Il:</p>
+                    <p className="service-point-details-info-item-value text-lg font-normal">{getSelectedCity(servicePointDetailsInfo.cityId)}</p>
+                </div>
+                <div className="service-point-details-info-item flex justify-start items-center">
+                    <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Ilce:</p>
+                    <p className="service-point-details-info-item-value text-lg font-normal">{getSelectedDistrict(servicePointDetailsInfo.districtId)}</p>
+                </div>
+                <div className="service-point-details-info-item flex justify-start items-center">
+                    <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Konum:</p>
+                    <p className="service-point-details-info-item-value text-lg font-normal">{servicePointDetailsInfo.lat} - {servicePointDetailsInfo.lon} </p>
+                </div>
+            </div>
+        </div>
+    );
+
+    const servicePointHeader = (
+        <>
+            <div className="sh-service-point-details-page-header w-full flex items-center justify-between">
+                <div className="sh-service-point-details-page-header-left flex">
+                    <h1 className="sh-service-point-details-page-header-title text-2xl font-bold">{decodeURI(servicePointDetails.name)}</h1>
+                </div>
+                <div className="sh-service-point-details-page-header-right flex">
+                    {
+                        servicePointDetails.isActive
+                            ? <div className='bg-green-500 rounded-full h-4 w-4 mx-2'></div>
+                            : <div className='bg-secondary rounded-full h-4 w-4 mx-2'></div>
+                    }
+                </div>
+            </div>
+        </>
+    );
+
     const workingHoursContent = (
         <div className="working-hours-content py-8">
             Bu servis istasyonunun calisma saatleri 08:00 - 18:00 arasindadir.
         </div>
     );
 
-    const cardBody = (
-        <>
-            <div className='w-full flex itemse-center justify-between'>
-                <div className='left-side flex items-end justify-between flex-col'>
-                    <div className='flex justify-center items-baseline'>
-                        <p className='px-2'>Servis Noktasinin Ismi: </p>
-                        <h1 className='text-2xl'>{servicePointDetails.name}</h1>
-                    </div>
-                    <div className='flex justify-center items-baseline'>
-                        <p className='px-2'>Servis Noktasinin Sirketi: </p>
-                        <h1 className='text-2xl'>{servicePointDetails.companyName}</h1>
-                    </div>
-                    <div className='flex justify-center items-baseline'>
-                        <p className='px-2'>Servis Noktasinin Bayisi: </p>
-                        <h1 className='text-2xl'>{servicePointDetails.resellerName}</h1>
-                    </div>
-                </div>
-                <div className='right-side flex items-end justify-between flex-col'>
-                    <div className='flex items-center '>
-                        <h3 className='px-2'>Durum</h3>
-                        {
-                            servicePointDetails.isActive
-                                ? <div className='bg-green-500 rounded-full h-4 w-4 mx-2'></div>
-                                : <div className='bg-secondary rounded-full h-4 w-4 mx-2'></div>
-                        }
-                    </div>
-                    <div className='flex justify-end items-baseline'>
-                        <p className='px-2'>Sehir </p>
-                        <h1 className='text-2xl'>{getSelectedCity(servicePointDetailsInfo?.cityId)}</h1>
-                    </div>
-                    <div className='flex justify-end items-baseline'>
-                        <p className='px-2'>Ilce </p>
-                        <h1 className='text-2xl'>{getSelectedDistrict(servicePointDetailsInfo?.districtId)}</h1>
-                    </div>
-                    <div className='flex justify-end items-baseline'>
-                        <p className='px-2'>Adres </p>
-                        <h1 className='text-2xl flex-wrap'>{servicePointDetailsInfo?.address}</h1>
-                    </div>
-                </div>
-            </div>
-        </>
-    );
-
     useEffect(() => {
         getChargeUnits();
-        getServicePointsDetails(slug[0]);
-        getServicePointsDetailsInfo(slug[0]);
+        getServicePointsDetails(slug);
+        getServicePointsDetailsInfo(slug);
     }, [slug])
 
     return (
         servicePointDetailsInfo?.cityId !== 0 && servicePointDetailsInfo?.districtId !== 0 &&
         <>
             <div className='w-full'>
-                <Card cardBodyChildren={cardBody} className='my-5' />
+                <Card cardBodyChildren={servicePointHeader} className='my-5' />
             </div>
+            <Accordion
+                accordionTitle='Servis Istasyonu Bilgileri'
+                accordionContent={servicePointDetailsContent}
+                className="font-bold"
+            />
             <Accordion
                 accordionTitle={'Sarj Üniteleri'}
                 accordionContent={chargeUnitsContent}
-                className={`mx-8 my-8 rounded-lg`}
+                className={`font-bold`}
             />
             <Accordion
                 accordionTitle={'Calisma Saatleri'}
                 accordionContent={workingHoursContent}
-                className={`mx-8 my-8 rounded-lg`}
+                className={`font-bold`}
             />
+            {
+                true &&
+                <Modal
+                    className="charge-units-modal"
+                    modalHeaderTitle={`Şarj Ünitesi Ekle`}
+                    modalId={`${BRAND_PREFIX}-service-point-modal`}
+                >
+                    <div className='charge-units-modal-form-container relative p-6 bg-white rounded-lg '>
+                        <form
+                            className={`${BRAND_PREFIX}-modal-form`}
+                            onSubmit={(event) => event.preventDefault()}
+                        >
+                            <div className={`charge-units-container`}>
+                                <Label
+                                    className="charge-units-brand-label block mb-2 text-heading font-semibold"
+                                    htmlFor={'charge-units-label'}
+                                    labelText={'Şarj Ünitesi Markasi'}
+                                />
+                                <Dropdown
+                                    className="border text-text text-sm rounded-lg block w-full p-2.5 mb-4"
+                                    id={'charge-units-brand'}
+                                    items={[]}
+                                    name="charge-units-brand"
+                                />
+                            </div>
+                            <div className='charge-units-ocpp-version-container'>
+                                <Label
+                                    className="charge-units-ocpp-version-label block mb-2 text-heading font-semibold"
+                                    htmlFor={'charge-units-ocpp-version'}
+                                    labelText={'OCPP Versiyon'}
+                                />
+                                <Dropdown
+                                    className="border text-text text-sm rounded-lg block w-full p-2.5 mb-4"
+                                    id={'charge-units-ocpp-version'}
+                                    items={[]}
+                                    name="charge-units-ocpp-version"
+                                />
+                            </div>
+                            <div className={`charge-units-free-usage-container`}>
+                                <h3 className="charge-units-free-usage-label block mb-2 text-heading font-semibold" id={'charge-units-free-usage'}>
+                                    Ücretsiz Kullanım
+                                </h3>
+                                <div className='charge-units-free-usage-inputs-container flex'>
+                                    <div className='charge-units-free-usage-option-container flex w-1/2 items-center mb-4'>
+                                        <Label
+                                            className="charge-units-is-free-label block mb-2 text-heading font-semibold block mb-0 pr-4"
+                                            htmlFor={'charge-units-is-free'}
+                                            labelText={'Var'}
+                                        />
+                                        <Radio
+                                            className="charge-units-is-free text-blue-500 text-sm block"
+                                            id={'charge-units-is-free'}
+                                            name={'charge-units-is-free'}
+                                        />
+                                    </div>
+                                    <div className='charge-units-free-usage-option-container flex w-1/2 items-center mb-4'>
+                                        <Label
+                                            className="charge-units-is-free-label block mb-2 text-heading font-semibold block mb-0 pr-4"
+                                            htmlFor={'charge-units-is-free'}
+                                            labelText={'Yok'}
+                                        />
+                                        <Radio
+                                            className="charge-units-is-free text-blue-500 text-sm block"
+                                            id={'charge-units-is-free'}
+                                            name={'charge-units-is-free'}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='charge-units-limited-usage-container'>
+                                <h3 className="charge-units-limited-usage-label block mb-2 text-heading font-semibold" id={'charge-units-limited-usage'}>
+                                    Sınırlı Kullanım
+                                </h3>
+                                <div className='charge-units-limited-usage-inputs-container flex'>
+                                    <div className='charge-units-limited-usage-option-container flex w-1/2 items-center mb-4'>
+                                        <Label
+                                            className="charge-units-is-limited-label block mb-2 text-heading font-semibold block mb-0 pr-4"
+                                            htmlFor={'charge-units-is-limited'}
+                                            labelText={'Var'}
+                                        />
+                                        <Radio
+                                            className="charge-units-is-limited text-blue-500 text-sm block"
+                                            id={'charge-units-is-limited'}
+                                            name={'charge-units-is-limited'}
+                                        />
+                                    </div>
+                                    <div className='charge-units-limited-usage-option-container flex w-1/2 items-center mb-4'>
+                                        <Label
+                                            className="charge-units-is-limited-label block mb-2 text-heading font-semibold block mb-0 pr-4"
+                                            htmlFor={'charge-units-is-limited'}
+                                            labelText={'Yok'}
+                                        />
+                                        <Radio
+                                            className="charge-units-is-limited text-blue-500 text-sm block"
+                                            id={'charge-units-is-limited'}
+                                            name={'charge-units-is-limited'}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='charge-units-investor-container'>
+                                <Label
+                                    className="charge-units-investor-label block mb-2 text-heading font-semibold"
+                                    htmlFor={'charge-units-investor'}
+                                    labelText={'Yatırımcı'}
+                                />
+                                <Dropdown
+                                    className="border text-text text-sm rounded-lg block w-full p-2.5 mb-4"
+                                    id={'charge-units-investor '}
+                                    items={[]}
+                                    name="charge-units-investor"
+                                />
+                            </div>
+                            <div className='charge-units-status-container'>
+                                <Label
+                                    className="charge-units-status-label block mb-2 text-heading font-semibold"
+                                    htmlFor={'charge-units-status'}
+                                    labelText={'Durum'}
+                                />
+                                <Dropdown
+                                    className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4'
+                                    id={'charge-units-status'}
+                                    items={[]}
+                                    name="charge-units-status"
+                                />
+                            </div>
+                            <div className='charge-units-access-type-container'>
+                                <Label
+                                    className="charge-units-access-type-label block mb-2 text-heading font-semibold"
+                                    htmlFor={'charge-units-access-type'}
+                                    labelText={'Erisim Tipi'}
+                                />
+                                <Dropdown
+                                    className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4'
+                                    id={'charge-units-access-type'}
+                                    items={[]}
+                                    name="charge-units-access-type"
+                                />
+                            </div>
+                            <div className='charge-units-location-container'>
+                                <Label
+                                    className="charge-units-location-label block mb-2 text-heading font-semibold"
+                                    htmlFor={'charge-units-location'}
+                                    labelText={'Konum'}
+                                />
+                                <Input
+                                    className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4'
+                                    id={'charge-units-location'}
+                                    name={'charge-units-location'}
+                                    type="text"
+                                />
+                            </div>
+                            <div className='charge-units-button-container flex justify-end'>
+                                <Button
+                                    buttonText={'Kaydet'}
+                                    className='bg-primary text-white rounded-md px-4 py-2'
+                                    type={'submit'}
+                                />
+                            </div>
+                        </form>
+                    </div>
+                </Modal>
+            }
         </>
-
     )
 }
 
