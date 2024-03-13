@@ -20,6 +20,7 @@ module.exports = {
     colors: {
       primary: '#FCD800',
       secondary: '#656567',
+      hover: '#FCD800CC',
       heading: '#0A0A0A',
       text: '#0F0F0F',
       error: '#E02424',
