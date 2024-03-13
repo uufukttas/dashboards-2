@@ -4,14 +4,15 @@ import { BRAND_PREFIX } from '../../constants/constants';
 
 interface IModalProps {
   children: React.ReactNode;
+  className?: string;
   modalHeaderTitle: string;
   modalId: string;
 };
 
-const Modal = ({ children, modalId, modalHeaderTitle }: IModalProps) => {
+const Modal = ({ children, className, modalId, modalHeaderTitle }: IModalProps) => {
   return (
     <div
-      className={`${BRAND_PREFIX}-service-point-modal-container flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-40 justify-center items-center w-full md:inset-0 bg-[#54565a33] block h-full`}
+      className={`${BRAND_PREFIX}-service-point-modal-container flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-40 justify-center items-center w-full md:inset-0 bg-[#54565a33] block h-full ${className}`}
       id={modalId}
       tabIndex={-1}
     >

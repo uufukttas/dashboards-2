@@ -7,7 +7,7 @@ interface IModalBodyProps {
 
 const ModalBody = ({ children }: IModalBodyProps) => {
     return (
-        <div className={`${BRAND_PREFIX}-service-point-modal-content-container relative bg-white rounded-lg max-h-[650px]`}>
+        <div className={`${BRAND_PREFIX}-service-point-modal-content-container relative bg-white rounded-lg`}>
             {children}
         </div>
     );
