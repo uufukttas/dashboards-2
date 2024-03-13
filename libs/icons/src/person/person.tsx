@@ -1,6 +1,5 @@
 const PersonIcon = () => (
   <svg
-    className='-mt-2'
     fill="none"
     height="24"
     xmlns="http://www.w3.org/2000/svg"

@@ -17,7 +17,7 @@ export function Radio({
 }: IRadioProps) {
   return (
     <input
-      className={className}
+      className={`radio ${className}`}
       id={id}
       name={name}
       type="radio"

@@ -15,7 +15,9 @@ export function Checkbox({
   register,
   onChange,
 }: ICheckboxProps) {
-  return <input className={className} id={id} name={name} type="checkbox" onChange={onChange} {...register} />;
+  return (
+    <input className={className} id={id} name={name} type="checkbox" onChange={onChange} {...register} />
+  );
 };
 
 export default Checkbox;

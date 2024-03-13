@@ -18,7 +18,7 @@ export function Image({
   return (
     <img
       alt={alt}
-      className={className}
+      className={`image ${className}`}
       height={height}
       src={src}
       srcSet={srcset}

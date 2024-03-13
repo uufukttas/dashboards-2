@@ -25,7 +25,7 @@ export function Textarea({
 }: ITextareaProps) {
   return (
     <textarea
-      className={`text-area ${className}`}
+      className={`textarea ${className}`}
       id={id}
       name={name}
       placeholder={placeholder}

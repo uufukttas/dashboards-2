@@ -1,6 +1,5 @@
 const TrashIcon = () => (
     <svg
-        className="bi bi-trash"
         fill="currentColor"
         height="24"
         viewBox="0 0 16 16"

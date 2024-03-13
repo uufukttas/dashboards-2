@@ -44,7 +44,17 @@ export function Dropdown({
   }, [value]);
 
   return (
-    <select className={className} disabled={disabled} id={id} multiple={multiple} name={name} required={required} {...register} value={selectedOption} onChange={handleChange}>
+    <select
+      className={className}
+      disabled={disabled}
+      id={id}
+      multiple={multiple}
+      name={name}
+      required={required}
+      value={selectedOption}
+      onChange={handleChange}
+      {...register}
+    >
       {
         items?.map((item, index) => (
           <option key={index} value={item?.rid ?? item?.id}> {item.name} </option>

@@ -12,7 +12,9 @@ export function Label({
   labelText
 }: ILabelProps) {
   return (
-    <label className={`block text-sm mb-2 ${className}`} htmlFor={htmlFor}>
+    <label
+      className={`label block ${className}`}
+      htmlFor={htmlFor}>
       {labelText} {children}
     </label>
   );
