@@ -1,11 +1,5 @@
 @charset "UTF-8";
-.accordion-menu {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  overflow: hidden;
-}
-
-.accordion-header {
+.sh-accordion-header {
   display: flex;
   align-items: center;
   padding: 10px;
@@ -15,11 +9,11 @@
           user-select: none;
 }
 
-.title {
+.sh-accordion-title {
   flex: 1;
 }
 
-.arrow {
+.sh-accordion-arrow {
   width: 0;
   height: 0;
   border-left: 5px solid transparent;
@@ -28,7 +22,7 @@
   transition: transform 0.3s ease;
 }
 
-.arrow.open {
+.sh-accordion-arrow.open {
   transform: rotate(180deg);
 }
 
@@ -52,14 +46,14 @@
     opacity: 0;
   }
 }
-.accordion-content {
+.sh-accordion-content {
   transition: max-height 0.3s ease, opacity 0.3s ease; /* Geçiş efektleri */
 }
 
-.accordion-content.open {
+.sh-accordion-content.open {
   animation: slideDown 0.5s ease forwards;
 }
 
-.accordion-content.close {
+.sh-accordion-content.close {
   animation: slideUp 0.5s ease forwards;
 }

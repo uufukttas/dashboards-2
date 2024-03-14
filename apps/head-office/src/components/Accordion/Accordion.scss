@@ -1,66 +1,58 @@
-.accordion-menu {
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  
-  .accordion-header {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    cursor: pointer;
-    user-select: none;
-  }
-  
-  .title {
-    flex: 1;
-  }
-  
-  .arrow {
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid #000;
-    transition: transform 0.3s ease;
-  }
-  
-  .arrow.open {
-    transform: rotate(180deg);
-  }
+.sh-accordion-header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.sh-accordion-title {
+  flex: 1;
+}
+
+.sh-accordion-arrow {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #000;
+  transition: transform 0.3s ease;
+}
+
+.sh-accordion-arrow.open {
+  transform: rotate(180deg);
+}
 
 @keyframes slideDown {
-    from {
-      max-height: 0;
-      opacity: 0;
-    }
-    to {
-      max-height: 500px; /* Sizin istediğiniz bir değer olabilir */
-      opacity: 1;
-    }
+  from {
+    max-height: 0;
+    opacity: 0;
   }
-  
-  @keyframes slideUp {
-    from {
-      max-height: 500px; /* Sizin istediğiniz bir değer olabilir */
-      opacity: 1;
-    }
-    to {
-      max-height: 0;
-      opacity: 0;
-    }
+  to {
+    max-height: 500px; /* Sizin istediğiniz bir değer olabilir */
+    opacity: 1;
   }
-  
-  .accordion-content {
+}
 
-    transition: max-height 0.3s ease, opacity 0.3s ease; /* Geçiş efektleri */
+@keyframes slideUp {
+  from {
+    max-height: 500px; /* Sizin istediğiniz bir değer olabilir */
+    opacity: 1;
   }
-  
-  .accordion-content.open {
-    animation: slideDown 0.5s ease forwards;
+  to {
+    max-height: 0;
+    opacity: 0;
   }
-  
-  .accordion-content.close {
-    animation: slideUp 0.5s ease forwards;
-  }
-  
+}
+
+.sh-accordion-content {
+  transition: max-height 0.3s ease, opacity 0.3s ease; /* Geçiş efektleri */
+}
+
+.sh-accordion-content.open {
+  animation: slideDown 0.5s ease forwards;
+}
+
+.sh-accordion-content.close {
+  animation: slideUp 0.5s ease forwards;
+}
