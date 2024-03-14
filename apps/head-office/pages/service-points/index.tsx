@@ -1,22 +1,22 @@
 import React from 'react';
 import Head from 'next/head';
-import { Provider } from 'react-redux';
-import ServicePointPage from './ServicePointPage';
-import { store } from '../../app/redux/store';
+import ProviderComponent from './ProviderComponent';
 import '../../app/global.css';
 import '../../src/styles/style.css';
 
-const ServicePoint = () => {
+export default function ServicePoints({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
     return (
         <>
             <Head>
                 <title>Service Points | Sharz.net</title>
             </Head>
-            <Provider store={store}>
-                <ServicePointPage />
-            </Provider >
+            <ProviderComponent>
+                {children}
+            </ProviderComponent >
         </>
     )
 };
-
-export default ServicePoint;

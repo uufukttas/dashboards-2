@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleLoadingVisibility } from '../../app/redux/features/isLoadingVisible';
-import { RootState, } from '../../app/redux/store';
-import MainPage from '../../src/components/MainPage/MainPage';
-import Loading from '../../src/components/Loading/Loading';
-import ServicePointSection from '../../src/components/ServicePointSection/ServicePointSection';
-import { BRAND_PREFIX } from '../../src/constants/constants';
+import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
+import { RootState, } from '../../../app/redux/store';
+import MainPage from '../MainPage/MainPage';
+import Loading from '../Loading/Loading';
+import ServicePointSection from '../../../src/components/ServicePointSection/ServicePointSection';
+import { BRAND_PREFIX } from '../../constants/constants';
 
 const ServicePointPage = () => {
     const dispatch = useDispatch();
