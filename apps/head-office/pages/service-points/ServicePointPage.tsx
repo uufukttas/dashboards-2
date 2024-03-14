@@ -7,7 +7,7 @@ import Loading from '../../src/components/Loading/Loading';
 import ServicePointSection from '../../src/components/ServicePointSection/ServicePointSection';
 import { BRAND_PREFIX } from '../../src/constants/constants';
 
-const ServiePointPage = () => {
+const ServicePointPage = () => {
     const dispatch = useDispatch();
     const isLoading = useSelector((state: RootState) => state.loadingReducer.isLoading);
 
@@ -33,4 +33,4 @@ const ServiePointPage = () => {
     );
 };
 
-export default ServiePointPage;
+export default ServicePointPage;
