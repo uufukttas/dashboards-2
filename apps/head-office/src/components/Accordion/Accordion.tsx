@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
+import { BRAND_PREFIX } from '../../constants/constants';
 import './Accordion.css';
 
-const Accordion = ({ accordionTitle, accordionContent, className }: { accordionTitle: string, accordionContent: React.ReactNode,  className: string }) => {
+interface IAccordionProps {
+  accordionTitle: string;
+  accordionContent: React.ReactNode;
+  className: string;
+};
+
+const Accordion = ({ accordionTitle, accordionContent, className }: IAccordionProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleAccordion = () => {
@@ -9,16 +16,14 @@ const Accordion = ({ accordionTitle, accordionContent, className }: { accordionT
   };
 
   return (
-    <div className={`border w-full my-4 rounded-lg`}>
-      <div className="accordion-header" onClick={toggleAccordion}>
-        <div className={`title ${className}`}>{accordionTitle}</div>
-        <div className={`arrow ${isOpen ? 'open' : ''}`}></div>
+    <div className={`${BRAND_PREFIX}-accordion-container border w-full my-4 rounded-lg`}>
+      <div className={`${BRAND_PREFIX}-accordion-header`} onClick={toggleAccordion}>
+        <div className={`${BRAND_PREFIX}-accordion-title ${className}`}>{accordionTitle}</div>
+        <div className={`${BRAND_PREFIX}-accordion-arrow ${isOpen ? 'open' : ''}`}></div>
       </div>
-      {(
-        <div className={`accordion-content ${isOpen ? 'open' : 'close'} px-8 bg-white rounded-lg`}>
-          {accordionContent}
-        </div>
-      )}
+      <div className={`${BRAND_PREFIX}-accordion-content ${isOpen ? 'open' : 'close'} px-8 bg-white rounded-lg`}>
+        {accordionContent}
+      </div>
     </div>
   );
 };
