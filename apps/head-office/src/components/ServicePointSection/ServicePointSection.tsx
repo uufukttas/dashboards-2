@@ -11,13 +11,11 @@ import { RootState } from '../../../app/redux/store';
 export function ServicePointSection() {
   const isAlertVisible = useSelector((state: RootState) => state.isAlertVisibleReducer.isAlertVisible);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
-  const servicePointData = useSelector((state: RootState) => {
-    return state.servicePointData.servicePointData
-  });
+  const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const dispatch = useDispatch();
 
   return (
-    <div className={`${BRAND_PREFIX}-service-point-container flex justify-between items-center pt-6 md:pt-12 flex-col`}>
+    <div className={`${BRAND_PREFIX}-service-point-container flex justify-between items-center flex-col`}>
       <div className={`${BRAND_PREFIX}-service-point-table-container flex items-center w-full`}>
         <Table />
       </div>
