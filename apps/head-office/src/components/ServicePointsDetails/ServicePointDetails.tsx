@@ -8,7 +8,7 @@ import { RootState } from '../../../app/redux/store';
 import Modal from '../../../src/components/Modal/Modal';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../src/constants/constants';
 import ServicePointDetailsHeader from './ServicePointDetailsHeader';
-import ServicePointDetailsModal from './ServicePointDetailsModal';
+import ServicePointDetailsModal from './ChargeUnitsForm';
 
 interface IChargeUnitsProps {
   chargePointId: number;
