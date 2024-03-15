@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { Button } from '@projects/button';
 import { Checkbox } from '@projects/checkbox';
@@ -134,8 +135,44 @@ const ChargeUnitsForm = () => {
         }
     ];
 
-    const handleSubmit = () => {
+    const createRequestData = () => {
+        const requestData = {
+            chargePoint: {
+                stationId: 65760,
+                stationChargePointModelID: Number(chargeUnitsFormData.brand),
+                ocppVersion: chargeUnitsFormData.ocppVersion === 'v1.6' ? 1600 : 2100,
+                isFreePoint: chargeUnitsFormData.isFree,
+                isOnlyDefinedUserCards: chargeUnitsFormData.isLimited,
+                ownerType: chargeUnitsFormData.investor,
+                sendRoaming: false
+            },
+            chargePointFeatures: [
+                {
+                    stationChargePointFeatureType: 1,
+                    stationChargePointFeatureTypeValue: chargeUnitsFormData.status
+                },
+                {
+                    stationChargePointFeatureType: 2,
+                    stationChargePointFeatureTypeValue: chargeUnitsFormData.accessType
+                }
+            ]
+        };
 
+        return requestData;
+    }
+
+    const handleSubmit = () => {
+        const data = JSON.stringify(createRequestData());
+
+        axios.post(
+            'https://sharztestapi.azurewebsites.net/ServicePoint/AddStationSettings',
+            data,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }
+        );
     };
 
     return (
@@ -319,7 +356,6 @@ const ChargeUnitsForm = () => {
                                 id: 4,
                                 name: 'Test Cihazi',
                                 rid: null
-                            
                             }
                         ]}
                         name="charge-units-access-type"
