@@ -45,7 +45,7 @@ const SidebarBody = () => {
                             key={index}
                         >
                             <li
-                                className={`${BRAND_PREFIX}-sidebar-list-item cursor-pointer ${index === sidebarElements.length - 1 ? '' : 'border-b'
+                                className={`${BRAND_PREFIX}-sidebar-list-item cursor-pointer border-gray-300 ${index === sidebarElements.length - 1 ? '' : 'border-b'
                                     } `}
                             >
                                 <div

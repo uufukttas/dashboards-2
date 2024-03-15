@@ -68,6 +68,11 @@
 
 /* Masaüstü cihazlar için */
 @media only screen and (min-width: 1280px) {
+
+  .sh-sidebar-header-logo {
+    height: 80px;
+  }
+
   .sh-sidebar-container {
     overflow: hidden;
     width: 4%;

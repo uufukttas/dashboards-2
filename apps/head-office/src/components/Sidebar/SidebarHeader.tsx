@@ -22,7 +22,7 @@ const SidebarHeader = () => {
         <div
             className={`${BRAND_PREFIX}-sidebar-header-container flex items-center justify-between h-[80px]`}
         >
-            <div className={`${BRAND_PREFIX}-sidebar-header-logo-container mx-4`}>
+            <div className={`${BRAND_PREFIX}-sidebar-header-logo-container`}>
                 <Link href="/dashboards">
                     <Image
                         alt={userInfo.name}
