@@ -13,7 +13,7 @@ const ServicePointDetailsHeader = ({
         <div className="sh-service-point-details-page-header w-full flex items-center justify-between">
             <div className="sh-service-point-details-page-header-left flex">
                 <h1 className="sh-service-point-details-page-title text-2xl font-bold">
-                    {decodeURI(servicePointDetailsName)}
+                    {servicePointDetailsName}
                 </h1>
             </div>
             <div className="sh-service-point-details-page-header-right flex">

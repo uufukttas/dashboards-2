@@ -174,11 +174,11 @@ const ServicePointModalFormSecondPage = ({
             register(`${formProperties.address}`, {
               required: `Hizmet Noktasi Adresi zorunludur.`,
               minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
-              value: decodeURIComponent(secondPageFormData[`${formProperties.address}`].toString()),
+              value: secondPageFormData[`${formProperties.address}`].toString(),
               onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                 setSecondPageFormData({
                   ...secondPageFormData,
-                  [event.target.name]: encodeURIComponent(event.target.value),
+                  [event.target.name]: event.target.value,
                 });
               },
             })}

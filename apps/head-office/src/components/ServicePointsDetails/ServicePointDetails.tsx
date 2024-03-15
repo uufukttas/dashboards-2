@@ -194,7 +194,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
         <div className="service-point-details-info-item flex justify-start items-center">
           <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Adres:</p>
           <p className="service-point-details-info-item-value text-lg font-normal">
-            {decodeURI(servicePointDetailsInfo.address)}
+            {servicePointDetailsInfo.address}
           </p>
         </div>
         <div className="service-point-details-info-item flex justify-start items-center">
