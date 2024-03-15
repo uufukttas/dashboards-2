@@ -22,7 +22,7 @@ export function ServicePointSection() {
       {
         isModalVisible &&
         <Modal
-          modalHeaderTitle={`Hizmet Noktası ${servicePointData.id > 0 ? 'Güncelle' : 'Ekle'}`}
+          modalHeaderTitle={`Lokasyon ${servicePointData.id > 0 ? 'Güncelle' : 'Ekle'}`}
           modalId={`${BRAND_PREFIX}-service-point-modal`}
         >
           <ServicePointModalForm />

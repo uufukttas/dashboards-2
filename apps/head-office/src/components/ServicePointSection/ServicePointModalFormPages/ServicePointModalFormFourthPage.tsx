@@ -134,7 +134,7 @@ const ServicePointModalFormFourthPage = ({
         <Label
           className={`${formProperties.paymentMethods}-label block mb-2 text-sm font-medium text-gray-900`}
           htmlFor={`${formProperties.paymentMethods}`}
-          labelText={`Hizmet Noktasi Odeme Yontemleri`}
+          labelText={`Odeme Yontemleri`}
         />
         <Dropdown
           className={`${formProperties.paymentMethods}-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
@@ -154,7 +154,7 @@ const ServicePointModalFormFourthPage = ({
       <div className={`${formProperties.parking}-container`}>
         <div className={`${formProperties.parking}-header`}>
           <h2 className={`${formProperties.parking}-text block mb-2 text-sm font-medium text-gray-900`}>
-            Hizmet Noktasi Park Yeri
+            Park Yeri
           </h2>
         </div>
         <div className={`${formProperties.parking}-inputs-container flex`}>
@@ -198,7 +198,7 @@ const ServicePointModalFormFourthPage = ({
 
       <div className={`${formProperties.opportunities}-container`}>
         <div className={`${formProperties.opportunities}-header`}>
-          <h2 className="block mb-2 text-sm font-medium text-gray-900">Hizmet Noktasi Olanaklari</h2>
+          <h2 className="block mb-2 text-sm font-medium text-gray-900">Lokayon Olanaklari</h2>
         </div>
         <div className={`${formProperties.opportunities}-inputs-container flex flex-wrap`}>
           {

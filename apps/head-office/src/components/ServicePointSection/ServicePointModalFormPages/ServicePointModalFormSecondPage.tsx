@@ -101,7 +101,7 @@ const ServicePointModalFormSecondPage = ({
         <Label
           className={`${formProperties.phone1}-label block mb-2 text-heading font-semibold`}
           htmlFor={`${formProperties.phone1}`}
-          labelText={`Hizmet Noktasi Birinci Telefon Numarasi`} >
+          labelText={`Birinci Telefon Numarasi`} >
           <span className="text-md text-error">*</span>
         </Label>
         <Input
@@ -137,7 +137,7 @@ const ServicePointModalFormSecondPage = ({
         <Label
           className={`${formProperties.phone2}-input block mb-2 text-heading font-semibold`}
           htmlFor={`${formProperties.phone2}`}
-          labelText={`Hizmet Noktasi Ikinci Telefon Numarasi`} />
+          labelText={`Ikinci Telefon Numarasi`} />
         <Input
           className={`${formProperties.phone2}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
           id={`${formProperties.phone2}`}
@@ -162,7 +162,7 @@ const ServicePointModalFormSecondPage = ({
         <Label
           className={`${sectionPrefix}-adress-input block mb-2 text-heading font-semibold`}
           htmlFor={`${formProperties.address}`}
-          labelText={'Hizmet Noktasi Adresi'} >
+          labelText={'Adres'} >
           <span className="text-md text-error">*</span>
         </Label>
         <Textarea
@@ -172,7 +172,7 @@ const ServicePointModalFormSecondPage = ({
           placeholder={'Cumhuriyet Mahallesi 123.Sokak...'}
           register={
             register(`${formProperties.address}`, {
-              required: `Hizmet Noktasi Adresi zorunludur.`,
+              required: `Adres zorunludur.`,
               minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
               value: secondPageFormData[`${formProperties.address}`].toString(),
               onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
