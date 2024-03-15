@@ -81,8 +81,6 @@ const ServicePointModalFormFirstPage = ({
   };
 
   const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
-    dispatch(setServicePointData(firstPageFormData));
-
     if (stationId !== 0) {
       setActivePage(activePage + 1);
 
@@ -107,11 +105,17 @@ const ServicePointModalFormFirstPage = ({
         .then((data) => {
           if (hasServicePointDataId) {
             setStationId(servicePointData.id);
-            dispatch(setServicePointData(firstPageFormData));
           } else {
             setStationId(data.data[0].id)
           }
 
+          dispatch(setServicePointData({
+            ...servicePointData,
+            id: servicePointData.id || data.data[0].id,
+            name: firstPageFormData[`${formProperties.name}`],
+            resellerCompanyId: firstPageFormData[`${formProperties.reseller}`],
+            companyId: firstPageFormData[`${formProperties.company}`]
+          }));
           setActivePage(activePage + 1);
         })
         .catch((error) => {
