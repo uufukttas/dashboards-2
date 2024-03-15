@@ -10,7 +10,7 @@ export function Table() {
     <div className={`${BRAND_PREFIX}-table-container relative overflow-x-auto shadow-md sm:rounded-lg max-w-[330px] md:max-w-full w-full`}>
       <TableHeader />
       <div className={`${BRAND_PREFIX}-table-content-container`}>
-        <table className={`${BRAND_PREFIX}-table w-full text-sm text-left rtl:text-right text-gray-500 shadow-custom`}>
+        <table className={`${BRAND_PREFIX}-table w-full text-sm text-left rtl:text-right text-gray-500`}>
           <TableHead />
           <TableBody />
         </table>
