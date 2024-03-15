@@ -254,7 +254,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
         />
         <div className='service-point-details-container w-full mx-8'>
           <Accordion
-            accordionTitle='Servis Istasyonu Bilgileri'
+            accordionTitle='Lokasyon Bilgileri'
             accordionContent={servicePointDetailsContent}
             className="font-bold"
           />

@@ -114,7 +114,7 @@ const ServicePointModalFormThirdPage = ({
         <Label
           className={`${formProperties.cityId}-label block mb-2 text-heading font-semibold`}
           htmlFor={`${formProperties.cityId}`}
-          labelText={`Hizmet Noktasi İl`} />
+          labelText={`İl`} />
         <Dropdown
           className={`${formProperties.cityId}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
           id={`${formProperties.cityId}`}
@@ -128,7 +128,7 @@ const ServicePointModalFormThirdPage = ({
         <Label
           className={`${formProperties.districtId}-label block mb-2 text-heading font-semibold`}
           htmlFor={`${formProperties.districtId}`}
-          labelText={`Hizmet Noktasi İlcesi`} />
+          labelText={`İlcesi`} />
         <Dropdown
           className={`${formProperties.districtId}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
           id={`${formProperties.districtId}`}
@@ -143,14 +143,14 @@ const ServicePointModalFormThirdPage = ({
           <Label
             className={`${formProperties['x-coord']}-label block mb-2 text-heading font-semibold`}
             htmlFor={`${formProperties['x-coord']}`}
-            labelText={`Hizmet Noktasi X Koordinati`} />
+            labelText={`X Koordinati`} />
           <Input
             className={`${formProperties['x-coord']}-input text-text text-sm rounded-lg block w-3/4 p-2.5 mb-4`}
             id={`${formProperties['x-coord']}`}
             name={`${formProperties['x-coord']}`}
             register={
               register(`${formProperties['x-coord']}`, {
-                required: `Hizmet Noktasi X Koordinati zorunludur.`,
+                required: `X Koordinati zorunludur.`,
                 value: thirdPageFormData[`${formProperties['x-coord']}`],
                 onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                   setThirdPageFormData(({ ...thirdPageFormData, [event.target.name]: Number(event.target.value) }));
@@ -174,14 +174,14 @@ const ServicePointModalFormThirdPage = ({
           <Label
             className={`${formProperties['y-coord']}-label block mb-2 text-heading font-semibold`}
             htmlFor={`${formProperties['y-coord']}`}
-            labelText={`Hizmet Noktasi Y Koordinati`} />
+            labelText={`Y Koordinati`} />
           <Input
             className={`${formProperties['y-coord']}-input text-text text-sm rounded-lg block w-3/4 p-2.5 mb-4`}
             id={`${formProperties['y-coord']}`}
             name={`${formProperties['y-coord']}`}
             register={
               register(`${formProperties['y-coord']}`, {
-                required: `Hizmet Noktasi Y Koordinati zorunludur.`,
+                required: `Y Koordinati zorunludur.`,
                 value: thirdPageFormData[`${formProperties['y-coord']}`],
                 onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                   setThirdPageFormData(({ ...thirdPageFormData, [event.target.name]: Number(event.target.value) }));

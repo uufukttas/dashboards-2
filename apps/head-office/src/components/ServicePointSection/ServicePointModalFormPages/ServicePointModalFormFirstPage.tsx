@@ -144,7 +144,7 @@ const ServicePointModalFormFirstPage = ({
           <Label
             className={`${formProperties.name}-label block mb-2 text-heading font-semibold`}
             htmlFor={`${formProperties.name}`}
-            labelText={`Hizmet Noktasi Ismi`}
+            labelText={`Lokasyon Ismi`}
           >
             <span className="text-md text-error">*</span>
           </Label>
@@ -158,7 +158,7 @@ const ServicePointModalFormFirstPage = ({
                 value: 3,
                 message: 'En az 3 karakter girmelisiniz.',
               },
-              required: `Hizmet Noktasi Ismi zorunludur.`,
+              required: `Lokasyon Ismi zorunludur.`,
               value: firstPageFormData[`${formProperties.name}`].toString(),
               onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                 setFirstPageFormData({
@@ -184,7 +184,7 @@ const ServicePointModalFormFirstPage = ({
           <Label
             className={`${formProperties.reseller}-label block mb-2 text-heading font-semibold`}
             htmlFor={`${formProperties.reseller}`}
-            labelText={`Hizmet Noktasi Bayi`}
+            labelText={`Bayi`}
           >
             <span className="text-md text-error">*</span>
           </Label>
@@ -209,7 +209,7 @@ const ServicePointModalFormFirstPage = ({
           <Label
             className={`${formProperties.company}-label block mb-2 text-heading font-semibold`}
             htmlFor={`${formProperties.company}`}
-            labelText={`Hizmet Noktasi Sirketi`}
+            labelText={`Isletme`}
           >
             <span className="text-md text-error">*</span>
           </Label>

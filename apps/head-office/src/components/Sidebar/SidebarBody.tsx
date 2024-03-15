@@ -9,7 +9,7 @@ const SidebarBody = () => {
     const isSidebarExpanded = useSelector((state: RootState) => state.sidebarExpandReducer.isSidebarExpanded);
     const sidebarElements = [
         {
-            name: 'Hizmet Noktasi',
+            name: 'Lokasyonlar',
             link: '/service-points',
             icon: <LocationIcon />,
         },

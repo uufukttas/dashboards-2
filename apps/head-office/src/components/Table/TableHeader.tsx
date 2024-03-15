@@ -24,7 +24,7 @@ const TableActions = () => {
                     type="button"
                     onClick={handleClick}
                 >
-                    + Hizmet Noktasi
+                    + Lokasyon
                 </Button>
             </div>
             <Label className="sr-only" htmlFor="table-search" labelText={`Search`} />
