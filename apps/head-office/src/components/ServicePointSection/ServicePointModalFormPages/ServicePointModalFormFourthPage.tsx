@@ -7,11 +7,11 @@ import { Checkbox } from '@projects/checkbox';
 import { Dropdown } from '@projects/dropdown';
 import { Label } from '@projects/label';
 import { Radio } from '@projects/radio';
-import { toggleAlertVisibility } from '../../../../app/redux/features/isAlertVisible';
+import { showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../app/redux/store';
 import { PAYMENT_METHODS, OPPORTUNITIES, BRAND_PREFIX } from '../../../../src/constants/constants';
-import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
 
 interface IFormData {
   [key: string]: string | number | boolean | string[];
@@ -73,12 +73,17 @@ const ServicePointModalFormFourthPage = ({
       actionURL,
       actionData,
       { headers: { 'Content-Type': 'application/json' } }
-    ).then((response) => {
-      dispatch(toggleModalVisibility(isModalVisible));
-      dispatch(toggleAlertVisibility(true));
-    }).catch((error) => {
-      console.log(error);
-    });
+    ).then((response) => response.data)
+      .then(data => {
+        dispatch(toggleModalVisibility(isModalVisible));
+        dispatch(showAlert({
+          message: data.message,
+          type: 'success',
+        }));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {

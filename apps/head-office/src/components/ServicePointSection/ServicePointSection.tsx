@@ -5,11 +5,11 @@ import ServicePointModalForm from './ServicePointModal';
 import Modal from '../Modal/Modal';
 import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { toggleAlertVisibility } from '../../../app/redux/features/isAlertVisible';
+import { hideAlert } from '../../../app/redux/features/alertInformation';
 import { RootState } from '../../../app/redux/store';
 
 export function ServicePointSection() {
-  const isAlertVisible = useSelector((state: RootState) => state.isAlertVisibleReducer.isAlertVisible);
+  const alertInformation = useSelector((state: RootState) => state.alertInformationReducer);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const dispatch = useDispatch();
@@ -29,13 +29,14 @@ export function ServicePointSection() {
         </Modal>
       }
       {
-        isAlertVisible &&
-        <Alert
-          alertText={'Servis Noktasi Olusurken Bir Hata Olustu'}
-          alertType={'error'}
-          id={`service-point-alert`}
-          onClick={() => dispatch(toggleAlertVisibility(false))}
-        />
+        alertInformation.isVisible && (
+          <Alert
+            alertText={alertInformation.message}
+            alertType={alertInformation.type}
+            id={`service-point-alert`}
+            onClick={() => dispatch(hideAlert())}
+          />
+        )
       }
     </div>
   );

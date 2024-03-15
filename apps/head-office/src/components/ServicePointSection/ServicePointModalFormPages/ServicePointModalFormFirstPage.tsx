@@ -6,7 +6,6 @@ import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
-import { toggleAlertVisibility } from '../../../../app/redux/features/isAlertVisible';
 import { setServicePointData } from '../../../../app/redux/features/servicePointData';
 import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
@@ -116,11 +115,9 @@ const ServicePointModalFormFirstPage = ({
           setActivePage(activePage + 1);
         })
         .catch((error) => {
-          dispatch(toggleAlertVisibility(true));
           console.error(error);
         });
     } catch (error) {
-      dispatch(toggleAlertVisibility(true));
       console.error(error);
     }
   };
@@ -158,11 +155,11 @@ const ServicePointModalFormFirstPage = ({
                 message: 'En az 3 karakter girmelisiniz.',
               },
               required: `Hizmet Noktasi Ismi zorunludur.`,
-              value: decodeURIComponent(firstPageFormData[`${formProperties.name}`].toString()),
+              value: firstPageFormData[`${formProperties.name}`].toString(),
               onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                 setFirstPageFormData({
                   ...firstPageFormData,
-                  [event.target.name]: encodeURIComponent(event.target.value),
+                  [event.target.name]: event.target.value,
                 });
               },
             })}

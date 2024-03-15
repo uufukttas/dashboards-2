@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { InfoIcon, PenIcon, TrashIcon } from '@projects/icons';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
+import { showAlert } from '../../../app/redux/features/alertInformation';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
@@ -39,9 +40,9 @@ const TableBody = () => {
         return (
             <Fragment key={servicePoint.id}>
                 <tr data-service-point-id={servicePoint.id}>
-                    <td className="px-6 py-3">{decodeURIComponent(servicePoint.name)}</td>
+                    <td className="px-6 py-3">{servicePoint.name}</td>
                     <td className="px-6 py-3">{servicePoint.phone}</td>
-                    <td className="px-6 py-3">{decodeURIComponent(servicePoint.address)}</td>
+                    <td className="px-6 py-3">{servicePoint.address}</td>
                     <td className="px-6 py-3">{getCity((servicePoint.cityId))}</td>
                     <td className="px-6 py-3">{getDistricts(servicePoint.districtId)}</td>
                     <td className="px-6 py-4 items-center w-full justify-center flex">
@@ -110,7 +111,12 @@ const TableBody = () => {
                     'id': servicePointId
                 }))
                 .then((response) => response.data)
-                .then(response => console.log(response))
+                .then(response => {
+                    dispatch(showAlert({
+                        message: response.message,
+                        type: 'success',
+                    }))
+                })
                 .catch((error) => console.log(error));
         } catch (error) {
             console.error(error);
