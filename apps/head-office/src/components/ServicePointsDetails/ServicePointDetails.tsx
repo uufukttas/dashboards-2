@@ -165,7 +165,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
               key={index}
               className="charge-unit flex justify-between items-center border-b-2 border-gray-200 py-4">
               <div className="charge-unit-info">
-                <h3 className="charge-unit-name text-lg font-bold">{chargeUnit.deviceCode}</h3>
+                <h3 className="charge-unit-name text-lg font-bold">{chargeUnit.chargePointId}</h3>
                 <p className="charge-unit-status text-sm">{chargeUnit.status}</p>
               </div>
               <div className="charge-unit-actions mx-2">
