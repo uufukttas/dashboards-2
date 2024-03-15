@@ -8,7 +8,7 @@ import { RootState } from '../../../app/redux/store';
 import Modal from '../../../src/components/Modal/Modal';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../src/constants/constants';
 import ServicePointDetailsHeader from './ServicePointDetailsHeader';
-import ServicePointDetailsModal from './ChargeUnitsForm';
+import ServicePointDetailsModal from './ServicePointDetailsModal';
 
 interface IChargeUnitsProps {
   chargePointId: number;
@@ -256,17 +256,18 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
           <Accordion
             accordionTitle='Lokasyon Bilgileri'
             accordionContent={servicePointDetailsContent}
-            className="font-bold"
+            titleClassName="font-bold"
           />
           <Accordion
             accordionTitle={'Sarj Üniteleri'}
             accordionContent={chargeUnitsContent}
-            className={`font-bold`}
+            titleClassName={`font-bold`}
+            contentClassName={`overflow-y-auto`}
           />
           <Accordion
             accordionTitle={'Calisma Saatleri'}
             accordionContent={workingHoursContent}
-            className={`font-bold`}
+            titleClassName={`font-bold`}
           />
         </div>
         {
@@ -276,7 +277,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
             modalHeaderTitle={`Şarj Ünitesi Ekle`}
             modalId={`${BRAND_PREFIX}-service-point-modal`}
           >
-            <ServicePointDetailsModal />
+            <ServicePointDetailsModal slug={slug} />
           </Modal>
         }
       </>
