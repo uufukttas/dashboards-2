@@ -32,7 +32,7 @@ export function Alert({
         {alertText}
       </div>
       <Button
-        className={`alert-action-container ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex items-center justify-center h-8 w-8 hover:cursor-pointer`}
+        className={`alert-action-container ms-auto -mx-1.5 -my-1.5 rounded-lg p-1.5 inline-flex items-center justify-center h-8 w-8 hover:cursor-pointer`}
         type='button'
         onClick={onClick}
       >
