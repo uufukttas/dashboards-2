@@ -132,14 +132,19 @@ const ChargeUnitsForm = () => {
             id: 20,
             name: "XCharge"
         }
-    ]
+    ];
+
+    const handleSubmit = () => {
+
+    };
+
     return (
         <div className='charge-units-modal-form-container relative p-6 bg-white rounded-lg '>
             <form
                 className={`${BRAND_PREFIX}-modal-form`}
                 onSubmit={(event) => {
                     event.preventDefault();
-                    console.log('chargeUnitsFormData', chargeUnitsFormData)
+                    handleSubmit();
                 }
                 }
             >
@@ -168,7 +173,7 @@ const ChargeUnitsForm = () => {
                     <Dropdown
                         className="border text-text text-sm rounded-lg block w-full p-2.5 mb-4"
                         id={'charge-units-ocpp-version'}
-                        items={[{ id: 1, name: 'v1/6', rid: null }, { id: 2, name: 'v2.1', rid: null }]}
+                        items={[{ id: 1, name: 'v1.6', rid: null }, { id: 2, name: 'v2.1', rid: null }]}
                         name="charge-units-ocpp-version"
                         onChange={(event) => {
                             setChargeUnitsFormData({ ...chargeUnitsFormData, ocppVersion: event.target.value })
@@ -192,7 +197,7 @@ const ChargeUnitsForm = () => {
                                 name={'charge-units-is-free'}
                                 onChange={(event) => {
                                     setChargeUnitsFormData({
-                                        ...chargeUnitsFormData, isFree: event.target.value === 'on' ? true : false
+                                        ...chargeUnitsFormData, isFree: event.target.checked
                                     })
                                 }}
                             />
@@ -217,7 +222,7 @@ const ChargeUnitsForm = () => {
                                 name={'charge-units-is-limited'}
                                 onChange={(event) => {
                                     setChargeUnitsFormData({
-                                        ...chargeUnitsFormData, isLimited: event.target.value === 'on' ? true : false
+                                        ...chargeUnitsFormData, isLimited: event.target.checked
                                     })
 
                                 }}
