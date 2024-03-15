@@ -56,3 +56,8 @@
 .sh-accordion-content.close {
   animation: slideUp 0.5s ease forwards;
 }
+
+.sh-accordion-content {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
