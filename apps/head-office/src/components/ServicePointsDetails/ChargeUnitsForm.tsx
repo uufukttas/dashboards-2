@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { Button } from '@projects/button';
+import { Checkbox } from '@projects/checkbox';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
-import { Radio } from '@projects/radio';
 
 interface IChargeUnitsFormProps {
     brand: string;
@@ -168,14 +168,14 @@ const ChargeUnitsForm = () => {
                     <Dropdown
                         className="border text-text text-sm rounded-lg block w-full p-2.5 mb-4"
                         id={'charge-units-ocpp-version'}
-                        items={[{ id: 1, name: 'v1.5', rid: null }, { id: 2, name: 'v1.6', rid: null }]}
+                        items={[{ id: 1, name: 'v1/6', rid: null }, { id: 2, name: 'v2.1', rid: null }]}
                         name="charge-units-ocpp-version"
                         onChange={(event) => {
                             setChargeUnitsFormData({ ...chargeUnitsFormData, ocppVersion: event.target.value })
                         }}
                     />
                 </div>
-                <div className={`charge-units-free-usage-container`}>
+                <div className={`charge-units-free-usage-container inline-flex flex-col w-1/2`}>
                     <h3 className="charge-units-free-usage-label block mb-2 text-heading font-semibold" id={'charge-units-free-usage'}>
                         Ücretsiz Kullanım
                     </h3>
@@ -186,7 +186,7 @@ const ChargeUnitsForm = () => {
                                 htmlFor={'charge-units-is-free-yes'}
                                 labelText={'Var'}
                             />
-                            <Radio
+                            <Checkbox
                                 className="charge-units-is-free text-blue-500 text-sm block"
                                 id={'charge-units-is-free-yes'}
                                 name={'charge-units-is-free'}
@@ -197,26 +197,10 @@ const ChargeUnitsForm = () => {
                                 }}
                             />
                         </div>
-                        <div className='charge-units-free-usage-option-container flex w-1/2 items-center mb-4'>
-                            <Label
-                                className="charge-units-is-free-label block mb-2 text-heading font-semibold block mb-0 pr-4"
-                                htmlFor={'charge-units-is-free-no'}
-                                labelText={'Yok'}
-                            />
-                            <Radio
-                                className="charge-units-is-free text-blue-500 text-sm block"
-                                id={'charge-units-is-free-no'}
-                                name={'charge-units-is-free'}
-                                onChange={(event) => {
-                                    setChargeUnitsFormData({
-                                        ...chargeUnitsFormData, isFree: event.target.value === 'on' ? false : true
-                                    })
-                                }}
-                            />
-                        </div>
+
                     </div>
                 </div>
-                <div className='charge-units-limited-usage-container'>
+                <div className='charge-units-limited-usage-container inline-flex flex-col w-1/2'>
                     <h3 className="charge-units-limited-usage-label block mb-2 text-heading font-semibold" id={'charge-units-limited-usage'}>
                         Sınırlı Kullanım
                     </h3>
@@ -227,7 +211,7 @@ const ChargeUnitsForm = () => {
                                 htmlFor={'charge-units-is-limited-yes'}
                                 labelText={'Var'}
                             />
-                            <Radio
+                            <Checkbox
                                 className="charge-units-is-limited text-blue-500 text-sm block"
                                 id={'charge-units-is-limited-yes'}
                                 name={'charge-units-is-limited'}
@@ -236,23 +220,6 @@ const ChargeUnitsForm = () => {
                                         ...chargeUnitsFormData, isLimited: event.target.value === 'on' ? true : false
                                     })
 
-                                }}
-                            />
-                        </div>
-                        <div className='charge-units-limited-usage-option-container flex w-1/2 items-center mb-4'>
-                            <Label
-                                className="charge-units-is-limited-label block mb-2 text-heading font-semibold block mb-0 pr-4"
-                                htmlFor={'charge-units-is-limited-no'}
-                                labelText={'Yok'}
-                            />
-                            <Radio
-                                className="charge-units-is-limited text-blue-500 text-sm block"
-                                id={'charge-units-is-limited-no'}
-                                name={'charge-units-is-limited'}
-                                onChange={(event) => {
-                                    setChargeUnitsFormData({
-                                        ...chargeUnitsFormData, isLimited: event.target.value === 'on' ? false : true
-                                    })
                                 }}
                             />
                         </div>
@@ -360,7 +327,7 @@ const ChargeUnitsForm = () => {
                     <Label
                         className="charge-units-location-label block mb-2 text-heading font-semibold"
                         htmlFor={'charge-units-location'}
-                        labelText={'Konum'}
+                        labelText={'Konum Tarifi'}
                     />
                     <Input
                         className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4'
