@@ -142,7 +142,7 @@ const ServicePointModalFormFirstPage = ({
       >
         <div className={`${formProperties.name}-container`}>
           <Label
-            className={`${formProperties.name}-label block mb-2 text-heading font-semibold`}
+            className={`${formProperties.name}-label block mb-2 text-heading`}
             htmlFor={`${formProperties.name}`}
             labelText={`Lokasyon Ismi`}
           >
