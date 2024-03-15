@@ -29,7 +29,7 @@ const TableActions = () => {
             </div>
             <Label className="sr-only" htmlFor="table-search" labelText={`Search`} />
             <div className={`${BRAND_PREFIX}-service-point-search-input-container relative w-4/5 md:w-1/6 mx-2`}>
-                <div className={`${BRAND_PREFIX}-service-point-search-icon-container absolute inset-y-0 flex items-center ps-3 pointer-events-none pl-3 pr-2 justify-end border-r`}>
+                <div className={`${BRAND_PREFIX}-service-point-search-icon-container absolute inset-y-0 flex items-center pl-5 pointer-events-none justify-end `}> 
                     <SearchIcon />
                 </div>
                 <Input

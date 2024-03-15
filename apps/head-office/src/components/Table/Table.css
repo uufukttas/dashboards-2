@@ -1,3 +1,8 @@
+.sh-table-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 td {
   width: 14.2857142857%;
 }
