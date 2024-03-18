@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { FaAlignJustify, FaUser } from 'react-icons/fa6';
 import { Button } from '@projects/button';
-import { HamburgerMenuIcon, PersonIcon } from '@projects/icons';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpand';
 import { RootState } from '../../../app/redux/store';
@@ -27,14 +27,14 @@ const Header = ({ className }: IHeaderProps) => {
         type='button'
         onClick={handleSidebarToggle}
       >
-        <HamburgerMenuIcon />
+        <FaAlignJustify  />
       </Button>
       <Button
         className={`${BRAND_PREFIX}-sidebar-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center mx-8 rounded-full px-2`}
         type='button'
         onClick={() => { }}
       >
-        <PersonIcon />
+        <FaUser  />
       </Button>
     </div>
   );
