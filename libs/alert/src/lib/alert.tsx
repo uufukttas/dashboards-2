@@ -1,5 +1,5 @@
+import { FaCircleInfo, FaRegCircleXmark } from "react-icons/fa6";
 import { Button } from '@projects/button';
-import { CloseIcon, InfoIcon } from '@projects/icons';
 
 export interface IAlertProps {
   alertText: string;
@@ -27,7 +27,7 @@ export function Alert({
       className={`alert-container flex items-center p-4 mb-4 border-t-4 absolute top-5 right-0 z-50 ${alertTypes[alertType]}`}
       id={id}
       role="alert">
-      <InfoIcon />
+      <FaCircleInfo />
       <div className={`alert-text-container ms-3 text-sm font-medium px-5`}>
         {alertText}
       </div>
@@ -37,7 +37,7 @@ export function Alert({
         onClick={onClick}
       >
         <span className="sr-only">Dismiss</span>
-        <CloseIcon />
+        <FaRegCircleXmark  />
       </Button>
     </div>
   );
