@@ -149,12 +149,12 @@ const ServicePointDetailsModal = ({ slug }: IChargeUnitsForm) => {
     const requestData = {
       chargePoint: {
         code: '',
-        stationId: slug,
+        stationId: Number(slug),
         stationChargePointModelID: Number(chargeUnitFormData.brand),
         ocppVersion: chargeUnitFormData.ocppVersion === 'v1.6' ? 1600 : 2100,
         isFreePoint: chargeUnitFormData.isFree,
         isOnlyDefinedUserCards: chargeUnitFormData.isLimited,
-        ownerType: chargeUnitFormData.investor,
+        ownerType: Number(chargeUnitFormData.investor),
         sendRoaming: false,
         InternalOCPPAdress: null,
         ExternalOCPPAdress: null,

@@ -14,6 +14,7 @@ import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../src/constants/constant
 interface IChargeUnitsProps {
   chargePointId: number;
   connectorNumber: number;
+  connectorId: number;
   count: number;
   deviceCode: string;
   externalAddress: string;
@@ -59,6 +60,7 @@ interface IServicePointsDetailsProps {
 const initialChargeUnitsStateValue = {
   chargePointId: 2026,
   connectorNumber: 1,
+  connectorId: 1,
   count: 1,
   deviceCode: "9081000201",
   externalAddress: '',
@@ -167,8 +169,12 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
               key={index}
               className="charge-unit flex justify-between items-center border-b-2 border-gray-200 py-4">
               <div className="charge-unit-info">
-                <h3 className="charge-unit-name text-lg font-bold">{chargeUnit.chargePointId}</h3>
+                <h3 className="charge-unit-name text-lg font-bold">{chargeUnit.model}</h3>
                 <p className="charge-unit-status text-sm">{chargeUnit.status}</p>
+                <div className="charge-unit-connector-number">
+                  <p className="charge-unit-connector-number-label text-lg font-bold">Connectors</p>
+                  <p className="charge-unit-connector-number-value text-lg font-normal">{chargeUnit.connectorNumber}</p>
+                </div>
               </div>
               <div className="charge-unit-actions mx-2">
                 <Button
@@ -257,27 +263,21 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
         <Navbar
           activeIndex={activeIndex}
           items={[{
-            title: 'Lokasyon Bilgileri',
-            url: '#',
+            title: 'Lokasyon Bilgileri'
           },
           {
-            title: 'Şarj Üniteleri',
-            url: '#',
+            title: 'Şarj Üniteleri'
           },
           {
-            title: 'Calisma Saatleri',
-            url: `#`,
+            title: 'Calisma Saatleri'
           },
           {
-            title: 'Enerji Fiyat Ayarlari',
-            url: `#`,
+            title: 'Enerji Fiyat Ayarlari'
           },
           {
-            title: 'Kullanici Ayarlari',
-            url: `#`,
+            title: 'Kullanici Ayarlari'
           }, {
-            title: 'Sharz.net Fiyatlandirma',
-            url: `#`,
+            title: 'Sharz.net Fiyatlandirma'
           }
           ]}
           setActiveIndex={setActiveIndex}
@@ -292,40 +292,40 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
             />
           } {
             activeIndex === 1
-              && < Accordion
-                accordionTitle='Sarj Üniteleri'
-                accordionContent={chargeUnitsContent}
-                titleClassName="font-bold"
-                contentClassName="overflow-y-auto"
-              />
+            && < Accordion
+              accordionTitle='Sarj Üniteleri'
+              accordionContent={chargeUnitsContent}
+              titleClassName="font-bold"
+              contentClassName="overflow-y-auto"
+            />
           } {
             activeIndex === 2
-              && < Accordion
-                accordionTitle='Calisma Saatleri'
-                accordionContent={workingHoursContent}
-                titleClassName="font-bold"
-              />
+            && < Accordion
+              accordionTitle='Calisma Saatleri'
+              accordionContent={workingHoursContent}
+              titleClassName="font-bold"
+            />
           } {
             activeIndex === 3
-              && < Accordion
-                accordionTitle='Enerji Fiyat Ayarlari'
-                accordionContent={workingHoursContent}
-                titleClassName="font-bold"
-              />
+            && < Accordion
+              accordionTitle='Enerji Fiyat Ayarlari'
+              accordionContent={workingHoursContent}
+              titleClassName="font-bold"
+            />
           } {
             activeIndex === 4
-              && < Accordion
-                accordionTitle='Kullanici Ayarlari'
-                accordionContent={workingHoursContent}
-                titleClassName="font-bold"
-              />
+            && < Accordion
+              accordionTitle='Kullanici Ayarlari'
+              accordionContent={workingHoursContent}
+              titleClassName="font-bold"
+            />
           } {
             activeIndex === 5
-              && < Accordion
-                accordionTitle='Sharz.net Fiyatlandirma'
-                accordionContent={workingHoursContent}
-                titleClassName="font-bold"
-              />
+            && < Accordion
+              accordionTitle='Sharz.net Fiyatlandirma'
+              accordionContent={workingHoursContent}
+              titleClassName="font-bold"
+            />
           }
         </div>
         {
