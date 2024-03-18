@@ -1,7 +1,7 @@
 import React from 'react';
+import { FaLocationDot, FaGift, FaUser, FaQuestion } from 'react-icons/fa6';
 import Link from 'next/link';
 import { useSelector } from 'react-redux';
-import { FAQIcon, GiftBoxIcon, LocationIcon, PersonIcon } from '@projects/icons';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { RootState } from '../../../app/redux/store';
 
@@ -11,22 +11,22 @@ const SidebarBody = () => {
         {
             name: 'Lokasyonlar',
             link: '/service-points',
-            icon: <LocationIcon />,
+            icon: <FaLocationDot />,
         },
         {
             name: 'Kampanyalar',
             link: '/campaigns',
-            icon: <GiftBoxIcon />,
+            icon: <FaGift />,
         },
         {
             name: 'Kullanici Yonetimi',
             link: '/user-managements',
-            icon: <PersonIcon />,
+            icon: <FaUser />,
         },
         {
             name: 'FAQ',
             link: '/faq',
-            icon: <FAQIcon />,
+            icon: <FaQuestion  />,
         },
     ];
 

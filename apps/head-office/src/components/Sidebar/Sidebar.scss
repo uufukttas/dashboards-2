@@ -68,12 +68,9 @@
 
 /* Masaüstü cihazlar için */
 @media only screen and (min-width: 1280px) {
-
   .sh-sidebar-header-logo {
     height: 80px;
-    
   }
-  
   .sh-sidebar-container {
     overflow: hidden;
     width: 4%;
@@ -85,6 +82,9 @@
   .expanded {
     animation: expand-desktop 1s forwards;
     width: 20%;
+    img {
+      padding: 0 16px;
+    }
   }
 
   .collapsed {

@@ -73,6 +73,9 @@
     animation: expand-desktop 1s forwards;
     width: 20%;
   }
+  .expanded img {
+    padding: 0 16px;
+  }
   .collapsed {
     animation: collapse-desktop 1s forwards;
     width: 4%;
