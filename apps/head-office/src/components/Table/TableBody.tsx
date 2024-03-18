@@ -1,9 +1,9 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
+import { FaPen, FaTrashCan, FaCircleInfo } from 'react-icons/fa6';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
-import { InfoIcon, PenIcon, TrashIcon } from '@projects/icons';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
 import { showAlert } from '../../../app/redux/features/alertInformation';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
@@ -52,7 +52,7 @@ const TableBody = () => {
                             data-service-point-id={servicePoint.id}
                             onClick={getUpdatedServicePointsInfo}
                         >
-                            <PenIcon />
+                            <FaPen />
                         </a>
                         <a
                             className="font-medium text-red-600 cursor-pointer px-2"
@@ -60,10 +60,10 @@ const TableBody = () => {
                             data-service-point-id={servicePoint.id}
                             onClick={deleteServicePointInfo}
                         >
-                            <TrashIcon />
+                            <FaTrashCan />
                         </a>
                         <Link className='px-2' href={`/service-points/service-point/${servicePoint.id}`}>
-                            <InfoIcon />
+                            <FaCircleInfo />
                         </Link>
                         <Button
                             className="font-medium text-blue-600 px-2"
