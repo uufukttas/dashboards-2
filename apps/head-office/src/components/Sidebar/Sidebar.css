@@ -66,6 +66,9 @@
     overflow: hidden;
     width: 4%;
   }
+  .sh-sidebar-container img {
+    padding: 0 5px;
+  }
   .expanded {
     animation: expand-desktop 1s forwards;
     width: 20%;
