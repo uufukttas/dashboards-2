@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
-import { CloseIcon } from '@projects/icons';
+import { FaRegCircleXmark } from 'react-icons/fa6';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../app/redux/store';
@@ -28,7 +28,7 @@ const MofalHeader = ({ modalHeaderTitle }: IModalHeaderProps) => {
                     type='button'
                     onClick={handleClose}
                 >
-                    <CloseIcon />
+                    <FaRegCircleXmark  />
                 </Button>
             </div>
         </div>

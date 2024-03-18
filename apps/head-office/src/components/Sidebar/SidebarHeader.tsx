@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { detectDevice } from '@projects/common';
-import { CloseIcon } from '@projects/icons';
+import { FaRegCircleXmark } from 'react-icons/fa6';
 import { Image } from '@projects/image';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { userInfo } from '../../constants/styles';
@@ -41,7 +41,7 @@ const SidebarHeader = () => {
                             type="button"
                             onClick={handleSidebarClose}
                         >
-                            <CloseIcon />
+                            <FaRegCircleXmark  />
                         </Button>
                     </div>
                 )
