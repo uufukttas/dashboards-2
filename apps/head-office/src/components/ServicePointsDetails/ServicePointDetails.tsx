@@ -179,7 +179,25 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
       .catch(error => console.log(error));
   };
 
-  const handleClick = (e: React.MouseEvent) => {
+  const getWorkingHours = () => {
+    axios.post(
+      'https://sharztestapi.azurewebsites.net/ServicePoint/GetWorkHours',
+      JSON.stringify({ stationID: Number(slug) }),
+      { headers: { 'Content-Type': 'application/json' } }
+    )
+      .then(response => response.data)
+      .then(data => console.log(data))
+      .catch(error => console.log(error));
+  };
+
+
+  const handleClick = (event: React.MouseEvent) => {
+    const chargeUnitId = event.currentTarget.getAttribute('data-charge-point-id');
+
+    if (chargeUnitId) {
+      console.log(chargeUnitId); //TO DO: Set Modal Input Value from Request
+    }
+
     dispatch(toggleModalVisibility(isModalVisible))
   };
 
@@ -198,7 +216,9 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
           chargeUnits.map((chargeUnit, index) => (
             <div
               key={index}
-              className="charge-unit flex justify-between items-center border-b-2 border-gray-200 py-4">
+              className="charge-unit flex justify-between items-center border-b-2 border-gray-200 py-4"
+              data-charge-point-id={chargeUnit.chargePointId}
+            >
               <div className="charge-unit-info">
                 <h3 className="charge-unit-name text-lg font-bold">{chargeUnit.model}</h3>
                 <p className="charge-unit-status text-sm">{chargeUnit.status}</p>
@@ -211,6 +231,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
                 <Button
                   buttonText={`Düzenle`}
                   className="charge-unit-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2"
+                  dataAttributes={{ 'data-charge-point-id': chargeUnit.chargePointId.toString() }}
                   type={'button'}
                   onClick={handleClick}
                 />
@@ -270,8 +291,30 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
     </div>
   );
 
+  const energySettingsContent = (
+    <div className="energy-settings-content py-8">
+      <div className="charge-units-header flex justify-end">
+        <Button
+          buttonText={`Ekle`}
+          className="charge-units-add-button bg-primary bg-primary text-white rounded-md px-4 py-2 mx-2"
+          type="button"
+          onClick={handleClick}
+        />
+      </div>
+      Bu servis istasyonunun enerji fiyat ayarlari burada gosterilecektir.
+    </div>
+  );
+
   const workingHoursContent = (
     <div className="working-hours-content py-8">
+      <div className="charge-units-header flex justify-end">
+        <Button
+          buttonText={`Ekle`}
+          className="charge-units-add-button bg-primary bg-primary text-white rounded-md px-4 py-2 mx-2"
+          type="button"
+          onClick={handleClick}
+        />
+      </div>
       Bu servis istasyonunun calisma saatleri 08:00 - 18:00 arasindadir.
     </div>
   );
@@ -283,6 +326,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
     getBrands();
     getInvestors();
     getChargeUnitFeatures();
+    getWorkingHours();
   }, [slug])
 
   return (
@@ -343,7 +387,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
             activeIndex === 3
             && < Accordion
               accordionTitle='Enerji Fiyat Ayarlari'
-              accordionContent={workingHoursContent}
+              accordionContent={energySettingsContent}
               titleClassName="font-bold"
             />
           } {
