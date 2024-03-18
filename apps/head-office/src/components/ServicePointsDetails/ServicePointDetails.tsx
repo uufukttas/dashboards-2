@@ -101,15 +101,15 @@ const initialServicePointsDetailsStateValue = {
 
 const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([initialChargeUnitsStateValue]);
-  const [brands, setBrands] = useState([]);
-  const [investors, setInvestors] = useState([]);
-  const [statusList, setStatusList] = useState([]);
   const [accessTypeList, setAccessTypeList] = useState([]);
-  const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [brands, setBrands] = useState([]);
+  const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([initialChargeUnitsStateValue]);
+  const [investors, setInvestors] = useState([]);
   const [servicePointDetails, setServicePointDetails] = useState<IServicePointsDetailsProps>(initialServicePointsDetailsStateValue);
   const [servicePointDetailsInfo, setServicePointDetailsInfo] = useState<IServicePointsDetailsInfoProps>(initialServicePointsDetailsInfoStateValue);
+  const [statusList, setStatusList] = useState([]);
+  const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
 
   const getBrands = () => {
     axios
