@@ -1,9 +1,9 @@
 import React from 'react';
 import './Navbar.css';
+import { Button } from '@projects/button';
 
 interface INavbarItemProps {
   title: string;
-  url: string;
 };
 
 interface INavbarProps {
@@ -21,13 +21,13 @@ const Navbar = ({ activeIndex, items, setActiveIndex }: INavbarProps) => {
     <nav className='sh-navbar-container w-full mx-8'>
       {
         items.map((item, index) => (
-          <a key={index}
-            href={item.url}
-            className={`sh-navbar-item px-4 ${activeIndex === index ? 'active' : ''}`}
+          <Button key={index}
+            className={`sh-navbar-item px-4 py-0 ${activeIndex === index ? 'active' : ''}`}
             onClick={() => handleItemClick(index)}
+            type="button"
           >
             {item.title}
-          </a>
+          </Button>
         ))
       }
       <div className="animation start-home"></div>

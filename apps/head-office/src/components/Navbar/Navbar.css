@@ -6,8 +6,7 @@
   border-radius: 8px;
 }
 
-.sh-navbar-container a {
-  line-height: 35px;
+.sh-navbar-container button {
   width: 185px;
   height: 100%;
   font-size: 12px;
@@ -33,36 +32,36 @@
   color: black;
 }
 
-.sh-navbar-container a.active {
+.sh-navbar-container button.active {
   color: black;
 }
 
 .sh-navbar-container .start-home,
-a:nth-child(1).active ~ .animation {
+button:nth-child(1).active ~ .animation {
   left: 0;
 }
 
 .sh-navbar-container .start-about,
-a:nth-child(2).active ~ .animation {
+button:nth-child(2).active ~ .animation {
   left: 185px;
 }
 
 .sh-navbar-container .start-blog,
-a:nth-child(3).active ~ .animation {
+button:nth-child(3).active ~ .animation {
   left: 370px;
 }
 
 .sh-navbar-container .start-blog,
-a:nth-child(4).active ~ .animation {
+button:nth-child(4).active ~ .animation {
   left: 555px;
 }
 
 .sh-navbar-container .start-blog,
-a:nth-child(5).active ~ .animation {
+button:nth-child(5).active ~ .animation {
   left: 740px;
 }
 
 .sh-navbar-container .start-blog,
-a:nth-child(6).active ~ .animation {
+button:nth-child(6).active ~ .animation {
   left: 925px;
 }
