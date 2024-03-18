@@ -10,7 +10,7 @@ interface IAccordionProps {
 };
 
 const Accordion = ({ accordionTitle, accordionContent, titleClassName, contentClassName }: IAccordionProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
