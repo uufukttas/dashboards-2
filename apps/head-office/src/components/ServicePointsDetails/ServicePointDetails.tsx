@@ -103,9 +103,29 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([initialChargeUnitsStateValue]);
+  const [brands, setBrands] = useState([]);
+  const [investors, setInvestors] = useState([]);
+  const [statusList, setStatusList] = useState([]);
+  const [accessTypeList, setAccessTypeList] = useState([]);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
   const [servicePointDetails, setServicePointDetails] = useState<IServicePointsDetailsProps>(initialServicePointsDetailsStateValue);
   const [servicePointDetailsInfo, setServicePointDetailsInfo] = useState<IServicePointsDetailsInfoProps>(initialServicePointsDetailsInfoStateValue);
+
+  const getBrands = () => {
+    axios
+      .get('https://sharztestapi.azurewebsites.net/Values/GetModels')
+      .then((response) => (response.data.data))
+      .then((response) => setBrands(response.data))
+      .catch((error) => console.log(error));
+  };
+
+  const getInvestors = () => {
+    axios
+      .get('https://sharztestapi.azurewebsites.net/Values/GetInvestors')
+      .then((response) => (response.data))
+      .then((response) => setInvestors(response.data))
+      .catch((error) => console.log(error));
+  };
 
   const getChargeUnits = () => {
     axios.post(
@@ -146,6 +166,17 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
 
   const getSelectedDistrict = (districtId: number) => {
     return DISTRICTS[districtId?.toString()];
+  };
+
+  const getChargeUnitFeatures = () => {
+    axios
+      .get('https://sharztestapi.azurewebsites.net/Values/GetChargePointFeatures')
+      .then(response => response.data.data)
+      .then(data => {
+        setStatusList(data.statusList);
+        setAccessTypeList(data.accessTypeList)
+      })
+      .catch(error => console.log(error));
   };
 
   const handleClick = (e: React.MouseEvent) => {
@@ -249,6 +280,9 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
     getServicePointsDetails(slug);
     getServicePointsDetailsInfo(slug);
     getChargeUnits();
+    getBrands();
+    getInvestors();
+    getChargeUnitFeatures();
   }, [slug])
 
   return (
@@ -335,7 +369,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
             modalHeaderTitle={`Şarj Ünitesi Ekle`}
             modalId={`${BRAND_PREFIX}-service-point-modal`}
           >
-            <ServicePointDetailsModal slug={slug} />
+            <ServicePointDetailsModal slug={slug} brands={brands} investors={investors} statusList={statusList} accessTypeList={accessTypeList} />
           </Modal>
         }
       </>

@@ -12,6 +12,10 @@ import { RootState } from 'apps/head-office/app/redux/store';
 
 interface IChargeUnitsForm {
   slug: string;
+  brands: { id: number; name: string; rid: null }[];
+  investors: { id: number; name: string; rid: null }[];
+  statusList: { id: number; name: string; stationChargePointFeatureType: number; rid: null }[];
+  accessTypeList: { id: number; name: string; stationChargePointFeatureType: number; rid: null }[];
 }
 
 interface IChargeUnitFormProps {
@@ -36,114 +40,10 @@ const initialChargeUnitFormDataState = {
   location: '',
 };
 
-const ServicePointDetailsModal = ({ slug }: IChargeUnitsForm) => {
+const ServicePointDetailsModal = ({ slug, brands, investors, statusList, accessTypeList }: IChargeUnitsForm) => {
   const dispatch = useDispatch();
-  const isModalVisible = useSelector(
-    (state: RootState) => state.isModalVisibleReducer.isModalVisible
-  );
+  const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
   const [chargeUnitFormData, setChargeUnitFormData] = useState<IChargeUnitFormProps>(initialChargeUnitFormDataState);
-  const brand = [
-    {
-      rid: null,
-      id: 1,
-      name: 'ABB',
-    },
-    {
-      rid: null,
-      id: 2,
-      name: 'Aspower',
-    },
-    {
-      rid: null,
-      id: 3,
-      name: 'Autel',
-    },
-    {
-      rid: null,
-      id: 4,
-      name: 'Chaevi',
-    },
-    {
-      rid: null,
-      id: 5,
-      name: 'Circontrol',
-    },
-    {
-      rid: null,
-      id: 6,
-      name: 'Eaton',
-    },
-    {
-      rid: null,
-      id: 7,
-      name: 'Gersan',
-    },
-    {
-      rid: null,
-      id: 8,
-      name: 'OPT1',
-    },
-    {
-      rid: null,
-      id: 9,
-      name: 'OPT2',
-    },
-    {
-      rid: null,
-      id: 10,
-      name: 'Porsche',
-    },
-    {
-      rid: null,
-      id: 11,
-      name: 'Roaming',
-    },
-    {
-      rid: null,
-      id: 12,
-      name: 'Schneider',
-    },
-    {
-      rid: null,
-      id: 13,
-      name: 'Setec',
-    },
-    {
-      rid: null,
-      id: 14,
-      name: 'Siemens',
-    },
-    {
-      rid: null,
-      id: 15,
-      name: 'Sinexcel',
-    },
-    {
-      rid: null,
-      id: 16,
-      name: 'StarCharge',
-    },
-    {
-      rid: null,
-      id: 17,
-      name: 'Vestel',
-    },
-    {
-      rid: null,
-      id: 18,
-      name: 'Voltrun',
-    },
-    {
-      rid: null,
-      id: 19,
-      name: 'Wallbox',
-    },
-    {
-      rid: null,
-      id: 20,
-      name: 'XCharge',
-    },
-  ];
 
   const createRequestData = () => {
     const requestData = {
@@ -209,7 +109,7 @@ const ServicePointDetailsModal = ({ slug }: IChargeUnitsForm) => {
           <Dropdown
             className="border text-text text-sm rounded-lg block w-full p-2.5 mb-4"
             id={'charge-units-brand'}
-            items={brand}
+            items={brands}
             name="charge-units-brand"
             onChange={(event) => {
               setChargeUnitFormData({
@@ -308,11 +208,7 @@ const ServicePointDetailsModal = ({ slug }: IChargeUnitsForm) => {
           <Dropdown
             className="border text-text text-sm rounded-lg block w-full p-2.5 mb-4"
             id={'charge-units-investor '}
-            items={[
-              { id: 1, name: 'Operator', rid: null },
-              { id: 2, name: 'Reseller', rid: null },
-              { id: 3, name: 'Hizmet Noktasi', rid: null },
-            ]}
+            items={investors}
             name="charge-units-investor"
             onChange={(event) => {
               setChargeUnitFormData({
@@ -331,43 +227,7 @@ const ServicePointDetailsModal = ({ slug }: IChargeUnitsForm) => {
           <Dropdown
             className="border text-text text-sm rounded-lg block w-full p-2.5 mb-4"
             id={'charge-units-status'}
-            items={[
-              {
-                id: 1,
-                name: 'Arizali',
-                rid: null,
-              },
-              {
-                id: 2,
-                name: 'Bakimda',
-                rid: null,
-              },
-              {
-                id: 3,
-                name: 'Bilgilendirme',
-                rid: null,
-              },
-              {
-                id: 4,
-                name: 'Kullanilabilir',
-                rid: null,
-              },
-              {
-                id: 5,
-                name: 'Mesgul',
-                rid: null,
-              },
-              {
-                id: 6,
-                name: 'Planlanmis',
-                rid: null,
-              },
-              {
-                id: 7,
-                name: 'Standalone',
-                rid: null,
-              },
-            ]}
+            items={statusList}
             name="charge-units-status"
             onChange={(event) => {
               setChargeUnitFormData({
@@ -386,28 +246,7 @@ const ServicePointDetailsModal = ({ slug }: IChargeUnitsForm) => {
           <Dropdown
             className="border text-text text-sm rounded-lg block w-full p-2.5 mb-4"
             id={'charge-units-access-type'}
-            items={[
-              {
-                id: 1,
-                name: 'Herkese Acik',
-                rid: null,
-              },
-              {
-                id: 2,
-                name: 'Tesise Ozel',
-                rid: null,
-              },
-              {
-                id: 3,
-                name: 'Ozel Kullanim',
-                rid: null,
-              },
-              {
-                id: 4,
-                name: 'Test Cihazi',
-                rid: null,
-              },
-            ]}
+            items={accessTypeList}
             name="charge-units-access-type"
             onChange={(event) => {
               setChargeUnitFormData({
