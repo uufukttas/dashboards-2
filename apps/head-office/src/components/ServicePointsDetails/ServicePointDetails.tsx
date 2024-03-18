@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
+import ServicePointDetailsHeader from './ServicePointDetailsHeader';
+import ServicePointDetailsModal from './ServicePointDetailsModal';
+import Navbar from '../Navbar/Navbar';
 import Accordion from '../../../src/components/Accordion/Accordion';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../app/redux/store';
 import Modal from '../../../src/components/Modal/Modal';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../src/constants/constants';
-import ServicePointDetailsHeader from './ServicePointDetailsHeader';
-import ServicePointDetailsModal from './ServicePointDetailsModal';
 
 interface IChargeUnitsProps {
   chargePointId: number;
@@ -98,10 +99,11 @@ const initialServicePointsDetailsStateValue = {
 
 const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
-  const [servicePointDetails, setServicePointDetails] = useState<IServicePointsDetailsProps>(initialServicePointsDetailsStateValue);
-  const [servicePointDetailsInfo, setServicePointDetailsInfo] = useState<IServicePointsDetailsInfoProps>(initialServicePointsDetailsInfoStateValue);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
   const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([initialChargeUnitsStateValue]);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
+  const [servicePointDetails, setServicePointDetails] = useState<IServicePointsDetailsProps>(initialServicePointsDetailsStateValue);
+  const [servicePointDetailsInfo, setServicePointDetailsInfo] = useState<IServicePointsDetailsInfoProps>(initialServicePointsDetailsInfoStateValue);
 
   const getChargeUnits = () => {
     axios.post(
@@ -252,23 +254,79 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
           servicePointDetailsName={servicePointDetails.name}
           servicePointDetailsStatus={servicePointDetails.isActive}
         />
+        <Navbar
+          activeIndex={activeIndex}
+          items={[{
+            title: 'Lokasyon Bilgileri',
+            url: '#',
+          },
+          {
+            title: 'Şarj Üniteleri',
+            url: '#',
+          },
+          {
+            title: 'Calisma Saatleri',
+            url: `#`,
+          },
+          {
+            title: 'Enerji Fiyat Ayarlari',
+            url: `#`,
+          },
+          {
+            title: 'Kullanici Ayarlari',
+            url: `#`,
+          }, {
+            title: 'Sharz.net Fiyatlandirma',
+            url: `#`,
+          }
+          ]}
+          setActiveIndex={setActiveIndex}
+        />
         <div className='service-point-details-container w-full mx-8'>
-          <Accordion
-            accordionTitle='Lokasyon Bilgileri'
-            accordionContent={servicePointDetailsContent}
-            titleClassName="font-bold"
-          />
-          <Accordion
-            accordionTitle={'Sarj Üniteleri'}
-            accordionContent={chargeUnitsContent}
-            titleClassName={`font-bold`}
-            contentClassName={`overflow-y-auto`}
-          />
-          <Accordion
-            accordionTitle={'Calisma Saatleri'}
-            accordionContent={workingHoursContent}
-            titleClassName={`font-bold`}
-          />
+          {
+            activeIndex === 0
+            && < Accordion
+              accordionTitle='Lokasyon Bilgileri'
+              accordionContent={servicePointDetailsContent}
+              titleClassName="font-bold"
+            />
+          } {
+            activeIndex === 1
+              && < Accordion
+                accordionTitle='Sarj Üniteleri'
+                accordionContent={chargeUnitsContent}
+                titleClassName="font-bold"
+                contentClassName="overflow-y-auto"
+              />
+          } {
+            activeIndex === 2
+              && < Accordion
+                accordionTitle='Calisma Saatleri'
+                accordionContent={workingHoursContent}
+                titleClassName="font-bold"
+              />
+          } {
+            activeIndex === 3
+              && < Accordion
+                accordionTitle='Enerji Fiyat Ayarlari'
+                accordionContent={workingHoursContent}
+                titleClassName="font-bold"
+              />
+          } {
+            activeIndex === 4
+              && < Accordion
+                accordionTitle='Kullanici Ayarlari'
+                accordionContent={workingHoursContent}
+                titleClassName="font-bold"
+              />
+          } {
+            activeIndex === 5
+              && < Accordion
+                accordionTitle='Sharz.net Fiyatlandirma'
+                accordionContent={workingHoursContent}
+                titleClassName="font-bold"
+              />
+          }
         </div>
         {
           isModalVisible &&
