@@ -92,12 +92,12 @@ const TableBody = () => {
                         <tr>
                             <td className='px-6 py-3'>{servicePoint.longitude}</td>
                             <td className='px-6 py-3'>{servicePoint.latitude}</td>
+                            <td className='px-6 py-3'>{servicePoint.latitude}</td>
+                            <td className='px-6 py-3'>{servicePoint.latitude}</td>
+                            <td className='px-6 py-3'>{servicePoint.latitude}</td>
                         </tr>
                     </>
                 )}
-                <tr >
-                    <td className='row-line' colSpan={8} style={{ height: "2px", backgroundColor: "#ececec" }}></td>
-                </tr>
             </Fragment>
         )
     };

@@ -17,16 +17,7 @@ const TableActions = () => {
     };
 
     return (
-        <div className={`${BRAND_PREFIX}-table-actions-container flex items-center justify-between flex-column md:flex-row-reverse flex-wrap space-y-4 md:space-y-0 py-4 bg-white w-full md:flex-row`}>
-            <div className={`${BRAND_PREFIX}-table-actions w-4/5 md:w-1/6`}>
-                <Button
-                    className={`${BRAND_PREFIX}-add-service-point-button w-full bg-primary rounded-md font-semibold hover:bg-hover`}
-                    type="button"
-                    onClick={handleClick}
-                >
-                    + Lokasyon
-                </Button>
-            </div>
+        <div className={`${BRAND_PREFIX}-table-actions-container flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 w-full md:flex-row border border-gray-300 bg-transparent`}>
             <Label className="sr-only" htmlFor="table-search" labelText={`Search`} />
             <div className={`${BRAND_PREFIX}-service-point-search-input-container relative w-4/5 md:w-1/6 mx-2`}>
                 <div className={`${BRAND_PREFIX}-service-point-search-icon-container absolute inset-y-0 flex items-center pl-5 pointer-events-none justify-end `}> 
@@ -39,6 +30,15 @@ const TableActions = () => {
                     placeholder="Search users"
                     type="text"
                 />
+            </div>
+            <div className={`${BRAND_PREFIX}-table-actions w-4/5 md:w-1/6 mx-4`}>
+                <Button
+                    className={`${BRAND_PREFIX}-add-service-point-button w-full bg-primary rounded-md font-semibold hover:bg-primary-lighter`}
+                    type="button"
+                    onClick={handleClick}
+                >
+                    + Lokasyon
+                </Button>
             </div>
         </div>
     );
