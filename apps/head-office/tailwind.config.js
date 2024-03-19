@@ -18,14 +18,17 @@ module.exports = {
       },
     },
     colors: {
+      background: '#EEEEEE',
       primary: '#FCD800',
       secondary: '#656567',
-      hover: '#FCD800CC',
-      heading: '#0A0A0A',
-      text: '#0F0F0F',
-      error: '#E02424',
-      success: '#057A55',
-      info: '#1C64f2',
+      'primary-lighter': '#FCD800CC',
+      'secondary-lighter': '#656567CC',
+      heading: '#1F2937',
+      text: '#504E4E',
+      error: '#FDF2F2',
+      success: '#DEF7EC',
+      info: '#EBF5FF',
+      warning: '#FDF6B2',
     }
   },
   plugins: [
