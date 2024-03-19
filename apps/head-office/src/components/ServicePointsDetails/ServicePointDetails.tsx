@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { FaCoins } from "react-icons/fa";
+import { FaLocationDot, FaClock, FaUserGear } from 'react-icons/fa6';
+import { RiBattery2ChargeFill } from "react-icons/ri";
+import { SlEnergy } from "react-icons/sl";
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
+import { detectDevice } from '@projects/common';
 import ServicePointDetailsHeader from './ServicePointDetailsHeader';
 import ServicePointDetailsModal from './ServicePointDetailsModal';
 import Navbar from '../Navbar/Navbar';
@@ -216,7 +221,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
           chargeUnits.map((chargeUnit, index) => (
             <div
               key={index}
-              className="charge-unit flex justify-between items-center border-b-2 border-gray-200 py-4"
+              className="charge-unit flex justify-between items-baseline border-b-2 border-gray-200 py-4"
               data-charge-point-id={chargeUnit.chargePointId}
             >
               <div className="charge-unit-info">
@@ -224,7 +229,11 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
                 <p className="charge-unit-status text-sm">{chargeUnit.status}</p>
                 <div className="charge-unit-connector-number">
                   <p className="charge-unit-connector-number-label text-lg font-bold">Connectors</p>
-                  <p className="charge-unit-connector-number-value text-lg font-normal">{chargeUnit.connectorNumber}</p>
+                  <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket1..........................................`}</p>
+                  <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket2..........................................`}</p>
+                  <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket3..........................................`}</p>
+                  <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket4..........................................`}</p>
+                  <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket5..........................................`}</p>
                 </div>
               </div>
               <div className="charge-unit-actions mx-2">
@@ -291,6 +300,42 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
     </div>
   );
 
+  const navbarItems = [{
+    title: 'Lokasyon Bilgileri'
+  },
+  {
+    title: 'Şarj Üniteleri'
+  },
+  {
+    title: 'Calisma Saatleri'
+  },
+  {
+    title: 'Enerji Fiyat Ayarlari'
+  },
+  {
+    title: 'Kullanici Ayarlari'
+  }, {
+    title: 'Komisyonlar'
+  }];
+
+  const NavbarItemsMobile = [{
+    title: <FaLocationDot />,
+  },
+  {
+    title: <RiBattery2ChargeFill />
+  },
+  {
+    title: <FaClock />
+  },
+  {
+    title: <SlEnergy />
+  },
+  {
+    title: <FaUserGear />
+  }, {
+    title: <FaCoins />
+  }];
+
   const energySettingsContent = (
     <div className="energy-settings-content py-8">
       <div className="charge-units-header flex justify-end">
@@ -340,24 +385,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
         />
         <Navbar
           activeIndex={activeIndex}
-          items={[{
-            title: 'Lokasyon Bilgileri'
-          },
-          {
-            title: 'Şarj Üniteleri'
-          },
-          {
-            title: 'Calisma Saatleri'
-          },
-          {
-            title: 'Enerji Fiyat Ayarlari'
-          },
-          {
-            title: 'Kullanici Ayarlari'
-          }, {
-            title: 'Sharz.net Fiyatlandirma'
-          }
-          ]}
+          items={detectDevice() === 'mobile' ? NavbarItemsMobile : navbarItems}
           setActiveIndex={setActiveIndex}
         />
         <div className='service-point-details-container w-full mx-8'>
