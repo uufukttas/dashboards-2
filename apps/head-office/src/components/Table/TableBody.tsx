@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
-import { showAlert } from '../../../app/redux/features/alertInformation';
+import { toggleDialogVisibility } from '../../../app/redux/features/isDialogVisible';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
@@ -29,8 +29,17 @@ interface IServicePointInfoProps {
     };
 };
 
-const TableBody = () => {
+interface ITableBodyProps {
+    deletedServicePointId: number;
+    setDeletedServicePointId: (deletedServicePointId: number) => void;
+};
+
+const TableBody = ({
+    deletedServicePointId,
+    setDeletedServicePointId
+}: ITableBodyProps) => {
     const dispatch = useDispatch();
+    const isDialogVisible = useSelector((state: RootState) => state.isDialogVisible);
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
     const [isHidden, setIsHidden] = useState(true);
     const [servicePoints, setServicePoints] = useState([]);
@@ -52,7 +61,7 @@ const TableBody = () => {
                             data-service-point-id={servicePoint.id}
                             onClick={getUpdatedServicePointsInfo}
                         >
-                            <FaPen className='text-primary'/>
+                            <FaPen className='text-primary' />
                         </a>
                         <a
                             className="font-medium text-red-600 cursor-pointer px-2"
@@ -60,7 +69,7 @@ const TableBody = () => {
                             data-service-point-id={servicePoint.id}
                             onClick={deleteServicePointInfo}
                         >
-                            <FaTrashCan />
+                            <FaTrashCan/>
                         </a>
                         <Link className='px-2' href={`/service-points/service-point/${servicePoint.id}`}>
                             <FaCircleInfo className={`text-blue-700`} />
@@ -102,25 +111,8 @@ const TableBody = () => {
         )
     };
     const deleteServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
-        const servicePointIdAttr = event.currentTarget.getAttribute('data-service-point-id');
-        const servicePointId = servicePointIdAttr ? parseInt(servicePointIdAttr) : NaN;
-
-        try {
-            await axios.post(
-                process.env.DELETE_STATION_URL || '', ({
-                    'id': servicePointId
-                }))
-                .then((response) => response.data)
-                .then(response => {
-                    dispatch(showAlert({
-                        message: response.message,
-                        type: 'success',
-                    }))
-                })
-                .catch((error) => console.log(error));
-        } catch (error) {
-            console.error(error);
-        }
+        setDeletedServicePointId(parseInt(event.currentTarget.getAttribute('data-service-point-id') || '0'));
+        dispatch(toggleDialogVisibility(isDialogVisible));
     };
     const getCity = (rid: number) => {
         return (CITIES[rid?.toString()] || '');
