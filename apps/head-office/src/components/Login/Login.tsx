@@ -96,7 +96,7 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
         <>
             <div className={`${BRAND_PREFIX}-card-header-container`}>
                 <div className={`${BRAND_PREFIX}-card-title-container`}>
-                    <h2 className={`${BRAND_PREFIX}-card-title text-2xl font-semibold`}>{userInfo.name}</h2>
+                    <h2 className={`${BRAND_PREFIX}-card-title text-2xl font-semibold text-heading`}>{userInfo.name}</h2>
                 </div>
             </div>
             <div className={`${BRAND_PREFIX}-card-logo-container`}>
@@ -155,7 +155,7 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
                                     errors[loginFormInput.toLowerCase()]?.message &&
                                     (
                                         <div className={`${loginFormInput.toLowerCase()}-error-wrapper my-4 font-bold text-error`}>
-                                            <p className={`${loginFormInput.toLowerCase()}-error-message`}>
+                                            <p className={`${loginFormInput.toLowerCase()}-error-message text-text`}>
                                                 {(errors[loginFormInput.toLowerCase()]?.message?.toString())}
                                             </p>
                                         </div>
@@ -177,7 +177,7 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
     const cardFooterChildren = (
         <>
             <div className={`${BRAND_PREFIX}-card-footer-text-container`}>
-                <p className={`${BRAND_PREFIX}-card-footer-text italic text-center text-sm`}>SHARZNET</p>
+                <p className={`${BRAND_PREFIX}-card-footer-text italic text-center text-sm text-text`}>SHARZNET</p>
             </div>
         </>
     );

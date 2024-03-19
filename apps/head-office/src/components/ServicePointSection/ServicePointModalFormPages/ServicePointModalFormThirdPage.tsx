@@ -163,7 +163,7 @@ const ServicePointModalFormThirdPage = ({
             && errors[`${formProperties['x-coord']}`]?.message
             && (
               <div className={`${formProperties['x-coord']}-error-wrapper mb-4 font-bold text-error`}>
-                <p className={`${formProperties['x-coord']}-error-message`}>
+                <p className={`${formProperties['x-coord']}-error-message text-text`}>
                   {'X-Koordinatı zorunludur.'}
                 </p>
               </div>
@@ -194,7 +194,7 @@ const ServicePointModalFormThirdPage = ({
             && errors[`${formProperties['y-coord']}`]?.message
             && (
               <div className={`${formProperties['y-coord']}-error-wrapper mb-4 font-bold text-error`}>
-                <p className={`${formProperties['y-coord']}-error-message`}>
+                <p className={`${formProperties['y-coord']}-error-message text-text`}>
                   {'Y-Koordinatı zorunludur.'}
                 </p>
               </div>

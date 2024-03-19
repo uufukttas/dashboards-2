@@ -153,9 +153,9 @@ const ServicePointModalFormFourthPage = ({
       </div>
       <div className={`${formProperties.parking}-container`}>
         <div className={`${formProperties.parking}-header`}>
-          <h2 className={`${formProperties.parking}-text block mb-2 text-sm font-medium text-gray-900`}>
+          <h3 className={`${formProperties.parking}-text block mb-2 text-sm font-semibold text-gray-900`}>
             Park Yeri
-          </h2>
+          </h3>
         </div>
         <div className={`${formProperties.parking}-inputs-container flex`}>
           <div className={`${formProperties.parking}-option-container flex w-1/2 items-center mb-4`}>
@@ -198,7 +198,7 @@ const ServicePointModalFormFourthPage = ({
 
       <div className={`${formProperties.opportunities}-container`}>
         <div className={`${formProperties.opportunities}-header`}>
-          <h2 className="block mb-2 text-sm font-medium text-gray-900">Lokayon Olanaklari</h2>
+          <h3 className="block mb-2 text-sm font-semibold text-gray-900">Lokasyon Olanaklari</h3>
         </div>
         <div className={`${formProperties.opportunities}-inputs-container flex flex-wrap`}>
           {

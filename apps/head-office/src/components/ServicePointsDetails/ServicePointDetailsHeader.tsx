@@ -12,7 +12,7 @@ const ServicePointDetailsHeader = ({
     const servicePointHeader = (
         <div className="sh-service-point-details-page-header w-full flex items-center justify-between">
             <div className="sh-service-point-details-page-header-left flex">
-                <h1 className="sh-service-point-details-page-title text-2xl font-bold">
+                <h1 className="sh-service-point-details-page-title text-2xl font-bold text-heading">
                     {servicePointDetailsName}
                 </h1>
             </div>

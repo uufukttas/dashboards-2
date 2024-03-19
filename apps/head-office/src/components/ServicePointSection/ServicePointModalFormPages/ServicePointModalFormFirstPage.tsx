@@ -174,7 +174,7 @@ const ServicePointModalFormFirstPage = ({
               <div
                 className={`${formProperties.name}-error-wrapper my-4 font-bold text-error`}
               >
-                <p className={`${formProperties.name}-error-message`}>
+                <p className={`${formProperties.name}-error-message text-text`}>
                   {errors[`${formProperties.name}`]?.message?.toString()}
                 </p>
               </div>

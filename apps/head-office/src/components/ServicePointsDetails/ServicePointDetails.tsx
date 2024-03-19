@@ -237,19 +237,19 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
             data-charge-point-id={chargeUnit.chargePointId}
           >
             <div className="charge-unit-info">
-              <h3 className="charge-unit-name text-lg font-bold">
+              <h3 className="charge-unit-name text-lg font-bold text-heading">
                 {chargeUnit.model}
               </h3>
-              <p className="charge-unit-status text-sm">{chargeUnit.status}</p>
+              <p className="charge-unit-status text-sm text-text">{chargeUnit.status}</p>
               <div className="charge-unit-connector-number">
-                <p className="charge-unit-connector-number-label text-lg font-bold">
+                <p className="charge-unit-connector-number-label text-lg font-bold text-text">
                   Connectors
                 </p>
-                <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket1..........................................`}</p>
-                <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket2..........................................`}</p>
-                <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket3..........................................`}</p>
-                <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket4..........................................`}</p>
-                <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket5..........................................`}</p>
+                <p className="charge-unit-connector-number-value text-lg font-normal pl-8 text-text">{`soket1..........................................`}</p>
+                <p className="charge-unit-connector-number-value text-lg font-normal pl-8 text-text">{`soket2..........................................`}</p>
+                <p className="charge-unit-connector-number-value text-lg font-normal pl-8 text-text">{`soket3..........................................`}</p>
+                <p className="charge-unit-connector-number-value text-lg font-normal pl-8 text-text">{`soket4..........................................`}</p>
+                <p className="charge-unit-connector-number-value text-lg font-normal pl-8 text-text">{`soket5..........................................`}</p>
               </div>
             </div>
             <div className="charge-unit-actions mx-2">
@@ -278,52 +278,52 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
     <div className="service-point-details-content py-8">
       <div className="service-point-details-info">
         <div className="service-point-details-info-item flex justify-start md:items-center flex-col md:flex-row">
-          <p className="service-point-details-info-item-label text-lg font-bold md:w-1/12">
+          <p className="service-point-details-info-item-label text-lg font-bold md:w-1/12 text-text">
             Adres:
           </p>
-          <p className="service-point-details-info-item-value text-lg font-normal">
+          <p className="service-point-details-info-item-value text-lg font-normal text-text">
             {servicePointDetailsInfo.address}
           </p>
         </div>
         <div className="service-point-details-info-item flex justify-start md:items-center flex-col md:flex-row">
-          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">
+          <p className="service-point-details-info-item-label text-lg font-bold w-1/12 text-text">
             Telefon:
           </p>
-          <p className="service-point-details-info-item-value text-lg font-normal">
+          <p className="service-point-details-info-item-value text-lg font-normal text-text">
             {servicePointDetailsInfo.phone1}
           </p>
         </div>
         {servicePointDetailsInfo.phone2 && (
           <div className="service-point-details-info-item flex justify-start md:items-center flex-col md:flex-row">
-            <p className="service-point-details-info-item-label text-lg font-bold w-1/12">
+            <p className="service-point-details-info-item-label text-lg font-bold w-1/12 text-text">
               Telefon 2:
             </p>
-            <p className="service-point-details-info-item-value text-lg">
+            <p className="service-point-details-info-item-value text-lg text-text">
               {servicePointDetailsInfo.phone2}
             </p>
           </div>
         )}
         <div className="service-point-details-info-item flex justify-start md:items-center flex-col md:flex-row">
-          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">
+          <p className="service-point-details-info-item-label text-lg font-bold w-1/12 text-text">
             Il:
           </p>
-          <p className="service-point-details-info-item-value text-lg font-normal">
+          <p className="service-point-details-info-item-value text-lg font-normal text-text">
             {getSelectedCity(servicePointDetailsInfo.cityId)}
           </p>
         </div>
         <div className="service-point-details-info-item flex justify-start md:items-center flex-col md:flex-row">
-          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">
+          <p className="service-point-details-info-item-label text-lg font-bold w-1/12 text-text">
             Ilce:
           </p>
-          <p className="service-point-details-info-item-value text-lg font-normal">
+          <p className="service-point-details-info-item-value text-lg font-normal text-text">
             {getSelectedDistrict(servicePointDetailsInfo.districtId)}
           </p>
         </div>
         <div className="service-point-details-info-item flex justify-start md:items-center flex-col md:flex-row">
-          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">
+          <p className="service-point-details-info-item-label text-lg font-bold w-1/12 text-text">
             Konum:
           </p>
-          <p className="service-point-details-info-item-value text-lg font-normal">
+          <p className="service-point-details-info-item-value text-lg font-normal text-text">
             {servicePointDetailsInfo.lat} - {servicePointDetailsInfo.lon}
           </p>
         </div>
