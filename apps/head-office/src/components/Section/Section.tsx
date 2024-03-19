@@ -1,4 +1,5 @@
 import { BRAND_PREFIX } from '../../constants/constants';
+import './Section.css';
 
 interface ISectionProps {
   children?: React.ReactNode;
@@ -6,7 +7,7 @@ interface ISectionProps {
 
 export function Section({ children }: ISectionProps) {
   return (
-    <section className={`${BRAND_PREFIX}-section-container flex-wrap w-full px-8 xl:px-20 py-4`}>
+    <section className={`${BRAND_PREFIX}-section-container flex-wrap w-full px-8 xl:px-20 py-4 bg-background`}>
       {children}
     </section>
   );

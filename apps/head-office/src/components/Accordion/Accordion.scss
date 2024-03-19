@@ -15,7 +15,7 @@
   height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-top: 5px solid #000;
+  border-top: 5px solid #333;
   transition: transform 0.3s ease;
 }
 
@@ -60,4 +60,8 @@
 .sh-accordion-content {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.sh-accordion-container {
+  border-color: #CCC;
 }
