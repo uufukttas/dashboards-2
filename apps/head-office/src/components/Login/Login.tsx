@@ -123,7 +123,7 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
                                     labelText={loginFormInput === 'Username' ? 'Kullanıcı Adı' : 'Şifre'}
                                 />
                                 <Input
-                                    className={`${loginFormInput.toLowerCase()}-input mt-1 p-2 w-full border`}
+                                    className={`${loginFormInput.toLowerCase()}-input mt-1 p-2 w-full border focus:ring-primary focus:border-primary rounded-lg text-text text-sm ${BRAND_PREFIX}-login-input`}
                                     id={loginFormInput.toLowerCase()}
                                     name={loginFormInput.toLowerCase()}
                                     register={
@@ -166,7 +166,7 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
                     <div className="mb-4">
                         <Button
                             buttonText={'Giriş Yap'}
-                            className={`button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline ${BRAND_PREFIX}-login-button p-2 w-full`}
+                            className={`button bg-primary hover:bg-primary-lighter text-black font-bold py-2 px-4 focus:outline-none focus:shadow-outline ${BRAND_PREFIX}-login-button p-2 w-full`}
                             type={'submit'}
                         />
                     </div>

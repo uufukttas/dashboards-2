@@ -149,7 +149,7 @@ const ServicePointModalFormFirstPage = ({
             <span className="text-md text-error">*</span>
           </Label>
           <Input
-            className={`${formProperties.name}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${hasStationId ? 'cursor-not-allowed' : ''}`}
+            className={`${formProperties.name}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${hasStationId ? 'cursor-not-allowed' : ''}`}
             disabled={hasStationId}
             id={`${formProperties.name}`}
             name={`${formProperties.name}`}
@@ -180,6 +180,32 @@ const ServicePointModalFormFirstPage = ({
               </div>
             )}
         </div>
+        <div className={`${formProperties.company}-container`}>
+          <Label
+            className={`${formProperties.company}-label block mb-2 text-heading font-semibold`}
+            htmlFor={`${formProperties.company}`}
+            labelText={`Isletme`}
+          >
+            <span className="text-md text-error">*</span>
+          </Label>
+          <Dropdown
+            className={`${formProperties.company}-input border text-text text-sm rounded-lg block w-full focus:ring-primary focus:border-primary p-2.5 mb-4 hover:${hasStationId ? 'cursor-not-allowed' : ''}`}
+            disabled={hasStationId}
+            id={`${formProperties.company}`}
+            items={companies}
+            name={`${formProperties.company}`}
+            onChange={handleDropdownChange}
+            optionClassName={`hover:bg-primary-lighter hover:text-black`}
+            selectedValue={
+              hasServicePointDataId
+                ? servicePointData.companyId.toString()
+                : hasStationId
+                  ? servicePointData[`${formProperties.company}`]?.toString()
+                  : companies[0]
+            }
+            value={servicePointData[`${formProperties.company}`]?.toString()}
+          />
+        </div>
         <div className={`${formProperties.reseller}-container`}>
           <Label
             className={`${formProperties.reseller}-label block mb-2 text-heading font-semibold`}
@@ -189,7 +215,7 @@ const ServicePointModalFormFirstPage = ({
             <span className="text-md text-error">*</span>
           </Label>
           <Dropdown
-            className={`${formProperties.reseller}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${hasStationId ? 'cursor-not-allowed' : ''}`}
+            className={`${formProperties.reseller}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${hasStationId ? 'cursor-not-allowed' : ''}`}
             disabled={hasStationId}
             id={`${formProperties.reseller}`}
             items={resellers}
@@ -203,31 +229,6 @@ const ServicePointModalFormFirstPage = ({
                   : resellers[0]
             }
             value={servicePointData[`${formProperties.reseller}`]?.toString()}
-          />
-        </div>
-        <div className={`${formProperties.company}-container`}>
-          <Label
-            className={`${formProperties.company}-label block mb-2 text-heading font-semibold`}
-            htmlFor={`${formProperties.company}`}
-            labelText={`Isletme`}
-          >
-            <span className="text-md text-error">*</span>
-          </Label>
-          <Dropdown
-            className={`${formProperties.company}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 hover:${hasStationId ? 'cursor-not-allowed' : ''}`}
-            disabled={hasStationId}
-            id={`${formProperties.company}`}
-            items={companies}
-            name={`${formProperties.company}`}
-            onChange={handleDropdownChange}
-            selectedValue={
-              hasServicePointDataId
-                ? servicePointData.companyId.toString()
-                : hasStationId
-                  ? servicePointData[`${formProperties.company}`]?.toString()
-                  : companies[0]
-            }
-            value={servicePointData[`${formProperties.company}`]?.toString()}
           />
         </div>
         <div className={`${sectionPrefix}-buttons-container flex flex-row-reverse`}>
