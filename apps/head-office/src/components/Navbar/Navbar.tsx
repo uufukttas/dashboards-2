@@ -22,7 +22,7 @@ const Navbar = ({ activeIndex, items, setActiveIndex }: INavbarProps) => {
       {
         items.map((item, index) => (
           <Button key={index}
-            className={`sh-navbar-item px-4 py-0 ${activeIndex === index ? 'active' : ''}`}
+            className={`sh-navbar-item px-4 py-0 w-1/6 ${activeIndex === index ? 'active' : ''}`}
             onClick={() => handleItemClick(index)}
             type="button"
           >
@@ -30,7 +30,6 @@ const Navbar = ({ activeIndex, items, setActiveIndex }: INavbarProps) => {
           </Button>
         ))
       }
-      <div className="animation start-home"></div>
     </nav>
   )
 }

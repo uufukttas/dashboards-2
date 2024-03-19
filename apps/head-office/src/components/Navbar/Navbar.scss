@@ -5,7 +5,6 @@
   border-radius: 8px;
 }
 .sh-navbar-container button {
-  width: 185px;
   height: 100%;
   font-size: 12px;
   display: inline-block;
@@ -17,44 +16,17 @@
   color: white;
   cursor: pointer;
 }
-.sh-navbar-container .animation {
-  position: absolute;
+.sh-navbar-container .active {
   height: 100%;
   top: 0;
   z-index: 0;
   transition: all 0.5s ease 0s;
   border-radius: 5px;
-  width: 190px;
   background-color: #FCD800;
   color: black;
 }
 
 .sh-navbar-container button.active {
     color: black;
-}
-
-.sh-navbar-container .start-home,
-button:nth-child(1).active ~ .animation {
-  left: 0;
-}
-.sh-navbar-container .start-about,
-button:nth-child(2).active ~ .animation {
-  left: 185px;
-}
-.sh-navbar-container .start-blog,
-button:nth-child(3).active ~ .animation {
-  left: 370px;
-}
-.sh-navbar-container .start-blog,
-button:nth-child(4).active ~ .animation {
-  left: 555px;
-}
-.sh-navbar-container .start-blog,
-button:nth-child(5).active ~ .animation {
-  left: 740px;
-}
-.sh-navbar-container .start-blog,
-button:nth-child(6).active ~ .animation {
-  left: 925px;
 }
 
