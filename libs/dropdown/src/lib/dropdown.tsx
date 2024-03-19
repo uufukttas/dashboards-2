@@ -8,6 +8,7 @@ interface IDropdownProps {
   items: { id: null; rid: number; plateCode: number; name: string; }[] | { name: string, id: number; rid: null; }[];
   multiple?: boolean;
   name: string;
+  optionClassName?: string;
   register?: UseFormRegisterReturn;
   required?: boolean;
   selectedValue?: string;
@@ -22,6 +23,7 @@ export function Dropdown({
   items,
   multiple,
   name,
+  optionClassName,
   register,
   required,
   selectedValue,
@@ -57,7 +59,7 @@ export function Dropdown({
     >
       {
         items?.map((item, index) => (
-          <option key={index} value={item?.rid ?? item?.id}> {item.name} </option>
+          <option key={index} value={item?.rid ?? item?.id} className={optionClassName}> {item.name} </option>
         ))
       }
     </select>
