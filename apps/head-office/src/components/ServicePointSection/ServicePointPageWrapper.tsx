@@ -16,7 +16,7 @@ const ServicePointPage = () => {
     }, []);
 
     return (
-        <div className={`${BRAND_PREFIX}-service-point-page-container w-full h-screen flex`}>
+        <div className={`${BRAND_PREFIX}-service-point-page-container w-full flex`}>
             {isLoading
                 ? <Loading />
                 : (

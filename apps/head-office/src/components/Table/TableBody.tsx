@@ -52,7 +52,7 @@ const TableBody = () => {
                             data-service-point-id={servicePoint.id}
                             onClick={getUpdatedServicePointsInfo}
                         >
-                            <FaPen />
+                            <FaPen className='text-primary'/>
                         </a>
                         <a
                             className="font-medium text-red-600 cursor-pointer px-2"
@@ -63,10 +63,10 @@ const TableBody = () => {
                             <FaTrashCan />
                         </a>
                         <Link className='px-2' href={`/service-points/service-point/${servicePoint.id}`}>
-                            <FaCircleInfo />
+                            <FaCircleInfo className={`text-blue-700`} />
                         </Link>
                         <Button
-                            className="font-medium text-blue-600 px-2"
+                            className="font-medium px-2 "
                             type="button"
                             onClick={() => { toggleTableRow(servicePoint.id) }}
                         >
@@ -81,7 +81,7 @@ const TableBody = () => {
                 </tr>
                 {servicePoint.id === selectedRow && (
                     <>
-                        <tr className='bg-gray-50 second-table-head-row'>
+                        <tr className='bg-gray-50 second-table-head-row text-xs uppercase text-gray-700'>
                             <th className='px-6'>Longitude</th>
                             <th className='px-6'>Latitude</th>
                             <th className='px-6'>Payment Methods</th>

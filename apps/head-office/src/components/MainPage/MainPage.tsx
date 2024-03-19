@@ -10,7 +10,7 @@ interface IMainPageProps {
 
 const MainPage = ({ children }: IMainPageProps) => {
   return (
-    <div className={`${BRAND_PREFIX}-page-wrapper w-full h-screen flex`}>
+    <div className={`${BRAND_PREFIX}-page-wrapper w-full flex`}>
       <Sidebar />
       <div className={`${BRAND_PREFIX}-page-container h-screen bg-white overflow-x-hidden no-scrollbar`}>
         <Header className={`h-[80px] flex items-center w-full`} />
