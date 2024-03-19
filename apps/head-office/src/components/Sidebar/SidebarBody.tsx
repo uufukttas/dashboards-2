@@ -26,7 +26,7 @@ const SidebarBody = () => {
         {
             name: 'FAQ',
             link: '/faq',
-            icon: <FaQuestion  />,
+            icon: <FaQuestion />,
         },
     ];
 
@@ -40,7 +40,7 @@ const SidebarBody = () => {
                 {sidebarElements.map((item, index) => {
                     return (
                         <Link
-                            className={`${BRAND_PREFIX}-sidebar-list`}
+                            className={`${BRAND_PREFIX}-sidebar-list hover:bg-secondary-lighter hover:text-white focus:bg-secondary-lighter focus:text-white`}
                             href={item.link}
                             key={index}
                         >
@@ -49,7 +49,7 @@ const SidebarBody = () => {
                                     } `}
                             >
                                 <div
-                                    className={`${BRAND_PREFIX}-sidebar-item-container w-full flex justify-start p-4`}
+                                    className={`${BRAND_PREFIX}-sidebar-item-container w-full flex p-4 ${isSidebarExpanded ? 'justify-start' : 'justify-center'}`}
                                 >
                                     <span className={`${BRAND_PREFIX}-sidebar-item-icon`}>
                                         {item.icon}
