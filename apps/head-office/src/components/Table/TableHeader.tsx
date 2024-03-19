@@ -17,7 +17,7 @@ const TableActions = () => {
     };
 
     return (
-        <div className={`${BRAND_PREFIX}-table-actions-container flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 w-full md:flex-row border border-gray-300 bg-transparent`}>
+        <div className={`${BRAND_PREFIX}-table-actions-container flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 w-full md:flex-row border-t border-gray-300 bg-transparent`}>
             <Label className="sr-only" htmlFor="table-search" labelText={`Search`} />
             <div className={`${BRAND_PREFIX}-service-point-search-input-container relative w-4/5 md:w-1/6 mx-2`}>
                 <div className={`${BRAND_PREFIX}-service-point-search-icon-container absolute inset-y-0 flex items-center pl-5 pointer-events-none justify-end `}> 
