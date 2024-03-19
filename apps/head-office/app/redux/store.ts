@@ -1,5 +1,6 @@
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 import alertInformationReducer from './features/alertInformation';
+import isDialogVisibleReducer from './features/isDialogVisible';
 import isModalVisibleReducer from './features/isModalVisible';
 import loadingReducer from './features/isLoadingVisible';
 import servicePointData from './features/servicePointData';
@@ -9,6 +10,7 @@ import sidebarExpandReducer from './features/isSidebarExpand';
 export const store: EnhancedStore = configureStore({
   reducer: {
     alertInformationReducer,
+    isDialogVisibleReducer,
     isModalVisibleReducer,
     loadingReducer,
     servicePointData,
