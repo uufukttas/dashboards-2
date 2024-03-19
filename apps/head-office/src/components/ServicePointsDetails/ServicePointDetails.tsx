@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { FaCoins } from "react-icons/fa";
+import { FaCoins } from 'react-icons/fa';
 import { FaLocationDot, FaClock, FaUserGear } from 'react-icons/fa6';
-import { RiBattery2ChargeFill } from "react-icons/ri";
-import { SlEnergy } from "react-icons/sl";
+import { RiBattery2ChargeFill } from 'react-icons/ri';
+import { SlEnergy } from 'react-icons/sl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { detectDevice } from '@projects/common';
@@ -67,18 +67,18 @@ const initialChargeUnitsStateValue = {
   connectorNumber: 1,
   connectorId: 1,
   count: 1,
-  deviceCode: "9081000201",
+  deviceCode: '9081000201',
   externalAddress: '',
   internalAddress: '',
-  investor: "Operatör",
+  investor: 'Operatör',
   isFreePoint: false,
   lastHeartBeat: '',
   limitedUsage: false,
-  model: "Gersan",
+  model: 'Gersan',
   ocppVersion: 1500,
   sendRoaming: true,
   stationId: 2022,
-  status: "Kullanılabilir",
+  status: 'Kullanılabilir',
 };
 
 const initialServicePointsDetailsInfoStateValue = {
@@ -90,7 +90,7 @@ const initialServicePointsDetailsInfoStateValue = {
   lat: 0,
   lon: 0,
   cityId: 0,
-  districtId: 0
+  districtId: 0,
 };
 
 const initialServicePointsDetailsStateValue = {
@@ -111,15 +111,21 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const [brands, setBrands] = useState([]);
   const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([initialChargeUnitsStateValue]);
   const [investors, setInvestors] = useState([]);
-  const [servicePointDetails, setServicePointDetails] = useState<IServicePointsDetailsProps>(initialServicePointsDetailsStateValue);
-  const [servicePointDetailsInfo, setServicePointDetailsInfo] = useState<IServicePointsDetailsInfoProps>(initialServicePointsDetailsInfoStateValue);
+  const [servicePointDetails, setServicePointDetails] =
+    useState<IServicePointsDetailsProps>(initialServicePointsDetailsStateValue);
+  const [servicePointDetailsInfo, setServicePointDetailsInfo] =
+    useState<IServicePointsDetailsInfoProps>(
+      initialServicePointsDetailsInfoStateValue
+    );
   const [statusList, setStatusList] = useState([]);
-  const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
+  const isModalVisible = useSelector(
+    (state: RootState) => state.isModalVisibleReducer.isModalVisible
+  );
 
   const getBrands = () => {
     axios
       .get('https://sharztestapi.azurewebsites.net/Values/GetModels')
-      .then((response) => (response.data.data))
+      .then((response) => response.data.data)
       .then((response) => setBrands(response.data))
       .catch((error) => console.log(error));
   };
@@ -127,42 +133,45 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const getInvestors = () => {
     axios
       .get('https://sharztestapi.azurewebsites.net/Values/GetInvestors')
-      .then((response) => (response.data))
+      .then((response) => response.data)
       .then((response) => setInvestors(response.data))
       .catch((error) => console.log(error));
   };
 
   const getChargeUnits = () => {
-    axios.post(
-      'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationSettings',
-      JSON.stringify({ stationId: Number(slug), PageNumber: 1, PageSize: 5 }),
-      { headers: { 'Content-Type': 'application/json' } }
-    )
-      .then(response => response.data.data)
-      .then(data => setChargeUnits(data))
-      .catch(error => console.log(error));
+    axios
+      .post(
+        'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationSettings',
+        JSON.stringify({ stationId: Number(slug), PageNumber: 1, PageSize: 5 }),
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then((response) => response.data.data)
+      .then((data) => setChargeUnits(data))
+      .catch((error) => console.log(error));
   };
 
   const getServicePointsDetails = async (slug: string) => {
-    axios.post(
-      'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationById',
-      { id: slug },
-      { headers: { 'Content-Type': 'application/json' } }
-    )
-      .then(response => response.data)
-      .then(data => setServicePointDetails(data.data[0]))
-      .catch(error => console.log(error));
+    axios
+      .post(
+        'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationById',
+        { id: slug },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then((response) => response.data)
+      .then((data) => setServicePointDetails(data.data[0]))
+      .catch((error) => console.log(error));
   };
 
   const getServicePointsDetailsInfo = async (slug: string) => {
-    axios.post(
-      'https://sharztestapi.azurewebsites.net/StationInfo/GetByStationId',
-      JSON.stringify({ stationId: Number(slug) }),
-      { headers: { 'Content-Type': 'application/json' } }
-    )
-      .then(response => response.data)
-      .then(data => setServicePointDetailsInfo(data.data[0]))
-      .catch(error => console.log(error));
+    axios
+      .post(
+        'https://sharztestapi.azurewebsites.net/StationInfo/GetByStationId',
+        JSON.stringify({ stationId: Number(slug) }),
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then((response) => response.data)
+      .then((data) => setServicePointDetailsInfo(data.data[0]))
+      .catch((error) => console.log(error));
   };
 
   const getSelectedCity = (cityId: number) => {
@@ -175,35 +184,39 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
 
   const getChargeUnitFeatures = () => {
     axios
-      .get('https://sharztestapi.azurewebsites.net/Values/GetChargePointFeatures')
-      .then(response => response.data.data)
-      .then(data => {
+      .get(
+        'https://sharztestapi.azurewebsites.net/Values/GetChargePointFeatures'
+      )
+      .then((response) => response.data.data)
+      .then((data) => {
         setStatusList(data.statusList);
-        setAccessTypeList(data.accessTypeList)
+        setAccessTypeList(data.accessTypeList);
       })
-      .catch(error => console.log(error));
+      .catch((error) => console.log(error));
   };
 
   const getWorkingHours = () => {
-    axios.post(
-      'https://sharztestapi.azurewebsites.net/ServicePoint/GetWorkHours',
-      JSON.stringify({ stationID: Number(slug) }),
-      { headers: { 'Content-Type': 'application/json' } }
-    )
-      .then(response => response.data)
-      .then(data => console.log(data))
-      .catch(error => console.log(error));
+    axios
+      .post(
+        'https://sharztestapi.azurewebsites.net/ServicePoint/GetWorkHours',
+        JSON.stringify({ stationID: Number(slug) }),
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then((response) => response.data)
+      .then((data) => console.log(data))
+      .catch((error) => console.log(error));
   };
 
-
   const handleClick = (event: React.MouseEvent) => {
-    const chargeUnitId = event.currentTarget.getAttribute('data-charge-point-id');
+    const chargeUnitId = event.currentTarget.getAttribute(
+      'data-charge-point-id'
+    );
 
     if (chargeUnitId) {
       console.log(chargeUnitId); //TO DO: Set Modal Input Value from Request
     }
 
-    dispatch(toggleModalVisibility(isModalVisible))
+    dispatch(toggleModalVisibility(isModalVisible));
   };
 
   const chargeUnitsContent = (
@@ -217,42 +230,46 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
         />
       </div>
       <div className="charge-units-list">
-        {
-          chargeUnits.map((chargeUnit, index) => (
-            <div
-              key={index}
-              className="charge-unit flex justify-between items-baseline border-b-2 border-gray-200 py-4"
-              data-charge-point-id={chargeUnit.chargePointId}
-            >
-              <div className="charge-unit-info">
-                <h3 className="charge-unit-name text-lg font-bold">{chargeUnit.model}</h3>
-                <p className="charge-unit-status text-sm">{chargeUnit.status}</p>
-                <div className="charge-unit-connector-number">
-                  <p className="charge-unit-connector-number-label text-lg font-bold">Connectors</p>
-                  <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket1..........................................`}</p>
-                  <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket2..........................................`}</p>
-                  <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket3..........................................`}</p>
-                  <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket4..........................................`}</p>
-                  <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket5..........................................`}</p>
-                </div>
-              </div>
-              <div className="charge-unit-actions mx-2">
-                <Button
-                  buttonText={`Düzenle`}
-                  className="charge-unit-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2"
-                  dataAttributes={{ 'data-charge-point-id': chargeUnit.chargePointId.toString() }}
-                  type={'button'}
-                  onClick={handleClick}
-                />
-                <Button
-                  buttonText={'Sil'}
-                  className="charge-unit-delete-button bg-secondary text-white rounded-md px-4 py-2"
-                  type={'button'}
-                />
+        {chargeUnits.map((chargeUnit, index) => (
+          <div
+            key={index}
+            className="charge-unit flex justify-between items-baseline border-b-2 border-gray-200 py-4"
+            data-charge-point-id={chargeUnit.chargePointId}
+          >
+            <div className="charge-unit-info">
+              <h3 className="charge-unit-name text-lg font-bold">
+                {chargeUnit.model}
+              </h3>
+              <p className="charge-unit-status text-sm">{chargeUnit.status}</p>
+              <div className="charge-unit-connector-number">
+                <p className="charge-unit-connector-number-label text-lg font-bold">
+                  Connectors
+                </p>
+                <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket1..........................................`}</p>
+                <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket2..........................................`}</p>
+                <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket3..........................................`}</p>
+                <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket4..........................................`}</p>
+                <p className="charge-unit-connector-number-value text-lg font-normal pl-8">{`soket5..........................................`}</p>
               </div>
             </div>
-          ))
-        }
+            <div className="charge-unit-actions mx-2">
+              <Button
+                buttonText={`Düzenle`}
+                className="charge-unit-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2"
+                dataAttributes={{
+                  'data-charge-point-id': chargeUnit.chargePointId.toString(),
+                }}
+                type={'button'}
+                onClick={handleClick}
+              />
+              <Button
+                buttonText={'Sil'}
+                className="charge-unit-delete-button bg-secondary text-white rounded-md px-4 py-2"
+                type={'button'}
+              />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
@@ -260,38 +277,52 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const servicePointDetailsContent = (
     <div className="service-point-details-content py-8">
       <div className="service-point-details-info">
-        <div className="service-point-details-info-item flex justify-start items-center">
-          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Adres:</p>
+        <div className="service-point-details-info-item flex justify-start md:items-center flex-col md:flex-row">
+          <p className="service-point-details-info-item-label text-lg font-bold md:w-1/12">
+            Adres:
+          </p>
           <p className="service-point-details-info-item-value text-lg font-normal">
             {servicePointDetailsInfo.address}
           </p>
         </div>
-        <div className="service-point-details-info-item flex justify-start items-center">
-          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Telefon:</p>
-          <p className="service-point-details-info-item-value text-lg font-normal">{servicePointDetailsInfo.phone1}</p>
+        <div className="service-point-details-info-item flex justify-start md:items-center flex-col md:flex-row">
+          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">
+            Telefon:
+          </p>
+          <p className="service-point-details-info-item-value text-lg font-normal">
+            {servicePointDetailsInfo.phone1}
+          </p>
         </div>
-        {
-          servicePointDetailsInfo.phone2 && (
-            <div className="service-point-details-info-item flex justify-start items-center">
-              <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Telefon 2:</p>
-              <p className="service-point-details-info-item-value text-lg">{servicePointDetailsInfo.phone2}</p>
-            </div>
-          )
-        }
-        <div className="service-point-details-info-item flex justify-start items-center">
-          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Il:</p>
+        {servicePointDetailsInfo.phone2 && (
+          <div className="service-point-details-info-item flex justify-start md:items-center flex-col md:flex-row">
+            <p className="service-point-details-info-item-label text-lg font-bold w-1/12">
+              Telefon 2:
+            </p>
+            <p className="service-point-details-info-item-value text-lg">
+              {servicePointDetailsInfo.phone2}
+            </p>
+          </div>
+        )}
+        <div className="service-point-details-info-item flex justify-start md:items-center flex-col md:flex-row">
+          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">
+            Il:
+          </p>
           <p className="service-point-details-info-item-value text-lg font-normal">
             {getSelectedCity(servicePointDetailsInfo.cityId)}
           </p>
         </div>
-        <div className="service-point-details-info-item flex justify-start items-center">
-          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Ilce:</p>
+        <div className="service-point-details-info-item flex justify-start md:items-center flex-col md:flex-row">
+          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">
+            Ilce:
+          </p>
           <p className="service-point-details-info-item-value text-lg font-normal">
             {getSelectedDistrict(servicePointDetailsInfo.districtId)}
           </p>
         </div>
-        <div className="service-point-details-info-item flex justify-start items-center">
-          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">Konum:</p>
+        <div className="service-point-details-info-item flex justify-start md:items-center flex-col md:flex-row">
+          <p className="service-point-details-info-item-label text-lg font-bold w-1/12">
+            Konum:
+          </p>
           <p className="service-point-details-info-item-value text-lg font-normal">
             {servicePointDetailsInfo.lat} - {servicePointDetailsInfo.lon}
           </p>
@@ -300,41 +331,47 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
     </div>
   );
 
-  const navbarItems = [{
-    title: 'Lokasyon Bilgileri'
-  },
-  {
-    title: 'Şarj Üniteleri'
-  },
-  {
-    title: 'Calisma Saatleri'
-  },
-  {
-    title: 'Enerji Fiyat Ayarlari'
-  },
-  {
-    title: 'Kullanici Ayarlari'
-  }, {
-    title: 'Komisyonlar'
-  }];
+  const navbarItems = [
+    {
+      title: 'Lokasyon Bilgileri',
+    },
+    {
+      title: 'Şarj Üniteleri',
+    },
+    {
+      title: 'Calisma Saatleri',
+    },
+    {
+      title: 'Enerji Fiyat Ayarlari',
+    },
+    {
+      title: 'Kullanici Ayarlari',
+    },
+    {
+      title: 'Komisyonlar',
+    },
+  ];
 
-  const NavbarItemsMobile = [{
-    title: <FaLocationDot />,
-  },
-  {
-    title: <RiBattery2ChargeFill />
-  },
-  {
-    title: <FaClock />
-  },
-  {
-    title: <SlEnergy />
-  },
-  {
-    title: <FaUserGear />
-  }, {
-    title: <FaCoins />
-  }];
+  const NavbarItemsMobile = [
+    {
+      title: <FaLocationDot />,
+    },
+    {
+      title: <RiBattery2ChargeFill />,
+    },
+    {
+      title: <FaClock />,
+    },
+    {
+      title: <SlEnergy />,
+    },
+    {
+      title: <FaUserGear />,
+    },
+    {
+      title: <FaCoins />,
+    },
+  ];
 
   const energySettingsContent = (
     <div className="energy-settings-content py-8">
@@ -372,12 +409,11 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
     getInvestors();
     getChargeUnitFeatures();
     getWorkingHours();
-  }, [slug])
+  }, [slug]);
 
   return (
-    servicePointDetailsInfo.cityId !== 0
-    && servicePointDetailsInfo.districtId !== 0
-    && (
+    servicePointDetailsInfo.cityId !== 0 &&
+    servicePointDetailsInfo.districtId !== 0 && (
       <>
         <ServicePointDetailsHeader
           servicePointDetailsName={servicePointDetails.name}
@@ -388,62 +424,66 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
           items={detectDevice().isMobile ? NavbarItemsMobile : navbarItems}
           setActiveIndex={setActiveIndex}
         />
-        <div className='service-point-details-container w-full mx-8'>
-          {
-            activeIndex === 0
-            && < Accordion
-              accordionTitle='Lokasyon Bilgileri'
+        <div className="service-point-details-container w-full mx-8">
+          {activeIndex === 0 && (
+            <Accordion
+              accordionTitle="Lokasyon Bilgileri"
               accordionContent={servicePointDetailsContent}
               titleClassName="font-bold"
             />
-          } {
-            activeIndex === 1
-            && < Accordion
-              accordionTitle='Sarj Üniteleri'
+          )}{' '}
+          {activeIndex === 1 && (
+            <Accordion
+              accordionTitle="Sarj Üniteleri"
               accordionContent={chargeUnitsContent}
               titleClassName="font-bold"
               contentClassName="overflow-y-auto"
             />
-          } {
-            activeIndex === 2
-            && < Accordion
-              accordionTitle='Calisma Saatleri'
+          )}{' '}
+          {activeIndex === 2 && (
+            <Accordion
+              accordionTitle="Calisma Saatleri"
               accordionContent={workingHoursContent}
               titleClassName="font-bold"
             />
-          } {
-            activeIndex === 3
-            && < Accordion
-              accordionTitle='Enerji Fiyat Ayarlari'
+          )}{' '}
+          {activeIndex === 3 && (
+            <Accordion
+              accordionTitle="Enerji Fiyat Ayarlari"
               accordionContent={energySettingsContent}
               titleClassName="font-bold"
             />
-          } {
-            activeIndex === 4
-            && < Accordion
-              accordionTitle='Kullanici Ayarlari'
+          )}{' '}
+          {activeIndex === 4 && (
+            <Accordion
+              accordionTitle="Kullanici Ayarlari"
               accordionContent={workingHoursContent}
               titleClassName="font-bold"
             />
-          } {
-            activeIndex === 5
-            && < Accordion
-              accordionTitle='Sharz.net Fiyatlandirma'
+          )}{' '}
+          {activeIndex === 5 && (
+            <Accordion
+              accordionTitle="Sharz.net Fiyatlandirma"
               accordionContent={workingHoursContent}
               titleClassName="font-bold"
             />
-          }
+          )}
         </div>
-        {
-          isModalVisible &&
+        {isModalVisible && (
           <Modal
             className="charge-units-modal"
             modalHeaderTitle={`Şarj Ünitesi Ekle`}
             modalId={`${BRAND_PREFIX}-service-point-modal`}
           >
-            <ServicePointDetailsModal slug={slug} brands={brands} investors={investors} statusList={statusList} accessTypeList={accessTypeList} />
+            <ServicePointDetailsModal
+              slug={slug}
+              brands={brands}
+              investors={investors}
+              statusList={statusList}
+              accessTypeList={accessTypeList}
+            />
           </Modal>
-        }
+        )}
       </>
     )
   );
