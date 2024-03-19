@@ -3,7 +3,7 @@ import './Navbar.css';
 import { Button } from '@projects/button';
 
 interface INavbarItemProps {
-  title: string;
+  title: string | JSX.Element;
 };
 
 interface INavbarProps {

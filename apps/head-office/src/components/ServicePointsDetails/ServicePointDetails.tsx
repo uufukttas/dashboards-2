@@ -385,7 +385,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
         />
         <Navbar
           activeIndex={activeIndex}
-          items={detectDevice() === 'mobile' ? NavbarItemsMobile : navbarItems}
+          items={detectDevice().isMobile ? NavbarItemsMobile : navbarItems}
           setActiveIndex={setActiveIndex}
         />
         <div className='service-point-details-container w-full mx-8'>
