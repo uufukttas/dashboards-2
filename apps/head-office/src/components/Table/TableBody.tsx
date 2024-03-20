@@ -42,6 +42,7 @@ const TableBody = ({
     const isDialogVisible = useSelector((state: RootState) => state.isDialogVisible);
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
     const [isHidden, setIsHidden] = useState(true);
+    const [isDataUpdated, setIsDataUpdated] = useState(false);
     const [servicePoints, setServicePoints] = useState([]);
     const [selectedRow, setSelectedRow] = useState(0);
 
@@ -113,6 +114,7 @@ const TableBody = ({
     const deleteServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
         setDeletedServicePointId(parseInt(event.currentTarget.getAttribute('data-service-point-id') || '0'));
         dispatch(toggleDialogVisibility(isDialogVisible));
+        setIsDataUpdated(!isDataUpdated);
     };
     const getCity = (rid: number) => {
         return (CITIES[rid?.toString()] || '');
@@ -134,6 +136,7 @@ const TableBody = ({
                 .then(response => {
                     setServicePoints(response.data);
                     dispatch(toggleLoadingVisibility(false));
+                    setIsDataUpdated(!isDataUpdated);
                 })
                 .catch((error) => console.log(error));
 
@@ -167,6 +170,7 @@ const TableBody = ({
         } catch (error) {
             console.error(error);
         }
+        setIsDataUpdated(!isDataUpdated);
     };
     const toggleTableRow = (id: number) => {
         setIsHidden(!isHidden);
@@ -186,7 +190,7 @@ const TableBody = ({
 
     useEffect(() => {
         getFirstTenUsers();
-    }, []);
+    }, [isDataUpdated]);
 
     return (
         <tbody className={`${BRAND_PREFIX}-table-body bg-white divide-y divide-gray-200 text-black`}>
