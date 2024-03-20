@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import axios from 'axios';
 import { FaPen, FaTrashCan, FaCircleInfo } from 'react-icons/fa6';
 import Link from 'next/link';
@@ -6,9 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
 import { toggleDialogVisibility } from '../../../app/redux/features/isDialogVisible';
-import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
-import { toggleServicePointDataUpdated } from '../../../app/redux/features/isServicePointDataUpdated';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../app/redux/store';
@@ -30,19 +28,19 @@ interface IServicePointInfoProps {
 
 interface ITableBodyProps {
     deletedServicePointId: number;
+    servicePoints: IServicePointInfoProps[];
     setDeletedServicePointId: (deletedServicePointId: number) => void;
 };
 
 const TableBody = ({
     deletedServicePointId,
-    setDeletedServicePointId
+    servicePoints,
+    setDeletedServicePointId,
 }: ITableBodyProps) => {
     const dispatch = useDispatch();
     const isDialogVisible = useSelector((state: RootState) => state.isDialogVisible);
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
-    const isServicePointDataUpdated = useSelector((state: RootState) => state.isServicePointDataUpdatedReducer.isServicePointDataUpdated);
     const [isHidden, setIsHidden] = useState(true);
-    const [servicePoints, setServicePoints] = useState([]);
     const [selectedRow, setSelectedRow] = useState(0);
 
     const deleteServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -55,28 +53,7 @@ const TableBody = ({
     const getDistricts = (districtCode: number) => {
         return (DISTRICTS[districtCode?.toString()] || '');
     };
-    const getFirstTenUsers = async () => {
-        try {
-            await axios.post(
-                (process.env.GET_ALL_SERVICE_POINTS || ''),
-                ({
-                    'pageNumber': 1,
-                    // TODO : Change the page size parameter to the userCountPerPage
-                    'pageSize': 10
-                })
-            )
-                .then((response) => response.data)
-                .then(response => {
-                    setServicePoints(response.data);
-                    dispatch(toggleLoadingVisibility(false));
-                    dispatch(toggleServicePointDataUpdated(false));
-                })
-                .catch((error) => console.log(error));
 
-        } catch (error) {
-            console.error(error);
-        }
-    };
     const getUpdatedServicePointsInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
         const servicePointIdAttr = event.currentTarget.getAttribute('data-service-point-id') || '0';
         const servicePointId = parseInt(servicePointIdAttr);
@@ -119,10 +96,6 @@ const TableBody = ({
 
         setSelectedRow(id);
     };
-
-    useEffect(() => {
-        getFirstTenUsers();
-    }, [isServicePointDataUpdated]);
 
     return (
         <tbody className={`${BRAND_PREFIX}-table-body bg-white divide-y divide-gray-200 text-black`}>

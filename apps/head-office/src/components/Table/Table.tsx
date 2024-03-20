@@ -5,13 +5,29 @@ import TableBody from './TableBody';
 import { BRAND_PREFIX } from '../../constants/constants';
 import './Table.css';
 
+interface IServicePointInfoProps {
+  id: number;
+  name: string;
+  type?: string | null | undefined;
+  longitude: number;
+  latitude: number;
+  phone?: string | null | undefined;
+  address: string;
+  cityId: number;
+  districtId: number;
+  opportunities?: string[] | null | undefined;
+  freePark?: string | null | undefined;
+  paymentMethods?: string[] | null | undefined;
+};
 interface ITableoProps {
   deletedServicePointId: number;
+  servicePoints: IServicePointInfoProps[];
   setDeletedServicePointId: (deletedServicePointId: number) => void;
 };
 
 export function Table({
   deletedServicePointId,
+  servicePoints,
   setDeletedServicePointId
 }: ITableoProps) {
   return (
@@ -22,6 +38,7 @@ export function Table({
           <TableHead />
           <TableBody
             deletedServicePointId={deletedServicePointId}
+            servicePoints={servicePoints}
             setDeletedServicePointId={setDeletedServicePointId}
           />
         </table>
