@@ -2,6 +2,7 @@ import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 import alertInformationReducer from './features/alertInformation';
 import isDialogVisibleReducer from './features/isDialogVisible';
 import isModalVisibleReducer from './features/isModalVisible';
+import isServicePointDataUpdatedReducer from './features/isServicePointDataUpdated';
 import loadingReducer from './features/isLoadingVisible';
 import servicePointData from './features/servicePointData';
 import servicePointInformation from './features/servicePointInformation';
@@ -12,6 +13,7 @@ export const store: EnhancedStore = configureStore({
     alertInformationReducer,
     isDialogVisibleReducer,
     isModalVisibleReducer,
+    isServicePointDataUpdatedReducer,
     loadingReducer,
     servicePointData,
     servicePointInformation,

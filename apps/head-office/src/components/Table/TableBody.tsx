@@ -8,25 +8,24 @@ import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
 import { toggleDialogVisibility } from '../../../app/redux/features/isDialogVisible';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
+import { toggleServicePointDataUpdated } from '../../../app/redux/features/isServicePointDataUpdated';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../app/redux/store';
 
 interface IServicePointInfoProps {
-    servicePoint: {
-        id: number;
-        name: string;
-        type?: string | null | undefined;
-        longitude: number;
-        latitude: number;
-        phone?: string | null | undefined;
-        address: string;
-        cityId: number;
-        districtId: number;
-        opportunities?: string[] | null | undefined;
-        freePark?: string | null | undefined;
-        paymentMethods?: string[] | null | undefined;
-    };
+    id: number;
+    name: string;
+    type?: string | null | undefined;
+    longitude: number;
+    latitude: number;
+    phone?: string | null | undefined;
+    address: string;
+    cityId: number;
+    districtId: number;
+    opportunities?: string[] | null | undefined;
+    freePark?: string | null | undefined;
+    paymentMethods?: string[] | null | undefined;
 };
 
 interface ITableBodyProps {
@@ -41,80 +40,14 @@ const TableBody = ({
     const dispatch = useDispatch();
     const isDialogVisible = useSelector((state: RootState) => state.isDialogVisible);
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
+    const isServicePointDataUpdated = useSelector((state: RootState) => state.isServicePointDataUpdatedReducer.isServicePointDataUpdated);
     const [isHidden, setIsHidden] = useState(true);
-    const [isDataUpdated, setIsDataUpdated] = useState(false);
     const [servicePoints, setServicePoints] = useState([]);
     const [selectedRow, setSelectedRow] = useState(0);
 
-    const createTableRow = ({ servicePoint }: IServicePointInfoProps) => {
-        return (
-            <Fragment key={servicePoint.id}>
-                <tr data-service-point-id={servicePoint.id}>
-                    <td className="px-6 py-3">{servicePoint.name}</td>
-                    <td className="px-6 py-3">{servicePoint.phone}</td>
-                    <td className="px-6 py-3">{servicePoint.address}</td>
-                    <td className="px-6 py-3">{getCity((servicePoint.cityId))}</td>
-                    <td className="px-6 py-3">{getDistricts(servicePoint.districtId)}</td>
-                    <td className="px-6 py-4 items-center w-full justify-center flex">
-                        <a
-                            className="font-medium text-blue-600 cursor-pointer px-2"
-                            data-modal-show="editUserModal"
-                            data-service-point-id={servicePoint.id}
-                            onClick={getUpdatedServicePointsInfo}
-                        >
-                            <FaPen className='text-primary' />
-                        </a>
-                        <a
-                            className="font-medium text-red-600 cursor-pointer px-2"
-                            data-modal-show="deleteUserModal"
-                            data-service-point-id={servicePoint.id}
-                            onClick={deleteServicePointInfo}
-                        >
-                            <FaTrashCan/>
-                        </a>
-                        <Link className='px-2' href={`/service-points/service-point/${servicePoint.id}`}>
-                            <FaCircleInfo className={`text-blue-700`} />
-                        </Link>
-                        <Button
-                            className="font-medium px-2 "
-                            type="button"
-                            onClick={() => { toggleTableRow(servicePoint.id) }}
-                        >
-                            <div
-                                className='text-lg'
-                                dangerouslySetInnerHTML={{
-                                    __html: `${servicePoint.id === selectedRow ? '&#11205;' : '&#11206;'}`,
-                                }}
-                            />
-                        </Button>
-                    </td>
-                </tr>
-                {servicePoint.id === selectedRow && (
-                    <>
-                        <tr className='bg-gray-50 second-table-head-row text-xs uppercase text-gray-700'>
-                            <th className='px-6'>Longitude</th>
-                            <th className='px-6'>Latitude</th>
-                            <th className='px-6'>Payment Methods</th>
-                            <th className='px-6'>Free Park</th>
-                            <th className='px-6'>Opportunuties</th>
-                            <th className='px-6'> </th>
-                        </tr>
-                        <tr>
-                            <td className='px-6 py-3'>{servicePoint.longitude}</td>
-                            <td className='px-6 py-3'>{servicePoint.latitude}</td>
-                            <td className='px-6 py-3'>{servicePoint.latitude}</td>
-                            <td className='px-6 py-3'>{servicePoint.latitude}</td>
-                            <td className='px-6 py-3'>{servicePoint.latitude}</td>
-                        </tr>
-                    </>
-                )}
-            </Fragment>
-        )
-    };
     const deleteServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
         setDeletedServicePointId(parseInt(event.currentTarget.getAttribute('data-service-point-id') || '0'));
         dispatch(toggleDialogVisibility(isDialogVisible));
-        setIsDataUpdated(!isDataUpdated);
     };
     const getCity = (rid: number) => {
         return (CITIES[rid?.toString()] || '');
@@ -136,7 +69,7 @@ const TableBody = ({
                 .then(response => {
                     setServicePoints(response.data);
                     dispatch(toggleLoadingVisibility(false));
-                    setIsDataUpdated(!isDataUpdated);
+                    dispatch(toggleServicePointDataUpdated(false));
                 })
                 .catch((error) => console.log(error));
 
@@ -170,7 +103,6 @@ const TableBody = ({
         } catch (error) {
             console.error(error);
         }
-        setIsDataUpdated(!isDataUpdated);
     };
     const toggleTableRow = (id: number) => {
         setIsHidden(!isHidden);
@@ -190,15 +122,75 @@ const TableBody = ({
 
     useEffect(() => {
         getFirstTenUsers();
-    }, [isDataUpdated]);
+    }, [isServicePointDataUpdated]);
 
     return (
         <tbody className={`${BRAND_PREFIX}-table-body bg-white divide-y divide-gray-200 text-black`}>
             {
                 servicePoints &&
-                servicePoints.map((servicePoint) => {
+                servicePoints.map((servicePoint: IServicePointInfoProps) => {
                     return (
-                        createTableRow({ servicePoint })
+                        <Fragment key={servicePoint.id}>
+                            <tr data-service-point-id={servicePoint.id}>
+                                <td className="px-6 py-3">{servicePoint.name}</td>
+                                <td className="px-6 py-3">{servicePoint.phone}</td>
+                                <td className="px-6 py-3">{servicePoint.address}</td>
+                                <td className="px-6 py-3">{getCity((servicePoint.cityId))}</td>
+                                <td className="px-6 py-3">{getDistricts(servicePoint.districtId)}</td>
+                                <td className="px-6 py-4 items-center w-full justify-center flex">
+                                    <a
+                                        className="font-medium text-blue-600 cursor-pointer px-2"
+                                        data-modal-show="editUserModal"
+                                        data-service-point-id={servicePoint.id}
+                                        onClick={getUpdatedServicePointsInfo}
+                                    >
+                                        <FaPen className='text-primary' />
+                                    </a>
+                                    <a
+                                        className="font-medium text-red-600 cursor-pointer px-2"
+                                        data-modal-show="deleteUserModal"
+                                        data-service-point-id={servicePoint.id}
+                                        onClick={deleteServicePointInfo}
+                                    >
+                                        <FaTrashCan />
+                                    </a>
+                                    <Link className='px-2' href={`/service-points/service-point/${servicePoint.id}`}>
+                                        <FaCircleInfo className={`text-blue-700`} />
+                                    </Link>
+                                    <Button
+                                        className="font-medium px-2 "
+                                        type="button"
+                                        onClick={() => { toggleTableRow(servicePoint.id) }}
+                                    >
+                                        <div
+                                            className='text-lg'
+                                            dangerouslySetInnerHTML={{
+                                                __html: `${servicePoint.id === selectedRow ? '&#11205;' : '&#11206;'}`,
+                                            }}
+                                        />
+                                    </Button>
+                                </td>
+                            </tr>
+                            {servicePoint.id === selectedRow && (
+                                <>
+                                    <tr className='bg-gray-50 second-table-head-row text-xs uppercase text-gray-700'>
+                                        <th className='px-6'>Longitude</th>
+                                        <th className='px-6'>Latitude</th>
+                                        <th className='px-6'>Payment Methods</th>
+                                        <th className='px-6'>Free Park</th>
+                                        <th className='px-6'>Opportunuties</th>
+                                        <th className='px-6'> </th>
+                                    </tr>
+                                    <tr>
+                                        <td className='px-6 py-3'>{servicePoint.longitude}</td>
+                                        <td className='px-6 py-3'>{servicePoint.latitude}</td>
+                                        <td className='px-6 py-3'>{servicePoint.latitude}</td>
+                                        <td className='px-6 py-3'>{servicePoint.latitude}</td>
+                                        <td className='px-6 py-3'>{servicePoint.latitude}</td>
+                                    </tr>
+                                </>
+                            )}
+                        </Fragment>
                     );
                 })
             }

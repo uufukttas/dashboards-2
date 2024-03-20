@@ -6,6 +6,7 @@ import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
+import { toggleServicePointDataUpdated } from '../../../../app/redux/features/isServicePointDataUpdated';
 import { setServicePointData } from '../../../../app/redux/features/servicePointData';
 import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
@@ -116,6 +117,7 @@ const ServicePointModalFormFirstPage = ({
             resellerCompanyId: firstPageFormData[`${formProperties.reseller}`],
             companyId: firstPageFormData[`${formProperties.company}`]
           }));
+          dispatch(toggleServicePointDataUpdated(true));
           setActivePage(activePage + 1);
         })
         .catch((error) => {

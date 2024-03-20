@@ -8,6 +8,7 @@ import Modal from '../Modal/Modal';
 import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
+import { toggleServicePointDataUpdated } from '../../../app/redux/features/isServicePointDataUpdated';
 import { toggleDialogVisibility } from '../../../app/redux/features/isDialogVisible';
 import { RootState } from '../../../app/redux/store';
 
@@ -71,7 +72,8 @@ export function ServicePointSection() {
           handleCancel={() => dispatch(toggleDialogVisibility())}
           handleSuccess={() => {
             deleteServicePoint();
-            dispatch(toggleDialogVisibility())
+            dispatch(toggleDialogVisibility());
+            dispatch(toggleServicePointDataUpdated(true));
           }}
         />
       }
