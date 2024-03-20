@@ -3,6 +3,10 @@
   scrollbar-width: none;
 }
 
+table {
+  min-height: 850px;
+}
+
 
 td {
   width: calc(100% / 7);
@@ -32,9 +36,4 @@ td {
   .sh-service-point-container {
     min-width: 100%;
   }
-}
-
-.info {
-  stroke: $primary;
-  fill: $primary;
 }

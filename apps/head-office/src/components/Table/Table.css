@@ -3,6 +3,10 @@
   scrollbar-width: none;
 }
 
+table {
+  min-height: 850px;
+}
+
 td {
   width: 14.2857142857%;
 }
