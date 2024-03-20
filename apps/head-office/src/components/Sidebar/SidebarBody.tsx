@@ -39,14 +39,14 @@ const SidebarBody = () => {
             >
                 {sidebarElements.map((item, index) => {
                     return (
-                        <Link
-                            className={`${BRAND_PREFIX}-sidebar-list hover:bg-secondary-lighter hover:text-white focus:bg-secondary-lighter focus:text-white`}
-                            href={item.link}
+                        <li
+                            className={`${BRAND_PREFIX}-sidebar-list-item cursor-pointer border-gray-300 w-full ${index === sidebarElements.length - 1 ? '' : 'border-b'
+                                } hover:bg-secondary-lighter hover:text-white focus:bg-secondary-lighter focus:text-white`}
                             key={index}
                         >
-                            <li
-                                className={`${BRAND_PREFIX}-sidebar-list-item cursor-pointer border-gray-300 ${index === sidebarElements.length - 1 ? '' : 'border-b'
-                                    } `}
+                            <Link
+                                className={`${BRAND_PREFIX}-sidebar-list`}
+                                href={item.link}
                             >
                                 <div
                                     className={`${BRAND_PREFIX}-sidebar-item-container w-full flex p-4 ${isSidebarExpanded ? 'justify-start' : 'justify-center'}`}
@@ -65,8 +65,8 @@ const SidebarBody = () => {
                                         {item.name}
                                     </span>
                                 </div>
-                            </li>
-                        </Link>
+                            </Link>
+                        </li>
                     );
                 })}
             </ul>
