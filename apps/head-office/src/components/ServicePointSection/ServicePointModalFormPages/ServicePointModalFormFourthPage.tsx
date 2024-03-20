@@ -9,6 +9,7 @@ import { Label } from '@projects/label';
 import { Radio } from '@projects/radio';
 import { showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import { toggleServicePointDataUpdated } from '../../../../app/redux/features/isServicePointDataUpdated';
 import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../app/redux/store';
 import { PAYMENT_METHODS, OPPORTUNITIES, BRAND_PREFIX } from '../../../../src/constants/constants';
@@ -80,6 +81,7 @@ const ServicePointModalFormFourthPage = ({
           message: data.message,
           type: 'success',
         }));
+        dispatch(toggleServicePointDataUpdated(true));
       })
       .catch((error) => {
         console.log(error);

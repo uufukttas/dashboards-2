@@ -52,7 +52,6 @@ const ServicePointModalFormThirdPage = ({
     [`${formProperties['y-coord']}`]: servicePointInformation.lat === 0 ? '' : servicePointInformation.lat,
   });
   const [selectedCity, setSelectedCity] = useState<number>(Number(thirdPageFormData[formProperties.cityId]));
-  const [selectedDistrict, setSelectedDistrict] = useState<number>(Number(thirdPageFormData[formProperties.districtId]));
   const { formState: { errors }, handleSubmit, register } = useForm();
 
   const getDistricts = async (selectedCity: number) => {
@@ -64,9 +63,6 @@ const ServicePointModalFormThirdPage = ({
         .then((response) => response.data.data)
         .then(data => {
           setDistricts(data);
-          Number(thirdPageFormData[`${formProperties.cityId}`]) > 1
-            ? setSelectedDistrict(Number(thirdPageFormData[`${formProperties.districtId}`]))
-            : setSelectedDistrict(data[0].rid);
         });
     } catch (error) {
       console.log(error);
@@ -84,7 +80,6 @@ const ServicePointModalFormThirdPage = ({
   const handleDistrictChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const districtId = Number(event.target.value);
 
-    setSelectedDistrict(districtId);
     setThirdPageFormData(({ ...thirdPageFormData, [`${formProperties.districtId}`]: districtId }));
   };
 
