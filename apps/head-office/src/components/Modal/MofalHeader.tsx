@@ -3,10 +3,39 @@ import { Button } from '@projects/button';
 import { FaRegCircleXmark } from 'react-icons/fa6';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
+import { setServicePointData } from '../../../app/redux/features/servicePointData';
+import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../app/redux/store';
 
 interface IModalHeaderProps {
     modalHeaderTitle: string;
+};
+
+const servicePointDataInitialValues = {
+    id: 0,
+    name: '',
+    companyId: 0,
+    companyName: '',
+    resellerCompanyId: 0,
+    resellerName: '',
+    isActive: true,
+    isDeleted: false,
+};
+
+const servicePointInformationInitialValues = {
+    id: 0,
+    name: '',
+    type: '',
+    lon: 0,
+    lat: 0,
+    phone1: '',
+    phone2: '',
+    address: '',
+    cityId: 0,
+    districtId: 0,
+    opportunities: [],
+    freePark: false,
+    paymentMethods: '1',
 };
 
 const MofalHeader = ({ modalHeaderTitle }: IModalHeaderProps) => {
@@ -15,6 +44,8 @@ const MofalHeader = ({ modalHeaderTitle }: IModalHeaderProps) => {
 
     const handleClose = () => {
         dispatch(toggleModalVisibility(isModalVisible));
+        dispatch(setServicePointData(servicePointDataInitialValues));
+        dispatch(setServicePointInformation(servicePointInformationInitialValues));
     };
 
     return (
@@ -28,7 +59,7 @@ const MofalHeader = ({ modalHeaderTitle }: IModalHeaderProps) => {
                     type='button'
                     onClick={handleClose}
                 >
-                    <FaRegCircleXmark  />
+                    <FaRegCircleXmark />
                 </Button>
             </div>
         </div>
