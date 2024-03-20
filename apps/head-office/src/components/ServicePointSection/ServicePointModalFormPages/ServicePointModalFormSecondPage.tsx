@@ -129,7 +129,7 @@ const ServicePointModalFormSecondPage = ({
           && errors[`${formProperties.phone1}`]?.message
           && (
             <div className={`${sectionPrefix}-phone-number-error-wrapper my-4 font-bold text-error`}>
-              <p className={`${sectionPrefix}-phone-number-error-message text-text`}>
+              <p className={`${sectionPrefix}-phone-number-error-message text-error`}>
                 {(errors[`${formProperties.phone1}`]?.message?.toString())}
               </p>
             </div>
@@ -187,7 +187,7 @@ const ServicePointModalFormSecondPage = ({
           && errors[`${formProperties.address}`]?.message
           && (
             <div className={`${formProperties.address}-error-wrapper my-4 font-bold text-error`}>
-              <p className={`${formProperties.address}-error-message text-text`}>
+              <p className={`${formProperties.address}-error-message text-error`}>
                 {(errors[`${formProperties.address}`]?.message?.toString())}
               </p>
             </div>

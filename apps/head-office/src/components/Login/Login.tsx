@@ -155,7 +155,7 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
                                     errors[loginFormInput.toLowerCase()]?.message &&
                                     (
                                         <div className={`${loginFormInput.toLowerCase()}-error-wrapper my-4 font-bold text-error`}>
-                                            <p className={`${loginFormInput.toLowerCase()}-error-message text-text`}>
+                                            <p className={`${loginFormInput.toLowerCase()}-error-message text-error`}>
                                                 {(errors[loginFormInput.toLowerCase()]?.message?.toString())}
                                             </p>
                                         </div>

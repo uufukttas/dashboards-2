@@ -48,8 +48,8 @@ const ServicePointModalFormThirdPage = ({
   const [thirdPageFormData, setThirdPageFormData] = useState<IFormDataProps>({
     [`${formProperties.cityId}`]: servicePointInformation.cityId || 1,
     [`${formProperties.districtId}`]: servicePointInformation.districtId || 1,
-    [`${formProperties['x-coord']}`]: servicePointInformation.lon || 0,
-    [`${formProperties['y-coord']}`]: servicePointInformation.lat || 0,
+    [`${formProperties['x-coord']}`]: servicePointInformation.lon === 0 ? '' : servicePointInformation.lon,
+    [`${formProperties['y-coord']}`]: servicePointInformation.lat === 0 ? '' : servicePointInformation.lat,
   });
   const [selectedCity, setSelectedCity] = useState<number>(Number(thirdPageFormData[formProperties.cityId]));
   const [selectedDistrict, setSelectedDistrict] = useState<number>(Number(thirdPageFormData[formProperties.districtId]));
@@ -143,7 +143,10 @@ const ServicePointModalFormThirdPage = ({
           <Label
             className={`${formProperties['x-coord']}-label block mb-2 text-heading font-semibold`}
             htmlFor={`${formProperties['x-coord']}`}
-            labelText={`X Koordinati`} />
+            labelText={`X Koordinati`}
+          >
+            <span className="text-md text-error">*</span>
+          </Label>
           <Input
             className={`${formProperties['x-coord']}-input text-text text-sm rounded-lg block w-3/4 p-2.5 mb-4`}
             id={`${formProperties['x-coord']}`}
@@ -163,7 +166,7 @@ const ServicePointModalFormThirdPage = ({
             && errors[`${formProperties['x-coord']}`]?.message
             && (
               <div className={`${formProperties['x-coord']}-error-wrapper mb-4 font-bold text-error`}>
-                <p className={`${formProperties['x-coord']}-error-message text-text`}>
+                <p className={`${formProperties['x-coord']}-error-message text-error`}>
                   {'X-Koordinatı zorunludur.'}
                 </p>
               </div>
@@ -174,7 +177,10 @@ const ServicePointModalFormThirdPage = ({
           <Label
             className={`${formProperties['y-coord']}-label block mb-2 text-heading font-semibold`}
             htmlFor={`${formProperties['y-coord']}`}
-            labelText={`Y Koordinati`} />
+            labelText={`Y Koordinati`}
+          >
+            <span className="text-md text-error">*</span>
+          </Label>
           <Input
             className={`${formProperties['y-coord']}-input text-text text-sm rounded-lg block w-3/4 p-2.5 mb-4`}
             id={`${formProperties['y-coord']}`}
@@ -194,7 +200,7 @@ const ServicePointModalFormThirdPage = ({
             && errors[`${formProperties['y-coord']}`]?.message
             && (
               <div className={`${formProperties['y-coord']}-error-wrapper mb-4 font-bold text-error`}>
-                <p className={`${formProperties['y-coord']}-error-message text-text`}>
+                <p className={`${formProperties['y-coord']}-error-message text-error`}>
                   {'Y-Koordinatı zorunludur.'}
                 </p>
               </div>
