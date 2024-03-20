@@ -13,11 +13,12 @@ const Pagination = ({ currentPage, totalPages, setCurrentPage }: IPaginationProp
         const pageNumbers = [];
         const maxVisiblePages = 3;
         let startPage = 1;
-        const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
 
         if (currentPage > Math.floor(maxVisiblePages / 2)) {
             startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
         }
+
+        const endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
 
         if (startPage > 1) {
             pageNumbers.push(
