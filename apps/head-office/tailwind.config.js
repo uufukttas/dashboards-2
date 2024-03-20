@@ -25,10 +25,10 @@ module.exports = {
       'secondary-lighter': '#656567CC',
       heading: '#1F2937',
       text: '#504E4E',
-      error: '#FDF2F2',
-      success: '#DEF7EC',
-      info: '#EBF5FF',
-      warning: '#FDF6B2',
+      error: '#9B1C1C',
+      success: '#03543F',
+      info: '#1E429F',
+      warning: '#723B13',
     }
   },
   plugins: [
