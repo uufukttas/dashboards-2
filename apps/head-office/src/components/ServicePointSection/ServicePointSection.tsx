@@ -58,7 +58,7 @@ export function ServicePointSection() {
         .then((response) => response.data)
         .then(response => {
           setServicePointCount(response.count);
-          setServicePoints(response.data.data);
+          setServicePoints(response.data);
           dispatch(toggleLoadingVisibility(false));
           dispatch(toggleServicePointDataUpdated(false));
         })

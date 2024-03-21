@@ -125,7 +125,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const getBrands = () => {
     axios
       .get('https://sharztestapi.azurewebsites.net/Values/GetModels')
-      .then((response) => response.data.data)
+      .then((response) => response.data)
       .then((response) => setBrands(response.data))
       .catch((error) => console.log(error));
   };
@@ -240,10 +240,9 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
               <h3 className="charge-unit-name text-lg font-bold text-heading">
                 {chargeUnit.model}
               </h3>
-              <p className="charge-unit-status text-sm text-text">{chargeUnit.status}</p>
               <div className="charge-unit-connector-number">
                 <p className="charge-unit-connector-number-label text-lg font-bold text-text">
-                  Connectors
+                  {chargeUnit.deviceCode}
                 </p>
                 <p className="charge-unit-connector-number-value text-lg font-normal pl-8 text-text">{`soket1..........................................`}</p>
                 <p className="charge-unit-connector-number-value text-lg font-normal pl-8 text-text">{`soket2..........................................`}</p>
