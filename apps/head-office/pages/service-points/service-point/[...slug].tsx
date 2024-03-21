@@ -19,7 +19,7 @@ const ServicePointInfoPage = () => {
         <title>{`Service Point Details - ${router.query.slug} | Sharz.net`}</title>
       </Head>
       <Provider store={store}>
-        <div className={`${BRAND_PREFIX}-service-point-details-page-container w-full h-screen flex`}>
+        <div className={`${BRAND_PREFIX}-service-point-details-page-container w-full flex`}>
           <MainPage>
             <div
               className={`${BRAND_PREFIX}-service-point-detail-page-wrapper flex justify-center items-center md:pt-12 flex-wrap w-full`}>
