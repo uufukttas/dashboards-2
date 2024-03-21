@@ -8,7 +8,6 @@
 .sh-navbar-container button {
   height: 100%;
   font-size: 12px;
-  display: inline-block;
   position: relative;
   z-index: 1;
   text-decoration: none;

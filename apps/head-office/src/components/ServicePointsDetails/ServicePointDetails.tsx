@@ -349,22 +349,22 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
 
   const navbarItems = [
     {
-      title: 'Lokasyon Bilgileri',
+      title: <><FaLocationDot />Lokasyon Bilgileri</>,
     },
     {
-      title: 'Şarj Üniteleri',
+      title: <><FaLocationDot />Şarj Üniteleri</>,
     },
     {
-      title: 'Calisma Saatleri',
+      title: <><FaClock />Calisma Saatleri</>,
     },
     {
-      title: 'Enerji Fiyat Ayarlari',
+      title: <><SlEnergy />Enerji Fiyat Ayarlari</>,
     },
     {
-      title: 'Kullanici Ayarlari',
+      title: <><FaUserGear />Kullanici Ayarlari</>,
     },
     {
-      title: 'Komisyonlar',
+      title: <><FaCoins />Komisyonlar</>,
     },
   ];
 
