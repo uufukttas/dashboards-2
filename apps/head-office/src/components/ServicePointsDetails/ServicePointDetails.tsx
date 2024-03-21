@@ -15,6 +15,7 @@ import { toggleModalVisibility } from '../../../app/redux/features/isModalVisibl
 import { RootState } from '../../../app/redux/store';
 import Modal from '../../../src/components/Modal/Modal';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../src/constants/constants';
+import './ServicePointDetails.css';
 
 interface IChargeUnitsProps {
   chargePointId: number;
@@ -121,6 +122,22 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const isModalVisible = useSelector(
     (state: RootState) => state.isModalVisibleReducer.isModalVisible
   );
+  const [schedule, setSchedule] = useState([
+    { day: 'Monday', hours: Array(24).fill('') },
+    { day: 'Tuesday', hours: Array(24).fill('') },
+    { day: 'Wednesday', hours: Array(24).fill('') },
+    { day: 'Thursday', hours: Array(24).fill('') },
+    { day: 'Friday', hours: Array(24).fill('') },
+    { day: 'Saturday', hours: Array(24).fill('') },
+    { day: 'Sunday', hours: Array(24).fill('') }
+  ]);
+  const [isPassive, setIsPassive] = useState(false);
+
+  const handleChange = (dayIndex: number, hourIndex: number, event: React.ChangeEvent) => {
+    const newSchedule = [...schedule];
+    newSchedule[dayIndex].hours[hourIndex] = !newSchedule[dayIndex].hours[hourIndex];
+    setSchedule(newSchedule);
+  };
 
   const getBrands = () => {
     axios
@@ -388,15 +405,40 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
 
   const workingHoursContent = (
     <div className="working-hours-content py-8">
-      <div className="charge-units-header flex justify-end">
-        <Button
-          buttonText={`Ekle`}
-          className="charge-units-add-button bg-primary bg-primary text-white rounded-md px-4 py-2 mx-2"
-          type="button"
-          onClick={handleClick}
-        />
+      <div className="charge-units-header flex justify-center p-4">
+        <h3> <strong>Aktif olmayan</strong> gun ve saatleri seciniz</h3>
       </div>
-      Bu servis istasyonunun calisma saatleri 08:00 - 18:00 arasindadir.
+      <div className='w-full'>
+        <table className='w-full'>
+          <thead className='text-left'>
+            <tr>
+              <th>Time</th>
+              {schedule.map((day, index) => (
+                <th key={index}>{day.day}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {Array.from({ length: 24 }).map((_, hourIndex) => (
+              <tr key={hourIndex}>
+                <td className='w-[25px]'>{hourIndex}:00</td>
+                {schedule.map((day, dayIndex) => (
+                  <td key={dayIndex} className={`w-[40px] h-[40px] ${day.hours[hourIndex] ? 'isPassive' : ''}`}>
+                    <input
+                      type="checkbox"
+                      value={schedule[dayIndex].hours[hourIndex]}
+                      onChange={(event) =>
+                        handleChange(dayIndex, hourIndex, event)
+                      }
+                      className='text-center border-2 border-gray-200 p-1 text-sm w-full h-full'
+                    />
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 

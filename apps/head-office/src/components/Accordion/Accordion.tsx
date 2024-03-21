@@ -9,7 +9,7 @@ interface IAccordionProps {
   contentClassName?: string;
 };
 
-const Accordion = ({ accordionTitle, accordionContent, titleClassName, contentClassName }: IAccordionProps) => {
+const Accordion = ({ accordionTitle, accordionContent, titleClassName, contentClassName = "" }: IAccordionProps) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const toggleAccordion = () => {

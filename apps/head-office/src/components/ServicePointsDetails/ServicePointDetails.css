@@ -5,3 +5,20 @@
  * .container {
  * }
 */
+.isPassive input:focus,
+.isPassive input:active {
+  background-color: #9b1c1c;
+}
+
+.isPassive input:checked {
+  background-color: #9b1c1c;
+  border: 1px solid #ffffff;
+}
+
+input[type=checkbox]:focus {
+  outline: 0;
+}
+
+input[type=checkbox]:focus {
+  outline: 0;
+}
