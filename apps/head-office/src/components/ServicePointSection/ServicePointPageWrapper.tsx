@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
-import { RootState, } from '../../../app/redux/store';
-import MainPage from '../MainPage/MainPage';
 import Loading from '../Loading/Loading';
-import ServicePointSection from '../../../src/components/ServicePointSection/ServicePointSection';
+import MainPage from '../MainPage/MainPage';
 import { BRAND_PREFIX } from '../../constants/constants';
+import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
+import { RootState, AppDispatch } from '../../../app/redux/store';
+import ServicePointSection from '../../../src/components/ServicePointSection/ServicePointSection';
 
 const ServicePointPage = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const isLoading = useSelector((state: RootState) => state.loadingReducer.isLoading);
 
     useEffect(() => {
@@ -18,12 +18,10 @@ const ServicePointPage = () => {
     return (
         <div className={`${BRAND_PREFIX}-service-point-page-container w-full flex h-screen`}>
             {isLoading
-                ? <Loading />
+                ? (<Loading />)
                 : (
                     <MainPage>
-                        <div
-                            className={`${BRAND_PREFIX}-service-point-page-wrapper flex justify-center items-center md:pt-12 flex-wrap`}
-                        >
+                        <div className={`${BRAND_PREFIX}-service-point-page-wrapper flex justify-center items-center md:pt-12 flex-wrap`}>
                             <ServicePointSection />
                         </div>
                     </MainPage>

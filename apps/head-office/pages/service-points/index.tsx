@@ -4,11 +4,7 @@ import ProviderComponent from './ProviderComponent';
 import '../../app/global.css';
 import '../../src/styles/style.css';
 
-export default function ServicePoints({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
+export default function ServicePoints({ children }: { children: React.ReactNode }) {
     return (
         <>
             <Head>
