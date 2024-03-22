@@ -10,29 +10,28 @@ import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
 import { toggleServicePointDataUpdated } from '../../../app/redux/features/isServicePointDataUpdated';
-import { toggleDialogVisibility } from '../../../app/redux/features/isDialogVisible';
+import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { RootState, AppDispatch } from '../../../app/redux/store';
 
 export function ServicePointSection() {
   const dispatch = useDispatch<AppDispatch>();
   const alertInformation = useSelector((state: RootState) => state.alertInformationReducer);
-  const isDialogVisible = useSelector((state: RootState) => state.isDialogVisibleReducer.isDialogVisible);
+  const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
   const isServicePointDataUpdated = useSelector((state: RootState) => state.isServicePointDataUpdatedReducer.isServicePointDataUpdated);
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const [currentPage, setCurrentPage] = useState(1);
-  const [deletedServicePointId, setDeletedServicePointId] = useState(0);
   const [servicePointCount, setServicePointCount] = useState(0);
   const [servicePoints, setServicePoints] = useState([]);
 
-  const deleteServicePoint = async () => {
+  const deleteServicePoint = async (deletedId: number) => {
     try {
       await axios
         .post(
           process.env.DELETE_STATION_URL || '',
           ({
-            'id': deletedServicePointId
+            'id': deletedId
           }))
         .then((response) => response.data)
         .then(response => {
@@ -79,12 +78,10 @@ export function ServicePointSection() {
   }, [isServicePointDataUpdated, currentPage]);
 
   return (
-    <div className={`${BRAND_PREFIX}-service-point-container flex justify-between items-center flex-col`}>
-      <div className={`${BRAND_PREFIX}-service-point-table-container flex items-center w-full`}>
+    <div className={`${BRAND_PREFIX}-service-points-container flex justify-between items-center flex-col`}>
+      <div className={`${BRAND_PREFIX}-service-point-listing-container flex items-center w-full`}>
         <Table
-          deletedServicePointId={deletedServicePointId}
           servicePoints={servicePoints}
-          setDeletedServicePointId={setDeletedServicePointId}
         />
       </div>
       {
@@ -107,12 +104,12 @@ export function ServicePointSection() {
         )
       }
       {
-        isDialogVisible && (
+        dialogInformation.isVisible && (
           <Dialog
-            handleCancel={() => dispatch(toggleDialogVisibility())}
+            handleCancel={() => dispatch(hideDialog())}
             handleSuccess={() => {
-              deleteServicePoint();
-              dispatch(toggleDialogVisibility());
+              deleteServicePoint(dialogInformation.data);
+              dispatch(hideDialog());
               dispatch(toggleServicePointDataUpdated(true));
             }}
           />
