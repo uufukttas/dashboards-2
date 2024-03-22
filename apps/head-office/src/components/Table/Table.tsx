@@ -1,7 +1,7 @@
 import React from 'react';
+import TableBody from './TableBody';
 import TableHead from './TableHead';
 import TableHeader from './TableHeader';
-import TableBody from './TableBody';
 import { BRAND_PREFIX } from '../../constants/constants';
 import './Table.css';
 
@@ -25,11 +25,7 @@ interface ITableoProps {
   setDeletedServicePointId: (deletedServicePointId: number) => void;
 };
 
-export function Table({
-  deletedServicePointId,
-  servicePoints,
-  setDeletedServicePointId
-}: ITableoProps) {
+export function Table({ deletedServicePointId, servicePoints, setDeletedServicePointId }: ITableoProps) {
   return (
     <div className={`${BRAND_PREFIX}-table-container relative overflow-x-auto shadow-md max-w-[330px] md:max-w-full w-full`}>
       <TableHeader />

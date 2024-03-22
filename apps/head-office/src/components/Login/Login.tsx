@@ -64,9 +64,7 @@ const Login = () => {
 
                     router.push('/dashboards');
                 })
-                .catch((error) => {
-                    console.log(error);
-                });
+                .catch((error) => console.log(error));
         } catch (error) {
             console.log(error);
         }

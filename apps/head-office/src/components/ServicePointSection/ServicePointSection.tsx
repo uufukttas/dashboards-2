@@ -12,32 +12,38 @@ import { hideAlert, showAlert } from '../../../app/redux/features/alertInformati
 import { toggleServicePointDataUpdated } from '../../../app/redux/features/isServicePointDataUpdated';
 import { toggleDialogVisibility } from '../../../app/redux/features/isDialogVisible';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
-import { RootState } from '../../../app/redux/store';
+import { RootState, AppDispatch } from '../../../app/redux/store';
 
 export function ServicePointSection() {
+  const dispatch = useDispatch<AppDispatch>();
   const alertInformation = useSelector((state: RootState) => state.alertInformationReducer);
   const isDialogVisible = useSelector((state: RootState) => state.isDialogVisibleReducer.isDialogVisible);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
   const isServicePointDataUpdated = useSelector((state: RootState) => state.isServicePointDataUpdatedReducer.isServicePointDataUpdated);
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const [currentPage, setCurrentPage] = useState(1);
-  const [servicePoints, setServicePoints] = useState([]);
-  const [servicePointCount, setServicePointCount] = useState(0);
   const [deletedServicePointId, setDeletedServicePointId] = useState(0);
-  const dispatch = useDispatch();
+  const [servicePointCount, setServicePointCount] = useState(0);
+  const [servicePoints, setServicePoints] = useState([]);
 
   const deleteServicePoint = async () => {
     try {
-      await axios.post(
-        process.env.DELETE_STATION_URL || '', ({
-          'id': Number(deletedServicePointId)
-        }))
+      await axios
+        .post(
+          process.env.DELETE_STATION_URL || '',
+          ({
+            'id': deletedServicePointId
+          }))
         .then((response) => response.data)
         .then(response => {
           dispatch(showAlert({
             message: response.message,
             type: 'success',
-          }))
+          }));
+
+          setTimeout(() => {
+            dispatch(hideAlert());
+          }, 5000);
         })
         .catch((error) => console.log(error));
     } catch (error) {
@@ -47,14 +53,15 @@ export function ServicePointSection() {
 
   const getFirstTenUsers = async () => {
     try {
-      await axios.post(
-        (process.env.GET_ALL_SERVICE_POINTS || ''),
-        ({
-          'pageNumber': currentPage,
-          // TODO : Change the page size parameter to the userCountPerPage
-          'pageSize': 10
-        })
-      )
+      await axios
+        .post(
+          process.env.GET_ALL_SERVICE_POINTS || '',
+          ({
+            'pageNumber': currentPage,
+            // TODO : Change the page size parameter to the userCountPerPage
+            'pageSize': 10
+          })
+        )
         .then((response) => response.data)
         .then(response => {
           setServicePointCount(response.count);
@@ -63,7 +70,6 @@ export function ServicePointSection() {
           dispatch(toggleServicePointDataUpdated(false));
         })
         .catch((error) => console.log(error));
-
     } catch (error) {
       console.error(error);
     }
@@ -114,7 +120,7 @@ export function ServicePointSection() {
         )
       }
       {
-        servicePointCount > 0 && (
+        servicePointCount > 1 && (
           <Pagination
             currentPage={currentPage}
             totalPages={Math.ceil(servicePointCount / 10)}
