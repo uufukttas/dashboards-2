@@ -11,25 +11,16 @@ import { Label } from '@projects/label';
 import Card from '../Card/Card';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { userInfo } from '../../constants/styles';
-import { AppDispatch } from '../../../app/redux/store';
+import { showAlert, hideAlert } from '../../../app/redux/features/alertInformation';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
+import { AppDispatch } from '../../../app/redux/store';
 
-interface ILoginFailedDataProps {
-    isFailed: boolean;
-    message: string;
-};
 interface ILoginFormDataProps {
     username: string;
     password: string;
 };
-interface ILoginProps {
-    closeAlert: () => void;
-    setLoginFailedData: (loginFailedDataProps: ILoginFailedDataProps) => void;
-};
 interface IRequestConfig {
-    headers: {
-        'Content-Type': string;
-    };
+    headers: { 'Content-Type': string; };
 };
 
 const initialLoginFormData = {
@@ -37,46 +28,49 @@ const initialLoginFormData = {
     password: '',
 };
 
-const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
-    const loginFormInputs = ['Username', 'Password'];
-    const [loginFormData, setLoginFormData] = useState<ILoginFormDataProps>(initialLoginFormData);
+const Login = () => {
+    const loginFormInputs = ['username', 'password'];
     const dispatch = useDispatch<AppDispatch>();
     const { formState: { errors }, register, handleSubmit } = useForm();
     const router = useRouter();
+    const [loginFormData, setLoginFormData] = useState<ILoginFormDataProps>(initialLoginFormData);
 
+    const getDisplayName = (type: string) => type === loginFormInputs[0] ? 'Kullanıcı Adı' : 'Şifre';
     const fetchLoginData = async (data: string, config: IRequestConfig) => {
         try {
-            await axios.post(
-                process.env.LOGIN_URL || '',
-                data,
-                config
-            ).then((response) => {
-                return response.data;
-            }).then((data) => {
-                if (data.statusCode !== 200) {
+            await axios
+                .post(
+                    process.env.LOGIN_URL || '',
+                    data,
+                    config
+                )
+                .then((response) => response.data)
+                .then((data) => {
+                    if (data.statusCode !== 200) {
+                        dispatch(toggleLoadingVisibility(false));
+                        dispatch(showAlert({
+                            message: data.value.message,
+                            type: 'error'
+                        }));
+
+                        setTimeout(() => {
+                            dispatch(hideAlert());
+                        }, 5000);
+
+                        return;
+                    };
+
                     dispatch(toggleLoadingVisibility(false));
-                    setLoginFailedData({
-                        isFailed: true,
-                        message: data.statusCode === 500 ? 'Hay aksi bir şeyler ters gitti...' : data.value.message,
-                    });
-                    setTimeout(() => {
-                        closeAlert();
-                    }, 5000);
 
-                    return;
-                }
-
-                dispatch(toggleLoadingVisibility(false));
-
-                router.push('/dashboards');
-            }).catch((error) => {
-                console.log(error);
-            });
+                    router.push('/dashboards');
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         } catch (error) {
             console.log(error);
         }
     };
-
     const handleLoginSubmit = async () => {
         const userLoginData = {
             'userName': loginFormData.username,
@@ -87,6 +81,7 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
                 'Content-Type': 'application/json',
             },
         };
+
         dispatch(toggleLoadingVisibility(true));
 
         await fetchLoginData(JSON.stringify((userLoginData)), requestConfig);
@@ -96,7 +91,9 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
         <>
             <div className={`${BRAND_PREFIX}-card-header-container`}>
                 <div className={`${BRAND_PREFIX}-card-title-container`}>
-                    <h2 className={`${BRAND_PREFIX}-card-title text-2xl font-semibold text-heading`}>{userInfo.name}</h2>
+                    <h2 className={`${BRAND_PREFIX}-card-title text-2xl font-semibold text-heading`}>
+                        {userInfo.name}
+                    </h2>
                 </div>
             </div>
             <div className={`${BRAND_PREFIX}-card-logo-container`}>
@@ -118,30 +115,31 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
                         loginFormInputs.map((loginFormInput: string, index: number) => (
                             <div key={index} className="mb-4">
                                 <Label
-                                    className={`${loginFormInput.toLowerCase()}-label block text-sm font-medium text-gray-600`}
-                                    htmlFor={loginFormInput.toLowerCase()}
-                                    labelText={loginFormInput === 'Username' ? 'Kullanıcı Adı' : 'Şifre'}
+                                    className={`${loginFormInput}-label block text-sm font-medium text-gray-600`}
+                                    htmlFor={loginFormInput}
+                                    labelText={getDisplayName(loginFormInput)}
                                 />
                                 <Input
-                                    className={`${loginFormInput.toLowerCase()}-input mt-1 p-2 w-full border focus:ring-primary focus:border-primary rounded-lg text-text text-sm ${BRAND_PREFIX}-login-input`}
-                                    id={loginFormInput.toLowerCase()}
-                                    name={loginFormInput.toLowerCase()}
+                                    className={`${loginFormInput}-input mt-1 p-2 w-full border focus:ring-primary focus:border-primary rounded-lg text-text text-sm ${BRAND_PREFIX}-login-input`}
+                                    id={loginFormInput}
+                                    name={loginFormInput}
                                     register={
-                                        register(loginFormInput.toLowerCase(), {
+                                        register(loginFormInput, {
                                             pattern: {
-                                                message: `Geçersiz ${loginFormInput}. girişi.`,
+                                                message: `Geçersiz ${getDisplayName(loginFormInput)}.`,
                                                 // TODO: Add pattern for username email if it need // /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/
-                                                value: loginFormInput.toLowerCase() === 'username'
+                                                value: loginFormInput === loginFormInputs[0]
                                                     ? /^.*$/
                                                     : /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$.*])/,
                                             },
-                                            required: `${loginFormInput === 'Username'
-                                                ? 'Kullanıcı Adı'
-                                                : 'Şifre'} zorunlu bir alandır.`,
-                                            validate: loginFormInput.toLowerCase() === 'password'
+                                            required: `${getDisplayName(loginFormInput)} zorunlu bir alandır.`,
+                                            validate: loginFormInput === loginFormInputs[1]
                                                 ? {
                                                     checkLength: (value) => value.length >= 8,
-                                                    matchPattern: (value) => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.*-]).{8,}$/.test(value),
+                                                    matchPattern: (value) => {
+                                                        return (/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.*-]).{8,}$/
+                                                            .test(value));
+                                                    },
                                                 }
                                                 : {},
                                             onChange: (event: React.ChangeEvent<HTMLInputElement>) => setLoginFormData({
@@ -149,14 +147,14 @@ const Login = ({ closeAlert, setLoginFailedData }: ILoginProps) => {
                                                 [loginFormInput.toLowerCase()]: event.target.value,
                                             }),
                                         })}
-                                    type={loginFormInput.toLowerCase() === 'password' ? 'password' : 'text'}
+                                    type={loginFormInput === loginFormInputs[1] ? loginFormInputs[1] : 'text'}
                                 />
-                                {errors[loginFormInput.toLowerCase()] &&
-                                    errors[loginFormInput.toLowerCase()]?.message &&
+                                {errors[loginFormInput] &&
+                                    errors[loginFormInput]?.message &&
                                     (
-                                        <div className={`${loginFormInput.toLowerCase()}-error-wrapper my-4 font-bold text-error`}>
-                                            <p className={`${loginFormInput.toLowerCase()}-error-message text-error`}>
-                                                {(errors[loginFormInput.toLowerCase()]?.message?.toString())}
+                                        <div className={`${loginFormInput}-error-wrapper my-4 font-bold text-error`}>
+                                            <p className={`${loginFormInput}-error-message text-error`}>
+                                                {(errors[loginFormInput]?.message?.toString())}
                                             </p>
                                         </div>
                                     )}

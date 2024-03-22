@@ -6,10 +6,7 @@ interface IBackgroundProps {
   className?: string;
 };
 
-const Background = ({
-  backgroundUrl,
-  className,
-}: IBackgroundProps) => {
+const Background = ({ backgroundUrl, className }: IBackgroundProps) => {
   return (
     <div
       className={`${BRAND_PREFIX}-background-container h-screen ${className}`}
