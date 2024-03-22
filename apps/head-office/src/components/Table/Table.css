@@ -12,7 +12,7 @@ td {
 }
 
 @media screen and (max-width: 480px) {
-  .sh-service-point-container {
+  .sh-service-points-container {
     min-width: 300px;
   }
   td {
@@ -20,7 +20,7 @@ td {
   }
 }
 @media screen and (min-width: 480px) and (max-width: 768px) {
-  .sh-service-point-container {
+  .sh-service-points-container {
     min-width: 100%;
   }
   td {
@@ -28,7 +28,7 @@ td {
   }
 }
 @media screen and (min-width: 768px) {
-  .sh-service-point-container {
+  .sh-service-points-container {
     min-width: 100%;
   }
 }
