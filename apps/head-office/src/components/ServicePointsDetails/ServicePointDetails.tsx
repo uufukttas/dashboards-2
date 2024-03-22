@@ -515,6 +515,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
             className="charge-units-modal"
             modalHeaderTitle={`Şarj Ünitesi Ekle`}
             modalId={`${BRAND_PREFIX}-service-point-modal`}
+            onClose={() => { }}
           >
             <ServicePointDetailsModal
               slug={slug}

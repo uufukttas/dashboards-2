@@ -28,9 +28,13 @@ const ServicePointDetailsHeader = ({
         </div>
     );
 
+    const cardProps = {
+        body: servicePointHeader
+    };
+
     return (
         <div className='w-full'>
-            <Card cardBodyChildren={servicePointHeader} className='my-5' />
+            <Card cardContent={cardProps} className='my-5' />
         </div>
     );
 };
