@@ -1,5 +1,6 @@
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
 import { FaAlignJustify, FaUser } from 'react-icons/fa6';
+import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpand';
@@ -11,31 +12,33 @@ interface IHeaderProps {
 };
 
 const Header = ({ className }: IHeaderProps) => {
-  const isSidebarExpanded = useSelector((state: RootState) => state.sidebarExpandReducer.isSidebarExpanded);
   const dispatch = useDispatch();
+  const isSidebarExpanded = useSelector((state: RootState) => state.sidebarExpandReducer.isSidebarExpanded);
 
   const handleSidebarToggle = () => {
     dispatch(toggleSidebarExpanded(isSidebarExpanded));
   };
 
   return (
-    <div
-      className={`${BRAND_PREFIX}-header-container justify-between border-b border-gray-300 ${className} bg-white sticky top-0 z-10`}
-    >
-      <Button
-        className={`${BRAND_PREFIX}-sidebar-toggle-button bg-white hover:bg-white mx-8`}
-        type='button'
-        onClick={handleSidebarToggle}
-      >
-        <FaAlignJustify  />
-      </Button>
-      <Button
-        className={`${BRAND_PREFIX}-sidebar-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center mx-8 rounded-full px-2`}
-        type='button'
-        onClick={() => { }}
-      >
-        <FaUser  />
-      </Button>
+    <div className={`${BRAND_PREFIX}-header-container justify-between border-b border-gray-300 bg-white sticky top-0 z-10 ${className}`}>
+      <div className={`${BRAND_PREFIX}-sidebar-toggle-button-container`}>
+        <Button
+          className={`${BRAND_PREFIX}-sidebar-toggle-button bg-white hover:bg-white mx-8`}
+          type='button'
+          onClick={handleSidebarToggle}
+        >
+          <FaAlignJustify />
+        </Button>
+      </div>
+      <div className={`${BRAND_PREFIX}-profile-button-container`}>
+        <Button
+          className={`${BRAND_PREFIX}-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center mx-8 rounded-full px-2`}
+          type='button'
+          onClick={() => { }}
+        >
+          <FaUser />
+        </Button>
+      </div>
     </div>
   );
 };

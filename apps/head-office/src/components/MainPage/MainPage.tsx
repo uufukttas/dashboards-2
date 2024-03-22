@@ -5,7 +5,7 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import './MainPage.css';
 
 interface IMainPageProps {
-  children?: React.ReactNode;
+  children: React.ReactNode;
 };
 
 const MainPage = ({ children }: IMainPageProps) => {

@@ -1,12 +1,11 @@
 import React from 'react';
-import { FaLocationDot, FaGift, FaUser, FaQuestion } from 'react-icons/fa6';
 import Link from 'next/link';
+import { FaLocationDot, FaGift, FaUser, FaQuestion } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { RootState } from '../../../app/redux/store';
 
 const SidebarBody = () => {
-    const isSidebarExpanded = useSelector((state: RootState) => state.sidebarExpandReducer.isSidebarExpanded);
     const sidebarElements = [
         {
             name: 'Lokasyonlar',
@@ -29,37 +28,40 @@ const SidebarBody = () => {
             icon: <FaQuestion />,
         },
     ];
+    const isSidebarExpanded = useSelector((state: RootState) => state.sidebarExpandReducer.isSidebarExpanded);
 
     return (
-        <div
-            className={`${BRAND_PREFIX}-sidebar-body-container flex items-center justify-center flex-col`}
-        >
-            <ul
-                className={`${BRAND_PREFIX}-sidebar-list-container w-full flex flex-col`}
-            >
+        <div className={`${BRAND_PREFIX}-sidebar-body-container flex items-center justify-center flex-col`}>
+            <ul className={`${BRAND_PREFIX}-sidebar-list-container w-full flex flex-col`}>
                 {sidebarElements.map((item, index) => {
                     return (
                         <li
-                            className={`${BRAND_PREFIX}-sidebar-list-item cursor-pointer border-gray-300 w-full ${index === sidebarElements.length - 1 ? '' : 'border-b'
-                                } hover:bg-secondary-lighter hover:text-white focus:bg-secondary-lighter focus:text-white`}
+                            className={`${BRAND_PREFIX}-sidebar-list-item cursor-pointer border-gray-300 w-full 
+                                ${index === sidebarElements.length - 1
+                                    ? ''
+                                    : 'border-b'
+                                } 
+                                hover:bg-secondary-lighter hover:text-white focus:bg-secondary-lighter focus:text-white`}
                             key={index}
                         >
-                            <Link
-                                className={`${BRAND_PREFIX}-sidebar-list`}
-                                href={item.link}
-                            >
+                            <Link className={`${BRAND_PREFIX}-sidebar-list`} href={item.link}>
                                 <div
-                                    className={`${BRAND_PREFIX}-sidebar-item-container w-full flex p-4 ${isSidebarExpanded ? 'justify-start' : 'justify-center'}`}
+                                    className={`${BRAND_PREFIX}-sidebar-item-container w-full flex p-4 
+                                        ${isSidebarExpanded
+                                            ? 'justify-start'
+                                            : 'justify-center'
+                                        }`}
                                 >
                                     <span className={`${BRAND_PREFIX}-sidebar-item-icon`}>
                                         {item.icon}
                                     </span>
                                     <span
-                                        className={`${BRAND_PREFIX}-sidebar-item-name pl-4 ${isSidebarExpanded !== null
-                                            ? isSidebarExpanded
-                                                ? 'block'
+                                        className={`${BRAND_PREFIX}-sidebar-item-name pl-4 
+                                            ${isSidebarExpanded !== null
+                                                ? isSidebarExpanded
+                                                    ? 'block'
+                                                    : 'hidden'
                                                 : 'hidden'
-                                            : 'hidden'
                                             }`}
                                     >
                                         {item.name}
