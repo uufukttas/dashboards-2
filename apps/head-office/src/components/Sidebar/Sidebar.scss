@@ -7,6 +7,9 @@
 
   .expanded {
     animation: expand-mobile 1s forwards;
+    img {
+      padding: 0 16px;
+    }
   }
 
   .collapsed {
@@ -41,6 +44,9 @@
 
   .expanded {
     animation: expand-mobile 1s forwards;
+    img {
+      padding: 0 16px;
+    }
   }
 
   .collapsed {

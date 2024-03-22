@@ -8,6 +8,9 @@
   .expanded {
     animation: expand-mobile 1s forwards;
   }
+  .expanded img {
+    padding: 0 16px;
+  }
   .collapsed {
     animation: collapse-mobile 1s forwards;
   }
@@ -36,6 +39,9 @@
   }
   .expanded {
     animation: expand-mobile 1s forwards;
+  }
+  .expanded img {
+    padding: 0 16px;
   }
   .collapsed {
     animation: collapse-mobile 1s forwards;
