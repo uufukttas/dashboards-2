@@ -3,7 +3,7 @@ import { BRAND_PREFIX } from '../../constants/constants';
 
 const TableHead = () => {
     return (
-        <thead className={`${BRAND_PREFIX}-table-head text-xs text-gray-700 uppercase bg-gray-50`}>
+        <thead className={`${BRAND_PREFIX}-service-points-table-head text-xs text-gray-700 uppercase bg-gray-50`}>
             <tr>
                 <th scope="col" className="px-6 py-3">
                     Lokasyon

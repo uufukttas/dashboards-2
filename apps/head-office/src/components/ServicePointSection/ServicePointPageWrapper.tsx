@@ -16,12 +16,12 @@ const ServicePointPage = () => {
     }, []);
 
     return (
-        <div className={`${BRAND_PREFIX}-service-point-page-container w-full flex h-screen`}>
+        <div className={`${BRAND_PREFIX}-service-points-page-container w-full flex h-screen`}>
             {isLoading
                 ? (<Loading />)
                 : (
                     <MainPage>
-                        <div className={`${BRAND_PREFIX}-service-point-page-wrapper flex justify-center items-center md:pt-12 flex-wrap`}>
+                        <div className={`${BRAND_PREFIX}-service-points-page-wrapper flex justify-center items-center md:pt-12 flex-wrap`}>
                             <ServicePointSection />
                         </div>
                     </MainPage>

@@ -20,22 +20,18 @@ interface IServicePointInfoProps {
   paymentMethods?: string[] | null | undefined;
 };
 interface ITableoProps {
-  deletedServicePointId: number;
   servicePoints: IServicePointInfoProps[];
-  setDeletedServicePointId: (deletedServicePointId: number) => void;
 };
 
-export function Table({ deletedServicePointId, servicePoints, setDeletedServicePointId }: ITableoProps) {
+export function Table({ servicePoints }: ITableoProps) {
   return (
-    <div className={`${BRAND_PREFIX}-table-container relative overflow-x-auto shadow-md max-w-[330px] md:max-w-full w-full`}>
+    <div className={`${BRAND_PREFIX}-service-points-table-wrapper relative overflow-x-auto shadow-md max-w-[330px] md:max-w-full w-full`}>
       <TableHeader />
-      <div className={`${BRAND_PREFIX}-table-content-container`}>
-        <table className={`${BRAND_PREFIX}-table w-full text-sm text-left rtl:text-right text-gray-500`}>
+      <div className={`${BRAND_PREFIX}-service-points-table-container`}>
+        <table className={`${BRAND_PREFIX}-service-points-table w-full text-sm text-left rtl:text-right text-gray-500`}>
           <TableHead />
           <TableBody
-            deletedServicePointId={deletedServicePointId}
             servicePoints={servicePoints}
-            setDeletedServicePointId={setDeletedServicePointId}
           />
         </table>
       </div>
