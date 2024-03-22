@@ -58,8 +58,7 @@ export function ServicePointSection() {
           process.env.GET_ALL_SERVICE_POINTS || '',
           ({
             'pageNumber': currentPage,
-            // TODO : Change the page size parameter to the userCountPerPage
-            'pageSize': 10
+            'userCount': 10
           })
         )
         .then((response) => response.data)
