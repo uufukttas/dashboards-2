@@ -18,8 +18,7 @@ const Sidebar = () => {
   return (
     isDetectedDevice && (
       <div
-        className={`${BRAND_PREFIX}-sidebar-container border-r border-gray-300 flex flex-col justify-between 
-          ${isSidebarExpanded !== null
+        className={`${BRAND_PREFIX}-sidebar-container border-r border-gray-300 flex flex-col justify-between ${isSidebarExpanded !== null
             ? isSidebarExpanded
               ? 'expanded'
               : 'collapsed'

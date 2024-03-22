@@ -36,18 +36,17 @@ const SidebarBody = () => {
                 {sidebarElements.map((item, index) => {
                     return (
                         <li
-                            className={`${BRAND_PREFIX}-sidebar-list-item cursor-pointer border-gray-300 w-full 
-                                ${index === sidebarElements.length - 1
+                            className={`${BRAND_PREFIX}-sidebar-list-item cursor-pointer border-gray-300 w-full ${
+                                index === sidebarElements.length - 1
                                     ? ''
                                     : 'border-b'
-                                } 
-                                hover:bg-secondary-lighter hover:text-white focus:bg-secondary-lighter focus:text-white`}
+                                } hover:bg-secondary-lighter hover:text-white focus:bg-secondary-lighter focus:text-white`}
                             key={index}
                         >
                             <Link className={`${BRAND_PREFIX}-sidebar-list`} href={item.link}>
                                 <div
-                                    className={`${BRAND_PREFIX}-sidebar-item-container w-full flex p-4 
-                                        ${isSidebarExpanded
+                                    className={`${BRAND_PREFIX}-sidebar-item-container w-full flex p-4 ${
+                                        isSidebarExpanded
                                             ? 'justify-start'
                                             : 'justify-center'
                                         }`}
@@ -56,8 +55,8 @@ const SidebarBody = () => {
                                         {item.icon}
                                     </span>
                                     <span
-                                        className={`${BRAND_PREFIX}-sidebar-item-name pl-4 
-                                            ${isSidebarExpanded !== null
+                                        className={`${BRAND_PREFIX}-sidebar-item-name pl-4 ${
+                                            isSidebarExpanded !== null
                                                 ? isSidebarExpanded
                                                     ? 'block'
                                                     : 'hidden'
