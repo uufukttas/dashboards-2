@@ -7,30 +7,28 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import './Card.css';
 
 interface ICardProps {
-  cardHeaderChildren?: React.JSX.Element;
-  cardBodyChildren: React.JSX.Element;
-  cardFooterChildren?: React.JSX.Element;
+  cardContent: {
+    header?: React.JSX.Element;
+    body: React.JSX.Element;
+    footer?: React.JSX.Element;
+  };
   className?: string;
-  onClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
 export function Card({
-  cardHeaderChildren,
-  cardBodyChildren,
-  cardFooterChildren,
+  cardContent,
   className,
-  onClick,
 }: ICardProps) {
   return (
     <div className={`${BRAND_PREFIX}-card-container p-8 shadow-custom mx-8 ${className}`}>
       <CardHeader>
-        {cardHeaderChildren}
+        {cardContent?.header}
       </CardHeader>
       <CardBody>
-        {cardBodyChildren}
+        {cardContent?.body}
       </CardBody>
       <CardFooter>
-        {cardFooterChildren}
+        {cardContent?.footer}
       </CardFooter>
     </div>
   );

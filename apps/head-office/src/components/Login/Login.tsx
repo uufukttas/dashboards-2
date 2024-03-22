@@ -177,12 +177,15 @@ const Login = () => {
             </div>
         </>
     );
+    const cardContent = {
+        header: cardHeaderChildren,
+        body: cardBodyChildren,
+        footer: cardFooterChildren,
+    };
 
     return (
         <Card
-            cardHeaderChildren={cardHeaderChildren}
-            cardBodyChildren={cardBodyChildren}
-            cardFooterChildren={cardFooterChildren}
+            cardContent={cardContent}
             className={detectDevice().isDesktop ? 'w-1/4' : (detectDevice().isTablet ? 'w-3/4' : 'w-full')}
         />
     );
