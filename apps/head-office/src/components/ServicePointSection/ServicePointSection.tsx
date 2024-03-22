@@ -98,7 +98,6 @@ export function ServicePointSection() {
             alertText={alertInformation.message}
             alertType={alertInformation.type}
             id={`service-point-alert`}
-            onClick={() => dispatch(hideAlert())}
           />
         )
       }
