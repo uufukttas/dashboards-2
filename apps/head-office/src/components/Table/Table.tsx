@@ -30,9 +30,7 @@ export function Table({ servicePoints }: ITableoProps) {
       <div className={`${BRAND_PREFIX}-service-points-table-container`}>
         <table className={`${BRAND_PREFIX}-service-points-table w-full text-sm text-left rtl:text-right text-gray-500`}>
           <TableHead />
-          <TableBody
-            servicePoints={servicePoints}
-          />
+          <TableBody servicePoints={servicePoints} />
         </table>
       </div>
     </div>

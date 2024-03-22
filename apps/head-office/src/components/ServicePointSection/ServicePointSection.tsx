@@ -12,6 +12,8 @@ import { hideAlert, showAlert } from '../../../app/redux/features/alertInformati
 import { toggleServicePointDataUpdated } from '../../../app/redux/features/isServicePointDataUpdated';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
+import { setServicePointData } from '../../../app/redux/features/servicePointData';
+import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
 import { RootState, AppDispatch } from '../../../app/redux/store';
 
 export function ServicePointSection() {
@@ -73,6 +75,37 @@ export function ServicePointSection() {
     }
   };
 
+  const handleCloseModal = () => {
+    const servicePointDataInitialValues = {
+      id: 0,
+      name: '',
+      companyId: 0,
+      companyName: '',
+      resellerCompanyId: 0,
+      resellerName: '',
+      isActive: true,
+      isDeleted: false,
+    };
+    const servicePointInformationInitialValues = {
+      id: 0,
+      name: '',
+      type: '',
+      lon: 0,
+      lat: 0,
+      phone1: '',
+      phone2: '',
+      address: '',
+      cityId: 0,
+      districtId: 0,
+      opportunities: [],
+      freePark: false,
+      paymentMethods: '1',
+    };
+
+    dispatch(setServicePointData(servicePointDataInitialValues));
+    dispatch(setServicePointInformation(servicePointInformationInitialValues));
+  }
+
   useEffect(() => {
     getFirstTenUsers();
   }, [isServicePointDataUpdated, currentPage]);
@@ -80,15 +113,15 @@ export function ServicePointSection() {
   return (
     <div className={`${BRAND_PREFIX}-service-points-container flex justify-between items-center flex-col`}>
       <div className={`${BRAND_PREFIX}-service-point-listing-container flex items-center w-full`}>
-        <Table
-          servicePoints={servicePoints}
-        />
+        <Table servicePoints={servicePoints} />
       </div>
       {
         isModalVisible && (
           <Modal
+            className={`${BRAND_PREFIX}-service-point-modal-container`}
             modalHeaderTitle={`Lokasyon ${servicePointData.id > 0 ? 'Güncelle' : 'Ekle'}`}
             modalId={`${BRAND_PREFIX}-service-point-modal`}
+            onClose={handleCloseModal}
           >
             <ServicePointModalForm />
           </Modal>
