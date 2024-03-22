@@ -1,5 +1,5 @@
 import ModalBody from './ModalBody';
-import ModalHeader from './MofalHeader';
+import ModalHeader from './ModalHeader';
 
 interface IModalProps {
   children: React.ReactNode;
