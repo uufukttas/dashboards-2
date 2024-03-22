@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpand';
-import { RootState } from '../../../app/redux/store';
+import { RootState, AppDispatch } from '../../../app/redux/store';
 import './Header.css';
 
 interface IHeaderProps {
@@ -12,7 +12,7 @@ interface IHeaderProps {
 };
 
 const Header = ({ className }: IHeaderProps) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const isSidebarExpanded = useSelector((state: RootState) => state.sidebarExpandReducer.isSidebarExpanded);
 
   const handleSidebarToggle = () => {
