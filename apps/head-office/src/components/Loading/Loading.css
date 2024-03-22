@@ -1,8 +1,8 @@
 .loading-spinner {
-  border: 16px solid lightgray;
+  border: 16px solid #D3D3D3;
   width: 120px;
   height: 120px;
-  border-top: 16px solid #FFCC00;
+  border-top: 16px solid #FCD800;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
