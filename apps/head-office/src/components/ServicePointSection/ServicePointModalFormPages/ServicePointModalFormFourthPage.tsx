@@ -20,18 +20,14 @@ interface IFormData {
 
 interface IModalPageInputs {
   activePage: number;
-  formData: IFormData;
   stationId: number;
   setActivePage: React.Dispatch<React.SetStateAction<number>>;
-  setFormData: React.Dispatch<React.SetStateAction<IFormData>>;
 };
 
 const ServicePointModalFormFourthPage = ({
   activePage,
-  formData,
   stationId,
   setActivePage,
-  setFormData
 }: IModalPageInputs) => {
   const formName = ['payment-methods', 'parking', 'opportunities'];
   const sectionPrefix = 'service-point';
@@ -40,6 +36,8 @@ const ServicePointModalFormFourthPage = ({
     parking: `${sectionPrefix}-${formName[1]}`,
     opportunities: `${sectionPrefix}-${formName[2]}`,
   };
+  const dispatch = useDispatch();
+  const { handleSubmit } = useForm();
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
   const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
   const servicePointInformation = useSelector((state: RootState) => {
@@ -50,8 +48,6 @@ const ServicePointModalFormFourthPage = ({
     [`${formProperties.parking}`]: servicePointInformation?.parking || false,
     [`${formProperties.opportunities}`]: servicePointInformation?.opportunities || [],
   });
-  const dispatch = useDispatch();
-  const { handleSubmit } = useForm();
 
   const createConfigData = () => ({
     address: servicePointInformation.address,
@@ -83,9 +79,7 @@ const ServicePointModalFormFourthPage = ({
         }));
         dispatch(toggleServicePointDataUpdated(true));
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => console.log(error));
   };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -17,21 +17,17 @@ interface IFormDataProps {
 interface IModalPageInputs {
   activePage: number;
   cities: { rid: number; plateCode: number; name: string; }[];
-  formData: IFormDataProps;
   setActivePage: React.Dispatch<React.SetStateAction<number>>;
   setCities: React.Dispatch<React.SetStateAction<{ rid: number; plateCode: number; name: string; id: null }[]>>;
   setDistricts: React.Dispatch<React.SetStateAction<{ rid: number; name: string; plateCode: number; id: null }[]>>;
-  setFormData: React.Dispatch<React.SetStateAction<IFormDataProps>>;
 };
 
 const ServicePointModalFormSecondPage = ({
   activePage,
   cities,
-  formData,
   setActivePage,
   setCities,
   setDistricts,
-  setFormData
 }: IModalPageInputs) => {
   const dispatch = useDispatch();
   const servicePointInformation = useSelector((state: RootState) => {
@@ -57,7 +53,8 @@ const ServicePointModalFormSecondPage = ({
         process.env.CITY_URL || ''
       )
         .then((response) => response.data.data)
-        .then((cities) => { setCities(cities); getDistricts() });
+        .then((cities) => { setCities(cities); getDistricts(); })
+        .catch((error) => console.log(error));
     } catch (error) {
       console.log(error);
     };
@@ -67,10 +64,11 @@ const ServicePointModalFormSecondPage = ({
     try {
       await axios.post(
         process.env.DISTRICT_URL || '',
-        { 'plateNumber': formData[`${sectionPrefix}-city`] }
+        { 'plateNumber': 1 }
       )
         .then((response) => response.data.data)
-        .then(data => setDistricts(data));
+        .then(data => setDistricts(data))
+        .catch((error) => console.log(error));
     } catch (error) {
       console.log(error);
     };

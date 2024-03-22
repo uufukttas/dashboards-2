@@ -18,20 +18,16 @@ interface IModalPageInputs {
   activePage: number;
   cities: { rid: number; plateCode: number; name: string; id: null; }[];
   districts: { rid: number; name: string; plateCode: number; id: null }[];
-  formData: IFormDataProps;
   setActivePage: React.Dispatch<React.SetStateAction<number>>;
   setDistricts: React.Dispatch<React.SetStateAction<{ rid: number; name: string; plateCode: number; id: null }[]>>;
-  setFormData: React.Dispatch<React.SetStateAction<IFormDataProps>>;
 };
 
 const ServicePointModalFormThirdPage = ({
   activePage,
   cities,
   districts,
-  formData,
   setActivePage,
   setDistricts,
-  setFormData
 }: IModalPageInputs) => {
   const dispatch = useDispatch();
   const servicePointInformation = useSelector((state: RootState) => {
@@ -45,6 +41,7 @@ const ServicePointModalFormThirdPage = ({
     'x-coord': `${sectionPrefix}-${formName[2]}`,
     'y-coord': `${sectionPrefix}-${formName[3]}`,
   };
+  const { formState: { errors }, handleSubmit, register } = useForm();
   const [thirdPageFormData, setThirdPageFormData] = useState<IFormDataProps>({
     [`${formProperties.cityId}`]: servicePointInformation.cityId || 1,
     [`${formProperties.districtId}`]: servicePointInformation.districtId || 1,
@@ -52,7 +49,6 @@ const ServicePointModalFormThirdPage = ({
     [`${formProperties['y-coord']}`]: servicePointInformation.lat === 0 ? '' : servicePointInformation.lat,
   });
   const [selectedCity, setSelectedCity] = useState<number>(Number(thirdPageFormData[formProperties.cityId]));
-  const { formState: { errors }, handleSubmit, register } = useForm();
 
   const getDistricts = async (selectedCity: number) => {
     try {
@@ -61,9 +57,8 @@ const ServicePointModalFormThirdPage = ({
         { 'plateNumber': selectedCity }
       )
         .then((response) => response.data.data)
-        .then(data => {
-          setDistricts(data);
-        });
+        .then(data => setDistricts(data))
+        .catch((error) => console.log(error));
     } catch (error) {
       console.log(error);
     };
@@ -95,9 +90,10 @@ const ServicePointModalFormThirdPage = ({
   };
 
   useEffect(() => {
-    setSelectedCity(Number(thirdPageFormData[`${formProperties.cityId}`] !== 0
-      ? thirdPageFormData[`${formProperties.cityId}`]
-      : selectedCity));
+    setSelectedCity(
+      Number(thirdPageFormData[`${formProperties.cityId}`] !== 0
+        ? thirdPageFormData[`${formProperties.cityId}`]
+        : selectedCity));
     getDistricts(selectedCity);
   }, []);
 
