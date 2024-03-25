@@ -30,6 +30,7 @@ const ServicePointModalFormSecondPage = ({
   setDistricts,
 }: IModalPageInputs) => {
   const dispatch = useDispatch();
+  const { formState: { errors }, handleSubmit, register } = useForm();
   const servicePointInformation = useSelector((state: RootState) => {
     return state.servicePointInformation.servicePointInformation
   });
@@ -45,7 +46,6 @@ const ServicePointModalFormSecondPage = ({
     [`${formProperties.phone2}`]: servicePointInformation.phone2 || '',
     [`${formProperties.address}`]: servicePointInformation.address || '',
   });
-  const { formState: { errors }, handleSubmit, register } = useForm();
 
   const getCities = async () => {
     try {
@@ -53,7 +53,10 @@ const ServicePointModalFormSecondPage = ({
         process.env.CITY_URL || ''
       )
         .then((response) => response.data.data)
-        .then((cities) => { setCities(cities); getDistricts(); })
+        .then((cities) => {
+          setCities(cities);
+          getDistricts();
+        })
         .catch((error) => console.log(error));
     } catch (error) {
       console.log(error);
@@ -62,10 +65,11 @@ const ServicePointModalFormSecondPage = ({
 
   const getDistricts = async () => {
     try {
-      await axios.post(
-        process.env.DISTRICT_URL || '',
-        { 'plateNumber': 1 }
-      )
+      await axios
+        .post(
+          process.env.DISTRICT_URL || '',
+          { 'plateNumber': 1 }
+        )
         .then((response) => response.data.data)
         .then(data => setDistricts(data))
         .catch((error) => console.log(error));
@@ -75,12 +79,13 @@ const ServicePointModalFormSecondPage = ({
   };
 
   const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
-    dispatch(setServicePointInformation({
-      ...servicePointInformation,
-      phone1: secondPageFormData[`${formProperties.phone1}`],
-      phone2: secondPageFormData[`${formProperties.phone2}`],
-      address: secondPageFormData[`${formProperties.address}`],
-    }));
+    dispatch(
+      setServicePointInformation({
+        ...servicePointInformation,
+        phone1: secondPageFormData[`${formProperties.phone1}`],
+        phone2: secondPageFormData[`${formProperties.phone2}`],
+        address: secondPageFormData[`${formProperties.address}`],
+      }));
 
     setActivePage(activePage + 1);
   };

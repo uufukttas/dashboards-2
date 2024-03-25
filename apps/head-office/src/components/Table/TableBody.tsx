@@ -32,15 +32,17 @@ interface ITableBodyProps {
 
 const TableBody = ({ servicePoints }: ITableBodyProps) => {
     const dispatch = useDispatch();
-    const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
+    const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
     const [isHidden, setIsHidden] = useState(true);
     const [selectedRow, setSelectedRow] = useState(0);
 
     const deleteServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
-        dispatch(showDialog({
-            actionType: 'delete',
-            data: parseInt(event.currentTarget.getAttribute('data-service-point-id') || '0')
-        }));
+        dispatch(
+            showDialog({
+                actionType: 'delete',
+                data: parseInt(event.currentTarget.getAttribute('data-service-point-id') || '0')
+            })
+        );
     };
     const getCity = (rid: number) => {
         return (CITIES[rid?.toString()] || '');

@@ -1,5 +1,6 @@
 import ModalBody from './ModalBody';
 import ModalHeader from './ModalHeader';
+import { BRAND_PREFIX } from '../../constants/constants';
 
 interface IModalProps {
   children: React.ReactNode;
@@ -12,12 +13,12 @@ interface IModalProps {
 const Modal = ({ children, className, modalId, modalHeaderTitle, onClose }: IModalProps) => {
   return (
     <div
-      className={`flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-40 justify-center items-center w-full md:inset-0 bg-[#54565a33] block h-full ${className}`}
+      className={`${BRAND_PREFIX}-modal-container flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-40 justify-center items-center w-full md:inset-0 bg-[#54565a33] block h-full ${className}`}
       id={modalId}
       tabIndex={-1}
     >
-      <div className={`relative p-4 bg-white rounded-lg shadow sm:p-5 relative p-4 w-full max-w-2xl sm:h-auto`}>
-        <ModalHeader modalHeaderTitle={modalHeaderTitle} onClose={onClose}/>
+      <div className={`${BRAND_PREFIX}-modal-wrapper relative p-4 bg-white rounded-lg shadow sm:p-5 relative p-4 w-full max-w-2xl sm:h-auto`}>
+        <ModalHeader modalHeaderTitle={modalHeaderTitle} onClose={onClose} />
         <ModalBody>
           {children}
         </ModalBody>

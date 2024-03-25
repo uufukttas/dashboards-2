@@ -30,19 +30,18 @@ const ServicePointModalFormFirstPage = ({
 }: IModalPageInputs) => {
   const dispatch = useDispatch();
   const { formState: { errors }, handleSubmit, register } = useForm();
-
-  const hasStationId = stationId !== 0;
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const [companies, setCompanies] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const [resellers, setResellers] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const formName = ['name', 'reseller', 'company'];
+  const hasServicePointDataId = servicePointData.id > 0;
+  const hasStationId = stationId !== 0;
   const sectionPrefix = 'service-point';
   const formProperties = {
     name: `${sectionPrefix}-${formName[0]}`,
     reseller: `${sectionPrefix}-${formName[1]}`,
     company: `${sectionPrefix}-${formName[2]}`,
   };
-  const hasServicePointDataId = servicePointData.id > 0;
   const [firstPageFormData, setFirstPageFormData] = useState<IFormDataProps>({
     [`${formProperties.name}`]: servicePointData.name || '',
     [`${formProperties.reseller}`]: servicePointData.resellerCompanyId || 1,
@@ -56,7 +55,6 @@ const ServicePointModalFormFirstPage = ({
     isActive: true,
     ...(hasServicePointDataId && { id: servicePointData.id }),
   });
-
   const getDropdownItems = async (dropdownDataUrl: string) => {
     try {
       await axios
@@ -72,14 +70,12 @@ const ServicePointModalFormFirstPage = ({
       console.log(error);
     }
   };
-
   const handleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFirstPageFormData({
       ...firstPageFormData,
       [event.target.name]: Number(event.target.value),
     });
   };
-
   const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
     if (stationId !== 0) {
       setActivePage(activePage + 1);
@@ -89,7 +85,6 @@ const ServicePointModalFormFirstPage = ({
 
     handleServicePointOperation();
   };
-
   const handleServicePointOperation = async () => {
     const actionURL = hasServicePointDataId
       ? process.env.UPDATE_STATION_URL || ''
@@ -109,13 +104,15 @@ const ServicePointModalFormFirstPage = ({
             setStationId(data.data[0].id)
           }
 
-          dispatch(setServicePointData({
-            ...servicePointData,
-            id: servicePointData.id || data.data[0].id,
-            name: firstPageFormData[`${formProperties.name}`],
-            resellerCompanyId: firstPageFormData[`${formProperties.reseller}`],
-            companyId: firstPageFormData[`${formProperties.company}`]
-          }));
+          dispatch(
+            setServicePointData({
+              ...servicePointData,
+              id: servicePointData.id || data.data[0].id,
+              name: firstPageFormData[`${formProperties.name}`],
+              resellerCompanyId: firstPageFormData[`${formProperties.reseller}`],
+              companyId: firstPageFormData[`${formProperties.company}`]
+            })
+          );
           dispatch(toggleServicePointDataUpdated(true));
           setActivePage(activePage + 1);
         })
@@ -148,7 +145,11 @@ const ServicePointModalFormFirstPage = ({
             <span className="text-md text-error">*</span>
           </Label>
           <Input
-            className={`${formProperties.name}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${hasStationId ? 'cursor-not-allowed' : ''}`
+            className={`${formProperties.name}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${
+              hasStationId
+                ? 'cursor-not-allowed'
+                : ''
+              }`
             }
             disabled={hasStationId}
             id={`${formProperties.name}`}
@@ -189,7 +190,12 @@ const ServicePointModalFormFirstPage = ({
             <span className="text-md text-error">*</span>
           </Label>
           <Dropdown
-            className={`${formProperties.company}-input border text-text text-sm rounded-lg block w-full focus:ring-primary focus:border-primary p-2.5 mb-4 hover:${hasStationId ? 'cursor-not-allowed' : ''}`}
+            className={`${formProperties.company}-input border text-text text-sm rounded-lg block w-full focus:ring-primary focus:border-primary p-2.5 mb-4 hover:${
+              hasStationId
+                ? 'cursor-not-allowed'
+                : ''
+              }`
+            }
             disabled={hasStationId}
             id={`${formProperties.company}`}
             items={companies}
@@ -215,7 +221,12 @@ const ServicePointModalFormFirstPage = ({
             <span className="text-md text-error">*</span>
           </Label>
           <Dropdown
-            className={`${formProperties.reseller}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${hasStationId ? 'cursor-not-allowed' : ''}`}
+            className={`${formProperties.reseller}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${
+              hasStationId
+                ? 'cursor-not-allowed'
+                : ''
+              }`
+            }
             disabled={hasStationId}
             id={`${formProperties.reseller}`}
             items={resellers}

@@ -30,6 +30,7 @@ const ServicePointModalFormThirdPage = ({
   setDistricts,
 }: IModalPageInputs) => {
   const dispatch = useDispatch();
+  const { formState: { errors }, handleSubmit, register } = useForm();
   const servicePointInformation = useSelector((state: RootState) => {
     return state.servicePointInformation.servicePointInformation;
   });
@@ -41,7 +42,6 @@ const ServicePointModalFormThirdPage = ({
     'x-coord': `${sectionPrefix}-${formName[2]}`,
     'y-coord': `${sectionPrefix}-${formName[3]}`,
   };
-  const { formState: { errors }, handleSubmit, register } = useForm();
   const [thirdPageFormData, setThirdPageFormData] = useState<IFormDataProps>({
     [`${formProperties.cityId}`]: servicePointInformation.cityId || 1,
     [`${formProperties.districtId}`]: servicePointInformation.districtId || 1,
@@ -67,9 +67,9 @@ const ServicePointModalFormThirdPage = ({
   const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const cityId = Number(event.target.value);
 
+    getDistricts(cityId);
     setSelectedCity(cityId);
     setThirdPageFormData(({ ...thirdPageFormData, [`${formProperties.cityId}`]: cityId }));
-    getDistricts(cityId);
   };
 
   const handleDistrictChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -79,13 +79,14 @@ const ServicePointModalFormThirdPage = ({
   };
 
   const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
-    dispatch(setServicePointInformation({
-      ...servicePointInformation,
-      cityId: thirdPageFormData[`${formProperties.cityId}`],
-      districtId: thirdPageFormData[`${formProperties.districtId}`],
-      lon: thirdPageFormData[`${formProperties['x-coord']}`],
-      lat: thirdPageFormData[`${formProperties['y-coord']}`],
-    }));
+    dispatch(
+      setServicePointInformation({
+        ...servicePointInformation,
+        cityId: thirdPageFormData[`${formProperties.cityId}`],
+        districtId: thirdPageFormData[`${formProperties.districtId}`],
+        lon: thirdPageFormData[`${formProperties['x-coord']}`],
+        lat: thirdPageFormData[`${formProperties['y-coord']}`],
+      }));
     setActivePage(activePage + 1);
   };
 

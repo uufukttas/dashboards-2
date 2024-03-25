@@ -7,23 +7,11 @@ import ServicePointModalFormThirdPage from './ServicePointModalFormPages/Service
 import { BRAND_PREFIX } from '../../constants/constants';
 import { RootState } from '../../../app/redux/store';
 
-const formDataInitialValues = {
-  'service-point-name': '',
-  'service-point-reseller': 1,
-  'service-point-company': 1,
-  'service-point-phone-number-1': '',
-  'service-point-phone-number-2': '',
-  'service-point-address': '',
-  'service-point-cityId': 1,
-  'service-point-districtId': 1,
-};
-
 const ServicePointModalForm = () => {
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const [activePage, setActivePage] = useState(1);
   const [cities, setCities] = useState<{ id: null; rid: number; plateCode: number; name: string; }[]>([]);
   const [districts, setDistricts] = useState<{ id: null; rid: number; name: string; plateCode: number; }[]>([]);
-  useState<{ [key: string]: string | number | boolean | string[] }>(formDataInitialValues);
   const [stationId, setStationId] = useState<number>(0);
 
   return (

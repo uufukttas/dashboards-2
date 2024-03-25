@@ -66,17 +66,20 @@ const ServicePointModalFormFourthPage = ({
       : process.env.ADD_STATION_INFO_URL || '';
     const actionData = (createConfigData());
 
-    axios.post(
-      actionURL,
-      actionData,
-      { headers: { 'Content-Type': 'application/json' } }
-    ).then((response) => response.data)
+    axios
+      .post(
+        actionURL,
+        actionData,
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then((response) => response.data)
       .then(data => {
         dispatch(toggleModalVisibility(isModalVisible));
-        dispatch(showAlert({
-          message: data.message,
-          type: 'success',
-        }));
+        dispatch(
+          showAlert({
+            message: data.message,
+            type: 'success',
+          }));
         dispatch(toggleServicePointDataUpdated(true));
       })
       .catch((error) => console.log(error));
@@ -92,20 +95,19 @@ const ServicePointModalFormFourthPage = ({
   };
 
   const handleFormSubmit: SubmitHandler<IFormData> = () => {
-    dispatch(setServicePointInformation({
-      ...servicePointInformation,
-      paymentMethods: fourthPageFormData[`${formProperties.paymentMethods}`].toString(),
-      parking: fourthPageFormData[`${formProperties.parking}`],
-      opportunities: Object.keys(checkedItems).filter(key => checkedItems[key])
-    }));
+    dispatch(
+      setServicePointInformation({
+        ...servicePointInformation,
+        paymentMethods: fourthPageFormData[`${formProperties.paymentMethods}`].toString(),
+        parking: fourthPageFormData[`${formProperties.parking}`],
+        opportunities: Object.keys(checkedItems).filter(key => checkedItems[key])
+      }));
 
     createServicePointDetails();
   };
 
   const replacetoDash = (value: string) => {
-    value = value.replace(/\s+/g, '-').toLowerCase();
-
-    return value;
+    return value.replace(/\s+/g, '-').toLowerCase();
   };
 
   useEffect(() => {
