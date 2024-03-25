@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,11 +38,13 @@ const ServicePointModalFormFourthPage = ({
   };
   const dispatch = useDispatch();
   const { handleSubmit } = useForm();
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
-  const [checkedItems, setCheckedItems] = useState<{ [key: string]: boolean }>({});
   const servicePointInformation = useSelector((state: RootState) => {
     return state.servicePointInformation.servicePointInformation;
   });
+  const [isSelectboxOpen, setIsSelectboxOpen] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [fourthPageFormData, setFourthPageFormData] = useState<IFormData>({
     [`${formProperties.paymentMethods}`]: servicePointInformation?.paymentMethods || '1',
     [`${formProperties.parking}`]: servicePointInformation?.parking || false,
@@ -59,7 +61,6 @@ const ServicePointModalFormFourthPage = ({
     districtId: servicePointInformation.districtId,
     ...(servicePointInformation?.id > 0 ? { id: servicePointInformation?.id } : { stationId: stationId })
   });
-
   const createServicePointDetails = () => {
     const actionURL = servicePointInformation?.id > 0
       ? process.env.UPDATE_STATION_INFO_URL || ''
@@ -84,45 +85,46 @@ const ServicePointModalFormFourthPage = ({
       })
       .catch((error) => console.log(error));
   };
-
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
-
-    setCheckedItems(prevState => ({
-      ...prevState,
-      [name.replace(`${sectionPrefix}-${formName[2]}-`, '')]: checked
-    }));
-  };
-
   const handleFormSubmit: SubmitHandler<IFormData> = () => {
     dispatch(
       setServicePointInformation({
         ...servicePointInformation,
         paymentMethods: fourthPageFormData[`${formProperties.paymentMethods}`].toString(),
         parking: fourthPageFormData[`${formProperties.parking}`],
-        opportunities: Object.keys(checkedItems).filter(key => checkedItems[key])
+        opportunities: selectedOptions
       }));
 
     createServicePointDetails();
   };
-
+  const handleOptionChange = (value: string) => {
+    if (selectedOptions.includes(value)) {
+      setSelectedOptions(selectedOptions.filter(option => option !== value));
+    } else {
+      setSelectedOptions([...selectedOptions, value]);
+    }
+  };
   const replacetoDash = (value: string) => {
     return value.replace(/\s+/g, '-').toLowerCase();
+  };
+  const toggleDropdown = () => {
+    setIsSelectboxOpen(!isSelectboxOpen);
   };
 
   useEffect(() => {
     setFourthPageFormData({
       ...fourthPageFormData,
-      [`${formProperties.opportunities}`]: Object.keys(checkedItems).filter(key => checkedItems[key])
+      [`${formProperties.opportunities}`]: selectedOptions
     });
 
     dispatch(setServicePointInformation({
       ...servicePointInformation,
       paymentMethods: fourthPageFormData[`${formProperties.paymentMethods}`].toString(),
       parking: fourthPageFormData[`${formProperties.parking}`],
-      opportunities: Object.keys(checkedItems).filter(key => checkedItems[key])
-    }))
-  }, [checkedItems]);
+      opportunities: selectedOptions
+    }));
+
+    console.log('selectedOptions', selectedOptions)
+  }, [selectedOptions]);
 
   return (
     <form
@@ -198,39 +200,55 @@ const ServicePointModalFormFourthPage = ({
         <div className={`${formProperties.opportunities}-header`}>
           <h3 className="block mb-2 text-sm font-semibold text-gray-900">Lokasyon Olanaklari</h3>
         </div>
-        <div className={`${formProperties.opportunities}-inputs-container flex flex-wrap`}>
-          {
-            OPPORTUNITIES.map((opportunity, index) => (
+        <div className={`${formProperties.opportunities}-selectbox-container flex flex-wrap text-sm`}>
+          <div className={`${formProperties.opportunities}-selectbox w-full relative text-gray-900`} ref={dropdownRef}>
+            <Button
+              className={`${formProperties.opportunities}-selectbox-button w-full focus:ring-primary justify-between border rounded-md flex items-center px-2 py-2 border-gray-500`}
+              type='button'
+              onClick={toggleDropdown}>
+              Secim yapiniz
               <div
-                className={`${formProperties.opportunities}-option-container flex items-center mb-4`}
-                key={index}>
-                <Label
-                  className={`block mb-0 pr-4`}
-                  htmlFor={`${formProperties.opportunities}-${replacetoDash(opportunity.name)}`}
-                  labelText={opportunity.name}
-                />
-                <Checkbox
-                  className={`text-blue-500 text-sm block mr-4`}
-                  id={`${formProperties.opportunities}-${replacetoDash(opportunity.name)}`}
-                  name={`${formProperties.opportunities}-${replacetoDash(opportunity.name)}`}
-                  onChange={handleCheckboxChange}
-                />
+                className='arrow-icon text-lg text-gray-900'
+                dangerouslySetInnerHTML={{
+                  __html: `${isSelectboxOpen ? '&#11205;' : '&#11206;'}`,
+                }}
+              />
+            </Button>
+            {isSelectboxOpen && (
+              <div className={`${formProperties.opportunities}-menu w-full flex flex-col absolute bg-white border rounded-md py-2 text-gray-900 border-gray-500`}>
+                {OPPORTUNITIES.map(opportunity => (
+                  <div
+                    className={`${formProperties.opportunities}-menu-item flex items-center py-1`}
+                    key={opportunity.name}>
+                    <Checkbox
+                      className='mx-2'
+                      id={`${formProperties.opportunities}-${replacetoDash(opportunity.name)}`}
+                      name={`${formProperties.opportunities}-${replacetoDash(opportunity.name)}`}
+                      onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleOptionChange(event.target.name)}
+                    />
+                    <Label
+                      className='px-2'
+                      htmlFor={`${formProperties.opportunities}-${replacetoDash(opportunity.name)}`}
+                      labelText={opportunity.name}
+                    />
+                  </div>
+                ))}
               </div>
-            ))
-          }
+            )}
+          </div>
         </div>
       </div>
 
-      <div className={`${sectionPrefix}-buttons-container flex justify-between items-center`}>
+      <div className={`${sectionPrefix}-buttons-container flex justify-between items-center mt-4`}>
         <Button
           buttonText='Geri'
-          className={`${sectionPrefix}-next-button  bg-primary text-text text-sm rounded-lg block p-2.5`}
+          className={`${sectionPrefix}-next-button bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`submit`}
           onClick={() => setActivePage(activePage - 1)}
         />
         <Button
           buttonText={servicePointInformation?.id > 0 ? 'Guncelle' : 'Kaydet'}
-          className={`${sectionPrefix}-submit-button  bg-primary text-text text-sm rounded-lg block p-2.5`}
+          className={`${sectionPrefix}-submit-button bg-primary text-text text-sm rounded-lg block p-2.5`}
           type={`submit`}
         />
       </div>
