@@ -22,3 +22,20 @@ input[type='checkbox']:focus {
 input[type='checkbox']:focus {
   outline: 0;
 }
+
+td {
+  width: calc(100% / 8);
+}
+
+thead > tr > th:nth-child(1) {
+  text-align: right;
+  padding-right: 20px;
+}
+
+tr td:nth-child(1) {
+  text-align: right;
+  padding-right: 20px;
+}
+
+[type='checkbox']:focus, [type='radio']:focus {
+}
