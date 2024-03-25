@@ -23,7 +23,7 @@ const Header = ({ className }: IHeaderProps) => {
     <div className={`${BRAND_PREFIX}-header-container justify-between border-b border-gray-300 bg-white sticky top-0 z-10 ${className}`}>
       <div className={`${BRAND_PREFIX}-sidebar-toggle-button-container`}>
         <Button
-          className={`${BRAND_PREFIX}-sidebar-toggle-button bg-white hover:bg-white mx-8`}
+          className={`${BRAND_PREFIX}-sidebar-toggle-button bg-white hover:bg-white mx-8 py-2 px-2`}
           type='button'
           onClick={handleSidebarToggle}
         >
@@ -32,7 +32,7 @@ const Header = ({ className }: IHeaderProps) => {
       </div>
       <div className={`${BRAND_PREFIX}-profile-button-container`}>
         <Button
-          className={`${BRAND_PREFIX}-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center mx-8 rounded-full px-2`}
+          className={`${BRAND_PREFIX}-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center mx-8 rounded-full px-2 py-2`}
           type='button'
           onClick={() => { }}
         >

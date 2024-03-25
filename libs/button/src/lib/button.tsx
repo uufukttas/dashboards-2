@@ -19,7 +19,7 @@ export function Button({
 }: IButtonProps) {
   return (
     <button
-      className={`button py-2 px-2 ${className}`}
+      className={`button ${className}`}
       id={id}
       type={type}
       onClick={onClick}
