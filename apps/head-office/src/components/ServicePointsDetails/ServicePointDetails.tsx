@@ -195,7 +195,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
           {activeIndex === 2 && (
             <Accordion
               accordionTitle="Calisma Saatleri"
-              accordionContent={<WorkingHoursContent slug={slug} />}
+              accordionContent={<WorkingHoursContent slug={Number(slug)} />}
               titleClassName="font-bold"
             />
           )}
