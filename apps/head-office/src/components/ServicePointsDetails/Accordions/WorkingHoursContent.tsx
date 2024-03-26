@@ -1,36 +1,34 @@
+import React, { useState, useEffect } from 'react';
 import { Button } from '@projects/button';
 import axios from 'axios';
-import React, { useState } from 'react'
 import '../ServicePointDetails.css'
 
 interface IWorkingHoursContentProps {
-    slug: string;
-};
-
-interface IHour {
-    RID: number;
-    DayOfTheWeek: number;
-    IsClosed: boolean,
-    OpeningTime: string,
-    ClosingTime: string,
-    IsDeleted: boolean
+    slug: number;
 };
 
 interface IResponseItem {
     day: number;
     hour: number;
-}
+};
 
+interface IResponse {
+    "RID": number,
+    "DayOfTheWeek": number,
+    "IsClosed": boolean,
+    "OpeningTime": string,
+    "ClosingTime": string,
+    "IsDeleted": boolean
+};
 
 interface IConvertedStructure {
-    stationID: string;
+    stationID: number;
     dayOfTheWeek: number;
     openingTime: string;
     closingTime: string;
     isClosed: boolean;
     isDeleted: boolean;
-  }
-  
+};
 
 const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
     const [schedule, setSchedule] = useState([
@@ -42,129 +40,26 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
         { day: 5, hours: Array(24).fill(false) },
         { day: 6, hours: Array(24).fill(false) }
     ]);
-    const [selectedHours, setSelectedHours] = useState<IHour[]>([
-        {
-            "RID": 1906,
-            "DayOfTheWeek": 0,
-            "IsClosed": true,
-            "OpeningTime": "23:00:00",
-            "ClosingTime": "00:00:00",
-            "IsDeleted": false
-        },
-        {
-            "RID": 1907,
-            "DayOfTheWeek": 1,
-            "IsClosed": true,
-            "OpeningTime": "23:00:00",
-            "ClosingTime": "00:00:00",
-            "IsDeleted": false
-        },
-        {
-            "RID": 1900,
-            "DayOfTheWeek": 1,
-            "IsClosed": true,
-            "OpeningTime": "01:00:00",
-            "ClosingTime": "02:00:00",
-            "IsDeleted": false
-        },
-        {
-            "RID": 1901,
-            "DayOfTheWeek": 2,
-            "IsClosed": true,
-            "OpeningTime": "01:00:00",
-            "ClosingTime": "02:00:00",
-            "IsDeleted": false
-        },
-        {
-            "RID": 1902,
-            "DayOfTheWeek": 2,
-            "IsClosed": true,
-            "OpeningTime": "02:00:00",
-            "ClosingTime": "03:00:00",
-            "IsDeleted": false
-        },
-        {
-            "RID": 1908,
-            "DayOfTheWeek": 2,
-            "IsClosed": true,
-            "OpeningTime": "23:00:00",
-            "ClosingTime": "00:00:00",
-            "IsDeleted": false
-        },
-        {
-            "RID": 1909,
-            "DayOfTheWeek": 3,
-            "IsClosed": true,
-            "OpeningTime": "23:00:00",
-            "ClosingTime": "00:00:00",
-            "IsDeleted": false
-        },
-        {
-            "RID": 1903,
-            "DayOfTheWeek": 3,
-            "IsClosed": true,
-            "OpeningTime": "03:00:00",
-            "ClosingTime": "04:00:00",
-            "IsDeleted": false
-        },
-        {
-            "RID": 1904,
-            "DayOfTheWeek": 4,
-            "IsClosed": true,
-            "OpeningTime": "03:00:00",
-            "ClosingTime": "04:00:00",
-            "IsDeleted": false
-        },
-        {
-            "RID": 1905,
-            "DayOfTheWeek": 4,
-            "IsClosed": true,
-            "OpeningTime": "04:00:00",
-            "ClosingTime": "05:00:00",
-            "IsDeleted": false
-        },
-        {
-            "RID": 1910,
-            "DayOfTheWeek": 4,
-            "IsClosed": true,
-            "OpeningTime": "23:00:00",
-            "ClosingTime": "00:00:00",
-            "IsDeleted": false
-        },
-        {
-            "RID": 1911,
-            "DayOfTheWeek": 5,
-            "IsClosed": true,
-            "OpeningTime": "23:00:00",
-            "ClosingTime": "00:00:00",
-            "IsDeleted": false
-        },
-        {
-            "RID": 1912,
-            "DayOfTheWeek": 6,
-            "IsClosed": true,
-            "OpeningTime": "23:00:00",
-            "ClosingTime": "00:00:00",
-            "IsDeleted": false
-        }
-    ]);
+    const [selectedHours, setSelectedHours] = useState<{ day: number, hour: number }[]>([]);
     const days = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
 
-    const scheduleToHours = (schedule: { day: number, hours: boolean[][] }[]): { day: number, hour: number }[] => {
+    const scheduleToHours = () => {
         const hours: { day: number, hour: number }[] = [];
+
         schedule.forEach(day => {
-          day.hours.forEach((isHourSelected, hourIndex) => {
-            if (isHourSelected) {
-              const hour: { day: number, hour: number } = {
-                day: Number(day.day),
-                hour: hourIndex
-              };
-              hours.push(hour);
-            }
-          });
+            day.hours.forEach((isHourSelected, hourIndex) => {
+                if (isHourSelected) {
+                    const hour: { day: number, hour: number } = {
+                        day: Number(day.day),
+                        hour: hourIndex
+                    };
+                    hours.push(hour);
+                }
+            });
         });
+
         return hours;
-      };
+    };
 
     const convertResponseToStructure = (response: IResponseItem[]): IConvertedStructure[] => {
         const result: IConvertedStructure[] = [];
@@ -172,10 +67,10 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
         response.forEach(item => {
             const dayOfTheWeek = item.day;
             const openingHour = item.hour;
-            const closingHour = (openingHour + 1) % 24; // Saat aralığı bir saat
+            const closingHour = (openingHour + 1) % 24;
 
             const structure: IConvertedStructure = {
-                stationID: slug,
+                stationID: Number(slug),
                 dayOfTheWeek: dayOfTheWeek,
                 openingTime: openingHour.toString().padStart(2, '0') + ':00',
                 closingTime: closingHour.toString().padStart(2, '0') + ':00',
@@ -193,7 +88,7 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
         const newSchedule = [...schedule];
         newSchedule[dayIndex].hours[hourIndex] = !newSchedule[dayIndex].hours[hourIndex];
         setSchedule(newSchedule);
-        setSelectedHours(scheduleToHours(schedule));
+        setSelectedHours(scheduleToHours());
     };
 
     const setWorkingHours = () => {
@@ -204,8 +99,35 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
                 { headers: { 'Content-Type': 'application/json' } }
             )
             .then((response) => console.log('response', response));
+    };
+
+    const setDefaultHours = (response: IResponse[]) => {
+        response.forEach(res => {
+            const index = schedule.findIndex(item => item.day === res.DayOfTheWeek);
+            if (index !== -1) {
+                const newSchedule = [...schedule]; // Yeni bir kopya oluştur
+                newSchedule[index].hours[parseInt(res.OpeningTime)] = true; // Saat 23:00'e karşılık gelen index 23 olduğu için true değeri atanıyor
+                setSchedule(newSchedule); // Yeni schedule'ı ayarla
+            }
+        });
+    };
+
+    const getWorkingHours = async () => {
+        await axios
+            .post(
+                'https://sharztestapi.azurewebsites.net/ServicePoint/GetWorkHours',
+                JSON.stringify({ stationID: slug }),
+                { headers: { 'Content-Type': 'application/json' } }
+            )
+            .then((response) => {
+                setDefaultHours(response.data);
+            });
 
     };
+
+    useEffect(() => {
+        getWorkingHours();
+    }, []);
 
     return (
         <div className="working-hours-content py-8">
@@ -229,6 +151,7 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
                                 {schedule.map((day, dayIndex) => (
                                     <td key={dayIndex} className={`h-[20px] focus:ring-transparent ${day.hours[hourIndex] ? 'isPassive' : ''}`}>
                                         <input
+                                            checked={schedule[dayIndex].hours[hourIndex]}
                                             type="checkbox"
                                             value={schedule[dayIndex].hours[hourIndex]}
                                             onChange={(event) =>
@@ -257,4 +180,4 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
     )
 }
 
-export default WorkingHoursContent
+export default WorkingHoursContent;
