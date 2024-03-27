@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../../app/redux/store';
-import { FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
+import { FaChargingStation, FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
 
 interface IChargeUnitsProps {
     chargePointId: number;
@@ -33,10 +33,10 @@ interface IConnectorProps {
 };
 interface IConnectorStateProps {
     [key: number]: IConnectorProps;
-  };
+};
 interface IChargeUnitsContentProps {
     chargeUnits: IChargeUnitsProps[];
-    connectors: {[key:number]: IConnectorStateProps};
+    connectors: { [key: number]: IConnectorStateProps };
 };
 
 const ChargeUnitsContent = ({ chargeUnits, connectors }: IChargeUnitsContentProps) => {
@@ -59,11 +59,13 @@ const ChargeUnitsContent = ({ chargeUnits, connectors }: IChargeUnitsContentProp
         <div className="charge-units-content py-8">
             <div className="charge-units-header flex justify-end">
                 <Button
-                    buttonText={`Ekle`}
+                    buttonText={``}
                     className="charge-units-add-button bg-primary bg-primary text-white rounded-md px-4 py-2 mx-2"
                     type="button"
                     onClick={handleClick}
-                />
+                >
+                    <FaChargingStation />
+                </Button>
             </div>
             <div className="charge-units-list">
                 {chargeUnits.map((chargeUnit, index) => (
@@ -79,26 +81,30 @@ const ChargeUnitsContent = ({ chargeUnits, connectors }: IChargeUnitsContentProp
                                 </h3>
                                 <div className="charge-unit-actions mx-2">
                                     <Button
-                                        buttonText={`Düzenle`}
+                                        buttonText={``}
                                         className="charge-unit-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2"
                                         dataAttributes={{
                                             'data-charge-point-id': chargeUnit.chargePointId.toString(),
                                         }}
                                         type={'button'}
                                         onClick={handleClick}
-                                    />
+                                    >
+                                        <FaPencil />
+                                    </Button>
                                     <Button
-                                        buttonText={'Sil'}
+                                        buttonText={''}
                                         className="charge-unit-delete-button bg-secondary text-white rounded-md px-4 py-2"
                                         type={'button'}
-                                    />
+                                    >
+                                        <FaTrash />
+                                    </Button>
                                 </div>
                             </div>
                             <div className="charge-unit-connector-number">
                                 <h3 className="charge-unit-connector-number-label text-lg font-bold text-text">
                                     {chargeUnit.deviceCode || '90'}
                                 </h3>
-                                <div className="connectors-contianer pt-6 pl-12 mx-2 w-full">
+                                <div className="connectors-contianer pt-12 pl-12 mx-2 w-full">
                                     <div className='flex justify-between'>
                                         <h4 className='font-bold text-gray-700 mb-4'>Konnektörler: {Object.values(connectors[chargeUnit.chargePointId] || {}).length}</h4>
                                         <Button
@@ -110,7 +116,7 @@ const ChargeUnitsContent = ({ chargeUnits, connectors }: IChargeUnitsContentProp
                                             <FaPlugCirclePlus />
                                         </Button>
                                     </div>
-                                    <p>
+                                    <div>
                                         {
                                             Object.values(connectors[chargeUnit.chargePointId] || {}).map((connector: IConnectorProps) => {
                                                 return (
@@ -139,7 +145,7 @@ const ChargeUnitsContent = ({ chargeUnits, connectors }: IChargeUnitsContentProp
                                                 )
                                             })
                                         }
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
