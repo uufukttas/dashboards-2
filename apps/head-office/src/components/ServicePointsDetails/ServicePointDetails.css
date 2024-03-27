@@ -36,3 +36,13 @@ tr td:nth-child(1) {
   text-align: right;
   padding-right: 20px;
 }
+
+.connector-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.kw-info {
+  margin-left: 10px;
+}
