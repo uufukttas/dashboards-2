@@ -16,10 +16,27 @@ import Modal from '../../../src/components/Modal/Modal';
 import { BRAND_PREFIX } from '../../../src/constants/constants';
 import './ServicePointDetails.css';
 
+interface IChargeUnitsProps {
+  chargePointId: number;
+  connectorNumber: number;
+  connectorId: number;
+  count: number;
+  deviceCode: string;
+  externalAddress: string;
+  internalAddress: string;
+  investor: string;
+  isFreePoint: boolean;
+  lastHeartBeat: string;
+  limitedUsage: boolean;
+  model: string;
+  ocppVersion: string;
+  sendRoaming: boolean;
+  stationId: number;
+  status: string;
+};
 interface IServicePointsDetailsPageProps {
   slug: string;
 };
-
 interface IServicePointsDetailsProps {
   name: string;
   id: string;
@@ -39,6 +56,17 @@ interface IServicePointsDetailsProps {
   companyName: string;
   isActive: boolean;
   isDeleted: boolean;
+};
+interface IConnectorProps {
+    connectorName: string;
+    connectorNr: number;
+    id: number;
+    isAc: boolean;
+    kw: number;
+    stationChargePointId: number;
+};
+interface IConnectorStateProps {
+  [key: number]: IConnectorProps;
 };
 
 const initialServicePointsDetailsStateValue = {
@@ -56,6 +84,8 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const [accessTypeList, setAccessTypeList] = useState([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [brands, setBrands] = useState([]);
+  const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([]);
+  const [connectors, setConnectors] = useState<{ [chargePointId: number]: IConnectorStateProps }>({});
   const [investors, setInvestors] = useState([]);
   const [servicePointDetails, setServicePointDetails] =
     useState<IServicePointsDetailsProps>(initialServicePointsDetailsStateValue);
@@ -63,15 +93,15 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
 
   const getServicePointsDetails = async (slug: string) => {
     axios
-        .post(
-            'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationById',
-            { id: slug },
-            { headers: { 'Content-Type': 'application/json' } }
-        )
-        .then((response) => response.data)
-        .then((data) => setServicePointDetails(data.data[0]))
-        .catch((error) => console.log(error));
-};
+      .post(
+        'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationById',
+        { id: slug },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then((response) => response.data)
+      .then((data) => setServicePointDetails(data.data[0]))
+      .catch((error) => console.log(error));
+  };
 
   const getBrands = () => {
     axios
@@ -111,6 +141,35 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
       )
       .then((response) => response.data)
       .then((data) => console.log(data))
+      .catch((error) => console.log(error));
+  };
+
+  const getChargeUnits = async () => {
+    await axios
+      .post(
+        'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationSettings',
+        JSON.stringify({ stationId: Number(slug), PageNumber: 1, PageSize: 5 }),
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then((response) => response.data.data)
+      .then(async (data) => setChargeUnits(data))
+      .catch((error) => console.log(error));
+  };
+
+  const getConnectors = (chargePointId: number) => {
+    axios
+      .post(
+        'https://sharztestapi.azurewebsites.net/StationInfo/GetChargePointConnectors',
+        JSON.stringify({ "stationChargePointId": chargePointId }),
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then((response) => response.data)
+      .then((data) => {
+        setConnectors((prevConnectors) => ({
+          ...prevConnectors,
+          [chargePointId]: data.data
+        }));
+      })
       .catch((error) => console.log(error));
   };
 
@@ -161,8 +220,16 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
     getBrands();
     getInvestors();
     getChargeUnitFeatures();
+    getChargeUnits();
     getWorkingHours();
   }, [slug]);
+
+  useEffect(() => {
+    chargeUnits.length > 0 && chargeUnits.map((chargeUnit) => {
+      getConnectors(chargeUnit.chargePointId);
+      console.log('connectors', connectors)
+    });
+  }, [chargeUnits]);
 
   return (
     (
@@ -187,7 +254,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
           {activeIndex === 1 && (
             <Accordion
               accordionTitle="Sarj Üniteleri"
-              accordionContent={<ChargeUnitsContent slug={slug} />}
+              accordionContent={<ChargeUnitsContent chargeUnits={chargeUnits} connectors={connectors} />}
               titleClassName="font-bold"
               contentClassName="overflow-y-auto"
             />

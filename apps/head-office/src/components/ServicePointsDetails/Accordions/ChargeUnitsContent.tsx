@@ -1,14 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import { Button } from '@projects/button';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../../app/redux/store';
-
-
-interface IChargeUnitsContentProps {
-    slug: string;
-};
+import { FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
 
 interface IChargeUnitsProps {
     chargePointId: number;
@@ -23,56 +18,35 @@ interface IChargeUnitsProps {
     lastHeartBeat: string;
     limitedUsage: boolean;
     model: string;
-    ocppVersion: number;
+    ocppVersion: string;
     sendRoaming: boolean;
     stationId: number;
     status: string;
 };
-
-const initialChargeUnitsStateValue = {
-    chargePointId: 2026,
-    connectorNumber: 1,
-    connectorId: 1,
-    count: 1,
-    deviceCode: '9081000201',
-    externalAddress: '',
-    internalAddress: '',
-    investor: 'Operatör',
-    isFreePoint: false,
-    lastHeartBeat: '',
-    limitedUsage: false,
-    model: 'Gersan',
-    ocppVersion: 1500,
-    sendRoaming: true,
-    stationId: 2022,
-    status: 'Kullanılabilir',
+interface IConnectorProps {
+    connectorName: string;
+    connectorNr: number;
+    id: number;
+    isAc: boolean;
+    kw: number;
+    stationChargePointId: number;
+};
+interface IConnectorStateProps {
+    [key: number]: IConnectorProps;
+  };
+interface IChargeUnitsContentProps {
+    chargeUnits: IChargeUnitsProps[];
+    connectors: {[key:number]: IConnectorStateProps};
 };
 
-const ChargeUnitsContent = ({ slug }: IChargeUnitsContentProps) => {
+const ChargeUnitsContent = ({ chargeUnits, connectors }: IChargeUnitsContentProps) => {
     const dispatch = useDispatch();
-    const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([initialChargeUnitsStateValue]);
     const isModalVisible = useSelector(
         (state: RootState) => state.isModalVisibleReducer.isModalVisible
     );
 
-    const getChargeUnits = () => {
-        axios
-            .post(
-                'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationSettings',
-                JSON.stringify({ stationId: Number(slug), PageNumber: 1, PageSize: 5 }),
-                { headers: { 'Content-Type': 'application/json' } }
-            )
-            .then((response) => response.data.data)
-            .then((data) => {
-                setChargeUnits(data);
-            })
-            .catch((error) => console.log(error));
-    };
-
     const handleClick = (event: React.MouseEvent) => {
-        const chargeUnitId = event.currentTarget.getAttribute(
-            'data-charge-point-id'
-        );
+        const chargeUnitId = event.currentTarget.getAttribute('data-charge-point-id');
 
         if (chargeUnitId) {
             console.log(chargeUnitId); //TO DO: Set Modal Input Value from Request
@@ -80,10 +54,6 @@ const ChargeUnitsContent = ({ slug }: IChargeUnitsContentProps) => {
 
         dispatch(toggleModalVisibility(isModalVisible));
     };
-
-    useEffect(() => {
-        getChargeUnits();
-    }, []);
 
     return (
         <div className="charge-units-content py-8">
@@ -102,36 +72,76 @@ const ChargeUnitsContent = ({ slug }: IChargeUnitsContentProps) => {
                         key={index}
                         data-charge-point-id={chargeUnit.chargePointId}
                     >
-                        <div className="charge-unit-info">
-                            <h3 className="charge-unit-name text-lg font-bold text-heading">
-                                {chargeUnit.model}
-                            </h3>
+                        <div className="charge-unit-info w-full">
+                            <div className='charge-unit flex justify-between'>
+                                <h3 className="charge-unit-name text-lg font-bold text-heading">
+                                    {chargeUnit.model}
+                                </h3>
+                                <div className="charge-unit-actions mx-2">
+                                    <Button
+                                        buttonText={`Düzenle`}
+                                        className="charge-unit-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2"
+                                        dataAttributes={{
+                                            'data-charge-point-id': chargeUnit.chargePointId.toString(),
+                                        }}
+                                        type={'button'}
+                                        onClick={handleClick}
+                                    />
+                                    <Button
+                                        buttonText={'Sil'}
+                                        className="charge-unit-delete-button bg-secondary text-white rounded-md px-4 py-2"
+                                        type={'button'}
+                                    />
+                                </div>
+                            </div>
                             <div className="charge-unit-connector-number">
                                 <h3 className="charge-unit-connector-number-label text-lg font-bold text-text">
                                     {chargeUnit.deviceCode || '90'}
                                 </h3>
-                                <p>
-                                    {
-                                        // console.log(getConnectors(chargeUnit.chargePointId))
-                                    }
-                                </p>
+                                <div className="connectors-contianer pt-6 pl-12 mx-2 w-full">
+                                    <div className='flex justify-between'>
+                                        <h4 className='font-bold text-gray-700 mb-4'>Konnektörler: {Object.values(connectors[chargeUnit.chargePointId] || {}).length}</h4>
+                                        <Button
+                                            buttonText={``}
+                                            className="connector-add-button bg-primary text-white rounded-md px-4 py-2 mx-4"
+                                            type={'button'}
+                                            onClick={handleClick}
+                                        >
+                                            <FaPlugCirclePlus />
+                                        </Button>
+                                    </div>
+                                    <p>
+                                        {
+                                            Object.values(connectors[chargeUnit.chargePointId] || {}).map((connector: IConnectorProps) => {
+                                                return (
+                                                    <div key={connector.id} className='connector-item w-full justify-between my-2 px-4'>
+                                                        <span>
+                                                            {connector.connectorName}
+                                                        </span>
+                                                        <div className='connector-item-actions'>
+                                                            <Button
+                                                                buttonText={``}
+                                                                className="connector-edit-button bg-primary text-white rounded px-4 py-2 mx-2"
+                                                                type={'button'}
+                                                                onClick={handleClick}
+                                                            >
+                                                                <FaPencil />
+                                                            </Button>
+                                                            <Button
+                                                                buttonText={''}
+                                                                className="connector-delete-button bg-secondary text-white rounded-md px-4 py-2"
+                                                                type={'button'}
+                                                            >
+                                                                <FaTrash />
+                                                            </Button>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            })
+                                        }
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div className="charge-unit-actions mx-2">
-                            <Button
-                                buttonText={`Düzenle`}
-                                className="charge-unit-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2"
-                                dataAttributes={{
-                                    'data-charge-point-id': chargeUnit.chargePointId.toString(),
-                                }}
-                                type={'button'}
-                                onClick={handleClick}
-                            />
-                            <Button
-                                buttonText={'Sil'}
-                                className="charge-unit-delete-button bg-secondary text-white rounded-md px-4 py-2"
-                                type={'button'}
-                            />
                         </div>
                     </div>
                 ))}
