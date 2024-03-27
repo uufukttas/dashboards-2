@@ -9,11 +9,8 @@ import ChargeUnitsContent from './Accordions/ChargeUnitsContent';
 import ServicePointDetailsContent from './Accordions/ServicePointDetailsContent';
 import WorkingHoursContent from './Accordions/WorkingHoursContent';
 import ServicePointDetailsHeader from './ServicePointDetailsHeader';
-import ServicePointDetailsModal from './ServicePointDetailsModal';
 import Navbar from '../Navbar/Navbar';
 import Accordion from '../../../src/components/Accordion/Accordion';
-import Modal from '../../../src/components/Modal/Modal';
-import { BRAND_PREFIX } from '../../../src/constants/constants';
 import './ServicePointDetails.css';
 
 interface IChargeUnitsProps {
@@ -289,22 +286,6 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
             />
           )}
         </div>
-        {false && (
-          <Modal
-            className="charge-units-modal"
-            modalHeaderTitle={`Şarj Ünitesi Ekle`}
-            modalId={`${BRAND_PREFIX}-service-point-modal`}
-            onClose={() => { }}
-          >
-            <ServicePointDetailsModal
-              slug={slug}
-              brands={brands}
-              investors={investors}
-              statusList={statusList}
-              accessTypeList={accessTypeList}
-            />
-          </Modal>
-        )}
       </>
     )
   );

@@ -4,6 +4,8 @@ import { Button } from '@projects/button';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../../app/redux/store';
 import { FaChargingStation, FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
+import Modal from '../../Modal/Modal';
+import { BRAND_PREFIX } from '../../../constants/constants';
 
 interface IChargeUnitsProps {
     chargePointId: number;
@@ -55,6 +57,10 @@ const ChargeUnitsContent = ({ chargeUnits, connectors }: IChargeUnitsContentProp
         dispatch(toggleModalVisibility(isModalVisible));
     };
 
+    const addChargeUnit = () => {
+        dispatch(toggleModalVisibility(isModalVisible));
+    };
+
     return (
         <div className="charge-units-content py-8">
             <div className="charge-units-header flex justify-end">
@@ -62,7 +68,7 @@ const ChargeUnitsContent = ({ chargeUnits, connectors }: IChargeUnitsContentProp
                     buttonText={``}
                     className="charge-units-add-button bg-primary bg-primary text-white rounded-md px-4 py-2 mx-2"
                     type="button"
-                    onClick={handleClick}
+                    onClick={addChargeUnit}
                 >
                     <FaChargingStation />
                 </Button>
@@ -127,7 +133,7 @@ const ChargeUnitsContent = ({ chargeUnits, connectors }: IChargeUnitsContentProp
                                                         <div className='connector-item-actions'>
                                                             <Button
                                                                 buttonText={``}
-                                                                className="connector-edit-button bg-primary text-white rounded px-4 py-2 mx-2"
+                                                                className="connector-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2"
                                                                 type={'button'}
                                                                 onClick={handleClick}
                                                             >
@@ -152,6 +158,21 @@ const ChargeUnitsContent = ({ chargeUnits, connectors }: IChargeUnitsContentProp
                     </div>
                 ))}
             </div>
+            {
+                isModalVisible && (
+                    <Modal
+                        className={`${BRAND_PREFIX}-service-point-modal-container`}
+                        modalHeaderTitle={`Lokasyon Ekle'}`}
+                        modalId={`${BRAND_PREFIX}-service-point-modal`}
+                        onClose={() => {}}
+                    >
+                        <div>
+                            ads
+                        </div>
+
+                    </Modal>
+                )
+            }
         </div>
     );
 };
