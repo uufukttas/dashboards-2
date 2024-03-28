@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
@@ -6,6 +6,10 @@ import { RootState } from '../../../../app/redux/store';
 import { FaChargingStation, FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
 import Modal from '../../Modal/Modal';
 import { BRAND_PREFIX } from '../../../constants/constants';
+import { Dropdown } from '@projects/dropdown';
+import { Label } from '@projects/label';
+import axios from 'axios';
+import ServicePointDetailsModal from '../ServicePointDetailsModal';
 
 interface IChargeUnitsProps {
     chargePointId: number;
@@ -19,6 +23,7 @@ interface IChargeUnitsProps {
     isFreePoint: boolean;
     lastHeartBeat: string;
     limitedUsage: boolean;
+    modelId: number;
     model: string;
     ocppVersion: string;
     sendRoaming: boolean;
@@ -37,29 +42,94 @@ interface IConnectorStateProps {
     [key: number]: IConnectorProps;
 };
 interface IChargeUnitsContentProps {
+    accessTypeList: IAccessTypeProps[];
+    brands: IBrandsProps[];
     chargeUnits: IChargeUnitsProps[];
     connectors: { [key: number]: IConnectorStateProps };
+    investors: IInvestorsProps[];
+    slug: string;
+    statusList: IStatusListProps[];
+};
+interface IConnectorBrandProps {
+    connectorTypeId: number;
+    displayName: string;
 };
 
-const ChargeUnitsContent = ({ chargeUnits, connectors }: IChargeUnitsContentProps) => {
+interface IAccessTypeProps {
+    id: number;
+    stationChargePointFeatureType: number;
+    name: string;
+    rid: null;
+};
+
+interface IBrandsProps {
+    id: number,
+    name: string,
+    isDeleted: boolean;
+    rid: null;
+};
+
+interface IInvestorsProps {
+    id: number,
+    name: string,
+    rid: null;
+};
+interface IStatusListProps {
+    statusList: IStatusListProps[];
+    accessTypeList: IAccessTypeProps[];
+};
+
+const ChargeUnitsContent = ({ accessTypeList, brands, chargeUnits, connectors, investors, slug, statusList }: IChargeUnitsContentProps) => {
     const dispatch = useDispatch();
+    const [connectorBrands, setConnectorBrands] = useState([]);
+    const [addChargeUnit, setAddChargeUnit] = useState(false);
+    const [addConnector, setAddConnector] = useState(false);
+    const [selectedBrand, setSelectedBrand] = useState(0);
     const isModalVisible = useSelector(
         (state: RootState) => state.isModalVisibleReducer.isModalVisible
     );
 
     const handleClick = (event: React.MouseEvent) => {
-        const chargeUnitId = event.currentTarget.getAttribute('data-charge-point-id');
-
-        if (chargeUnitId) {
-            console.log(chargeUnitId); //TO DO: Set Modal Input Value from Request
-        }
+        const chargeUnitId = event.currentTarget.getAttribute('data-charge-unit-model-id');
+        setSelectedBrand(parseInt(chargeUnitId || '0'));
 
         dispatch(toggleModalVisibility(isModalVisible));
     };
 
-    const addChargeUnit = () => {
-        dispatch(toggleModalVisibility(isModalVisible));
+    const getConnectorBrands = () => {
+        axios
+            .post(
+                'https://sharztestapi.azurewebsites.net/Values/GetConnectorModels',
+                { brandId: selectedBrand },
+                { headers: { 'Content-Type': 'application/json' } }
+            )
+            .then(response => {
+                setConnectorBrands(response.data.data);
+                createDropdownItems();
+            })
+    }
+
+    const handleFormSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+
+        console.log('event', event)
+
+        // addConnector();
     };
+
+    const createDropdownItems = () => {
+        return connectorBrands.map((connectorBrand: IConnectorBrandProps) => {
+            return {
+                id: connectorBrand.connectorTypeId,
+                name: connectorBrand.displayName,
+                rid: null,
+            };
+        });
+    };
+
+    useEffect(() => {
+        getConnectorBrands();
+    }, [selectedBrand]);
 
     return (
         <div className="charge-units-content py-8">
@@ -68,7 +138,10 @@ const ChargeUnitsContent = ({ chargeUnits, connectors }: IChargeUnitsContentProp
                     buttonText={``}
                     className="charge-units-add-button bg-primary bg-primary text-white rounded-md px-4 py-2 mx-2"
                     type="button"
-                    onClick={addChargeUnit}
+                    onClick={() => {
+                        setAddChargeUnit(true);
+                        dispatch(toggleModalVisibility(isModalVisible));
+                    }}
                 >
                     <FaChargingStation />
                 </Button>
@@ -117,7 +190,11 @@ const ChargeUnitsContent = ({ chargeUnits, connectors }: IChargeUnitsContentProp
                                             buttonText={``}
                                             className="connector-add-button bg-primary text-white rounded-md px-4 py-2 mx-4"
                                             type={'button'}
-                                            onClick={handleClick}
+                                            dataAttributes={{
+                                                'data-charge-point-id': chargeUnit.chargePointId.toString(),
+                                                'data-charge-unit-model-id': chargeUnit.modelId.toString(),
+                                            }}
+                                            onClick={() => setAddConnector(true)}
                                         >
                                             <FaPlugCirclePlus />
                                         </Button>
@@ -159,17 +236,52 @@ const ChargeUnitsContent = ({ chargeUnits, connectors }: IChargeUnitsContentProp
                 ))}
             </div>
             {
-                isModalVisible && (
+                addConnector && isModalVisible && (
                     <Modal
-                        className={`${BRAND_PREFIX}-service-point-modal-container`}
-                        modalHeaderTitle={`Lokasyon Ekle'}`}
-                        modalId={`${BRAND_PREFIX}-service-point-modal`}
-                        onClose={() => {}}
+                        className={`${BRAND_PREFIX}-connector-modal-container`}
+                        modalHeaderTitle={`Konnektor Ekle`}
+                        modalId={`${BRAND_PREFIX}-connector-modal`}
+                        onClose={() => { }}
                     >
-                        <div>
-                            ads
-                        </div>
+                        <div className="relative p-6 bg-white rounded-lg">
+                            <form onSubmit={handleFormSubmit}>
+                                <Label
+                                    className='block mb-2 text-heading font-semibold'
+                                    htmlFor='location'
+                                    labelText='Konnektör Tipi'
+                                />
 
+                                <Dropdown
+                                    className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4'
+                                    id='location'
+                                    items={createDropdownItems()}
+                                    name={'location'}
+                                />
+                                <Button
+                                    buttonText={'Kaydet'}
+                                    className='bg-primary text-white rounded-md px-4 py-2'
+                                    type='submit'
+                                />
+                            </form>
+                        </div>
+                    </Modal>
+                )
+            }
+            {
+                addChargeUnit && isModalVisible && (
+                    <Modal
+                        className={`${BRAND_PREFIX}-container`}
+                        modalHeaderTitle={`Sarj Unitesi Ekle`}
+                        modalId={`${BRAND_PREFIX}-modal`}
+                        onClose={() => { }}
+                    >
+                        <ServicePointDetailsModal
+                            accessTypeList={accessTypeList}
+                            brands={brands}
+                            investors={investors}
+                            slug={slug}
+                            statusList={statusList}
+                        />
                     </Modal>
                 )
             }
