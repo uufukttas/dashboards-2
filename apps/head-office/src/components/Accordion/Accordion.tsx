@@ -17,7 +17,7 @@ const Accordion = ({ accordionTitle, accordionContent, titleClassName, contentCl
   };
 
   return (
-    <div className={`${BRAND_PREFIX}-accordion-container border w-full my-4 rounded-lg`}>
+    <div className={`${BRAND_PREFIX}-accordion-container border my-4 rounded-lg`}>
       <div className={`${BRAND_PREFIX}-accordion-header`} onClick={toggleAccordion}>
         <div className={`${BRAND_PREFIX}-accordion-title ${titleClassName}`}>{accordionTitle}</div>
         <div className={`${BRAND_PREFIX}-accordion-arrow ${isOpen ? 'open' : ''}`}></div>

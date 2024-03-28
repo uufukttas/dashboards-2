@@ -20,7 +20,7 @@ const Header = ({ className }: IHeaderProps) => {
   };
 
   return (
-    <div className={`${BRAND_PREFIX}-header-container justify-between border-b border-gray-300 bg-white sticky top-0 z-10 ${className}`}>
+    <div className={`${BRAND_PREFIX}-header-container justify-between border-b border-gray-300 bg-white top-0 z-10 ${className}`}>
       <div className={`${BRAND_PREFIX}-sidebar-toggle-button-container`}>
         <Button
           className={`${BRAND_PREFIX}-sidebar-toggle-button bg-white hover:bg-white mx-8 py-2 px-2`}
