@@ -12,6 +12,8 @@ import ServicePointDetailsHeader from './ServicePointDetailsHeader';
 import Navbar from '../Navbar/Navbar';
 import Accordion from '../../../src/components/Accordion/Accordion';
 import './ServicePointDetails.css';
+import { BRAND_PREFIX } from '../../constants/constants';
+import { useSelector } from 'react-redux';
 
 interface IChargeUnitsProps {
   chargePointId: number;
@@ -25,6 +27,7 @@ interface IChargeUnitsProps {
   isFreePoint: boolean;
   lastHeartBeat: string;
   limitedUsage: boolean;
+  modelId: number;
   model: string;
   ocppVersion: string;
   sendRoaming: boolean;
@@ -55,15 +58,39 @@ interface IServicePointsDetailsProps {
   isDeleted: boolean;
 };
 interface IConnectorProps {
-    connectorName: string;
-    connectorNr: number;
-    id: number;
-    isAc: boolean;
-    kw: number;
-    stationChargePointId: number;
+  connectorName: string;
+  connectorNr: number;
+  id: number;
+  isAc: boolean;
+  kw: number;
+  stationChargePointId: number;
 };
 interface IConnectorStateProps {
   [key: number]: IConnectorProps;
+};
+interface IAccessTypeProps {
+  id: number;
+  stationChargePointFeatureType: number;
+  name: string;
+  rid: null;
+};
+
+interface IInvestorsProps {
+  id: number,
+  name: string
+  rid: null;
+}
+
+interface IBrandsProps {
+  id: number,
+  name: string,
+  isDeleted: boolean
+  rid: null;
+};
+
+interface IStatusListProps {
+  statusList: IStatusListProps[];
+  accessTypeList: IAccessTypeProps[];
 };
 
 const initialServicePointsDetailsStateValue = {
@@ -78,15 +105,16 @@ const initialServicePointsDetailsStateValue = {
 };
 
 const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
-  const [accessTypeList, setAccessTypeList] = useState([]);
+  const isModalVisible = useSelector((state: any) => state.isModalVisibleReducer.isModalVisible);
+  const [accessTypeList, setAccessTypeList] = useState<IAccessTypeProps[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [brands, setBrands] = useState([]);
+  const [brands, setBrands] = useState<IBrandsProps[]>([]);
   const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([]);
   const [connectors, setConnectors] = useState<{ [chargePointId: number]: IConnectorStateProps }>({});
-  const [investors, setInvestors] = useState([]);
+  const [investors, setInvestors] = useState<IInvestorsProps[]>([]);
   const [servicePointDetails, setServicePointDetails] =
     useState<IServicePointsDetailsProps>(initialServicePointsDetailsStateValue);
-  const [statusList, setStatusList] = useState([]);
+  const [statusList, setStatusList] = useState<IStatusListProps[]>([]);
 
   const getServicePointsDetails = async (slug: string) => {
     axios
@@ -224,69 +252,83 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   useEffect(() => {
     chargeUnits.length > 0 && chargeUnits.map((chargeUnit) => {
       getConnectors(chargeUnit.chargePointId);
-      console.log('connectors', connectors)
     });
   }, [chargeUnits]);
 
   return (
     (
-      <>
-        <ServicePointDetailsHeader
-          servicePointDetailsName={servicePointDetails.name}
-          servicePointDetailsStatus={servicePointDetails.isActive}
-        />
-        <Navbar
-          activeIndex={activeIndex}
-          items={detectDevice().isMobile ? NavbarItemsMobile : navbarItems}
-          setActiveIndex={setActiveIndex}
-        />
-        <div className="service-point-details-container w-full mx-8">
-          {activeIndex === 0 && (
-            <Accordion
-              accordionTitle="Lokasyon Bilgileri"
-              accordionContent={<ServicePointDetailsContent slug={slug} />}
-              titleClassName="font-bold"
-            />
-          )}
-          {activeIndex === 1 && (
-            <Accordion
-              accordionTitle="Sarj Üniteleri"
-              accordionContent={<ChargeUnitsContent chargeUnits={chargeUnits} connectors={connectors} />}
-              titleClassName="font-bold"
-              contentClassName="overflow-y-auto"
-            />
-          )}
-          {activeIndex === 2 && (
-            <Accordion
-              accordionTitle="Calisma Saatleri"
-              accordionContent={<WorkingHoursContent slug={Number(slug)} />}
-              titleClassName="font-bold"
-            />
-          )}
-          {activeIndex === 3 && (
-            // <Accordion
-            //   accordionTitle="Enerji Fiyat Ayarlari"
-            //   accordionContent={energySettingsContent}
-            //   titleClassName="font-bold"
-            // />
-            <></>
-          )}
-          {activeIndex === 4 && (
-            <Accordion
-              accordionTitle="Kullanici Ayarlari"
-              accordionContent={'workingHoursContent'}
-              titleClassName="font-bold"
-            />
-          )}
-          {activeIndex === 5 && (
-            <Accordion
-              accordionTitle="Sharz.net Fiyatlandirma"
-              accordionContent={''}
-              titleClassName="font-bold"
-            />
-          )}
+      <div className={`${BRAND_PREFIX}-service-point-detail-page-container w-full`}>
+        <div className={`${BRAND_PREFIX}-service-point-details-content-container w-full`}>
+          <ServicePointDetailsHeader
+            servicePointDetailsName={servicePointDetails.name}
+            servicePointDetailsStatus={servicePointDetails.isActive}
+          />
+          <Navbar
+            activeIndex={activeIndex}
+            items={detectDevice().isMobile ? NavbarItemsMobile : navbarItems}
+            setActiveIndex={setActiveIndex}
+          />
+          <div className="service-point-details-container mx-8">
+            {activeIndex === 0 && (
+              <Accordion
+                accordionTitle="Lokasyon Bilgileri"
+                accordionContent={<ServicePointDetailsContent slug={slug} />}
+                titleClassName="font-bold"
+              />
+            )}
+            {activeIndex === 1 && (
+              <Accordion
+                accordionTitle="Sarj Üniteleri"
+                accordionContent={
+                  <ChargeUnitsContent
+                    accessTypeList={accessTypeList}
+                    brands={brands}
+                    chargeUnits={chargeUnits}
+                    connectors={connectors}
+                    investors={investors}
+                    slug={slug}
+                    statusList={statusList}
+                  />
+                }
+                titleClassName="font-bold"
+                contentClassName="overflow-y-auto"
+              />
+            )}
+            {activeIndex === 2 && (
+              <Accordion
+                accordionTitle="Calisma Saatleri"
+                accordionContent={<WorkingHoursContent slug={Number(slug)} />}
+                titleClassName="font-bold"
+              />
+            )}
+            {activeIndex === 3 && (
+              // <Accordion
+              //   accordionTitle="Enerji Fiyat Ayarlari"
+              //   accordionContent={energySettingsContent}
+              //   titleClassName="font-bold"
+              // />
+              <></>
+            )}
+            {activeIndex === 4 && (
+              <Accordion
+                accordionTitle="Kullanici Ayarlari"
+                accordionContent={'workingHoursContent'}
+                titleClassName="font-bold"
+              />
+            )}
+            {activeIndex === 5 && (
+              <Accordion
+                accordionTitle="Sharz.net Fiyatlandirma"
+                accordionContent={''}
+                titleClassName="font-bold"
+              />
+            )}
+          </div>
         </div>
-      </>
+        {
+          isModalVisible && <div className="modal-container"></div>
+        }
+      </div>
     )
   );
 };
