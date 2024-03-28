@@ -12,7 +12,12 @@ import { RootState } from '../../../app/redux/store';
 
 interface IAccessTypeProps {
   id: number;
-  stationChargePointFeatureType: number;
+  name: string;
+  rid: null;
+};
+
+interface IStatusListProps {
+  id: number;
   name: string;
   rid: null;
 };
@@ -29,16 +34,12 @@ interface IInvestorsProps {
   name: string,
   rid: null;
 };
-interface IStatusListProps {
-  statusList: IStatusListProps[];
-  accessTypeList: IAccessTypeProps[];
-};
 interface IChargeUnitsForm {
   slug: string;
   brands: IBrandsProps[];
   investors: IInvestorsProps[];
-  statusList: IStatusListProps[];
   accessTypeList: IAccessTypeProps[];
+  statusList: IStatusListProps[];
 }
 
 interface IChargeUnitFormProps {
@@ -63,7 +64,7 @@ const initialChargeUnitFormDataState = {
   location: '',
 };
 
-const ServicePointDetailsModal = ({ slug, brands, investors, statusList, accessTypeList }: IChargeUnitsForm) => {
+const ServicePointDetailsModal = ({ slug, brands, accessTypeList, investors, statusList }: IChargeUnitsForm) => {
   const dispatch = useDispatch();
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
   const [chargeUnitFormData, setChargeUnitFormData] = useState<IChargeUnitFormProps>(initialChargeUnitFormDataState);
@@ -250,7 +251,7 @@ const ServicePointDetailsModal = ({ slug, brands, investors, statusList, accessT
           <Dropdown
             className="border text-text text-sm rounded-lg block w-full p-2.5 mb-4"
             id={'charge-units-status'}
-            items={[]}
+            items={statusList}
             name="charge-units-status"
             onChange={(event) => {
               setChargeUnitFormData({

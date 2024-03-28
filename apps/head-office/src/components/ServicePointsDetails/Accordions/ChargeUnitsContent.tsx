@@ -30,43 +30,14 @@ interface IChargeUnitsProps {
     status: string;
 };
 interface IChargeUnitsContentProps {
-    accessTypeList: IAccessTypeProps[];
-    brands: IBrandsProps[];
     chargeUnits: IChargeUnitsProps[];
-    investors: IInvestorsProps[];
-    slug: string;
-    statusList: IStatusListProps[];
 };
 interface IConnectorBrandProps {
     connectorTypeId: number;
     displayName: string;
 };
 
-interface IAccessTypeProps {
-    id: number;
-    stationChargePointFeatureType: number;
-    name: string;
-    rid: null;
-};
-
-interface IBrandsProps {
-    id: number,
-    name: string,
-    isDeleted: boolean;
-    rid: null;
-};
-
-interface IInvestorsProps {
-    id: number,
-    name: string,
-    rid: null;
-};
-interface IStatusListProps {
-    statusList: IStatusListProps[];
-    accessTypeList: IAccessTypeProps[];
-};
-
-const ChargeUnitsContent = ({ accessTypeList, brands, chargeUnits, investors, slug, statusList }: IChargeUnitsContentProps) => {
+const ChargeUnitsContent = ({ chargeUnits }: IChargeUnitsContentProps) => {
     const dispatch = useDispatch();
     const [connectorBrands, setConnectorBrands] = useState([]);
     const [addConnector, setAddConnector] = useState(false);

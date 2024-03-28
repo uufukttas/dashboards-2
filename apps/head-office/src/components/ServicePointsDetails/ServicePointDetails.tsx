@@ -67,6 +67,11 @@ interface IAccessTypeProps {
   rid: null;
 };
 
+interface IStatusListProps {
+  id: number;
+  name: string;
+  rid: null;
+};
 interface IInvestorsProps {
   id: number,
   name: string
@@ -80,10 +85,6 @@ interface IBrandsProps {
   rid: null;
 };
 
-interface IStatusListProps {
-  statusList: IStatusListProps[];
-  accessTypeList: IAccessTypeProps[];
-};
 
 const initialServicePointsDetailsStateValue = {
   name: '',
@@ -243,12 +244,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
                 accordionTitle="Sarj Üniteleri"
                 accordionContent={
                   <ChargeUnitsContent
-                    accessTypeList={accessTypeList}
-                    brands={brands}
                     chargeUnits={chargeUnits}
-                    investors={investors}
-                    slug={slug}
-                    statusList={statusList}
                   />
                 }
                 titleClassName="font-bold"
@@ -296,9 +292,9 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
               <ServicePointDetailsModal
                 accessTypeList={accessTypeList}
                 brands={brands}
+                statusList={statusList}
                 investors={investors}
                 slug={slug}
-                statusList={statusList}
               />
             </Modal>
           )
