@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { BRAND_PREFIX } from '../../constants/constants';
@@ -8,14 +8,37 @@ import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
-import { RootState } from 'apps/head-office/app/redux/store';
+import { RootState } from '../../../app/redux/store';
 
+interface IAccessTypeProps {
+  id: number;
+  stationChargePointFeatureType: number;
+  name: string;
+  rid: null;
+};
+
+interface IBrandsProps {
+  id: number,
+  name: string,
+  isDeleted: boolean;
+  rid: null;
+};
+
+interface IInvestorsProps {
+  id: number,
+  name: string,
+  rid: null;
+};
+interface IStatusListProps {
+  statusList: IStatusListProps[];
+  accessTypeList: IAccessTypeProps[];
+};
 interface IChargeUnitsForm {
   slug: string;
-  brands: { id: number; name: string; rid: null }[];
-  investors: { id: number; name: string; rid: null }[];
-  statusList: { id: number; name: string; stationChargePointFeatureType: number; rid: null }[];
-  accessTypeList: { id: number; name: string; stationChargePointFeatureType: number; rid: null }[];
+  brands: IBrandsProps[];
+  investors: IInvestorsProps[];
+  statusList: IStatusListProps[];
+  accessTypeList: IAccessTypeProps[];
 }
 
 interface IChargeUnitFormProps {
