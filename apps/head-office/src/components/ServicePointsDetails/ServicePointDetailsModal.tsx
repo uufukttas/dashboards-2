@@ -250,7 +250,7 @@ const ServicePointDetailsModal = ({ slug, brands, investors, statusList, accessT
           <Dropdown
             className="border text-text text-sm rounded-lg block w-full p-2.5 mb-4"
             id={'charge-units-status'}
-            items={statusList}
+            items={[]}
             name="charge-units-status"
             onChange={(event) => {
               setChargeUnitFormData({
