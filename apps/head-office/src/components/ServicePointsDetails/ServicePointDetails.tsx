@@ -9,11 +9,14 @@ import ChargeUnitsContent from './Accordions/ChargeUnitsContent';
 import ServicePointDetailsContent from './Accordions/ServicePointDetailsContent';
 import WorkingHoursContent from './Accordions/WorkingHoursContent';
 import ServicePointDetailsHeader from './ServicePointDetailsHeader';
+import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
 import Accordion from '../../../src/components/Accordion/Accordion';
 import './ServicePointDetails.css';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { useSelector } from 'react-redux';
+import ServicePointDetailsModal from './ServicePointDetailsModal';
+import { RootState } from '../../../app/redux/store';
 
 interface IChargeUnitsProps {
   chargePointId: number;
@@ -57,17 +60,6 @@ interface IServicePointsDetailsProps {
   isActive: boolean;
   isDeleted: boolean;
 };
-interface IConnectorProps {
-  connectorName: string;
-  connectorNr: number;
-  id: number;
-  isAc: boolean;
-  kw: number;
-  stationChargePointId: number;
-};
-interface IConnectorStateProps {
-  [key: number]: IConnectorProps;
-};
 interface IAccessTypeProps {
   id: number;
   stationChargePointFeatureType: number;
@@ -105,28 +97,15 @@ const initialServicePointsDetailsStateValue = {
 };
 
 const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
-  const isModalVisible = useSelector((state: any) => state.isModalVisibleReducer.isModalVisible);
+  const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
   const [accessTypeList, setAccessTypeList] = useState<IAccessTypeProps[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [brands, setBrands] = useState<IBrandsProps[]>([]);
   const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([]);
-  const [connectors, setConnectors] = useState<{ [chargePointId: number]: IConnectorStateProps }>({});
   const [investors, setInvestors] = useState<IInvestorsProps[]>([]);
   const [servicePointDetails, setServicePointDetails] =
     useState<IServicePointsDetailsProps>(initialServicePointsDetailsStateValue);
   const [statusList, setStatusList] = useState<IStatusListProps[]>([]);
-
-  const getServicePointsDetails = async (slug: string) => {
-    axios
-      .post(
-        'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationById',
-        { id: slug },
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-      .then((response) => response.data)
-      .then((data) => setServicePointDetails(data.data[0]))
-      .catch((error) => console.log(error));
-  };
 
   const getBrands = () => {
     axios
@@ -135,15 +114,17 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
       .then((response) => setBrands(response.data))
       .catch((error) => console.log(error));
   };
-
-  const getInvestors = () => {
-    axios
-      .get('https://sharztestapi.azurewebsites.net/Values/GetInvestors')
-      .then((response) => response.data)
-      .then((response) => setInvestors(response.data))
+  const getChargeUnits = async () => {
+    await axios
+      .post(
+        'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationSettings',
+        JSON.stringify({ stationId: Number(slug), PageNumber: 1, PageSize: 5 }),
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then((response) => response.data.data)
+      .then(async (data) => setChargeUnits(data))
       .catch((error) => console.log(error));
   };
-
   const getChargeUnitFeatures = () => {
     axios
       .get(
@@ -156,7 +137,24 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
       })
       .catch((error) => console.log(error));
   };
-
+  const getInvestors = () => {
+    axios
+      .get('https://sharztestapi.azurewebsites.net/Values/GetInvestors')
+      .then((response) => response.data)
+      .then((response) => setInvestors(response.data))
+      .catch((error) => console.log(error));
+  };
+  const getServicePointsDetails = async (slug: string) => {
+    axios
+      .post(
+        'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationById',
+        { id: slug },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then((response) => response.data)
+      .then((data) => setServicePointDetails(data.data[0]))
+      .catch((error) => console.log(error));
+  };
   const getWorkingHours = () => {
     axios
       .post(
@@ -166,35 +164,6 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
       )
       .then((response) => response.data)
       .then((data) => console.log(data))
-      .catch((error) => console.log(error));
-  };
-
-  const getChargeUnits = async () => {
-    await axios
-      .post(
-        'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationSettings',
-        JSON.stringify({ stationId: Number(slug), PageNumber: 1, PageSize: 5 }),
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-      .then((response) => response.data.data)
-      .then(async (data) => setChargeUnits(data))
-      .catch((error) => console.log(error));
-  };
-
-  const getConnectors = (chargePointId: number) => {
-    axios
-      .post(
-        'https://sharztestapi.azurewebsites.net/StationInfo/GetChargePointConnectors',
-        JSON.stringify({ "stationChargePointId": chargePointId }),
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-      .then((response) => response.data)
-      .then((data) => {
-        setConnectors((prevConnectors) => ({
-          ...prevConnectors,
-          [chargePointId]: data.data
-        }));
-      })
       .catch((error) => console.log(error));
   };
 
@@ -218,7 +187,6 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
       title: <><FaCoins />Komisyonlar</>,
     },
   ];
-
   const NavbarItemsMobile = [
     {
       title: <FaLocationDot />,
@@ -241,19 +209,13 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   ];
 
   useEffect(() => {
-    getServicePointsDetails(slug);
     getBrands();
-    getInvestors();
-    getChargeUnitFeatures();
     getChargeUnits();
+    getChargeUnitFeatures();
+    getInvestors();
+    getServicePointsDetails(slug);
     getWorkingHours();
   }, [slug]);
-
-  useEffect(() => {
-    chargeUnits.length > 0 && chargeUnits.map((chargeUnit) => {
-      getConnectors(chargeUnit.chargePointId);
-    });
-  }, [chargeUnits]);
 
   return (
     (
@@ -284,7 +246,6 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
                     accessTypeList={accessTypeList}
                     brands={brands}
                     chargeUnits={chargeUnits}
-                    connectors={connectors}
                     investors={investors}
                     slug={slug}
                     statusList={statusList}
@@ -326,7 +287,21 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
           </div>
         </div>
         {
-          isModalVisible && <div className="modal-container"></div>
+          isModalVisible && (
+            <Modal
+              modalHeaderTitle='Şarj Ünitesi Ekle'
+              modalId={`charge-points-add-modal`}
+              onClose={() => { }}
+            >
+              <ServicePointDetailsModal
+                accessTypeList={accessTypeList}
+                brands={brands}
+                investors={investors}
+                slug={slug}
+                statusList={statusList}
+              />
+            </Modal>
+          )
         }
       </div>
     )

@@ -9,7 +9,6 @@ import { BRAND_PREFIX } from '../../../constants/constants';
 import { Dropdown } from '@projects/dropdown';
 import { Label } from '@projects/label';
 import axios from 'axios';
-import ServicePointDetailsModal from '../ServicePointDetailsModal';
 
 interface IChargeUnitsProps {
     chargePointId: number;
@@ -30,22 +29,10 @@ interface IChargeUnitsProps {
     stationId: number;
     status: string;
 };
-interface IConnectorProps {
-    connectorName: string;
-    connectorNr: number;
-    id: number;
-    isAc: boolean;
-    kw: number;
-    stationChargePointId: number;
-};
-interface IConnectorStateProps {
-    [key: number]: IConnectorProps;
-};
 interface IChargeUnitsContentProps {
     accessTypeList: IAccessTypeProps[];
     brands: IBrandsProps[];
     chargeUnits: IChargeUnitsProps[];
-    connectors: { [key: number]: IConnectorStateProps };
     investors: IInvestorsProps[];
     slug: string;
     statusList: IStatusListProps[];
@@ -79,10 +66,9 @@ interface IStatusListProps {
     accessTypeList: IAccessTypeProps[];
 };
 
-const ChargeUnitsContent = ({ accessTypeList, brands, chargeUnits, connectors, investors, slug, statusList }: IChargeUnitsContentProps) => {
+const ChargeUnitsContent = ({ accessTypeList, brands, chargeUnits, investors, slug, statusList }: IChargeUnitsContentProps) => {
     const dispatch = useDispatch();
     const [connectorBrands, setConnectorBrands] = useState([]);
-    const [addChargeUnit, setAddChargeUnit] = useState(false);
     const [addConnector, setAddConnector] = useState(false);
     const [selectedBrand, setSelectedBrand] = useState(0);
     const isModalVisible = useSelector(
@@ -139,7 +125,6 @@ const ChargeUnitsContent = ({ accessTypeList, brands, chargeUnits, connectors, i
                     className="charge-units-add-button bg-primary bg-primary text-white rounded-md px-4 py-2 mx-2"
                     type="button"
                     onClick={() => {
-                        setAddChargeUnit(true);
                         dispatch(toggleModalVisibility(isModalVisible));
                     }}
                 >
@@ -185,7 +170,7 @@ const ChargeUnitsContent = ({ accessTypeList, brands, chargeUnits, connectors, i
                                 </h3>
                                 <div className="connectors-contianer pt-12 pl-12 mx-2 w-full">
                                     <div className='flex justify-between'>
-                                        <h4 className='font-bold text-gray-700 mb-4'>Konnektörler: {Object.values(connectors[chargeUnit.chargePointId] || {}).length}</h4>
+                                        {/* <h4 className='font-bold text-gray-700 mb-4'>Konnektörler: {Object.values(connectors[chargeUnit.chargePointId] || {}).length}</h4> */}
                                         <Button
                                             buttonText={``}
                                             className="connector-add-button bg-primary text-white rounded-md px-4 py-2 mx-4"
@@ -200,7 +185,7 @@ const ChargeUnitsContent = ({ accessTypeList, brands, chargeUnits, connectors, i
                                         </Button>
                                     </div>
                                     <div>
-                                        {
+                                        {/* {
                                             Object.values(connectors[chargeUnit.chargePointId] || {}).map((connector: IConnectorProps) => {
                                                 return (
                                                     <div key={connector.id} className='connector-item w-full justify-between my-2 px-4'>
@@ -227,7 +212,7 @@ const ChargeUnitsContent = ({ accessTypeList, brands, chargeUnits, connectors, i
                                                     </div>
                                                 )
                                             })
-                                        }
+                                        } */}
                                     </div>
                                 </div>
                             </div>
@@ -264,24 +249,6 @@ const ChargeUnitsContent = ({ accessTypeList, brands, chargeUnits, connectors, i
                                 />
                             </form>
                         </div>
-                    </Modal>
-                )
-            }
-            {
-                addChargeUnit && isModalVisible && (
-                    <Modal
-                        className={`${BRAND_PREFIX}-container`}
-                        modalHeaderTitle={`Sarj Unitesi Ekle`}
-                        modalId={`${BRAND_PREFIX}-modal`}
-                        onClose={() => { }}
-                    >
-                        <ServicePointDetailsModal
-                            accessTypeList={accessTypeList}
-                            brands={brands}
-                            investors={investors}
-                            slug={slug}
-                            statusList={statusList}
-                        />
                     </Modal>
                 )
             }
