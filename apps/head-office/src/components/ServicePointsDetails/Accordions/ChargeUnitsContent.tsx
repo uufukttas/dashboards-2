@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
+import axios from 'axios';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { FaChargingStation, FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
-import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
-import { RootState } from '../../../../app/redux/store';
-import { FaChargingStation, FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
-import Modal from '../../Modal/Modal';
-import { BRAND_PREFIX } from '../../../constants/constants';
 import { Dropdown } from '@projects/dropdown';
 import { Label } from '@projects/label';
-import axios from 'axios';
+import Modal from '../../Modal/Modal';
+import { BRAND_PREFIX } from '../../../constants/constants';
+import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import { RootState } from '../../../../app/redux/store';
 
+interface IChargeUnitsContentProps {
+    chargeUnits: IChargeUnitsProps[];
+    setAddChargeUnit: Dispatch<React.SetStateAction<boolean>>;
+};
 interface IChargeUnitsProps {
     chargePointId: number;
     connectorNumber: number;
@@ -29,30 +34,34 @@ interface IChargeUnitsProps {
     stationId: number;
     status: string;
 };
-interface IChargeUnitsContentProps {
-    chargeUnits: IChargeUnitsProps[];
-};
 interface IConnectorBrandProps {
     connectorTypeId: number;
     displayName: string;
 };
+interface IFormDataProps {
+    [key: string]: boolean | number | string;
+};
 
-const ChargeUnitsContent = ({ chargeUnits }: IChargeUnitsContentProps) => {
+const ChargeUnitsContent = ({ chargeUnits, setAddChargeUnit }: IChargeUnitsContentProps) => {
+    const sectionPrefix = 'charge-units';
     const dispatch = useDispatch();
-    const [connectorBrands, setConnectorBrands] = useState([]);
-    const [addConnector, setAddConnector] = useState(false);
-    const [selectedBrand, setSelectedBrand] = useState(0);
+    const { formState: { errors }, handleSubmit, register } = useForm<IFormDataProps>();
     const isModalVisible = useSelector(
         (state: RootState) => state.isModalVisibleReducer.isModalVisible
     );
+    const [connectorBrands, setConnectorBrands] = useState([]);
+    const [addConnector, setAddConnector] = useState(false);
+    const [selectedBrand, setSelectedBrand] = useState(0);
 
-    const handleClick = (event: React.MouseEvent) => {
-        const chargeUnitId = event.currentTarget.getAttribute('data-charge-unit-model-id');
-        setSelectedBrand(parseInt(chargeUnitId || '0'));
-
-        dispatch(toggleModalVisibility(isModalVisible));
+    const createDropdownItems = () => {
+        return connectorBrands.map((connectorBrand: IConnectorBrandProps) => {
+            return {
+                id: connectorBrand.connectorTypeId,
+                name: connectorBrand.displayName,
+                rid: null,
+            };
+        });
     };
-
     const getConnectorBrands = () => {
         axios
             .post(
@@ -65,23 +74,14 @@ const ChargeUnitsContent = ({ chargeUnits }: IChargeUnitsContentProps) => {
                 createDropdownItems();
             })
     }
+    const handleClick = (event: React.MouseEvent) => {
+        const chargeUnitId = event.currentTarget.getAttribute('data-charge-unit-model-id');
+        setSelectedBrand(parseInt(chargeUnitId || '0'));
 
-    const handleFormSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
-
-        console.log('event', event)
-
-        // addConnector();
+        dispatch(toggleModalVisibility(isModalVisible));
     };
-
-    const createDropdownItems = () => {
-        return connectorBrands.map((connectorBrand: IConnectorBrandProps) => {
-            return {
-                id: connectorBrand.connectorTypeId,
-                name: connectorBrand.displayName,
-                rid: null,
-            };
-        });
+    const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
+        // form submit logic
     };
 
     useEffect(() => {
@@ -89,20 +89,21 @@ const ChargeUnitsContent = ({ chargeUnits }: IChargeUnitsContentProps) => {
     }, [selectedBrand]);
 
     return (
-        <div className="charge-units-content py-8">
-            <div className="charge-units-header flex justify-end">
+        <div className={`${sectionPrefix}-content py-8`}>
+            <div className={`${sectionPrefix}-header flex justify-end mb-10`}>
                 <Button
                     buttonText={``}
-                    className="charge-units-add-button bg-primary bg-primary text-white rounded-md px-4 py-2 mx-2"
+                    className={`${sectionPrefix}-add-button bg-primary bg-primary text-white rounded-md px-4 py-2 mx-2`}
                     type="button"
                     onClick={() => {
+                        setAddChargeUnit(true);
                         dispatch(toggleModalVisibility(isModalVisible));
                     }}
                 >
                     <FaChargingStation />
                 </Button>
             </div>
-            <div className="charge-units-list">
+            <div className={`${sectionPrefix}-list`}>
                 {chargeUnits.map((chargeUnit, index) => (
                     <div
                         className="charge-unit flex justify-between items-baseline border-b-2 border-gray-200 py-4"
@@ -200,7 +201,10 @@ const ChargeUnitsContent = ({ chargeUnits }: IChargeUnitsContentProps) => {
                         onClose={() => { }}
                     >
                         <div className="relative p-6 bg-white rounded-lg">
-                            <form onSubmit={handleFormSubmit}>
+                            <form
+                                className={`${BRAND_PREFIX}-add-charge-unit-modal-form`}
+                                onSubmit={handleSubmit(handleFormSubmit)}
+                                >
                                 <Label
                                     className='block mb-2 text-heading font-semibold'
                                     htmlFor='location'
