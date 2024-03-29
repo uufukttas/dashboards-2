@@ -17,14 +17,31 @@
   cursor: pointer;
 }
 
+.sh-navbar-container button:not(:first-child):not(:last-child) {
+  border-width: 0 2px 0 2px;
+  border-color: #6b7280;
+  border-style: solid;
+}
+
+.sh-navbar-container button:first-child {
+  border-width: 0 2px 0 0;
+  border-color: #6b7280;
+}
+
+.sh-navbar-container button:last-child {
+  border-width: 0 0 0 2px;
+  border-color: #6b7280;
+}
+
 .sh-navbar-container .active {
   height: 100%;
   top: 0;
   z-index: 0;
   transition: all 0.5s ease 0s;
   border-radius: 5px;
-  background-color: #FCD800;
+  background-color: #fcd800;
   color: black;
+  border: none;
 }
 
 .sh-navbar-container button.active {
