@@ -276,7 +276,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
           addChargeUnit && isModalVisible && (
             <Modal
               modalHeaderTitle='Şarj Ünitesi Ekle'
-              modalId={`charge-points-add-modal`}
+              modalId={`${BRAND_PREFIX}-charge-points-add-modal`}
               onClose={() => { }}
             >
               <ServicePointDetailsModal
