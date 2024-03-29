@@ -3,21 +3,33 @@ import axios from 'axios';
 import { FaCoins } from 'react-icons/fa';
 import { FaLocationDot, FaClock, FaUserGear } from 'react-icons/fa6';
 import { RiBattery2ChargeFill } from 'react-icons/ri';
+import { useSelector } from 'react-redux';
 import { SlEnergy } from 'react-icons/sl';
 import { detectDevice } from '@projects/common';
 import ChargeUnitsContent from './Accordions/ChargeUnitsContent';
 import ServicePointDetailsContent from './Accordions/ServicePointDetailsContent';
 import WorkingHoursContent from './Accordions/WorkingHoursContent';
 import ServicePointDetailsHeader from './ServicePointDetailsHeader';
+import ServicePointDetailsModal from './ServicePointDetailsModal';
 import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
+import { BRAND_PREFIX } from '../../constants/constants';
+import { RootState } from '../../../app/redux/store';
 import Accordion from '../../../src/components/Accordion/Accordion';
 import './ServicePointDetails.css';
-import { BRAND_PREFIX } from '../../constants/constants';
-import { useSelector } from 'react-redux';
-import ServicePointDetailsModal from './ServicePointDetailsModal';
-import { RootState } from '../../../app/redux/store';
 
+interface IAccessTypeProps {
+  id: number;
+  stationChargePointFeatureType: number;
+  name: string;
+  rid: null;
+};
+interface IBrandsProps {
+  id: number,
+  name: string,
+  isDeleted: boolean
+  rid: null;
+};
 interface IChargeUnitsProps {
   chargePointId: number;
   connectorNumber: number;
@@ -37,6 +49,11 @@ interface IChargeUnitsProps {
   stationId: number;
   status: string;
 };
+interface IInvestorsProps {
+  id: number,
+  name: string
+  rid: null;
+};
 interface IServicePointsDetailsPageProps {
   slug: string;
 };
@@ -50,62 +67,31 @@ interface IServicePointsDetailsProps {
   isActive: boolean;
   isDeleted: boolean;
 };
-interface IServicePointsDetailsProps {
-  name: string;
-  id: string;
-  resellerId: string;
-  companyId: string;
-  resellerName: string;
-  companyName: string;
-  isActive: boolean;
-  isDeleted: boolean;
-};
-interface IAccessTypeProps {
-  id: number;
-  stationChargePointFeatureType: number;
-  name: string;
-  rid: null;
-};
-
 interface IStatusListProps {
   id: number;
   name: string;
   rid: null;
 };
-interface IInvestorsProps {
-  id: number,
-  name: string
-  rid: null;
-}
-
-interface IBrandsProps {
-  id: number,
-  name: string,
-  isDeleted: boolean
-  rid: null;
-};
-
-
-const initialServicePointsDetailsStateValue = {
-  name: '',
-  id: '',
-  resellerId: '',
-  companyId: '',
-  resellerName: '',
-  companyName: '',
-  isActive: false,
-  isDeleted: false,
-};
 
 const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
   const [accessTypeList, setAccessTypeList] = useState<IAccessTypeProps[]>([]);
-  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [activeIndex, setActiveIndex] = useState<number>(1);
+  const [addChargeUnit, setAddChargeUnit] = useState<boolean>(false);
   const [brands, setBrands] = useState<IBrandsProps[]>([]);
   const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([]);
   const [investors, setInvestors] = useState<IInvestorsProps[]>([]);
   const [servicePointDetails, setServicePointDetails] =
-    useState<IServicePointsDetailsProps>(initialServicePointsDetailsStateValue);
+    useState<IServicePointsDetailsProps>({
+      name: '',
+      id: '',
+      resellerId: '',
+      companyId: '',
+      resellerName: '',
+      companyName: '',
+      isActive: false,
+      isDeleted: false,
+    });
   const [statusList, setStatusList] = useState<IStatusListProps[]>([]);
 
   const getBrands = () => {
@@ -220,7 +206,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
 
   return (
     (
-      <div className={`${BRAND_PREFIX}-service-point-detail-page-container w-full`}>
+      <div className={`${BRAND_PREFIX}-service-point-details-page-content-wrapper w-full`}>
         <div className={`${BRAND_PREFIX}-service-point-details-content-container w-full`}>
           <ServicePointDetailsHeader
             servicePointDetailsName={servicePointDetails.name}
@@ -235,7 +221,9 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
             {activeIndex === 0 && (
               <Accordion
                 accordionTitle="Lokasyon Bilgileri"
-                accordionContent={<ServicePointDetailsContent slug={slug} />}
+                accordionContent={
+                  <ServicePointDetailsContent slug={slug} />
+                }
                 titleClassName="font-bold"
               />
             )}
@@ -245,6 +233,8 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
                 accordionContent={
                   <ChargeUnitsContent
                     chargeUnits={chargeUnits}
+                    setAddChargeUnit={setAddChargeUnit}
+
                   />
                 }
                 titleClassName="font-bold"
@@ -283,7 +273,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
           </div>
         </div>
         {
-          isModalVisible && (
+          addChargeUnit && isModalVisible && (
             <Modal
               modalHeaderTitle='Şarj Ünitesi Ekle'
               modalId={`charge-points-add-modal`}
