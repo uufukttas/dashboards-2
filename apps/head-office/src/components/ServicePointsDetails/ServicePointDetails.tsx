@@ -49,6 +49,17 @@ interface IChargeUnitsProps {
   stationId: number;
   status: string;
 };
+interface IConnectorProps {
+  connectorName: string;
+  connectorNr: number;
+  id: number;
+  isAC: boolean;
+  kw: number;
+  stationChargePointId: number;
+};
+interface IConnectorStateProps {
+  [key: number]: IConnectorProps[];
+};
 interface IInvestorsProps {
   id: number,
   name: string
@@ -80,6 +91,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const [addChargeUnit, setAddChargeUnit] = useState<boolean>(false);
   const [brands, setBrands] = useState<IBrandsProps[]>([]);
   const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([]);
+  const [connectors, setConnectors] = useState<IConnectorStateProps>([]);
   const [investors, setInvestors] = useState<IInvestorsProps[]>([]);
   const [servicePointDetails, setServicePointDetails] =
     useState<IServicePointsDetailsProps>({
@@ -109,7 +121,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
         { headers: { 'Content-Type': 'application/json' } }
       )
       .then((response) => response.data.data)
-      .then(async (data) => setChargeUnits(data))
+      .then((data) => setChargeUnits(data))
       .catch((error) => console.log(error));
   };
   const getChargeUnitFeatures = () => {
@@ -124,6 +136,24 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
       })
       .catch((error) => console.log(error));
   };
+  const getConnectors = () => {
+    chargeUnits.map((chargeUnit) => {
+      axios
+        .post(
+          'https://sharztestapi.azurewebsites.net/StationInfo/GetChargePointConnectors',
+          JSON.stringify({ stationChargePointId: chargeUnit.chargePointId }),
+          { headers: { 'Content-Type': 'application/json' } }
+        )
+        .then((response) => response.data)
+        .then((data) => setConnectors((prev) => [
+          ...prev,
+          { [chargeUnit.chargePointId]: data.data }
+        ]))
+        .catch((error) => console.log(error));
+    })
+
+    console.log('connectors', connectors)
+  }
   const getInvestors = () => {
     axios
       .get('https://sharztestapi.azurewebsites.net/Values/GetInvestors')
@@ -150,7 +180,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
         { headers: { 'Content-Type': 'application/json' } }
       )
       .then((response) => response.data)
-      .then((data) => console.log(data))
+      .then((data) => data)
       .catch((error) => console.log(error));
   };
 
@@ -197,12 +227,13 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
 
   useEffect(() => {
     getBrands();
-    getChargeUnits();
+    chargeUnits.length === 0 && getChargeUnits();
     getChargeUnitFeatures();
+    chargeUnits.length > 0 && getConnectors();
     getInvestors();
     getServicePointsDetails(slug);
     getWorkingHours();
-  }, [slug]);
+  }, [slug, chargeUnits]);
 
   return (
     (
@@ -233,6 +264,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
                 accordionContent={
                   <ChargeUnitsContent
                     chargeUnits={chargeUnits}
+                    connectors={connectors}
                     setAddChargeUnit={setAddChargeUnit}
 
                   />
