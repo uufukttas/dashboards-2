@@ -1,6 +1,7 @@
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface ICheckboxProps {
+  checked?: boolean;
   className: string;
   id: string;
   name: string;
@@ -9,6 +10,7 @@ interface ICheckboxProps {
 };
 
 export function Checkbox({
+  checked,
   className,
   id,
   name,
@@ -16,7 +18,7 @@ export function Checkbox({
   onChange,
 }: ICheckboxProps) {
   return (
-    <input className={className} id={id} name={name} type="checkbox" onChange={onChange} {...register} />
+    <input className={className} id={id} name={name} type="checkbox" onChange={onChange} {...register} checked={checked} />
   );
 };
 
