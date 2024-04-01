@@ -1,15 +1,15 @@
 import React, { Dispatch, useState } from 'react';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { Checkbox } from '@projects/checkbox';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../constants/constants';
+import { toggleChargePointDataUpdated } from '../../../app/redux/features/isChargePointDataUpdated';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
-import { RootState } from '../../../app/redux/store';
 
 interface IAccessTypeProps {
   id: number;
@@ -29,7 +29,6 @@ interface ServicePointDetailsModalProps {
   accessTypeList: IAccessTypeProps[];
   statusList: IStatusListProps[];
   setConnectorCount: Dispatch<React.SetStateAction<number>>;
-  setIsChargePointAdded: Dispatch<React.SetStateAction<boolean>>;
 };
 interface IFormDataProps {
   [key: string]: boolean | number | string;
@@ -45,7 +44,7 @@ interface IStatusListProps {
   rid: null;
 };
 
-const ServicePointDetailsModal = ({ accessTypeList, brands, investors, slug, statusList, setConnectorCount, setIsChargePointAdded }: ServicePointDetailsModalProps) => {
+const ServicePointDetailsModal = ({ accessTypeList, brands, investors, slug, statusList, setConnectorCount }: ServicePointDetailsModalProps) => {
   const formName = ['brands', 'connector-count', 'ocpp-version', 'is-free-usage', 'is-limited-usage', 'investor', 'status', 'access-type', 'location'];
   const sectionPrefix = 'charge-unit';
   const formProperties = {
@@ -61,7 +60,6 @@ const ServicePointDetailsModal = ({ accessTypeList, brands, investors, slug, sta
   };
   const dispatch = useDispatch();
   const { formState: { errors }, handleSubmit, register } = useForm();
-  const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible)
   const [chargeUnitFormData, setChargeUnitFormData] = useState<IFormDataProps>({
     [`${formProperties.brands}`]: 1,
     [`${formProperties['connector-count']}`]: 0,
@@ -109,8 +107,8 @@ const ServicePointDetailsModal = ({ accessTypeList, brands, investors, slug, sta
         { headers: { 'Content-Type': 'application/json' } }
       )
       .then((response) => {
-        dispatch(toggleModalVisibility())
-        setIsChargePointAdded(true);
+        dispatch(toggleModalVisibility());
+        dispatch(toggleChargePointDataUpdated(true));
       })
       .catch((error) => console.log(error));
   };

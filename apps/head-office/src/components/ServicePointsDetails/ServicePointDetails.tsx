@@ -18,6 +18,7 @@ import Accordion from '../../../src/components/Accordion/Accordion';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { RootState } from '../../../app/redux/store';
 import './ServicePointDetails.css';
+import isChargePointDataUpdated, { toggleChargePointDataUpdated } from 'apps/head-office/app/redux/features/isChargePointDataUpdated';
 interface IAccessTypeProps {
   id: number;
   stationChargePointFeatureType: number;
@@ -86,6 +87,9 @@ interface IStatusListProps {
 
 const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
+  const isChargePointDataUpdated = useSelector(
+    (state: RootState) => state.isChargePointDataUpdated.isChargePointDataUpdated
+  );
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
   const [accessTypeList, setAccessTypeList] = useState<IAccessTypeProps[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(1);
@@ -96,7 +100,6 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const [connectorCount, setConnectorCount] = useState<number>(0);
   const [connectors, setConnectors] = useState<IConnectorStateProps[]>([]);
   const [investors, setInvestors] = useState<IInvestorsProps[]>([]);
-  const [isChargePointAdded, setIsChargePointAdded] = useState<boolean>(false);
   const [servicePointDetails, setServicePointDetails] =
     useState<IServicePointsDetailsProps>({
       name: '',
@@ -237,14 +240,17 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
     getInvestors();
     getServicePointsDetails(slug);
     getWorkingHours();
-  }, [slug, chargeUnits]);
+    console.log('test')
+  }, [slug]);
 
   useEffect(() => {
-    if (isChargePointAdded) {
+    if (isChargePointDataUpdated) {
       getChargeUnits();
-      setIsChargePointAdded(false);
+      getConnectors();
+
+      dispatch(toggleChargePointDataUpdated(false));
     }
-  }, [isChargePointAdded]);
+  }, [isChargePointDataUpdated]);
 
   return (
     <div className={`${BRAND_PREFIX}-service-point-details-page-content-wrapper w-full`}>
@@ -320,7 +326,6 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
           <Modal
             modalHeaderTitle='Şarj Ünitesi Ekle'
             modalId={`${BRAND_PREFIX}-charge-points-add-modal`}
-            onClose={() => { }}
           >
             <ServicePointDetailsModal
               accessTypeList={accessTypeList}
@@ -329,7 +334,6 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
               investors={investors}
               slug={slug}
               setConnectorCount={setConnectorCount}
-              setIsChargePointAdded={setIsChargePointAdded}
             />
           </Modal>
         )
