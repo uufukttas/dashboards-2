@@ -1,6 +1,6 @@
 import React from 'react';
-import './Navbar.css';
 import { Button } from '@projects/button';
+import './Navbar.css';
 
 interface INavbarItemProps {
   title: string | JSX.Element;
@@ -22,7 +22,7 @@ const Navbar = ({ activeIndex, items, setActiveIndex }: INavbarProps) => {
       {
         items.map((item, index) => (
           <Button key={index}
-            className={`sh-navbar-item px-4 py-0 w-1/6 flex justify-evenly items-center ${activeIndex === index ? 'active' : ''}`}
+            className={`sh-navbar-item px-4 py-0 w-1/6 flex justify-center items-center text-2xl ${activeIndex === index ? 'active' : ''}`}
             onClick={() => handleItemClick(index)}
             type="button"
           >

@@ -3,47 +3,49 @@
   height: 35px;
   background-color: #656567;
   border-radius: 8px;
-}
 
-.sh-navbar-container button {
-  height: 100%;
-  font-size: 12px;
-  position: relative;
-  z-index: 1;
-  text-decoration: none;
-  text-transform: uppercase;
-  text-align: center;
-  color: white;
-  cursor: pointer;
-}
+  button {
+    height: 100%;
+    font-size: 12px;
+    position: relative;
+    z-index: 1;
+    text-decoration: none;
+    text-transform: uppercase;
+    text-align: center;
+    color: white;
+    cursor: pointer;
 
-.sh-navbar-container button:not(:first-child):not(:last-child) {
-  border-width: 0 2px 0 2px;
-  border-color: #54565A;
-  border-style: solid;
-}
+    &:not(:first-child):not(:last-child) {
+      border-width: 0 2px 0 2px;
+      border-color: #54565A;
+      border-style: solid;
+    }
 
-.sh-navbar-container button:first-child {
-  border-width: 0 2px 0 0;
-  border-color: #54565A;
-}
+    &:first-child {
+      border-width: 0 2px 0 0;
+      border-color: #54565A;
+    }
 
-.sh-navbar-container button:last-child {
-  border-width: 0 0 0 2px;
-  border-color: #54565A;
-}
+    &:last-child {
+      border-width: 0 0 0 2px;
+      border-color: #54565A;
+    }
 
-.sh-navbar-container .active {
-  height: 100%;
-  top: 0;
-  z-index: 0;
-  transition: all 0.5s ease 0s;
-  border-radius: 5px;
-  background-color: #fcd800;
-  color: black;
-  border: none;
-}
+    &.active {
+      height: 100%;
+      top: 0;
+      z-index: 0;
+      transition: all 0.5s ease 0s;
+      border-radius: 5px;
+      background-color: #fcd800;
+      color: black;
+      border: none;
+    }
 
-.sh-navbar-container button.active {
-  color: black;
+    @media (min-width: 768px) { // desktop ve tablet için
+      svg {
+        margin: 0 5px;
+      }
+    }
+  }
 }
