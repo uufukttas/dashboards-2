@@ -1,4 +1,4 @@
-import React, { Dispatch, Fragment, useEffect, useState } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaChargingStation, FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
@@ -162,7 +162,7 @@ const ChargeUnitsContent = ({ chargeUnits, connectors, setAddChargeUnit }: IChar
                                             <div className={`${chargeUnitPrefix}-connectors-list-container`}>
                                                 {
                                                     connectors.length > 0 && connectors.map(connectorList => {
-                                                        const key: string = Object.keys(connectorList)[0];
+                                                        const key: number = Number(Object.keys(connectorList)[0]);
                                                         const values = connectorList[key];
 
                                                         return (
