@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { Dispatch, useState } from 'react';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { Checkbox } from '@projects/checkbox';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../constants/constants';
+import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
+import { RootState } from '../../../app/redux/store';
 
 interface IAccessTypeProps {
   id: number;
@@ -19,12 +22,14 @@ interface IBrandsProps {
   isDeleted: boolean;
   rid: null;
 };
-interface IChargeUnitsForm {
+interface ServicePointDetailsModalProps {
   slug: string;
   brands: IBrandsProps[];
   investors: IInvestorsProps[];
   accessTypeList: IAccessTypeProps[];
   statusList: IStatusListProps[];
+  setConnectorCount: Dispatch<React.SetStateAction<number>>;
+  setIsChargePointAdded: Dispatch<React.SetStateAction<boolean>>;
 };
 interface IFormDataProps {
   [key: string]: boolean | number | string;
@@ -40,7 +45,7 @@ interface IStatusListProps {
   rid: null;
 };
 
-const ServicePointDetailsModal = ({ accessTypeList, brands, investors, slug, statusList }: IChargeUnitsForm) => {
+const ServicePointDetailsModal = ({ accessTypeList, brands, investors, slug, statusList, setConnectorCount, setIsChargePointAdded }: ServicePointDetailsModalProps) => {
   const formName = ['brands', 'connector-count', 'ocpp-version', 'is-free-usage', 'is-limited-usage', 'investor', 'status', 'access-type', 'location'];
   const sectionPrefix = 'charge-unit';
   const formProperties = {
@@ -54,7 +59,9 @@ const ServicePointDetailsModal = ({ accessTypeList, brands, investors, slug, sta
     'access-type': `${sectionPrefix}-${formName[7]}`,
     location: `${sectionPrefix}-${formName[8]}`
   };
+  const dispatch = useDispatch();
   const { formState: { errors }, handleSubmit, register } = useForm();
+  const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible)
   const [chargeUnitFormData, setChargeUnitFormData] = useState<IFormDataProps>({
     [`${formProperties.brands}`]: 1,
     [`${formProperties['connector-count']}`]: 0,
@@ -100,7 +107,12 @@ const ServicePointDetailsModal = ({ accessTypeList, brands, investors, slug, sta
         'https://sharztestapi.azurewebsites.net/ServicePoint/AddStationSettings',
         JSON.stringify(createRequestData()),
         { headers: { 'Content-Type': 'application/json' } }
-      ).then((response) => console.log('response', response))
+      )
+      .then((response) => {
+        dispatch(toggleModalVisibility())
+        setIsChargePointAdded(true);
+      })
+      .catch((error) => console.log(error));
   };
 
   return (
@@ -163,7 +175,8 @@ const ServicePointDetailsModal = ({ accessTypeList, brands, investors, slug, sta
                   setChargeUnitFormData({
                     ...chargeUnitFormData,
                     [event.target.name]: Number(event.target.value),
-                  })
+                  });
+                  setConnectorCount(Number(event.target.value));
                 }
               })
             }
