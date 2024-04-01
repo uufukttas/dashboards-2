@@ -20,7 +20,7 @@ export function Card({
   className,
 }: ICardProps) {
   return (
-    <div className={`${BRAND_PREFIX}-card-container p-8 shadow-custom mx-8 ${className}`}>
+    <div className={`${BRAND_PREFIX}-card-container p-8 shadow-custom lg:mx-8 ${className}`}>
       <CardHeader>
         {cardContent?.header}
       </CardHeader>

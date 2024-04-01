@@ -18,7 +18,7 @@ const Navbar = ({ activeIndex, items, setActiveIndex }: INavbarProps) => {
   };
 
   return (
-    <nav className='sh-navbar-container mx-8 flex items-center'>
+    <nav className='sh-navbar-container lg:mx-8 flex items-center'>
       {
         items.map((item, index) => (
           <Button key={index}

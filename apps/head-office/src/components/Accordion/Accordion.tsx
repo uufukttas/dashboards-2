@@ -22,7 +22,7 @@ const Accordion = ({ accordionTitle, accordionContent, titleClassName, contentCl
         <div className={`${BRAND_PREFIX}-accordion-title ${titleClassName}`}>{accordionTitle}</div>
         <div className={`${BRAND_PREFIX}-accordion-arrow ${isOpen ? 'open' : ''}`}></div>
       </div>
-      <div className={`${BRAND_PREFIX}-accordion-content ${isOpen ? 'open' : 'close'} px-8 bg-white rounded-lg ${contentClassName}`}>
+      <div className={`${BRAND_PREFIX}-accordion-content ${isOpen ? 'open' : 'close'} px-4 md:px-8 bg-white rounded-lg ${contentClassName}`}>
         {accordionContent}
       </div>
     </div>

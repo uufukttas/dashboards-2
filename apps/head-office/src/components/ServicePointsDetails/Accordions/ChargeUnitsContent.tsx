@@ -152,7 +152,7 @@ const ChargeUnitsContent = ({ chargeUnits, connectors, setAddChargeUnit }: IChar
                                     </div>
                                 </div>
                                 <div className={`${chargeUnitPrefix}-connectors-container`}>
-                                    <div className={`${chargeUnitPrefix}-connectors pt-12 pl-12 mx-2 w-full`}>
+                                    <div className={`${chargeUnitPrefix}-connectors pt-12 pl-4 mx-2 w-full`}>
                                         <div className={`${chargeUnitPrefix}-info-container flex justify-between flex-col`}>
                                             <div className={`${chargeUnitPrefix}-connector-title-container`}>
                                                 <h4 className={`${chargeUnitPrefix}-connector-title font-bold text-gray-700 mb-4`}>

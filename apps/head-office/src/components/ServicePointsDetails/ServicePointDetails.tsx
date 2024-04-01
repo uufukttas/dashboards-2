@@ -252,7 +252,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
               items={detectDevice().isMobile ? NavbarItemsMobile : navbarItems}
               setActiveIndex={setActiveIndex}
             />
-            <div className="service-point-details-container mx-8">
+            <div className="service-point-details-container lg:mx-8">
               {activeIndex === 0 && (
                 <Accordion
                   accordionTitle="Lokasyon Bilgileri"
