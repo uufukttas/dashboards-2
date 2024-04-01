@@ -7,7 +7,7 @@ interface IModalProps {
   className?: string;
   modalHeaderTitle: string;
   modalId: string;
-  onClose: () => void;
+  onClose?: () => void;
 };
 
 const Modal = ({ children, className, modalId, modalHeaderTitle, onClose }: IModalProps) => {
