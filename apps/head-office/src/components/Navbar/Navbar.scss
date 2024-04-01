@@ -17,18 +17,18 @@
 
     &:not(:first-child):not(:last-child) {
       border-width: 0 2px 0 2px;
-      border-color: #54565A;
+      border-color: #54565a;
       border-style: solid;
     }
 
     &:first-child {
       border-width: 0 2px 0 0;
-      border-color: #54565A;
+      border-color: #54565a;
     }
 
     &:last-child {
       border-width: 0 0 0 2px;
-      border-color: #54565A;
+      border-color: #54565a;
     }
 
     &.active {
@@ -42,7 +42,7 @@
       border: none;
     }
 
-    @media (min-width: 768px) { // desktop ve tablet için
+    @media (min-width: 768px) {
       svg {
         margin: 0 5px;
       }

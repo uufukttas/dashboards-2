@@ -17,16 +17,16 @@
 }
 .sh-navbar-container button:not(:first-child):not(:last-child) {
   border-width: 0 2px 0 2px;
-  border-color: #54565A;
+  border-color: #54565a;
   border-style: solid;
 }
 .sh-navbar-container button:first-child {
   border-width: 0 2px 0 0;
-  border-color: #54565A;
+  border-color: #54565a;
 }
 .sh-navbar-container button:last-child {
   border-width: 0 0 0 2px;
-  border-color: #54565A;
+  border-color: #54565a;
 }
 .sh-navbar-container button.active {
   height: 100%;
