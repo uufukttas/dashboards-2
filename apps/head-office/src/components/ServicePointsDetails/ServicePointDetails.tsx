@@ -11,14 +11,15 @@ import ServicePointDetailsContent from './Accordions/ServicePointDetailsContent'
 import WorkingHoursContent from './Accordions/WorkingHoursContent';
 import ServicePointDetailsHeader from './ServicePointDetailsHeader';
 import ServicePointDetailsModal from './ServicePointDetailsModal';
+import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
 import { BRAND_PREFIX } from '../../constants/constants';
 import Accordion from '../../../src/components/Accordion/Accordion';
+import { toggleChargePointDataUpdated } from '../../../app/redux/features/isChargePointDataUpdated';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { RootState } from '../../../app/redux/store';
 import './ServicePointDetails.css';
-import isChargePointDataUpdated, { toggleChargePointDataUpdated } from 'apps/head-office/app/redux/features/isChargePointDataUpdated';
 interface IAccessTypeProps {
   id: number;
   stationChargePointFeatureType: number;
@@ -90,6 +91,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const isChargePointDataUpdated = useSelector(
     (state: RootState) => state.isChargePointDataUpdated.isChargePointDataUpdated
   );
+  const isLoadingVisible = useSelector((state: RootState) => state.loadingReducer.isLoading);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
   const [accessTypeList, setAccessTypeList] = useState<IAccessTypeProps[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(1);
@@ -128,7 +130,13 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
         { headers: { 'Content-Type': 'application/json' } }
       )
       .then((response) => response.data.data)
-      .then((data) => chargeUnits.length !== data.length && setChargeUnits(data))
+      .then((data) => {
+        if (chargeUnits.length !== data.length) {
+          setChargeUnits(data)
+        }
+
+        dispatch(toggleLoadingVisibility(false));
+      })
       .catch((error) => console.log(error));
   };
   const getChargeUnitFeatures = () => {
@@ -156,7 +164,6 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
           setTimeout(() => {
             setConnectors((prev) => [...prev, { [chargeUnit.chargePointId]: data.data }])
           }, 1000)
-          dispatch(toggleLoadingVisibility(true));
         })
         .catch((error) => console.log(error));
     })
@@ -233,6 +240,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   ];
 
   useEffect(() => {
+    dispatch(toggleLoadingVisibility(true));
     getBrands();
     getChargeUnits();
     getChargeUnitFeatures();
@@ -246,111 +254,115 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   useEffect(() => {
     if (isChargePointDataUpdated) {
       getChargeUnits();
-      getConnectors();
 
       dispatch(toggleChargePointDataUpdated(false));
     }
   }, [isChargePointDataUpdated]);
 
   return (
-    <div className={`${BRAND_PREFIX}-service-point-details-page-content-wrapper w-full`}>
-      <div className={`${BRAND_PREFIX}-service-point-details-content-container w-full`}>
-        <ServicePointDetailsHeader
-          servicePointDetailsName={servicePointDetails.name}
-          servicePointDetailsStatus={servicePointDetails.isActive}
-        />
-        <Navbar
-          activeIndex={activeIndex}
-          items={detectDevice().isMobile ? NavbarItemsMobile : navbarItems}
-          setActiveIndex={setActiveIndex}
-        />
-        <div className="service-point-details-container lg:mx-8">
-          {activeIndex === 0 && (
-            <Accordion
-              accordionTitle="Lokasyon Bilgileri"
-              accordionContent={
-                <ServicePointDetailsContent slug={slug} />
-              }
-              titleClassName="font-bold"
+    isLoadingVisible
+      ? (
+        <Loading />)
+      : (
+        <div className={`${BRAND_PREFIX}-service-point-details-page-content-wrapper w-full`}>
+          <div className={`${BRAND_PREFIX}-service-point-details-content-container w-full`}>
+            <ServicePointDetailsHeader
+              servicePointDetailsName={servicePointDetails.name}
+              servicePointDetailsStatus={servicePointDetails.isActive}
             />
-          )}
-          {activeIndex === 1 && (
-            <Accordion
-              accordionTitle="Sarj Üniteleri"
-              accordionContent={
-                <ChargeUnitsContent
-                  chargeUnits={chargeUnits}
-                  connectorCount={connectorCount}
-                  connectors={connectors}
-                  setAddChargeUnit={setAddChargeUnit}
-                  setAddConnector={setAddConnector}
+            <Navbar
+              activeIndex={activeIndex}
+              items={detectDevice().isMobile ? NavbarItemsMobile : navbarItems}
+              setActiveIndex={setActiveIndex}
+            />
+            <div className="service-point-details-container lg:mx-8">
+              {activeIndex === 0 && (
+                <Accordion
+                  accordionTitle="Lokasyon Bilgileri"
+                  accordionContent={
+                    <ServicePointDetailsContent slug={slug} />
+                  }
+                  titleClassName="font-bold"
                 />
-              }
-              titleClassName="font-bold"
-              contentClassName="overflow-y-auto"
-            />
-          )}
-          {activeIndex === 2 && (
-            <Accordion
-              accordionTitle="Calisma Saatleri"
-              accordionContent={<WorkingHoursContent slug={Number(slug)} />}
-              titleClassName="font-bold"
-            />
-          )}
-          {activeIndex === 3 && (
-            // <Accordion
-            //   accordionTitle="Enerji Fiyat Ayarlari"
-            //   accordionContent={energySettingsContent}
-            //   titleClassName="font-bold"
-            // />
-            <></>
-          )}
-          {activeIndex === 4 && (
-            <Accordion
-              accordionTitle="Kullanici Ayarlari"
-              accordionContent={'workingHoursContent'}
-              titleClassName="font-bold"
-            />
-          )}
-          {activeIndex === 5 && (
-            <Accordion
-              accordionTitle="Sharz.net Fiyatlandirma"
-              accordionContent={''}
-              titleClassName="font-bold"
-            />
-          )}
+              )}
+              {activeIndex === 1 && (
+                <Accordion
+                  accordionTitle="Sarj Üniteleri"
+                  accordionContent={
+                    <ChargeUnitsContent
+                      chargeUnits={chargeUnits}
+                      connectorCount={connectorCount}
+                      connectors={connectors}
+                      setAddChargeUnit={setAddChargeUnit}
+                      setAddConnector={setAddConnector}
+                    />
+                  }
+                  titleClassName="font-bold"
+                  contentClassName="overflow-y-auto"
+                />
+              )}
+              {activeIndex === 2 && (
+                <Accordion
+                  accordionTitle="Calisma Saatleri"
+                  accordionContent={<WorkingHoursContent slug={Number(slug)} />}
+                  titleClassName="font-bold"
+                />
+              )}
+              {activeIndex === 3 && (
+                // <Accordion
+                //   accordionTitle="Enerji Fiyat Ayarlari"
+                //   accordionContent={energySettingsContent}
+                //   titleClassName="font-bold"
+                // />
+                <></>
+              )}
+              {activeIndex === 4 && (
+                <Accordion
+                  accordionTitle="Kullanici Ayarlari"
+                  accordionContent={'workingHoursContent'}
+                  titleClassName="font-bold"
+                />
+              )}
+              {activeIndex === 5 && (
+                <Accordion
+                  accordionTitle="Sharz.net Fiyatlandirma"
+                  accordionContent={''}
+                  titleClassName="font-bold"
+                />
+              )}
+            </div>
+          </div>
+          {
+            addChargeUnit && isModalVisible && (
+              <Modal
+                modalHeaderTitle='Şarj Ünitesi Ekle'
+                modalId={`${BRAND_PREFIX}-charge-points-add-modal`}
+              >
+                <ServicePointDetailsModal
+                  accessTypeList={accessTypeList}
+                  brands={brands}
+                  statusList={statusList}
+                  investors={investors}
+                  slug={slug}
+                  setConnectorCount={setConnectorCount}
+                />
+              </Modal>
+            )
+          }
+          {
+            addConnector && isModalVisible && (
+              <Modal
+                modalHeaderTitle='Connector Ekle'
+                modalId={`${BRAND_PREFIX}-connector-add-modal`}
+                onClose={() => { }}
+              >
+                <>
+                </>
+              </Modal>
+            )
+          }
         </div>
-      </div>
-      {
-        addChargeUnit && isModalVisible && (
-          <Modal
-            modalHeaderTitle='Şarj Ünitesi Ekle'
-            modalId={`${BRAND_PREFIX}-charge-points-add-modal`}
-          >
-            <ServicePointDetailsModal
-              accessTypeList={accessTypeList}
-              brands={brands}
-              statusList={statusList}
-              investors={investors}
-              slug={slug}
-              setConnectorCount={setConnectorCount}
-            />
-          </Modal>
-        )
-      }
-      {
-        addConnector && isModalVisible && (
-          <Modal
-            modalHeaderTitle='Connector Ekle'
-            modalId={`${BRAND_PREFIX}-connector-add-modal`}
-            onClose={() => { }}
-          >
-            <>
-            </>
-          </Modal>
-        )
-      }
-    </div>
+      )
   );
 };
 
