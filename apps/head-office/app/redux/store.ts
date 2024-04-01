@@ -1,6 +1,7 @@
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 import alertInformationReducer from './features/alertInformation';
 import dialogInformation from './features/dialogInformation';
+import isChargePointDataUpdated from './features/isChargePointDataUpdated';
 import isModalVisibleReducer from './features/isModalVisible';
 import isServicePointDataUpdatedReducer from './features/isServicePointDataUpdated';
 import loadingReducer from './features/isLoadingVisible';
@@ -12,6 +13,7 @@ export const store: EnhancedStore = configureStore({
   reducer: {
     alertInformationReducer,
     dialogInformation,
+    isChargePointDataUpdated,
     isModalVisibleReducer,
     isServicePointDataUpdatedReducer,
     loadingReducer,
