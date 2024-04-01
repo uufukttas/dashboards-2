@@ -7,7 +7,7 @@ import { RootState } from '../../../app/redux/store';
 
 interface IModalHeaderProps {
     modalHeaderTitle: string;
-    onClose: () => void;
+    onClose?: () => void;
 };
 
 const MofalHeader = ({ modalHeaderTitle, onClose }: IModalHeaderProps) => {
@@ -16,7 +16,8 @@ const MofalHeader = ({ modalHeaderTitle, onClose }: IModalHeaderProps) => {
 
     const handleClose = () => {
         dispatch(toggleModalVisibility(isModalVisible));
-        onClose();
+
+        onClose && onClose();
     };
 
     return (
