@@ -1,18 +1,14 @@
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, { Dispatch, Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
-import { useForm, SubmitHandler } from 'react-hook-form';
 import { FaChargingStation, FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
-import { Dropdown } from '@projects/dropdown';
-import { Label } from '@projects/label';
-import Modal from '../../Modal/Modal';
-import { BRAND_PREFIX } from '../../../constants/constants';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../../app/redux/store';
 
 interface IChargeUnitsContentProps {
     chargeUnits: IChargeUnitsProps[];
+    connectors: IConnectorStateProps[];
     setAddChargeUnit: Dispatch<React.SetStateAction<boolean>>;
 };
 interface IChargeUnitsProps {
@@ -34,18 +30,26 @@ interface IChargeUnitsProps {
     stationId: number;
     status: string;
 };
+interface IConnectorProps {
+    connectorName: string;
+    connectorNr: number;
+    id: number;
+    isAC: boolean;
+    kw: number;
+    stationChargePointId: number;
+};
+interface IConnectorStateProps {
+    [key: number]: IConnectorProps[];
+}
 interface IConnectorBrandProps {
     connectorTypeId: number;
     displayName: string;
 };
-interface IFormDataProps {
-    [key: string]: boolean | number | string;
-};
 
-const ChargeUnitsContent = ({ chargeUnits, setAddChargeUnit }: IChargeUnitsContentProps) => {
+const ChargeUnitsContent = ({ chargeUnits, connectors, setAddChargeUnit }: IChargeUnitsContentProps) => {
     const sectionPrefix = 'charge-units';
+    const chargeUnitPrefix = 'charge-unit';
     const dispatch = useDispatch();
-    const { formState: { errors }, handleSubmit, register } = useForm<IFormDataProps>();
     const isModalVisible = useSelector(
         (state: RootState) => state.isModalVisibleReducer.isModalVisible
     );
@@ -75,160 +79,131 @@ const ChargeUnitsContent = ({ chargeUnits, setAddChargeUnit }: IChargeUnitsConte
             })
     }
     const handleClick = (event: React.MouseEvent) => {
-        const chargeUnitId = event.currentTarget.getAttribute('data-charge-unit-model-id');
+        const chargeUnitId = event.currentTarget.getAttribute(`data-charge-unit-model-id`);
         setSelectedBrand(parseInt(chargeUnitId || '0'));
 
         dispatch(toggleModalVisibility(isModalVisible));
     };
-    const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
-        // form submit logic
-    };
 
     useEffect(() => {
         getConnectorBrands();
-    }, [selectedBrand]);
+        console.log('connectors', connectors)
+
+    }, [connectors]);
 
     return (
-        <div className={`${sectionPrefix}-content py-8`}>
-            <div className={`${sectionPrefix}-header flex justify-end mb-10`}>
-                <Button
-                    buttonText={``}
-                    className={`${sectionPrefix}-add-button bg-primary bg-primary text-white rounded-md px-4 py-2 mx-2`}
-                    type="button"
-                    onClick={() => {
-                        setAddChargeUnit(true);
-                        dispatch(toggleModalVisibility(isModalVisible));
-                    }}
-                >
-                    <FaChargingStation />
-                </Button>
-            </div>
-            <div className={`${sectionPrefix}-list`}>
-                {chargeUnits.map((chargeUnit, index) => (
-                    <div
-                        className="charge-unit flex justify-between items-baseline border-b-2 border-gray-200 py-4"
-                        key={index}
-                        data-charge-point-id={chargeUnit.chargePointId}
+        connectors.length > 0 && (
+            <div className={`${sectionPrefix}-content py-8`}>
+                <div className={`${sectionPrefix}-header flex justify-end mb-10`}>
+                    <Button
+                        buttonText={``}
+                        className={`${sectionPrefix}-add-button bg-primary bg-primary text-white rounded-md px-4 py-2 mx-2`}
+                        type="button"
+                        onClick={() => {
+                            setAddChargeUnit(true);
+                            dispatch(toggleModalVisibility(isModalVisible));
+                        }}
                     >
-                        <div className="charge-unit-info w-full">
-                            <div className='charge-unit flex justify-between'>
-                                <h3 className="charge-unit-name text-lg font-bold text-heading">
-                                    {chargeUnit.model}
-                                </h3>
-                                <div className="charge-unit-actions mx-2">
-                                    <Button
-                                        buttonText={``}
-                                        className="charge-unit-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2"
-                                        dataAttributes={{
-                                            'data-charge-point-id': chargeUnit.chargePointId.toString(),
-                                        }}
-                                        type={'button'}
-                                        onClick={handleClick}
-                                    >
-                                        <FaPencil />
-                                    </Button>
-                                    <Button
-                                        buttonText={''}
-                                        className="charge-unit-delete-button bg-secondary text-white rounded-md px-4 py-2"
-                                        type={'button'}
-                                    >
-                                        <FaTrash />
-                                    </Button>
-                                </div>
-                            </div>
-                            <div className="charge-unit-connector-number">
-                                <h3 className="charge-unit-connector-number-label text-lg font-bold text-text">
-                                    {chargeUnit.deviceCode || '90'}
-                                </h3>
-                                <div className="connectors-contianer pt-12 pl-12 mx-2 w-full">
-                                    <div className='flex justify-between'>
-                                        {/* <h4 className='font-bold text-gray-700 mb-4'>Konnektörler: {Object.values(connectors[chargeUnit.chargePointId] || {}).length}</h4> */}
-                                        <Button
-                                            buttonText={``}
-                                            className="connector-add-button bg-primary text-white rounded-md px-4 py-2 mx-4"
-                                            type={'button'}
-                                            dataAttributes={{
-                                                'data-charge-point-id': chargeUnit.chargePointId.toString(),
-                                                'data-charge-unit-model-id': chargeUnit.modelId.toString(),
-                                            }}
-                                            onClick={() => setAddConnector(true)}
-                                        >
-                                            <FaPlugCirclePlus />
-                                        </Button>
-                                    </div>
-                                    <div>
-                                        {/* {
-                                            Object.values(connectors[chargeUnit.chargePointId] || {}).map((connector: IConnectorProps) => {
-                                                return (
-                                                    <div key={connector.id} className='connector-item w-full justify-between my-2 px-4'>
-                                                        <span>
-                                                            {connector.connectorName}
-                                                        </span>
-                                                        <div className='connector-item-actions'>
-                                                            <Button
-                                                                buttonText={``}
-                                                                className="connector-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2"
-                                                                type={'button'}
-                                                                onClick={handleClick}
-                                                            >
-                                                                <FaPencil />
-                                                            </Button>
-                                                            <Button
-                                                                buttonText={''}
-                                                                className="connector-delete-button bg-secondary text-white rounded-md px-4 py-2"
-                                                                type={'button'}
-                                                            >
-                                                                <FaTrash />
-                                                            </Button>
-                                                        </div>
-                                                    </div>
-                                                )
-                                            })
-                                        } */}
+                        <FaChargingStation />
+                    </Button>
+                </div>
+                <div className={`${sectionPrefix}-list`}>
+                    {chargeUnits.map((chargeUnit, index) => (
+                        <div
+                            className={`${chargeUnitPrefix}-item flex justify-between items-baseline border-b-2 border-gray-200 py-4`}
+                            data-charge-point-id={chargeUnit.chargePointId}
+                            key={index}
+                        >
+                            <div className={`${chargeUnitPrefix}-item-info-container w-full`}>
+                                <div className={`${chargeUnitPrefix}-info flex justify-between w-full`}>
+                                    <div className={`${chargeUnitPrefix} flex justify-between w-full`}>
+                                        <div className={`${chargeUnitPrefix}-name-container`}>
+                                            <h3 className={`${chargeUnitPrefix}-name text-lg font-bold text-heading`}>
+                                                {chargeUnit.model}
+                                            </h3>
+                                            <div className={`${chargeUnitPrefix}-device-code-container`}>
+                                                <h3 className={`${chargeUnitPrefix}-device-code text-lg font-bold text-text`}>
+                                                    {chargeUnit.deviceCode || '9034009212'}
+                                                </h3>
+                                            </div>
+                                        </div>
+                                        <div className={`${chargeUnitPrefix}-actions-container mx-2`}>
+                                            <div className={`${chargeUnitPrefix}-actions mx-2`}>
+                                                <Button
+                                                    buttonText={``}
+                                                    className={`${chargeUnitPrefix}-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2`}
+                                                    dataAttributes={{
+                                                        'data-charge-point-id': chargeUnit.chargePointId.toString(),
+                                                    }}
+                                                    type={'button'}
+                                                    onClick={handleClick}
+                                                >
+                                                    <FaPencil />
+                                                </Button>
+                                                <Button
+                                                    buttonText={''}
+                                                    className={`${chargeUnitPrefix}-delete-button bg-secondary text-white rounded-md px-4 py-2`}
+                                                    type={'button'}
+                                                >
+                                                    <FaTrash />
+                                                </Button>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
-            {
-                addConnector && isModalVisible && (
-                    <Modal
-                        className={`${BRAND_PREFIX}-connector-modal-container`}
-                        modalHeaderTitle={`Konnektor Ekle`}
-                        modalId={`${BRAND_PREFIX}-connector-modal`}
-                        onClose={() => { }}
-                    >
-                        <div className="relative p-6 bg-white rounded-lg">
-                            <form
-                                className={`${BRAND_PREFIX}-add-charge-unit-modal-form`}
-                                onSubmit={handleSubmit(handleFormSubmit)}
-                                >
-                                <Label
-                                    className='block mb-2 text-heading font-semibold'
-                                    htmlFor='location'
-                                    labelText='Konnektör Tipi'
-                                />
+                                <div className={`${chargeUnitPrefix}-connectors-container`}>
+                                    <div className={`${chargeUnitPrefix}-connectors pt-12 pl-12 mx-2 w-full`}>
+                                        <div className={`${chargeUnitPrefix}-info-container flex justify-between flex-col`}>
+                                            <div className={`${chargeUnitPrefix}-connector-title-container`}>
+                                                <h4 className={`${chargeUnitPrefix}-connector-title font-bold text-gray-700 mb-4`}>
+                                                    Konnektörler: {Object.values(connectors).length}
+                                                </h4>
+                                            </div>
+                                            <div className={`${chargeUnitPrefix}-connectors-list-container`}>
+                                                {
+                                                    connectors.length > 0 && connectors.map(connectorList => {
+                                                        const key: string = Object.keys(connectorList)[0];
+                                                        const values = connectorList[key];
 
-                                <Dropdown
-                                    className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4'
-                                    id='location'
-                                    items={createDropdownItems()}
-                                    name={'location'}
-                                />
-                                <Button
-                                    buttonText={'Kaydet'}
-                                    className='bg-primary text-white rounded-md px-4 py-2'
-                                    type='submit'
-                                />
-                            </form>
+                                                        return (
+                                                            <div className={`${chargeUnitPrefix}-connector-list-item-container flex flex-col`} key={key}>
+                                                                {
+                                                                    values.map((value, index) => (
+                                                                        value.stationChargePointId === chargeUnit.chargePointId && (
+                                                                            <div className={`${chargeUnitPrefix}-connector-list-item w-full flex flex-row w-full items-center justify-between`} key={index}>
+                                                                                <p key={`${key}-${index + 1}`}>
+                                                                                    <span className='font-bold'>{index + 1}</span>. {value.id}
+                                                                                </p>
+                                                                                <Button
+                                                                                    buttonText={``}
+                                                                                    className="connector-add-button rounded-md px-4 py-2 mx-4"
+                                                                                    type={'button'}
+                                                                                    dataAttributes={{
+                                                                                        'data-charge-point-id': chargeUnit.chargePointId.toString(),
+                                                                                        'data-charge-point-model-id': chargeUnit.modelId.toString(),
+                                                                                    }}
+                                                                                    onClick={() => setAddConnector(true)}
+                                                                                >
+                                                                                    <FaPlugCirclePlus />
+                                                                                </Button>
+                                                                            </div>
+                                                                        )
+                                                                    ))
+                                                                }
+                                                            </div>
+                                                        )
+                                                    })
+                                                }
+                                            </div >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </Modal>
-                )
-            }
-        </div>
-    );
+                    ))}
+                </div>
+            </div>
+        ));
 };
 
 export default ChargeUnitsContent;
