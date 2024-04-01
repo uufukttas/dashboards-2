@@ -61,47 +61,7 @@ const ChargeUnitsContent = ({ chargeUnits, connectorCount, connectors, setAddCha
     const createConnectorList = (chargeUnit: IChargeUnitsProps) => {
         return (
             <>
-                <div className={`${chargeUnitPrefix}-connector-title-container`}>
-                    <h4 className={`${chargeUnitPrefix}-connector-title font-bold text-gray-700 mb-4`}>
-                        Konnektörler: {connectorCount}
-                    </h4>
-                </div>
-                <div className={`${chargeUnitPrefix}-connectors-list-container`}>
-                    {
-                        connectorCount > 0 && connectors.map(connectorList => {
-                            const key: number = Number(Object.keys(connectorList)[0]);
-                            const values = connectorList[key];
 
-                            return (
-                                <div className={`${chargeUnitPrefix}-connector-list-item-container flex flex-col`} key={key}>
-                                    {
-                                        values.map((value, index) => (
-                                            value.stationChargePointId === chargeUnit.chargePointId && (
-                                                <div className={`${chargeUnitPrefix}-connector-list-item w-full flex flex-row w-full items-center justify-between`} key={index}>
-                                                    <p key={`${key}-${index + 1}`}>
-                                                        <span className='font-bold'>{index + 1}</span>. {value.id}
-                                                    </p>
-                                                    <Button
-                                                        buttonText={``}
-                                                        className="connector-add-button rounded-md px-4 py-2 mx-4"
-                                                        type={'button'}
-                                                        dataAttributes={{
-                                                            'data-charge-point-id': chargeUnit.chargePointId.toString(),
-                                                            'data-charge-point-model-id': chargeUnit.modelId.toString(),
-                                                        }}
-                                                        onClick={() => setAddConnector(true)}
-                                                    >
-                                                        <FaPlugCirclePlus />
-                                                    </Button>
-                                                </div>
-                                            )
-                                        ))
-                                    }
-                                </div>
-                            )
-                        })
-                    }
-                </div >
             </>
         )
     };
@@ -201,9 +161,34 @@ const ChargeUnitsContent = ({ chargeUnits, connectorCount, connectors, setAddCha
                                 <div className={`${chargeUnitPrefix}-connectors-container`}>
                                     <div className={`${chargeUnitPrefix}-connectors pt-12 pl-4 mx-2 w-full`}>
                                         <div className={`${chargeUnitPrefix}-info-container flex justify-between flex-col`}>
-                                            {
-                                                createConnectorList(chargeUnit)
-                                            }
+                                            <div className={`${chargeUnitPrefix}-connector-title-container`}>
+                                                <h4 className={`${chargeUnitPrefix}-connector-title font-bold text-gray-700 mb-4`}>
+                                                    Konnektörler: {chargeUnit.connectorNumber}
+                                                </h4>
+                                            </div>
+                                            <div className={`${chargeUnitPrefix}-connectors-list-container`}>
+                                                {Array.from({ length: chargeUnit.connectorNumber }).map((_, index) => (
+                                                    <div className={`${chargeUnitPrefix}-connector-list-item-container flex flex-col`} key={index}>
+                                                        <div className={`${chargeUnitPrefix}-connector-list-item w-full flex flex-row w-full items-center justify-between`}>
+                                                            <p key={`${index}-${index + 1}`}>
+                                                                <span className='font-bold'>{index + 1}</span>. {chargeUnit.chargePointId}
+                                                            </p>
+                                                            <Button
+                                                                buttonText={``}
+                                                                className="connector-add-button rounded-md px-4 py-2 mx-4"
+                                                                type={'button'}
+                                                                dataAttributes={{
+                                                                    'data-charge-point-id': chargeUnit.chargePointId.toString(),
+                                                                    'data-charge-point-model-id': chargeUnit.modelId.toString(),
+                                                                }}
+                                                                onClick={() => setAddConnector(true)}
+                                                            >
+                                                                <FaPlugCirclePlus />
+                                                            </Button>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div >
                                         </div>
                                     </div>
                                 </div>
