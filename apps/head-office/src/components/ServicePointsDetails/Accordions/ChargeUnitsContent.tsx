@@ -78,7 +78,7 @@ const ChargeUnitsContent = ({ chargeUnits, connectorCount, connectors, setAddCha
                 setConnectorBrands(response.data.data);
                 createDropdownItems();
             })
-    }
+    };
     const handleClick = (event: React.MouseEvent) => {
         const chargeUnitId = event.currentTarget.getAttribute(`data-charge-unit-model-id`);
         setSelectedBrand(parseInt(chargeUnitId || '0'));
@@ -88,7 +88,6 @@ const ChargeUnitsContent = ({ chargeUnits, connectorCount, connectors, setAddCha
 
     useEffect(() => {
         // getConnectorBrands();
-        console.log('chargeUnits', chargeUnits)
     }, [chargeUnits]);
 
     return (
@@ -162,6 +161,15 @@ const ChargeUnitsContent = ({ chargeUnits, connectorCount, connectors, setAddCha
                                                 </div>
                                                 <div className={`${chargeUnitPrefix}-connector-list-container`}>
                                                     {
+                                                        connectors.map((connectorList, index) => {
+                                                            return connectorList[chargeUnit.chargePointId]?.reverse().map((connector, idx) => {
+                                                                return (
+                                                                    <p key={idx}>{idx + 1}.{connector.id}</p>
+                                                                )
+                                                            })
+                                                        })
+                                                    }
+                                                    {/* {
                                                         Array.from({ length: chargeUnit.connectorNumber }).map((_, index) => (
                                                             <div
                                                                 className={`${chargeUnitPrefix}-connector-list-item-container my-4 flex flex-col ${chargeUnit.status === '1'
@@ -175,12 +183,21 @@ const ChargeUnitsContent = ({ chargeUnits, connectorCount, connectors, setAddCha
                                                                 key={index}
                                                             >
                                                                 <div className={`${chargeUnitPrefix}-connector-list-item w-full flex flex-row w-full items-center justify-between`}>
-                                                                    <p
-                                                                        className={`${chargeUnitPrefix}-connector-list-item-name text-lg font-bold text-heading`}
-                                                                        key={`${index}-${index + 1}`}
-                                                                    >
-                                                                        <span className='font-bold'>{index + 1}</span>.
-                                                                    </p>
+                                                                    <div className={`${chargeUnitPrefix}-coconnector-list-item-name-container`}>
+                                                                        <p
+                                                                            className={`${chargeUnitPrefix}-connector-list-item-name text-lg font-bold text-heading`}
+                                                                            key={`${index}-${index + 1}`}
+                                                                        >
+                                                                            <span className='font-bold'>{index + 1}</span>.{ }
+                                                                        </p>
+                                                                    </div>
+                                                                    <div className={`${chargeUnitPrefix}-connector-list-item-epdk-container`}>
+                                                                        <p
+                                                                            className={`${chargeUnitPrefix}-connector-list-item-epdk text-lg text-text`}
+                                                                        >
+                                                                            {chargeUnit.deviceCode}
+                                                                        </p>
+                                                                    </div>
                                                                     <div className="h-4 w-full bg-neutral-200 border border-gray-500 rounded">
                                                                         <div
                                                                             className={`h-full border rounded flex items-center justify-center text-white`}
@@ -204,7 +221,7 @@ const ChargeUnitsContent = ({ chargeUnits, connectorCount, connectors, setAddCha
                                                                 </div>
                                                             </div>
                                                         ))
-                                                    }
+                                                    } */}
                                                 </div>
                                             </div>
                                         </div>
