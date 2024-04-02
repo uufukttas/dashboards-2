@@ -72,11 +72,11 @@ const ServicePointDetailsModal = ({ accessTypeList, brands, investors, slug, sta
     [`${formProperties.location}`]: ''
   });
 
-  const createRequestData = () => {
+  const createRequestData = (chargePointId: number) => {
     return ({
       "connectorCount": chargeUnitFormData[`${formProperties['connector-count']}`],
       "chargePoint": {
-        "code": "",
+        "code": chargePointId.toString(),
         "stationId": Number(slug),
         "stationChargePointModelID": chargeUnitFormData[`${formProperties.brands}`],
         "ocppVersion": chargeUnitFormData[`${formProperties['ocpp-version']}`],
@@ -98,19 +98,35 @@ const ServicePointDetailsModal = ({ accessTypeList, brands, investors, slug, sta
         }
       ]
     });
-  }
+  };
+
+  const getChargePointId = async () => {
+    const response = await axios.post(
+      'https://sharztestapi.azurewebsites.net/Values/GetDeviceCode',
+      JSON.stringify({ "stationID": Number(slug) }),
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+    return response.data;
+  };
+
   const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
-    await axios
-      .post(
+    try {
+      const chargePointId = await getChargePointId();
+  
+      await axios.post(
         'https://sharztestapi.azurewebsites.net/ServicePoint/AddStationSettings',
-        JSON.stringify(createRequestData()),
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-      .then((response) => {
-        dispatch(toggleModalVisibility());
-        dispatch(toggleChargePointDataUpdated(true));
-      })
-      .catch((error) => console.log(error));
+        JSON.stringify(createRequestData(chargePointId)),
+        { headers: { 
+          'Content-Type': 'application/json', 
+          'Authorization': `Bearer ${chargePointId.token}` 
+        } }
+      );
+  
+      dispatch(toggleModalVisibility());
+      dispatch(toggleChargePointDataUpdated(true));
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
