@@ -40,7 +40,7 @@ const SidebarBody = () => {
                                 index === sidebarElements.length - 1
                                     ? ''
                                     : 'border-b'
-                                } hover:bg-secondary-lighter hover:text-white focus:bg-secondary-lighter focus:text-white`}
+                                } hover:bg-primary hover:text-white focus:bg-secondary-lighter focus:text-white`}
                             key={index}
                         >
                             <Link className={`${BRAND_PREFIX}-sidebar-list`} href={item.link}>
