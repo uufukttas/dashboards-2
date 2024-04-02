@@ -4,12 +4,12 @@ import './Accordion.css';
 
 interface IAccordionProps {
   accordionTitle: string;
-  accordionContent: React.ReactNode;
-  titleClassName?: string;
+  children: React.ReactNode;
   contentClassName?: string;
+  titleClassName?: string;
 };
 
-const Accordion = ({ accordionTitle, accordionContent, titleClassName, contentClassName = "" }: IAccordionProps) => {
+const Accordion = ({ accordionTitle, children, contentClassName = "", titleClassName}: IAccordionProps) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const toggleAccordion = () => {
@@ -23,7 +23,7 @@ const Accordion = ({ accordionTitle, accordionContent, titleClassName, contentCl
         <div className={`${BRAND_PREFIX}-accordion-arrow ${isOpen ? 'open' : ''}`}></div>
       </div>
       <div className={`${BRAND_PREFIX}-accordion-content ${isOpen ? 'open' : 'close'} px-4 md:px-8 bg-white rounded-lg ${contentClassName}`}>
-        {accordionContent}
+        {children}
       </div>
     </div>
   );
