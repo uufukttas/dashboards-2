@@ -244,11 +244,9 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
     getBrands();
     getChargeUnits();
     getChargeUnitFeatures();
-    getConnectors();
     getInvestors();
     getServicePointsDetails(slug);
     getWorkingHours();
-    console.log('test')
   }, [slug]);
 
   useEffect(() => {
@@ -258,6 +256,12 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
       dispatch(toggleChargePointDataUpdated(false));
     }
   }, [isChargePointDataUpdated]);
+
+  useEffect(() => {
+    if (chargeUnits.length > 0) {
+      getConnectors();
+    }
+  }, [chargeUnits]);
 
   return (
     isLoadingVisible
@@ -279,16 +283,19 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
               {activeIndex === 0 && (
                 <Accordion
                   accordionTitle="Lokasyon Bilgileri"
-                  accordionContent={
-                    <ServicePointDetailsContent slug={slug} />
-                  }
                   titleClassName="font-bold"
-                />
+                >
+                  <ServicePointDetailsContent slug={slug} />
+                </Accordion>
               )}
               {activeIndex === 1 && (
                 <Accordion
                   accordionTitle="Sarj Üniteleri"
-                  accordionContent={
+                  contentClassName="overflow-y-auto"
+                  titleClassName="font-bold"
+                >
+                  {
+                    connectors.length > 0 &&
                     <ChargeUnitsContent
                       chargeUnits={chargeUnits}
                       connectorCount={connectorCount}
@@ -297,16 +304,15 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
                       setAddConnector={setAddConnector}
                     />
                   }
-                  titleClassName="font-bold"
-                  contentClassName="overflow-y-auto"
-                />
+                </Accordion>
               )}
               {activeIndex === 2 && (
                 <Accordion
                   accordionTitle="Calisma Saatleri"
-                  accordionContent={<WorkingHoursContent slug={Number(slug)} />}
                   titleClassName="font-bold"
-                />
+                >
+                  <WorkingHoursContent slug={Number(slug)} />
+                </Accordion>
               )}
               {activeIndex === 3 && (
                 // <Accordion
@@ -319,16 +325,18 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
               {activeIndex === 4 && (
                 <Accordion
                   accordionTitle="Kullanici Ayarlari"
-                  accordionContent={'workingHoursContent'}
                   titleClassName="font-bold"
-                />
+                >
+                  <></>
+                </Accordion>
               )}
               {activeIndex === 5 && (
                 <Accordion
                   accordionTitle="Sharz.net Fiyatlandirma"
-                  accordionContent={''}
                   titleClassName="font-bold"
-                />
+                >
+                  <></>
+                </Accordion>
               )}
             </div>
           </div>
