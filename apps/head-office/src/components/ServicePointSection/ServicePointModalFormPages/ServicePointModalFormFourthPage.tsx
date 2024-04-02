@@ -7,7 +7,7 @@ import { Checkbox } from '@projects/checkbox';
 import { Dropdown } from '@projects/dropdown';
 import { Label } from '@projects/label';
 import { Radio } from '@projects/radio';
-import { showAlert } from '../../../../app/redux/features/alertInformation';
+import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { toggleServicePointDataUpdated } from '../../../../app/redux/features/isServicePointDataUpdated';
 import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
@@ -81,6 +81,11 @@ const ServicePointModalFormFourthPage = ({
             message: data.message,
             type: 'success',
           }));
+
+        setTimeout(() => {
+          dispatch(hideAlert());
+        }, 5000);
+
         dispatch(toggleServicePointDataUpdated(true));
       })
       .catch((error) => console.log(error));
