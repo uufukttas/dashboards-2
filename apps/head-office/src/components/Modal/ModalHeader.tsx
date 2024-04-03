@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { Button } from '@projects/button';
 import { FaRegCircleXmark } from 'react-icons/fa6';
+import { Button } from '@projects/button';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../app/redux/store';
@@ -10,7 +10,7 @@ interface IModalHeaderProps {
     onClose?: () => void;
 };
 
-const MofalHeader = ({ modalHeaderTitle, onClose }: IModalHeaderProps) => {
+const ModalHeader = ({ modalHeaderTitle, onClose }: IModalHeaderProps) => {
     const dispatch = useDispatch();
     const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
 
@@ -39,4 +39,4 @@ const MofalHeader = ({ modalHeaderTitle, onClose }: IModalHeaderProps) => {
     );
 };
 
-export default MofalHeader;
+export default ModalHeader;
