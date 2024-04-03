@@ -1,5 +1,5 @@
-import { Button } from "@projects/button";
 import { FaRegCircleXmark } from "react-icons/fa6";
+import { Button } from "@projects/button";
 
 export interface DialogProps {
   handleCancel: () => void;

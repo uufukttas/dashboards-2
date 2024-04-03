@@ -7,14 +7,7 @@ interface IImageProps {
   width?: number;
 };
 
-export function Image({
-  alt,
-  className,
-  height,
-  src,
-  srcset,
-  width,
-}: IImageProps) {
+export function Image({ alt, className, height, src, srcset, width }: IImageProps) {
   return (
     <img
       alt={alt}

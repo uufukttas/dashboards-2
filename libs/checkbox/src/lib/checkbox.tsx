@@ -9,16 +9,17 @@ interface ICheckboxProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export function Checkbox({
-  checked,
-  className,
-  id,
-  name,
-  register,
-  onChange,
-}: ICheckboxProps) {
+export function Checkbox({ checked, className, id, name, register, onChange }: ICheckboxProps) {
   return (
-    <input className={className} id={id} name={name} type="checkbox" onChange={onChange} {...register} checked={checked} />
+    <input
+      checked={checked}
+      className={className}
+      id={id}
+      name={name}
+      type="checkbox"
+      onChange={onChange}
+      {...register}
+    />
   );
 };
 

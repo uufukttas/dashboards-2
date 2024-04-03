@@ -5,16 +5,9 @@ interface ILabelProps {
   labelText: string;
 };
 
-export function Label({
-  children,
-  className,
-  htmlFor,
-  labelText
-}: ILabelProps) {
+export function Label({ children, className, htmlFor, labelText }: ILabelProps) {
   return (
-    <label
-      className={`label block ${className}`}
-      htmlFor={htmlFor}>
+    <label className={`label block ${className}`} htmlFor={htmlFor}>
       {labelText} {children}
     </label>
   );

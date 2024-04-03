@@ -8,15 +8,7 @@ interface IButtonProps {
   onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 };
 
-export function Button({
-  buttonText,
-  children,
-  className,
-  dataAttributes,
-  id,
-  type,
-  onClick,
-}: IButtonProps) {
+export function Button({ buttonText, children, className, dataAttributes, id, type, onClick }: IButtonProps) {
   return (
     <button
       className={`button ${className}`}

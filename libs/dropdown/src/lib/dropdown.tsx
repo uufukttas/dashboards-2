@@ -59,7 +59,7 @@ export function Dropdown({
     >
       {
         items?.map((item, index) => (
-          <option key={index} value={item?.rid ?? item?.id} className={optionClassName}> {item.name} </option>
+          <option className={optionClassName} key={index} value={item?.rid ?? item?.id}> {item.name} </option>
         ))
       }
     </select>

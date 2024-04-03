@@ -8,13 +8,7 @@ interface IRadioProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export function Radio({
-  className,
-  id,
-  name,
-  register,
-  onChange,
-}: IRadioProps) {
+export function Radio({ className, id, name, register, onChange }: IRadioProps) {
   return (
     <input
       className={`radio ${className}`}
