@@ -1,36 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '@projects/button';
 import axios from 'axios';
-import '../ServicePointDetails.css'
-
-interface IWorkingHoursContentProps {
-    slug: number;
-};
-
-interface IResponseItem {
-    day: number;
-    hour: number;
-};
-
-interface IResponse {
-    "RID": number,
-    "DayOfTheWeek": number,
-    "IsClosed": boolean,
-    "OpeningTime": string,
-    "ClosingTime": string,
-    "IsDeleted": boolean
-};
-
-interface IConvertedStructure {
-    stationID: number;
-    dayOfTheWeek: number;
-    openingTime: string;
-    closingTime: string;
-    isClosed: boolean;
-    isDeleted: boolean;
-};
+import { Button } from '@projects/button';
+import '../ServicePointDetails.css';
+import type { IWorkingHoursContentProps, IConvertedStructure, IResponseItem } from './types';
 
 const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
+    const days = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
+    const [isPassive, setIsPassive] = useState(false);
+    const [isUpdated, setIsUpdated] = useState(false);
     const [schedule, setSchedule] = useState([
         { day: 0, hours: Array(24).fill(false) },
         { day: 1, hours: Array(24).fill(false) },
@@ -40,61 +17,8 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
         { day: 5, hours: Array(24).fill(false) },
         { day: 6, hours: Array(24).fill(false) }
     ]);
-    const days = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
-    const [isUpdated, setIsUpdated] = useState(false);
-    const [isPassive, setIsPassive] = useState(false); // isPassive state'ini ekledik
 
-
-    const handleChange = (dayIndex: number, hourIndex: number) => {
-        const newSchedule = [...schedule];
-        newSchedule[dayIndex].hours[hourIndex] = true;
-        setSchedule(newSchedule);
-
-    };
-
-    const togglePassive = () => {
-        setIsPassive(!isPassive);
-    }
-
-    const getWorkingHours = async () => {
-        try {
-
-            axios
-                .post(
-                    'https://sharztestapi.azurewebsites.net/ServicePoint/GetWorkHours',
-                    { stationID: 65824 },
-                    { headers: { 'Content-Type': 'application/json' } }
-                )
-                .then((response) => {
-                    console.log('response', response.data)
-                })
-                .catch((error) => { console.log('error', error) }
-                )
-
-        }
-        catch (error) {
-            console.log('error', error)
-        }
-    };
-
-    const scheduleToHours = () => {
-        const hours: { day: number, hour: number }[] = [];
-
-        schedule.forEach(day => {
-            day.hours.forEach((isHourSelected, hourIndex) => {
-                if (isHourSelected) {
-                    const hour: { day: number, hour: number } = {
-                        day: Number(day.day),
-                        hour: hourIndex
-                    };
-                    hours.push(hour);
-                }
-            });
-        });
-
-        return hours;
-    };
-
+    const addWorkingHours = async () => {};
     const convertResponseToStructure = (response: IResponseItem[]): IConvertedStructure[] => {
         const result: IConvertedStructure[] = [];
 
@@ -117,14 +41,52 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
 
         return result;
     };
+    const getWorkingHours = async () => {
+        try {
+            axios
+                .post(
+                    process.env.GET_WORKING_HOURS || '',
+                    { stationID: 65824 },
+                    { headers: { 'Content-Type': 'application/json' } }
+                )
+                .then((response) => console.log('response', response.data))
+                .catch((error) => { console.log('error', error) }
+                );
+        }
+        catch (error) {
+            console.log('error', error)
+        };
+    };
+    const handleChange = (dayIndex: number, hourIndex: number) => {
+        const newSchedule = [...schedule];
 
+        newSchedule[dayIndex].hours[hourIndex] = true;
+
+        setSchedule(newSchedule);
+    };
     // const handleChange = (dayIndex: number, hourIndex: number) => {
     //     const newSchedule = [...schedule];
     //     newSchedule[dayIndex].hours[hourIndex] = !newSchedule[dayIndex].hours[hourIndex];
     //     setSchedule(newSchedule);
     //     setSelectedHours(scheduleToHours());
     // };
+    const scheduleToHours = () => {
+        const hours: { day: number, hour: number }[] = [];
 
+        schedule.forEach(day => {
+            day.hours.forEach((isHourSelected, hourIndex) => {
+                if (isHourSelected) {
+                    const hour: { day: number, hour: number } = {
+                        day: Number(day.day),
+                        hour: hourIndex
+                    };
+                    hours.push(hour);
+                }
+            });
+        });
+
+        return hours;
+    };
     // const setWorkingHours = () => {
     //     axios
     //         .post(
@@ -145,12 +107,8 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
     //         }
     //     });
     // };
-
-    const addWorkingHours = async () => {
-    };
-
-    const updateWorkingHours = async () => {
-    };
+    const togglePassive = () => setIsPassive(!isPassive);
+    const updateWorkingHours = async () => {};
 
     useEffect(() => {
         getWorkingHours();
