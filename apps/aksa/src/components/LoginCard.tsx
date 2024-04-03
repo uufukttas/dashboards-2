@@ -25,7 +25,12 @@ const Card = ({
             <Input id="password" name="password" className="mt-1 p-2 w-full border rounded-md" type="password" />
           </div>
 
-          <Button className="bg-red-500 text-white p-2 rounded-md w-full" type="submit" buttonText='Submit' />
+          <Button
+            buttonText='Submit'
+            className="bg-red-500 text-white p-2 rounded-md w-full"
+            id={'submit'}
+            type="submit"
+            />
         </form>
       </div>
     </div>

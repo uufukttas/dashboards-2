@@ -151,9 +151,10 @@ const WorkingHoursModal = () => {
         </div>
         <div className='working-hours-modal-buttons-container flex justify-end mt-2'>
           <Button
-            className={`working-hours-modal-save-button ml-4 bg-primary text-text text-sm rounded-lg block p-2.5`}
-            type="submit"
             buttonText="Kaydet"
+            className={`working-hours-modal-save-button ml-4 bg-primary text-text text-sm rounded-lg block p-2.5`}
+            id='working-hours-modal-save-button'
+            type="submit"
           />
         </div>
       </form>

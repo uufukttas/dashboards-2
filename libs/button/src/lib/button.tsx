@@ -3,7 +3,7 @@ interface IButtonProps {
   children?: React.ReactNode;
   className?: string;
   dataAttributes?: { [key: string]: string };
-  id?: string;
+  id: string;
   type: 'button' | 'submit' | 'reset';
   onClick?: (event: React.MouseEvent<HTMLElement, MouseEvent>) => void;
 };

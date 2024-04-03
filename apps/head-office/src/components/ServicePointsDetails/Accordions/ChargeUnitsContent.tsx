@@ -96,6 +96,7 @@ const ChargeUnitsContent = ({ chargeUnits, connectorCount, connectors, setAddCha
                 <Button
                     buttonText={``}
                     className={`${sectionPrefix}-add-button bg-primary bg-primary text-white rounded-md px-4 py-2 mx-2`}
+                    id={`${sectionPrefix}-add-button`}
                     type="button"
                     onClick={() => {
                         setAddChargeUnit(true);
@@ -134,6 +135,7 @@ const ChargeUnitsContent = ({ chargeUnits, connectorCount, connectors, setAddCha
                                                         buttonText={``}
                                                         className={`${chargeUnitPrefix}-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2`}
                                                         dataAttributes={{ 'data-charge-point-id': chargeUnit.chargePointId.toString(), }}
+                                                        id={`${chargeUnitPrefix}-edit-button`}
                                                         type={'button'} onClick={handleClick}
                                                     >
                                                         <FaPencil />
@@ -141,6 +143,7 @@ const ChargeUnitsContent = ({ chargeUnits, connectorCount, connectors, setAddCha
                                                     <Button
                                                         buttonText={''}
                                                         className={`${chargeUnitPrefix}-delete-button bg-secondary text-white rounded-md px-4 py-2`}
+                                                        id={`${chargeUnitPrefix}-delete-button`}
                                                         type={'button'}
                                                         onClick={() => console.log('test')}
                                                     >
@@ -191,6 +194,7 @@ const ChargeUnitsContent = ({ chargeUnits, connectorCount, connectors, setAddCha
                                                                                 'data-charge-point-id': chargeUnit.chargePointId.toString(),
                                                                                 'data-charge-point-model-id': chargeUnit.modelId.toString(),
                                                                             }}
+                                                                            id={`${chargeUnitPrefix}-connector-add-button`}
                                                                             type={'button'}
                                                                             onClick={() => setAddConnector(true)}
                                                                         >

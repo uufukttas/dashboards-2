@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from '@projects/button';
+import { BRAND_PREFIX } from '../../constants/constants';
 import './Navbar.css';
 
 interface INavbarItemProps {
@@ -18,11 +19,12 @@ const Navbar = ({ activeIndex, items, setActiveIndex }: INavbarProps) => {
   };
 
   return (
-    <nav className='sh-navbar-container lg:mx-8 flex items-center'>
+    <nav className={`${BRAND_PREFIX}-navbar-container lg:mx-8 flex items-center`}>
       {
         items.map((item, index) => (
           <Button key={index}
-            className={`sh-navbar-item px-4 py-0 w-1/6 flex justify-center items-center text-2xl ${activeIndex === index ? 'active' : ''}`}
+            className={`${BRAND_PREFIX}-navbar-item px-4 py-0 w-1/6 flex justify-center items-center text-2xl ${activeIndex === index ? 'active' : ''}`}
+            id={`${BRAND_PREFIX}-navbar-item-${index}`}
             onClick={() => handleItemClick(index)}
             type="button"
           >

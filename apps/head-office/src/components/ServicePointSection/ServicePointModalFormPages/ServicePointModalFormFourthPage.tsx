@@ -209,6 +209,7 @@ const ServicePointModalFormFourthPage = ({
           <div className={`${formProperties.opportunities}-selectbox w-full relative text-gray-900`} ref={dropdownRef}>
             <Button
               className={`${formProperties.opportunities}-selectbox-button w-full focus:ring-primary justify-between border rounded-md flex items-center px-2 py-2 border-gray-500`}
+              id={`${formProperties.opportunities}-selectbox-button`}
               type='button'
               onClick={toggleDropdown}>
               Secim yapiniz
@@ -247,13 +248,15 @@ const ServicePointModalFormFourthPage = ({
       <div className={`${sectionPrefix}-buttons-container flex justify-between items-center mt-4`}>
         <Button
           buttonText='Geri'
-          className={`${sectionPrefix}-next-button bg-primary text-text text-sm rounded-lg block p-2.5`}
+          className={`${sectionPrefix}-prev-button bg-primary text-text text-sm rounded-lg block p-2.5`}
+          id={`${sectionPrefix}-prev-button`}
           type={`submit`}
           onClick={() => setActivePage(activePage - 1)}
         />
         <Button
           buttonText={servicePointInformation?.id > 0 ? 'Guncelle' : 'Kaydet'}
           className={`${sectionPrefix}-submit-button bg-primary text-text text-sm rounded-lg block p-2.5`}
+          id={`${sectionPrefix}-submit-button`}
           type={`submit`}
         />
       </div>

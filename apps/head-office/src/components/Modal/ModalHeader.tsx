@@ -28,6 +28,7 @@ const MofalHeader = ({ modalHeaderTitle, onClose }: IModalHeaderProps) => {
             <div className={`${BRAND_PREFIX}-modal-close-button-container`}>
                 <Button
                     className={`${BRAND_PREFIX}-modal-close-button text-sm p-1.5 ml-auto inline-flex items-center bg-white text-black hover:bg-white hover:text-black`}
+                    id={`${BRAND_PREFIX}-modal-close-button`}
                     type='button'
                     onClick={handleClose}
                 >

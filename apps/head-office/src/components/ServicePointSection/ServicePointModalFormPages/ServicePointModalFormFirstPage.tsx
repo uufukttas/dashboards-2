@@ -246,6 +246,7 @@ const ServicePointModalFormFirstPage = ({
           <Button
             buttonText="Ileri"
             className={`${sectionPrefix}-submit-button bg-primary text-text text-sm rounded-lg block p-2.5`}
+            id={`${sectionPrefix}-submit-button`}
             type={`submit`}
           />
         </div>

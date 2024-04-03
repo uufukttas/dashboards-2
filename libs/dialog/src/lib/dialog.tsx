@@ -14,6 +14,7 @@ export function Dialog({ handleCancel, handleSuccess }: DialogProps) {
           <h2 className="dialog-text text-lg font-semibold">Emin Misin?</h2>
           <Button
             className="dialog-close-button flex items-center justify-center h-8 w-8 rounded-lg p-1.5 hover:cursor-pointer"
+            id={`dialog-close-button`}
             type="button"
           >
             <FaRegCircleXmark />
@@ -24,6 +25,7 @@ export function Dialog({ handleCancel, handleSuccess }: DialogProps) {
           <div className="dialog-button-container mt-8 flex items-center justify-evenly w-full">
             <Button
               className="dialog-accept-button bg-red-700 text-white hover:bg-red-600 border rounded-md w-1/3"
+              id={`dialog-accept-button`}
               type="button"
               onClick={handleSuccess}
             >
@@ -31,6 +33,7 @@ export function Dialog({ handleCancel, handleSuccess }: DialogProps) {
             </Button>
             <Button
               className="dialog-cancel-button bg-secondary hover:bg-secondary-lighter border rounded-md w-1/3 text-white"
+              id={`dialog-cancel-button`}
               type="button"
               onClick={handleCancel}
             >

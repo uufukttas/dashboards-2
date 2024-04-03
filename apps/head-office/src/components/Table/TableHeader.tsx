@@ -34,6 +34,7 @@ const TableActions = () => {
             <div className={`${BRAND_PREFIX}-add-service-point-button-container w-full mx-2 md:w-1/2 lg:w-1/4 lg:mx-4`}>
                 <Button
                     className={`${BRAND_PREFIX}-add-service-point-button w-full bg-primary rounded-md font-semibold hover:bg-primary-lighter px-2 py-2`}
+                    id={`${BRAND_PREFIX}-add-service-point-button`}
                     type="button"
                     onClick={handleClick}
                 >

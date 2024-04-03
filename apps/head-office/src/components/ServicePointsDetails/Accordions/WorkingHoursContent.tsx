@@ -198,6 +198,7 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
                     <Button
                         buttonText={isUpdated ? 'Güncelle' : 'Ekle'}
                         className='bg-primary text-white rounded-md px-4 py-2'
+                        id='add-working-hours-button'
                         type='button'
                         onClick={isUpdated ? updateWorkingHours : addWorkingHours}
                     />

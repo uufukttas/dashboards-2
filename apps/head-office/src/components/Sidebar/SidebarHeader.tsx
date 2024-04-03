@@ -34,6 +34,7 @@ const SidebarHeader = () => {
                     <div className={`${BRAND_PREFIX}-sidebar-header-close-container mx-4`}>
                         <Button
                             className={`${BRAND_PREFIX}-sidebar-header-close-button`}
+                            id={`${BRAND_PREFIX}-sidebar-header-close-button`}
                             type="button"
                             onClick={handleSidebarClose}
                         >

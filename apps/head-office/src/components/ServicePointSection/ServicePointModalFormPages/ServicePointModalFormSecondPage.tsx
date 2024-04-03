@@ -200,12 +200,14 @@ const ServicePointModalFormSecondPage = ({
         <Button
           buttonText='Geri'
           className={`${sectionPrefix}-prev-button bg-primary text-text text-sm rounded-lg block p-2.5`}
+          id={`${sectionPrefix}-prev-button`}
           type={`button`}
           onClick={() => setActivePage(activePage - 1)}
         />
         <Button
           buttonText='Ileri'
           className={`${sectionPrefix}-next-button bg-primary text-text text-sm rounded-lg block p-2.5`}
+          id={`${sectionPrefix}-next-button`}
           type={`submit`}
         />
       </div>

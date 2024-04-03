@@ -132,6 +132,7 @@ const TableBody = ({ servicePoints }: ITableBodyProps) => {
                                     </Link>
                                     <Button
                                         className="font-medium px-2 "
+                                        id={`toggle-row-${servicePoint.id}`}
                                         type="button"
                                         onClick={() => { toggleTableRow(servicePoint.id) }}
                                     >

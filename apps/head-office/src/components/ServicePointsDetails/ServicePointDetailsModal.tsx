@@ -399,7 +399,8 @@ const ServicePointDetailsModal = ({ accessTypeList, brands, investors, slug, sta
         <div className={`${sectionPrefix}-buttons-container flex justify-end`}>
           <Button
             buttonText={'Kaydet'}
-            className={`${formProperties}-submit-button bg-primary text-white rounded-md px-4 py-2`}
+            className={`charge-unit-submit-button bg-primary text-white rounded-md px-4 py-2`}
+            id={`charge-unit-submit-button`}
             type={'submit'}
           />
         </div>

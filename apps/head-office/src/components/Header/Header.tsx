@@ -24,6 +24,7 @@ const Header = ({ className }: IHeaderProps) => {
       <div className={`${BRAND_PREFIX}-sidebar-toggle-button-container`}>
         <Button
           className={`${BRAND_PREFIX}-sidebar-toggle-button bg-white hover:bg-white mx-8 py-2 px-2`}
+          id={`${BRAND_PREFIX}-sidebar-toggle-button`}
           type='button'
           onClick={handleSidebarToggle}
         >
@@ -33,6 +34,7 @@ const Header = ({ className }: IHeaderProps) => {
       <div className={`${BRAND_PREFIX}-profile-button-container`}>
         <Button
           className={`${BRAND_PREFIX}-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center mx-8 rounded-full px-2 py-2`}
+          id={`${BRAND_PREFIX}-header-profile-button`}
           type='button'
           onClick={() => { }}
         >

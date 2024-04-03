@@ -28,6 +28,7 @@ const PaginationItem = ({ currentPage, page, onClick, children, isActive, isDisa
             <Button
                 aria-current={isActive ? "page" : undefined}
                 className={className}
+                id={`pagination-item-${page}`}
                 onClick={onClick}
                 type='button'
             >
