@@ -3,7 +3,7 @@ import { Button } from '@projects/button';
 import { Label } from '@projects/label';
 import './ServicePointDetails.css'
 import { Radio } from '@projects/radio';
-import { BRAND_PREFIX } from '../../constants/constants';
+import { BRAND_PREFIX } from '../../../constants/constants';
 
 const WorkingHoursModal = () => {
   const [isSelectboxOpen, setIsSelectboxOpen] = useState(false);

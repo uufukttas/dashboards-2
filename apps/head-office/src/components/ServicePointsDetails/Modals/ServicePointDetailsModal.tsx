@@ -7,9 +7,9 @@ import { Checkbox } from '@projects/checkbox';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
-import { BRAND_PREFIX } from '../../constants/constants';
-import { toggleChargePointDataUpdated } from '../../../app/redux/features/isChargePointDataUpdated';
-import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
+import { BRAND_PREFIX } from '../../../constants/constants';
+import { toggleChargePointDataUpdated } from '../../../../app/redux/features/isChargePointDataUpdated';
+import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 
 interface IAccessTypeProps {
   id: number;
