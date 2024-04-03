@@ -164,7 +164,39 @@ const ChargeUnitsContent = ({ chargeUnits, connectorCount, connectors, setAddCha
                                                         connectors.map((connectorList, index) => {
                                                             return connectorList[chargeUnit.chargePointId]?.reverse().map((connector, idx) => {
                                                                 return (
-                                                                    <p key={idx}>{idx + 1}.{connector.id}</p>
+                                                                    <div
+                                                                        className={`${chargeUnitPrefix}-connector-list-item w-full flex flex-row w-full items-center justify-between`}
+                                                                        key={idx}
+                                                                    >
+                                                                        <div className={`${chargeUnitPrefix}-coconnector-list-item-name-container`}>
+
+                                                                            <p
+                                                                                className={`${chargeUnitPrefix}-connector-list-item-name text-lg font-bold text-heading`}
+                                                                                key={`${index}-${index + 1}`}
+                                                                            >
+                                                                                <span className='font-bold'>{idx + 1}</span>.{ }
+                                                                            </p>
+                                                                        </div>
+                                                                        <div className={`${chargeUnitPrefix}-connector-list-item-epdk-container`}>
+                                                                            <p
+                                                                                className={`${chargeUnitPrefix}-connector-list-item-epdk text-lg text-text`}
+                                                                            >
+                                                                                {chargeUnit.deviceCode}
+                                                                            </p>
+                                                                        </div>
+                                                                        <Button
+                                                                            buttonText={``}
+                                                                            className="connector-add-button rounded-md px-4 py-2 mx-4"
+                                                                            dataAttributes={{
+                                                                                'data-charge-point-id': chargeUnit.chargePointId.toString(),
+                                                                                'data-charge-point-model-id': chargeUnit.modelId.toString(),
+                                                                            }}
+                                                                            type={'button'}
+                                                                            onClick={() => setAddConnector(true)}
+                                                                        >
+                                                                            <FaPlugCirclePlus />
+                                                                        </Button>
+                                                                    </div>
                                                                 )
                                                             })
                                                         })
