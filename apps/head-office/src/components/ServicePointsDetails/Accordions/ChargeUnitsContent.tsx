@@ -1,60 +1,19 @@
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaChargingStation, FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../../app/redux/store';
+import type { IChargeUnitsContentProps, IConnectorBrandProps } from './types';
 
-interface IChargeUnitsContentProps {
-    chargeUnits: IChargeUnitsProps[];
-    connectorCount: number;
-    connectors: IConnectorStateProps[];
-    setAddChargeUnit: Dispatch<React.SetStateAction<boolean>>;
-    setAddConnector: Dispatch<React.SetStateAction<boolean>>;
-};
-interface IChargeUnitsProps {
-    chargePointId: number;
-    connectorNumber: number;
-    connectorId: number;
-    count: number;
-    deviceCode: string;
-    externalAddress: string;
-    internalAddress: string;
-    investor: string;
-    isFreePoint: boolean;
-    lastHeartBeat: string;
-    limitedUsage: boolean;
-    modelId: number;
-    model: string;
-    ocppVersion: string;
-    sendRoaming: boolean;
-    stationId: number;
-    status: string;
-};
-interface IConnectorProps {
-    connectorName: string;
-    connectorNr: number;
-    id: number;
-    isAC: boolean;
-    kw: number;
-    stationChargePointId: number;
-};
-interface IConnectorStateProps {
-    [key: number]: IConnectorProps[];
-}
-interface IConnectorBrandProps {
-    connectorTypeId: number;
-    displayName: string;
-};
-
-const ChargeUnitsContent = ({ chargeUnits, connectorCount, connectors, setAddChargeUnit, setAddConnector }: IChargeUnitsContentProps) => {
+const ChargeUnitsContent = ({
+    chargeUnits, connectors, setAddChargeUnit, setAddConnector
+}: IChargeUnitsContentProps) => {
     const sectionPrefix = 'charge-units';
     const chargeUnitPrefix = 'charge-unit';
     const dispatch = useDispatch();
-    const isModalVisible = useSelector(
-        (state: RootState) => state.isModalVisibleReducer.isModalVisible
-    );
+    const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
     const [connectorBrands, setConnectorBrands] = useState([]);
     const [selectedBrand, setSelectedBrand] = useState(0);
 
@@ -70,24 +29,24 @@ const ChargeUnitsContent = ({ chargeUnits, connectorCount, connectors, setAddCha
     const getConnectorBrands = () => {
         axios
             .post(
-                'https://sharztestapi.azurewebsites.net/Values/GetConnectorModels',
+                process.env.GET_CONNECTOR_MODELS || '',
                 { brandId: selectedBrand },
                 { headers: { 'Content-Type': 'application/json' } }
             )
             .then(response => {
                 setConnectorBrands(response.data.data);
                 createDropdownItems();
-            })
+            });
     };
     const handleClick = (event: React.MouseEvent) => {
         const chargeUnitId = event.currentTarget.getAttribute(`data-charge-unit-model-id`);
-        setSelectedBrand(parseInt(chargeUnitId || '0'));
 
+        setSelectedBrand(parseInt(chargeUnitId || '0'));
         dispatch(toggleModalVisibility(isModalVisible));
     };
 
     useEffect(() => {
-        // getConnectorBrands();
+        getConnectorBrands();
     }, [chargeUnits]);
 
     return (
@@ -153,7 +112,6 @@ const ChargeUnitsContent = ({ chargeUnits, connectorCount, connectors, setAddCha
                                             </div>
                                         </div>
                                     </div>
-
                                     <div className={`${sectionPrefix}-connectors-container`}>
                                         <div className={`${sectionPrefix}-connectors pt-12 pl-4 mx-2 w-full`}>
                                             <div className={`${chargeUnitPrefix}-info-container flex justify-between flex-col`}>
@@ -171,13 +129,12 @@ const ChargeUnitsContent = ({ chargeUnits, connectorCount, connectors, setAddCha
                                                                         className={`${chargeUnitPrefix}-connector-list-item w-full flex flex-row w-full items-center justify-between`}
                                                                         key={idx}
                                                                     >
-                                                                        <div className={`${chargeUnitPrefix}-coconnector-list-item-name-container`}>
-
+                                                                        <div className={`${chargeUnitPrefix}-connector-list-item-name-container`}>
                                                                             <p
                                                                                 className={`${chargeUnitPrefix}-connector-list-item-name text-lg font-bold text-heading`}
                                                                                 key={`${index}-${index + 1}`}
                                                                             >
-                                                                                <span className='font-bold'>{idx + 1}</span>.{ }
+                                                                                <span className='font-bold'>{idx + 1}</span>.
                                                                             </p>
                                                                         </div>
                                                                         <div className={`${chargeUnitPrefix}-connector-list-item-epdk-container`}>
@@ -205,66 +162,13 @@ const ChargeUnitsContent = ({ chargeUnits, connectorCount, connectors, setAddCha
                                                             })
                                                         })
                                                     }
-                                                    {/* {
-                                                        Array.from({ length: chargeUnit.connectorNumber }).map((_, index) => (
-                                                            <div
-                                                                className={`${chargeUnitPrefix}-connector-list-item-container my-4 flex flex-col ${chargeUnit.status === '1'
-                                                                    ? 'bg-green-100'
-                                                                    : (
-                                                                        chargeUnit.status === '2'
-                                                                            ? 'bg-yellow-100'
-                                                                            : 'bg-red-100'
-                                                                    )
-                                                                    }`}
-                                                                key={index}
-                                                            >
-                                                                <div className={`${chargeUnitPrefix}-connector-list-item w-full flex flex-row w-full items-center justify-between`}>
-                                                                    <div className={`${chargeUnitPrefix}-coconnector-list-item-name-container`}>
-                                                                        <p
-                                                                            className={`${chargeUnitPrefix}-connector-list-item-name text-lg font-bold text-heading`}
-                                                                            key={`${index}-${index + 1}`}
-                                                                        >
-                                                                            <span className='font-bold'>{index + 1}</span>.{ }
-                                                                        </p>
-                                                                    </div>
-                                                                    <div className={`${chargeUnitPrefix}-connector-list-item-epdk-container`}>
-                                                                        <p
-                                                                            className={`${chargeUnitPrefix}-connector-list-item-epdk text-lg text-text`}
-                                                                        >
-                                                                            {chargeUnit.deviceCode}
-                                                                        </p>
-                                                                    </div>
-                                                                    <div className="h-4 w-full bg-neutral-200 border border-gray-500 rounded">
-                                                                        <div
-                                                                            className={`h-full border rounded flex items-center justify-center text-white`}
-                                                                            style={{ width: "45%" }}
-                                                                        >
-                                                                            45%
-                                                                        </div>
-                                                                    </div>
-                                                                    <Button
-                                                                        buttonText={``}
-                                                                        className="connector-add-button rounded-md px-4 py-2 mx-4"
-                                                                        dataAttributes={{
-                                                                            'data-charge-point-id': chargeUnit.chargePointId.toString(),
-                                                                            'data-charge-point-model-id': chargeUnit.modelId.toString(),
-                                                                        }}
-                                                                        type={'button'}
-                                                                        onClick={() => setAddConnector(true)}
-                                                                    >
-                                                                        <FaPlugCirclePlus />
-                                                                    </Button>
-                                                                </div>
-                                                            </div>
-                                                        ))
-                                                    } */}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        )
+                        );
                     })
                 }
             </div>
