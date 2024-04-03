@@ -8,32 +8,34 @@ interface INavbarItemProps {
 };
 
 interface INavbarProps {
-  items: INavbarItemProps[];
   activeIndex: number;
+  items: INavbarItemProps[];
   setActiveIndex: (index: number) => void;
 };
 
 const Navbar = ({ activeIndex, items, setActiveIndex }: INavbarProps) => {
-  const handleItemClick = (index: number) => {
-    setActiveIndex(index);
-  };
+  const handleItemClick = (index: number) => setActiveIndex(index);
 
   return (
     <nav className={`${BRAND_PREFIX}-navbar-container lg:mx-8 flex items-center`}>
       {
-        items.map((item, index) => (
+        items.map((item: INavbarItemProps, index: number) => (
           <Button key={index}
-            className={`${BRAND_PREFIX}-navbar-item px-4 py-0 w-1/6 flex justify-center items-center text-2xl ${activeIndex === index ? 'active' : ''}`}
+            className={`${BRAND_PREFIX}-navbar-item px-4 py-0 w-1/6 flex justify-center items-center text-2xl ${
+              activeIndex === index
+                ? 'active'
+                : ''}
+              `}
             id={`${BRAND_PREFIX}-navbar-item-${index}`}
-            onClick={() => handleItemClick(index)}
             type="button"
+            onClick={() => handleItemClick(index)}
           >
             {item.title}
           </Button>
         ))
       }
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;
