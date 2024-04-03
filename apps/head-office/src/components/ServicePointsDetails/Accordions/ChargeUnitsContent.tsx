@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../../app/redux/store';
-import type { IChargeUnitsContentProps, IConnectorBrandProps } from './types';
+import type { IChargeUnitsContentProps, IConnectorBrandProps } from '../types';
 
 const ChargeUnitsContent = ({
     chargeUnits, connectors, setAddChargeUnit, setAddConnector

@@ -10,7 +10,7 @@ import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import { toggleChargePointDataUpdated } from '../../../../app/redux/features/isChargePointDataUpdated';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
-import type { IServicePointDetailsModalProps, IFormDataProps } from './types';
+import type { IServicePointDetailsModalProps, IFormDataProps } from '../types';
 
 const ServicePointDetailsModal = ({
   accessTypeList, brands, investors, slug, statusList, setConnectorCount

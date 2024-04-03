@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { CITIES, DISTRICTS } from '../../../constants/constants';
-import type { IServiceDetailsContentProps, IServicePointsDetailsInfoProps } from './types';
+import type { IServiceDetailsContentProps, IServicePointsDetailsInfoProps } from '../types';
 
 const initialServicePointsDetailsInfoStateValue = {
     address: '',

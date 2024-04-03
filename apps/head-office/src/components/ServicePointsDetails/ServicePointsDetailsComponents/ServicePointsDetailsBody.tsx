@@ -2,7 +2,7 @@ import React from 'react';
 import Accordion from '../../Accordion/Accordion';
 import LocationInfo from '../Accordions/LocationInfo';
 import ChargeUnitsContent from '../Accordions/ChargeUnitsContent';
-import type { IServicePointsDetailsBodyProps } from '../types.d';
+import type { IServicePointsDetailsBodyProps } from '../types';
 
 const ServicePointsDetailsBody = ({
     activeIndex,

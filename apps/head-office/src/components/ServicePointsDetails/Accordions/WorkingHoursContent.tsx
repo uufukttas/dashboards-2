@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Button } from '@projects/button';
 import '../ServicePointDetails.css';
-import type { IWorkingHoursContentProps, IConvertedStructure, IResponseItem } from './types';
+import type { IWorkingHoursContentProps, IConvertedStructure, IResponseItem } from '../types';
 
 const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
     const days = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
