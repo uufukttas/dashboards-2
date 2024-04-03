@@ -1,50 +1,8 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React from 'react';
 import Accordion from '../../Accordion/Accordion';
-import ServicePointDetailsContent from '../Accordions/ServicePointDetailsContent';
+import LocationInfo from '../Accordions/LocationInfo';
 import ChargeUnitsContent from '../Accordions/ChargeUnitsContent';
-
-interface IChargeUnitsProps {
-    chargePointId: number;
-    connectorNumber: number;
-    connectorId: number;
-    count: number;
-    deviceCode: string;
-    externalAddress: string;
-    internalAddress: string;
-    investor: string;
-    isFreePoint: boolean;
-    lastHeartBeat: string;
-    limitedUsage: boolean;
-    modelId: number;
-    model: string;
-    ocppVersion: string;
-    sendRoaming: boolean;
-    stationId: number;
-    status: string;
-  };
-
-interface IConnectorProps {
-    connectorName: string;
-    connectorNr: number;
-    id: number;
-    isAC: boolean;
-    kw: number;
-    stationChargePointId: number;
-  };
-
-interface IConnectorStateProps {
-    [key: number]: IConnectorProps[];
-  };
-
-interface IServicePointsDetailsBodyProps {
-    activeIndex: number;
-    chargeUnits: IChargeUnitsProps[];
-    connectorCount: number;
-    connectors: IConnectorStateProps[];
-    setAddChargeUnit: Dispatch<SetStateAction<boolean>>;
-    setAddConnector: Dispatch<SetStateAction<boolean>>;
-    slug: string;
-};
+import type { IServicePointsDetailsBodyProps } from '../types.d';
 
 const ServicePointsDetailsBody = ({
     activeIndex,
@@ -62,7 +20,7 @@ const ServicePointsDetailsBody = ({
                     accordionTitle="Lokasyon Bilgileri"
                     titleClassName="font-bold"
                 >
-                    <ServicePointDetailsContent slug={slug} />
+                    <LocationInfo slug={slug} />
                 </Accordion>
             )}
             {activeIndex === 1 && (
@@ -75,7 +33,6 @@ const ServicePointsDetailsBody = ({
                         connectors.length > 0 &&
                         <ChargeUnitsContent
                             chargeUnits={chargeUnits}
-                            connectorCount={connectorCount}
                             connectors={connectors}
                             setAddChargeUnit={setAddChargeUnit}
                             setAddConnector={setAddConnector}
