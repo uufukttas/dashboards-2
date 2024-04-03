@@ -1,4 +1,4 @@
-import React, { Dispatch, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -10,41 +10,11 @@ import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import { toggleChargePointDataUpdated } from '../../../../app/redux/features/isChargePointDataUpdated';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import type { IServicePointDetailsModalProps, IFormDataProps } from './types';
 
-interface IAccessTypeProps {
-  id: number;
-  name: string;
-  rid: null;
-};
-interface IBrandsProps {
-  id: number,
-  name: string,
-  isDeleted: boolean;
-  rid: null;
-};
-interface ServicePointDetailsModalProps {
-  slug: string;
-  brands: IBrandsProps[];
-  investors: IInvestorsProps[];
-  accessTypeList: IAccessTypeProps[];
-  statusList: IStatusListProps[];
-  setConnectorCount: Dispatch<React.SetStateAction<number>>;
-};
-interface IFormDataProps {
-  [key: string]: boolean | number | string;
-};
-interface IInvestorsProps {
-  id: number,
-  name: string,
-  rid: null;
-};
-interface IStatusListProps {
-  id: number;
-  name: string;
-  rid: null;
-};
-
-const ServicePointDetailsModal = ({ accessTypeList, brands, investors, slug, statusList, setConnectorCount }: ServicePointDetailsModalProps) => {
+const ServicePointDetailsModal = ({
+  accessTypeList, brands, investors, slug, statusList, setConnectorCount
+}: IServicePointDetailsModalProps) => {
   const formName = ['brands', 'connector-count', 'ocpp-version', 'is-free-usage', 'is-limited-usage', 'investor', 'status', 'access-type', 'location'];
   const sectionPrefix = 'charge-unit';
   const formProperties = {
@@ -101,27 +71,35 @@ const ServicePointDetailsModal = ({ accessTypeList, brands, investors, slug, sta
   };
 
   const getChargePointId = async () => {
-    const response = await axios.post(
-      'https://sharztestapi.azurewebsites.net/Values/GetDeviceCode',
-      JSON.stringify({ "stationID": Number(slug) }),
-      { headers: { 'Content-Type': 'application/json' } }
-    );
-    return response.data;
+    try {
+      const response = await axios
+        .post(
+          process.env.GET_DEVICE_CODE || '',
+          JSON.stringify({ "stationID": Number(slug) }),
+          { headers: { 'Content-Type': 'application/json' } }
+        );
+
+      return response.data;
+    } catch (error) {
+      return error;
+    }
   };
 
   const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
     try {
       const chargePointId = await getChargePointId();
-  
+
       await axios.post(
-        'https://sharztestapi.azurewebsites.net/ServicePoint/AddStationSettings',
+        process.env.ADD_STATION_SETTINGS || '',
         JSON.stringify(createRequestData(chargePointId)),
-        { headers: { 
-          'Content-Type': 'application/json', 
-          'Authorization': `Bearer ${chargePointId.token}` 
-        } }
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${chargePointId.token}`
+          }
+        }
       );
-  
+
       dispatch(toggleModalVisibility());
       dispatch(toggleChargePointDataUpdated(true));
     } catch (error) {
