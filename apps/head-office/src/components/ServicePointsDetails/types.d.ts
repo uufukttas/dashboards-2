@@ -1,33 +1,3 @@
-interface IAccessTypeProps {
-  id: number;
-  name: string;
-  rid: null;
-};
-interface IBrandsProps {
-  id: number,
-  name: string,
-  isDeleted: boolean;
-  rid: null;
-};
-interface IChargeUnitsProps {
-  chargePointId: number;
-  connectorNumber: number;
-  connectorId: number;
-  count: number;
-  deviceCode: string;
-  externalAddress: string;
-  internalAddress: string;
-  investor: string;
-  isFreePoint: boolean;
-  lastHeartBeat: string;
-  limitedUsage: boolean;
-  modelId: number;
-  model: string;
-  ocppVersion: string;
-  sendRoaming: boolean;
-  stationId: number;
-  status: string;
-};
 interface IConnectorProps {
   connectorName: string;
   connectorNr: number;
@@ -46,11 +16,6 @@ interface IConvertedStructure {
   closingTime: string;
   isClosed: boolean;
   isDeleted: boolean;
-};
-interface IInvestorsProps {
-  id: number,
-  name: string,
-  rid: null;
 };
 interface IResponse {
   "RID": number,
@@ -73,7 +38,52 @@ interface IServicePointsDetailsBodyProps {
   setAddConnector: Dispatch<SetStateAction<boolean>>;
   slug: string;
 };
-interface IStatusListProps {
+export interface IAccessTypeProps {
+  id: number;
+  name: string;
+  rid: null;
+};
+export interface IBrandsProps {
+  id: number,
+  name: string,
+  isDeleted: boolean;
+  rid: null;
+};
+export interface IChargeUnitsProps {
+  chargePointId: number;
+  connectorNumber: number;
+  connectorId: number;
+  count: number;
+  deviceCode: string;
+  externalAddress: string;
+  internalAddress: string;
+  investor: string;
+  isFreePoint: boolean;
+  lastHeartBeat: string;
+  limitedUsage: boolean;
+  modelId: number;
+  model: string;
+  ocppVersion: string;
+  sendRoaming: boolean;
+  stationId: number;
+  status: string;
+};
+export interface IInvestorsProps {
+  id: number,
+  name: string,
+  rid: null;
+};
+export interface IServicePointsDetailsProps {
+  name: string;
+  id: string;
+  resellerId: string;
+  companyId: string;
+  resellerName: string;
+  companyName: string;
+  isActive: boolean;
+  isDeleted: boolean;
+};
+export interface IStatusListProps {
   id: number;
   name: string;
   rid: null;
@@ -134,4 +144,7 @@ export interface IServicePointDetailsModalProps {
   accessTypeList: IAccessTypeProps[];
   statusList: IStatusListProps[];
   setConnectorCount: Dispatch<React.SetStateAction<number>>;
+};
+export interface IServicePointsDetailsPageProps {
+  slug: string;
 };
