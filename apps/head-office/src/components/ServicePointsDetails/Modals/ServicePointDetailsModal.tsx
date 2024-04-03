@@ -288,27 +288,27 @@ const ServicePointDetailsModal = ({
             id={`${formProperties.location}`}
             name={`${formProperties.location}`}
             register={
-              register(`${formProperties.location}`, {
-                required: 'Şarj Ünitesi Konumu zorunludur.',
-                minLength: {
-                  value: 3,
-                  message: 'En az 3 karakter girmelisiniz.',
-                },
-                value: chargeUnitFormData[`${formProperties.location}`],
-                onChange: (event) => {
-                  setChargeUnitFormData({
-                    ...chargeUnitFormData,
-                    [event.target.name]: event.target.value,
-                  });
-                }
+              register(
+                `${formProperties.location}`, {
+                  required: 'Şarj Ünitesi Konumu zorunludur.',
+                  minLength: {
+                    value: 3,
+                    message: 'En az 3 karakter girmelisiniz.',
+                  },
+                  value: chargeUnitFormData[`${formProperties.location}`],
+                  onChange: (event) => {
+                    setChargeUnitFormData({
+                      ...chargeUnitFormData,
+                      [event.target.name]: event.target.value,
+                    });
+                  }
               })
             }
             type="text"
 
           />
-          {errors[`${formProperties.location}`]
-            && errors[`${formProperties.location}`]?.message
-            && (
+          {errors[`${formProperties.location}`] &&
+            errors[`${formProperties.location}`]?.message && (
               <div className={`${formProperties.location}-error-wrapper my-4 font-bold text-error`}>
                 <p className={`${formProperties.location}-error-message text-error`}>
                   {errors[`${formProperties.location}`]?.message?.toString()}
