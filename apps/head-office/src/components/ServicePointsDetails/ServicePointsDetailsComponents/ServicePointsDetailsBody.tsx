@@ -74,7 +74,7 @@ const ServicePointsDetailsBody = ({
                 </Accordion>
             )}
         </div>
-    )
-}
+    );
+};
 
-export default ServicePointsDetailsBody
+export default ServicePointsDetailsBody;

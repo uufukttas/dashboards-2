@@ -17,72 +17,17 @@ import { toggleChargePointDataUpdated } from '../../../app/redux/features/isChar
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { RootState } from '../../../app/redux/store';
 import './ServicePointDetails.css';
+import type {
+  IAccessTypeProps,
+  IBrandsProps,
+  IChargeUnitsProps,
+  IConnectorStateProps,
+  IInvestorsProps,
+  IServicePointsDetailsPageProps,
+  IServicePointsDetailsProps,
+  IStatusListProps
+} from './types';
 
-interface IAccessTypeProps {
-  id: number;
-  stationChargePointFeatureType: number;
-  name: string;
-  rid: null;
-};
-interface IBrandsProps {
-  id: number,
-  name: string,
-  isDeleted: boolean
-  rid: null;
-};
-interface IChargeUnitsProps {
-  chargePointId: number;
-  connectorNumber: number;
-  connectorId: number;
-  count: number;
-  deviceCode: string;
-  externalAddress: string;
-  internalAddress: string;
-  investor: string;
-  isFreePoint: boolean;
-  lastHeartBeat: string;
-  limitedUsage: boolean;
-  modelId: number;
-  model: string;
-  ocppVersion: string;
-  sendRoaming: boolean;
-  stationId: number;
-  status: string;
-};
-interface IConnectorProps {
-  connectorName: string;
-  connectorNr: number;
-  id: number;
-  isAC: boolean;
-  kw: number;
-  stationChargePointId: number;
-};
-interface IConnectorStateProps {
-  [key: number]: IConnectorProps[];
-};
-interface IInvestorsProps {
-  id: number,
-  name: string
-  rid: null;
-};
-interface IServicePointsDetailsPageProps {
-  slug: string;
-};
-interface IServicePointsDetailsProps {
-  name: string;
-  id: string;
-  resellerId: string;
-  companyId: string;
-  resellerName: string;
-  companyName: string;
-  isActive: boolean;
-  isDeleted: boolean;
-};
-interface IStatusListProps {
-  id: number;
-  name: string;
-  rid: null;
-};
 
 const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
@@ -113,87 +58,113 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
     });
   const [statusList, setStatusList] = useState<IStatusListProps[]>([]);
 
-  const getBrands = () => {
-    axios
-      .get('https://sharztestapi.azurewebsites.net/Values/GetModels')
-      .then((response) => response.data)
-      .then((response) => setBrands(response.data))
-      .catch((error) => console.log(error));
+  const getBrands = async () => {
+    try {
+      await axios
+        .get(process.env.GET_CHARGE_UNIT_MODELS || '')
+        .then((response) => response.data)
+        .then((response) => setBrands(response.data))
+        .catch((error) => console.log(error));
+    } catch (error) {
+      console.log(error);
+    };
   };
   const getChargeUnits = async () => {
-    await axios
-      .post(
-        'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationSettings',
-        JSON.stringify({ stationId: Number(slug), PageNumber: 1, PageSize: 10 }),
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-      .then((response) => response.data.data)
-      .then((data) => {
-        if (chargeUnits.length !== data.length) {
-          setChargeUnits(data)
-        }
-
-        dispatch(toggleLoadingVisibility(false));
-      })
-      .catch((error) => console.log(error));
-  };
-  const getChargeUnitFeatures = () => {
-    axios
-      .get(
-        'https://sharztestapi.azurewebsites.net/Values/GetChargePointFeatures'
-      )
-      .then((response) => response.data.data)
-      .then((data) => {
-        setStatusList(data.statusList);
-        setAccessTypeList(data.accessTypeList);
-      })
-      .catch((error) => console.log(error));
-  };
-  const getConnectors = async () => {
-    chargeUnits.map(async (chargeUnit) => {
+    try {
       await axios
         .post(
-          'https://sharztestapi.azurewebsites.net/StationInfo/GetChargePointConnectors',
-          JSON.stringify({ stationChargePointId: chargeUnit.chargePointId }),
+          process.env.GET_STATION_SETTINGS || '',
+          JSON.stringify({ stationId: Number(slug), PageNumber: 1, PageSize: 10 }),
+          { headers: { 'Content-Type': 'application/json' } }
+        )
+        .then((response) => response.data.data)
+        .then((data) => {
+          if (chargeUnits.length !== data.length) {
+            setChargeUnits(data)
+          }
+
+          dispatch(toggleLoadingVisibility(false));
+        })
+        .catch((error) => console.log(error));
+    } catch (error) {
+      console.log(error);
+    };
+  };
+  const getChargeUnitFeatures = async () => {
+    try {
+      await axios
+        .get(process.env.GET_CHARGE_POINT_FEATURES || '')
+        .then((response) => response.data.data)
+        .then((data) => {
+          setStatusList(data.statusList);
+          setAccessTypeList(data.accessTypeList);
+        })
+        .catch((error) => console.log(error));
+    } catch (error) {
+      console.log(error);
+    };
+  };
+  const getConnectors = async () => {
+    try {
+      chargeUnits.map(async (chargeUnit) => {
+        await axios
+          .post(
+            process.env.GET_CHARGE_POINT_CONNECTORS || '',
+            JSON.stringify({ stationChargePointId: chargeUnit.chargePointId }),
+            { headers: { 'Content-Type': 'application/json' } }
+          )
+          .then((response) => response.data)
+          .then((data) => {
+            setTimeout(() => {
+              setConnectors((prev) => [...prev, { [chargeUnit.chargePointId]: data.data }])
+            }, 1000)
+          })
+          .catch((error) => console.log(error));
+      });
+    } catch (error) {
+      console.log(error);
+    };
+  }
+  const getInvestors = async () => {
+    try {
+      await axios
+        .get(process.env.GET_INVESTORS || '')
+        .then((response) => response.data)
+        .then((response) => setInvestors(response.data))
+        .catch((error) => console.log(error));
+    } catch (error) {
+      console.log(error);
+    };
+  };
+  const getServicePointsDetails = async (slug: string) => {
+    try {
+      await axios
+        .post(
+          process.env.GET_STATION_BY_ID || '',
+          { id: slug },
           { headers: { 'Content-Type': 'application/json' } }
         )
         .then((response) => response.data)
-        .then((data) => {
-          setTimeout(() => {
-            setConnectors((prev) => [...prev, { [chargeUnit.chargePointId]: data.data }])
-          }, 1000)
-        })
+        .then((data) => setServicePointDetails(data.data[0]))
         .catch((error) => console.log(error));
-    })
-  }
-  const getInvestors = () => {
-    axios
-      .get('https://sharztestapi.azurewebsites.net/Values/GetInvestors')
-      .then((response) => response.data)
-      .then((response) => setInvestors(response.data))
-      .catch((error) => console.log(error));
+    } catch (error) {
+      console.log(error);
+    };
   };
-  const getServicePointsDetails = async (slug: string) => {
-    axios
-      .post(
-        'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationById',
-        { id: slug },
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-      .then((response) => response.data)
-      .then((data) => setServicePointDetails(data.data[0]))
-      .catch((error) => console.log(error));
-  };
-  const getWorkingHours = () => {
-    axios
-      .post(
-        'https://sharztestapi.azurewebsites.net/ServicePoint/GetWorkHours',
-        JSON.stringify({ stationID: Number(slug) }),
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-      .then((response) => response.data)
-      .then((data) => data)
-      .catch((error) => console.log(error));
+  const getWorkingHours = async () => {
+    try {
+      await axios
+        .post(
+          process.env.GET_WORKING_HOURS || '',
+          JSON.stringify({ stationID: Number(slug) }),
+          { headers: { 'Content-Type': 'application/json' } }
+        )
+        .then((response) => response.data)
+        .then((data) => data)
+        .catch((error) => console.log(error));
+    } catch (error) {
+      console.log(error);
+    };
   };
 
   const navbarItems = [
