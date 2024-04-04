@@ -5,13 +5,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../../app/redux/store';
-import type { IChargeUnitsContentProps, IConnectorBrandProps } from '../types';
-
-interface IProps {
-    id: number;
-    stationChargePointFeatureType: number;
-    stationChargePointFeatureTypeValue: string;
-};
+import type {
+    IChargeUnitsContentProps,
+    IConnectorBrandProps,
+    IGetChargePointStationFeatureData,
+    IGetChargePointStationFeatureResponse
+} from '../types';
 
 const ChargeUnitsContent = ({
     chargeUnits, connectors, slug, setAddChargeUnit, setAddConnector
@@ -32,41 +31,7 @@ const ChargeUnitsContent = ({
             };
         });
     };
-    const getConnectorBrands = () => {
-        axios
-            .post(
-                process.env.GET_CONNECTOR_MODELS || '',
-                { brandId: selectedBrand },
-                { headers: { 'Content-Type': 'application/json' } }
-            )
-            .then(response => {
-                setConnectorBrands(response.data.data);
-                createDropdownItems();
-            });
-    };
-    const handleClick = (event: React.MouseEvent) => {
-        const chargeUnitId = event.currentTarget.getAttribute(`data-charge-unit-model-id`);
-
-        setSelectedBrand(parseInt(chargeUnitId || '0'));
-        dispatch(toggleModalVisibility(isModalVisible));
-    };
-
-    const getFeaturesId = async (chargePointId: number) => {
-        try {
-            const data = await axios
-                .post(
-                    process.env.GET_CHARGE_POINT_STATION_FEATURE || '',
-                    { "StationChargePointID": Number(chargePointId) },
-                    { headers: { 'Content-Type': 'application/json' } }
-                );
-
-            return data.data;
-        } catch (error) {
-            return error;
-        }
-    }
-
-    const createReqData = (features: IProps[], deviceCode: string) => {
+    const createReqData = (features: IGetChargePointStationFeatureData, deviceCode: string) => {
         return ({
             "connectorCount": 4,
             "chargePoint": {
@@ -96,28 +61,56 @@ const ChargeUnitsContent = ({
                 }
             ]
         });
-    }
+    };
+    const getConnectorBrands = () => {
+        axios
+            .post(
+                process.env.GET_CONNECTOR_MODELS || '',
+                { brandId: selectedBrand },
+                { headers: { 'Content-Type': 'application/json' } }
+            )
+            .then(response => {
+                setConnectorBrands(response.data.data);
+                createDropdownItems();
+            });
+    };
+    const getFeaturesId = async (chargePointId: number) => {
+        try {
+            const data = await axios
+                .post(
+                    process.env.GET_CHARGE_POINT_STATION_FEATURE || '',
+                    { "StationChargePointID": Number(chargePointId) },
+                    { headers: { 'Content-Type': 'application/json' } }
+                );
 
+            return data.data;
+        } catch (error) {
+            return error;
+        }
+    };
     const handleDelete = async (event: React.MouseEvent) => {
         const chargePointId = event.currentTarget.getAttribute(`data-charge-point-id`) || '0';
         const deviceCode = event.currentTarget.getAttribute(`data-charge-point-device-code`) || '0';
 
         try {
-            const birinciIstekSonucu: ResponseType = await getFeaturesId(parseInt(chargePointId));
-            const features = birinciIstekSonucu.data;
-            console.log('features', features)
+            const featuresData: IGetChargePointStationFeatureResponse = await getFeaturesId(parseInt(chargePointId));
+            const features = featuresData.data;
 
-            const response = await axios.post(
+            await axios.post(
                 process.env.UPDATE_STATION_SETTINGS || '',
                 JSON.stringify(createReqData(features, deviceCode)),
                 { headers: { 'Content-Type': 'application/json' } }
             );
-
-            console.log(response.data);
         } catch (error) {
             console.log(error);
-        }
-    }
+        };
+    };
+    const handleUpdate = (event: React.MouseEvent) => {
+        const chargeUnitId = event.currentTarget.getAttribute(`data-charge-unit-model-id`);
+
+        setSelectedBrand(parseInt(chargeUnitId || '0'));
+        dispatch(toggleModalVisibility(isModalVisible));
+    };
 
     useEffect(() => {
         getConnectorBrands();
@@ -171,7 +164,7 @@ const ChargeUnitsContent = ({
                                                             'data-charge-point-device-code': chargeUnit.deviceCode.toString(),
                                                         }}
                                                         id={`${chargeUnitPrefix}-edit-button`}
-                                                        type={'button'} onClick={handleClick}
+                                                        type={'button'} onClick={handleUpdate}
                                                     >
                                                         <FaPencil />
                                                     </Button>
@@ -238,8 +231,8 @@ const ChargeUnitsContent = ({
                                                                             <FaPlugCirclePlus />
                                                                         </Button>
                                                                     </div>
-                                                                )
-                                                            })
+                                                                );
+                                                            });
                                                         })
                                                     }
                                                 </div>
