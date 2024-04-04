@@ -18,14 +18,14 @@ import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVi
 import { RootState } from '../../../app/redux/store';
 import './ServicePointDetails.css';
 import type {
-  IAccessTypeProps,
+  IAccessTypeListItemProps,
   IBrandsProps,
   IChargeUnitsProps,
   IConnectorStateProps,
   IInvestorsProps,
   IServicePointsDetailsPageProps,
   IServicePointsDetailsProps,
-  IStatusListProps
+  IStatusListItemProps
 } from './types';
 
 
@@ -36,7 +36,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   );
   const isLoadingVisible = useSelector((state: RootState) => state.loadingReducer.isLoading);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
-  const [accessTypeList, setAccessTypeList] = useState<IAccessTypeProps[]>([]);
+  const [accessTypeList, setAccessTypeList] = useState<IAccessTypeListItemProps[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(1);
   const [addChargeUnit, setAddChargeUnit] = useState<boolean>(false);
   const [addConnector, setAddConnector] = useState(false);
@@ -56,7 +56,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
       isActive: false,
       isDeleted: false,
     });
-  const [statusList, setStatusList] = useState<IStatusListProps[]>([]);
+  const [statusList, setStatusList] = useState<IStatusListItemProps[]>([]);
 
   const getBrands = async () => {
     try {

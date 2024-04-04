@@ -38,7 +38,7 @@ interface IServicePointsDetailsBodyProps {
   setAddConnector: Dispatch<SetStateAction<boolean>>;
   slug: string;
 };
-export interface IAccessTypeProps {
+export interface IAccessTypeListItemProps {
   id: number;
   name: string;
   rid: null;
@@ -67,6 +67,7 @@ export interface IChargeUnitsProps {
   sendRoaming: boolean;
   stationId: number;
   status: string;
+  location: string;
 };
 export interface IGetChargePointStationFeatureData {
   id: number;
@@ -92,7 +93,7 @@ export interface IServicePointsDetailsProps {
   isActive: boolean;
   isDeleted: boolean;
 };
-export interface IStatusListProps {
+export interface IStatusListItemProps {
   id: number;
   name: string;
   rid: null;
@@ -108,6 +109,7 @@ export interface IChargeUnitsContentProps {
   setAddConnector: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export interface IChargeUnitsProps {
+  accessType: string;
   chargePointId: number;
   connectorNumber: number;
   connectorId: number;
@@ -125,6 +127,7 @@ export interface IChargeUnitsProps {
   sendRoaming: boolean;
   stationId: number;
   status: string;
+  hoStatus: string;
 };
 export interface IConnectorBrandProps {
   connectorTypeId: number;
@@ -151,8 +154,8 @@ export interface IServicePointDetailsModalProps {
   slug: string;
   brands: IBrandsProps[];
   investors: IInvestorsProps[];
-  accessTypeList: IAccessTypeProps[];
-  statusList: IStatusListProps[];
+  accessTypeList: IAccessTypeListItemProps[];
+  statusList: IStatusListItemProps[];
   setConnectorCount: Dispatch<React.SetStateAction<number>>;
 };
 export interface IServicePointsDetailsPageProps {
