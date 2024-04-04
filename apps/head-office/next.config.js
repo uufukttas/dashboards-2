@@ -22,6 +22,7 @@ const nextConfig = {
     GET_ALL_SERVICE_POINTS: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetAllPoints',
     GET_CHARGE_POINT_CONNECTORS: 'https://sharztestapi.azurewebsites.net/StationInfo/GetChargePointConnectors',
     GET_CHARGE_POINT_FEATURES: 'https://sharztestapi.azurewebsites.net/Values/GetChargePointFeatures',
+    GET_CHARGE_POINT_STATION_FEATURE: 'https://sharztestapi.azurewebsites.net/StationFeature/GetChargePointFeature',
     GET_CHARGE_UNIT_MODELS: 'https://sharztestapi.azurewebsites.net/Values/GetModels',
     GET_COMPANIES_URL: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetCompanies',
     GET_CONNECTOR_MODELS: 'https://sharztestapi.azurewebsites.net/Values/GetConnectorModels',
@@ -34,6 +35,7 @@ const nextConfig = {
     GET_WORKING_HOURS: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetWorkHours',
     LOGIN_URL: 'https://sharztestapi.azurewebsites.net/Auth/Login',
     UPDATE_STATION_INFO_URL: 'https://sharztestapi.azurewebsites.net/StationInfo/UpdateStationInfo',
+    UPDATE_STATION_SETTINGS: 'https://sharztestapi.azurewebsites.net/ServicePoint/UpdateStationSettings',
     UPDATE_STATION_URL: 'https://sharztestapi.azurewebsites.net/ServicePoint/UpdateStation',
   },
 };
