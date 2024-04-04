@@ -13,6 +13,7 @@ import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
 import { BRAND_PREFIX } from '../../constants/constants';
+import { setChargeUnitData } from '../../../app/redux/features/chargeUnitData';
 import { toggleChargePointDataUpdated } from '../../../app/redux/features/isChargePointDataUpdated';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { RootState } from '../../../app/redux/store';
@@ -27,7 +28,6 @@ import type {
   IServicePointsDetailsProps,
   IStatusListItemProps
 } from './types';
-
 
 const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
@@ -264,6 +264,21 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
               <Modal
                 modalHeaderTitle='Şarj Ünitesi Ekle'
                 modalId={`${BRAND_PREFIX}-charge-points-add-modal`}
+                onClose={() => {
+                  dispatch(
+                    setChargeUnitData({
+                      brandId: 1,
+                      connectorCount: 1,
+                      ocppVersion: 1600,
+                      isFreeUsage: false,
+                      isLimitedUsage: false,
+                      investor: 1,
+                      status: 1,
+                      accessType: 1,
+                      location: '',
+                    })
+                  );
+                }}
               >
                 <ServicePointDetailsModal
                   accessTypeList={accessTypeList}
@@ -288,7 +303,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
               </Modal>
             )
           }
-        </div>
+        </div >
       )
   );
 };
