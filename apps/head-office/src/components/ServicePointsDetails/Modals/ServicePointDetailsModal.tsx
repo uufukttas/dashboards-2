@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { Checkbox } from '@projects/checkbox';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../../constants/constants';
+import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { toggleChargePointDataUpdated } from '../../../../app/redux/features/isChargePointDataUpdated';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import type { IServicePointDetailsModalProps, IFormDataProps } from '../types';
+import { RootState } from 'apps/head-office/app/redux/store';
 
 const ServicePointDetailsModal = ({
   accessTypeList, brands, investors, slug, statusList, setConnectorCount
@@ -30,16 +32,17 @@ const ServicePointDetailsModal = ({
   };
   const dispatch = useDispatch();
   const { formState: { errors }, handleSubmit, register } = useForm();
+  const chargeUnitData = useSelector((state: RootState) => state.chargeUnitData.chargeUnitData);
   const [chargeUnitFormData, setChargeUnitFormData] = useState<IFormDataProps>({
-    [`${formProperties.brands}`]: 1,
-    [`${formProperties['connector-count']}`]: 0,
-    [`${formProperties['ocpp-version']}`]: 1,
-    [`${formProperties['is-free-usage']}`]: false,
-    [`${formProperties['is-limited-usage']}`]: false,
-    [`${formProperties.investor}`]: 1,
-    [`${formProperties.status}`]: '1',
-    [`${formProperties['access-type']}`]: '1',
-    [`${formProperties.location}`]: ''
+    [`${formProperties.brands}`]: chargeUnitData.brandId || 1,
+    [`${formProperties['connector-count']}`]: chargeUnitData.connectorCount || 1,
+    [`${formProperties['ocpp-version']}`]: chargeUnitData.ocppVersion || 1,
+    [`${formProperties['is-free-usage']}`]: chargeUnitData.isFreeUsage || false,
+    [`${formProperties['is-limited-usage']}`]: chargeUnitData.isLimitedUsage || false,
+    [`${formProperties.investor}`]: chargeUnitData.investor || 1,
+    [`${formProperties.status}`]: chargeUnitData.status || '1',
+    [`${formProperties['access-type']}`]: chargeUnitData.accessType || '1',
+    [`${formProperties.location}`]: chargeUnitData.location || ''
   });
 
   const createRequestData = (chargePointId: number) => {
@@ -72,7 +75,6 @@ const ServicePointDetailsModal = ({
       ]
     });
   };
-
   const getChargePointId = async () => {
     try {
       const response = await axios
@@ -87,7 +89,6 @@ const ServicePointDetailsModal = ({
       return error;
     }
   };
-
   const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
     try {
       const chargePointId = await getChargePointId();
@@ -103,12 +104,30 @@ const ServicePointDetailsModal = ({
         }
       );
 
+      dispatch(
+        setChargeUnitData({
+          ...chargeUnitFormData,
+          brandId: chargeUnitFormData[`${formProperties.brands}`],
+          connectorCount: chargeUnitFormData[`${formProperties['connector-count']}`],
+          ocppVersion: chargeUnitFormData[`${formProperties['ocpp-version']}`],
+          isFreeUsage: chargeUnitFormData[`${formProperties['is-free-usage']}`],
+          isLimitedUsage: chargeUnitFormData[`${formProperties['is-limited-usage']}`],
+          investor: chargeUnitFormData[`${formProperties.investor}`],
+          status: chargeUnitFormData[`${formProperties.status}`],
+          accessType: chargeUnitFormData[`${formProperties['access-type']}`],
+          location: chargeUnitFormData[`${formProperties.location}`]
+        })
+      );
       dispatch(toggleModalVisibility());
       dispatch(toggleChargePointDataUpdated(true));
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    console.log('chargeUnitData', chargeUnitData)
+  },[]);
 
   return (
     <div className={`${BRAND_PREFIX}-${sectionPrefix}-modal-form-container relative p-6 bg-white rounded-lg`}>

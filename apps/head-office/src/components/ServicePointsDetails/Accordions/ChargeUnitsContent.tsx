@@ -3,13 +3,17 @@ import axios from 'axios';
 import { FaChargingStation, FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
+import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../../app/redux/store';
 import type {
     IChargeUnitsContentProps,
     IConnectorBrandProps,
+    IInvestorsProps,
     IGetChargePointStationFeatureData,
-    IGetChargePointStationFeatureResponse
+    IGetChargePointStationFeatureResponse,
+    IStatusListItemProps,
+    IAccessTypeListItemProps
 } from '../types';
 
 const ChargeUnitsContent = ({
@@ -62,6 +66,13 @@ const ChargeUnitsContent = ({
             ]
         });
     };
+    const getChargeUnitInfo = (chargeUnitId: number) => {
+        return chargeUnits.filter(chargeUnit => {
+            if (chargeUnit.chargePointId === chargeUnitId) {
+                return chargeUnit;
+            };
+        });
+    };
     const getConnectorBrands = () => {
         axios
             .post(
@@ -88,6 +99,55 @@ const ChargeUnitsContent = ({
             return error;
         }
     };
+    const getGetChargePointFeaturesStatus = async (status: string, accessType: string) => {
+        try {
+            const { data: { data } } = await axios.get(process.env.GET_CHARGE_POINT_FEATURES || '');
+
+            const statusIds = data.statusList.filter((statusItem: IStatusListItemProps) => {
+                return statusItem.name.toLowerCase() === status.toLowerCase();
+            });
+            const accessTypeIds = data.accessTypeList.filter((accessTypeListItem: IAccessTypeListItemProps) => {
+                return accessTypeListItem.name.toLowerCase() === accessType.toLowerCase();
+            });
+
+            const statusId = statusIds.length > 0 ? statusIds[0].id : 0;
+            const accessTypeId = accessTypeIds.length > 0 ? accessTypeIds[0].id : 0;
+
+            return { statusId, accessTypeId };
+        } catch (error) {
+            console.log(error);
+            return { statusId: null, accessTypeId: null };
+        };
+    };
+    const getInvestorId = async (investorName: string) => {
+        try {
+            const investor = await axios
+                .get(process.env.GET_INVESTORS || '')
+                .then((response) => response.data)
+                .then((response) => {
+                    return response.data.filter((investor: IInvestorsProps) => {
+                        if (investor.name.toLowerCase() === investorName.toLowerCase()) {
+                            return investor.id;
+                        };
+                    });
+                })
+                .catch((error) => console.log(error));
+
+            return investor[0].id;
+        } catch (error) {
+            console.log(error);
+        };
+    };
+    const getLocation = async (chargePointId: string) => {
+        const location = await axios
+            .post(
+                process.env.GET_CHARGE_POINT_STATION_FEATURE || '',
+                { "StationChargePointID": Number(chargePointId) },
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+
+        return location.data.data[2].stationChargePointFeatureTypeValue;
+    }
     const handleDelete = async (event: React.MouseEvent) => {
         const chargePointId = event.currentTarget.getAttribute(`data-charge-point-id`) || '0';
         const deviceCode = event.currentTarget.getAttribute(`data-charge-point-device-code`) || '0';
@@ -105,9 +165,27 @@ const ChargeUnitsContent = ({
             console.log(error);
         };
     };
-    const handleUpdate = (event: React.MouseEvent) => {
-        const chargeUnitId = event.currentTarget.getAttribute(`data-charge-unit-model-id`);
+    const handleUpdate = async (event: React.MouseEvent) => {
+        const chargeUnitId = event.currentTarget.getAttribute(`data-charge-point-id`);
+        const chargeUnitInfo = getChargeUnitInfo(parseInt(chargeUnitId || '0'));
+        const investorId = await getInvestorId((chargeUnitInfo[0].investor));
+        const { statusId, accessTypeId } = await getGetChargePointFeaturesStatus(
+            chargeUnitInfo[0].hoStatus, chargeUnitInfo[0].accessType
+        );
+        const location = await getLocation(chargeUnitId || '0');
 
+        setAddChargeUnit(true);
+        dispatch(setChargeUnitData({
+            brandId: chargeUnitInfo[0].modelId,
+            connectorCount: chargeUnitInfo[0].connectorNumber,
+            ocppVersion: chargeUnitInfo[0].ocppVersion === '1600' ? 1 : 2,
+            investor: investorId,
+            status: statusId,
+            accessType: accessTypeId,
+            location: location,
+            isFreeUsage: chargeUnitInfo[0].isFreePoint,
+            isLimitedUsage: chargeUnitInfo[0].limitedUsage,
+        }));
         setSelectedBrand(parseInt(chargeUnitId || '0'));
         dispatch(toggleModalVisibility(isModalVisible));
     };
