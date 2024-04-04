@@ -65,6 +65,9 @@ const ServicePointDetailsModal = ({
         {
           "stationChargePointFeatureType": 2,
           "stationChargePointFeatureTypeValue": chargeUnitFormData[`${formProperties['access-type']}`]
+        }, {
+          "stationChargePointFeatureType": 3,
+          "stationChargePointFeatureTypeValue": chargeUnitFormData[`${formProperties.location}`]
         }
       ]
     });
@@ -290,18 +293,18 @@ const ServicePointDetailsModal = ({
             register={
               register(
                 `${formProperties.location}`, {
-                  required: 'Şarj Ünitesi Konumu zorunludur.',
-                  minLength: {
-                    value: 3,
-                    message: 'En az 3 karakter girmelisiniz.',
-                  },
-                  value: chargeUnitFormData[`${formProperties.location}`],
-                  onChange: (event) => {
-                    setChargeUnitFormData({
-                      ...chargeUnitFormData,
-                      [event.target.name]: event.target.value,
-                    });
-                  }
+                required: 'Şarj Ünitesi Konumu zorunludur.',
+                minLength: {
+                  value: 3,
+                  message: 'En az 3 karakter girmelisiniz.',
+                },
+                value: chargeUnitFormData[`${formProperties.location}`],
+                onChange: (event) => {
+                  setChargeUnitFormData({
+                    ...chargeUnitFormData,
+                    [event.target.name]: event.target.value,
+                  });
+                }
               })
             }
             type="text"
