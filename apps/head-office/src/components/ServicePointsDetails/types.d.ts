@@ -68,6 +68,15 @@ export interface IChargeUnitsProps {
   stationId: number;
   status: string;
 };
+export interface IGetChargePointStationFeatureData {
+  id: number;
+  stationChargePointFeatureType: number;
+  stationChargePointFeatureValue: string;
+};
+export interface IGetChargePointStationFeatureResponse {
+  success: boolean;
+  data: IGetChargePointStationFeatureData;
+};
 export interface IInvestorsProps {
   id: number,
   name: string,

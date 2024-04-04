@@ -7,8 +7,14 @@ import { toggleModalVisibility } from '../../../../app/redux/features/isModalVis
 import { RootState } from '../../../../app/redux/store';
 import type { IChargeUnitsContentProps, IConnectorBrandProps } from '../types';
 
+interface IProps {
+    id: number;
+    stationChargePointFeatureType: number;
+    stationChargePointFeatureTypeValue: string;
+};
+
 const ChargeUnitsContent = ({
-    chargeUnits, connectors, setAddChargeUnit, setAddConnector
+    chargeUnits, connectors, slug, setAddChargeUnit, setAddConnector
 }: IChargeUnitsContentProps) => {
     const sectionPrefix = 'charge-units';
     const chargeUnitPrefix = 'charge-unit';
@@ -45,6 +51,74 @@ const ChargeUnitsContent = ({
         dispatch(toggleModalVisibility(isModalVisible));
     };
 
+    const getFeaturesId = async (chargePointId: number) => {
+        try {
+            const data = await axios
+                .post(
+                    process.env.GET_CHARGE_POINT_STATION_FEATURE || '',
+                    { "StationChargePointID": Number(chargePointId) },
+                    { headers: { 'Content-Type': 'application/json' } }
+                );
+
+            return data.data;
+        } catch (error) {
+            return error;
+        }
+    }
+
+    const createReqData = (features: IProps[], deviceCode: string) => {
+        return ({
+            "connectorCount": 4,
+            "chargePoint": {
+                "code": deviceCode,
+                "stationId": parseInt(slug),
+                "ownerType": 0,
+                "stationChargePointModelID": 1,
+                "ocppVersion": 1600,
+                "isFreePoint": true,
+                "InternalOCPPAdress": null,
+                "ExternalOCPPAdress": null,
+                "isActive": false,
+                "isDeleted": true,
+                "isOnlyDefinedUserCards": true,
+                "sendRoaming": false
+            },
+            "chargePointFeatures": [
+                {
+                    "id": features[0]?.id,
+                    "stationChargePointFeatureType": 1,
+                    "stationChargePointFeatureTypeValue": "1"
+                },
+                {
+                    "id": features[1]?.id,
+                    "stationChargePointFeatureType": 2,
+                    "stationChargePointFeatureTypeValue": "2"
+                }
+            ]
+        });
+    }
+
+    const handleDelete = async (event: React.MouseEvent) => {
+        const chargePointId = event.currentTarget.getAttribute(`data-charge-point-id`) || '0';
+        const deviceCode = event.currentTarget.getAttribute(`data-charge-point-device-code`) || '0';
+
+        try {
+            const birinciIstekSonucu: ResponseType = await getFeaturesId(parseInt(chargePointId));
+            const features = birinciIstekSonucu.data;
+            console.log('features', features)
+
+            const response = await axios.post(
+                process.env.UPDATE_STATION_SETTINGS || '',
+                JSON.stringify(createReqData(features, deviceCode)),
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+
+            console.log(response.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     useEffect(() => {
         getConnectorBrands();
     }, [chargeUnits]);
@@ -67,7 +141,6 @@ const ChargeUnitsContent = ({
             </div>
             <div className={`${sectionPrefix}-list`}>
                 {
-                    chargeUnits.length > 0 &&
                     chargeUnits.map((chargeUnit, index) => {
                         return (
                             <div
@@ -93,7 +166,10 @@ const ChargeUnitsContent = ({
                                                     <Button
                                                         buttonText={``}
                                                         className={`${chargeUnitPrefix}-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2`}
-                                                        dataAttributes={{ 'data-charge-point-id': chargeUnit.chargePointId.toString(), }}
+                                                        dataAttributes={{
+                                                            'data-charge-point-id': chargeUnit.chargePointId.toString(),
+                                                            'data-charge-point-device-code': chargeUnit.deviceCode.toString(),
+                                                        }}
                                                         id={`${chargeUnitPrefix}-edit-button`}
                                                         type={'button'} onClick={handleClick}
                                                     >
@@ -102,9 +178,13 @@ const ChargeUnitsContent = ({
                                                     <Button
                                                         buttonText={''}
                                                         className={`${chargeUnitPrefix}-delete-button bg-secondary text-white rounded-md px-4 py-2`}
+                                                        dataAttributes={{
+                                                            'data-charge-point-id': chargeUnit.chargePointId.toString(),
+                                                            'data-charge-point-device-code': chargeUnit.deviceCode.toString(),
+                                                        }}
                                                         id={`${chargeUnitPrefix}-delete-button`}
                                                         type={'button'}
-                                                        onClick={() => console.log('test')}
+                                                        onClick={(event) => handleDelete(event)}
                                                     >
                                                         <FaTrash />
                                                     </Button>
@@ -172,7 +252,7 @@ const ChargeUnitsContent = ({
                     })
                 }
             </div>
-        </div>
+        </div >
     );
 };
 
