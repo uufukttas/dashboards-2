@@ -30,10 +30,10 @@ const ServicePointsDetailsBody = ({
                     titleClassName="font-bold"
                 >
                     {
-                        connectors.length > 0 &&
                         <ChargeUnitsContent
                             chargeUnits={chargeUnits}
                             connectors={connectors}
+                            slug={slug}
                             setAddChargeUnit={setAddChargeUnit}
                             setAddConnector={setAddConnector}
                         />

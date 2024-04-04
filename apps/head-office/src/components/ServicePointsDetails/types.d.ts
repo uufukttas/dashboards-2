@@ -94,6 +94,7 @@ interface IWorkingHoursContentProps {
 export interface IChargeUnitsContentProps {
   chargeUnits: IChargeUnitsProps[];
   connectors: IConnectorStateProps[];
+  slug: string;
   setAddChargeUnit: React.Dispatch<React.SetStateAction<boolean>>;
   setAddConnector: React.Dispatch<React.SetStateAction<boolean>>;
 }
