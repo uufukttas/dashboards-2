@@ -75,7 +75,7 @@ export interface IGetChargePointStationFeatureData {
 };
 export interface IGetChargePointStationFeatureResponse {
   success: boolean;
-  data: IGetChargePointStationFeatureData;
+  data: IGetChargePointStationFeatureData[];
 };
 export interface IInvestorsProps {
   id: number,

@@ -31,7 +31,7 @@ const ChargeUnitsContent = ({
             };
         });
     };
-    const createReqData = (features: IGetChargePointStationFeatureData, deviceCode: string) => {
+    const createReqData = (features: IGetChargePointStationFeatureData[], deviceCode: string) => {
         return ({
             "connectorCount": 4,
             "chargePoint": {
@@ -50,12 +50,12 @@ const ChargeUnitsContent = ({
             },
             "chargePointFeatures": [
                 {
-                    "id": features[0]?.id,
+                    "id": features[0]?.id || 0,
                     "stationChargePointFeatureType": 1,
                     "stationChargePointFeatureTypeValue": "1"
                 },
                 {
-                    "id": features[1]?.id,
+                    "id": features[1]?.id || 0,
                     "stationChargePointFeatureType": 2,
                     "stationChargePointFeatureTypeValue": "2"
                 }
