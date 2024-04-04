@@ -2,6 +2,7 @@ import { createSlice, Reducer } from '@reduxjs/toolkit';
 
 export type ChargeUnitDataStateProps = {
     chargeUnitData: {
+        code: string;
         brandId: number;
         connectorCount: number;
         ocppVersion: number;
@@ -16,6 +17,7 @@ export type ChargeUnitDataStateProps = {
 
 const initialState = {
     chargeUnitData: {
+        code: '',
         brandId: 1,
         connectorCount: 1,
         ocppVersion: 1600,
@@ -33,6 +35,8 @@ export const chargeUnitData = createSlice({
     initialState,
     reducers: {
         setChargeUnitData: (state, action) => {
+            console.log('action', action)
+            state.chargeUnitData.code = action.payload.code;
             state.chargeUnitData.brandId = action.payload.brandId;
             state.chargeUnitData.connectorCount = action.payload.connectorCount;
             state.chargeUnitData.ocppVersion = action.payload.ocppVersion;

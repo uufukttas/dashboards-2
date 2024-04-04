@@ -276,6 +276,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
                       status: 1,
                       accessType: 1,
                       location: '',
+                      code: '',
                     })
                   );
                 }}

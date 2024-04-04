@@ -167,6 +167,7 @@ const ChargeUnitsContent = ({
     };
     const handleUpdate = async (event: React.MouseEvent) => {
         const chargeUnitId = event.currentTarget.getAttribute(`data-charge-point-id`);
+        const deviceCode = event.currentTarget.getAttribute(`data-charge-point-device-code`);
         const chargeUnitInfo = getChargeUnitInfo(parseInt(chargeUnitId || '0'));
         const investorId = await getInvestorId((chargeUnitInfo[0].investor));
         const { statusId, accessTypeId } = await getGetChargePointFeaturesStatus(
@@ -176,6 +177,7 @@ const ChargeUnitsContent = ({
 
         setAddChargeUnit(true);
         dispatch(setChargeUnitData({
+            code: deviceCode,
             brandId: chargeUnitInfo[0].modelId,
             connectorCount: chargeUnitInfo[0].connectorNumber,
             ocppVersion: chargeUnitInfo[0].ocppVersion === '1600' ? 1 : 2,
