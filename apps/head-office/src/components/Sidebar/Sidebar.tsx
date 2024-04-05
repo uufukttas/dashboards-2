@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import SidebarBody from './SidebarBody';
-import SidebarFooter from './SidebarFooter';
-import SidebarHeader from './SidebarHeader';
+import SidebarBody from './SidebarComponents/SidebarBody';
+import SidebarFooter from './SidebarComponents/SidebarFooter';
+import SidebarHeader from './SidebarComponents/SidebarHeader';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { RootState } from '../../../app/redux/store';
 import './Sidebar.css';
@@ -18,13 +18,14 @@ const Sidebar = () => {
   return (
     isDetectedDevice && (
       <div
-        className={`${BRAND_PREFIX}-sidebar-container border-r border-gray-300 flex flex-col justify-between ${isSidebarExpanded !== null
+        className={`${BRAND_PREFIX}-sidebar-container border-r border-gray-300 flex flex-col justify-between ${
+          isSidebarExpanded !== null
             ? isSidebarExpanded
               ? 'expanded'
               : 'collapsed'
             : ''
-          }`
-        }
+          }
+        `}
       >
         <SidebarHeader />
         <SidebarBody />

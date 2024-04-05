@@ -5,18 +5,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { detectDevice } from '@projects/common';
 import { Image } from '@projects/image';
-import { BRAND_PREFIX } from '../../constants/constants';
-import { userInfo } from '../../constants/styles';
-import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpand';
-import { RootState } from '../../../app/redux/store';
+import { BRAND_PREFIX } from '../../../constants/constants';
+import { userInfo } from '../../../constants/styles';
+import { toggleSidebarExpanded } from '../../../../app/redux/features/isSidebarExpand';
+import { RootState } from '../../../../app/redux/store';
 
 const SidebarHeader = () => {
     const dispatch = useDispatch();
     const isSidebarExpanded = useSelector((state: RootState) => state.sidebarExpandReducer.isSidebarExpanded);
 
-    const handleSidebarClose = () => {
-        dispatch(toggleSidebarExpanded(isSidebarExpanded));
-    };
+    const handleSidebarClose = () => dispatch(toggleSidebarExpanded(isSidebarExpanded));
 
     return (
         <div className={`${BRAND_PREFIX}-sidebar-header-container flex items-center justify-between h-[80px]`}>
