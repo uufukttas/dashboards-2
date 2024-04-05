@@ -4,8 +4,8 @@ import ServicePointModalFormFirstPage from './ServicePointModalFormPages/Service
 import ServicePointModalFormFourthPage from './ServicePointModalFormPages/ServicePointModalFormFourthPage';
 import ServicePointModalFormSecondPage from './ServicePointModalFormPages/ServicePointModalFormSecondPage';
 import ServicePointModalFormThirdPage from './ServicePointModalFormPages/ServicePointModalFormThirdPage';
-import { BRAND_PREFIX } from '../../constants/constants';
-import { RootState } from '../../../app/redux/store';
+import { BRAND_PREFIX } from '../../../constants/constants';
+import { RootState } from '../../../../app/redux/store';
 
 const ServicePointModalForm = () => {
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
