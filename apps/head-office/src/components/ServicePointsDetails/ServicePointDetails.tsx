@@ -277,6 +277,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
                       accessType: 1,
                       location: '',
                       code: '',
+                      chargePointId: 0,
                     })
                   );
                 }}

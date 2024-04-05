@@ -12,6 +12,7 @@ export type ChargeUnitDataStateProps = {
         status: string;
         accessType: string;
         location: string;
+        chargePointId: number;
     }
 };
 
@@ -27,6 +28,7 @@ const initialState = {
         status: '1',
         accessType: '1',
         location: '',
+        chargePointId: 0,
     },
 } as ChargeUnitDataStateProps;
 
@@ -35,7 +37,6 @@ export const chargeUnitData = createSlice({
     initialState,
     reducers: {
         setChargeUnitData: (state, action) => {
-            console.log('action', action)
             state.chargeUnitData.code = action.payload.code;
             state.chargeUnitData.brandId = action.payload.brandId;
             state.chargeUnitData.connectorCount = action.payload.connectorCount;
@@ -46,6 +47,7 @@ export const chargeUnitData = createSlice({
             state.chargeUnitData.status = action.payload.status;
             state.chargeUnitData.accessType = action.payload.accessType;
             state.chargeUnitData.location = action.payload.location;
+            state.chargeUnitData.chargePointId = action.payload.chargePointId;
         },
     },
 });
