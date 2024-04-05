@@ -1,10 +1,7 @@
 import { BRAND_PREFIX } from '../../constants/constants';
+import type { ICardComponentProps } from './types';
 
-interface ICardHeaderProps {
-    children: React.ReactNode;
-};
-
-export function CardHeader({ children }: ICardHeaderProps) {
+export function CardHeader({ children }: ICardComponentProps) {
     return (
         <div className={`${BRAND_PREFIX}-card-header-container flex items-center w-full justify-between`}>
             {children}

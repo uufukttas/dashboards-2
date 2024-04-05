@@ -1,10 +1,7 @@
 import { BRAND_PREFIX } from '../../constants/constants';
+import type { ICardComponentProps } from './types';
 
-interface ICardBodyProps {
-    children?: React.ReactNode;
-};
-
-export function CardBody({ children }: ICardBodyProps) {
+export function CardBody({ children }: ICardComponentProps) {
     return (
         <div className={`${BRAND_PREFIX}-card-body-container`}>
             {children}

@@ -2,18 +2,8 @@ import CardBody from './CardBody';
 import CardFooter from './CardFooter';
 import CardHeader from './CardHeader';
 import { BRAND_PREFIX } from '../../constants/constants';
+import type { ICardProps } from './types';
 import './Card.css';
-
-interface ICardContentProps {
-  body: React.JSX.Element;
-  header?: React.JSX.Element;
-  footer?: React.JSX.Element;
-};
-
-interface ICardProps {
-  cardContent: ICardContentProps;
-  className?: string;
-};
 
 export function Card({ cardContent, className }: ICardProps) {
   return (
