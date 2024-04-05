@@ -37,31 +37,31 @@ const ChargeUnitsContent = ({
     };
     const createReqData = (features: IGetChargePointStationFeatureData[], deviceCode: string) => {
         return ({
-            "connectorCount": 4,
-            "chargePoint": {
-                "code": deviceCode,
-                "stationId": parseInt(slug),
-                "ownerType": 0,
-                "stationChargePointModelID": 1,
-                "ocppVersion": 1600,
-                "isFreePoint": true,
-                "InternalOCPPAdress": null,
-                "ExternalOCPPAdress": null,
-                "isActive": false,
-                "isDeleted": true,
-                "isOnlyDefinedUserCards": true,
-                "sendRoaming": false
+            connectorCount: 4,
+            chargePoint: {
+                code: deviceCode,
+                stationId: parseInt(slug),
+                ownerType: 0,
+                stationChargePointModelID: 1,
+                ocppVersion: 1600,
+                isFreePoint: true,
+                InternalOCPPAdress: null,
+                ExternalOCPPAdress: null,
+                isActive: false,
+                isDeleted: true,
+                isOnlyDefinedUserCards: true,
+                sendRoaming: false
             },
-            "chargePointFeatures": [
+            chargePointFeatures: [
                 {
-                    "id": features[0]?.id || 0,
-                    "stationChargePointFeatureType": 1,
-                    "stationChargePointFeatureTypeValue": "1"
+                    id: features[0]?.id || 0,
+                    stationChargePointFeatureType: 1,
+                    stationChargePointFeatureTypeValue: 1
                 },
                 {
-                    "id": features[1]?.id || 0,
-                    "stationChargePointFeatureType": 2,
-                    "stationChargePointFeatureTypeValue": "2"
+                    id: features[1]?.id || 0,
+                    stationChargePointFeatureType: 2,
+                    stationChargePointFeatureTypeValue: 2
                 }
             ]
         });
@@ -90,7 +90,7 @@ const ChargeUnitsContent = ({
             const data = await axios
                 .post(
                     process.env.GET_CHARGE_POINT_STATION_FEATURE || '',
-                    { "StationChargePointID": Number(chargePointId) },
+                    { StationChargePointID: Number(chargePointId) },
                     { headers: { 'Content-Type': 'application/json' } }
                 );
 

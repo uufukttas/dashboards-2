@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +12,7 @@ import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData
 import { toggleChargePointDataUpdated } from '../../../../app/redux/features/isChargePointDataUpdated';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../../app/redux/store';
-import type { IServicePointDetailsModalProps, IFormDataProps } from '../types';
+import type { IFormDataProps, IRequestDataProps, IServicePointDetailsModalProps } from '../types';
 
 const ChargeUnitAddModal = ({
   accessTypeList, brands, investors, slug, statusList, setConnectorCount
@@ -34,49 +34,49 @@ const ChargeUnitAddModal = ({
   const { formState: { errors }, handleSubmit, register } = useForm();
   const chargeUnitData = useSelector((state: RootState) => state.chargeUnitData.chargeUnitData);
   const [chargeUnitFormData, setChargeUnitFormData] = useState<IFormDataProps>({
+    [`${formProperties['access-type']}`]: chargeUnitData.accessType || '1',
     [`${formProperties.brands}`]: chargeUnitData.brandId || 1,
     [`${formProperties['connector-count']}`]: chargeUnitData.connectorCount || 1,
-    [`${formProperties['ocpp-version']}`]: chargeUnitData === 1 ? '1600' : '2100' || '1600',
     [`${formProperties['is-free-usage']}`]: chargeUnitData.isFreeUsage || false,
     [`${formProperties['is-limited-usage']}`]: chargeUnitData.isLimitedUsage || false,
     [`${formProperties.investor}`]: chargeUnitData.investor || 1,
-    [`${formProperties.status}`]: chargeUnitData.status || '1',
-    [`${formProperties['access-type']}`]: chargeUnitData.accessType || '1',
     [`${formProperties.location}`]: chargeUnitData.location || '',
+    [`${formProperties['ocpp-version']}`]: chargeUnitData === 1 ? '1600' : '2100' || '1600',
+    [`${formProperties.status}`]: chargeUnitData.status || '1',
     ...(chargeUnitData?.code > 0 ? { code: chargeUnitData?.code } : ''),
   });
 
-  const createRequestData = (chargePointId: number, features: { id: number, stationChargePointFeatureType: number, stationChargePointFeatureTypeValue: string }[]) => {
+  const createRequestData = ({ chargePointId, features }: IRequestDataProps) => {
     return ({
-      "connectorCount": chargeUnitFormData[`${formProperties['connector-count']}`],
-      "chargePoint": {
-        "code": chargePointId.toString(),
-        "stationId": Number(slug),
-        "stationChargePointModelID": chargeUnitFormData[`${formProperties.brands}`],
-        "ocppVersion": chargeUnitFormData[`${formProperties['ocpp-version']}`] === 1 ? 1600 : 2100,
-        "isFreePoint": chargeUnitFormData[`${formProperties['is-free-usage']}`],
-        "isOnlyDefinedUserCards": chargeUnitFormData[`${formProperties['is-limited-usage']}`],
-        "ownerType": chargeUnitFormData[`${formProperties.investor}`],
-        "sendRoaming": false,
-        "InternalOCPPAdress": null,
-        "ExternalOCPPAdress": null
+      chargePoint: {
+        code: chargePointId.toString(),
+        ExternalOCPPAdress: null,
+        InternalOCPPAdress: null,
+        isFreePoint: chargeUnitFormData[`${formProperties['is-free-usage']}`],
+        isOnlyDefinedUserCards: chargeUnitFormData[`${formProperties['is-limited-usage']}`],
+        ocppVersion: chargeUnitFormData[`${formProperties['ocpp-version']}`] === 1 ? 1600 : 2100,
+        ownerType: chargeUnitFormData[`${formProperties.investor}`],
+        sendRoaming: false,
+        stationId: Number(slug),
+        stationChargePointModelID: chargeUnitFormData[`${formProperties.brands}`],
       },
-      "chargePointFeatures": [
+      chargePointFeatures: [
         {
-          "stationChargePointFeatureType": 1,
-          "stationChargePointFeatureTypeValue": chargeUnitFormData[`${formProperties.status}`].toString(),
+          stationChargePointFeatureType: 1,
+          stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties.status}`].toString(),
           ...(features.length > 0 && { id: features[0].id }),
         },
         {
-          "stationChargePointFeatureType": 2,
-          "stationChargePointFeatureTypeValue": chargeUnitFormData[`${formProperties['access-type']}`].toString(),
+          stationChargePointFeatureType: 2,
+          stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties['access-type']}`].toString(),
           ...(features.length > 0 && { id: features[1].id }),
         }, {
-          "stationChargePointFeatureType": 3,
-          "stationChargePointFeatureTypeValue": chargeUnitFormData[`${formProperties.location}`],
+          stationChargePointFeatureType: 3,
+          stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties.location}`],
           ...(features.length > 0 && { id: features[2].id }),
         }
-      ]
+      ],
+      connectorCount: chargeUnitFormData[`${formProperties['connector-count']}`],
     });
   };
   const getChargePointCode = async () => {
@@ -97,16 +97,15 @@ const ChargeUnitAddModal = ({
     try {
       const response = await axios.post(
         process.env.GET_CHARGE_POINT_STATION_FEATURE || '',
-        JSON.stringify({ "StationChargePointID": chargePointId }),
+        JSON.stringify({ StationChargePointID: chargePointId }),
         { headers: { 'Content-Type': 'application/json' } }
       );
-      return response.data.data; // axios isteği başarılı olursa, veriyi döndür
+      return response.data.data;
     } catch (error) {
       console.error(error);
-      throw error; // Hata durumunda hatayı fırlat
+      throw error;
     }
   };
-
   const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
     try {
       const chargePointId = chargeUnitData.code ? chargeUnitData.code : await getChargePointCode();
@@ -115,7 +114,7 @@ const ChargeUnitAddModal = ({
       await axios
         .post(
           (chargeUnitData.code ? process.env.UPDATE_STATION_SETTINGS : process.env.ADD_STATION_SETTINGS) || '',
-          JSON.stringify(createRequestData(chargePointId, features)),
+          JSON.stringify(createRequestData({ chargePointId, features })),
           {
             headers: {
               'Content-Type': 'application/json',
@@ -128,16 +127,16 @@ const ChargeUnitAddModal = ({
       dispatch(
         setChargeUnitData({
           ...chargeUnitData,
-          code: chargePointId,
+          accessType: chargeUnitFormData[`${formProperties['access-type']}`],
           brandId: chargeUnitFormData[`${formProperties.brands}`],
+          code: chargePointId,
           connectorCount: chargeUnitFormData[`${formProperties['connector-count']}`],
-          ocppVersion: chargeUnitFormData[`${formProperties['ocpp-version']}`] === 1 ? 1600 : 2100,
+          location: chargeUnitFormData[`${formProperties.location}`],
+          investor: chargeUnitFormData[`${formProperties.investor}`],
           isFreeUsage: chargeUnitFormData[`${formProperties['is-free-usage']}`],
           isLimitedUsage: chargeUnitFormData[`${formProperties['is-limited-usage']}`],
-          investor: chargeUnitFormData[`${formProperties.investor}`],
+          ocppVersion: chargeUnitFormData[`${formProperties['ocpp-version']}`] === 1 ? 1600 : 2100,
           status: chargeUnitFormData[`${formProperties.status}`],
-          accessType: chargeUnitFormData[`${formProperties['access-type']}`],
-          location: chargeUnitFormData[`${formProperties.location}`],
         })
       );
       dispatch(toggleModalVisibility());
@@ -188,29 +187,31 @@ const ChargeUnitAddModal = ({
             id={`${formProperties['connector-count']}`}
             name={`${formProperties['connector-count']}`}
             register={
-              register(`${formProperties['connector-count']}`, {
-                required: 'Konnektör sayısı zorunludur.',
-                valueAsNumber: true,
-                min: {
-                  value: 1,
-                  message: 'Konnektör sayısı en az 1 olmalıdır.'
-                },
-                max: {
-                  value: 4,
-                  message: 'Konnektör sayısı en fazla 4 olmalıdır.'
-                },
-                value:
-                  chargeUnitFormData[`${formProperties['connector-count']}`]
-                    ? chargeUnitFormData[`${formProperties['connector-count']}`].toString()
-                    : '',
-                onChange: (event) => {
-                  setChargeUnitFormData({
-                    ...chargeUnitFormData,
-                    [event.target.name]: Number(event.target.value),
-                  });
-                  setConnectorCount(Number(event.target.value));
+              register(
+                `${formProperties['connector-count']}`, {
+                  required: 'Konnektör sayısı zorunludur.',
+                  valueAsNumber: true,
+                  min: {
+                    value: 1,
+                    message: 'Konnektör sayısı en az 1 olmalıdır.'
+                  },
+                  max: {
+                    value: 4,
+                    message: 'Konnektör sayısı en fazla 4 olmalıdır.'
+                  },
+                  value:
+                    chargeUnitFormData[`${formProperties['connector-count']}`]
+                      ? chargeUnitFormData[`${formProperties['connector-count']}`].toString()
+                      : '',
+                  onChange: (event) => {
+                    setChargeUnitFormData({
+                      ...chargeUnitFormData,
+                      [event.target.name]: Number(event.target.value),
+                    });
+                    setConnectorCount(Number(event.target.value));
+                  }
                 }
-              })
+              )
             }
             type="number"
           />
@@ -330,19 +331,20 @@ const ChargeUnitAddModal = ({
             register={
               register(
                 `${formProperties.location}`, {
-                required: 'Şarj Ünitesi Konumu zorunludur.',
-                minLength: {
-                  value: 3,
-                  message: 'En az 3 karakter girmelisiniz.',
-                },
-                value: chargeUnitFormData[`${formProperties.location}`],
-                onChange: (event) => {
-                  setChargeUnitFormData({
-                    ...chargeUnitFormData,
-                    [event.target.name]: event.target.value,
-                  });
+                  required: 'Şarj Ünitesi Konumu zorunludur.',
+                  minLength: {
+                    value: 3,
+                    message: 'En az 3 karakter girmelisiniz.',
+                  },
+                  value: chargeUnitFormData[`${formProperties.location}`],
+                  onChange: (event) => {
+                    setChargeUnitFormData({
+                      ...chargeUnitFormData,
+                      [event.target.name]: event.target.value,
+                    });
+                  }
                 }
-              })
+              )
             }
             type="text"
 
