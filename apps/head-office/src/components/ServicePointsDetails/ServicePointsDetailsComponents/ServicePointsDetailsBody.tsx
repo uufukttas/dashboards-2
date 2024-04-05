@@ -29,15 +29,13 @@ const ServicePointsDetailsBody = ({
                     contentClassName="overflow-y-auto"
                     titleClassName="font-bold"
                 >
-                    {
-                        <ChargeUnitsContent
-                            chargeUnits={chargeUnits}
-                            connectors={connectors}
-                            slug={slug}
-                            setAddChargeUnit={setAddChargeUnit}
-                            setAddConnector={setAddConnector}
-                        />
-                    }
+                    <ChargeUnitsContent
+                        chargeUnits={chargeUnits}
+                        connectors={connectors}
+                        slug={slug}
+                        setAddChargeUnit={setAddChargeUnit}
+                        setAddConnector={setAddConnector}
+                    />
                 </Accordion>
             )}
             {activeIndex === 2 && (
