@@ -1,9 +1,6 @@
 import { BRAND_PREFIX } from '../../constants/constants';
+import type { ISectionProps } from './types';
 import './Section.css';
-
-interface ISectionProps {
-  children?: React.ReactNode;
-};
 
 export function Section({ children }: ISectionProps) {
   return (
