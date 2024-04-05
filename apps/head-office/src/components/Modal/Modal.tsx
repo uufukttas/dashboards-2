@@ -1,16 +1,9 @@
-import ModalBody from './ModalBody';
-import ModalHeader from './ModalHeader';
+import ModalBody from './ModalComponents/ModalBody';
+import ModalHeader from './ModalComponents/ModalHeader';
 import { BRAND_PREFIX } from '../../constants/constants';
+import type { IModalProps } from './types';
 
-interface IModalProps {
-  children: React.ReactNode;
-  className?: string;
-  modalHeaderTitle: string;
-  modalId: string;
-  onClose?: () => void;
-};
-
-const Modal = ({ children, className, modalId, modalHeaderTitle, onClose }: IModalProps) => {
+const Modal = ({ children, className, modalHeaderTitle, modalId, onClose }: IModalProps) => {
   return (
     <div
       className={`${BRAND_PREFIX}-modal-wrapper flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-40 justify-center items-center w-full md:inset-0 bg-[#54565a33] block h-full ${className}`}
