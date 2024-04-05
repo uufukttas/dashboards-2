@@ -6,9 +6,9 @@ import { Radio } from '@projects/radio';
 import { BRAND_PREFIX } from '../../../constants/constants';
 
 const WorkingHoursModal = () => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [isSelectboxOpen, setIsSelectboxOpen] = useState(false);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
-  const dropdownRef = useRef<HTMLDivElement>(null);
   const [workingHoursData, setWorkingHoursData] = useState({
     openingTime: '',
     closingTime: '',
