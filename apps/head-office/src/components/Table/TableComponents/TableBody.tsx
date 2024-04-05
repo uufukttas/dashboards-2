@@ -1,36 +1,18 @@
 import React, { Fragment, useState } from 'react';
 import axios from 'axios';
-import { FaPen, FaTrashCan, FaCircleInfo } from 'react-icons/fa6';
 import Link from 'next/link';
+import { FaPen, FaTrashCan, FaCircleInfo } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
-import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
-import { showDialog } from '../../../app/redux/features/dialogInformation';
-import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
-import { setServicePointData } from '../../../app/redux/features/servicePointData';
-import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
-import { RootState } from '../../../app/redux/store';
+import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../constants/constants';
+import { showDialog } from '../../../../app/redux/features/dialogInformation';
+import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import { setServicePointData } from '../../../../app/redux/features/servicePointData';
+import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
+import { RootState } from '../../../../app/redux/store';
+import type { IServicePointInfoProps, ITableProps } from '../types';
 
-interface IServicePointInfoProps {
-    id: number;
-    name: string;
-    type?: string | null | undefined;
-    longitude: number;
-    latitude: number;
-    phone?: string | null | undefined;
-    address: string;
-    cityId: number;
-    districtId: number;
-    opportunities?: string[] | null | undefined;
-    freePark?: string | null | undefined;
-    paymentMethods?: string[] | null | undefined;
-};
-
-interface ITableBodyProps {
-    servicePoints: IServicePointInfoProps[];
-};
-
-const TableBody = ({ servicePoints }: ITableBodyProps) => {
+const TableBody = ({ servicePoints }: ITableProps) => {
     const dispatch = useDispatch();
     const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
     const [isHidden, setIsHidden] = useState(true);
@@ -44,22 +26,18 @@ const TableBody = ({ servicePoints }: ITableBodyProps) => {
             })
         );
     };
-    const getCity = (rid: number) => {
-        return (CITIES[rid?.toString()] || '');
-    };
-    const getDistricts = (districtCode: number) => {
-        return (DISTRICTS[districtCode?.toString()] || '');
-    };
+    const getCity = (rid: number) => (CITIES[rid?.toString()] || '');
+    const getDistricts = (districtCode: number) => (DISTRICTS[districtCode?.toString()] || '');
     const getUpdatedServicePointsInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
         const servicePointIdAttr = event.currentTarget.getAttribute('data-service-point-id') || '0';
-        const servicePointId = parseInt(servicePointIdAttr);
+        const servicePointId = Number(servicePointIdAttr);
 
         try {
-            await axios.post(
-                process.env.GET_STATION_BY_ID || '',
-                ({
-                    'id': servicePointId
-                }))
+            await axios
+                .post(
+                    process.env.GET_STATION_BY_ID || '',
+                    ({ 'id': servicePointId })
+                )
                 .then((response) => response.data)
                 .then(response => {
                     dispatch(toggleModalVisibility(isModalVisible));
@@ -67,11 +45,11 @@ const TableBody = ({ servicePoints }: ITableBodyProps) => {
                 })
                 .catch((error) => console.log(error));
 
-            await axios.post(
-                process.env.GET_STATION_INFO_BY_ID || '',
-                ({
-                    'stationId': servicePointId
-                }))
+            await axios
+                .post(
+                    process.env.GET_STATION_INFO_BY_ID || '',
+                    ({ 'stationId': servicePointId })
+                )
                 .then((response) => response.data)
                 .then(response => dispatch(setServicePointInformation(response.data[0])))
                 .catch((error) => console.log(error));
@@ -134,7 +112,7 @@ const TableBody = ({ servicePoints }: ITableBodyProps) => {
                                         className="font-medium px-2 "
                                         id={`toggle-row-${servicePoint.id}`}
                                         type="button"
-                                        onClick={() => { toggleTableRow(servicePoint.id) }}
+                                        onClick={() => toggleTableRow(servicePoint.id)}
                                     >
                                         <div
                                             className='text-lg'
@@ -145,25 +123,27 @@ const TableBody = ({ servicePoints }: ITableBodyProps) => {
                                     </Button>
                                 </td>
                             </tr>
-                            {servicePoint.id === selectedRow && (
-                                <>
-                                    <tr className={`bg-gray-50 second-table-head-row text-xs uppercase text-gray-700`}>
-                                        <th className='px-6'>Longitude</th>
-                                        <th className='px-6'>Latitude</th>
-                                        <th className='px-6'>Payment Methods</th>
-                                        <th className='px-6'>Free Park</th>
-                                        <th className='px-6'>Opportunuties</th>
-                                        <th className='px-6'> </th>
-                                    </tr>
-                                    <tr>
-                                        <td className='px-6 py-3'>{servicePoint.longitude}</td>
-                                        <td className='px-6 py-3'>{servicePoint.latitude}</td>
-                                        <td className='px-6 py-3'>{servicePoint.latitude}</td>
-                                        <td className='px-6 py-3'>{servicePoint.latitude}</td>
-                                        <td className='px-6 py-3'>{servicePoint.latitude}</td>
-                                    </tr>
-                                </>
-                            )}
+                            {
+                                servicePoint.id === selectedRow && (
+                                    <>
+                                        <tr className={`bg-gray-50 second-table-head-row text-xs uppercase text-gray-700`}>
+                                            <th className='px-6'>Longitude</th>
+                                            <th className='px-6'>Latitude</th>
+                                            <th className='px-6'>Payment Methods</th>
+                                            <th className='px-6'>Free Park</th>
+                                            <th className='px-6'>Opportunuties</th>
+                                            <th className='px-6'> </th>
+                                        </tr>
+                                        <tr>
+                                            <td className='px-6 py-3'>{servicePoint.longitude}</td>
+                                            <td className='px-6 py-3'>{servicePoint.latitude}</td>
+                                            <td className='px-6 py-3'>{servicePoint.latitude}</td>
+                                            <td className='px-6 py-3'>{servicePoint.latitude}</td>
+                                            <td className='px-6 py-3'>{servicePoint.latitude}</td>
+                                        </tr>
+                                    </>
+                                )
+                            }
                         </Fragment>
                     );
                 })

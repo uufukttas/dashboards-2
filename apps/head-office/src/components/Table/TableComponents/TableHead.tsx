@@ -1,5 +1,5 @@
 import React from 'react';
-import { BRAND_PREFIX } from '../../constants/constants';
+import { BRAND_PREFIX } from '../../../constants/constants';
 
 const TableHead = () => {
     return (

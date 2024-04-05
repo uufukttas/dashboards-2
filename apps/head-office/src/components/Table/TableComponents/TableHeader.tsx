@@ -4,17 +4,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
-import { BRAND_PREFIX } from '../../constants/constants';
-import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
-import { RootState } from '../../../app/redux/store';
+import { BRAND_PREFIX } from '../../../constants/constants';
+import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import { RootState } from '../../../../app/redux/store';
 
 const TableActions = () => {
     const dispatch = useDispatch();
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
 
-    const handleClick = () => {
-        dispatch(toggleModalVisibility(isModalVisible))
-    };
+    const handleClick = () => dispatch(toggleModalVisibility(isModalVisible));
 
     return (
         <div className={`${BRAND_PREFIX}-service-points-table-actions-container flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 w-full md:flex-row border-t border-gray-300 bg-transparent`}>
