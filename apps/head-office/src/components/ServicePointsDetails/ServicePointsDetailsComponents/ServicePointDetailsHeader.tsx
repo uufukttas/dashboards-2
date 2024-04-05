@@ -1,11 +1,7 @@
 import React from 'react';
 import Card from '../../Card/Card';
 import { BRAND_PREFIX } from '../../../constants/constants';
-
-interface IServicePointDetailsHeaderProps {
-    servicePointDetailsName: string;
-    servicePointDetailsStatus: boolean;
-};
+import type { IServicePointDetailsHeaderProps } from '../types';
 
 const ServicePointDetailsHeader = ({
     servicePointDetailsName, servicePointDetailsStatus
@@ -30,9 +26,7 @@ const ServicePointDetailsHeader = ({
         </div>
     );
 
-    const cardProps = {
-        body: servicePointHeader
-    };
+    const cardProps = { body: servicePointHeader };
 
     return (
         <div className='w-full'>

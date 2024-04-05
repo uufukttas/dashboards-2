@@ -9,6 +9,7 @@ import { detectDevice } from '@projects/common';
 import ServicePointDetailsHeader from './ServicePointsDetailsComponents/ServicePointDetailsHeader';
 import ServicePointsDetailsBody from './ServicePointsDetailsComponents/ServicePointsDetailsBody';
 import ServicePointDetailsModal from './Modals/ChargeUnitAddModal';
+import ConnectorAddModal from './Modals/ConnectorAddModal';
 import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
@@ -28,7 +29,6 @@ import type {
   IServicePointsDetailsProps,
   IStatusListItemProps
 } from './types';
-import ConnectorAddModal from './Modals/ConnectorAddModal';
 
 const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
@@ -75,7 +75,11 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
       await axios
         .post(
           process.env.GET_STATION_SETTINGS || '',
-          JSON.stringify({ stationId: Number(slug), PageNumber: 1, PageSize: 10 }),
+          JSON.stringify({
+            stationId: Number(slug),
+            PageNumber: 1,
+            PageSize: 10
+          }),
           { headers: { 'Content-Type': 'application/json' } }
         )
         .then((response) => response.data.data)
@@ -117,7 +121,10 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
           .then((response) => response.data)
           .then((data) => {
             setTimeout(() => {
-              setConnectors((prev) => [...prev, { [chargeUnit.chargePointId]: data.data }])
+              setConnectors((prev) => [
+                ...prev,
+                { [chargeUnit.chargePointId]: data.data }
+              ])
             }, 1000)
           })
           .catch((error) => console.log(error));
@@ -253,7 +260,6 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
             <ServicePointsDetailsBody
               activeIndex={activeIndex}
               chargeUnits={chargeUnits}
-              connectorCount={connectorCount}
               connectors={connectors}
               setAddChargeUnit={setAddChargeUnit}
               setAddConnector={setAddConnector}
@@ -268,17 +274,17 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
                 onClose={() => {
                   dispatch(
                     setChargeUnitData({
+                      accessType: 1,
                       brandId: 1,
+                      chargePointId: 0,
+                      code: '',
                       connectorCount: 1,
-                      ocppVersion: 1600,
                       isFreeUsage: false,
                       isLimitedUsage: false,
                       investor: 1,
-                      status: 1,
-                      accessType: 1,
                       location: '',
-                      code: '',
-                      chargePointId: 0,
+                      ocppVersion: 1600,
+                      status: 1,
                     })
                   );
                 }}
@@ -301,8 +307,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
                 modalId={`${BRAND_PREFIX}-connector-add-modal`}
                 onClose={() => { }}
               >
-                <ConnectorAddModal
-                />
+                <ConnectorAddModal />
               </Modal>
             )
           }
