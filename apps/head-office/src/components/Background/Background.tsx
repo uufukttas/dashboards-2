@@ -1,10 +1,6 @@
 import { BRAND_PREFIX } from '../../constants/constants';
+import type { IBackgroundProps } from './types';
 import './Background.css';
-
-interface IBackgroundProps {
-  backgroundUrl: string;
-  className?: string;
-};
 
 const Background = ({ backgroundUrl, className }: IBackgroundProps) => {
   return (
