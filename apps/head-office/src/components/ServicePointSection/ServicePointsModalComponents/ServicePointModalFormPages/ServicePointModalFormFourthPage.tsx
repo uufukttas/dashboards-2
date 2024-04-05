@@ -13,22 +13,9 @@ import { toggleServicePointDataUpdated } from '../../../../../app/redux/features
 import { setServicePointInformation } from '../../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../../app/redux/store';
 import { PAYMENT_METHODS, OPPORTUNITIES, BRAND_PREFIX } from '../../../../constants/constants';
+import { IFormDataProps, IModalFourthPageInputsProps } from '../../types';
 
-interface IFormData {
-  [key: string]: string | number | boolean | string[];
-};
-
-interface IModalPageInputs {
-  activePage: number;
-  stationId: number;
-  setActivePage: React.Dispatch<React.SetStateAction<number>>;
-};
-
-const ServicePointModalFormFourthPage = ({
-  activePage,
-  stationId,
-  setActivePage,
-}: IModalPageInputs) => {
+const ServicePointModalFormFourthPage = ({ activePage, stationId, setActivePage }: IModalFourthPageInputsProps) => {
   const formName = ['payment-methods', 'parking', 'opportunities'];
   const sectionPrefix = 'service-point';
   const formProperties = {
@@ -45,7 +32,7 @@ const ServicePointModalFormFourthPage = ({
   });
   const [isSelectboxOpen, setIsSelectboxOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  const [fourthPageFormData, setFourthPageFormData] = useState<IFormData>({
+  const [fourthPageFormData, setFourthPageFormData] = useState<IFormDataProps>({
     [`${formProperties.paymentMethods}`]: servicePointInformation?.paymentMethods || '1',
     [`${formProperties.parking}`]: servicePointInformation?.parking || false,
     [`${formProperties.opportunities}`]: servicePointInformation?.opportunities || [],
@@ -90,7 +77,7 @@ const ServicePointModalFormFourthPage = ({
       })
       .catch((error) => console.log(error));
   };
-  const handleFormSubmit: SubmitHandler<IFormData> = () => {
+  const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
     dispatch(
       setServicePointInformation({
         ...servicePointInformation,

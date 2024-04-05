@@ -9,18 +9,7 @@ import { Label } from '@projects/label';
 import { setServicePointInformation } from '../../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../constants/constants';
-
-interface IFormDataProps {
-  [key: string]: string | number | boolean | string[];
-};
-
-interface IModalPageInputs {
-  activePage: number;
-  cities: { rid: number; plateCode: number; name: string; id: null; }[];
-  districts: { rid: number; name: string; plateCode: number; id: null }[];
-  setActivePage: React.Dispatch<React.SetStateAction<number>>;
-  setDistricts: React.Dispatch<React.SetStateAction<{ rid: number; name: string; plateCode: number; id: null }[]>>;
-};
+import { IFormDataProps, IModalThirdPageInputsProps } from '../../types';
 
 const ServicePointModalFormThirdPage = ({
   activePage,
@@ -28,7 +17,7 @@ const ServicePointModalFormThirdPage = ({
   districts,
   setActivePage,
   setDistricts,
-}: IModalPageInputs) => {
+}: IModalThirdPageInputsProps) => {
   const dispatch = useDispatch();
   const { formState: { errors }, handleSubmit, register } = useForm();
   const servicePointInformation = useSelector((state: RootState) => {

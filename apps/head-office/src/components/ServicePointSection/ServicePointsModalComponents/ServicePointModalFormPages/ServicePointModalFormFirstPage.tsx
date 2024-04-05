@@ -10,24 +10,14 @@ import { toggleServicePointDataUpdated } from '../../../../../app/redux/features
 import { setServicePointData } from '../../../../../app/redux/features/servicePointData';
 import { RootState } from '../../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../constants/constants';
-
-interface IFormDataProps {
-  [key: string]: boolean | number | string | string[];
-};
-
-interface IModalPageInputs {
-  activePage: number;
-  stationId: number;
-  setActivePage: React.Dispatch<React.SetStateAction<number>>;
-  setStationId: React.Dispatch<React.SetStateAction<number>>;
-};
+import { IFormDataProps, IModalFirstPageInputsProps } from '../../types';
 
 const ServicePointModalFormFirstPage = ({
   activePage,
   stationId,
   setActivePage,
   setStationId,
-}: IModalPageInputs) => {
+}: IModalFirstPageInputsProps) => {
   const dispatch = useDispatch();
   const { formState: { errors }, handleSubmit, register } = useForm();
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
@@ -145,8 +135,7 @@ const ServicePointModalFormFirstPage = ({
             <span className="text-md text-error">*</span>
           </Label>
           <Input
-            className={`${formProperties.name}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${
-              hasStationId
+            className={`${formProperties.name}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${hasStationId
                 ? 'cursor-not-allowed'
                 : ''
               }`
@@ -190,8 +179,7 @@ const ServicePointModalFormFirstPage = ({
             <span className="text-md text-error">*</span>
           </Label>
           <Dropdown
-            className={`${formProperties.company}-input border text-text text-sm rounded-lg block w-full focus:ring-primary focus:border-primary p-2.5 mb-4 hover:${
-              hasStationId
+            className={`${formProperties.company}-input border text-text text-sm rounded-lg block w-full focus:ring-primary focus:border-primary p-2.5 mb-4 hover:${hasStationId
                 ? 'cursor-not-allowed'
                 : ''
               }`
@@ -221,8 +209,7 @@ const ServicePointModalFormFirstPage = ({
             <span className="text-md text-error">*</span>
           </Label>
           <Dropdown
-            className={`${formProperties.reseller}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${
-              hasStationId
+            className={`${formProperties.reseller}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${hasStationId
                 ? 'cursor-not-allowed'
                 : ''
               }`

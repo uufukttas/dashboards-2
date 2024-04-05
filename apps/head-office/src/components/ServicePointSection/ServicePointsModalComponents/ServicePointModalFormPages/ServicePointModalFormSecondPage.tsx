@@ -9,18 +9,7 @@ import { Textarea } from '@projects/textarea';
 import { setServicePointInformation } from '../../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../constants/constants';
-
-interface IFormDataProps {
-  [key: string]: string | number | boolean | string[];
-};
-
-interface IModalPageInputs {
-  activePage: number;
-  cities: { rid: number; plateCode: number; name: string; }[];
-  setActivePage: React.Dispatch<React.SetStateAction<number>>;
-  setCities: React.Dispatch<React.SetStateAction<{ rid: number; plateCode: number; name: string; id: null }[]>>;
-  setDistricts: React.Dispatch<React.SetStateAction<{ rid: number; name: string; plateCode: number; id: null }[]>>;
-};
+import { IFormDataProps, IModalSecondPageInputsProps } from '../../types';
 
 const ServicePointModalFormSecondPage = ({
   activePage,
@@ -28,7 +17,7 @@ const ServicePointModalFormSecondPage = ({
   setActivePage,
   setCities,
   setDistricts,
-}: IModalPageInputs) => {
+}: IModalSecondPageInputsProps) => {
   const dispatch = useDispatch();
   const { formState: { errors }, handleSubmit, register } = useForm();
   const servicePointInformation = useSelector((state: RootState) => {
