@@ -1,6 +1,6 @@
 import { BRAND_PREFIX } from '../../../constants/constants';
 import type { IModalBodyProps } from '../types';
-import './Modal.css';
+import '../Modal.css';
 
 const ModalBody = ({ children }: IModalBodyProps) => {
     return (

@@ -1,17 +1,8 @@
 import React from 'react';
 import { Button } from '@projects/button';
 import { BRAND_PREFIX } from '../../constants/constants';
+import type { INavbarItemProps, INavbarProps } from './types';
 import './Navbar.css';
-
-interface INavbarItemProps {
-  title: string | JSX.Element;
-};
-
-interface INavbarProps {
-  activeIndex: number;
-  items: INavbarItemProps[];
-  setActiveIndex: (index: number) => void;
-};
 
 const Navbar = ({ activeIndex, items, setActiveIndex }: INavbarProps) => {
   const handleItemClick = (index: number) => setActiveIndex(index);
