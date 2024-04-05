@@ -3,15 +3,15 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from '@projects/alert';
 import { Dialog } from '@projects/dialog';
-import Pagination from './Pagination';
-import ServicePointModalForm from './ServicePointModal';
+import Pagination from './PaginationComponents/Pagination';
+import ServicePointModalForm from './ServicePointsModalComponents/ServicePointModal';
 import Modal from '../Modal/Modal';
 import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
-import { toggleServicePointDataUpdated } from '../../../app/redux/features/isServicePointDataUpdated';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
+import { toggleServicePointDataUpdated } from '../../../app/redux/features/isServicePointDataUpdated';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
 import { RootState, AppDispatch } from '../../../app/redux/store';
@@ -21,7 +21,9 @@ export function ServicePointSection() {
   const alertInformation = useSelector((state: RootState) => state.alertInformationReducer);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
-  const isServicePointDataUpdated = useSelector((state: RootState) => state.isServicePointDataUpdatedReducer.isServicePointDataUpdated);
+  const isServicePointDataUpdated = useSelector((state: RootState) => {
+    return state.isServicePointDataUpdatedReducer.isServicePointDataUpdated
+  });
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const [currentPage, setCurrentPage] = useState(1);
   const [servicePointCount, setServicePointCount] = useState(0);
@@ -32,15 +34,15 @@ export function ServicePointSection() {
       await axios
         .post(
           process.env.DELETE_STATION_URL || '',
-          ({
-            'id': deletedId
-          }))
+          ({ 'id': deletedId })
+        )
         .then((response) => response.data)
         .then(response => {
-          dispatch(showAlert({
-            message: response.message,
-            type: 'success',
-          }));
+          dispatch
+            (showAlert({
+              message: response.message,
+              type: 'success',
+            }));
 
           setTimeout(() => {
             dispatch(hideAlert());
@@ -51,7 +53,6 @@ export function ServicePointSection() {
       console.error(error);
     }
   };
-
   const getFirstTenUsers = async () => {
     try {
       await axios
@@ -59,7 +60,7 @@ export function ServicePointSection() {
           process.env.GET_ALL_SERVICE_POINTS || '',
           ({
             'pageNumber': currentPage,
-            'userCount': 10
+            'userCount': 10,
           })
         )
         .then((response) => response.data)
@@ -74,32 +75,31 @@ export function ServicePointSection() {
       console.error(error);
     }
   };
-
   const handleCloseModal = () => {
     const servicePointDataInitialValues = {
       id: 0,
+      isActive: true,
+      isDeleted: false,
       name: '',
       companyId: 0,
       companyName: '',
       resellerCompanyId: 0,
       resellerName: '',
-      isActive: true,
-      isDeleted: false,
     };
     const servicePointInformationInitialValues = {
-      id: 0,
-      name: '',
-      type: '',
-      lon: 0,
-      lat: 0,
-      phone1: '',
-      phone2: '',
       address: '',
       cityId: 0,
       districtId: 0,
-      opportunities: [],
       freePark: false,
+      id: 0,
+      lon: 0,
+      lat: 0,
+      name: '',
+      opportunities: [],
       paymentMethods: '1',
+      phone1: '',
+      phone2: '',
+      type: '',
     };
 
     dispatch(setServicePointData(servicePointDataInitialValues));
@@ -152,8 +152,8 @@ export function ServicePointSection() {
         servicePointCount > 1 && (
           <Pagination
             currentPage={currentPage}
-            totalPages={Math.ceil(servicePointCount / 10)}
             setCurrentPage={setCurrentPage}
+            totalPages={Math.ceil(servicePointCount / 10)}
           />
         )
       }

@@ -18,7 +18,9 @@ const ServicePointPage = () => {
     return (
         <div className={`${BRAND_PREFIX}-service-points-page-wrapper w-full flex h-screen`}>
             {isLoading
-                ? (<Loading />)
+                ? (
+                    <Loading />
+                )
                 : (
                     <MainPage>
                         <div className={`${BRAND_PREFIX}-service-points-page-container flex justify-center items-center md:pt-12 flex-wrap`}>
