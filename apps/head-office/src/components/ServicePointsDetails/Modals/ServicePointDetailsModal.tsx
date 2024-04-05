@@ -36,23 +36,24 @@ const ServicePointDetailsModal = ({
   const [chargeUnitFormData, setChargeUnitFormData] = useState<IFormDataProps>({
     [`${formProperties.brands}`]: chargeUnitData.brandId || 1,
     [`${formProperties['connector-count']}`]: chargeUnitData.connectorCount || 1,
-    [`${formProperties['ocpp-version']}`]: chargeUnitData.ocppVersion || 1,
+    [`${formProperties['ocpp-version']}`]: chargeUnitData === 1 ? '1600' : '2100' || '1600',
     [`${formProperties['is-free-usage']}`]: chargeUnitData.isFreeUsage || false,
     [`${formProperties['is-limited-usage']}`]: chargeUnitData.isLimitedUsage || false,
     [`${formProperties.investor}`]: chargeUnitData.investor || 1,
     [`${formProperties.status}`]: chargeUnitData.status || '1',
     [`${formProperties['access-type']}`]: chargeUnitData.accessType || '1',
-    [`${formProperties.location}`]: chargeUnitData.location || ''
+    [`${formProperties.location}`]: chargeUnitData.location || '',
+    ...(chargeUnitData?.code > 0 ? { code: chargeUnitData?.code } : ''),
   });
 
-  const createRequestData = (chargePointId: number) => {
+  const createRequestData = (chargePointId: number, features: { id: number, stationChargePointFeatureType: number, stationChargePointFeatureTypeValue: string }[]) => {
     return ({
       "connectorCount": chargeUnitFormData[`${formProperties['connector-count']}`],
       "chargePoint": {
         "code": chargePointId.toString(),
         "stationId": Number(slug),
         "stationChargePointModelID": chargeUnitFormData[`${formProperties.brands}`],
-        "ocppVersion": chargeUnitFormData[`${formProperties['ocpp-version']}`],
+        "ocppVersion": chargeUnitFormData[`${formProperties['ocpp-version']}`] === 1 ? 1600 : 2100,
         "isFreePoint": chargeUnitFormData[`${formProperties['is-free-usage']}`],
         "isOnlyDefinedUserCards": chargeUnitFormData[`${formProperties['is-limited-usage']}`],
         "ownerType": chargeUnitFormData[`${formProperties.investor}`],
@@ -63,19 +64,22 @@ const ServicePointDetailsModal = ({
       "chargePointFeatures": [
         {
           "stationChargePointFeatureType": 1,
-          "stationChargePointFeatureTypeValue": chargeUnitFormData[`${formProperties.status}`]
+          "stationChargePointFeatureTypeValue": chargeUnitFormData[`${formProperties.status}`].toString(),
+          ...(features.length > 0 && { id: features[0].id }),
         },
         {
           "stationChargePointFeatureType": 2,
-          "stationChargePointFeatureTypeValue": chargeUnitFormData[`${formProperties['access-type']}`]
+          "stationChargePointFeatureTypeValue": chargeUnitFormData[`${formProperties['access-type']}`].toString(),
+          ...(features.length > 0 && { id: features[1].id }),
         }, {
           "stationChargePointFeatureType": 3,
-          "stationChargePointFeatureTypeValue": chargeUnitFormData[`${formProperties.location}`]
+          "stationChargePointFeatureTypeValue": chargeUnitFormData[`${formProperties.location}`],
+          ...(features.length > 0 && { id: features[2].id }),
         }
       ]
     });
   };
-  const getChargePointId = async () => {
+  const getChargePointCode = async () => {
     try {
       const response = await axios
         .post(
@@ -89,33 +93,51 @@ const ServicePointDetailsModal = ({
       return error;
     }
   };
+  const getStationFeaturesId = async (chargePointId: number) => {
+    try {
+      const response = await axios.post(
+        process.env.GET_CHARGE_POINT_STATION_FEATURE || '',
+        JSON.stringify({ "StationChargePointID": chargePointId }),
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+      return response.data.data; // axios isteği başarılı olursa, veriyi döndür
+    } catch (error) {
+      console.error(error);
+      throw error; // Hata durumunda hatayı fırlat
+    }
+  };
+
   const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
     try {
-      const chargePointId = await getChargePointId();
+      const chargePointId = chargeUnitData.code ? chargeUnitData.code : await getChargePointCode();
+      const features = chargeUnitData.chargePointId ? await getStationFeaturesId(chargeUnitData.chargePointId) : [];
 
-      await axios.post(
-        process.env.ADD_STATION_SETTINGS || '',
-        JSON.stringify(createRequestData(chargePointId)),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${chargePointId.token}`
+      await axios
+        .post(
+          (chargeUnitData.code ? process.env.UPDATE_STATION_SETTINGS : process.env.ADD_STATION_SETTINGS) || '',
+          JSON.stringify(createRequestData(chargePointId, features)),
+          {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${chargePointId.token}`
+            }
           }
-        }
-      );
+        )
+        .then(response => console.log('response', response));
 
       dispatch(
         setChargeUnitData({
-          ...chargeUnitFormData,
+          ...chargeUnitData,
+          code: chargePointId,
           brandId: chargeUnitFormData[`${formProperties.brands}`],
           connectorCount: chargeUnitFormData[`${formProperties['connector-count']}`],
-          ocppVersion: chargeUnitFormData[`${formProperties['ocpp-version']}`],
+          ocppVersion: chargeUnitFormData[`${formProperties['ocpp-version']}`] === 1 ? 1600 : 2100,
           isFreeUsage: chargeUnitFormData[`${formProperties['is-free-usage']}`],
           isLimitedUsage: chargeUnitFormData[`${formProperties['is-limited-usage']}`],
           investor: chargeUnitFormData[`${formProperties.investor}`],
           status: chargeUnitFormData[`${formProperties.status}`],
           accessType: chargeUnitFormData[`${formProperties['access-type']}`],
-          location: chargeUnitFormData[`${formProperties.location}`]
+          location: chargeUnitFormData[`${formProperties.location}`],
         })
       );
       dispatch(toggleModalVisibility());
@@ -124,10 +146,6 @@ const ServicePointDetailsModal = ({
       console.error(error);
     }
   };
-
-  useEffect(() => {
-    console.log('chargeUnitData', chargeUnitData)
-  },[]);
 
   return (
     <div className={`${BRAND_PREFIX}-${sectionPrefix}-modal-form-container relative p-6 bg-white rounded-lg`}>

@@ -176,18 +176,20 @@ const ChargeUnitsContent = ({
         const location = await getLocation(chargeUnitId || '0');
 
         setAddChargeUnit(true);
-        dispatch(setChargeUnitData({
-            code: deviceCode,
-            brandId: chargeUnitInfo[0].modelId,
-            connectorCount: chargeUnitInfo[0].connectorNumber,
-            ocppVersion: chargeUnitInfo[0].ocppVersion === '1600' ? 1 : 2,
-            investor: investorId,
-            status: statusId,
-            accessType: accessTypeId,
-            location: location,
-            isFreeUsage: chargeUnitInfo[0].isFreePoint,
-            isLimitedUsage: chargeUnitInfo[0].limitedUsage,
-        }));
+        dispatch(
+            setChargeUnitData({
+                code: deviceCode,
+                brandId: chargeUnitInfo[0].modelId,
+                connectorCount: chargeUnitInfo[0].connectorNumber,
+                ocppVersion: chargeUnitInfo[0].ocppVersion === '1600' ? 1 : 2,
+                investor: investorId,
+                status: statusId,
+                accessType: accessTypeId,
+                location: location,
+                isFreeUsage: chargeUnitInfo[0].isFreePoint,
+                isLimitedUsage: chargeUnitInfo[0].limitedUsage,
+                chargePointId: parseInt(chargeUnitId || '0'),
+            }));
         setSelectedBrand(parseInt(chargeUnitId || '0'));
         dispatch(toggleModalVisibility(isModalVisible));
     };
@@ -207,6 +209,21 @@ const ChargeUnitsContent = ({
                     onClick={() => {
                         setAddChargeUnit(true);
                         dispatch(toggleModalVisibility(isModalVisible));
+                        dispatch(
+                            setChargeUnitData({
+                                code: '',
+                                brandId: 0,
+                                connectorCount: 0,
+                                ocppVersion: 0,
+                                investor: 0,
+                                status: 0,
+                                accessType: 0,
+                                location: '',
+                                isFreeUsage: false,
+                                isLimitedUsage: false,
+                                chargePointId: 0,
+                            })
+                        );
                     }}
                 >
                     <FaChargingStation />
