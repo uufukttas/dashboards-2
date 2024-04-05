@@ -6,10 +6,10 @@ import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
-import { toggleServicePointDataUpdated } from '../../../../app/redux/features/isServicePointDataUpdated';
-import { setServicePointData } from '../../../../app/redux/features/servicePointData';
-import { RootState } from '../../../../app/redux/store';
-import { BRAND_PREFIX } from '../../../../src/constants/constants';
+import { toggleServicePointDataUpdated } from '../../../../../app/redux/features/isServicePointDataUpdated';
+import { setServicePointData } from '../../../../../app/redux/features/servicePointData';
+import { RootState } from '../../../../../app/redux/store';
+import { BRAND_PREFIX } from '../../../../constants/constants';
 
 interface IFormDataProps {
   [key: string]: boolean | number | string | string[];

@@ -6,9 +6,9 @@ import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
-import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
-import { RootState } from '../../../../app/redux/store';
-import { BRAND_PREFIX } from '../../../../src/constants/constants';
+import { setServicePointInformation } from '../../../../../app/redux/features/servicePointInformation';
+import { RootState } from '../../../../../app/redux/store';
+import { BRAND_PREFIX } from '../../../../constants/constants';
 
 interface IFormDataProps {
   [key: string]: string | number | boolean | string[];

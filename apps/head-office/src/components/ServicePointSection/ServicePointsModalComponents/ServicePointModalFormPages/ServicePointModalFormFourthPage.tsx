@@ -7,12 +7,12 @@ import { Checkbox } from '@projects/checkbox';
 import { Dropdown } from '@projects/dropdown';
 import { Label } from '@projects/label';
 import { Radio } from '@projects/radio';
-import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
-import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
-import { toggleServicePointDataUpdated } from '../../../../app/redux/features/isServicePointDataUpdated';
-import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
-import { RootState } from '../../../../app/redux/store';
-import { PAYMENT_METHODS, OPPORTUNITIES, BRAND_PREFIX } from '../../../../src/constants/constants';
+import { hideAlert, showAlert } from '../../../../../app/redux/features/alertInformation';
+import { toggleModalVisibility } from '../../../../../app/redux/features/isModalVisible';
+import { toggleServicePointDataUpdated } from '../../../../../app/redux/features/isServicePointDataUpdated';
+import { setServicePointInformation } from '../../../../../app/redux/features/servicePointInformation';
+import { RootState } from '../../../../../app/redux/store';
+import { PAYMENT_METHODS, OPPORTUNITIES, BRAND_PREFIX } from '../../../../constants/constants';
 
 interface IFormData {
   [key: string]: string | number | boolean | string[];
