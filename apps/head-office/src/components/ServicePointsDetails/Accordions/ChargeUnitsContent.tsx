@@ -208,6 +208,7 @@ const ChargeUnitsContent = ({
                     type="button"
                     onClick={() => {
                         setAddChargeUnit(true);
+                        setAddConnector(false);
                         dispatch(toggleModalVisibility(isModalVisible));
                         dispatch(
                             setChargeUnitData({
@@ -247,7 +248,7 @@ const ChargeUnitsContent = ({
                                                 </h3>
                                                 <div className={`${chargeUnitPrefix}-device-code-container`}>
                                                     <h3 className={`${chargeUnitPrefix}-device-code text-lg font-bold text-text`}>
-                                                        {chargeUnit.deviceCode || '9034009212'}
+                                                        {chargeUnit.deviceCode}
                                                     </h3>
                                                 </div>
                                             </div>
@@ -311,7 +312,7 @@ const ChargeUnitsContent = ({
                                                                             <p
                                                                                 className={`${chargeUnitPrefix}-connector-list-item-epdk text-lg text-text`}
                                                                             >
-                                                                                {chargeUnit.deviceCode}
+                                                                                {connector.id}
                                                                             </p>
                                                                         </div>
                                                                         <Button
@@ -323,7 +324,12 @@ const ChargeUnitsContent = ({
                                                                             }}
                                                                             id={`${chargeUnitPrefix}-connector-add-button`}
                                                                             type={'button'}
-                                                                            onClick={() => setAddConnector(true)}
+                                                                            onClick={() => {
+                                                                                setAddConnector(true);
+                                                                                setAddChargeUnit(false);
+                                                                                dispatch(toggleModalVisibility(isModalVisible));
+                                                                                // console.log('test')
+                                                                            }}
                                                                         >
                                                                             <FaPlugCirclePlus />
                                                                         </Button>

@@ -8,7 +8,7 @@ import { SlEnergy } from 'react-icons/sl';
 import { detectDevice } from '@projects/common';
 import ServicePointDetailsHeader from './ServicePointsDetailsComponents/ServicePointDetailsHeader';
 import ServicePointsDetailsBody from './ServicePointsDetailsComponents/ServicePointsDetailsBody';
-import ServicePointDetailsModal from './Modals/ServicePointDetailsModal';
+import ServicePointDetailsModal from './Modals/ChargeUnitAddModal';
 import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
@@ -28,6 +28,7 @@ import type {
   IServicePointsDetailsProps,
   IStatusListItemProps
 } from './types';
+import ConnectorAddModal from './Modals/ConnectorAddModal';
 
 const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
@@ -300,8 +301,8 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
                 modalId={`${BRAND_PREFIX}-connector-add-modal`}
                 onClose={() => { }}
               >
-                <>
-                </>
+                <ConnectorAddModal
+                />
               </Modal>
             )
           }
