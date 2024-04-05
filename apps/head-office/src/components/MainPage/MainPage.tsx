@@ -2,11 +2,8 @@ import Header from '../Header/Header';
 import Section from '../Section/Section';
 import Sidebar from '../Sidebar/Sidebar';
 import { BRAND_PREFIX } from '../../constants/constants';
+import type { IMainPageProps } from './types';
 import './MainPage.css';
-
-interface IMainPageProps {
-  children: React.ReactNode;
-};
 
 const MainPage = ({ children }: IMainPageProps) => {
   return (
