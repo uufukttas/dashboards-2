@@ -18,25 +18,31 @@ interface IConvertedStructure {
   isDeleted: boolean;
 };
 interface IResponse {
-  "RID": number,
-  "DayOfTheWeek": number,
-  "IsClosed": boolean,
-  "OpeningTime": string,
-  "ClosingTime": string,
-  "IsDeleted": boolean
+  RID: number,
+  DayOfTheWeek: number,
+  IsClosed: boolean,
+  OpeningTime: string,
+  ClosingTime: string,
+  IsDeleted: boolean
 };
 interface IResponseItem {
   day: number;
   hour: number;
 };
+interface IRequestDataProps {
+  chargePointId: number;
+  features: { id: number, stationChargePointFeatureType: number, stationChargePointFeatureTypeValue: string }[];
+}
 interface IServicePointsDetailsBodyProps {
   activeIndex: number;
   chargeUnits: IChargeUnitsProps[];
-  connectorCount: number;
   connectors: IConnectorStateProps[];
   setAddChargeUnit: Dispatch<SetStateAction<boolean>>;
   setAddConnector: Dispatch<SetStateAction<boolean>>;
   slug: string;
+};
+interface IWorkingHoursContentProps {
+  slug: number;
 };
 export interface IAccessTypeListItemProps {
   id: number;
@@ -49,13 +55,23 @@ export interface IBrandsProps {
   isDeleted: boolean;
   rid: null;
 };
+
+export interface IChargeUnitsContentProps {
+  chargeUnits: IChargeUnitsProps[];
+  connectors: IConnectorStateProps[];
+  slug: string;
+  setAddChargeUnit: React.Dispatch<React.SetStateAction<boolean>>;
+  setAddConnector: React.Dispatch<React.SetStateAction<boolean>>;
+};
 export interface IChargeUnitsProps {
+  accessType: string;
   chargePointId: number;
   connectorNumber: number;
   connectorId: number;
   count: number;
   deviceCode: string;
   externalAddress: string;
+  hoStatus: string;
   internalAddress: string;
   investor: string;
   isFreePoint: boolean;
@@ -68,6 +84,10 @@ export interface IChargeUnitsProps {
   stationId: number;
   status: string;
   location: string;
+};
+export interface IConnectorBrandProps {
+  connectorTypeId: number;
+  displayName: string;
 };
 export interface IGetChargePointStationFeatureData {
   id: number;
@@ -98,41 +118,6 @@ export interface IStatusListItemProps {
   name: string;
   rid: null;
 };
-interface IWorkingHoursContentProps {
-  slug: number;
-};
-export interface IChargeUnitsContentProps {
-  chargeUnits: IChargeUnitsProps[];
-  connectors: IConnectorStateProps[];
-  slug: string;
-  setAddChargeUnit: React.Dispatch<React.SetStateAction<boolean>>;
-  setAddConnector: React.Dispatch<React.SetStateAction<boolean>>;
-}
-export interface IChargeUnitsProps {
-  accessType: string;
-  chargePointId: number;
-  connectorNumber: number;
-  connectorId: number;
-  count: number;
-  deviceCode: string;
-  externalAddress: string;
-  internalAddress: string;
-  investor: string;
-  isFreePoint: boolean;
-  lastHeartBeat: string;
-  limitedUsage: boolean;
-  modelId: number;
-  model: string;
-  ocppVersion: string;
-  sendRoaming: boolean;
-  stationId: number;
-  status: string;
-  hoStatus: string;
-};
-export interface IConnectorBrandProps {
-  connectorTypeId: number;
-  displayName: string;
-};
 export interface IFormDataProps {
   [key: string]: boolean | number | string;
 };
@@ -160,4 +145,8 @@ export interface IServicePointDetailsModalProps {
 };
 export interface IServicePointsDetailsPageProps {
   slug: string;
+};
+export interface IServicePointDetailsHeaderProps {
+  servicePointDetailsName: string;
+  servicePointDetailsStatus: boolean;
 };
