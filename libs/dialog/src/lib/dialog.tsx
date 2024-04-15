@@ -22,9 +22,9 @@ export function Dialog({ handleCancel, handleSuccess }: DialogProps) {
         </div>
         <div className={`dialog-content-container flex justify-between items-center flex-col py-4`}>
           <p className="dialog-content-text">Silme işlemi geri alınamaz.</p>
-          <div className="dialog-button-container mt-8 flex items-center justify-evenly w-full">
+          <div className="dialog-button-container mt-8 flex items-center justify-center w-full">
             <Button
-              className="dialog-accept-button bg-red-700 text-white hover:bg-red-600 border rounded-md w-1/3"
+              className="dialog-accept-button bg-red-700 text-white hover:bg-red-600 border rounded-md w-1/3 p-2 mx-2 px-4"
               id={`dialog-accept-button`}
               type="button"
               onClick={handleSuccess}
@@ -32,7 +32,7 @@ export function Dialog({ handleCancel, handleSuccess }: DialogProps) {
               Sil
             </Button>
             <Button
-              className="dialog-cancel-button bg-secondary hover:bg-secondary-lighter border rounded-md w-1/3 text-white"
+              className="dialog-cancel-button bg-secondary hover:bg-secondary-lighter border rounded-md w-1/3 text-white p-2 px-4 mx-2"
               id={`dialog-cancel-button`}
               type="button"
               onClick={handleCancel}
