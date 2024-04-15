@@ -1,3 +1,6 @@
+interface IConnectorAddModalProps {
+  connectorBrandId: number;
+};
 interface IConnectorProps {
   connectorName: string;
   connectorNr: number;
@@ -5,6 +8,7 @@ interface IConnectorProps {
   isAC: boolean;
   kw: number;
   stationChargePointId: number;
+  epdkSocketNumber: number;
 };
 interface IConnectorStateProps {
   [key: number]: IConnectorProps[];
@@ -39,6 +43,7 @@ interface IServicePointsDetailsBodyProps {
   connectors: IConnectorStateProps[];
   setAddChargeUnit: Dispatch<SetStateAction<boolean>>;
   setAddConnector: Dispatch<SetStateAction<boolean>>;
+  setConnectorBrandId: Dispatch<SetStateAction<number>>;
   slug: string;
 };
 interface IWorkingHoursContentProps {
@@ -62,6 +67,7 @@ export interface IChargeUnitsContentProps {
   slug: string;
   setAddChargeUnit: React.Dispatch<React.SetStateAction<boolean>>;
   setAddConnector: React.Dispatch<React.SetStateAction<boolean>>;
+  setConnectorBrandId: React.Dispatch<React.SetStateAction<number>>;
 };
 export interface IChargeUnitsProps {
   accessType: string;
