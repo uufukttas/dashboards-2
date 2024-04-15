@@ -189,6 +189,7 @@ const ChargeUnitsContent = ({
         const location = await getLocation(chargeUnitId || '0');
 
         setAddChargeUnit(true);
+        setAddConnector(false);
         dispatch(
             setChargeUnitData({
                 code: deviceCode,
@@ -322,11 +323,16 @@ const ChargeUnitsContent = ({
                                                                                 <span className='font-bold'>{idx + 1}</span>.
                                                                             </p>
                                                                         </div>
-                                                                        <div className={`${chargeUnitPrefix}-connector-list-item-epdk-container`}>
+                                                                        <div className={`${chargeUnitPrefix}-connector-list-item-content-container flex w-full justify-evenly`}>
                                                                             <p
                                                                                 className={`${chargeUnitPrefix}-connector-list-item-epdk text-lg text-text`}
                                                                             >
                                                                                 {connector.epdkSocketNumber || 'EPDK Soket Numarası Yok'}
+                                                                            </p>
+                                                                            <p
+                                                                                className={`${chargeUnitPrefix}-connector-list-item-kw text-lg text-text`}
+                                                                            >
+                                                                                {connector.kw || 'Type 2 - 22KW - AC'}
                                                                             </p>
                                                                         </div>
                                                                         <Button
