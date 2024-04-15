@@ -46,6 +46,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const [addConnector, setAddConnector] = useState(false);
   const [brands, setBrands] = useState<IBrandsProps[]>([]);
   const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([]);
+  const [connectorBrandId, setConnectorBrandId] = useState<number>(0);
   const [connectorCount, setConnectorCount] = useState<number>(0);
   const [connectors, setConnectors] = useState<IConnectorStateProps[]>([]);
   const [investors, setInvestors] = useState<IInvestorsProps[]>([]);
@@ -279,6 +280,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
               connectors={connectors}
               setAddChargeUnit={setAddChargeUnit}
               setAddConnector={setAddConnector}
+              setConnectorBrandId={setConnectorBrandId}
               slug={slug}
             />
           </div>
@@ -323,7 +325,9 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
                 modalId={`${BRAND_PREFIX}-connector-add-modal`}
                 onClose={() => { }}
               >
-                <ConnectorAddModal />
+                <ConnectorAddModal
+                  connectorBrandId={connectorBrandId}
+                />
               </Modal>
             )
           }
