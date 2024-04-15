@@ -340,7 +340,7 @@ const ChargeUnitsContent = ({
                                                                             type={'button'}
                                                                             onClick={() => {
                                                                                 setAddConnector(true);
-                                                                                // setAddChargeUnit(false);
+                                                                                setAddChargeUnit(false);
                                                                                 dispatch(toggleModalVisibility(isModalVisible));
                                                                                 setConnectorBrandId(chargeUnit.modelId);
                                                                             }}

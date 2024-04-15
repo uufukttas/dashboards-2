@@ -26,7 +26,7 @@ const ConnectorAddModal = ({ connectorBrandId }: IConnectorAddModalProps) => {
                 rid: null,
             }));
 
-            setDropdownItems([{ id: 0, name: 'Please Select', rid: null }, ...items]);
+            setDropdownItems([...items]);
             setLoading(false);
         } catch (error) {
             console.error(error);

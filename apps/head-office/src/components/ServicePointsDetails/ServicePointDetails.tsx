@@ -321,7 +321,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
           {
             addConnector && isModalVisible && (
               <Modal
-                modalHeaderTitle='Connector Ekle'
+                modalHeaderTitle='Konnektör Ekle'
                 modalId={`${BRAND_PREFIX}-connector-add-modal`}
                 onClose={() => { }}
               >
