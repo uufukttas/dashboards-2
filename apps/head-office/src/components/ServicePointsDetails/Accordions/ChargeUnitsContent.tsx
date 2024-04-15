@@ -19,7 +19,7 @@ import type {
 } from '../types';
 
 const ChargeUnitsContent = ({
-    chargeUnits, connectors, slug, setAddChargeUnit, setAddConnector
+    chargeUnits, connectors, slug, setAddChargeUnit, setAddConnector, setConnectorBrandId
 }: IChargeUnitsContentProps) => {
     const sectionPrefix = 'charge-units';
     const chargeUnitPrefix = 'charge-unit';
@@ -40,37 +40,37 @@ const ChargeUnitsContent = ({
     const createReqData = (chargePoint: IChargeUnitsProps, features: IGetChargePointStationFeatureData[], investorId: number, statusId: string, accessTypeId: string) => {
         return ({
             chargePoint: {
-              code: chargePoint.deviceCode.toString(),
-              ExternalOCPPAdress: null,
-              InternalOCPPAdress: null,
-              isFreePoint: chargePoint.isFreePoint,
-              isOnlyDefinedUserCards: chargePoint.limitedUsage,
-              ocppVersion: chargePoint.ocppVersion,
-              ownerType: investorId,
-              isActive: false,
-              isDeleted: true,
-              sendRoaming: false,
-              stationId: Number(slug),
-              stationChargePointModelID: chargePoint.modelId,
+                code: chargePoint.deviceCode.toString(),
+                ExternalOCPPAdress: null,
+                InternalOCPPAdress: null,
+                isFreePoint: chargePoint.isFreePoint,
+                isOnlyDefinedUserCards: chargePoint.limitedUsage,
+                ocppVersion: chargePoint.ocppVersion,
+                ownerType: investorId,
+                isActive: false,
+                isDeleted: true,
+                sendRoaming: false,
+                stationId: Number(slug),
+                stationChargePointModelID: chargePoint.modelId,
             },
             chargePointFeatures: [
-              {
-                stationChargePointFeatureType: 1,
-                stationChargePointFeatureTypeValue: statusId.toString(),
-                ...(features.length > 0 && { id: features[0].id }),
-              },
-              {
-                stationChargePointFeatureType: 2,
-                stationChargePointFeatureTypeValue: accessTypeId.toString(),
-                ...(features.length > 0 && { id: features[1].id }),
-              }, {
-                stationChargePointFeatureType: 3,
-                stationChargePointFeatureTypeValue: (chargePoint.location || '').toString(),
-                ...(features.length > 0 && { id: features[2].id }),
-              }
+                {
+                    stationChargePointFeatureType: 1,
+                    stationChargePointFeatureTypeValue: statusId.toString(),
+                    ...(features.length > 0 && { id: features[0].id }),
+                },
+                {
+                    stationChargePointFeatureType: 2,
+                    stationChargePointFeatureTypeValue: accessTypeId.toString(),
+                    ...(features.length > 0 && { id: features[1].id }),
+                }, {
+                    stationChargePointFeatureType: 3,
+                    stationChargePointFeatureTypeValue: (chargePoint.location || '').toString(),
+                    ...(features.length > 0 && { id: features[2].id }),
+                }
             ],
             connectorCount: chargePoint.connectorNumber,
-          });
+        });
     };
     const getChargeUnitInfo = (chargeUnitId: number) => {
         return chargeUnits.filter(chargeUnit => {
@@ -307,6 +307,7 @@ const ChargeUnitsContent = ({
                                                 <div className={`${chargeUnitPrefix}-connector-list-container`}>
                                                     {
                                                         connectors.map((connectorList, index) => {
+                                                            console.log('connectorList', connectorList)
                                                             return connectorList[chargeUnit.chargePointId]?.reverse().map((connector, idx) => {
                                                                 return (
                                                                     <div
@@ -325,7 +326,7 @@ const ChargeUnitsContent = ({
                                                                             <p
                                                                                 className={`${chargeUnitPrefix}-connector-list-item-epdk text-lg text-text`}
                                                                             >
-                                                                                {connector.id}
+                                                                                {connector.epdkSocketNumber || 'EPDK Soket Numarası Yok'}
                                                                             </p>
                                                                         </div>
                                                                         <Button
@@ -339,9 +340,9 @@ const ChargeUnitsContent = ({
                                                                             type={'button'}
                                                                             onClick={() => {
                                                                                 setAddConnector(true);
-                                                                                setAddChargeUnit(false);
+                                                                                // setAddChargeUnit(false);
                                                                                 dispatch(toggleModalVisibility(isModalVisible));
-                                                                                // console.log('test')
+                                                                                setConnectorBrandId(chargeUnit.modelId);
                                                                             }}
                                                                         >
                                                                             <FaPlugCirclePlus />
