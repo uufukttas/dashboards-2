@@ -41,7 +41,7 @@ const ChargeUnitAddModal = ({
     [`${formProperties['is-limited-usage']}`]: chargeUnitData.isLimitedUsage || false,
     [`${formProperties.investor}`]: chargeUnitData.investor || 1,
     [`${formProperties.location}`]: chargeUnitData.location || '',
-    [`${formProperties['ocpp-version']}`]: chargeUnitData === 1 ? '1600' : '2100' || '1600',
+    [`${formProperties['ocpp-version']}`]: chargeUnitData.ocppVersion,
     [`${formProperties.status}`]: chargeUnitData.status || '1',
     ...(chargeUnitData?.code > 0 ? { code: chargeUnitData?.code } : ''),
   });
@@ -54,7 +54,7 @@ const ChargeUnitAddModal = ({
         InternalOCPPAdress: null,
         isFreePoint: chargeUnitFormData[`${formProperties['is-free-usage']}`],
         isOnlyDefinedUserCards: chargeUnitFormData[`${formProperties['is-limited-usage']}`],
-        ocppVersion: chargeUnitFormData[`${formProperties['ocpp-version']}`] === 1 ? 1600 : 2100,
+        ocppVersion: chargeUnitFormData[`${formProperties['ocpp-version']}`],
         ownerType: chargeUnitFormData[`${formProperties.investor}`],
         sendRoaming: false,
         stationId: Number(slug),
@@ -135,7 +135,7 @@ const ChargeUnitAddModal = ({
           investor: chargeUnitFormData[`${formProperties.investor}`],
           isFreeUsage: chargeUnitFormData[`${formProperties['is-free-usage']}`],
           isLimitedUsage: chargeUnitFormData[`${formProperties['is-limited-usage']}`],
-          ocppVersion: chargeUnitFormData[`${formProperties['ocpp-version']}`] === 1 ? 1600 : 2100,
+          ocppVersion: chargeUnitFormData[`${formProperties['ocpp-version']}`],
           status: chargeUnitFormData[`${formProperties.status}`],
         })
       );
@@ -174,57 +174,60 @@ const ChargeUnitAddModal = ({
             value={chargeUnitFormData[`${formProperties.brands}`]?.toString()}
           />
         </div>
-        <div className={`${formProperties['connector-count']}-container`}>
-          <Label
-            className={`${formProperties['connector-count']}-label block mb-2 text-heading font-semibold`}
-            htmlFor={`${formProperties['connector-count']}`}
-            labelText={`Konnektör Sayısı`}
-          >
-            <span className="text-md text-error">*</span>
-          </Label>
-          <Input
-            className={`${formProperties['connector-count']}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
-            id={`${formProperties['connector-count']}`}
-            name={`${formProperties['connector-count']}`}
-            register={
-              register(
-                `${formProperties['connector-count']}`, {
-                  required: 'Konnektör sayısı zorunludur.',
-                  valueAsNumber: true,
-                  min: {
-                    value: 1,
-                    message: 'Konnektör sayısı en az 1 olmalıdır.'
-                  },
-                  max: {
-                    value: 4,
-                    message: 'Konnektör sayısı en fazla 4 olmalıdır.'
-                  },
-                  value:
-                    chargeUnitFormData[`${formProperties['connector-count']}`]
-                      ? chargeUnitFormData[`${formProperties['connector-count']}`].toString()
-                      : '',
-                  onChange: (event) => {
-                    setChargeUnitFormData({
-                      ...chargeUnitFormData,
-                      [event.target.name]: Number(event.target.value),
-                    });
-                    setConnectorCount(Number(event.target.value));
+        {
+          chargeUnitData.code === '' &&
+          <div className={`${formProperties['connector-count']}-container`}>
+            <Label
+              className={`${formProperties['connector-count']}-label block mb-2 text-heading font-semibold`}
+              htmlFor={`${formProperties['connector-count']}`}
+              labelText={`Konnektör Sayısı`}
+            >
+              <span className="text-md text-error">*</span>
+            </Label>
+            <Input
+              className={`${formProperties['connector-count']}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
+              id={`${formProperties['connector-count']}`}
+              name={`${formProperties['connector-count']}`}
+              register={
+                register(
+                  `${formProperties['connector-count']}`, {
+                    required: 'Konnektör sayısı zorunludur.',
+                    valueAsNumber: true,
+                    min: {
+                      value: 1,
+                      message: 'Konnektör sayısı en az 1 olmalıdır.'
+                    },
+                    max: {
+                      value: 4,
+                      message: 'Konnektör sayısı en fazla 4 olmalıdır.'
+                    },
+                    value:
+                      chargeUnitFormData[`${formProperties['connector-count']}`]
+                        ? chargeUnitFormData[`${formProperties['connector-count']}`].toString()
+                        : '',
+                    onChange: (event) => {
+                      setChargeUnitFormData({
+                        ...chargeUnitFormData,
+                        [event.target.name]: Number(event.target.value),
+                      });
+                      setConnectorCount(Number(event.target.value));
+                    }
                   }
-                }
-              )
-            }
-            type="number"
-          />
-          {errors[`${formProperties['connector-count']}`]
-            && errors[`${formProperties['connector-count']}`]?.message
-            && (
-              <div className={`${formProperties['connector-count']}-error-wrapper my-4 font-bold text-error`}>
-                <p className={`${formProperties['connector-count']}-error-message text-error`}>
-                  {errors[`${formProperties['connector-count']}`]?.message?.toString()}
-                </p>
-              </div>
-            )}
-        </div>
+                )
+              }
+              type="number"
+            />
+            {errors[`${formProperties['connector-count']}`]
+              && errors[`${formProperties['connector-count']}`]?.message
+              && (
+                <div className={`${formProperties['connector-count']}-error-wrapper my-4 font-bold text-error`}>
+                  <p className={`${formProperties['connector-count']}-error-message text-error`}>
+                    {errors[`${formProperties['connector-count']}`]?.message?.toString()}
+                  </p>
+                </div>
+              )}
+          </div>
+        }
         <div className={`${formProperties['ocpp-version']}-container`}>
           <Label
             className={`${formProperties['ocpp-version']}-label block mb-2 text-heading font-semibold`}
@@ -237,8 +240,8 @@ const ChargeUnitAddModal = ({
             className={`${formProperties['ocpp-version']}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
             id={`${formProperties['ocpp-version']}`}
             items={[
-              { id: 1, name: 'v1.6', rid: null },
-              { id: 2, name: 'v2.1', rid: null },
+              { id: 1600, name: 'v1.6', rid: null },
+              { id: 2100, name: 'v2.1', rid: null },
             ]}
             name={`${formProperties['ocpp-version']}`}
             onChange={(event) => {

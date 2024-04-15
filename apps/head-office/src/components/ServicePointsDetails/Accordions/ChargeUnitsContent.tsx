@@ -181,7 +181,7 @@ const ChargeUnitsContent = ({
                 code: deviceCode,
                 brandId: chargeUnitInfo[0].modelId,
                 connectorCount: chargeUnitInfo[0].connectorNumber,
-                ocppVersion: chargeUnitInfo[0].ocppVersion === '1600' ? 1 : 2,
+                ocppVersion: chargeUnitInfo[0].ocppVersion,
                 investor: investorId,
                 status: statusId,
                 accessType: accessTypeId,
