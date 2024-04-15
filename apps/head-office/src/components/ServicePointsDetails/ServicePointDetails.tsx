@@ -6,6 +6,7 @@ import { RiBattery2ChargeFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { SlEnergy } from 'react-icons/sl';
 import { detectDevice } from '@projects/common';
+import { Dialog } from '@projects/dialog';
 import ServicePointDetailsHeader from './ServicePointsDetailsComponents/ServicePointDetailsHeader';
 import ServicePointsDetailsBody from './ServicePointsDetailsComponents/ServicePointsDetailsBody';
 import ServicePointDetailsModal from './Modals/ChargeUnitAddModal';
@@ -15,6 +16,7 @@ import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { setChargeUnitData } from '../../../app/redux/features/chargeUnitData';
+import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleChargePointDataUpdated } from '../../../app/redux/features/isChargePointDataUpdated';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { RootState } from '../../../app/redux/store';
@@ -32,6 +34,7 @@ import type {
 
 const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
+  const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isChargePointDataUpdated = useSelector(
     (state: RootState) => state.isChargePointDataUpdated.isChargePointDataUpdated
   );
@@ -59,6 +62,17 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
     });
   const [statusList, setStatusList] = useState<IStatusListItemProps[]>([]);
 
+  const deleteChargePoint = async (deletedChargeUnitData: IChargeUnitsProps[]) => {
+    try {
+      await axios.post(
+        process.env.UPDATE_STATION_SETTINGS || '',
+        JSON.stringify(deletedChargeUnitData),
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+    } catch (error) {
+      console.log(error);
+    };
+  };
   const getBrands = async () => {
     try {
       await axios
@@ -228,7 +242,9 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
 
   useEffect(() => {
     if (isChargePointDataUpdated) {
-      getChargeUnits();
+      setTimeout(() => {
+        getChargeUnits();
+      }, 750);
 
       dispatch(toggleChargePointDataUpdated(false));
     }
@@ -309,6 +325,18 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
               >
                 <ConnectorAddModal />
               </Modal>
+            )
+          }
+          {
+            dialogInformation.isVisible && (
+              <Dialog
+                handleCancel={() => dispatch(hideDialog())}
+                handleSuccess={() => {
+                  deleteChargePoint(dialogInformation.data);
+                  dispatch(hideDialog());
+                  dispatch(toggleChargePointDataUpdated(true));
+                }}
+              />
             )
           }
         </div >

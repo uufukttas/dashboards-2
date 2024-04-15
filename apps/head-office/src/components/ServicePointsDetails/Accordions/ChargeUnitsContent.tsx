@@ -4,16 +4,18 @@ import { FaChargingStation, FaPencil, FaPlugCirclePlus, FaTrash } from 'react-ic
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
+import { showDialog } from '../../../../app/redux/features/dialogInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../../app/redux/store';
 import type {
+    IAccessTypeListItemProps,
     IChargeUnitsContentProps,
+    IChargeUnitsProps,
     IConnectorBrandProps,
     IInvestorsProps,
     IGetChargePointStationFeatureData,
     IGetChargePointStationFeatureResponse,
     IStatusListItemProps,
-    IAccessTypeListItemProps
 } from '../types';
 
 const ChargeUnitsContent = ({
@@ -35,36 +37,40 @@ const ChargeUnitsContent = ({
             };
         });
     };
-    const createReqData = (features: IGetChargePointStationFeatureData[], deviceCode: string) => {
+    const createReqData = (chargePoint: IChargeUnitsProps, features: IGetChargePointStationFeatureData[], investorId: number, statusId: string, accessTypeId: string) => {
         return ({
-            connectorCount: 4,
             chargePoint: {
-                code: deviceCode,
-                stationId: parseInt(slug),
-                ownerType: 0,
-                stationChargePointModelID: 1,
-                ocppVersion: 1600,
-                isFreePoint: true,
-                InternalOCPPAdress: null,
-                ExternalOCPPAdress: null,
-                isActive: false,
-                isDeleted: true,
-                isOnlyDefinedUserCards: true,
-                sendRoaming: false
+              code: chargePoint.deviceCode.toString(),
+              ExternalOCPPAdress: null,
+              InternalOCPPAdress: null,
+              isFreePoint: chargePoint.isFreePoint,
+              isOnlyDefinedUserCards: chargePoint.limitedUsage,
+              ocppVersion: chargePoint.ocppVersion,
+              ownerType: investorId,
+              isActive: false,
+              isDeleted: true,
+              sendRoaming: false,
+              stationId: Number(slug),
+              stationChargePointModelID: chargePoint.modelId,
             },
             chargePointFeatures: [
-                {
-                    id: features[0]?.id || 0,
-                    stationChargePointFeatureType: 1,
-                    stationChargePointFeatureTypeValue: 1
-                },
-                {
-                    id: features[1]?.id || 0,
-                    stationChargePointFeatureType: 2,
-                    stationChargePointFeatureTypeValue: 2
-                }
-            ]
-        });
+              {
+                stationChargePointFeatureType: 1,
+                stationChargePointFeatureTypeValue: statusId.toString(),
+                ...(features.length > 0 && { id: features[0].id }),
+              },
+              {
+                stationChargePointFeatureType: 2,
+                stationChargePointFeatureTypeValue: accessTypeId.toString(),
+                ...(features.length > 0 && { id: features[1].id }),
+              }, {
+                stationChargePointFeatureType: 3,
+                stationChargePointFeatureTypeValue: (chargePoint.location || '').toString(),
+                ...(features.length > 0 && { id: features[2].id }),
+              }
+            ],
+            connectorCount: chargePoint.connectorNumber,
+          });
     };
     const getChargeUnitInfo = (chargeUnitId: number) => {
         return chargeUnits.filter(chargeUnit => {
@@ -150,20 +156,27 @@ const ChargeUnitsContent = ({
     }
     const handleDelete = async (event: React.MouseEvent) => {
         const chargePointId = event.currentTarget.getAttribute(`data-charge-point-id`) || '0';
-        const deviceCode = event.currentTarget.getAttribute(`data-charge-point-device-code`) || '0';
 
-        try {
-            const featuresData: IGetChargePointStationFeatureResponse = await getFeaturesId(parseInt(chargePointId));
-            const features = featuresData.data;
+        const featuresData: IGetChargePointStationFeatureResponse = await getFeaturesId(parseInt(chargePointId));
+        const features = featuresData.data;
 
-            await axios.post(
-                process.env.UPDATE_STATION_SETTINGS || '',
-                JSON.stringify(createReqData(features, deviceCode)),
-                { headers: { 'Content-Type': 'application/json' } }
-            );
-        } catch (error) {
-            console.log(error);
-        };
+        const deletedChargeUnit = chargeUnits.filter(chargeUnit => {
+            return chargeUnit.chargePointId === Number(chargePointId);
+        });
+
+        const investorId = await getInvestorId((deletedChargeUnit[0].investor));
+        const { statusId, accessTypeId } = await getGetChargePointFeaturesStatus(
+            deletedChargeUnit[0].hoStatus, deletedChargeUnit[0].accessType
+        );
+
+        const getRequestBody = createReqData(deletedChargeUnit[0], features, investorId, statusId, accessTypeId);
+
+        dispatch(
+            showDialog({
+                actionType: 'delete',
+                data: getRequestBody,
+            })
+        );
     };
     const handleUpdate = async (event: React.MouseEvent) => {
         const chargeUnitId = event.currentTarget.getAttribute(`data-charge-point-id`);
