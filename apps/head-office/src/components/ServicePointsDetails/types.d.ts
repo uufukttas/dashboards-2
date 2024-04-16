@@ -40,7 +40,7 @@ interface IRequestDataProps {
 interface IServicePointsDetailsBodyProps {
   activeIndex: number;
   chargeUnits: IChargeUnitsProps[];
-  connectors: IConnectorStateProps[];
+  connectorsList: IConnectorStateProps[];
   setAddChargeUnit: Dispatch<SetStateAction<boolean>>;
   setAddConnector: Dispatch<SetStateAction<boolean>>;
   setConnectorBrandId: Dispatch<SetStateAction<number>>;
@@ -63,7 +63,7 @@ export interface IBrandsProps {
 
 export interface IChargeUnitsContentProps {
   chargeUnits: IChargeUnitsProps[];
-  connectors: IConnectorStateProps[];
+  connectorsList: IConnectorStateProps[];
   slug: string;
   setAddChargeUnit: React.Dispatch<React.SetStateAction<boolean>>;
   setAddConnector: React.Dispatch<React.SetStateAction<boolean>>;

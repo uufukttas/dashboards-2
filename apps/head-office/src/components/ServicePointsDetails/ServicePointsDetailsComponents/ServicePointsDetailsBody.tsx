@@ -7,7 +7,7 @@ import type { IServicePointsDetailsBodyProps } from '../types';
 const ServicePointsDetailsBody = ({
     activeIndex,
     chargeUnits,
-    connectors,
+    connectorsList,
     setAddChargeUnit,
     setAddConnector,
     setConnectorBrandId,
@@ -33,7 +33,7 @@ const ServicePointsDetailsBody = ({
                     >
                         <ChargeUnitsContent
                             chargeUnits={chargeUnits}
-                            connectors={connectors}
+                            connectorsList={connectorsList}
                             slug={slug}
                             setAddChargeUnit={setAddChargeUnit}
                             setAddConnector={setAddConnector}
