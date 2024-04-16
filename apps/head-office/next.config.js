@@ -35,6 +35,7 @@ const nextConfig = {
     GET_STATION_SETTINGS: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationSettings',
     GET_WORKING_HOURS: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetWorkHours',
     LOGIN_URL: 'https://sharztestapi.azurewebsites.net/Auth/Login',
+    UPDATE_CONNECTOR_URL: 'https://sharztestapi.azurewebsites.net/ServicePoint/UpdateConnector',
     UPDATE_STATION_INFO_URL: 'https://sharztestapi.azurewebsites.net/StationInfo/UpdateStationInfo',
     UPDATE_STATION_SETTINGS: 'https://sharztestapi.azurewebsites.net/ServicePoint/UpdateStationSettings',
     UPDATE_STATION_URL: 'https://sharztestapi.azurewebsites.net/ServicePoint/UpdateStation',
