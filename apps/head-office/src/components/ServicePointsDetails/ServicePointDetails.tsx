@@ -129,7 +129,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
       chargeUnits.map(async (chargeUnit) => {
         await axios
           .post(
-            process.env.GET_CHARGE_POINT_CONNECTORS || '',
+            process.env.GET_CHARGE_POINT_CONNECTORSV2 || '',
             JSON.stringify({ stationChargePointId: chargeUnit.chargePointId }),
             { headers: { 'Content-Type': 'application/json' } }
           )
