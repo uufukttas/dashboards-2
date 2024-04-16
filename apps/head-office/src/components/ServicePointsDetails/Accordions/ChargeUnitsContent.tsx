@@ -20,7 +20,7 @@ import type {
 } from '../types';
 
 const ChargeUnitsContent = ({
-    chargeUnits, connectorsList, slug, setAddChargeUnit, setAddConnector, setConnectorBrandId
+    chargeUnits, connectorsList, slug, setAddChargeUnit, setAddConnector, setConnectorProperty
 }: IChargeUnitsContentProps) => {
     const sectionPrefix = 'charge-units';
     const chargeUnitPrefix = 'charge-unit';
@@ -220,7 +220,7 @@ const ChargeUnitsContent = ({
                             return (
                                 <div
                                     className={`${chargeUnitPrefix}-connector-list-item w-full flex flex-row items-center justify-between`}
-                                    key={connectorIndex}  // Her bir item için unique bir key kullanılmalı.
+                                    key={connectorIndex}
                                 >
                                     <div className={`${chargeUnitPrefix}-connector-list-item-name-container`}>
                                         <p
@@ -248,6 +248,8 @@ const ChargeUnitsContent = ({
                                         dataAttributes={{
                                             'data-charge-point-id': connectorItem.stationChargePointID.toString(),
                                             'data-charge-point-model-id': connectorItem.modelID.toString(),
+                                            'data-connector-nr': connectorItem.connectorNr.toString(),
+                                            'data-connector-id': connectorItem.RID.toString(),
                                         }}
                                         id={`${chargeUnitPrefix}-connector-add-button`}
                                         type={'button'}
@@ -255,7 +257,12 @@ const ChargeUnitsContent = ({
                                             setAddConnector(true);
                                             setAddChargeUnit(false);
                                             dispatch(toggleModalVisibility(isModalVisible));
-                                            setConnectorBrandId(connectorItem.modelID);
+                                            setConnectorProperty({
+                                                chargePointModelId: connectorItem.modelID,
+                                                chargePointId: connectorItem.stationChargePointID,
+                                                connectorNumber: connectorItem.connectorNr,
+                                                connectorId: connectorItem.RID, 
+                                            });
                                         }}
                                     >
                                         <FaPlugCirclePlus />

@@ -47,8 +47,12 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const [addConnector, setAddConnector] = useState(false);
   const [brands, setBrands] = useState<IBrandsProps[]>([]);
   const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([]);
-  const [connectorBrandId, setConnectorBrandId] = useState<number>(0);
-  const [connectorCount, setConnectorCount] = useState<number>(0);
+  const [connectorProperty, setConnectorProperty] = useState<{ chargePointId: number; chargePointModelId: number; connectorNumber: number; connectorId: number }>({
+    chargePointId: 0,
+    chargePointModelId: 0,
+    connectorNumber: 0,
+    connectorId: 0
+  });
   const [connectors, setConnectors] = useState<IConnectorStateProps[]>([]);
   const [investors, setInvestors] = useState<IInvestorsProps[]>([]);
   const [servicePointDetails, setServicePointDetails] =
@@ -314,7 +318,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
               connectorsList={connectors}
               setAddChargeUnit={setAddChargeUnit}
               setAddConnector={setAddConnector}
-              setConnectorBrandId={setConnectorBrandId}
+              setConnectorProperty={setConnectorProperty}
               slug={slug}
             />
           </div>
@@ -347,7 +351,6 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
                   statusList={statusList}
                   investors={investors}
                   slug={slug}
-                  setConnectorCount={setConnectorCount}
                 />
               </Modal>
             )
@@ -360,7 +363,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
                 onClose={() => { }}
               >
                 <ConnectorAddModal
-                  connectorBrandId={connectorBrandId}
+                  connectorProperty={connectorProperty}
                 />
               </Modal>
             )

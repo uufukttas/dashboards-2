@@ -10,7 +10,7 @@ const ServicePointsDetailsBody = ({
     connectorsList,
     setAddChargeUnit,
     setAddConnector,
-    setConnectorBrandId,
+    setConnectorProperty,
     slug,
 }: IServicePointsDetailsBodyProps) => {
     return (
@@ -37,7 +37,7 @@ const ServicePointsDetailsBody = ({
                             slug={slug}
                             setAddChargeUnit={setAddChargeUnit}
                             setAddConnector={setAddConnector}
-                            setConnectorBrandId={setConnectorBrandId}
+                            setConnectorProperty={setConnectorProperty}
                         />
                     </Accordion>
                 )}
