@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Label } from '@projects/label';
 import axios from 'axios';
+import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type { IConnectorAddModalProps } from '../types';
-import { Button } from '@projects/button';
 
-const ConnectorAddModal = ({ connectorBrandId }: IConnectorAddModalProps) => {
+const ConnectorAddModal = ({ connectorProperty }: IConnectorAddModalProps) => {
     const sectionPrefix = 'connector';
+    const dispatch = useDispatch();
     const [dropdownItems, setDropdownItems] = useState<{ id: 0, name: 'Please Select', rid: null }[]>([]);
     const [loading, setLoading] = useState(true);
+    const [connectorValue, setConnectorValue] = useState<number>(1);
 
     const fetchAndPrepareDropdownItems = async () => {
         setLoading(true);
         try {
             const response = await axios.post(
                 process.env.GET_CONNECTOR_MODELS || '',
-                { "brandId": connectorBrandId || 1 }
+                { "brandId": connectorProperty.chargePointModelId || 1 }
             );
             const connectorTypes = response.data.data;
 
@@ -34,9 +38,27 @@ const ConnectorAddModal = ({ connectorBrandId }: IConnectorAddModalProps) => {
         }
     };
 
+    const setConenctorProperty = async (event: React.FormEvent) => {
+        event.preventDefault();
+        await axios
+            .post(
+                process.env.UPDATE_CONNECTOR_URL || '',
+                {
+                    id: connectorProperty.chargePointId,
+                    connectorNr: connectorProperty.connectorNumber,
+                    stationChargePointID: connectorProperty.connectorId,
+                    stationChargePointModelConnectorID: connectorValue,
+                }
+            )
+            .then((response) => {
+                console.log(response);
+                dispatch(toggleModalVisibility());
+            })
+    };
+
     useEffect(() => {
         fetchAndPrepareDropdownItems();
-    }, [connectorBrandId]);
+    }, [connectorProperty.chargePointModelId]);
 
     if (loading) {
         return <div>Loading...</div>;
@@ -46,7 +68,7 @@ const ConnectorAddModal = ({ connectorBrandId }: IConnectorAddModalProps) => {
         <div className={`${BRAND_PREFIX}-${sectionPrefix}-modal-form-container relative p-6 bg-white rounded-lg`}>
             <form
                 className={`${BRAND_PREFIX}-add-${sectionPrefix}-form w-full`}
-                onSubmit={() => { }}
+                onSubmit={setConenctorProperty}
             >
                 <div className={`-container`}>
                     <Label
@@ -61,15 +83,14 @@ const ConnectorAddModal = ({ connectorBrandId }: IConnectorAddModalProps) => {
                         id={``}
                         items={dropdownItems}
                         name={``}
-                        onChange={(event) => { }}
+                        onChange={(event) => setConnectorValue(Number(event.currentTarget.value))}
                         value={``}
                     />
                     <Button
                         buttonText='Kaydet'
                         id='addConnectorButton'
-                        type='button'
+                        type='submit'
                         className={`-button bg-primary text-white w-full py-2.5 rounded-lg`}
-                        onClick={() => { }}
                     />
                 </div>
             </form>
