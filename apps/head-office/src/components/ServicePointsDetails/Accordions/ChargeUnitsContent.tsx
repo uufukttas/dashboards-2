@@ -19,7 +19,7 @@ import type {
 } from '../types';
 
 const ChargeUnitsContent = ({
-    chargeUnits, connectors, slug, setAddChargeUnit, setAddConnector, setConnectorBrandId
+    chargeUnits, connectorsList, slug, setAddChargeUnit, setAddConnector, setConnectorBrandId
 }: IChargeUnitsContentProps) => {
     const sectionPrefix = 'charge-units';
     const chargeUnitPrefix = 'charge-unit';
@@ -208,6 +208,68 @@ const ChargeUnitsContent = ({
         dispatch(toggleModalVisibility(isModalVisible));
     };
 
+    const renderConnectors = (chargePointId: number) => {
+        return connectorsList.map(chargeUnitConnectors => {
+            return chargeUnitConnectors.map(connectors => {
+              return connectors.map((connector, idx) => {
+                return connector.map((connectorItem, connectorIndex) => {
+                  // Koşullu renderlama
+                  if (connectorItem.stationChargePointID === chargePointId && idx + 1 === connectorItem.connectorNr) {
+                    return (
+                      <div
+                        className={`${chargeUnitPrefix}-connector-list-item w-full flex flex-row items-center justify-between`}
+                        key={connectorIndex}  // Her bir item için unique bir key kullanılmalı.
+                      >
+                        <div className={`${chargeUnitPrefix}-connector-list-item-name-container`}>
+                          <p
+                            className={`${chargeUnitPrefix}-connector-list-item-name text-lg font-bold text-heading`}
+                            key={`${connectorIndex}-${connectorIndex + 1}`}
+                          >
+                            <span className='font-bold'>{connectorIndex + 1}</span>.
+                          </p>
+                        </div>
+                        <div className={`${chargeUnitPrefix}-connector-list-item-content-container flex w-full justify-evenly`}>
+                          <p
+                            className={`${chargeUnitPrefix}-connector-list-item-epdk text-lg text-text`}
+                          >
+                            {connectorItem.epdkSocketNumber || 'EPDK Soket Numarası Yok'}
+                          </p>
+                          <p
+                            className={`${chargeUnitPrefix}-connector-list-item-kw text-lg text-text`}
+                          >
+                            {`${connectorItem.kw} - ${connectorItem.isAc ? 'AC' : 'DC'}` || '22KW - AC'}
+                          </p>
+                        </div>
+                        <Button
+                          buttonText={""}
+                          className="connector-add-button rounded-md px-4 py-2 mx-4"
+                          dataAttributes={{
+                            'data-charge-point-id': connectorItem.stationChargePointID.toString(),
+                            'data-charge-point-model-id': connectorItem.modelID.toString(),
+                          }}
+                          id={`${chargeUnitPrefix}-connector-add-button`}
+                          type={'button'}
+                          onClick={() => {
+                            setAddConnector(true);
+                            setAddChargeUnit(false);
+                            dispatch(toggleModalVisibility(isModalVisible));
+                            setConnectorBrandId(connectorItem.modelID);
+                          }}
+                        >
+                          <FaPlugCirclePlus />
+                        </Button>
+                      </div>
+                    );
+                  } else {
+                    return null;  // Eğer koşul sağlanmıyorsa, null dön.
+                  }
+                });
+              });
+            });
+          });
+          
+    };
+
     useEffect(() => {
         getConnectorBrands();
     }, [chargeUnits]);
@@ -306,58 +368,12 @@ const ChargeUnitsContent = ({
                                                     </h4>
                                                 </div>
                                                 <div className={`${chargeUnitPrefix}-connector-list-container`}>
+
                                                     {
-                                                        connectors.map((connectorList, index) => {
-                                                            console.log('connectorList', connectorList)
-                                                            return connectorList[chargeUnit.chargePointId]?.reverse().map((connector, idx) => {
-                                                                return (
-                                                                    <div
-                                                                        className={`${chargeUnitPrefix}-connector-list-item w-full flex flex-row w-full items-center justify-between`}
-                                                                        key={idx}
-                                                                    >
-                                                                        <div className={`${chargeUnitPrefix}-connector-list-item-name-container`}>
-                                                                            <p
-                                                                                className={`${chargeUnitPrefix}-connector-list-item-name text-lg font-bold text-heading`}
-                                                                                key={`${index}-${index + 1}`}
-                                                                            >
-                                                                                <span className='font-bold'>{idx + 1}</span>.
-                                                                            </p>
-                                                                        </div>
-                                                                        <div className={`${chargeUnitPrefix}-connector-list-item-content-container flex w-full justify-evenly`}>
-                                                                            <p
-                                                                                className={`${chargeUnitPrefix}-connector-list-item-epdk text-lg text-text`}
-                                                                            >
-                                                                                {connector.epdkSocketNumber || 'EPDK Soket Numarası Yok'}
-                                                                            </p>
-                                                                            <p
-                                                                                className={`${chargeUnitPrefix}-connector-list-item-kw text-lg text-text`}
-                                                                            >
-                                                                                {connector.kw || 'Type 2 - 22KW - AC'}
-                                                                            </p>
-                                                                        </div>
-                                                                        <Button
-                                                                            buttonText={``}
-                                                                            className="connector-add-button rounded-md px-4 py-2 mx-4"
-                                                                            dataAttributes={{
-                                                                                'data-charge-point-id': chargeUnit.chargePointId.toString(),
-                                                                                'data-charge-point-model-id': chargeUnit.modelId.toString(),
-                                                                            }}
-                                                                            id={`${chargeUnitPrefix}-connector-add-button`}
-                                                                            type={'button'}
-                                                                            onClick={() => {
-                                                                                setAddConnector(true);
-                                                                                setAddChargeUnit(false);
-                                                                                dispatch(toggleModalVisibility(isModalVisible));
-                                                                                setConnectorBrandId(chargeUnit.modelId);
-                                                                            }}
-                                                                        >
-                                                                            <FaPlugCirclePlus />
-                                                                        </Button>
-                                                                    </div>
-                                                                );
-                                                            });
-                                                        })
+                                                        renderConnectors(chargeUnit.chargePointId)
                                                     }
+
+
                                                 </div>
                                             </div>
                                         </div>

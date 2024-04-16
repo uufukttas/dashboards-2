@@ -126,28 +126,59 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   };
   const getConnectors = async () => {
     try {
-      chargeUnits.map(async (chargeUnit) => {
-        await axios
-          .post(
+      const promises = chargeUnits.map(async (chargeUnit) => {
+        try {
+          const response = await axios.post(
             process.env.GET_CHARGE_POINT_CONNECTORSV2 || '',
             JSON.stringify({ stationChargePointId: chargeUnit.chargePointId }),
             { headers: { 'Content-Type': 'application/json' } }
-          )
-          .then((response) => response.data)
-          .then((data) => {
-            setTimeout(() => {
-              setConnectors((prev) => [
-                ...prev,
-                { [chargeUnit.chargePointId]: data.data }
-              ])
-            }, 1000)
-          })
-          .catch((error) => console.log(error));
+          );
+          const data = response.data;
+
+          // setConnectors((prev) => [...prev, getConnectorProperties(data.data)])
+          return getConnectorProperties(data.data);  // Promise dönüyor, ama hemen beklemiyoruz.
+        } catch (error) {
+          console.error(error);
+        }
       });
+
+      await Promise.all(promises).then(data => setConnectors((prev) => [...prev, data]));
+
     } catch (error) {
-      console.log(error);
-    };
-  }
+      console.error(error);
+    }
+  };
+
+  const getConnectorProperties = async (connectorData) => {
+    const promises = connectorData.map(async (connector) => {
+      try {
+        const response = await axios.post(
+          process.env.GET_CHARGE_POINT_CONNECTORS || '',
+          JSON.stringify({ stationChargePointId: connector.stationChargePointID }),
+          { headers: { 'Content-Type': 'application/json' } }
+        ).then(data => {
+          data.data.data.forEach((element) => {
+            if (connector.RID === element.id)
+            connector.kw = element.kw;
+            connector.connectorName = element.connectorName;
+            connector.isAc = element.isAc;
+          })
+        });
+
+        return connectorData
+      } catch (error) {
+        console.error(error);
+      }
+    });
+
+    // Tüm promise'leri bekleyip, sonuçları döndürüyoruz.
+    return Promise.all(promises);
+  };
+
+
+
+
+
   const getInvestors = async () => {
     try {
       await axios
@@ -277,7 +308,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
             <ServicePointsDetailsBody
               activeIndex={activeIndex}
               chargeUnits={chargeUnits}
-              connectors={connectors}
+              connectorsList={connectors}
               setAddChargeUnit={setAddChargeUnit}
               setAddConnector={setAddConnector}
               setConnectorBrandId={setConnectorBrandId}
