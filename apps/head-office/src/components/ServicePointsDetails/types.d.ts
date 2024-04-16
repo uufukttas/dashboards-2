@@ -2,16 +2,23 @@ interface IConnectorAddModalProps {
   connectorBrandId: number;
 };
 interface IConnectorProps {
+  RID: number;
   connectorName: string;
   connectorNr: number;
   id: number;
-  isAC: boolean;
+  isAc: boolean;
   kw: number;
   stationChargePointID: number;
   epdkSocketNumber: number;
 };
 interface IConnectorStateProps {
-  [key: number]: IConnectorProps[];
+  [key: number]: IConnectorProps[][][][];
+  stationChargePointID: number;
+  connectorNr: number;
+  epdkSocketNumber: number;
+  isAc: boolean;
+  modelID: number;
+  kw: number;
 }
 interface IConvertedStructure {
   stationID: number;

@@ -25,6 +25,7 @@ import type {
   IAccessTypeListItemProps,
   IBrandsProps,
   IChargeUnitsProps,
+  IConnectorProps,
   IConnectorStateProps,
   IInvestorsProps,
   IServicePointsDetailsPageProps,
@@ -142,6 +143,8 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
         }
       });
 
+      // @ts-expect-error We did not wait for the checking to be resolved.
+      // TODO : We need to wait for the checking to be resolved.
       await Promise.all(promises).then(data => setConnectors((prev) => [...prev, data]));
 
     } catch (error) {
@@ -149,17 +152,17 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
     }
   };
 
-  const getConnectorProperties = async (connectorData) => {
-    const promises = connectorData.map(async (connector) => {
+  const getConnectorProperties = async (connectorData: []) => {
+    const promises = connectorData.map(async (connector: IConnectorProps) => {
       try {
-        const response = await axios.post(
+        await axios.post(
           process.env.GET_CHARGE_POINT_CONNECTORS || '',
           JSON.stringify({ stationChargePointId: connector.stationChargePointID }),
           { headers: { 'Content-Type': 'application/json' } }
         ).then(data => {
-          data.data.data.forEach((element) => {
+          data.data.data.forEach((element: IConnectorProps) => {
             if (connector.RID === element.id)
-            connector.kw = element.kw;
+              connector.kw = element.kw;
             connector.connectorName = element.connectorName;
             connector.isAc = element.isAc;
           })
