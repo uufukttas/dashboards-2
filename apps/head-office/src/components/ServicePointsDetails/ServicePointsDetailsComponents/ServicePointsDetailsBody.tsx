@@ -4,6 +4,7 @@ import LocationInfo from '../Accordions/LocationInfo';
 import ChargeUnitsContent from '../Accordions/ChargeUnitsContent';
 import WorkingHoursContent from '../Accordions/WorkingHoursContent';
 import type { IServicePointsDetailsBodyProps } from '../types';
+import EnergyPricesContent from '../Accordions/EnergyPricesContent';
 
 const ServicePointsDetailsBody = ({
     activeIndex,
@@ -54,12 +55,12 @@ const ServicePointsDetailsBody = ({
             }
             {
                 activeIndex === 3 && (
-                    // <Accordion
-                    //   accordionTitle="Enerji Fiyat Ayarlari"
-                    //   accordionContent={energySettingsContent}
-                    //   titleClassName="font-bold"
-                    // />
-                    <></>
+                    <Accordion
+                      accordionTitle="Enerji Fiyat Ayarlari"
+                      titleClassName="font-bold"
+                    >
+                        <EnergyPricesContent slug={slug}/>
+                    </Accordion>
                 )
             }
             {
