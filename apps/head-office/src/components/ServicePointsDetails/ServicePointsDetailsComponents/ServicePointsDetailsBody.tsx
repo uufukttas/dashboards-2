@@ -2,6 +2,7 @@ import React from 'react';
 import Accordion from '../../Accordion/Accordion';
 import LocationInfo from '../Accordions/LocationInfo';
 import ChargeUnitsContent from '../Accordions/ChargeUnitsContent';
+import WorkingHoursContent from '../Accordions/WorkingHoursContent';
 import type { IServicePointsDetailsBodyProps } from '../types';
 
 const ServicePointsDetailsBody = ({
@@ -43,13 +44,12 @@ const ServicePointsDetailsBody = ({
                 )}
             {
                 activeIndex === 2 && (
-                    // <Accordion
-                    //     accordionTitle="Calisma Saatleri"
-                    //     titleClassName="font-bold"
-                    // >
-                    //     <WorkingHoursContent slug={Number(slug)} />
-                    // </Accordion>
-                    <></>
+                    <Accordion
+                        accordionTitle="Calisma Saatleri"
+                        titleClassName="font-bold"
+                    >
+                        <WorkingHoursContent slug={Number(slug)} />
+                    </Accordion>
                 )
             }
             {
