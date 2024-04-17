@@ -39,3 +39,37 @@ tr td:nth-child(1) {
   margin-left: 10px;
 }
 
+
+.time-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.time-table th, .time-table td {
+  border: 1px solid #ddd;
+  text-align: center;
+  padding: 8px;
+}
+
+.time-table th {
+  background-color: #f4f4f4;
+}
+
+.hour-label {
+  font-weight: bold;
+}
+
+.time-slot {
+  cursor: pointer;
+  height: 30px;
+}
+
+.time-slot.selected {
+  background-color: #f98080;
+}
+
+.time-slot.passive {
+  background-color: lightgray;
+  cursor: not-allowed;
+}
