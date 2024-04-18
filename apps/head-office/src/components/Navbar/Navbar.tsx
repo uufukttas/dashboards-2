@@ -15,8 +15,8 @@ const Navbar = ({ activeIndex, items, setActiveIndex }: INavbarProps) => {
             className={`${BRAND_PREFIX}-navbar-item px-4 py-0 w-1/6 flex justify-center items-center text-2xl ${
               activeIndex === index
                 ? 'active'
-                : ''}
-              `}
+                : ''}`
+              }
             id={`${BRAND_PREFIX}-navbar-item-${index}`}
             type="button"
             onClick={() => handleItemClick(index)}
