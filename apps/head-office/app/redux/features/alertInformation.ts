@@ -1,10 +1,5 @@
 import { createSlice, Reducer } from '@reduxjs/toolkit';
-
-interface IAlertInformationStateProps {
-    isVisible: boolean;
-    message: string;
-    type: 'success' | 'error' | 'info' | 'warning';
-};
+import { IAlertInformationStateProps } from '../types';
 
 const initialState: IAlertInformationStateProps = {
     isVisible: false,
@@ -16,13 +11,13 @@ export const alertInformation = createSlice({
     name: 'alertInformation',
     initialState,
     reducers: {
+        hideAlert: (state) => {
+            state.isVisible = false;
+        },
         showAlert: (state, action) => {
             state.isVisible = true;
             state.message = action.payload.message;
             state.type = action.payload.type;
-        },
-        hideAlert: (state) => {
-            state.isVisible = false;
         },
     },
 });
