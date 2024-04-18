@@ -1,24 +1,7 @@
 import { createSlice, Reducer } from '@reduxjs/toolkit';
+import { IServicePointInformationStateProps } from '../types';
 
-export type ServicePointInformationStateProps = {
-    servicePointInformation: {
-        id: number;
-        name: string;
-        type: string;
-        lon: number;
-        lat: number;
-        phone1: string;
-        phone2: string;
-        address: string;
-        cityId: number;
-        districtId: number;
-        opportunities: string[];
-        freePark: boolean;
-        paymentMethods: string;
-    };
-};
-
-const initialState = {
+const initialState: IServicePointInformationStateProps = {
     servicePointInformation: {
         id: 0,
         name: '',
@@ -34,7 +17,7 @@ const initialState = {
         freePark: false,
         paymentMethods: '1',
     },
-} as ServicePointInformationStateProps;
+};
 
 export const servicePointInformation = createSlice({
     name: 'servicePointInformation',
@@ -59,5 +42,5 @@ export const servicePointInformation = createSlice({
 });
 
 export const { setServicePointInformation } = servicePointInformation.actions;
-export default servicePointInformation.reducer as Reducer<ServicePointInformationStateProps
+export default servicePointInformation.reducer as Reducer<IServicePointInformationStateProps
 >;

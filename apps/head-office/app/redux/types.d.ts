@@ -22,6 +22,23 @@ interface IServicePointDataProps {
     isActive: boolean;
     isDeleted: boolean;
 };
+
+interface IServicePointInformationProps {
+    id: number;
+    name: string;
+    type: string;
+    lon: number;
+    lat: number;
+    phone1: string;
+    phone2: string;
+    address: string;
+    cityId: number;
+    districtId: number;
+    opportunities: string[];
+    freePark: boolean;
+    paymentMethods: string;
+};
+
 export interface IAlertInformationStateProps {
     isVisible: boolean;
     message: string;
@@ -50,11 +67,14 @@ export type IIsModalVisibleStateProps = {
     isModalVisible: boolean;
 };
 
-
 export type IIsServicePointDataUpdatedProps = {
     isServicePointDataUpdated: boolean;
 };
 
 export type IServicePointDataStateProps = {
     servicePointData: IServicePointDataProps;
+};
+
+export type IServicePointInformationStateProps = {
+    servicePointInformation: IServicePointInformationProps;
 };
