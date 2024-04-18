@@ -14,7 +14,7 @@ import type { IServicePointInfoProps, ITableProps } from '../types';
 
 const TableBody = ({ servicePoints }: ITableProps) => {
     const dispatch = useDispatch();
-    const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
+    const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
     const [isHidden, setIsHidden] = useState(true);
     const [selectedRow, setSelectedRow] = useState(0);
 

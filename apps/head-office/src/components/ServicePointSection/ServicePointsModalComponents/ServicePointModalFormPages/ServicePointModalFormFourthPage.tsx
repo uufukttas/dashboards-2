@@ -26,7 +26,7 @@ const ServicePointModalFormFourthPage = ({ activePage, stationId, setActivePage 
   const dispatch = useDispatch();
   const { handleSubmit } = useForm();
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
+  const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
   const servicePointInformation = useSelector((state: RootState) => {
     return state.servicePointInformation.servicePointInformation;
   });

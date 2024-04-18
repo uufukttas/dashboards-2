@@ -8,7 +8,7 @@ import { RootState } from '../../../../app/redux/store';
 
 const ModalHeader = ({ modalHeaderTitle, onClose }: IModalHeaderProps) => {
     const dispatch = useDispatch();
-    const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
+    const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
 
     const handleClose = () => {
         dispatch(toggleModalVisibility(isModalVisible));

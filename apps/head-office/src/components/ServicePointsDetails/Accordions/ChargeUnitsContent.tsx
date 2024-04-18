@@ -25,7 +25,7 @@ const ChargeUnitsContent = ({
     const sectionPrefix = 'charge-units';
     const chargeUnitPrefix = 'charge-unit';
     const dispatch = useDispatch();
-    const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
+    const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
     const [connectorBrands, setConnectorBrands] = useState([]);
     const [selectedBrand, setSelectedBrand] = useState(0);
 

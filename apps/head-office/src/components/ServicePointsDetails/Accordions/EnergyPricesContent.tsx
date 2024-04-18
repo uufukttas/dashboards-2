@@ -10,7 +10,7 @@ import { RootState } from '../../../../app/redux/store';
 const EnergyPricesContent = ({ setAddEnergyPrice, slug }: IServiceDetailsContentProps) => {
   const sectionPrefix = 'energy-prices-details';
   const dispatch = useDispatch();
-  const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
+  const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
   const [energyPriceDetails, setEnergyPriceDetails] = useState<{ id: number; stationId: number; price: number; startDate: string; isActive: boolean; isDeleted: boolean }[]>([]);
 
   const getEnergyPriceDetails = async (slug: string) => {

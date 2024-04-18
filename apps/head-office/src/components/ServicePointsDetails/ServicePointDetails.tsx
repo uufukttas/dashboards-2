@@ -41,7 +41,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
     (state: RootState) => state.isChargePointDataUpdated.isChargePointDataUpdated
   );
   const isLoadingVisible = useSelector((state: RootState) => state.loadingReducer.isLoading);
-  const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
+  const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
   const [accessTypeList, setAccessTypeList] = useState<IAccessTypeListItemProps[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(3);
   const [addChargeUnit, setAddChargeUnit] = useState<boolean>(false);
