@@ -12,6 +12,7 @@ const ServicePointsDetailsBody = ({
     connectorsList,
     setAddChargeUnit,
     setAddConnector,
+    setAddEnergyPrice,
     setConnectorProperty,
     slug,
 }: IServicePointsDetailsBodyProps) => {
@@ -56,10 +57,13 @@ const ServicePointsDetailsBody = ({
             {
                 activeIndex === 3 && (
                     <Accordion
-                      accordionTitle="Enerji Fiyat Ayarlari"
-                      titleClassName="font-bold"
+                        accordionTitle="Enerji Fiyat Ayarlari"
+                        titleClassName="font-bold"
                     >
-                        <EnergyPricesContent slug={slug}/>
+                        <EnergyPricesContent
+                            setAddEnergyPrice={setAddEnergyPrice}
+                            slug={slug}
+                        />
                     </Accordion>
                 )
             }
