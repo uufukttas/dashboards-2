@@ -1,29 +1,23 @@
 import { createSlice, Reducer } from '@reduxjs/toolkit';
+import { IDialogInformationStateProps } from '../types';
 
-export type IDialogInformationStateProps = {
-    isVisible: boolean;
-    actionType: string;
-    data: number;
-};
-
-const initialState = {
+const initialState: IDialogInformationStateProps = {
     isVisible: false,
     actionType: '',
     data: 0,
-} as IDialogInformationStateProps;
+};
 
 export const dialogInformation = createSlice({
     name: 'dialogInformation',
     initialState,
     reducers: {
+        hideDialog: (state) => {
+            state.isVisible = false;
+        },
         showDialog: (state, action) => {
-            console.log('action', action)
             state.isVisible = true;
             state.actionType = action.payload.actionType;
             state.data = action.payload.data;
-        },
-        hideDialog: (state) => {
-            state.isVisible = false;
         },
     },
 });

@@ -20,3 +20,9 @@ export interface IAlertInformationStateProps {
 export type IChargeUnitDataStateProps = {
     chargeUnitData: IChargeUnitDataProps;
 };
+
+export type IDialogInformationStateProps = {
+    isVisible: boolean;
+    actionType: string;
+    data: number;
+};
