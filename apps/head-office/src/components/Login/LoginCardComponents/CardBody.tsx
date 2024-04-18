@@ -16,6 +16,13 @@ const initialLoginFormData = {
     password: '',
 };
 
+interface IErrorProps {
+    error: {
+        response: {
+            status: number;
+        }
+    }
+}
 const CardBody = () => {
     const loginFormInputs = ['username', 'password'];
     const dispatch = useDispatch();
@@ -31,30 +38,34 @@ const CardBody = () => {
                     data,
                     config
                 )
-                .then((response) => response.data)
+                .then((response) => response)
                 .then((data) => {
                     dispatch(toggleLoadingVisibility(false));
 
-                    if (data.statusCode !== 200) {
-                        dispatch(
-                            showAlert({
-                                message: data.value.message,
-                                type: 'error'
-                            })
-                        );
-
-                        setTimeout(() => {
-                            dispatch(hideAlert());
-                        }, 5000);
-
-                        return;
-                    };
-
                     router.push('/dashboards');
-                })
-                .catch((error) => console.log(error));
-        } catch (error) {
-            console.log(error);
+                });
+        } catch (error: unknown) {
+            dispatch(toggleLoadingVisibility(false));
+            let message = 'Bir hata oluştu. Lütfen tekrar deneyiniz.';
+
+            if (typeof error === "object" && error !== null && "error" in error) {
+                const typedError = error as IErrorProps;
+
+                if (typedError.error && typedError.error.response) {
+                    if (typedError.error.response.status > 399) {
+                        message = 'Kullanıcı Adı veya Şifre Hatalı';
+                    }
+                }
+            }
+
+            dispatch(showAlert({
+                message: message,
+                type: 'error'
+            }));
+
+            setTimeout(() => {
+                dispatch(hideAlert());
+            }, 5000);
         }
     };
     const getDisplayName = (type: string) => type === loginFormInputs[0] ? 'Kullanıcı Adı' : 'Şifre';
@@ -92,27 +103,27 @@ const CardBody = () => {
                                 register={
                                     register(
                                         loginFormInput, {
-                                            pattern: {
-                                                message: `Geçersiz ${getDisplayName(loginFormInput)}.`,
-                                                // TODO: Add pattern for username email if it need // /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/
-                                                value: loginFormInput === loginFormInputs[0]
-                                                    ? /^.*$/
-                                                    : /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$.*])/,
-                                            },
-                                            required: `${getDisplayName(loginFormInput)} zorunlu bir alandır.`,
-                                            validate: loginFormInput === loginFormInputs[1]
-                                                ? {
-                                                    checkLength: (value) => value.length >= 8,
-                                                    matchPattern: (value) => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.*-]).{8,}$/.test(value)
-                                                }
-                                                : {},
-                                            onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-                                                setLoginFormData({
-                                                    ...loginFormData,
-                                                    [loginFormInput.toLowerCase()]: event.target.value,
-                                                });
-                                            },
-                                        }
+                                        pattern: {
+                                            message: `Geçersiz ${getDisplayName(loginFormInput)}.`,
+                                            // TODO: Add pattern for username email if it need // /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/
+                                            value: loginFormInput === loginFormInputs[0]
+                                                ? /^.*$/
+                                                : /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$.*])/,
+                                        },
+                                        required: `${getDisplayName(loginFormInput)} zorunlu bir alandır.`,
+                                        validate: loginFormInput === loginFormInputs[1]
+                                            ? {
+                                                checkLength: (value) => value.length >= 8,
+                                                matchPattern: (value) => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.*-]).{8,}$/.test(value)
+                                            }
+                                            : {},
+                                        onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+                                            setLoginFormData({
+                                                ...loginFormData,
+                                                [loginFormInput.toLowerCase()]: event.target.value,
+                                            });
+                                        },
+                                    }
                                     )
                                 }
                                 type={loginFormInput === loginFormInputs[1] ? loginFormInputs[1] : 'text'}
@@ -132,7 +143,7 @@ const CardBody = () => {
                 <div className={`${BRAND_PREFIX}-login-button-container mb-4`}>
                     <Button
                         buttonText={'Giriş Yap'}
-                        className={`button bg-primary hover:bg-primary-lighter text-black font-bold py-2 px-4 focus:outline-none focus:shadow-outline ${BRAND_PREFIX}-login-button p-2 w-full`}
+                        className={`button bg-primary hover:bg-primary-lighter text-text font-bold py-2 px-4 focus:outline-none focus:shadow-outline ${BRAND_PREFIX}-login-button p-2 w-full`}
                         id={`${BRAND_PREFIX}-login-button`}
                         type={'submit'}
                     />
