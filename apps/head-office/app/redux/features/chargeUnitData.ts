@@ -1,22 +1,7 @@
 import { createSlice, Reducer } from '@reduxjs/toolkit';
+import { IChargeUnitDataStateProps } from '../types';
 
-export type ChargeUnitDataStateProps = {
-    chargeUnitData: {
-        code: string;
-        brandId: number;
-        connectorCount: number;
-        ocppVersion: number;
-        isFreeUsage: boolean;
-        isLimitedUsage: boolean;
-        investor: number;
-        status: string;
-        accessType: string;
-        location: string;
-        chargePointId: number;
-    }
-};
-
-const initialState = {
+const initialState: IChargeUnitDataStateProps = {
     chargeUnitData: {
         code: '',
         brandId: 1,
@@ -30,7 +15,7 @@ const initialState = {
         location: '',
         chargePointId: 0,
     },
-} as ChargeUnitDataStateProps;
+};
 
 export const chargeUnitData = createSlice({
     name: 'chargeUnitData',
@@ -53,4 +38,4 @@ export const chargeUnitData = createSlice({
 });
 
 export const { setChargeUnitData } = chargeUnitData.actions;
-export default chargeUnitData.reducer as Reducer<ChargeUnitDataStateProps>;
+export default chargeUnitData.reducer as Reducer<IChargeUnitDataStateProps>;
