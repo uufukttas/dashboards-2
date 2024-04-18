@@ -1,14 +1,11 @@
 import { createSlice, Reducer } from '@reduxjs/toolkit';
+import { IChargePointDataStateProps } from '../types';
 
-export type ChargePointDataState = {
-    isChargePointDataUpdated: boolean;
+const initialState: IChargePointDataStateProps = {
+    isChargePointDataUpdated: false,
 };
 
-const initialState = {
-    isChargePointDataUpdated: false,
-} as ChargePointDataState;
-
-export const chargePointDataUpdated = createSlice({
+export const isChargePointDataUpdated = createSlice({
     name: 'isChargePointDataUpdateStatus',
     initialState,
     reducers: {
@@ -18,5 +15,5 @@ export const chargePointDataUpdated = createSlice({
     },
 });
 
-export const { toggleChargePointDataUpdated } = chargePointDataUpdated.actions;
-export default chargePointDataUpdated.reducer as Reducer<ChargePointDataState>;
+export const { toggleChargePointDataUpdated } = isChargePointDataUpdated.actions;
+export default isChargePointDataUpdated.reducer as Reducer<IChargePointDataStateProps>;

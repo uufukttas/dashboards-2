@@ -17,6 +17,10 @@ export interface IAlertInformationStateProps {
     type: 'success' | 'error' | 'info' | 'warning';
 };
 
+export type IChargePointDataStateProps = {
+    isChargePointDataUpdated: boolean;
+};
+
 export type IChargeUnitDataStateProps = {
     chargeUnitData: IChargeUnitDataProps;
 };
