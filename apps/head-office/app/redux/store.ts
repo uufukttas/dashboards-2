@@ -1,5 +1,5 @@
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
-import alertInformationReducer from './features/alertInformation';
+import alertInformation from './features/alertInformation';
 import chargeUnitData from './features/chargeUnitData';
 import dialogInformation from './features/dialogInformation';
 import isChargePointDataUpdated from './features/isChargePointDataUpdated';
@@ -12,7 +12,7 @@ import sidebarExpandReducer from './features/isSidebarExpand';
 
 export const store: EnhancedStore = configureStore({
   reducer: {
-    alertInformationReducer,
+    alertInformation,
     chargeUnitData,
     dialogInformation,
     isChargePointDataUpdated,

@@ -18,7 +18,7 @@ import { RootState, AppDispatch } from '../../../app/redux/store';
 
 export function ServicePointSection() {
   const dispatch = useDispatch<AppDispatch>();
-  const alertInformation = useSelector((state: RootState) => state.alertInformationReducer);
+  const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisibleReducer.isModalVisible);
   const isServicePointDataUpdated = useSelector((state: RootState) => {

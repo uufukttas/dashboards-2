@@ -12,7 +12,7 @@ import { stylesProp } from '../src/constants/styles';
 import './page.css';
 
 const Index = () => {
-  const alertInformation = useSelector((state: RootState) => state.alertInformationReducer);
+  const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const isLoading = useSelector((state: RootState) => state.loadingReducer.isLoading);
   const [isDetectedDevice, setIsDetectedDevice] = useState<boolean>(false);
 
