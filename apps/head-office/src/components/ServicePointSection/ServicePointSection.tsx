@@ -22,7 +22,7 @@ export function ServicePointSection() {
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
   const isServicePointDataUpdated = useSelector((state: RootState) => {
-    return state.isServicePointDataUpdatedReducer.isServicePointDataUpdated
+    return state.isServicePointDataUpdated.isServicePointDataUpdated
   });
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const [currentPage, setCurrentPage] = useState(1);

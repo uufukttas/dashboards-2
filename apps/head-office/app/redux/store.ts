@@ -4,7 +4,7 @@ import chargeUnitData from './features/chargeUnitData';
 import dialogInformation from './features/dialogInformation';
 import isChargePointDataUpdated from './features/isChargePointDataUpdated';
 import isModalVisible from './features/isModalVisible';
-import isServicePointDataUpdatedReducer from './features/isServicePointDataUpdated';
+import isServicePointDataUpdated from './features/isServicePointDataUpdated';
 import loadingReducer from './features/isLoadingVisible';
 import servicePointData from './features/servicePointData';
 import servicePointInformation from './features/servicePointInformation';
@@ -17,7 +17,7 @@ export const store: EnhancedStore = configureStore({
     dialogInformation,
     isChargePointDataUpdated,
     isModalVisible,
-    isServicePointDataUpdatedReducer,
+    isServicePointDataUpdated,
     loadingReducer,
     servicePointData,
     servicePointInformation,

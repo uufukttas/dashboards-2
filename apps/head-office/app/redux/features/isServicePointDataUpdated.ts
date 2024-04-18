@@ -1,15 +1,12 @@
 import { createSlice, Reducer } from '@reduxjs/toolkit';
+import { IIsServicePointDataUpdatedProps} from '../types';
 
-export type ServicePointDataState = {
-    isServicePointDataUpdated: boolean;
+const initialState: IIsServicePointDataUpdatedProps = {
+    isServicePointDataUpdated: false,
 };
 
-const initialState = {
-    isServicePointDataUpdated: false,
-} as ServicePointDataState;
-
-export const servicePointDataUpdated = createSlice({
-    name: 'isServicePointDataUpdateStatus',
+export const isServicePointDataUpdate = createSlice({
+    name: 'isServicePointDataUpdate',
     initialState,
     reducers: {
         toggleServicePointDataUpdated: (state, action) => {
@@ -18,6 +15,5 @@ export const servicePointDataUpdated = createSlice({
     },
 });
 
-export const { toggleServicePointDataUpdated } = servicePointDataUpdated.actions;
-export const getIsServicePointDataUpdatedStatus = (state: { isServicePointDataUpdateStatus: ServicePointDataState }) => state.isServicePointDataUpdateStatus.isServicePointDataUpdated;
-export default servicePointDataUpdated.reducer as Reducer<ServicePointDataState>;
+export const { toggleServicePointDataUpdated } = isServicePointDataUpdate.actions;
+export default isServicePointDataUpdate.reducer as Reducer<IIsServicePointDataUpdatedProps>;
