@@ -56,6 +56,7 @@ interface IServicePointsDetailsBodyProps {
   connectorsList: IConnectorStateProps[];
   setAddChargeUnit: Dispatch<SetStateAction<boolean>>;
   setAddConnector: Dispatch<SetStateAction<boolean>>;
+  setAddEnergyPrice: Dispatch<SetStateAction<boolean>>;
   setConnectorProperty: Dispatch<SetStateAction<{
     chargePointId: number,
     chargePointModelId: number,
@@ -151,6 +152,7 @@ export interface IFormDataProps {
   [key: string]: boolean | number | string;
 };
 export interface IServiceDetailsContentProps {
+  setAddEnergyPrice?: React.Dispatch<React.SetStateAction<boolean>> | undefined;
   slug: string;
 };
 export interface IServicePointsDetailsInfoProps {
