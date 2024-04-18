@@ -71,6 +71,10 @@ export type IIsServicePointDataUpdatedProps = {
     isServicePointDataUpdated: boolean;
 };
 
+export type IIsSidebarExpandStateProps = {
+    isSidebarExpanded: boolean | null;
+};
+
 export type IServicePointDataStateProps = {
     servicePointData: IServicePointDataProps;
 };

@@ -12,7 +12,7 @@ import { RootState } from '../../../../app/redux/store';
 
 const SidebarHeader = () => {
     const dispatch = useDispatch();
-    const isSidebarExpanded = useSelector((state: RootState) => state.sidebarExpandReducer.isSidebarExpanded);
+    const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
 
     const handleSidebarClose = () => dispatch(toggleSidebarExpanded(isSidebarExpanded));
 

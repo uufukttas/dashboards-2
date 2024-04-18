@@ -8,7 +8,7 @@ import isModalVisible from './features/isModalVisible';
 import isServicePointDataUpdated from './features/isServicePointDataUpdated';
 import servicePointData from './features/servicePointData';
 import servicePointInformation from './features/servicePointInformation';
-import sidebarExpandReducer from './features/isSidebarExpand';
+import isSidebarExpand from './features/isSidebarExpand';
 
 export const store: EnhancedStore = configureStore({
   reducer: {
@@ -21,7 +21,7 @@ export const store: EnhancedStore = configureStore({
     isLoadingVisible,
     servicePointData,
     servicePointInformation,
-    sidebarExpandReducer,
+    isSidebarExpand,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });

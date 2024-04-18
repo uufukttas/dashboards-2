@@ -1,15 +1,12 @@
 import { createSlice, Reducer } from '@reduxjs/toolkit';
+import { IIsSidebarExpandStateProps } from '../types';
 
-export type SidebarExpandState = {
-    isSidebarExpanded: boolean | null;
+const initialState: IIsSidebarExpandStateProps = {
+    isSidebarExpanded: null,
 };
 
-const initialState = {
-    isSidebarExpanded: null,
-} as SidebarExpandState;
-
-export const sidebarExpand = createSlice({
-    name: 'sidebarExpandStatus',
+export const isSidebarExpand = createSlice({
+    name: 'isSidebarExpand',
     initialState,
     reducers: {
         toggleSidebarExpanded: (state) => {
@@ -22,8 +19,5 @@ export const sidebarExpand = createSlice({
     },
 });
 
-export const {
-    toggleSidebarExpanded,
-} = sidebarExpand.actions;
-export const getExpandState = (state: { expand: SidebarExpandState }) => state.expand.isSidebarExpanded;
-export default sidebarExpand.reducer as Reducer<SidebarExpandState>;
+export const { toggleSidebarExpanded } = isSidebarExpand.actions;
+export default isSidebarExpand.reducer as Reducer<IIsSidebarExpandStateProps>;

@@ -28,7 +28,7 @@ const SidebarBody = () => {
             icon: <FaQuestion />,
         },
     ];
-    const isSidebarExpanded = useSelector((state: RootState) => state.sidebarExpandReducer.isSidebarExpanded);
+    const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
 
     return (
         <div className={`${BRAND_PREFIX}-sidebar-body-container flex items-center justify-center flex-col`}>

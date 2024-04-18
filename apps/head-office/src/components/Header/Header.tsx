@@ -10,7 +10,7 @@ import './Header.css';
 
 const Header = ({ className }: IHeaderProps) => {
   const dispatch = useDispatch<AppDispatch>();
-  const isSidebarExpanded = useSelector((state: RootState) => state.sidebarExpandReducer.isSidebarExpanded);
+  const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
 
   const handleSidebarToggle = () => dispatch(toggleSidebarExpanded(isSidebarExpanded));
 

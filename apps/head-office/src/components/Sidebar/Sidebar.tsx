@@ -8,7 +8,7 @@ import { RootState } from '../../../app/redux/store';
 import './Sidebar.css';
 
 const Sidebar = () => {
-  const isSidebarExpanded = useSelector((state: RootState) => state.sidebarExpandReducer.isSidebarExpanded);
+  const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
   const [isDetectedDevice, setIsDetectedDevice] = useState<boolean>(false);
 
   useEffect(() => {
