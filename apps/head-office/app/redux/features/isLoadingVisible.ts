@@ -1,15 +1,12 @@
 import { createSlice, Reducer } from '@reduxjs/toolkit';
+import { IIsLoadingStateProps } from '../types';
 
-export type LoadingState = {
-    isLoading: boolean;
+const initialState: IIsLoadingStateProps = {
+    isLoading: false,
 };
 
-const initialState = {
-    isLoading: false,
-} as LoadingState;
-
-export const loading = createSlice({
-    name: 'loadingVisibleStatus',
+export const isLoadingVisible = createSlice({
+    name: 'isLoadingVisible',
     initialState,
     reducers: {
         toggleLoadingVisibility: (state, action) => {
@@ -18,5 +15,5 @@ export const loading = createSlice({
     },
 });
 
-export const { toggleLoadingVisibility } = loading.actions;
-export default loading.reducer as Reducer<LoadingState>;
+export const { toggleLoadingVisibility } = isLoadingVisible.actions;
+export default isLoadingVisible.reducer as Reducer<IIsLoadingStateProps>;

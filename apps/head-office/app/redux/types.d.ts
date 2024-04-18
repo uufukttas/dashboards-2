@@ -31,6 +31,10 @@ export type IDialogInformationStateProps = {
     data: number;
 };
 
+export type IIsLoadingStateProps = {
+    isLoading: boolean;
+};
+
 export type IIsModalVisibleStateProps = {
     isModalVisible: boolean;
 };
