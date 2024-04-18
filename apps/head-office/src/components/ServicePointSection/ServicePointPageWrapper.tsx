@@ -9,7 +9,7 @@ import ServicePointSection from '../../../src/components/ServicePointSection/Ser
 
 const ServicePointPage = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const isLoading = useSelector((state: RootState) => state.loadingReducer.isLoading);
+    const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
 
     useEffect(() => {
         dispatch(toggleLoadingVisibility(true));
