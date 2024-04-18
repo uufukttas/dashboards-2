@@ -11,6 +11,17 @@ interface IChargeUnitDataProps {
     location: string;
     chargePointId: number;
 };
+
+interface IServicePointDataProps {
+    id: number;
+    name: string;
+    companyId: number;
+    companyName: string;
+    resellerCompanyId: number;
+    resellerName: string;
+    isActive: boolean;
+    isDeleted: boolean;
+};
 export interface IAlertInformationStateProps {
     isVisible: boolean;
     message: string;
@@ -42,4 +53,8 @@ export type IIsModalVisibleStateProps = {
 
 export type IIsServicePointDataUpdatedProps = {
     isServicePointDataUpdated: boolean;
+};
+
+export type IServicePointDataStateProps = {
+    servicePointData: IServicePointDataProps;
 };

@@ -1,19 +1,8 @@
 import { createSlice, Reducer } from '@reduxjs/toolkit';
+import { IServicePointDataStateProps } from '../types';
 
-export type ServicePointDataStateProps = {
-    servicePointData: {
-        id: number;
-        name: string;
-        companyId: number;
-        companyName: string;
-        resellerCompanyId: number;
-        resellerName: string;
-        isActive: boolean;
-        isDeleted: boolean;
-    }
-};
 
-const initialState = {
+const initialState: IServicePointDataStateProps = {
     servicePointData: {
         id: 0,
         name: '',
@@ -24,7 +13,7 @@ const initialState = {
         isActive: true,
         isDeleted: false,
     },
-} as ServicePointDataStateProps;
+};
 
 export const servicePointData = createSlice({
     name: 'servicePointData',
@@ -44,4 +33,4 @@ export const servicePointData = createSlice({
 });
 
 export const { setServicePointData } = servicePointData.actions;
-export default servicePointData.reducer as Reducer<ServicePointDataStateProps>;
+export default servicePointData.reducer as Reducer<IServicePointDataStateProps>;
