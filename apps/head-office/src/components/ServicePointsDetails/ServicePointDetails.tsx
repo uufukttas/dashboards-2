@@ -11,6 +11,7 @@ import ServicePointDetailsHeader from './ServicePointsDetailsComponents/ServiceP
 import ServicePointsDetailsBody from './ServicePointsDetailsComponents/ServicePointsDetailsBody';
 import ServicePointDetailsModal from './Modals/ChargeUnitAddModal';
 import ConnectorAddModal from './Modals/ConnectorAddModal';
+import EnergyPricesModal from './Modals/EnergyPricesModal';
 import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
@@ -45,6 +46,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
   const [activeIndex, setActiveIndex] = useState<number>(3);
   const [addChargeUnit, setAddChargeUnit] = useState<boolean>(false);
   const [addConnector, setAddConnector] = useState(false);
+  const [addEnergyPrice, setAddEnergyPrice] = useState<boolean>(false);
   const [brands, setBrands] = useState<IBrandsProps[]>([]);
   const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([]);
   const [connectorProperty, setConnectorProperty] = useState<{ chargePointId: number; chargePointModelId: number; connectorNumber: number; connectorId: number }>({
@@ -318,6 +320,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
               connectorsList={connectors}
               setAddChargeUnit={setAddChargeUnit}
               setAddConnector={setAddConnector}
+              setAddEnergyPrice={setAddEnergyPrice}
               setConnectorProperty={setConnectorProperty}
               slug={slug}
             />
@@ -364,6 +367,20 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
               >
                 <ConnectorAddModal
                   connectorProperty={connectorProperty}
+                />
+              </Modal>
+            )
+          }
+          {
+            addEnergyPrice && isModalVisible && (
+              <Modal
+                modalHeaderTitle='Enerji Fiyat Ayarlari'
+                modalId={`${BRAND_PREFIX}-energy-prices-modal`}
+                onClose={() => { }}
+              >
+                <EnergyPricesModal
+                  setAddEnergyPrice={setAddEnergyPrice}
+                  slug={slug}
                 />
               </Modal>
             )
