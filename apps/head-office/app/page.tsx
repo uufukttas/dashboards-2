@@ -22,7 +22,12 @@ const Index = () => {
 
   return (
     isDetectedDevice && (
-      <div className={`sharz-site w-full flex items-center justify-center bg-[#54565A33]`}>
+      <div className={`
+        sharz-site w-full flex items-center justify-center bg-[#54565A33] ${detectDevice().isMobile
+          ? 'h-screen'
+          : ''}
+        `}
+      >
         <Login />
         <Background
           backgroundUrl={stylesProp.loginPageBackgroundImage}
