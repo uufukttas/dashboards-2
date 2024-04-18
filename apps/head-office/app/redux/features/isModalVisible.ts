@@ -1,15 +1,12 @@
 import { createSlice, Reducer } from '@reduxjs/toolkit';
+import { IIsModalVisibleState } from '../types';
 
-export type isModalVisibleState = {
-    isModalVisible: boolean;
+const initialState: IIsModalVisibleState = {
+    isModalVisible: false,
 };
 
-const initialState = {
-    isModalVisible: false,
-} as isModalVisibleState;
-
-export const modalVisibility = createSlice({
-    name: 'modalVisibleStatus',
+export const isModalVisibility = createSlice({
+    name: 'isModalVisibility',
     initialState,
     reducers: {
         toggleModalVisibility: (state) => {
@@ -18,6 +15,5 @@ export const modalVisibility = createSlice({
     },
 });
 
-export const { toggleModalVisibility } = modalVisibility.actions;
-export const getModalVisibility = (state: { modalVisibleStatus: isModalVisibleState }) => state.modalVisibleStatus.isModalVisible;
-export default modalVisibility.reducer as Reducer<isModalVisibleState>;
+export const { toggleModalVisibility } = isModalVisibility.actions;
+export default isModalVisibility.reducer as Reducer<IIsModalVisibleState>;
