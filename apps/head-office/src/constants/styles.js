@@ -3,7 +3,7 @@ export const userInfo = {
   name: 'sharz',
 }
 
-export const stylesProp = {
+export const stylesProps = {
   borderColor: '#000000',
   borderFocusColor: '#FFCE0B',
   borderRadius: '6px',
@@ -17,4 +17,5 @@ export const stylesProp = {
   loginFormBackgroundColor: '#54565A',
   loginFormBackgroundImage: '',
   loginPageBackgroundImage: 'https://ho.sharz.net/images/theme/5000/background.jpg',
+  loginFormPageBackgroundColor: '#54565A33',
 }

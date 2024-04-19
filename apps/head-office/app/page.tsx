@@ -8,7 +8,7 @@ import { RootState } from './redux/store';
 import Background from '../src/components/Background/Background';
 import Loading from '../src/components/Loading/Loading';
 import Login from '../src/components/Login/Login';
-import { stylesProp } from '../src/constants/styles';
+import { userInfo, stylesProps } from '../src/constants/styles';
 import './page.css';
 
 const Index = () => {
@@ -22,15 +22,13 @@ const Index = () => {
 
   return (
     isDetectedDevice && (
-      <div className={`
-        sharz-site w-full flex items-center justify-center bg-[#54565A33] ${detectDevice().isMobile
-          ? 'h-screen'
-          : ''}
-        `}
-      >
+      <div className={
+        `${userInfo.name}-head-office w-full flex items-center justify-center bg-[${
+          stylesProps.loginFormPageBackgroundColor}] ${detectDevice().isMobile ? 'h-screen': ''}`
+      }>
         <Login />
         <Background
-          backgroundUrl={stylesProp.loginPageBackgroundImage}
+          backgroundUrl={stylesProps.loginPageBackgroundImage}
           className={detectDevice().isDesktop ? 'w-3/4' : 'hidden'}
         />
         {
