@@ -8,7 +8,7 @@ import { RootState } from './redux/store';
 import Background from '../src/components/Background/Background';
 import Loading from '../src/components/Loading/Loading';
 import Login from '../src/components/Login/Login';
-import { userInfo, stylesProps } from '../src/constants/styles';
+import { userInfo, stylesProps } from '../src/constants/constants';
 import './page.css';
 
 const Index = () => {

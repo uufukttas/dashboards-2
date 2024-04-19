@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image } from '@projects/image';
 import { BRAND_PREFIX } from '../../../constants/constants';
-import { userInfo } from '../../../constants/styles';
+import { userInfo } from '../../../constants/constants';
 
 const CardHeader = () => {
     return (

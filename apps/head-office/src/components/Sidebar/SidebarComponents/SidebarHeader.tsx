@@ -6,7 +6,7 @@ import { Button } from '@projects/button';
 import { detectDevice } from '@projects/common';
 import { Image } from '@projects/image';
 import { BRAND_PREFIX } from '../../../constants/constants';
-import { userInfo } from '../../../constants/styles';
+import { userInfo } from '../../../constants/constants';
 import { toggleSidebarExpanded } from '../../../../app/redux/features/isSidebarExpand';
 import { RootState } from '../../../../app/redux/store';
 
