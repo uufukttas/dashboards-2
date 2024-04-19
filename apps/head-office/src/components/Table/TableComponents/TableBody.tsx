@@ -114,36 +114,9 @@ const TableBody = ({ servicePoints }: ITableProps) => {
                                         type="button"
                                         onClick={() => toggleTableRow(servicePoint.id)}
                                     >
-                                        <div
-                                            className='text-lg'
-                                            dangerouslySetInnerHTML={{
-                                                __html: `${servicePoint.id === selectedRow ? '&#11205;' : '&#11206;'}`,
-                                            }}
-                                        />
                                     </Button>
                                 </td>
                             </tr>
-                            {
-                                servicePoint.id === selectedRow && (
-                                    <>
-                                        <tr className={`bg-gray-50 second-table-head-row text-xs uppercase text-gray-700`}>
-                                            <th className='px-6'>Longitude</th>
-                                            <th className='px-6'>Latitude</th>
-                                            <th className='px-6'>Payment Methods</th>
-                                            <th className='px-6'>Free Park</th>
-                                            <th className='px-6'>Opportunuties</th>
-                                            <th className='px-6'> </th>
-                                        </tr>
-                                        <tr>
-                                            <td className='px-6 py-3'>{servicePoint.longitude}</td>
-                                            <td className='px-6 py-3'>{servicePoint.latitude}</td>
-                                            <td className='px-6 py-3'>{servicePoint.latitude}</td>
-                                            <td className='px-6 py-3'>{servicePoint.latitude}</td>
-                                            <td className='px-6 py-3'>{servicePoint.latitude}</td>
-                                        </tr>
-                                    </>
-                                )
-                            }
                         </Fragment>
                     );
                 })
