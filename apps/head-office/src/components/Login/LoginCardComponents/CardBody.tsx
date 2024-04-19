@@ -129,7 +129,7 @@ const CardBody = () => {
                 <div className={`${BRAND_PREFIX}-login-button-container mb-4`}>
                     <Button
                         buttonText={'Giriş Yap'}
-                        className={`button bg-primary hover:bg-primary-lighter text-black font-bold py-2 px-4 focus:outline-none focus:shadow-outline ${BRAND_PREFIX}-login-button p-2 w-full`}
+                        className={`button bg-primary hover:bg-primary-lighter text-text font-bold py-2 px-4 focus:outline-none focus:shadow-outline ${BRAND_PREFIX}-login-button p-2 w-full`}
                         id={`${BRAND_PREFIX}-login-button`}
                         type={'submit'}
                     />
