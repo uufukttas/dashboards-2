@@ -3,7 +3,8 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import PaginationItem from './PaginationItem';
 import type { IPaginationProps } from '../types';
 
-const Pagination = ({ currentPage, totalPages, setCurrentPage }: IPaginationProps) => {
+const Pagination = ({ currentPage, totalCounts, setCurrentPage }: IPaginationProps) => {
+    const totalPages = Math.ceil(totalCounts / 10);
     const renderPageNumbers = () => {
         const maxVisiblePages = 3;
         const pageNumbers = [];

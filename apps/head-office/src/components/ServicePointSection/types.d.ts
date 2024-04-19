@@ -33,7 +33,7 @@ export interface IModalThirdPageInputsProps {
 
 export interface IPaginationProps {
     currentPage: number;
-    totalPages: number;
+    totalCounts: number;
     setCurrentPage: (currentPage: number) => void;
 };
 

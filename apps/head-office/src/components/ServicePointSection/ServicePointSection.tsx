@@ -153,7 +153,7 @@ export function ServicePointSection() {
           <Pagination
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
-            totalPages={Math.ceil(servicePointCount / 10)}
+            totalCounts={servicePointCount}
           />
         )
       }
