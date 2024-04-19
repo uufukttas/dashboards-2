@@ -41,10 +41,11 @@ const CardBody = () => {
                 .then((response) => response)
                 .then((data) => {
                     dispatch(toggleLoadingVisibility(false));
-
+                    console.log('data', data)
                     router.push('/dashboards');
                 });
         } catch (error: unknown) {
+            console.log('error', error)
             dispatch(toggleLoadingVisibility(false));
             let message = 'Bir hata oluştu. Lütfen tekrar deneyiniz.';
 
