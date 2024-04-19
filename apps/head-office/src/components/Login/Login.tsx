@@ -6,15 +6,11 @@ import CardHeader from './LoginCardComponents/CardHeader';
 import Card from '../Card/Card';
 
 const Login = () => {
-    const cardContent = {
-        header: <CardHeader />,
-        body: <CardBody />,
-        footer: <CardFooter />,
-    };
-
     return (
         <Card
-            cardContent={cardContent}
+            cardHeader={<CardHeader />}
+            cardBody={<CardBody />}
+            cardFooter={<CardFooter />}
             className={detectDevice().isDesktop ? 'w-1/4' : (detectDevice().isTablet ? 'w-3/4' : 'w-full')}
         />
     );
