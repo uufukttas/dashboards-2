@@ -70,7 +70,7 @@ const ServicePointsDetailsBody = ({
             {
                 activeIndex === 4 && (
                     <Accordion
-                        accordionTitle="Kullanici Ayarlari"
+                        accordionTitle="Servis Noktasi Yetkisi"
                         titleClassName="font-bold"
                     >
                         <></>

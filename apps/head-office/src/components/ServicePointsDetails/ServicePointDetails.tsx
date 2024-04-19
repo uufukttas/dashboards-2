@@ -244,7 +244,7 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
       title: <><SlEnergy />Enerji Fiyat Ayarlari</>,
     },
     {
-      title: <><FaUserGear />Kullanici Ayarlari</>,
+      title: <><FaUserGear />Servis Noktasi Yetkisi</>,
     },
     {
       title: <><FaCoins />Komisyonlar</>,
