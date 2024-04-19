@@ -16,13 +16,6 @@ const initialLoginFormData = {
     password: '',
 };
 
-interface IErrorProps {
-    error: {
-        response: {
-            status: number;
-        }
-    }
-}
 const CardBody = () => {
     const loginFormInputs = ['username', 'password'];
     const dispatch = useDispatch();
@@ -39,34 +32,26 @@ const CardBody = () => {
                     config
                 )
                 .then((response) => response)
-                .then((data) => {
+                .then(() => {
                     dispatch(toggleLoadingVisibility(false));
-                    console.log('data', data)
+
                     router.push('/dashboards');
-                });
-        } catch (error: unknown) {
-            console.log('error', error)
-            dispatch(toggleLoadingVisibility(false));
-            let message = 'Bir hata oluştu. Lütfen tekrar deneyiniz.';
+                })
+                .catch((error) => {
+                    let errorMessage = '';
 
-            if (typeof error === "object" && error !== null && "error" in error) {
-                const typedError = error as IErrorProps;
-
-                if (typedError.error && typedError.error.response) {
-                    if (typedError.error.response.status > 399) {
-                        message = 'Kullanıcı Adı veya Şifre Hatalı';
+                    if (error.response.status > 399) {
+                        errorMessage = 'Kullanıcı adı veya şifre hatalı.';
+                    } else {
+                        errorMessage = 'Bir hata oluştu. Lütfen tekrar deneyin.';
                     }
-                }
-            }
 
-            dispatch(showAlert({
-                message: message,
-                type: 'error'
-            }));
-
-            setTimeout(() => {
-                dispatch(hideAlert());
-            }, 5000);
+                    dispatch(toggleLoadingVisibility(false));
+                    dispatch(showAlert({ message: errorMessage, type: 'error' }));
+                    setTimeout(() => dispatch(hideAlert()), 5000);
+                });
+        } catch (error) {
+            console.warn('error1', error);
         }
     };
     const getDisplayName = (type: string) => type === loginFormInputs[0] ? 'Kullanıcı Adı' : 'Şifre';
@@ -144,7 +129,7 @@ const CardBody = () => {
                 <div className={`${BRAND_PREFIX}-login-button-container mb-4`}>
                     <Button
                         buttonText={'Giriş Yap'}
-                        className={`button bg-primary hover:bg-primary-lighter text-text font-bold py-2 px-4 focus:outline-none focus:shadow-outline ${BRAND_PREFIX}-login-button p-2 w-full`}
+                        className={`button bg-primary hover:bg-primary-lighter text-black font-bold py-2 px-4 focus:outline-none focus:shadow-outline ${BRAND_PREFIX}-login-button p-2 w-full`}
                         id={`${BRAND_PREFIX}-login-button`}
                         type={'submit'}
                     />
