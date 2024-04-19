@@ -23,7 +23,7 @@ const ServicePointPage = () => {
                 )
                 : (
                     <MainPage>
-                        <div className={`${BRAND_PREFIX}-service-points-page-container flex justify-center items-center md:pt-12 flex-wrap`}>
+                        <div className={`${BRAND_PREFIX}-service-points-page-container flex justify-center items-center md:pt-6 flex-wrap`}>
                             <ServicePointSection />
                         </div>
                     </MainPage>
