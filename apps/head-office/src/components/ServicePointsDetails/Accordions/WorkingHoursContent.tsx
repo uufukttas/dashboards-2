@@ -244,7 +244,7 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
     }, []);
 
     return (
-        <div className='working-hours-content-container py-4'>
+        <div className='working-hours-content-container flex flex-col py-4 items-end'>
             <table className="time-table">
                 <thead>
                     <tr>
@@ -275,7 +275,7 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
             </table>
 
             <Button buttonText={isUpdated ? 'Guncelle' : 'Kaydet'}
-                className='bg-primary text-white rounded-md px-4 py-2'
+                className='bg-primary text-white rounded-md px-4 py-2 my-2 w-fit'
                 id='working-hours-save-button'
                 type='button'
                 onClick={() => handleSubmit()}

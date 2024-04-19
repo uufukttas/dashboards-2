@@ -46,7 +46,7 @@ const EnergyPricesContent = ({ setAddEnergyPrice, slug }: IServiceDetailsContent
   }, [energyPriceDetails]);
 
   return (
-    <div className='flex flex-col items-end py-4'>
+    <div className='flex flex-col items-end py-4 text-white'>
       <Button
         buttonText={""}
         className="button bg-primary rounded-md px-4 py-2 mx-4 hover:bg-primary-lighter"
@@ -87,7 +87,7 @@ const EnergyPricesContent = ({ setAddEnergyPrice, slug }: IServiceDetailsContent
                   <div className={`${sectionPrefix}-info-item flex justify-between md:items-center flex-col md:flex-row`}>
                     <Button
                       buttonText={""}
-                      className="bg-secondary rounded-md px-4 py-2 mx-4"
+                      className="bg-secondary rounded-md px-4 py-2 mx-4 text-white"
                       id={`energy-prices-delete-button`}
                       type={'button'}
                       dataAttributes={{ 'energy-price-id': energyPriceDetail.id.toString() }}

@@ -43,7 +43,6 @@ tr td:nth-child(1) {
 .time-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 20px 0;
 }
 
 .time-table th, .time-table td {

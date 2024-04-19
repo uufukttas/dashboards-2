@@ -370,11 +370,6 @@ const ChargeUnitsContent = ({
                                     <div className={`${sectionPrefix}-connectors-container`}>
                                         <div className={`${sectionPrefix}-connectors pt-12 pl-4 mx-2 w-full`}>
                                             <div className={`${chargeUnitPrefix}-info-container flex justify-between flex-col`}>
-                                                <div className={`${chargeUnitPrefix}-connector-title-container`}>
-                                                    <h4 className={`${chargeUnitPrefix}-connector-title font-bold text-gray-700 mb-4`}>
-                                                        Konnektörler: {chargeUnit.connectorNumber}
-                                                    </h4>
-                                                </div>
                                                 <div className={`${chargeUnitPrefix}-connector-list-container`}>
 
                                                     {
