@@ -82,7 +82,12 @@ const Pagination = ({ currentPage, totalCounts, setCurrentPage }: IPaginationPro
     };
 
     return (
-        <nav aria-label="Page navigation">
+        <div aria-label="Page navigation" className="flex w-full justify-between">
+            <div className="total-counts-wrapper flex items-center justify-center mt-4">
+                <p className="total-counts text-sm text-text font-bold">
+                    Total: {totalCounts}
+                </p>
+            </div>
             <ul className="pagination flex items-center -space-x-px h-8 text-sm mt-4">
                 <PaginationItem
                     isActive={false}
@@ -102,7 +107,7 @@ const Pagination = ({ currentPage, totalCounts, setCurrentPage }: IPaginationPro
                     <FaChevronRight />
                 </PaginationItem>
             </ul>
-        </nav>
+        </div>
     );
 };
 
