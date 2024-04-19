@@ -11,7 +11,7 @@ const MainPage = ({ children }: IMainPageProps) => {
       <Sidebar />
       <div className={`${BRAND_PREFIX}-page-container bg-white overflow-x-hidden no-scrollbar`}>
         <Header className={`h-[80px] flex items-center w-full`} />
-        <Section>
+        <Section sectionName='Servis Noktalari'>
           {children}
         </Section>
       </div>
