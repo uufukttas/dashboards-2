@@ -8,7 +8,7 @@ import { RootState } from '../../../../app/redux/store';
 const SidebarBody = () => {
     const sidebarElements = [
         {
-            name: 'Lokasyonlar',
+            name: 'Servis Noktalari',
             link: '/service-points',
             icon: <FaLocationDot />,
         },
