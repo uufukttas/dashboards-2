@@ -1,9 +1,8 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
 import { FaPen, FaTrashCan, FaCircleInfo } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@projects/button';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../constants/constants';
 import { showDialog } from '../../../../app/redux/features/dialogInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
@@ -15,8 +14,6 @@ import type { IServicePointInfoProps, ITableProps } from '../types';
 const TableBody = ({ servicePoints }: ITableProps) => {
     const dispatch = useDispatch();
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
-    const [isHidden, setIsHidden] = useState(true);
-    const [selectedRow, setSelectedRow] = useState(0);
 
     const deleteServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
         dispatch(
@@ -57,23 +54,6 @@ const TableBody = ({ servicePoints }: ITableProps) => {
             console.error(error);
         }
     };
-    const toggleTableRow = (id: number) => {
-        setIsHidden(!isHidden);
-
-        if (selectedRow !== id) {
-            setSelectedRow(id);
-
-            return;
-        };
-
-        if (!isHidden) {
-            setSelectedRow(0);
-
-            return;
-        };
-
-        setSelectedRow(id);
-    };
 
     return (
         <tbody className={`${BRAND_PREFIX}-table-body bg-white divide-y divide-gray-200 text-black`}>
@@ -112,24 +92,22 @@ const TableBody = ({ servicePoints }: ITableProps) => {
                                     >
                                         <FaPen className='text-primary' />
                                     </a>
+                                    <a
+                                        className="font-medium text-red-600 cursor-pointer px-2"
+                                        data-modal-show="deleteUserModal"
+                                        data-service-point-id={servicePoint.id}
+                                        onClick={deleteServicePointInfo}
+                                    >
+                                        <FaTrashCan />
+                                    </a>
                                     {
                                         servicePoint.phone &&
                                         servicePoint.address &&
                                         servicePoint.cityId &&
                                         servicePoint.districtId && (
-                                            <>
-                                                <a
-                                                    className="font-medium text-red-600 cursor-pointer px-2"
-                                                    data-modal-show="deleteUserModal"
-                                                    data-service-point-id={servicePoint.id}
-                                                    onClick={deleteServicePointInfo}
-                                                >
-                                                    <FaTrashCan />
-                                                </a>
-                                                <Link className='px-2' href={`/service-points/service-point/${servicePoint.id}`}>
-                                                    <FaCircleInfo className={`text-blue-700`} />
-                                                </Link>
-                                            </>
+                                            <Link className='px-2' href={`/service-points/service-point/${servicePoint.id}`}>
+                                                <FaCircleInfo className={`text-blue-700`} />
+                                            </Link>
                                         )
                                     }
                                 </td>
