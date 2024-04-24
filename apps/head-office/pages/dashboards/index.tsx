@@ -7,7 +7,7 @@ import { BRAND_PREFIX } from '../../src/constants/constants';
 import '../../app/global.css';
 import '../../src/styles/style.css';
 
-const Dashboards = () => {
+const Dashboards: React.FC = () => {
   return (
     <>
       <Head>
