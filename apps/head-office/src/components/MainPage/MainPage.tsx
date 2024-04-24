@@ -5,13 +5,13 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import type { IMainPageProps } from './types';
 import './MainPage.css';
 
-const MainPage: React.FC<IMainPageProps> = ({ children }: IMainPageProps) => {
+const MainPage: React.FC<IMainPageProps> = ({ children, sectionName }: IMainPageProps) => {
   return (
     <div className={`${BRAND_PREFIX}-page-wrapper w-full flex`}>
       <Sidebar />
       <div className={`${BRAND_PREFIX}-page-container bg-white overflow-x-hidden no-scrollbar`}>
         <Header className={`h-[80px] flex items-center w-full`} />
-        <Section sectionName='Servis Noktalari'>
+        <Section sectionName={sectionName}>
           {children}
         </Section>
       </div>

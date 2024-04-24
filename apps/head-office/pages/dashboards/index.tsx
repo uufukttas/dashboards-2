@@ -15,7 +15,7 @@ const Dashboards: React.FC = () => {
       </Head>
       <Provider store={store}>
         <div className={`${BRAND_PREFIX}-dashboard-page-container w-full h-screen flex`}>
-          <MainPage>
+          <MainPage sectionName='Dashboards'>
             <div className='flex justify-center items-center pt-12 flex-wrap'>
             </div>
           </MainPage>
