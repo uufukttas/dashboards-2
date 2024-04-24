@@ -1,6 +1,6 @@
 import { BRAND_PREFIX } from '../../constants/constants';
 
-const CardFooter = ({ children, className }: { children: React.ReactNode, className?: string }) => {
+const CardFooter = ({ children, className }: { children: React.ReactNode, className?: string }): React.ReactNode => {
     return (
         <div className={`${BRAND_PREFIX}-card-footer-container ${className ? (className + ' mt-4') : 'mt-2'}`}>
             {children}
