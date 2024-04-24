@@ -16,7 +16,7 @@ import { setServicePointData } from '../../../app/redux/features/servicePointDat
 import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
 import { RootState, AppDispatch } from '../../../app/redux/store';
 
-export function ServicePointSection() {
+const ServicePointSection: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
@@ -67,8 +67,8 @@ export function ServicePointSection() {
         .then(response => {
           setServicePointCount(response.count);
           setServicePoints(response.data);
-          dispatch(toggleLoadingVisibility(false));
           dispatch(toggleServicePointDataUpdated(false));
+          dispatch(toggleLoadingVisibility(false));
         })
         .catch((error) => console.log(error));
     } catch (error) {

@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import ProviderComponent from './ProviderComponent';
+import ServicePointsPageWrapper from '../../src/components/ServicePointSection/ServicePointPageWrapper';
 import '../../app/global.css';
 import '../../src/styles/style.css';
 
@@ -11,7 +12,7 @@ export default function ServicePoints({ children }: { children: React.ReactNode 
                 <title>Service Points | Sharz.net</title>
             </Head>
             <ProviderComponent>
-                {children}
+                <ServicePointsPageWrapper />
             </ProviderComponent >
         </>
     )

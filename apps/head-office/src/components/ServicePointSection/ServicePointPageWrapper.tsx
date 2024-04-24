@@ -7,7 +7,7 @@ import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVi
 import { RootState, AppDispatch } from '../../../app/redux/store';
 import ServicePointSection from '../../../src/components/ServicePointSection/ServicePointSection';
 
-const ServicePointPage = () => {
+const ServicePointPage: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
 
@@ -17,17 +17,18 @@ const ServicePointPage = () => {
 
     return (
         <div className={`${BRAND_PREFIX}-service-points-page-wrapper w-full flex h-screen`}>
-            {isLoading
-                ? (
-                    <Loading />
-                )
-                : (
-                    <MainPage>
-                        <div className={`${BRAND_PREFIX}-service-points-page-container flex justify-center items-center md:pt-6 flex-wrap`}>
-                            <ServicePointSection />
-                        </div>
-                    </MainPage>
-                )
+            {
+                isLoading
+                    ? (
+                        <Loading />
+                    )
+                    : (
+                        <MainPage sectionName='Servis Noktalari'>
+                            <div className={`${BRAND_PREFIX}-service-points-page-container flex justify-center items-center md:pt-6 flex-wrap`}>
+                                <ServicePointSection />
+                            </div>
+                        </MainPage>
+                    )
             }
         </div>
     );
