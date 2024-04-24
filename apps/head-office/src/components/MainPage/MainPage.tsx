@@ -5,7 +5,7 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import type { IMainPageProps } from './types';
 import './MainPage.css';
 
-const MainPage = ({ children }: IMainPageProps) => {
+const MainPage: React.FC<IMainPageProps> = ({ children }: IMainPageProps) => {
   return (
     <div className={`${BRAND_PREFIX}-page-wrapper w-full flex`}>
       <Sidebar />

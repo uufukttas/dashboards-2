@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { FaDoorOpen } from 'react-icons/fa6';
 import { BRAND_PREFIX } from '../../../constants/constants';
 
-const SidebarFooter = () => {
+const SidebarFooter: React.FC = () => {
     return (
         <div className={`${BRAND_PREFIX}-sidebar-footer-container flex items-center p-4`}>
             <div className={`${BRAND_PREFIX}-sidebar-footer-icon-container`}>

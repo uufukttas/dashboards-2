@@ -5,16 +5,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { detectDevice } from '@projects/common';
 import { Image } from '@projects/image';
-import { BRAND_PREFIX } from '../../../constants/constants';
-import { userInfo } from '../../../constants/constants';
+import { BRAND_PREFIX, userInfo } from '../../../constants/constants';
 import { toggleSidebarExpanded } from '../../../../app/redux/features/isSidebarExpand';
 import { RootState } from '../../../../app/redux/store';
 
-const SidebarHeader = () => {
+const SidebarHeader: React.FC = () => {
     const dispatch = useDispatch();
     const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
-
-    const handleSidebarClose = () => dispatch(toggleSidebarExpanded(isSidebarExpanded));
 
     return (
         <div className={`${BRAND_PREFIX}-sidebar-header-container flex items-center justify-between h-[80px]`}>
@@ -34,7 +31,7 @@ const SidebarHeader = () => {
                             className={`${BRAND_PREFIX}-sidebar-header-close-button`}
                             id={`${BRAND_PREFIX}-sidebar-header-close-button`}
                             type="button"
-                            onClick={handleSidebarClose}
+                            onClick={() => dispatch(toggleSidebarExpanded(isSidebarExpanded))}
                         >
                             <FaRegCircleXmark />
                         </Button>

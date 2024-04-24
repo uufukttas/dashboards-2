@@ -7,7 +7,7 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import { RootState } from '../../../app/redux/store';
 import './Sidebar.css';
 
-const Sidebar = () => {
+const Sidebar: React.FC = () => {
   const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
   const [isDetectedDevice, setIsDetectedDevice] = useState<boolean>(false);
 
@@ -19,13 +19,12 @@ const Sidebar = () => {
     isDetectedDevice && (
       <div
         className={`${BRAND_PREFIX}-sidebar-container border-r border-gray-300 flex flex-col justify-between ${
-          isSidebarExpanded !== null
-            ? isSidebarExpanded
+          isSidebarExpanded !== null && (
+            isSidebarExpanded
               ? 'expanded'
               : 'collapsed'
-            : ''
-          }
-        `}
+          )
+        }`}
       >
         <SidebarHeader />
         <SidebarBody />

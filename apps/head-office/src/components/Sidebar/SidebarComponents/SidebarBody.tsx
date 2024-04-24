@@ -1,11 +1,11 @@
 import React from 'react';
 import Link from 'next/link';
-import { FaLocationDot, FaGift, FaUser, FaQuestion } from 'react-icons/fa6';
+import { FaGift, FaLocationDot, FaUser, FaQuestion } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import { RootState } from '../../../../app/redux/store';
 
-const SidebarBody = () => {
+const SidebarBody: React.FC = () => {
     const sidebarElements = [
         {
             name: 'Servis Noktalari',
@@ -45,13 +45,12 @@ const SidebarBody = () => {
                                 key={index}
                             >
                                 <Link className={`${BRAND_PREFIX}-sidebar-list`} href={item.link}>
-                                    <div
-                                        className={`${BRAND_PREFIX}-sidebar-item-container w-full flex p-4 ${
-                                            isSidebarExpanded
-                                                ? 'justify-start'
-                                                : 'justify-center'
-                                            }
-                                        `}
+                                    <div className={`${BRAND_PREFIX}-sidebar-item-container w-full flex p-4 ${
+                                        isSidebarExpanded
+                                            ? 'justify-start'
+                                            : 'justify-center'
+                                        }
+                                    `}
                                     >
                                         <span className={`${BRAND_PREFIX}-sidebar-item-icon`}>
                                             {item.icon}
@@ -72,7 +71,8 @@ const SidebarBody = () => {
                                 </Link>
                             </li>
                         );
-                    })}
+                    })
+                }
             </ul>
         </div>
     );
