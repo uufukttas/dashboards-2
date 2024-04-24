@@ -5,12 +5,12 @@ import CardFooter from './LoginCardComponents/CardFooter';
 import CardHeader from './LoginCardComponents/CardHeader';
 import Card from '../Card/Card';
 
-const Login = () => {
+const Login: React.FC = () => {
     return (
         <Card
-            cardHeader={<CardHeader />}
             cardBody={<CardBody />}
             cardFooter={<CardFooter />}
+            cardHeader={<CardHeader />}
             className={detectDevice().isDesktop ? 'w-1/4' : (detectDevice().isTablet ? 'w-3/4' : 'w-full')}
         />
     );
