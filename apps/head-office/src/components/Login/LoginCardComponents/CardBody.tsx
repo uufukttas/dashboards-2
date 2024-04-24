@@ -11,7 +11,7 @@ import { hideAlert, showAlert } from '../../../../app/redux/features/alertInform
 import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
 import type { ILoginFormDataProps } from '../types';
 
-const CardBody = () => {
+const CardBody: React.FC = () => {
     const initialLoginFormData = { password: '', username: '' };
     const loginFormInputs = ['username', 'password'];
     const dispatch = useDispatch();
@@ -43,7 +43,7 @@ const CardBody = () => {
                 });
         } catch (error) {
             console.log(error);
-        }
+        };
     };
     const getDisplayName = (type: string) => type === loginFormInputs[0] ? 'Kullanıcı Adı' : 'Şifre';
     const handleLoginSubmit = async () => {

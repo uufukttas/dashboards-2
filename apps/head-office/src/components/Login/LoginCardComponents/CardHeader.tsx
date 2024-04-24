@@ -2,7 +2,7 @@ import React from 'react';
 import { Image } from '@projects/image';
 import { BRAND_PREFIX, userInfo } from '../../../constants/constants';
 
-const CardHeader = () => {
+const CardHeader: React.FC = () => {
     return (
         <>
             <div className={`${BRAND_PREFIX}-card-title-container`}>
