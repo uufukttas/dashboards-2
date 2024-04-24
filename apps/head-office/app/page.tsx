@@ -8,10 +8,10 @@ import { RootState } from './redux/store';
 import Background from '../src/components/Background/Background';
 import Loading from '../src/components/Loading/Loading';
 import Login from '../src/components/Login/Login';
-import { userInfo, stylesProps } from '../src/constants/constants';
+import { stylesProps, userInfo } from '../src/constants/constants';
 import './page.css';
 
-const Index = () => {
+const Index: React.FC = () => {
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
   const [isDetectedDevice, setIsDetectedDevice] = useState<boolean>(false);
