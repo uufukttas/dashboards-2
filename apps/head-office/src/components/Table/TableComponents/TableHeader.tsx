@@ -36,7 +36,7 @@ const TableActions = () => {
                     type="button"
                     onClick={handleClick}
                 >
-                    + Lokasyon
+                    + Servis Noktasi
                 </Button>
             </div>
         </div>
