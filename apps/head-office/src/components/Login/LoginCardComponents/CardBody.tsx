@@ -75,40 +75,41 @@ const CardBody: React.FC = () => {
                                 register={
                                     register(
                                         loginFormInput, {
-                                        pattern: {
-                                            message: `Geçersiz ${getDisplayName(loginFormInput)}.`,
-                                            // TODO: Add pattern for username email if it need // /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/
-                                            value: loginFormInput === loginFormInputs[0]
-                                                ? /^.*$/
-                                                : /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$.*])/,
-                                        },
-                                        required: `${getDisplayName(loginFormInput)} zorunlu bir alandır.`,
-                                        validate: loginFormInput === loginFormInputs[1]
-                                            ? {
-                                                checkLength: (value) => value.length >= 8,
-                                                matchPattern: (value) => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.*-]).{8,}$/.test(value)
-                                            }
-                                            : {},
-                                        onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-                                            setLoginFormData({
-                                                ...loginFormData,
-                                                [loginFormInput.toLowerCase()]: event.target.value,
-                                            });
-                                        },
-                                    }
+                                            pattern: {
+                                                message: `Geçersiz ${getDisplayName(loginFormInput)}.`,
+                                                // TODO: Add pattern for username email if it need // /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/
+                                                value: loginFormInput === loginFormInputs[0]
+                                                    ? /^.*$/
+                                                    : /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$.*])/,
+                                            },
+                                            required: `${getDisplayName(loginFormInput)} zorunlu bir alandır.`,
+                                            validate: loginFormInput === loginFormInputs[1]
+                                                ? {
+                                                    checkLength: (value) => value.length >= 8,
+                                                    matchPattern: (value) => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.*-]).{8,}$/.test(value)
+                                                }
+                                                : {},
+                                            onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+                                                setLoginFormData({
+                                                    ...loginFormData,
+                                                    [loginFormInput.toLowerCase()]: event.target.value,
+                                                });
+                                            },
+                                        }
                                     )
                                 }
                                 type={loginFormInput === loginFormInputs[1] ? loginFormInputs[1] : 'text'}
                             />
-                            {errors[loginFormInput] &&
-                                errors[loginFormInput]?.message &&
-                                (
+                            {
+                                errors[loginFormInput] &&
+                                errors[loginFormInput]?.message && (
                                     <div className={`${loginFormInput}-error-wrapper my-4 font-bold text-error`}>
                                         <p className={`${loginFormInput}-error-message text-error`}>
                                             {(errors[loginFormInput]?.message?.toString())}
                                         </p>
                                     </div>
-                                )}
+                                )
+                            }
                         </div>
                     ))
                 }
