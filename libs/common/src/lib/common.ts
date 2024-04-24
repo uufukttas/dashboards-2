@@ -1,8 +1,8 @@
 export const detectDevice = () => {
   const deviceType = {
+    isDesktop: false,
     isMobile: false,
     isTablet: false,
-    isDesktop: false,
   };
   const userAgent = navigator.userAgent;
 
