@@ -1,10 +1,16 @@
 import React from 'react';
-import Accordion from '../../Accordion/Accordion';
-import LocationInfo from '../Accordions/LocationInfo';
+import { FaChargingStation } from 'react-icons/fa6';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '@projects/button';
 import ChargeUnitsContent from '../Accordions/ChargeUnitsContent';
-import WorkingHoursContent from '../Accordions/WorkingHoursContent';
-import type { IServicePointsDetailsBodyProps } from '../types';
 import EnergyPricesContent from '../Accordions/EnergyPricesContent';
+import LocationInfo from '../Accordions/LocationInfo';
+import WorkingHoursContent from '../Accordions/WorkingHoursContent';
+import Accordion from '../../Accordion/Accordion';
+import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
+import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import { RootState } from '../../../../app/redux/store';
+import type { IServicePointsDetailsBodyProps } from '../types';
 
 const ServicePointsDetailsBody = ({
     activeIndex,
@@ -16,6 +22,8 @@ const ServicePointsDetailsBody = ({
     setConnectorProperty,
     slug,
 }: IServicePointsDetailsBodyProps) => {
+    const dispatch = useDispatch();
+    const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
     return (
         <div className="service-point-details-container lg:mx-8">
             {
@@ -30,7 +38,38 @@ const ServicePointsDetailsBody = ({
             {
                 activeIndex === 1 && (
                     <Accordion
+                        accordionIcon={<FaChargingStation />}
                         accordionTitle="Sarj Üniteleri"
+                        actionButton={
+                            <Button
+                                buttonText={``}
+                                className={`charge-units-add-button bg-primary bg-primary text-black rounded-md px-4 py-2 mx-2`}
+                                id={`charge-units-add-button`}
+                                type="button"
+                                onClick={() => {
+                                    setAddChargeUnit(true);
+                                    setAddConnector(false);
+                                    dispatch(toggleModalVisibility(isModalVisible));
+                                    dispatch(
+                                        setChargeUnitData({
+                                            code: '',
+                                            brandId: 0,
+                                            connectorCount: 0,
+                                            ocppVersion: 0,
+                                            investor: 0,
+                                            status: 0,
+                                            accessType: 0,
+                                            location: '',
+                                            isFreeUsage: false,
+                                            isLimitedUsage: false,
+                                            chargePointId: 0,
+                                        })
+                                    );
+                                }}
+                            >
+                                + Sarj Ünitesi
+                            </Button>
+                        }
                         contentClassName="overflow-y-auto"
                         titleClassName="font-bold"
                     >

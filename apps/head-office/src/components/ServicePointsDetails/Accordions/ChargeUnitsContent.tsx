@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { FaChargingStation, FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
+import { FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
@@ -284,42 +284,12 @@ const ChargeUnitsContent = ({
 
     return (
         <div className={`${sectionPrefix}-content py-8`}>
-            <div className={`${sectionPrefix}-header flex justify-end mb-10`}>
-                <Button
-                    buttonText={``}
-                    className={`${sectionPrefix}-add-button bg-primary bg-primary text-white rounded-md px-4 py-2 mx-2`}
-                    id={`${sectionPrefix}-add-button`}
-                    type="button"
-                    onClick={() => {
-                        setAddChargeUnit(true);
-                        setAddConnector(false);
-                        dispatch(toggleModalVisibility(isModalVisible));
-                        dispatch(
-                            setChargeUnitData({
-                                code: '',
-                                brandId: 0,
-                                connectorCount: 0,
-                                ocppVersion: 0,
-                                investor: 0,
-                                status: 0,
-                                accessType: 0,
-                                location: '',
-                                isFreeUsage: false,
-                                isLimitedUsage: false,
-                                chargePointId: 0,
-                            })
-                        );
-                    }}
-                >
-                    <FaChargingStation />
-                </Button>
-            </div>
             <div className={`${sectionPrefix}-list`}>
                 {
                     chargeUnits.map((chargeUnit, index) => {
                         return (
                             <div
-                                className={`${sectionPrefix}-container flex justify-between items-baseline border-t-2 border-gray-200 py-4`}
+                                className={`${sectionPrefix}-container flex justify-between items-baseline border-b-2 border-gray-200 py-4`}
                                 data-charge-point-id={chargeUnit.chargePointId}
                                 key={index}
                             >
