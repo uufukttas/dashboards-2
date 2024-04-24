@@ -83,12 +83,27 @@ const TableBody = ({ servicePoints }: ITableProps) => {
                     return (
                         <Fragment key={servicePoint.id}>
                             <tr data-service-point-id={servicePoint.id}>
-                                <td className="px-6 py-3">{servicePoint.name}</td>
-                                <td className="px-6 py-3">{servicePoint.phone}</td>
-                                <td className="px-6 py-3">{servicePoint.address}</td>
-                                <td className="px-6 py-3">{getCity((servicePoint.cityId))}</td>
-                                <td className="px-6 py-3">{getDistricts(servicePoint.districtId)}</td>
-                                <td className="px-6 py-4 items-center w-full justify-center flex">
+                                <td className="px-6 py-3 text-center">{servicePoint.name}</td>
+                                <td className="px-6 py-3 text-center">{servicePoint.phone}</td>
+                                <td className="px-6 py-3 text-center">{servicePoint.address}</td>
+                                <td className="px-6 py-3 text-center">{getCity((servicePoint.cityId))}</td>
+                                <td className="px-6 py-3 text-center">{getDistricts(servicePoint.districtId)}</td>
+                                <td className="px-6 py-3 text-center">
+                                    <div className={`${BRAND_PREFIX}-service-point-status-container flex justify-center`}>
+                                        {
+                                            (
+                                                servicePoint.phone &&
+                                                servicePoint.address &&
+                                                servicePoint.cityId &&
+                                                servicePoint.districtId
+                                            )
+                                                ? <div className='bg-green-500 rounded-full h-4 w-4 mx-2'></div>
+                                                : <div className='bg-red-500 rounded-full h-4 w-4 mx-2'></div>
+
+                                        }
+                                    </div>
+                                </td>
+                                <td className="px-6 py-4 items-center w-full flex">
                                     <a
                                         className="font-medium text-blue-600 cursor-pointer px-2"
                                         data-modal-show="editUserModal"
