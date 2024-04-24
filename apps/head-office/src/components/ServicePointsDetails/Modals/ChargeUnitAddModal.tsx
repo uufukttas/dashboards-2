@@ -171,6 +171,7 @@ const ChargeUnitAddModal = ({
                 [event.target.name]: Number(event.target.value),
               });
             }}
+            selectedValue='3'
             value={chargeUnitFormData[`${formProperties.brands}`]?.toString()}
           />
         </div>
