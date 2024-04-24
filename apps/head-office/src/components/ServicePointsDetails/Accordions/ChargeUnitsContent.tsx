@@ -154,7 +154,10 @@ const ChargeUnitsContent = ({
             );
 
         return location.data.data[2].stationChargePointFeatureTypeValue;
-    }
+    };
+    const getStatus = (date: string) => {
+        return new Date(date).getTime() > new Date().getTime() - (10 * 10 * 60 * 10 * 15);
+    };
     const handleDelete = async (event: React.MouseEvent) => {
         const chargePointId = event.currentTarget.getAttribute(`data-charge-point-id`) || '0';
 
@@ -208,7 +211,16 @@ const ChargeUnitsContent = ({
         setSelectedBrand(parseInt(chargeUnitId || '0'));
         dispatch(toggleModalVisibility(isModalVisible));
     };
+    const prepareTime = (date: string | null) => {
+        if (date === null) {
+            return `0000/00/00 00:00`;
+        };
 
+        const dateArray = date.split('T');
+        const timeArray = dateArray[1].split(':');
+
+        return `${dateArray[0]} ${timeArray[0]}:${timeArray[1]}`;
+    };
     const renderConnectors = (chargePointId: number) => {
         // @ts-expect-error we need to check type in the future
         // TODO: Type kontrolü yapılmalı.
@@ -261,7 +273,7 @@ const ChargeUnitsContent = ({
                                                 chargePointModelId: connectorItem.modelID,
                                                 chargePointId: connectorItem.stationChargePointID,
                                                 connectorNumber: connectorItem.connectorNr,
-                                                connectorId: connectorItem.RID, 
+                                                connectorId: connectorItem.RID,
                                             });
                                         }}
                                     >
@@ -297,12 +309,21 @@ const ChargeUnitsContent = ({
                                     <div className={`${sectionPrefix}-info flex justify-between w-full`}>
                                         <div className={`${sectionPrefix} flex justify-between w-full`}>
                                             <div className={`${sectionPrefix}-name-container`}>
-                                                <h3 className={`${chargeUnitPrefix}-name text-lg font-bold text-heading`}>
-                                                    {chargeUnit.model}
+                                                <h3 className={`${chargeUnitPrefix}-name text-lg font-bold text-heading flex items-center`}>
+                                                    {getStatus(chargeUnit.lastHeartBeat)
+                                                        ? (<div className='bg-green-500 rounded-full h-4 w-4 mx-2'></div>)
+                                                        : (<div className='bg-red-500 rounded-full h-4 w-4 mx-2'></div>)
+                                                    }
+                                                    {`${chargeUnit.model}`}
                                                 </h3>
                                                 <div className={`${chargeUnitPrefix}-device-code-container`}>
                                                     <h3 className={`${chargeUnitPrefix}-device-code text-lg font-bold text-text`}>
                                                         {chargeUnit.deviceCode}
+                                                    </h3>
+                                                </div>
+                                                <div className={`${chargeUnitPrefix}-time-container`}>
+                                                    <h3 className={`${chargeUnitPrefix}-time text-lg text-text`}>
+                                                        {`${prepareTime(chargeUnit.lastHeartBeat)}`}
                                                     </h3>
                                                 </div>
                                             </div>
@@ -341,12 +362,9 @@ const ChargeUnitsContent = ({
                                         <div className={`${sectionPrefix}-connectors pt-12 pl-4 mx-2 w-full`}>
                                             <div className={`${chargeUnitPrefix}-info-container flex justify-between flex-col`}>
                                                 <div className={`${chargeUnitPrefix}-connector-list-container`}>
-
                                                     {
                                                         renderConnectors(chargeUnit.chargePointId)
                                                     }
-
-
                                                 </div>
                                             </div>
                                         </div>
