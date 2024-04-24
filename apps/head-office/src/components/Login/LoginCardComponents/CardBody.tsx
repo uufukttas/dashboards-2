@@ -9,58 +9,44 @@ import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
-import type { ILoginFormDataProps, IRequestConfig } from '../types';
-
-const initialLoginFormData = {
-    username: '',
-    password: '',
-};
+import type { ILoginFormDataProps } from '../types';
 
 const CardBody = () => {
+    const initialLoginFormData = { password: '', username: '' };
     const loginFormInputs = ['username', 'password'];
     const dispatch = useDispatch();
-    const { formState: { errors }, register, handleSubmit } = useForm();
+    const { formState: { errors }, handleSubmit, register } = useForm();
     const router = useRouter();
     const [loginFormData, setLoginFormData] = useState<ILoginFormDataProps>(initialLoginFormData);
 
-    const fetchLoginData = async (data: string, config: IRequestConfig) => {
+    const fetchLoginData = async (data: string) => {
         try {
             await axios
                 .post(
                     process.env.LOGIN_URL || '',
                     data,
-                    config
+                    { headers: { 'Content-Type': 'application/json' } }
                 )
-                .then((response) => response)
                 .then(() => {
                     dispatch(toggleLoadingVisibility(false));
 
                     router.push('/dashboards');
                 })
                 .catch((error) => {
-                    let errorMessage = '';
-
-                    if (error.response.status > 399) {
-                        errorMessage = 'Kullanıcı adı veya şifre hatalı.';
-                    } else {
-                        errorMessage = 'Bir hata oluştu. Lütfen tekrar deneyin.';
-                    }
+                    const errorMessage = error.response.status > 399 && error.response.status < 500
+                        ? 'Kullanıcı adı veya şifre hatalı.'
+                        : 'Bir hata oluştu. Lütfen tekrar deneyin.';
 
                     dispatch(toggleLoadingVisibility(false));
                     dispatch(showAlert({ message: errorMessage, type: 'error' }));
                     setTimeout(() => dispatch(hideAlert()), 5000);
                 });
         } catch (error) {
-            console.warn('error1', error);
+            console.log(error);
         }
     };
     const getDisplayName = (type: string) => type === loginFormInputs[0] ? 'Kullanıcı Adı' : 'Şifre';
     const handleLoginSubmit = async () => {
-        const requestConfig = {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        };
         const userLoginData = {
             userName: loginFormData.username,
             password: loginFormData.password,
@@ -68,15 +54,15 @@ const CardBody = () => {
 
         dispatch(toggleLoadingVisibility(true));
 
-        await fetchLoginData(JSON.stringify((userLoginData)), requestConfig);
+        await fetchLoginData(JSON.stringify(userLoginData));
     };
 
     return (
-        <div className={`${BRAND_PREFIX}-card-form-container`}>
-            <form className={`${BRAND_PREFIX}-card-form`} onSubmit={handleSubmit(handleLoginSubmit)}>
+        <div className={`${BRAND_PREFIX}-card-login-form-container`}>
+            <form className={`${BRAND_PREFIX}-card-login-form`} onSubmit={handleSubmit(handleLoginSubmit)}>
                 {
                     loginFormInputs.map((loginFormInput: string, index: number) => (
-                        <div key={index} className={`${BRAND_PREFIX}-login-input-container mb-4`}>
+                        <div key={index} className={`${BRAND_PREFIX}-${loginFormInput}-input-container mb-4`}>
                             <Label
                                 className={`${loginFormInput}-label block text-sm font-medium text-gray-600`}
                                 htmlFor={loginFormInput}

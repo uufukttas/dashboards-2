@@ -6,7 +6,3 @@ export interface ILoginFormDataProps {
     username: string;
     password: string;
 };
-
-export interface IRequestConfig {
-    headers: IHeaderProps;
-};
