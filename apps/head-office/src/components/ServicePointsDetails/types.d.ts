@@ -119,6 +119,14 @@ export interface IConnectorBrandProps {
   connectorTypeId: number;
   displayName: string;
 };
+export interface IEnergyPriceDetailsProps {
+  id: number;
+  stationId: number;
+  price: number;
+  startDate: string;
+  isActive: boolean;
+  isDeleted: boolean;
+};
 export interface IGetChargePointStationFeatureData {
   id: number;
   stationChargePointFeatureType: number;
@@ -152,7 +160,6 @@ export interface IFormDataProps {
   [key: string]: boolean | number | string;
 };
 export interface IServiceDetailsContentProps {
-  setAddEnergyPrice?: React.Dispatch<React.SetStateAction<boolean>> | undefined;
   slug: string;
 };
 export interface IServicePointsDetailsInfoProps {
