@@ -19,7 +19,7 @@ const Accordion = ({ accordionIcon, accordionTitle, actionButton, children, cont
   };
 
   return (
-    <div className={`${BRAND_PREFIX}-accordion-container border my-4 rounded-lg`}>
+    <div className={`${BRAND_PREFIX}-accordion-content-container border my-4 rounded-lg`}>
       <div className={`${BRAND_PREFIX}-accordion-header justify-between`}>
         <div className={`${BRAND_PREFIX}-accordion-left-container flex items-center ${titleClassName}`}>
           <div className={`${BRAND_PREFIX}-accordion-title px-2`}>

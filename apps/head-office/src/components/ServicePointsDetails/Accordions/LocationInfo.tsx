@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { CITIES, DISTRICTS } from '../../../constants/constants';
+import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
 import type { IServiceDetailsContentProps, IServicePointsDetailsInfoProps } from '../types';
 
-const initialServicePointsDetailsInfoStateValue = {
-    address: '',
-    cityId: 0,
-    districtId: 0,
-    id: 0,
-    lat: 0,
-    lon: 0,
-    phone1: '',
-    phone2: '',
-    stationId: 0,
-};
-
-const ServicePointDetailsContent = ({ slug }: IServiceDetailsContentProps) => {
+const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slug }: IServiceDetailsContentProps) => {
+    const initialServicePointsDetailsInfoStateValue = {
+        address: '',
+        cityId: 0,
+        districtId: 0,
+        id: 0,
+        lat: 0,
+        lon: 0,
+        phone1: '',
+        phone2: '',
+        stationId: 0,
+    };
     const sectionPrefix = 'service-point-details';
+    const dispatch = useDispatch();
     const [servicePointDetailsInfo, setServicePointDetailsInfo] =
         useState<IServicePointsDetailsInfoProps>(
             initialServicePointsDetailsInfoStateValue
@@ -32,7 +34,10 @@ const ServicePointDetailsContent = ({ slug }: IServiceDetailsContentProps) => {
                 { headers: { 'Content-Type': 'application/json' } }
             )
             .then((response) => response.data)
-            .then((data) => setServicePointDetailsInfo(data.data[0]))
+            .then((data) => {
+                setServicePointDetailsInfo(data.data[0]);
+                dispatch(toggleLoadingVisibility(false));
+            })
             .catch((error) => console.log(error));
     };
 
