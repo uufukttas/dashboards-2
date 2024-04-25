@@ -1,10 +1,13 @@
 import React from 'react';
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import PaginationItem from './PaginationItem';
+import { BRAND_PREFIX } from '../../../constants/constants';
 import type { IPaginationProps } from '../types';
 
-const Pagination = ({ currentPage, totalCounts, setCurrentPage }: IPaginationProps) => {
+const Pagination: React.FC<IPaginationProps> = ({ currentPage, totalCounts, setCurrentPage }: IPaginationProps) => {
+    const sectionPrefix = `${BRAND_PREFIX}-pagination`;
     const totalPages = Math.ceil(totalCounts / 10);
+
     const renderPageNumbers = () => {
         const maxVisiblePages = 3;
         const pageNumbers = [];
@@ -18,20 +21,16 @@ const Pagination = ({ currentPage, totalCounts, setCurrentPage }: IPaginationPro
 
         if (startPage > 1) {
             pageNumbers.push(
-                <PaginationItem
-                    isDisabled={false}
-                    key={1}
-                    page={1}
-                    onClick={() => setCurrentPage(1)} isActive={false}
-                >
+                <PaginationItem isDisabled={false} key={1} page={1} onClick={() => setCurrentPage(1)} isActive={false}>
                     1
                 </PaginationItem>
             );
 
             if (startPage > 2) {
                 pageNumbers.push(
-                    <li key="ellipsisStart"
+                    <li
                         className='flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg'
+                        key="ellipsisStart"
                     >
                         ...
                     </li>
@@ -82,13 +81,13 @@ const Pagination = ({ currentPage, totalCounts, setCurrentPage }: IPaginationPro
     };
 
     return (
-        <div aria-label="Page navigation" className="flex w-full justify-end">
-            <div className="total-counts-wrapper flex items-center justify-center mt-4 px-2">
-                <p className="total-counts text-sm text-text font-bold">
+        <div aria-label="Page navigation" className={`${sectionPrefix}-container flex w-full justify-end`}>
+            <div className={`${sectionPrefix}-total-counts-container flex items-center justify-center mt-4 px-2`}>
+                <p className={`${sectionPrefix} text-sm text-text font-bold`}>
                     Total: {totalCounts}
                 </p>
             </div>
-            <ul className="pagination flex items-center -space-x-px h-8 text-sm mt-4 pl-2">
+            <ul className={`${sectionPrefix}-list-container flex items-center -space-x-px h-8 text-sm mt-4 pl-2`}>
                 <PaginationItem
                     isActive={false}
                     isDisabled={currentPage === 1}
