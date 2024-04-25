@@ -15,7 +15,7 @@ const Navbar: React.FC<INavbarProps> = ({ activeIndex, setActiveIndex }: INavbar
       title: (
         <>
           <FaLocationDot />
-          {detectDevice().isMobile ? '' : 'Lokasyon Bilgiler'}
+          {detectDevice().isMobile ? '' : 'Servis Noktasi Bilgileri'}
         </>
       ),
     },
@@ -70,7 +70,7 @@ const Navbar: React.FC<INavbarProps> = ({ activeIndex, setActiveIndex }: INavbar
   ];
 
   return (
-    <nav className={`${BRAND_PREFIX}-service-point-details-page-navbar-container lg:mx-8 flex items-center`}>
+    <nav className={`${BRAND_PREFIX}-service-point-details-page-navbar-container flex items-center`}>
       {
         navbarItems.map((item: INavbarItemProps, index: number) => (
           <Button key={index}
