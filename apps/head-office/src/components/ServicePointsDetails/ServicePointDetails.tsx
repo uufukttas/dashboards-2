@@ -104,8 +104,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
           if (chargeUnits.length !== data.length) {
             setChargeUnits(data)
           }
-
-          dispatch(toggleLoadingVisibility(false));
         })
         .catch((error) => console.log(error));
     } catch (error) {

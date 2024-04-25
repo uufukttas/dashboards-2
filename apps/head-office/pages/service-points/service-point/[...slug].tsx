@@ -16,7 +16,7 @@ const ServicePointInfoPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>{`Service Point Details - ${router.query.slug ? router.query.slug : ''} | Sharz.net`}</title>
+        <title>{`Service Point Details ${router.query.slug ? `- ${router.query.slug}` : ''} | Sharz.net`}</title>
       </Head>
       <Provider store={store}>
         <div className={`${BRAND_PREFIX}-service-point-details-page-wrapper w-full h-screen flex`}>

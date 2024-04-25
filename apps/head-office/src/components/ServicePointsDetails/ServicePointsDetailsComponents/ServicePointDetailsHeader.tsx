@@ -27,9 +27,7 @@ const ServicePointDetailsHeader: React.FC<IServicePointDetailsHeaderProps> = ({
     );
 
     return (
-        <div className='w-full'>
-            <Card cardBody={servicePointHeader} className='my-5' />
-        </div>
+        <Card cardBody={servicePointHeader} className='my-5 lg:mx-0' />
     );
 };
 

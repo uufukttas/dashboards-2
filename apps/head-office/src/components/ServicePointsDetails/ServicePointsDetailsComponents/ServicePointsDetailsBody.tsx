@@ -26,16 +26,17 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
 
     return (
-        <div className="service-point-details-accordion-container lg:mx-8">
+        <div className="service-point-details-accordion-container">
             {
                 activeIndex === 0 && (
                     <Accordion
-                        accordionTitle="Lokasyon Bilgileri"
+                        accordionTitle="Servis Noktasi Bilgileri"
                         titleClassName="font-bold"
                     >
                         <LocationInfo slug={slug} />
                     </Accordion>
-                )}
+                )
+            }
             {
                 activeIndex === 1 && (
                     <Accordion
@@ -83,7 +84,8 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                             setConnectorProperty={setConnectorProperty}
                         />
                     </Accordion>
-                )}
+                )
+            }
             {
                 activeIndex === 2 && (
                     <Accordion
