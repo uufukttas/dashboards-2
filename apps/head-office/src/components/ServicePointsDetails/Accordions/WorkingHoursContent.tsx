@@ -221,6 +221,7 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
 
     return (
         <div className={`${sectionPrefix}-content-container flex flex-col py-4 items-end`}>
+            <h3 className={`${sectionPrefix}-header text-lg font-semibold w-full text-center py-2`}>Kapali olmasini istediginiz saatleri seciniz</h3>
             <table className={`${sectionPrefix}-time-table`}>
                 <thead>
                     <tr>

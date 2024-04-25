@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaChargingStation } from 'react-icons/fa6';
+import { FaChargingStation, FaSackDollar } from 'react-icons/fa6';
 import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import ChargeUnitsContent from '../Accordions/ChargeUnitsContent';
@@ -52,6 +52,21 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
         </Button>
     );
 
+    const addEnergyPriceButton = (
+        <Button
+            buttonText={""}
+            className="button bg-primary rounded-md px-4 py-2 mx-4 hover:bg-primary-lighter font-bold text-black"
+            id={`energy-prices-add-button`}
+            type={'button'}
+            onClick={() => {
+                setAddEnergyPrice && setAddEnergyPrice(true);
+                dispatch(toggleModalVisibility());
+            }}
+        >
+            + Enerji Fiyati Ekle
+        </Button>
+    );
+
     return (
         <div className="service-point-details-accordion-container">
             {
@@ -97,11 +112,12 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             {
                 activeIndex === 3 && (
                     <Accordion
+                        accordionIcon={<FaSackDollar />}
                         accordionTitle="Enerji Fiyat Ayarlari"
+                        actionButton={addEnergyPriceButton}
                         titleClassName="font-bold"
                     >
                         <EnergyPricesContent
-                            setAddEnergyPrice={setAddEnergyPrice}
                             slug={slug}
                         />
                     </Accordion>
