@@ -181,3 +181,11 @@ export interface IServicePointDetailsHeaderProps {
   servicePointDetailsName: string;
   servicePointDetailsStatus: boolean;
 };
+export interface ITimeSlot {
+  rid?: number;
+  day: number;
+  hour: number;
+  isSelected: boolean;
+  isSelectable: boolean;
+  isPassive: boolean;
+};

@@ -40,35 +40,35 @@ tr td:nth-child(1) {
   margin-left: 10px;
 }
 
-.time-table {
+.working-hours-time-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.time-table th, .time-table td {
+.working-hours-time-table th, .working-hours-time-table td {
   border: 1px solid #ddd;
   text-align: center;
   padding: 8px;
 }
 
-.time-table th {
+.working-hours-time-table th {
   background-color: #f4f4f4;
 }
 
-.hour-label {
+.working-hours-hour-label {
   font-weight: bold;
 }
 
-.time-slot {
+.working-hours-time-slot {
   cursor: pointer;
   height: 30px;
 }
 
-.time-slot.selected {
+.working-hours-time-slot.selected {
   background-color: #f98080;
 }
 
-.time-slot.passive {
+.workinh-hours-time-slot.passive {
   background-color: lightgray;
   cursor: not-allowed;
 }

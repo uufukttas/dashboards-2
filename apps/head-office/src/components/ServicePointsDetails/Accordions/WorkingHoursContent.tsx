@@ -1,37 +1,66 @@
 // File: TimeSchedule.tsx
-import { Button } from '@projects/button';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { IWorkingHoursContentProps } from '../types';
-
-interface TimeSlot {
-    rid?: number; // Add the missing rid property
-    day: number;
-    hour: number;
-    isSelected: boolean;
-    isSelectable: boolean;
-    isPassive: boolean; // Add the missing isPassive property
-}
-
-const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+import { Button } from '@projects/button';
+import { IWorkingHoursContentProps, ITimeSlot } from '../types';
 
 const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
-    const [timeSlots, setTimeSlots] = useState<TimeSlot[]>(() =>
+    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const [timeSlots, setTimeSlots] = useState<ITimeSlot[]>(() =>
         Array.from({ length: 7 * 24 }).map((_, index) => ({
             day: Math.floor(index / 24),
             hour: index % 24,
             isSelected: false,
-            isPassive: false, // Initially no slots are passive
-            isSelectable: true // Add the missing isSelectable property
+            isPassive: false,
+            isSelectable: true,
         }))
     );
-    const [isUpdated, setIsUpdated] = useState(false); // Add the missing isUpdated state
-    const [selectionStart, setSelectionStart] = useState<TimeSlot | null>(null);
+    const sectionPrefix = 'working-hours';
+    const [isUpdated, setIsUpdated] = useState(false);
+    const [selectionStart, setSelectionStart] = useState<ITimeSlot | null>(null);
 
+    const applyDefaultTimes = (response: {
+        RID: number;
+        OpeningTime: string;
+        ClosingTime: string;
+        DayOfTheWeek: number;
+    }[]) => {
+        const newTimeSlots = [...timeSlots]; // Copy the initial state
+
+        response.forEach(entry => {
+            const rid = entry.RID;
+            const startHour = parseInt(entry.OpeningTime.split(':')[0], 10);
+            const endHour = parseInt(entry.ClosingTime.split(':')[0], 10);
+            const day = entry.DayOfTheWeek;
+
+            for (let hour = startHour; hour <= endHour; hour++) {
+                const index = day * 24 + hour;
+                newTimeSlots[index].isSelected = true; // Set selected based on default times
+                newTimeSlots[index].rid = rid; // Set the rid for the time slot
+            }
+        });
+
+        setTimeSlots(newTimeSlots); // Update state with the modified time slots
+    };
+    const clearSelection = () => {
+        setTimeSlots(currentSlots =>
+            currentSlots.map(slot => ({
+                ...slot,
+                isSelected: false
+            }))
+        );
+    };
+    const completeRangeSelection = (startSlot: ITimeSlot, endSlot: ITimeSlot) => {
+        const startHour = Math.min(startSlot.hour, endSlot.hour);
+        const endHour = Math.max(startSlot.hour, endSlot.hour);
+        const day = startSlot.day;
+
+        updateTimeSlotsForRange(day, startHour, endHour, true);
+    };
     const getWorkingHours = () => {
         axios
             .post(
-                'https://sharztestapi.azurewebsites.net/ServicePoint/GetWorkHours',
+                process.env.GET_WORKING_HOURS || '',
                 JSON.stringify({ "stationID": slug }),
                 { headers: { 'Content-Type': 'application/json' } }
             )
@@ -44,75 +73,86 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
             })
             .catch(error => console.log(error));
     }
+    const handleTimeSlotClick = (clickedSlot: ITimeSlot) => {
+        if (clickedSlot.isPassive) return;
 
-    const handleTimeSlotClick = (clickedSlot: TimeSlot) => {
-        if (clickedSlot.isPassive) return; // Ignore click if the slot is passive
-
-        // Check if we are currently in a selection process
         if (selectionStart) {
             if (clickedSlot.day === selectionStart.day) {
                 if (clickedSlot.hour === selectionStart.hour) {
-                    // Deselect if the same slot is clicked again
                     updateTimeSlotSelection(clickedSlot, false);
                     setSelectionStart(null);
                 } else {
-                    // Complete the range selection
                     completeRangeSelection(selectionStart, clickedSlot);
-                    setSelectionStart(null); // Reset after completing range
+                    setSelectionStart(null);
                 }
             } else {
-                // Deselect previous range and start new
                 clearSelection();
                 setSelectionStart(clickedSlot);
                 updateTimeSlotSelection(clickedSlot, true);
             }
         } else {
-            // No current selection, start a new one
             setSelectionStart(clickedSlot);
             updateTimeSlotSelection(clickedSlot, true);
         }
     };
+    const handleSubmit = () => {
+        const daysWeek = daysOfWeek.map((_, dayIndex) => {
+            const dailySelectedSlots = timeSlots.filter(slot => slot.day === dayIndex && slot.isSelected);
+            const firstSelectedSlot = dailySelectedSlots.length > 0 ? dailySelectedSlots[0] : null;
+            const lastSelectedSlot = dailySelectedSlots.length > 0
+                ? dailySelectedSlots[dailySelectedSlots.length - 1]
+                : null;
 
-    const completeRangeSelection = (startSlot: TimeSlot, endSlot: TimeSlot) => {
-        // Ensure we select from the earlier to the later hour
-        const startHour = Math.min(startSlot.hour, endSlot.hour);
-        const endHour = Math.max(startSlot.hour, endSlot.hour);
-        const day = startSlot.day;
-        updateTimeSlotsForRange(day, startHour, endHour, true);
+            return {
+                dayOfTheWeek: dayIndex,
+                isClosed: dailySelectedSlots.length === 0,
+                openingTime: firstSelectedSlot ? `${firstSelectedSlot.hour}:00` : null,
+                closingTime: lastSelectedSlot ? `${lastSelectedSlot.hour}:00` : null,
+                isDeleted: false,
+                rid: firstSelectedSlot?.rid
+            };
+        }).filter(day => day.openingTime !== null && day.closingTime !== null);
+
+        const updatedArr: {
+            dayOfTheWeek: number;
+            isClosed: boolean;
+            openingTime: string | null;
+            closingTime: string | null;
+            isDeleted: boolean;
+            rid: number;
+        }[] = [];
+        const createdArr: {
+            dayOfTheWeek: number;
+            isClosed: boolean;
+            openingTime: string | null;
+            closingTime: string | null;
+            isDeleted: boolean;
+            stationID: number;
+        }[] = [];
+        daysWeek.forEach(day => {
+            if (typeof day.rid === 'undefined') {
+                createdArr.push({
+                    dayOfTheWeek: day.dayOfTheWeek,
+                    isClosed: day.isClosed,
+                    openingTime: day.openingTime,
+                    closingTime: day.closingTime,
+                    isDeleted: day.isDeleted,
+                    stationID: slug
+                })
+            } else {
+                updatedArr.push({
+                    dayOfTheWeek: day.dayOfTheWeek,
+                    isClosed: day.isClosed,
+                    openingTime: day.openingTime,
+                    closingTime: day.closingTime,
+                    isDeleted: day.isDeleted,
+                    rid: day?.rid
+                }
+                )
+            }
+        });
+        setWorkingHours(createdArr, updatedArr);
     };
-
-    const updateTimeSlotsForRange = (day: number, startHour: number, endHour: number, isSelected: boolean) => {
-        setTimeSlots(currentSlots =>
-            currentSlots.map(slot =>
-                slot.day === day && slot.hour >= startHour && slot.hour <= endHour
-                    ? { ...slot, isSelected }
-                    : slot
-            )
-        );
-    };
-
-    const updateTimeSlotSelection = (slot: TimeSlot, isSelected: boolean) => {
-        setTimeSlots(currentSlots =>
-            currentSlots.map(s =>
-                s.day === slot.day && s.hour === slot.hour
-                    ? {
-                        ...s, isSelected
-                    } : s
-            )
-        );
-    };
-
-
-
-    const clearSelection = () => {
-        setTimeSlots(currentSlots =>
-            currentSlots.map(slot => ({
-                ...slot,
-                isSelected: false
-            }))
-        );
-    };
-
     const setWorkingHours = (
         createdWorkingHours: {
             dayOfTheWeek: number;
@@ -156,96 +196,32 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
                 }
                 );
     };
-
-    const handleSubmit = () => {
-        const daysWeek = daysOfWeek.map((_, dayIndex) => {
-            const dailySelectedSlots = timeSlots.filter(slot => slot.day === dayIndex && slot.isSelected);
-            const firstSelectedSlot = dailySelectedSlots.length > 0 ? dailySelectedSlots[0] : null;
-            const lastSelectedSlot = dailySelectedSlots.length > 0 ? dailySelectedSlots[dailySelectedSlots.length - 1] : null;
-
-            return {
-                dayOfTheWeek: dayIndex,
-                isClosed: dailySelectedSlots.length === 0,
-                openingTime: firstSelectedSlot ? `${firstSelectedSlot.hour}:00` : null,
-                closingTime: lastSelectedSlot ? `${lastSelectedSlot.hour}:00` : null,
-                isDeleted: false,
-                rid: firstSelectedSlot?.rid
-            };
-        }).filter(day => day.openingTime !== null && day.closingTime !== null);  // Filter out days where times are null
-
-        const updatedArr: {
-            dayOfTheWeek: number;
-            isClosed: boolean;
-            openingTime: string | null;
-            closingTime: string | null;
-            isDeleted: boolean;
-            rid: number;
-        }[] = [];
-        const createdArr: {
-            dayOfTheWeek: number;
-            isClosed: boolean;
-            openingTime: string | null;
-            closingTime: string | null;
-            isDeleted: boolean;
-            stationID: number;
-        }[] = [];
-        daysWeek.forEach(day => {
-            if (typeof day.rid === 'undefined') {
-                createdArr.push({
-                    dayOfTheWeek: day.dayOfTheWeek,
-                    isClosed: day.isClosed,
-                    openingTime: day.openingTime,
-                    closingTime: day.closingTime,
-                    isDeleted: day.isDeleted,
-                    stationID: slug
-                })
-            } else {
-                updatedArr.push({
-                    dayOfTheWeek: day.dayOfTheWeek,
-                    isClosed: day.isClosed,
-                    openingTime: day.openingTime,
-                    closingTime: day.closingTime,
-                    isDeleted: day.isDeleted,
-                    rid: day?.rid
-                }
-                )
-            }
-        });
-        setWorkingHours(createdArr, updatedArr);
+    const updateTimeSlotsForRange = (day: number, startHour: number, endHour: number, isSelected: boolean) => {
+        setTimeSlots(currentSlots =>
+            currentSlots.map(slot =>
+                slot.day === day && slot.hour >= startHour && slot.hour <= endHour
+                    ? { ...slot, isSelected }
+                    : slot
+            )
+        );
     };
-    // Parse and apply default times from the response
-    const applyDefaultTimes = (response: {
-        RID: number;
-        OpeningTime: string;
-        ClosingTime: string;
-        DayOfTheWeek: number;
-    }[]) => {
-        const newTimeSlots = [...timeSlots]; // Copy the initial state
-
-        response.forEach(entry => {
-            const rid = entry.RID;
-            const startHour = parseInt(entry.OpeningTime.split(':')[0], 10);
-            const endHour = parseInt(entry.ClosingTime.split(':')[0], 10);
-            const day = entry.DayOfTheWeek;
-
-            for (let hour = startHour; hour <= endHour; hour++) {
-                const index = day * 24 + hour;
-                newTimeSlots[index].isSelected = true; // Set selected based on default times
-                newTimeSlots[index].rid = rid; // Set the rid for the time slot
-            }
-        });
-
-        setTimeSlots(newTimeSlots); // Update state with the modified time slots
+    const updateTimeSlotSelection = (slot: ITimeSlot, isSelected: boolean) => {
+        setTimeSlots(currentSlots =>
+            currentSlots.map(currentSlot =>
+                currentSlot.day === slot.day && currentSlot.hour === slot.hour
+                    ? { ...currentSlot, isSelected }
+                    : currentSlot
+            )
+        );
     };
 
-    // Example of using this function after fetching data (you should call this in useEffect if fetching from API)
     useEffect(() => {
         getWorkingHours();
     }, []);
 
     return (
-        <div className='working-hours-content-container flex flex-col py-4 items-end'>
-            <table className="time-table">
+        <div className={`${sectionPrefix}-content-container flex flex-col py-4 items-end`}>
+            <table className={`${sectionPrefix}-time-table`}>
                 <thead>
                     <tr>
                         <th>Time / Day</th>
@@ -257,26 +233,29 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
                 <tbody>
                     {Array.from({ length: 24 }).map((_, hour) => (
                         <tr key={hour}>
-                            <td className="hour-label">{hour}:00</td>
-                            {daysOfWeek.map((_, dayIndex) => {
-                                const slot = timeSlots.find(slot => slot.day === dayIndex && slot.hour === hour);
-                                return (
-                                    <td key={dayIndex}
-                                        className={`time-slot ${slot?.isSelected ? 'selected' : ''} ${slot?.isPassive ? 'passive' : ''}`}
-                                        onClick={() => slot && handleTimeSlotClick(slot)}
-                                        data-wh-id={slot?.rid}
-                                    >
-                                    </td>
-                                );
-                            })}
+                            <td className={`${sectionPrefix}-hour-label`}>{hour}:00</td>
+                            {
+                                daysOfWeek.map((_, dayIndex) => {
+                                    const slot = timeSlots.find(slot => slot.day === dayIndex && slot.hour === hour);
+
+                                    return (
+                                        <td key={dayIndex}
+                                            className={`${sectionPrefix}-time-slot ${slot?.isSelected ? 'selected' : ''} ${slot?.isPassive ? 'passive' : ''}`}
+                                            onClick={() => slot && handleTimeSlotClick(slot)}
+                                            data-wh-id={slot?.rid}
+                                        >
+                                        </td>
+                                    );
+                                })
+                            }
                         </tr>
                     ))}
                 </tbody>
             </table>
 
             <Button buttonText={isUpdated ? 'Guncelle' : 'Kaydet'}
-                className='bg-primary text-white rounded-md px-4 py-2 my-2 w-fit'
-                id='working-hours-save-button'
+                className={`${sectionPrefix}-button bg-primary text-white rounded-md px-4 py-2 my-2 w-fit`}
+                id='working-hours-button'
                 type='button'
                 onClick={() => handleSubmit()}
             />
