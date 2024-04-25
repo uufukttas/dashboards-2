@@ -22,8 +22,37 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
     setConnectorProperty,
     slug,
 }: IServicePointsDetailsBodyProps) => {
+    const initialChargeUnitData = {
+        code: '',
+        brandId: 0,
+        connectorCount: 0,
+        ocppVersion: 0,
+        investor: 0,
+        status: 0,
+        accessType: 0,
+        location: '',
+        isFreeUsage: false,
+        isLimitedUsage: false,
+        chargePointId: 0,
+    };
     const dispatch = useDispatch();
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
+
+    const addChargeUnitButton = (
+        <Button
+            buttonText={``}
+            className={`add-charge-unit-button bg-primary bg-primary text-black font-bold rounded-md px-4 py-2 mx-2`}
+            id={`add-charge-unit-button`}
+            type="button"
+            onClick={() => {
+                dispatch(toggleModalVisibility(isModalVisible));
+                dispatch(setChargeUnitData(initialChargeUnitData));
+                setAddChargeUnit(true);
+            }}
+        >
+            + Sarj Ünitesi
+        </Button>
+    );
 
     return (
         <div className="service-point-details-accordion-container">
@@ -42,36 +71,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                     <Accordion
                         accordionIcon={<FaChargingStation />}
                         accordionTitle="Sarj Üniteleri"
-                        actionButton={
-                            <Button
-                                buttonText={``}
-                                className={`charge-units-add-button bg-primary bg-primary text-black rounded-md px-4 py-2 mx-2`}
-                                id={`charge-units-add-button`}
-                                type="button"
-                                onClick={() => {
-                                    setAddChargeUnit(true);
-                                    setAddConnector(false);
-                                    dispatch(toggleModalVisibility(isModalVisible));
-                                    dispatch(
-                                        setChargeUnitData({
-                                            code: '',
-                                            brandId: 0,
-                                            connectorCount: 0,
-                                            ocppVersion: 0,
-                                            investor: 0,
-                                            status: 0,
-                                            accessType: 0,
-                                            location: '',
-                                            isFreeUsage: false,
-                                            isLimitedUsage: false,
-                                            chargePointId: 0,
-                                        })
-                                    );
-                                }}
-                            >
-                                + Sarj Ünitesi
-                            </Button>
-                        }
+                        actionButton={addChargeUnitButton}
                         contentClassName="overflow-y-auto"
                         titleClassName="font-bold"
                     >

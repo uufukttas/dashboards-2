@@ -172,6 +172,7 @@ export interface IServicePointDetailsModalProps {
   investors: IInvestorsProps[];
   accessTypeList: IAccessTypeListItemProps[];
   statusList: IStatusListItemProps[];
+  setAddChargeUnit: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export interface IServicePointsDetailsPageProps {
   slug: string;
