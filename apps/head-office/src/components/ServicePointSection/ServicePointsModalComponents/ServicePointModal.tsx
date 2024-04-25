@@ -7,7 +7,7 @@ import ServicePointModalFormThirdPage from './ServicePointModalFormPages/Service
 import { BRAND_PREFIX } from '../../../constants/constants';
 import { RootState } from '../../../../app/redux/store';
 
-const ServicePointModalForm = () => {
+const ServicePointModalForm: React.FC = () => {
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const [activePage, setActivePage] = useState(1);
   const [cities, setCities] = useState<{ id: null; rid: number; plateCode: number; name: string; }[]>([]);

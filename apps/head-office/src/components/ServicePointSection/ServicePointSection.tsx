@@ -11,6 +11,7 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
+import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { toggleServicePointDataUpdated } from '../../../app/redux/features/isServicePointDataUpdated';
 import { setServicePoints } from '../../../app/redux/features/servicePoints';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
@@ -104,6 +105,7 @@ const ServicePointSection: React.FC = () => {
 
     dispatch(setServicePointData(servicePointDataInitialValues));
     dispatch(setServicePointInformation(servicePointInformationInitialValues));
+    dispatch(toggleModalVisibility(isModalVisible));
   };
 
   useEffect(() => {
