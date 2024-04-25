@@ -9,11 +9,12 @@ import { toggleModalVisibility } from '../../../../app/redux/features/isModalVis
 import { setServicePointData } from '../../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../app/redux/store';
-import type { IServicePointInfoProps, ITableProps } from '../types';
+import type { IServicePointInfoProps } from '../types';
 
-const TableBody = ({ servicePoints }: ITableProps) => {
+const TableBody: React.FC = () => {
     const dispatch = useDispatch();
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
+    const servicePoints = useSelector((state: RootState) => state.servicePoints.servicePoints);
 
     const deleteServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
         dispatch(
@@ -58,7 +59,7 @@ const TableBody = ({ servicePoints }: ITableProps) => {
     return (
         <tbody className={`${BRAND_PREFIX}-table-body bg-white divide-y divide-gray-200 text-black`}>
             {
-                servicePoints &&
+                servicePoints.length > 0 &&
                 servicePoints.map((servicePoint: IServicePointInfoProps) => {
                     return (
                         <Fragment key={servicePoint.id}>
@@ -83,7 +84,8 @@ const TableBody = ({ servicePoints }: ITableProps) => {
                                         }
                                     </div>
                                 </td>
-                                <td className="px-6 py-4 items-center w-full flex">
+                                <td className="px-6 py-4 w-full">
+                                    <div className="flex">
                                     <a
                                         className="font-medium text-blue-600 cursor-pointer px-2"
                                         data-modal-show="editUserModal"
@@ -110,6 +112,7 @@ const TableBody = ({ servicePoints }: ITableProps) => {
                                             </Link>
                                         )
                                     }
+                                    </div>
                                 </td>
                             </tr>
                         </Fragment>

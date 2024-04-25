@@ -12,6 +12,7 @@ import { hideAlert, showAlert } from '../../../app/redux/features/alertInformati
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { toggleServicePointDataUpdated } from '../../../app/redux/features/isServicePointDataUpdated';
+import { setServicePoints } from '../../../app/redux/features/servicePoints';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
 import { RootState, AppDispatch } from '../../../app/redux/store';
@@ -27,7 +28,6 @@ const ServicePointSection: React.FC = () => {
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const [currentPage, setCurrentPage] = useState(1);
   const [servicePointCount, setServicePointCount] = useState(0);
-  const [servicePoints, setServicePoints] = useState([]);
 
   const deleteServicePoint = async (deletedId: number) => {
     try {
@@ -53,7 +53,7 @@ const ServicePointSection: React.FC = () => {
       console.error(error);
     }
   };
-  const getFirstTenUsers = async () => {
+  const getAllServicePoints = async () => {
     try {
       await axios
         .post(
@@ -66,7 +66,7 @@ const ServicePointSection: React.FC = () => {
         .then((response) => response.data)
         .then(response => {
           setServicePointCount(response.count);
-          setServicePoints(response.data);
+          dispatch(setServicePoints(response.data));
           dispatch(toggleServicePointDataUpdated(false));
           dispatch(toggleLoadingVisibility(false));
         })
@@ -104,16 +104,16 @@ const ServicePointSection: React.FC = () => {
 
     dispatch(setServicePointData(servicePointDataInitialValues));
     dispatch(setServicePointInformation(servicePointInformationInitialValues));
-  }
+  };
 
   useEffect(() => {
-    getFirstTenUsers();
+    getAllServicePoints();
   }, [isServicePointDataUpdated, currentPage]);
 
   return (
     <div className={`${BRAND_PREFIX}-service-points-container flex justify-between items-center flex-col`}>
       <div className={`${BRAND_PREFIX}-service-point-listing-container flex items-center w-full`}>
-        <Table servicePoints={servicePoints} />
+        <Table />
       </div>
       {
         isModalVisible && (
