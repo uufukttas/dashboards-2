@@ -35,7 +35,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
             )
             .then((response) => response.data)
             .then((data) => {
-                setServicePointDetailsInfo(data.data[0]);
+                data.data[0] && setServicePointDetailsInfo(data.data[0]);
                 dispatch(toggleLoadingVisibility(false));
             })
             .catch((error) => console.log(error));
