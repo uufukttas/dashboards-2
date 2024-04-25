@@ -105,7 +105,7 @@ const ServicePointSection: React.FC = () => {
 
     dispatch(setServicePointData(servicePointDataInitialValues));
     dispatch(setServicePointInformation(servicePointInformationInitialValues));
-    dispatch(toggleModalVisibility(isModalVisible));
+    dispatch(toggleModalVisibility());
   };
 
   useEffect(() => {

@@ -1,16 +1,14 @@
 import React from 'react';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
-import { RootState } from '../../../../app/redux/store';
 
 const TableActions: React.FC = () => {
     const dispatch = useDispatch();
-    const isModalVisible = useSelector((state: RootState) => state.isModalVisible);
 
     return (
         <div className={`${BRAND_PREFIX}-service-points-table-actions-container flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 w-full md:flex-row border-t border-gray-300 bg-transparent`}>
@@ -32,7 +30,7 @@ const TableActions: React.FC = () => {
                     className={`${BRAND_PREFIX}-add-service-point-button w-full bg-primary rounded-md font-semibold hover:bg-primary-lighter px-2 py-2`}
                     id={`${BRAND_PREFIX}-add-service-point-button`}
                     type="button"
-                    onClick={() => dispatch(toggleModalVisibility(isModalVisible))}
+                    onClick={() => dispatch(toggleModalVisibility())}
                 >
                     + Servis Noktasi
                 </Button>

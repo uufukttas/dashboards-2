@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { showDialog } from '../../../../app/redux/features/dialogInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
-import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type {
     IAccessTypeListItemProps,
@@ -26,7 +25,6 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
     const chargeUnitPrefix = `${BRAND_PREFIX}-charge-unit`;
     const sectionPrefix = `${BRAND_PREFIX}-charge-units`;
     const dispatch = useDispatch();
-    const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
     const [connectorTypes, setConnectorTypes] = useState([]);
     const [selectedBrand, setSelectedBrand] = useState(1);
 
@@ -211,7 +209,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
             })
         );
         setSelectedBrand(parseInt(chargeUnitId || '0'));
-        dispatch(toggleModalVisibility(isModalVisible));
+        dispatch(toggleModalVisibility());
     };
     const prepareTime = (date: string | null) => {
         if (date === null) {
@@ -270,7 +268,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
                                         onClick={() => {
                                             setAddConnector(true);
                                             setAddChargeUnit(false);
-                                            dispatch(toggleModalVisibility(isModalVisible));
+                                            dispatch(toggleModalVisibility());
                                             setConnectorProperty({
                                                 chargePointModelId: connectorItem.modelID,
                                                 chargePointId: connectorItem.stationChargePointID,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaChargingStation } from 'react-icons/fa6';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import ChargeUnitsContent from '../Accordions/ChargeUnitsContent';
 import EnergyPricesContent from '../Accordions/EnergyPricesContent';
@@ -9,7 +9,6 @@ import WorkingHoursContent from '../Accordions/WorkingHoursContent';
 import Accordion from '../../Accordion/Accordion';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
-import { RootState } from '../../../../app/redux/store';
 import type { IServicePointsDetailsBodyProps } from '../types';
 
 const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
@@ -36,7 +35,6 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
         chargePointId: 0,
     };
     const dispatch = useDispatch();
-    const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
 
     const addChargeUnitButton = (
         <Button
@@ -45,7 +43,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             id={`add-charge-unit-button`}
             type="button"
             onClick={() => {
-                dispatch(toggleModalVisibility(isModalVisible));
+                dispatch(toggleModalVisibility());
                 dispatch(setChargeUnitData(initialChargeUnitData));
                 setAddChargeUnit(true);
             }}

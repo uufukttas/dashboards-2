@@ -30,7 +30,6 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   const dispatch = useDispatch();
   const { handleSubmit } = useForm();
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
   const servicePointInformation = useSelector((state: RootState) => {
     return state.servicePointInformation.servicePointInformation;
   });
@@ -66,7 +65,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
       )
       .then((response) => response.data)
       .then(data => {
-        dispatch(toggleModalVisibility(isModalVisible));
+        dispatch(toggleModalVisibility());
         dispatch(
           showAlert({
             message: data.message,

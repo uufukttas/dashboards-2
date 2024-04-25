@@ -13,7 +13,6 @@ import type { IServicePointInfoProps } from '../types';
 
 const TableBody: React.FC = () => {
     const dispatch = useDispatch();
-    const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
     const servicePoints = useSelector((state: RootState) => state.servicePoints.servicePoints);
 
     const deleteServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -38,7 +37,7 @@ const TableBody: React.FC = () => {
                 )
                 .then((response) => response.data)
                 .then(response => {
-                    dispatch(toggleModalVisibility(isModalVisible));
+                    dispatch(toggleModalVisibility());
                     dispatch(setServicePointData(response.data[0]));
                 })
                 .catch((error) => console.log(error));

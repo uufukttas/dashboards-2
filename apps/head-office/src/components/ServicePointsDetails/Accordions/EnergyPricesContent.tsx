@@ -3,14 +3,12 @@ import axios from 'axios';
 import type { IServiceDetailsContentProps } from '../types';
 import { Button } from '@projects/button';
 import { FaSackDollar, FaTrashCan } from 'react-icons/fa6';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
-import { RootState } from '../../../../app/redux/store';
 
 const EnergyPricesContent = ({ setAddEnergyPrice, slug }: IServiceDetailsContentProps) => {
   const sectionPrefix = 'energy-prices-details';
   const dispatch = useDispatch();
-  const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
   const [energyPriceDetails, setEnergyPriceDetails] = useState<{ id: number; stationId: number; price: number; startDate: string; isActive: boolean; isDeleted: boolean }[]>([]);
 
   const getEnergyPriceDetails = async (slug: string) => {
@@ -54,7 +52,7 @@ const EnergyPricesContent = ({ setAddEnergyPrice, slug }: IServiceDetailsContent
         type={'button'}
         onClick={() => {
           setAddEnergyPrice && setAddEnergyPrice(true);
-          dispatch(toggleModalVisibility(isModalVisible));
+          dispatch(toggleModalVisibility());
         }}
       >
         <FaSackDollar />

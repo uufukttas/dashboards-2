@@ -296,7 +296,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
                       status: 1,
                     })
                   );
-                  dispatch(toggleModalVisibility(isModalVisible));
+                  dispatch(toggleModalVisibility());
                 }}
               >
                 <ChargeUnitAddModal
