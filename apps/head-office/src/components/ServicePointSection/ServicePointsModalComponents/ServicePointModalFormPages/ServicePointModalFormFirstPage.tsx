@@ -12,7 +12,7 @@ import { RootState } from '../../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../constants/constants';
 import { IFormDataProps, IModalFirstPageInputsProps } from '../../types';
 
-const ServicePointModalFormFirstPage = ({
+const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
   activePage,
   stationId,
   setActivePage,
@@ -71,7 +71,7 @@ const ServicePointModalFormFirstPage = ({
       setActivePage(activePage + 1);
 
       return;
-    }
+    };
 
     handleServicePointOperation();
   };
@@ -83,9 +83,11 @@ const ServicePointModalFormFirstPage = ({
 
     try {
       await axios
-        .post(actionURL, actionData, {
-          headers: { 'Content-Type': 'application/json' },
-        })
+        .post(
+          actionURL,
+          actionData,
+          { headers: { 'Content-Type': 'application/json' } }
+        )
         .then((response) => response.data)
         .then((data) => {
           if (hasServicePointDataId) {
@@ -136,8 +138,8 @@ const ServicePointModalFormFirstPage = ({
           </Label>
           <Input
             className={`${formProperties.name}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${hasStationId
-                ? 'cursor-not-allowed'
-                : ''
+              ? 'cursor-not-allowed'
+              : ''
               }`
             }
             disabled={hasStationId}
@@ -180,8 +182,8 @@ const ServicePointModalFormFirstPage = ({
           </Label>
           <Dropdown
             className={`${formProperties.company}-input border text-text text-sm rounded-lg block w-full focus:ring-primary focus:border-primary p-2.5 mb-4 hover:${hasStationId
-                ? 'cursor-not-allowed'
-                : ''
+              ? 'cursor-not-allowed'
+              : ''
               }`
             }
             disabled={hasStationId}
@@ -210,8 +212,8 @@ const ServicePointModalFormFirstPage = ({
           </Label>
           <Dropdown
             className={`${formProperties.reseller}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${hasStationId
-                ? 'cursor-not-allowed'
-                : ''
+              ? 'cursor-not-allowed'
+              : ''
               }`
             }
             disabled={hasStationId}

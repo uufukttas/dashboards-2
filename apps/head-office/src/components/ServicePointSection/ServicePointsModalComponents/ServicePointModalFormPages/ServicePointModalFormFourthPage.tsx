@@ -15,7 +15,11 @@ import { RootState } from '../../../../../app/redux/store';
 import { PAYMENT_METHODS, OPPORTUNITIES, BRAND_PREFIX } from '../../../../constants/constants';
 import { IFormDataProps, IModalFourthPageInputsProps } from '../../types';
 
-const ServicePointModalFormFourthPage = ({ activePage, stationId, setActivePage }: IModalFourthPageInputsProps) => {
+const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = ({
+  activePage,
+  stationId,
+  setActivePage
+}: IModalFourthPageInputsProps) => {
   const formName = ['payment-methods', 'parking', 'opportunities'];
   const sectionPrefix = 'service-point';
   const formProperties = {
@@ -67,7 +71,8 @@ const ServicePointModalFormFourthPage = ({ activePage, stationId, setActivePage 
           showAlert({
             message: data.message,
             type: 'success',
-          }));
+          })
+        );
 
         setTimeout(() => {
           dispatch(hideAlert());
@@ -84,7 +89,8 @@ const ServicePointModalFormFourthPage = ({ activePage, stationId, setActivePage 
         paymentMethods: fourthPageFormData[`${formProperties.paymentMethods}`].toString(),
         parking: fourthPageFormData[`${formProperties.parking}`],
         opportunities: selectedOptions
-      }));
+      })
+    );
 
     createServicePointDetails();
   };
@@ -95,12 +101,8 @@ const ServicePointModalFormFourthPage = ({ activePage, stationId, setActivePage 
       setSelectedOptions([...selectedOptions, value]);
     }
   };
-  const replacetoDash = (value: string) => {
-    return value.replace(/\s+/g, '-').toLowerCase();
-  };
-  const toggleDropdown = () => {
-    setIsSelectboxOpen(!isSelectboxOpen);
-  };
+  const replacetoDash = (value: string) => value.replace(/\s+/g, '-').toLowerCase();
+  const toggleDropdown = () => setIsSelectboxOpen(!isSelectboxOpen);
 
   useEffect(() => {
     setFourthPageFormData({
@@ -112,7 +114,7 @@ const ServicePointModalFormFourthPage = ({ activePage, stationId, setActivePage 
       ...servicePointInformation,
       paymentMethods: fourthPageFormData[`${formProperties.paymentMethods}`].toString(),
       parking: fourthPageFormData[`${formProperties.parking}`],
-      opportunities: selectedOptions
+      opportunities: selectedOptions,
     }));
 
     console.log('selectedOptions', selectedOptions)
@@ -187,7 +189,6 @@ const ServicePointModalFormFourthPage = ({ activePage, stationId, setActivePage 
           </div>
         </div>
       </div>
-
       <div className={`${formProperties.opportunities}-container`}>
         <div className={`${formProperties.opportunities}-header`}>
           <h3 className="block mb-2 text-sm font-semibold text-gray-900">Lokasyon Olanaklari</h3>
@@ -231,7 +232,6 @@ const ServicePointModalFormFourthPage = ({ activePage, stationId, setActivePage 
           </div>
         </div>
       </div>
-
       <div className={`${sectionPrefix}-buttons-container flex justify-between items-center mt-4`}>
         <Button
           buttonText='Geri'

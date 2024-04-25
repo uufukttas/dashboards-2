@@ -6,12 +6,12 @@ import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
+import { BRAND_PREFIX } from '../../../../constants/constants';
 import { setServicePointInformation } from '../../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../../app/redux/store';
-import { BRAND_PREFIX } from '../../../../constants/constants';
 import { IFormDataProps, IModalThirdPageInputsProps } from '../../types';
 
-const ServicePointModalFormThirdPage = ({
+const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
   activePage,
   cities,
   districts,
@@ -41,10 +41,11 @@ const ServicePointModalFormThirdPage = ({
 
   const getDistricts = async (selectedCity: number) => {
     try {
-      await axios.post(
-        process.env.DISTRICT_URL || '',
-        { 'plateNumber': selectedCity }
-      )
+      await axios
+        .post(
+          process.env.DISTRICT_URL || '',
+          { 'plateNumber': selectedCity }
+        )
         .then((response) => response.data.data)
         .then(data => setDistricts(data))
         .catch((error) => console.log(error));
@@ -75,7 +76,8 @@ const ServicePointModalFormThirdPage = ({
         districtId: thirdPageFormData[`${formProperties.districtId}`],
         lon: thirdPageFormData[`${formProperties['x-coord']}`],
         lat: thirdPageFormData[`${formProperties['y-coord']}`],
-      }));
+      })
+    );
     setActivePage(activePage + 1);
   };
 
@@ -83,7 +85,9 @@ const ServicePointModalFormThirdPage = ({
     setSelectedCity(
       Number(thirdPageFormData[`${formProperties.cityId}`] !== 0
         ? thirdPageFormData[`${formProperties.cityId}`]
-        : selectedCity));
+        : selectedCity
+      )
+    );
     getDistricts(selectedCity);
   }, []);
 
@@ -205,7 +209,7 @@ const ServicePointModalFormThirdPage = ({
         />
       </div>
     </form >
-  )
+  );
 };
 
 export default ServicePointModalFormThirdPage;

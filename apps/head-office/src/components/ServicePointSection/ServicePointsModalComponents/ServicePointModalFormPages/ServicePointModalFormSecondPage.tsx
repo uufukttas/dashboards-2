@@ -6,12 +6,12 @@ import { Button } from '@projects/button';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { Textarea } from '@projects/textarea';
+import { BRAND_PREFIX } from '../../../../constants/constants';
 import { setServicePointInformation } from '../../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../../app/redux/store';
-import { BRAND_PREFIX } from '../../../../constants/constants';
 import { IFormDataProps, IModalSecondPageInputsProps } from '../../types';
 
-const ServicePointModalFormSecondPage = ({
+const ServicePointModalFormSecondPage: React.FC<IModalSecondPageInputsProps> = ({
   activePage,
   cities,
   setActivePage,
@@ -38,9 +38,10 @@ const ServicePointModalFormSecondPage = ({
 
   const getCities = async () => {
     try {
-      await axios.get(
-        process.env.CITY_URL || ''
-      )
+      await axios
+        .get(
+          process.env.CITY_URL || ''
+        )
         .then((response) => response.data.data)
         .then((cities) => {
           setCities(cities);
@@ -74,7 +75,8 @@ const ServicePointModalFormSecondPage = ({
         phone1: secondPageFormData[`${formProperties.phone1}`],
         phone2: secondPageFormData[`${formProperties.phone2}`],
         address: secondPageFormData[`${formProperties.address}`],
-      }));
+      })
+    );
 
     setActivePage(activePage + 1);
   };
@@ -201,7 +203,7 @@ const ServicePointModalFormSecondPage = ({
         />
       </div>
     </form >
-  )
+  );
 };
 
 export default ServicePointModalFormSecondPage;

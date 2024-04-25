@@ -1,18 +1,10 @@
-import { useSelector, useDispatch } from 'react-redux';
 import { FaRegCircleXmark } from 'react-icons/fa6';
 import { Button } from '@projects/button';
 import { BRAND_PREFIX } from '../../../constants/constants';
-import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import type { IModalHeaderProps } from '../types';
-import { RootState } from '../../../../app/redux/store';
 
-const ModalHeader = ({ modalHeaderTitle, onClose }: IModalHeaderProps) => {
-    const dispatch = useDispatch();
-    const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
-
+const ModalHeader: React.FC<IModalHeaderProps> = ({ modalHeaderTitle, onClose }: IModalHeaderProps) => {
     const handleClose = () => {
-        dispatch(toggleModalVisibility(isModalVisible));
-
         onClose && onClose();
     };
 
