@@ -20,7 +20,7 @@ const ServicePointInfoPage = () => {
       </Head>
       <Provider store={store}>
         <div className={`${BRAND_PREFIX}-service-point-details-page-wrapper w-full h-screen flex`}>
-          <MainPage>
+          <MainPage sectionName={`${slug} Servis Noktasi`}>
             <div
               className={`${BRAND_PREFIX}-service-point-details-page-container flex justify-center items-center md:pt-12 flex-wrap w-full`}>
               {
