@@ -6,6 +6,7 @@ import isChargePointDataUpdated from './features/isChargePointDataUpdated';
 import isLoadingVisible from './features/isLoadingVisible';
 import isModalVisible from './features/isModalVisible';
 import isServicePointDataUpdated from './features/isServicePointDataUpdated';
+import servicePoints from './features/servicePoints';
 import servicePointData from './features/servicePointData';
 import servicePointInformation from './features/servicePointInformation';
 import isSidebarExpand from './features/isSidebarExpand';
@@ -19,6 +20,7 @@ export const store: EnhancedStore = configureStore({
     isModalVisible,
     isServicePointDataUpdated,
     isLoadingVisible,
+    servicePoints,
     servicePointData,
     servicePointInformation,
     isSidebarExpand,
