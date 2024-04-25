@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { FaCoins } from 'react-icons/fa';
-import { FaLocationDot, FaClock, FaUserGear } from 'react-icons/fa6';
-import { RiBattery2ChargeFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
-import { SlEnergy } from 'react-icons/sl';
-import { detectDevice } from '@projects/common';
 import { Dialog } from '@projects/dialog';
 import ServicePointDetailsHeader from './ServicePointsDetailsComponents/ServicePointDetailsHeader';
 import ServicePointsDetailsBody from './ServicePointsDetailsComponents/ServicePointsDetailsBody';
@@ -34,7 +29,7 @@ import type {
   IStatusListItemProps
 } from './types';
 
-const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
+const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isChargePointDataUpdated = useSelector(
@@ -230,47 +225,6 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
     };
   };
 
-  const navbarItems = [
-    {
-      title: <><FaLocationDot />Lokasyon Bilgileri</>,
-    },
-    {
-      title: <><RiBattery2ChargeFill />Şarj Üniteleri</>,
-    },
-    {
-      title: <><FaClock />Calisma Saatleri</>,
-    },
-    {
-      title: <><SlEnergy />Enerji Fiyat Ayarlari</>,
-    },
-    {
-      title: <><FaUserGear />Servis Noktasi Yetkisi</>,
-    },
-    {
-      title: <><FaCoins />Komisyonlar</>,
-    },
-  ];
-  const NavbarItemsMobile = [
-    {
-      title: <FaLocationDot />,
-    },
-    {
-      title: <RiBattery2ChargeFill />,
-    },
-    {
-      title: <FaClock />,
-    },
-    {
-      title: <SlEnergy />,
-    },
-    {
-      title: <FaUserGear />,
-    },
-    {
-      title: <FaCoins />,
-    },
-  ];
-
   useEffect(() => {
     dispatch(toggleLoadingVisibility(true));
     getBrands();
@@ -304,14 +258,13 @@ const ServicePointsDetails = ({ slug }: IServicePointsDetailsPageProps) => {
       )
       : (
         <div className={`${BRAND_PREFIX}-service-point-details-page-content-wrapper w-full`}>
-          <div className={`${BRAND_PREFIX}-service-point-details-content-container w-full`}>
+          <div className={`${BRAND_PREFIX}-service-point-details-page-content-container w-full`}>
             <ServicePointDetailsHeader
               servicePointDetailsName={servicePointDetails.name}
               servicePointDetailsStatus={servicePointDetails.isActive}
             />
             <Navbar
               activeIndex={activeIndex}
-              items={detectDevice().isMobile ? NavbarItemsMobile : navbarItems}
               setActiveIndex={setActiveIndex}
             />
             <ServicePointsDetailsBody

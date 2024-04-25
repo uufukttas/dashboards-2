@@ -9,7 +9,7 @@ import { BRAND_PREFIX } from '../../../src/constants/constants';
 import '../../../app/global.css';
 import '../../../src/styles/style.css';
 
-const ServicePointInfoPage = () => {
+const ServicePointInfoPage: React.FC = () => {
   const router = useRouter();
   const slug = router.query?.slug;
 
@@ -20,9 +20,10 @@ const ServicePointInfoPage = () => {
       </Head>
       <Provider store={store}>
         <div className={`${BRAND_PREFIX}-service-point-details-page-wrapper w-full h-screen flex`}>
-          <MainPage sectionName={`${slug} Servis Noktasi`}>
+          <MainPage sectionName={`Servis Noktasi: ${slug}`}>
             <div
-              className={`${BRAND_PREFIX}-service-point-details-page-container flex justify-center items-center md:pt-12 flex-wrap w-full`}>
+              className={`${BRAND_PREFIX}-service-point-details-page-container flex justify-center items-center md:pt-12 flex-wrap w-full`}
+            >
               {
                 slug && (
                   <ServicePointDetails slug={slug[0]} />

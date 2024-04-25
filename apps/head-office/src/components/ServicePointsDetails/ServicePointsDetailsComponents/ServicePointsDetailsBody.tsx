@@ -12,7 +12,7 @@ import { toggleModalVisibility } from '../../../../app/redux/features/isModalVis
 import { RootState } from '../../../../app/redux/store';
 import type { IServicePointsDetailsBodyProps } from '../types';
 
-const ServicePointsDetailsBody = ({
+const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
     activeIndex,
     chargeUnits,
     connectorsList,
@@ -24,8 +24,9 @@ const ServicePointsDetailsBody = ({
 }: IServicePointsDetailsBodyProps) => {
     const dispatch = useDispatch();
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
+
     return (
-        <div className="service-point-details-container lg:mx-8">
+        <div className="service-point-details-accordion-container lg:mx-8">
             {
                 activeIndex === 0 && (
                     <Accordion

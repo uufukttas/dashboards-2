@@ -4,6 +4,5 @@ export interface INavbarItemProps {
 
 export interface INavbarProps {
     activeIndex: number;
-    items: INavbarItemProps[];
     setActiveIndex: (index: number) => void;
 };
