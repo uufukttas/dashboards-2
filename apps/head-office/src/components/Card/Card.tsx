@@ -7,7 +7,7 @@ import './Card.css';
 
 const Card = ({ cardBody, cardFooter, cardHeader, className }: ICardProps): React.ReactNode => {
   return (
-    <div className={`${BRAND_PREFIX}-card-container p-8 shadow-custom lg:mx-8 ${className}`}>
+    <div className={`${BRAND_PREFIX}-card-container p-8 shadow-custom ${className}`}>
       <CardHeader>
         {cardHeader}
       </CardHeader>
