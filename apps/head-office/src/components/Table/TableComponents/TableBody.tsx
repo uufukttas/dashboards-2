@@ -86,32 +86,35 @@ const TableBody: React.FC = () => {
                                 </td>
                                 <td className="px-6 py-4 w-full">
                                     <div className="flex">
-                                    <a
-                                        className="font-medium text-blue-600 cursor-pointer px-2"
-                                        data-modal-show="editUserModal"
-                                        data-service-point-id={servicePoint.id}
-                                        onClick={getUpdatedServicePointsInfo}
-                                    >
-                                        <FaPen className='text-primary' />
-                                    </a>
-                                    <a
-                                        className="font-medium text-red-600 cursor-pointer px-2"
-                                        data-modal-show="deleteUserModal"
-                                        data-service-point-id={servicePoint.id}
-                                        onClick={deleteServicePointInfo}
-                                    >
-                                        <FaTrashCan />
-                                    </a>
-                                    {
-                                        servicePoint.phone &&
-                                        servicePoint.address &&
-                                        servicePoint.cityId &&
-                                        servicePoint.districtId && (
-                                            <Link className='px-2' href={`/service-points/service-point/${servicePoint.id}`}>
-                                                <FaCircleInfo className={`text-blue-700`} />
-                                            </Link>
-                                        )
-                                    }
+                                        <a
+                                            className="font-medium text-blue-600 cursor-pointer px-2"
+                                            data-modal-show="editUserModal"
+                                            data-service-point-id={servicePoint.id}
+                                            onClick={getUpdatedServicePointsInfo}
+                                        >
+                                            <FaPen className='text-primary' />
+                                        </a>
+                                        <a
+                                            className="font-medium text-red-600 cursor-pointer px-2"
+                                            data-modal-show="deleteUserModal"
+                                            data-service-point-id={servicePoint.id}
+                                            onClick={deleteServicePointInfo}
+                                        >
+                                            <FaTrashCan />
+                                        </a>
+                                        {
+                                            servicePoint.phone &&
+                                            servicePoint.address &&
+                                            servicePoint.cityId &&
+                                            servicePoint.districtId && (
+                                                <Link
+                                                    className='px-2'
+                                                    href={`/service-points/service-point/${servicePoint.id}`}
+                                                >
+                                                    <FaCircleInfo className={`text-blue-700`} />
+                                                </Link>
+                                            )
+                                        }
                                     </div>
                                 </td>
                             </tr>

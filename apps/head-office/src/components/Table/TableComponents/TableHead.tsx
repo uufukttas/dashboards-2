@@ -1,7 +1,7 @@
 import React from 'react';
 import { BRAND_PREFIX } from '../../../constants/constants';
 
-const TableHead = () => {
+const TableHead: React.FC = () => {
     return (
         <thead className={`${BRAND_PREFIX}-service-points-table-head text-xs text-gray-700 uppercase bg-gray-50`}>
             <tr>
@@ -9,7 +9,7 @@ const TableHead = () => {
                     Servis Noktasi
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
-                    Telefon No
+                    Telefon
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
                     Adres
@@ -21,10 +21,10 @@ const TableHead = () => {
                     Ilce
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
-                    Aktif
+                    Durumu
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
-                    Aksiyonlar
+                    Islemler
                 </th>
             </tr>
         </thead>
