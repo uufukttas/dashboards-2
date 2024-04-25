@@ -315,7 +315,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               <Modal
                 modalHeaderTitle='Konnektör Ekle'
                 modalId={`${BRAND_PREFIX}-connector-add-modal`}
-                onClose={() => { }}
+                onClose={() => dispatch(toggleModalVisibility())}
               >
                 <ConnectorAddModal
                   connectorProperty={connectorProperty}
