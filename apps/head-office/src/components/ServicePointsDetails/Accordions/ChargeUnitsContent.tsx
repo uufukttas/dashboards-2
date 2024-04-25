@@ -7,6 +7,7 @@ import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData
 import { showDialog } from '../../../../app/redux/features/dialogInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../../app/redux/store';
+import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type {
     IAccessTypeListItemProps,
     IChargeUnitsContentProps,
@@ -19,26 +20,23 @@ import type {
     IConnectorStateProps,
 } from '../types';
 
-const ChargeUnitsContent = ({
+const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
     chargeUnits, connectorsList, slug, setAddChargeUnit, setAddConnector, setConnectorProperty
 }: IChargeUnitsContentProps) => {
-    const sectionPrefix = 'charge-units';
-    const chargeUnitPrefix = 'charge-unit';
+    const chargeUnitPrefix = `${BRAND_PREFIX}-charge-unit`;
+    const sectionPrefix = `${BRAND_PREFIX}-charge-units`;
     const dispatch = useDispatch();
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
-    const [connectorBrands, setConnectorBrands] = useState([]);
-    const [selectedBrand, setSelectedBrand] = useState(0);
+    const [connectorTypes, setConnectorTypes] = useState([]);
+    const [selectedBrand, setSelectedBrand] = useState(1);
 
-    const createDropdownItems = () => {
-        return connectorBrands.map((connectorBrand: IConnectorBrandProps) => {
-            return {
-                id: connectorBrand.connectorTypeId,
-                name: connectorBrand.displayName,
-                rid: null,
-            };
-        });
-    };
-    const createReqData = (chargePoint: IChargeUnitsProps, features: IGetChargePointStationFeatureData[], investorId: number, statusId: string, accessTypeId: string) => {
+    const buildChargeUnitRequestBody = (
+        accessTypeId: string,
+        chargePoint: IChargeUnitsProps,
+        features: IGetChargePointStationFeatureData[],
+        investorId: number,
+        statusId: string,
+    ) => {
         return ({
             chargePoint: {
                 code: chargePoint.deviceCode.toString(),
@@ -73,14 +71,32 @@ const ChargeUnitsContent = ({
             connectorCount: chargePoint.connectorNumber,
         });
     };
-    const getChargeUnitInfo = (chargeUnitId: number) => {
-        return chargeUnits.filter(chargeUnit => {
-            if (chargeUnit.chargePointId === chargeUnitId) {
-                return chargeUnit;
+    const createConnectorDropdownItems = () => {
+        return connectorTypes.map((connectorType: IConnectorBrandProps) => {
+            return {
+                id: connectorType.connectorTypeId,
+                name: connectorType.displayName,
+                rid: null,
             };
         });
     };
-    const getConnectorBrands = () => {
+    const getChargeUnitInfo = (chargeUnitId: number) => {
+        return chargeUnits.filter(chargeUnit => chargeUnit.chargePointId === chargeUnitId ? chargeUnit : {});
+    };
+    const getChargeUnitLocation = async (chargePointId: string) => {
+        const location = await axios
+            .post(
+                process.env.GET_CHARGE_POINT_STATION_FEATURE || '',
+                { "StationChargePointID": Number(chargePointId) },
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+
+        return location.data.data[2].stationChargePointFeatureTypeValue;
+    };
+    const getChargeUnitStatus = (date: string) => {
+        return new Date(date).getTime() > new Date().getTime() - (10 * 10 * 60 * 10 * 15);
+    };
+    const getConnectorTypes = () => {
         axios
             .post(
                 process.env.GET_CONNECTOR_MODELS || '',
@@ -88,11 +104,11 @@ const ChargeUnitsContent = ({
                 { headers: { 'Content-Type': 'application/json' } }
             )
             .then(response => {
-                setConnectorBrands(response.data.data);
-                createDropdownItems();
+                setConnectorTypes(response.data.data);
+                createConnectorDropdownItems();
             });
     };
-    const getFeaturesId = async (chargePointId: number) => {
+    const getStationFeaturesId = async (chargePointId: number) => {
         try {
             const data = await axios
                 .post(
@@ -145,35 +161,21 @@ const ChargeUnitsContent = ({
             console.log(error);
         };
     };
-    const getLocation = async (chargePointId: string) => {
-        const location = await axios
-            .post(
-                process.env.GET_CHARGE_POINT_STATION_FEATURE || '',
-                { "StationChargePointID": Number(chargePointId) },
-                { headers: { 'Content-Type': 'application/json' } }
-            );
-
-        return location.data.data[2].stationChargePointFeatureTypeValue;
-    };
-    const getStatus = (date: string) => {
-        return new Date(date).getTime() > new Date().getTime() - (10 * 10 * 60 * 10 * 15);
-    };
     const handleDelete = async (event: React.MouseEvent) => {
         const chargePointId = event.currentTarget.getAttribute(`data-charge-point-id`) || '0';
 
-        const featuresData: IGetChargePointStationFeatureResponse = await getFeaturesId(parseInt(chargePointId));
+        const featuresData: IGetChargePointStationFeatureResponse = await getStationFeaturesId(parseInt(chargePointId));
         const features = featuresData.data;
 
-        const deletedChargeUnit = chargeUnits.filter(chargeUnit => {
-            return chargeUnit.chargePointId === Number(chargePointId);
-        });
+        const deletedChargeUnit = chargeUnits.filter(chargeUnit => chargeUnit.chargePointId === Number(chargePointId));
 
         const investorId = await getInvestorId((deletedChargeUnit[0].investor));
         const { statusId, accessTypeId } = await getGetChargePointFeaturesStatus(
             deletedChargeUnit[0].hoStatus, deletedChargeUnit[0].accessType
         );
 
-        const getRequestBody = createReqData(deletedChargeUnit[0], features, investorId, statusId, accessTypeId);
+        const getRequestBody =
+            buildChargeUnitRequestBody(accessTypeId, deletedChargeUnit[0], features, investorId, statusId);
 
         dispatch(
             showDialog({
@@ -190,10 +192,9 @@ const ChargeUnitsContent = ({
         const { statusId, accessTypeId } = await getGetChargePointFeaturesStatus(
             chargeUnitInfo[0].hoStatus, chargeUnitInfo[0].accessType
         );
-        const location = await getLocation(chargeUnitId || '0');
+        const location = await getChargeUnitLocation(chargeUnitId || '0');
 
         setAddChargeUnit(true);
-        setAddConnector(false);
         dispatch(
             setChargeUnitData({
                 code: deviceCode,
@@ -207,13 +208,14 @@ const ChargeUnitsContent = ({
                 isFreeUsage: chargeUnitInfo[0].isFreePoint,
                 isLimitedUsage: chargeUnitInfo[0].limitedUsage,
                 chargePointId: parseInt(chargeUnitId || '0'),
-            }));
+            })
+        );
         setSelectedBrand(parseInt(chargeUnitId || '0'));
         dispatch(toggleModalVisibility(isModalVisible));
     };
     const prepareTime = (date: string | null) => {
         if (date === null) {
-            return `0000/00/00 00:00`;
+            return `1900/01/01 00:00`;
         };
 
         const dateArray = date.split('T');
@@ -291,7 +293,7 @@ const ChargeUnitsContent = ({
     };
 
     useEffect(() => {
-        getConnectorBrands();
+        getConnectorTypes();
     }, [chargeUnits]);
 
     return (
@@ -310,7 +312,7 @@ const ChargeUnitsContent = ({
                                         <div className={`${sectionPrefix} flex justify-between w-full`}>
                                             <div className={`${sectionPrefix}-name-container`}>
                                                 <h3 className={`${chargeUnitPrefix}-name text-lg font-bold text-heading flex items-center`}>
-                                                    {getStatus(chargeUnit.lastHeartBeat)
+                                                    {getChargeUnitStatus(chargeUnit.lastHeartBeat)
                                                         ? (<div className='bg-green-500 rounded-full h-4 w-4 mx-2'></div>)
                                                         : (<div className='bg-red-500 rounded-full h-4 w-4 mx-2'></div>)
                                                     }
@@ -360,7 +362,7 @@ const ChargeUnitsContent = ({
                                     </div>
                                     <div className={`${sectionPrefix}-connectors-container`}>
                                         <div className={`${sectionPrefix}-connectors pt-12 pl-4 mx-2 w-full`}>
-                                            <div className={`${chargeUnitPrefix}-info-container flex justify-between flex-col`}>
+                                            <div className={`${chargeUnitPrefix}-connector-info flex justify-between flex-col`}>
                                                 <div className={`${chargeUnitPrefix}-connector-list-container`}>
                                                     {
                                                         renderConnectors(chargeUnit.chargePointId)

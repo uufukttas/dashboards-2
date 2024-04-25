@@ -15,7 +15,7 @@ import { RootState } from '../../../../app/redux/store';
 import type { IFormDataProps, IRequestDataProps, IServicePointDetailsModalProps } from '../types';
 
 const ChargeUnitAddModal = ({
-  accessTypeList, brands, investors, slug, statusList
+  accessTypeList, brands, investors, slug, statusList, setAddChargeUnit
 }: IServicePointDetailsModalProps) => {
   const formName = ['brands', 'connector-count', 'ocpp-version', 'is-free-usage', 'is-limited-usage', 'investor', 'status', 'access-type', 'location'];
   const sectionPrefix = 'charge-unit';
@@ -122,8 +122,8 @@ const ChargeUnitAddModal = ({
             }
           }
         )
-        .then(response => console.log('response', response));
 
+      setAddChargeUnit(false)
       dispatch(
         setChargeUnitData({
           ...chargeUnitData,
