@@ -1,40 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import type { IServiceDetailsContentProps } from '../types';
+import { FaTrashCan } from 'react-icons/fa6';
 import { Button } from '@projects/button';
-import { FaSackDollar, FaTrashCan } from 'react-icons/fa6';
-import { useDispatch } from 'react-redux';
-import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import type { IEnergyPriceDetailsProps, IServiceDetailsContentProps } from '../types';
 
-const EnergyPricesContent = ({ setAddEnergyPrice, slug }: IServiceDetailsContentProps) => {
+const EnergyPricesContent = ({ slug }: IServiceDetailsContentProps) => {
   const sectionPrefix = 'energy-prices-details';
-  const dispatch = useDispatch();
-  const [energyPriceDetails, setEnergyPriceDetails] = useState<{ id: number; stationId: number; price: number; startDate: string; isActive: boolean; isDeleted: boolean }[]>([]);
+  const [energyPriceDetails, setEnergyPriceDetails] = useState<IEnergyPriceDetailsProps[]>([]);
 
   const getEnergyPriceDetails = async (slug: string) => {
     axios
       .post(
-        'https://sharztestapi.azurewebsites.net/ServicePoint/GetEnergyPrice',
+        process.env.GET_ENERGY_PRICES || '',
         JSON.stringify({ stationId: Number(slug) }),
         { headers: { 'Content-Type': 'application/json' } }
       )
       .then((response) => response.data)
-      .then((data) => setEnergyPriceDetails(data.data))
+      .then((data) => data.data && setEnergyPriceDetails(data.data))
       .catch((error) => console.log(error));
   };
-
   const handleDelete = (event: React.MouseEvent) => {
     const deletedEnergyPriceId = event.currentTarget.getAttribute('energy-price-id');
-    
+
     axios
       .post(
-        'https://sharztestapi.azurewebsites.net/ServicePoint/RemoveEnergyPrice',
+        process.env.REMOVE_ENERGY_PRICE || '',
         JSON.stringify({ Id: deletedEnergyPriceId }),
         { headers: { 'Content-Type': 'application/json' } }
       )
-      .then((response) => {
-        console.log(response.data);
-      })
       .catch((error) => console.log(error));
   };
 
@@ -45,22 +38,8 @@ const EnergyPricesContent = ({ setAddEnergyPrice, slug }: IServiceDetailsContent
 
   return (
     <div className='flex flex-col items-end py-4 text-white'>
-      <Button
-        buttonText={""}
-        className="button bg-primary rounded-md px-4 py-2 mx-4 hover:bg-primary-lighter"
-        id={`energy-prices-add-button`}
-        type={'button'}
-        onClick={() => {
-          setAddEnergyPrice && setAddEnergyPrice(true);
-          dispatch(toggleModalVisibility());
-        }}
-      >
-        <FaSackDollar />
-      </Button>
       {
-        energyPriceDetails && energyPriceDetails.map((
-          energyPriceDetail: { id: number; stationId: number; price: number; startDate: string; isActive: boolean; isDeleted: boolean }, idx: number
-        ) => {
+        energyPriceDetails && energyPriceDetails.map((energyPriceDetail: IEnergyPriceDetailsProps, idx: number) => {
           return (
             <div key={idx} className='flex w-full'>
               <div className={`${sectionPrefix}-content py-4 text-text w-full`}>
@@ -99,7 +78,8 @@ const EnergyPricesContent = ({ setAddEnergyPrice, slug }: IServiceDetailsContent
             </div>
           );
         })
-      } </div>
+      }
+    </div>
   );
 };
 
