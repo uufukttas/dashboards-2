@@ -30,6 +30,7 @@ const nextConfig = {
     GET_CONNECTOR_MODELS: 'https://sharztestapi.azurewebsites.net/Values/GetConnectorModels',
     GET_DEVICE_CODE: 'https://sharztestapi.azurewebsites.net/Values/GetDeviceCode',
     GET_ENERGY_PRICE: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetEnergyPrice',
+    GET_STATION_FEATURES: 'https://sharztestapi.azurewebsites.net/StationFeature/GetStationFeature',
     GET_FEATURE_VALUES: 'https://sharztestapi.azurewebsites.net/StationFeature/GetFeatureValues',
     GET_INVESTORS: 'https://sharztestapi.azurewebsites.net/Values/GetInvestors',
     GET_RESELLERS_URL: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetResellers',
