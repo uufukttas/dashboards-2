@@ -121,7 +121,7 @@ const ServicePointSection: React.FC = () => {
         isModalVisible && (
           <Modal
             className={`${BRAND_PREFIX}-service-point-modal-container`}
-            modalHeaderTitle={`Lokasyon ${servicePointData.id > 0 ? 'Güncelle' : 'Ekle'}`}
+            modalHeaderTitle={`Servis Noktasi ${servicePointData.id > 0 ? 'Güncelle' : 'Ekle'}`}
             modalId={`${BRAND_PREFIX}-service-point-modal`}
             onClose={handleCloseModal}
           >

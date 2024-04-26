@@ -115,8 +115,6 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
       parking: fourthPageFormData[`${formProperties.parking}`],
       opportunities: selectedOptions,
     }));
-
-    console.log('selectedOptions', selectedOptions)
   }, [selectedOptions]);
 
   return (
@@ -144,13 +142,13 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
           }}
         />
       </div>
-      <div className={`${formProperties.parking}-container`}>
+      <div className={`${formProperties.parking}-container flex items-baseline`}>
         <div className={`${formProperties.parking}-header`}>
-          <h3 className={`${formProperties.parking}-text block mb-2 text-sm font-semibold text-gray-900`}>
+          <h2 className={`${formProperties.parking}-text block mb-2 font-semibold text-gray-900`}>
             Park Yeri
-          </h3>
+          </h2>
         </div>
-        <div className={`${formProperties.parking}-inputs-container flex`}>
+        <div className={`${formProperties.parking}-inputs-container flex px-6`}>
           <div className={`${formProperties.parking}-option-container flex w-1/2 items-center mb-4`}>
             <Label
               className={`${formProperties.parking}-yes-label block mb-0 pr-4`}
@@ -168,29 +166,11 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
               }}
             />
           </div>
-          <div className={`${formProperties.parking}-option-container flex w-1/2 items-center mb-4`}>
-            <Label
-              className={`block mb-0 pr-4`}
-              htmlFor={`${formProperties.parking}-no`}
-              labelText={`Yok`}
-            />
-            <Radio
-              className={`${formProperties.parking}-input text-blue-500 text-sm block`}
-              id={`${formProperties.parking}-no`}
-              name={`${formProperties.parking}`}
-              onChange={(event) => {
-                setFourthPageFormData({
-                  ...fourthPageFormData,
-                  [event.target.name]: (event.target.value === 'on' ? false : true)
-                })
-              }}
-            />
-          </div>
         </div>
       </div>
       <div className={`${formProperties.opportunities}-container`}>
         <div className={`${formProperties.opportunities}-header`}>
-          <h3 className="block mb-2 text-sm font-semibold text-gray-900">Lokasyon Olanaklari</h3>
+          <h2 className="block mb-2 text-sm font-semibold text-gray-900">Servis Noktasi Olanaklari</h2>
         </div>
         <div className={`${formProperties.opportunities}-selectbox-container flex flex-wrap text-sm`}>
           <div className={`${formProperties.opportunities}-selectbox w-full relative text-gray-900`} ref={dropdownRef}>

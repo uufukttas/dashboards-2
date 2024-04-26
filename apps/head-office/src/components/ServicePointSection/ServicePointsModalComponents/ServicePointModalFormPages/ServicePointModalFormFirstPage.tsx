@@ -132,7 +132,7 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
           <Label
             className={`${formProperties.name}-label block mb-2 text-heading`}
             htmlFor={`${formProperties.name}`}
-            labelText={`Lokasyon Ismi`}
+            labelText={`Servis Noktasi Ismi`}
           >
             <span className="text-md text-error">*</span>
           </Label>
@@ -151,7 +151,7 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
                   value: 3,
                   message: 'En az 3 karakter girmelisiniz.',
                 },
-                required: `Lokasyon Ismi zorunludur.`,
+                required: `Servis Noktasi Ismi zorunludur.`,
                 value: firstPageFormData[`${formProperties.name}`].toString(),
                 onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                   setFirstPageFormData({
