@@ -16,6 +16,7 @@ export function Dialog({ handleCancel, handleSuccess }: DialogProps) {
             className="dialog-close-button flex items-center justify-center h-8 w-8 rounded-lg p-1.5 hover:cursor-pointer"
             id={`dialog-close-button`}
             type="button"
+            onClick={handleCancel}
           >
             <FaRegCircleXmark />
           </Button>
