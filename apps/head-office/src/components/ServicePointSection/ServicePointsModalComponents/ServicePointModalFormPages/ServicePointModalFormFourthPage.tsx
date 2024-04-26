@@ -12,11 +12,12 @@ import { toggleModalVisibility } from '../../../../../app/redux/features/isModal
 import { toggleServicePointDataUpdated } from '../../../../../app/redux/features/isServicePointDataUpdated';
 import { setServicePointInformation } from '../../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../../app/redux/store';
-import { PAYMENT_METHODS, OPPORTUNITIES, BRAND_PREFIX } from '../../../../constants/constants';
+import { OPPORTUNITIES, BRAND_PREFIX } from '../../../../constants/constants';
 import { IFormDataProps, IModalFourthPageInputsProps } from '../../types';
 
 const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = ({
   activePage,
+  paymentMethods,
   stationId,
   setActivePage
 }: IModalFourthPageInputsProps) => {
@@ -51,6 +52,22 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     districtId: servicePointInformation.districtId,
     ...(servicePointInformation?.id > 0 ? { id: servicePointInformation?.id } : { stationId: stationId })
   });
+  const createPaymentMethods = async () => {
+    await axios
+    .post(
+      process.env.ADD_STATION_FEATURE || '',
+      ([
+        {
+          "stationId": stationId,
+          "stationFeatureType": 1,
+          "stationFeatureValue": fourthPageFormData[`${formProperties.paymentMethods}`],
+          "isDeleted": false
+        }
+      ]),
+      { headers: { 'Content-Type': 'application/json' } }
+    )
+    .then((response) => response.data)
+  };
   const createServicePointDetails = () => {
     const actionURL = servicePointInformation?.id > 0
       ? process.env.UPDATE_STATION_INFO_URL || ''
@@ -92,6 +109,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     );
 
     createServicePointDetails();
+    createPaymentMethods();
   };
   const handleOptionChange = (value: string) => {
     if (selectedOptions.includes(value)) {
@@ -130,7 +148,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
         <Dropdown
           className={`${formProperties.paymentMethods}-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
           id={`${formProperties.paymentMethods}`}
-          items={PAYMENT_METHODS}
+          items={paymentMethods}
           name={`${formProperties.paymentMethods}`}
           selectedValue={fourthPageFormData[`${formProperties.paymentMethods}`]?.toString()}
           value={fourthPageFormData[`${formProperties.paymentMethods}`]?.toString()}
@@ -145,7 +163,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
       <div className={`${formProperties.parking}-container flex items-baseline`}>
         <div className={`${formProperties.parking}-header`}>
           <h2 className={`${formProperties.parking}-text block mb-2 font-semibold text-gray-900`}>
-            Park Yeri
+            Ucretsiz Park Yeri
           </h2>
         </div>
         <div className={`${formProperties.parking}-inputs-container flex px-6`}>

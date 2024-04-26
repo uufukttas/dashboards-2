@@ -55,9 +55,9 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const [servicePointDetails, setServicePointDetails] =
     useState<IServicePointsDetailsProps>({
       name: '',
-      id: '',
-      resellerId: '',
-      companyId: '',
+      id: 0,
+      resellerCompanyId: 0,
+      companyId: 0,
       resellerName: '',
       companyName: '',
       isActive: false,
