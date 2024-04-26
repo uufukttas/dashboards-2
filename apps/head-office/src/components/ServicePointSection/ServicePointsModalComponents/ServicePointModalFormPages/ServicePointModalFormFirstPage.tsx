@@ -176,7 +176,7 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
           <Label
             className={`${formProperties.company}-label block mb-2 text-heading font-semibold`}
             htmlFor={`${formProperties.company}`}
-            labelText={`Isletme`}
+            labelText={`Sirket`}
           >
             <span className="text-md text-error">*</span>
           </Label>

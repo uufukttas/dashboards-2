@@ -42,7 +42,7 @@ const ServicePointSection: React.FC = () => {
           dispatch
             (showAlert({
               message: response.message,
-              type: 'success',
+              type: 'info',
             }));
 
           setTimeout(() => {
