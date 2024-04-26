@@ -19,6 +19,7 @@
       "@projects/button": ["libs/button/src/index.ts"],
       "@projects/card": ["libs/card/src/index.ts"],
       "@projects/checkbox": ["libs/checkbox/src/index.ts"],
+      "@projects/checkbox-in-dropdown": ["libs/checkbox-in-dropdown/src/index.ts"],
       "@projects/common": ["libs/common/src/index.ts"],
       "@projects/dialog": ["libs/dialog/src/index.ts"],
       "@projects/dropdown": ["libs/dropdown/src/index.ts"],
