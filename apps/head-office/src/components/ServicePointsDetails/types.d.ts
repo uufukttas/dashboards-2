@@ -143,10 +143,10 @@ export interface IInvestorsProps {
 };
 export interface IServicePointsDetailsProps {
   name: string;
-  id: string;
-  resellerId: string;
-  companyId: string;
+  id: number;
+  companyId: number;
   resellerName: string;
+  resellerCompanyId: number;
   companyName: string;
   isActive: boolean;
   isDeleted: boolean;

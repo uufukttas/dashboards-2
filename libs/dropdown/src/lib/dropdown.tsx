@@ -5,7 +5,7 @@ interface IDropdownProps {
   className?: string;
   disabled?: boolean;
   id: string;
-  items: { id: null; rid: number; plateCode: number; name: string; }[] | { name: string, id: number; rid: null; }[];
+  items: { id: null; rid: number; plateCode?: number; name: string; }[] | { name: string, id: number; rid: null; }[];
   multiple?: boolean;
   name: string;
   optionClassName?: string;
