@@ -6,10 +6,11 @@ interface ICheckboxProps {
   id: string;
   name: string;
   register?: UseFormRegisterReturn;
+  dataAttributes?: { [key: string]: string };
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export function Checkbox({ checked, className, id, name, register, onChange }: ICheckboxProps) {
+export function Checkbox({ checked, className, dataAttributes, id, name, register, onChange }: ICheckboxProps) {
   return (
     <input
       checked={checked}
@@ -18,6 +19,7 @@ export function Checkbox({ checked, className, id, name, register, onChange }: I
       name={name}
       type="checkbox"
       onChange={onChange}
+      {...dataAttributes}
       {...register}
     />
   );
