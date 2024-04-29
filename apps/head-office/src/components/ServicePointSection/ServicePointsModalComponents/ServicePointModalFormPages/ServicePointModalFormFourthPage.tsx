@@ -12,13 +12,14 @@ import { toggleServicePointDataUpdated } from '../../../../../app/redux/features
 import { setServicePointInformation } from '../../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../constants/constants';
-import { IFormDataProps, IModalFourthPageInputsProps } from '../../types';
+import { IFeatureProps, IFormDataProps, IModalFourthPageInputsProps } from '../../types';
 
 const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = ({
   activePage,
   paymentMethods,
   stationId,
-  setActivePage
+  setActivePage,
+  setPaymentMethods,
 }: IModalFourthPageInputsProps) => {
   const formName = ['payment-methods', 'parking', 'opportunities'];
   const sectionPrefix = 'service-point';
@@ -37,7 +38,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<string[]>([]);
   const [fourthPageFormData, setFourthPageFormData] = useState<IFormDataProps>({
-    [`${formProperties.paymentMethods}`]: servicePointInformation?.paymentMethods || '1',
+    [`${formProperties.paymentMethods}`]: selectedPaymentMethods || [],
     [`${formProperties.parking}`]: servicePointInformation?.parking || false,
     [`${formProperties.opportunities}`]: servicePointInformation?.opportunities || [],
   });
@@ -101,6 +102,28 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
       })
       .catch((error) => console.log(error));
   };
+  const getStationFeatures = async () => {
+    await axios
+      .post(
+        process.env.GET_STATION_FEATURES || '',
+        { stationId: 65834 },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then((response) => response.data)
+      .then(data => {
+        const choosedPaymentMethods = data.data.filter((feature: IFeatureProps) => feature.stationFeatureType === 1);
+
+        paymentMethods.map((method) => {
+          choosedPaymentMethods.map((choosedMethod: IFeatureProps) => {
+            if (method.stationFeatureValue === Number(choosedMethod.stationFeatureValue)) {
+              method.isChecked = method.isChecked || true;
+            }
+          })
+        });
+
+        setPaymentMethods(paymentMethods);
+      })
+  };
   const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
     dispatch(
       setServicePointInformation({
@@ -125,8 +148,18 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
         : setSelectedOptions([...selectedOptions, event.target.value]);
     }
   };
-  const replacetoDash = (value: string) => value.replace(/\s+/g, '-').toLowerCase();
   const toggleDropdown = () => setIsSelectboxOpen(!isSelectboxOpen);
+
+
+  const changeCheckedValue = (value: number) => {
+    paymentMethods.map((method) => {
+      if (method.stationFeatureValue === Number(value)) {
+        method.isChecked = !method.isChecked;
+      }
+    });
+
+    setPaymentMethods(paymentMethods);
+  }
 
   useEffect(() => {
     setFourthPageFormData({
@@ -142,87 +175,78 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     }));
   }, [selectedOptions]);
 
-  return (
-    <form
-      className={`${BRAND_PREFIX}-modal-page-4 ${activePage === 4 ? 'block' : 'hidden'}`}
-      onSubmit={handleSubmit(handleFormSubmit)}>
-      <div className={`${formProperties.paymentMethods}-container`}>
-        <Label
-          className={`${formProperties.paymentMethods}-label block mb-2 text-sm font-medium text-gray-900`}
-          htmlFor={`${formProperties.paymentMethods}`}
-          labelText={`Odeme Yontemleri`}
-        />
-        {/* <Dropdown
-          className={`${formProperties.paymentMethods}-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
-          id={`${formProperties.paymentMethods}`}
-          items={paymentMethods}
-          name={`${formProperties.paymentMethods}`}
-          selectedValue={fourthPageFormData[`${formProperties.paymentMethods}`]?.toString()}
-          value={fourthPageFormData[`${formProperties.paymentMethods}`]?.toString()}
-          onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
-            setFourthPageFormData(({
-              ...fourthPageFormData,
-              [event.target.name]: event.target.value
-            }));
-          }}
-        /> */}
-        <CheckboxInDropdown
-          className={`${formProperties.paymentMethods}-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
-          id={`${formProperties.paymentMethods}`}
-          inputName={`${formProperties.paymentMethods}`}
-          items={paymentMethods}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleOptionChange(event)}
-        />
 
-      </div>
-      <div className={`${formProperties.parking}-container flex items-center my-4`}>
-        <div className={`${formProperties.parking}-header`}>
-          <h2 className={`${formProperties.parking}-text block font-semibold text-gray-900`}>
-            Ucretsiz Park Yeri
-          </h2>
+  useEffect(() => {
+    getStationFeatures();
+  }, [paymentMethods]);
+
+  return (
+    paymentMethods.length === 0 ? null : (
+      <form
+        className={`${BRAND_PREFIX}-modal-page-4 ${activePage === 4 ? 'block' : 'hidden'}`}
+        onSubmit={handleSubmit(handleFormSubmit)}>
+        <div className={`${formProperties.paymentMethods}-container`}>
+          <Label
+            className={`${formProperties.paymentMethods}-label block mb-2 text-sm font-medium text-gray-900`}
+            htmlFor={`${formProperties.paymentMethods}`}
+            labelText={`Odeme Yontemleri`}
+          />
+          <CheckboxInDropdown
+            className={`${formProperties.paymentMethods}-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+            id={`${formProperties.paymentMethods}`}
+            inputName={`${formProperties.paymentMethods}`}
+            items={paymentMethods}
+            onChange={(event) => changeCheckedValue(Number(event.target.attributes['data-payment-type-value'].value))}
+          />
         </div>
-        <div className={`${formProperties.parking}-inputs-container flex px-6`}>
-          <div className={`${formProperties.parking}-option-container flex w-1/2 items-center`}>
-            <Label
-              className={`${formProperties.parking}-yes-label block mb-0 pr-4`}
-              htmlFor={`${formProperties.parking}-yes`}
-              labelText={`Var`} />
-            <Radio
-              className={`${formProperties.parking}-input text-blue-500 text-sm block`}
-              id={`${formProperties.parking}-yes`}
-              name={`${formProperties.parking}`}
-              onChange={(event) => {
-                setFourthPageFormData({
-                  ...fourthPageFormData,
-                  [event.target.name]: (event.target.value === 'on' ? true : false)
-                });
-              }}
-            />
+        <div className={`${formProperties.parking}-container flex items-center my-4`}>
+          <div className={`${formProperties.parking}-header`}>
+            <h2 className={`${formProperties.parking}-text block font-semibold text-gray-900`}>
+              Ucretsiz Park Yeri
+            </h2>
           </div>
-        </div>
-      </div>
-      <div className={`${formProperties.opportunities}-container`}>
-        <div className={`${formProperties.opportunities}-header`}>
-          <h2 className="block mb-2 text-sm font-semibold text-gray-900">Servis Noktasi Olanaklari</h2>
-        </div>
-        <div className={`${formProperties.opportunities}-selectbox-container flex flex-wrap text-sm`}>
-          <div className={`${formProperties.opportunities}-selectbox w-full relative text-gray-900`} ref={dropdownRef}>
-            <Button
-              className={`${formProperties.opportunities}-selectbox-button w-full focus:ring-primary justify-between border rounded-md flex items-center px-2 py-2 border-gray-500`}
-              id={`${formProperties.opportunities}-selectbox-button`}
-              type='button'
-              onClick={toggleDropdown}>
-              Secim yapiniz
-              <div
-                className='arrow-icon text-lg text-gray-900'
-                dangerouslySetInnerHTML={{
-                  __html: `${isSelectboxOpen ? '&#11205;' : '&#11206;'}`,
+          <div className={`${formProperties.parking}-inputs-container flex px-6`}>
+            <div className={`${formProperties.parking}-option-container flex w-1/2 items-center`}>
+              <Label
+                className={`${formProperties.parking}-yes-label block mb-0 pr-4`}
+                htmlFor={`${formProperties.parking}-yes`}
+                labelText={`Var`} />
+              <Radio
+                className={`${formProperties.parking}-input text-blue-500 text-sm block`}
+                id={`${formProperties.parking}-yes`}
+                name={`${formProperties.parking}`}
+                onChange={(event) => {
+                  setFourthPageFormData({
+                    ...fourthPageFormData,
+                    [event.target.name]: (event.target.value === 'on' ? true : false)
+                  });
                 }}
               />
-            </Button>
-            {isSelectboxOpen && (
-              <div className={`${formProperties.opportunities}-menu w-full flex flex-col absolute bg-white border rounded-md py-2 text-gray-900 border-gray-500`}>
-                {/* {OPPORTUNITIES.map(opportunity => (
+            </div>
+          </div>
+        </div>
+        <div className={`${formProperties.opportunities}-container`}>
+          <div className={`${formProperties.opportunities}-header`}>
+            <h2 className="block mb-2 text-sm font-semibold text-gray-900">Servis Noktasi Olanaklari</h2>
+          </div>
+          <div className={`${formProperties.opportunities}-selectbox-container flex flex-wrap text-sm`}>
+            <div className={`${formProperties.opportunities}-selectbox w-full relative text-gray-900`} ref={dropdownRef}>
+              <Button
+                className={`${formProperties.opportunities}-selectbox-button w-full focus:ring-primary justify-between border rounded-md flex items-center px-2 py-2 border-gray-500`}
+                id={`${formProperties.opportunities}-selectbox-button`}
+                type='button'
+                onClick={toggleDropdown}>
+                Secim yapiniz
+                <div
+                  className='arrow-icon text-lg text-gray-900'
+                  dangerouslySetInnerHTML={{
+                    __html: `${isSelectboxOpen ? '&#11205;' : '&#11206;'}`,
+                  }}
+                />
+              </Button>
+              {isSelectboxOpen && (
+                <div className={`${formProperties.opportunities}-menu w-full flex flex-col absolute bg-white border rounded-md py-2 text-gray-900 border-gray-500`}>
+                  {/* {OPPORTUNITIES.map(opportunity => (
                   <div
                     className={`${formProperties.opportunities}-menu-item flex items-center py-1`}
                     key={opportunity.name}>
@@ -239,27 +263,28 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
                     />
                   </div>
                 ))} */}
-              </div>
-            )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-      <div className={`${sectionPrefix}-buttons-container flex justify-between items-center mt-4`}>
-        <Button
-          buttonText='Geri'
-          className={`${sectionPrefix}-prev-button bg-primary text-text text-sm rounded-lg block p-2.5`}
-          id={`${sectionPrefix}-prev-button`}
-          type={`submit`}
-          onClick={() => setActivePage(activePage - 1)}
-        />
-        <Button
-          buttonText={servicePointInformation?.id > 0 ? 'Guncelle' : 'Kaydet'}
-          className={`${sectionPrefix}-submit-button bg-primary text-text text-sm rounded-lg block p-2.5`}
-          id={`${sectionPrefix}-submit-button`}
-          type={`submit`}
-        />
-      </div>
-    </form >
+        <div className={`${sectionPrefix}-buttons-container flex justify-between items-center mt-4`}>
+          <Button
+            buttonText='Geri'
+            className={`${sectionPrefix}-prev-button bg-primary text-text text-sm rounded-lg block p-2.5`}
+            id={`${sectionPrefix}-prev-button`}
+            type={`submit`}
+            onClick={() => setActivePage(activePage - 1)}
+          />
+          <Button
+            buttonText={servicePointInformation?.id > 0 ? 'Guncelle' : 'Kaydet'}
+            className={`${sectionPrefix}-submit-button bg-primary text-text text-sm rounded-lg block p-2.5`}
+            id={`${sectionPrefix}-submit-button`}
+            type={`submit`}
+          />
+        </div>
+      </form >
+    )
   )
 };
 
