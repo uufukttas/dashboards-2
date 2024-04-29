@@ -18,7 +18,7 @@ const Sidebar: React.FC = () => {
   return (
     isDetectedDevice && (
       <div
-        className={`${BRAND_PREFIX}-sidebar-container border-r border-gray-300 flex flex-col justify-between ${
+        className={`${BRAND_PREFIX}-sidebar-container border-r border-gray-300 flex flex-col justify-between bg-background ${
           isSidebarExpanded !== null && (
             isSidebarExpanded
               ? 'expanded'
