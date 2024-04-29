@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import axios from 'axios';
 import Link from 'next/link';
-import { FaPen, FaTrashCan, FaCircleInfo } from 'react-icons/fa6';
+import { FaCircleInfo, FaExclamation, FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../constants/constants';
 import { showDialog } from '../../../../app/redux/features/dialogInformation';
@@ -63,30 +63,30 @@ const TableBody: React.FC = () => {
                     return (
                         <Fragment key={servicePoint.id}>
                             <tr data-service-point-id={servicePoint.id}>
-                                <td className="px-6 py-3 text-center">{servicePoint.name}</td>
-                                <td className="px-6 py-3 text-center">{servicePoint.phone}</td>
-                                <td className="px-6 py-3 text-center">{servicePoint.address}</td>
-                                <td className="px-6 py-3 text-center">{getCity((servicePoint.cityId))}</td>
-                                <td className="px-6 py-3 text-center">{getDistricts(servicePoint.districtId)}</td>
-                                <td className="px-6 py-3 text-center">
-                                    <div className={`${BRAND_PREFIX}-service-point-status-container flex justify-center`}>
-                                        {
-                                            (
-                                                servicePoint.phone &&
-                                                servicePoint.address &&
-                                                servicePoint.cityId &&
-                                                servicePoint.districtId
-                                            )
-                                                ? <div className='bg-green-500 rounded-full h-4 w-4 mx-2'></div>
-                                                : <div className='bg-red-500 rounded-full h-4 w-4 mx-2'></div>
-
-                                        }
+                                <td className="px-4 py-2">
+                                    <div className={`${BRAND_PREFIX}-service-point-item-information-container h-full flex items-center`}>
+                                        <div className={`${BRAND_PREFIX}-service-point-status-container`}>
+                                            {
+                                                // TODO: We change this column to show the status of the service point from charge units
+                                                <div className='text-red-500 text-2xl'>
+                                                    <FaExclamation />
+                                                </div>
+                                            }
+                                        </div>
+                                        <div className={`${BRAND_PREFIX}-service-point-name`}>
+                                            {servicePoint.name}
+                                        </div>
                                     </div>
                                 </td>
-                                <td className="px-6 py-4 w-full">
+                                <td className="px-4 py-2 text-center">{servicePoint.phone}</td>
+                                <td className="px-4 py-2 text-center">{servicePoint.address}</td>
+                                <td className="px-4 py-2 text-center">{getCity((servicePoint.cityId))}</td>
+                                <td className="px-4 py-2 text-center">{getDistricts(servicePoint.districtId)}</td>
+
+                                <td className="px-4 py-4">
                                     <div className="flex">
                                         <a
-                                            className="font-medium text-blue-600 cursor-pointer px-2"
+                                            className="font-medium text-blue-600 cursor-pointer px-4"
                                             data-modal-show="editUserModal"
                                             data-service-point-id={servicePoint.id}
                                             onClick={getUpdatedServicePointsInfo}
@@ -94,7 +94,7 @@ const TableBody: React.FC = () => {
                                             <FaPen className='text-primary' />
                                         </a>
                                         <a
-                                            className="font-medium text-red-600 cursor-pointer px-2"
+                                            className="font-medium text-red-600 cursor-pointer px-4"
                                             data-modal-show="deleteUserModal"
                                             data-service-point-id={servicePoint.id}
                                             onClick={deleteServicePointInfo}
@@ -107,7 +107,7 @@ const TableBody: React.FC = () => {
                                             servicePoint.cityId &&
                                             servicePoint.districtId && (
                                                 <Link
-                                                    className='px-2'
+                                                    className='px-4'
                                                     href={`/service-points/service-point/${servicePoint.id}`}
                                                 >
                                                     <FaCircleInfo className={`text-blue-700`} />

@@ -8,7 +8,12 @@ table {
 }
 
 td {
-  width: 14.2857142857%;
+  width: 16.6666666667%;
+  height: 10%;
+}
+
+tr {
+  height: 10%;
 }
 
 @media screen and (max-width: 480px) {

@@ -21,9 +21,6 @@ const TableHead: React.FC = () => {
                     Ilce
                 </th>
                 <th scope="col" className="px-6 py-3 text-center">
-                    Durumu
-                </th>
-                <th scope="col" className="px-6 py-3 text-center">
                     Islemler
                 </th>
             </tr>
