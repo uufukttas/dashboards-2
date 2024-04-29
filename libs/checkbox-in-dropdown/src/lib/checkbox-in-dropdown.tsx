@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Button } from '@projects/button';
-import { Input } from '@projects/input';
+import { Checkbox } from '@projects/checkbox';
 import { Label } from '@projects/label';
 
 interface IDropdownItemProps {
-  name: string;
   id: number | null;
+  isChecked?: boolean;
+  name: string;
   rid: number | null;
 };
 
@@ -62,12 +63,14 @@ export function CheckboxInDropdown({ className, id, inputName, items, onChange }
           items.map((item: IDropdownItemProps, index: number) => (
             <div className="py-2 px-4 checkbox-in-dropdown-input-container" key={index}>
               <Label className="flex items-center space-x-2 checkbox-in-dropdown-label" htmlFor='' labelText=''>
-                <Input
+                <Checkbox
+                  checked={item.isChecked}
                   className="form-checkbox h-5 w-5 checkbox-in-dropdown-input"
                   id={`checkbox-in-dropdown-input-${item.id || item.rid}`}
                   name={inputName}
-                  type="checkbox"
-                  value={item.id || item.rid || 0}
+                  dataAttributes={{
+                    'data-payment-type-value': (item.id || item.rid)?.toString() || '',
+                  }}
                   onChange={onChange}
                 />
                 <span>{item.name}</span>
