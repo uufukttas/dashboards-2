@@ -9,10 +9,10 @@ import { RootState } from '../../../../app/redux/store';
 
 const ServicePointModalForm: React.FC = () => {
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
-  const [activePage, setActivePage] = useState(1);
+  const [activePage, setActivePage] = useState(3);
   const [cities, setCities] = useState<{ id: null; rid: number; plateCode: number; name: string; }[]>([]);
   const [districts, setDistricts] = useState<{ id: null; rid: number; name: string; plateCode: number; }[]>([]);
-  const [paymentMethods, setPaymentMethods] = useState<{ id: null; name: string; rid: number; }[]>([]);
+  const [paymentMethods, setPaymentMethods] = useState<{ id: null; name: string; rid: number; isChecked?: boolean | undefined; stationFeatureValue: number; stationFeatureType: number; }[]>([]);
   const [stationId, setStationId] = useState<number>(0);
 
   return (
@@ -58,6 +58,7 @@ const ServicePointModalForm: React.FC = () => {
               paymentMethods={paymentMethods}
               stationId={stationId}
               setActivePage={setActivePage}
+              setPaymentMethods={setPaymentMethods}
             />
           )
         }

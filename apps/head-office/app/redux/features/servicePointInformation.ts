@@ -15,7 +15,7 @@ const initialState: IServicePointInformationStateProps = {
         districtId: 0,
         opportunities: [],
         freePark: false,
-        paymentMethods: '1',
+        paymentMethods: [],
     },
 };
 

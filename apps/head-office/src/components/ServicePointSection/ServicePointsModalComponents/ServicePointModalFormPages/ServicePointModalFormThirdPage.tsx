@@ -9,7 +9,7 @@ import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../../../constants/constants';
 import { setServicePointInformation } from '../../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../../app/redux/store';
-import { IFormDataProps, IModalThirdPageInputsProps } from '../../types';
+import { IFeatureProps, IFormDataProps, IModalThirdPageInputsProps } from '../../types';
 
 const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
   activePage,
@@ -63,7 +63,20 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
           { headers: { 'Content-Type': 'application/json' } }
         )
         .then((response) => response.data)
-        .then(data => setPaymentMethods(data.data));
+        .then(data => {
+          const paymentMethods = data.data.map((item: IFeatureProps, index: number) => {
+            return {
+              id: null,
+              name: item.name,
+              rid: item.rid,
+              isChecked: false, 
+              stationFeatureValue: index + 1,
+              stationFeatureType: 1,
+            };
+          });
+
+          setPaymentMethods(paymentMethods);
+        });
     } catch (error) {
       console.log(error);
     };
@@ -151,7 +164,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
             name={`${formProperties['x-coord']}`}
             register={
               register(`${formProperties['x-coord']}`, {
-                required: `X Koordinati zorunludur.`,
+                // required: `X Koordinati zorunludur.`,
                 value: thirdPageFormData[`${formProperties['x-coord']}`],
                 onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                   setThirdPageFormData(({ ...thirdPageFormData, [event.target.name]: Number(event.target.value) }));
@@ -185,7 +198,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
             name={`${formProperties['y-coord']}`}
             register={
               register(`${formProperties['y-coord']}`, {
-                required: `Y Koordinati zorunludur.`,
+                // required: `Y Koordinati zorunludur.`,
                 value: thirdPageFormData[`${formProperties['y-coord']}`],
                 onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                   setThirdPageFormData(({ ...thirdPageFormData, [event.target.name]: Number(event.target.value) }));

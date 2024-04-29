@@ -36,7 +36,7 @@ interface IServicePointInformationProps {
     districtId: number;
     opportunities: string[];
     freePark: boolean;
-    paymentMethods: string;
+    paymentMethods: string[];
 };
 
 export interface IAlertInformationStateProps {
