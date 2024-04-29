@@ -35,6 +35,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   });
   const [isSelectboxOpen, setIsSelectboxOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+  const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<string[]>([]);
   const [fourthPageFormData, setFourthPageFormData] = useState<IFormDataProps>({
     [`${formProperties.paymentMethods}`]: servicePointInformation?.paymentMethods || '1',
     [`${formProperties.parking}`]: servicePointInformation?.parking || false,
@@ -55,17 +56,20 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     await axios
       .post(
         process.env.ADD_STATION_FEATURE || '',
-        ([
-          {
-            "stationId": stationId,
-            "stationFeatureType": 1,
-            "stationFeatureValue": fourthPageFormData[`${formProperties.paymentMethods}`],
-            "isDeleted": false
-          }
-        ]),
+        createPaymentMethodsConfigData(),
         { headers: { 'Content-Type': 'application/json' } }
       )
       .then((response) => response.data)
+  };
+  const createPaymentMethodsConfigData = () => {
+    const configData = selectedPaymentMethods.map((paymentMethod) => ({
+      stationId: 65834,
+      stationFeatureType: 1,
+      stationFeatureValue: Number(paymentMethod),
+      isDeleted: false
+    }));
+
+    return JSON.stringify(configData);
   };
   const createServicePointDetails = () => {
     const actionURL = servicePointInformation?.id > 0
@@ -110,11 +114,15 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     createServicePointDetails();
     createPaymentMethods();
   };
-  const handleOptionChange = (value: string) => {
-    if (selectedOptions.includes(value)) {
-      setSelectedOptions(selectedOptions.filter(option => option !== value));
+  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (selectedOptions.includes(event.target.value)) {
+      event.target.name.includes('payment-methods')
+        ? setSelectedPaymentMethods(selectedPaymentMethods.filter(option => option !== event.target.value))
+        : setSelectedOptions(selectedOptions.filter(option => option !== event.target.value));
     } else {
-      setSelectedOptions([...selectedOptions, value]);
+      event.target.name.includes('payment-methods')
+        ? setSelectedPaymentMethods([...selectedPaymentMethods, event.target.value])
+        : setSelectedOptions([...selectedOptions, event.target.value]);
     }
   };
   const replacetoDash = (value: string) => value.replace(/\s+/g, '-').toLowerCase();
@@ -161,8 +169,9 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
         <CheckboxInDropdown
           className={`${formProperties.paymentMethods}-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
           id={`${formProperties.paymentMethods}`}
-          items={[{ id: 1, name: 'test1' }, { id: 2, name: 'test2' }]}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => console.log(event.target.value)}
+          inputName={`${formProperties.paymentMethods}`}
+          items={paymentMethods}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleOptionChange(event)}
         />
 
       </div>
