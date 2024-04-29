@@ -7,9 +7,9 @@ import './Table.css';
 
 const Table: React.FC = () => {
   return (
-    <div className={`${BRAND_PREFIX}-service-points-table-container relative overflow-x-auto shadow-md max-w-[330px] md:max-w-full w-full`}>
+    <div className={`${BRAND_PREFIX}-service-points-table-container relative overflow-x-auto shadow-md max-w-[330px] md:max-w-full w-full border-2 border-gray-200`}>
       <TableHeader />
-      <div className={`${BRAND_PREFIX}-service-points-table-content-container`}>
+      <div className={`${BRAND_PREFIX}-service-points-table-content-container border-r-0 border-l-0`}>
         <table className={`${BRAND_PREFIX}-service-points-table w-full text-sm text-left rtl:text-right text-gray-500`}>
           <TableHead />
           <TableBody />

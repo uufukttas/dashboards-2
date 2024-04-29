@@ -84,7 +84,7 @@ const TableBody: React.FC = () => {
                                 <td className="px-4 py-2 text-center">{getDistricts(servicePoint.districtId)}</td>
 
                                 <td className="px-4 py-4">
-                                    <div className="flex">
+                                    <div className="flex justify-start text-2xl">
                                         <a
                                             className="font-medium text-blue-600 cursor-pointer px-4"
                                             data-modal-show="editUserModal"
