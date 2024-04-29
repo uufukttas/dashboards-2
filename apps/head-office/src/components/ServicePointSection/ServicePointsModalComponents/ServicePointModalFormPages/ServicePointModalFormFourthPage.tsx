@@ -3,8 +3,7 @@ import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
-import { Checkbox } from '@projects/checkbox';
-import { Dropdown } from '@projects/dropdown';
+import { CheckboxInDropdown } from '@projects/checkbox-in-dropdown';
 import { Label } from '@projects/label';
 import { Radio } from '@projects/radio';
 import { hideAlert, showAlert } from '../../../../../app/redux/features/alertInformation';
@@ -12,7 +11,7 @@ import { toggleModalVisibility } from '../../../../../app/redux/features/isModal
 import { toggleServicePointDataUpdated } from '../../../../../app/redux/features/isServicePointDataUpdated';
 import { setServicePointInformation } from '../../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../../app/redux/store';
-import { OPPORTUNITIES, BRAND_PREFIX } from '../../../../constants/constants';
+import { BRAND_PREFIX } from '../../../../constants/constants';
 import { IFormDataProps, IModalFourthPageInputsProps } from '../../types';
 
 const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = ({
@@ -54,19 +53,19 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   });
   const createPaymentMethods = async () => {
     await axios
-    .post(
-      process.env.ADD_STATION_FEATURE || '',
-      ([
-        {
-          "stationId": stationId,
-          "stationFeatureType": 1,
-          "stationFeatureValue": fourthPageFormData[`${formProperties.paymentMethods}`],
-          "isDeleted": false
-        }
-      ]),
-      { headers: { 'Content-Type': 'application/json' } }
-    )
-    .then((response) => response.data)
+      .post(
+        process.env.ADD_STATION_FEATURE || '',
+        ([
+          {
+            "stationId": stationId,
+            "stationFeatureType": 1,
+            "stationFeatureValue": fourthPageFormData[`${formProperties.paymentMethods}`],
+            "isDeleted": false
+          }
+        ]),
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then((response) => response.data)
   };
   const createServicePointDetails = () => {
     const actionURL = servicePointInformation?.id > 0
@@ -145,7 +144,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
           htmlFor={`${formProperties.paymentMethods}`}
           labelText={`Odeme Yontemleri`}
         />
-        <Dropdown
+        {/* <Dropdown
           className={`${formProperties.paymentMethods}-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
           id={`${formProperties.paymentMethods}`}
           items={paymentMethods}
@@ -158,16 +157,23 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
               [event.target.name]: event.target.value
             }));
           }}
+        /> */}
+        <CheckboxInDropdown
+          className={`${formProperties.paymentMethods}-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+          id={`${formProperties.paymentMethods}`}
+          items={[{ id: 1, name: 'test1' }, { id: 2, name: 'test2' }]}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => console.log(event.target.value)}
         />
+
       </div>
-      <div className={`${formProperties.parking}-container flex items-baseline`}>
+      <div className={`${formProperties.parking}-container flex items-center my-4`}>
         <div className={`${formProperties.parking}-header`}>
-          <h2 className={`${formProperties.parking}-text block mb-2 font-semibold text-gray-900`}>
+          <h2 className={`${formProperties.parking}-text block font-semibold text-gray-900`}>
             Ucretsiz Park Yeri
           </h2>
         </div>
         <div className={`${formProperties.parking}-inputs-container flex px-6`}>
-          <div className={`${formProperties.parking}-option-container flex w-1/2 items-center mb-4`}>
+          <div className={`${formProperties.parking}-option-container flex w-1/2 items-center`}>
             <Label
               className={`${formProperties.parking}-yes-label block mb-0 pr-4`}
               htmlFor={`${formProperties.parking}-yes`}
@@ -207,7 +213,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
             </Button>
             {isSelectboxOpen && (
               <div className={`${formProperties.opportunities}-menu w-full flex flex-col absolute bg-white border rounded-md py-2 text-gray-900 border-gray-500`}>
-                {OPPORTUNITIES.map(opportunity => (
+                {/* {OPPORTUNITIES.map(opportunity => (
                   <div
                     className={`${formProperties.opportunities}-menu-item flex items-center py-1`}
                     key={opportunity.name}>
@@ -223,7 +229,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
                       labelText={opportunity.name}
                     />
                   </div>
-                ))}
+                ))} */}
               </div>
             )}
           </div>
