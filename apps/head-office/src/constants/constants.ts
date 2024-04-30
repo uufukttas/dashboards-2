@@ -6,12 +6,6 @@ interface IDistrictMap {
     [key: string]: string;
 };
 
-interface IOpportunities {
-    name: string;
-    id: number;
-    rid: null;
-};
-
 export const CITIES: ICityMap = {
     '1': 'ADANA',
     '2': 'ADIYAMAN',

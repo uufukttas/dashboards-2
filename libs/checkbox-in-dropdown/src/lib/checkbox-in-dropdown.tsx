@@ -6,7 +6,7 @@ import { Label } from '@projects/label';
 interface IDropdownItemProps {
   id: null | number;
   isChecked?: boolean;
-  name: string; 
+  name: string;
   rid: number | null;
   stationFeatureType: number;
   stationFeatureValue: number;
@@ -24,9 +24,7 @@ export function CheckboxInDropdown({ className, id, inputName, items, onChange }
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleDropdown = () => setIsOpen(!isOpen);
   const handleCheckboxChange = (item: IDropdownItemProps) => {
-    // Toggle the checked state
     const newItems = items.map((i) => {
 
       if (i.id !== null) {
@@ -38,12 +36,15 @@ export function CheckboxInDropdown({ className, id, inputName, items, onChange }
           return { ...i, isChecked: !i.isChecked };
         }
       }
-      console.log('i', i)
+
       return i;
     });
 
     onChange(newItems);
   };
+
+  const toggleDropdown = () => setIsOpen(!isOpen);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -76,7 +77,9 @@ export function CheckboxInDropdown({ className, id, inputName, items, onChange }
         </Button>
       </div>
       <div
-        className={`${isOpen ? 'absolute bg-white shadow-lg w-48 rounded-md z-10' : 'hidden'} checkbox-in-dropdown-input-wrapper border w-full`}
+        className={`${isOpen
+          ? 'absolute bg-white shadow-lg w-48 rounded-md z-10'
+          : 'hidden'} checkbox-in-dropdown-input-wrapper border w-full`}
         id="checkbox-in-dropdown-input-wrapper"
       >
         {

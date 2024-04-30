@@ -8,7 +8,7 @@ export interface IFeatureProps {
 };
 
 export interface IFormDataProps {
-    [key: string]: boolean | number | string | string[];
+    [key: string]: boolean | number | string | string[] | IFeatureProps[];
 };
 
 export interface IModalFirstPageInputsProps {
@@ -25,6 +25,7 @@ export interface IModalFourthPageInputsProps {
     stationId: number;
     setActivePage: React.Dispatch<React.SetStateAction<number>>;
     setPaymentMethods: React.Dispatch<React.SetStateAction<IFeatureProps[]>>;
+    setOpportunities: React.Dispatch<React.SetStateAction<IFeatureProps[]>>;
 };
 
 export interface IModalSecondPageInputsProps {
