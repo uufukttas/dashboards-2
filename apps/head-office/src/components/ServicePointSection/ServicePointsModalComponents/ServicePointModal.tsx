@@ -14,6 +14,7 @@ const ServicePointModalForm: React.FC = () => {
   const [cities, setCities] = useState<{ id: null; rid: number; plateCode: number; name: string; }[]>([]);
   const [districts, setDistricts] = useState<{ id: null; rid: number; name: string; plateCode: number; }[]>([]);
   const [paymentMethods, setPaymentMethods] = useState<IFeatureProps[]>([]);
+  const [opportunities, setOpportunities] = useState<IFeatureProps[]>([]);
   const [stationId, setStationId] = useState<number>(0);
 
   return (
@@ -49,6 +50,7 @@ const ServicePointModalForm: React.FC = () => {
               setActivePage={setActivePage}
               setDistricts={setDistricts}
               setPaymentMethods={setPaymentMethods}
+              setOpportunities={setOpportunities}
             />
           )
         }
@@ -57,6 +59,7 @@ const ServicePointModalForm: React.FC = () => {
             <ServicePointModalFormFourthPage
               activePage={activePage}
               paymentMethods={paymentMethods}
+              opportunities={opportunities}
               stationId={stationId}
               setActivePage={setActivePage}
               setPaymentMethods={setPaymentMethods}

@@ -18,6 +18,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
   setActivePage,
   setDistricts,
   setPaymentMethods,
+  setOpportunities,
 }: IModalThirdPageInputsProps) => {
   const dispatch = useDispatch();
   const { formState: { errors }, handleSubmit, register } = useForm();
@@ -81,6 +82,33 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
       console.log(error);
     };
   };
+  const getOpportunities = async () => {
+    try {
+      axios
+        .post(
+          process.env.GET_FEATURE_VALUES || '',
+          { "stationFeatureType": 2 },
+          { headers: { 'Content-Type': 'application/json' } }
+        )
+        .then((response) => response.data)
+        .then(data => {
+          const opportunities = data.data.map((item: IFeatureProps, index: number) => {
+            return {
+              id: null,
+              name: item.name,
+              rid: item.rid,
+              isChecked: false, 
+              stationFeatureValue: index + 1,
+              stationFeatureType: 1,
+            };
+          });
+
+          setOpportunities(opportunities);
+        });
+    } catch (error) {
+      console.log(error);
+    };
+  };
   const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const cityId = Number(event.target.value);
 
@@ -115,6 +143,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
     );
     getDistricts(selectedCity);
     getPaymentMethods();
+    getOpportunities();
   }, []);
 
   return (

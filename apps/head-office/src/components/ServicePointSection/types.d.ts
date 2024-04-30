@@ -21,6 +21,7 @@ export interface IModalFirstPageInputsProps {
 export interface IModalFourthPageInputsProps {
     activePage: number;
     paymentMethods: IFeatureProps[];
+    opportunities: IFeatureProps[];
     stationId: number;
     setActivePage: React.Dispatch<React.SetStateAction<number>>;
     setPaymentMethods: React.Dispatch<React.SetStateAction<IFeatureProps[]>>;
@@ -41,6 +42,7 @@ export interface IModalThirdPageInputsProps {
     setActivePage: React.Dispatch<React.SetStateAction<number>>;
     setDistricts: React.Dispatch<React.SetStateAction<{ rid: number; name: string; plateCode: number; id: null }[]>>;
     setPaymentMethods: React.Dispatch<React.SetStateAction<IFeatureProps[]>>;
+    setOpportunities: React.Dispatch<React.SetStateAction<IFeatureProps[]>>;
 };
 
 export interface IPaginationProps {
