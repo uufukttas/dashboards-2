@@ -13,6 +13,7 @@ import { setServicePointInformation } from '../../../../../app/redux/features/se
 import { RootState } from '../../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../constants/constants';
 import { IFeatureProps, IFormDataProps, IModalFourthPageInputsProps } from '../../types';
+import { Input } from '@projects/input';
 
 const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = ({
   activePage,
@@ -187,7 +188,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
       <form
         className={`${BRAND_PREFIX}-modal-page-4 ${activePage === 4 ? 'block' : 'hidden'}`}
         onSubmit={handleSubmit(handleFormSubmit)}>
-        <div className={`${formProperties.paymentMethods}-container`}>
+        <div className={`${formProperties.paymentMethods}-container mb-4`}>
           <Label
             className={`${formProperties.paymentMethods}-label block mb-2 text-sm font-medium text-gray-900`}
             htmlFor={`${formProperties.paymentMethods}`}
@@ -201,31 +202,23 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
             onChange={(paymentMethods) => handleOptionChange(paymentMethods)}
           />
         </div>
-        <div className={`${formProperties.parking}-container flex items-center my-4`}>
-          <div className={`${formProperties.parking}-header`}>
-            <h2 className={`${formProperties.parking}-text block font-semibold text-gray-900`}>
-              Ucretsiz Park Yeri
-            </h2>
-          </div>
-          <div className={`${formProperties.parking}-inputs-container flex px-6`}>
-            <div className={`${formProperties.parking}-option-container flex w-1/2 items-center`}>
-              <Label
-                className={`${formProperties.parking}-yes-label block mb-0 pr-4`}
-                htmlFor={`${formProperties.parking}-yes`}
-                labelText={`Var`} />
-              <Radio
-                className={`${formProperties.parking}-input text-blue-500 text-sm block`}
-                id={`${formProperties.parking}-yes`}
-                name={`${formProperties.parking}`}
-                onChange={(event) => {
-                  setFourthPageFormData({
-                    ...fourthPageFormData,
-                    [event.target.name]: (event.target.value === 'on' ? true : false)
-                  });
-                }}
-              />
-            </div>
-          </div>
+        <div className={`${formProperties.parking}-container`}>
+          <Label
+            className={`${formProperties.parking}-block mb-2 text-heading font-semibold`}
+            htmlFor={`${formProperties.parking}`}
+            labelText={`Ucretsiz arac park sayisi`} />
+          <Input
+            className={`${formProperties.parking}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
+            id={`${formProperties.parking}`}
+            name={`${formProperties.parking}`}
+            type='number'
+            onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
+              setFourthPageFormData({
+                ...fourthPageFormData,
+                [event.target.name]: event.target.value,
+              });
+            }}
+          />
         </div>
         <div className={`${formProperties.opportunities}-container`}>
           <div className={`${formProperties.opportunities}-header`}>
