@@ -1091,46 +1091,6 @@ export const DISTRICTS: IDistrictMap = {
     '1': 'ALADAĞ',
 };
 
-export const OPPORTUNITIES: IOpportunities[] = [
-    {
-        name: 'AVM',
-        id: 1,
-        rid: null
-    }, {
-        name: 'Wifi',
-        id: 2,
-        rid: null
-    }, {
-        name: 'Otopark',
-        id: 3,
-        rid: null
-    }, {
-        name: 'Cocuk Oyun Alani',
-        id: 4,
-        rid: null
-    }, {
-        name: 'Engelli Dostu',
-        id: 5,
-        rid: null
-    }, {
-        name: 'Klima',
-        id: 6,
-        rid: null
-    }, {
-        name: 'Kafe',
-        id: 7,
-        rid: null
-    }, {
-        name: 'Restoran',
-        id: 8,
-        rid: null
-    }, {
-        name: 'Market',
-        id: 9,
-        rid: null
-    }
-];
-
 export const BRAND_PREFIX = 'sh';
 
 export const userInfo = {
