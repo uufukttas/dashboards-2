@@ -99,7 +99,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
               rid: item.rid,
               isChecked: false, 
               stationFeatureValue: index + 1,
-              stationFeatureType: 1,
+              stationFeatureType: 2,
             };
           });
 

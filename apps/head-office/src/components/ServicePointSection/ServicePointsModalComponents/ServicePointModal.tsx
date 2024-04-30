@@ -63,6 +63,7 @@ const ServicePointModalForm: React.FC = () => {
               stationId={stationId}
               setActivePage={setActivePage}
               setPaymentMethods={setPaymentMethods}
+              setOpportunities={setOpportunities}
             />
           )
         }

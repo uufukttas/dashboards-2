@@ -21,6 +21,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   stationId,
   setActivePage,
   setPaymentMethods,
+  setOpportunities,
 }: IModalFourthPageInputsProps) => {
   const formName = ['payment-methods', 'parking', 'opportunities'];
   const sectionPrefix = 'service-point';
@@ -34,10 +35,8 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   const servicePointInformation = useSelector((state: RootState) => {
     return state.servicePointInformation.servicePointInformation;
   });
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  const [selectedPaymentMethods, setSelectedPaymentMethods] = useState<string[]>([]);
   const [fourthPageFormData, setFourthPageFormData] = useState<IFormDataProps>({
-    [`${formProperties.paymentMethods}`]: selectedPaymentMethods || [],
+    [`${formProperties.paymentMethods}`]: paymentMethods || [],
     [`${formProperties.parking}`]: servicePointInformation?.parking || false,
     [`${formProperties.opportunities}`]: servicePointInformation?.opportunities || [],
   });
@@ -62,14 +61,33 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
       .then((response) => response.data)
   };
   const createPaymentMethodsConfigData = () => {
-    const configData = selectedPaymentMethods.map((paymentMethod) => ({
-      stationId: 65834,
-      stationFeatureType: 1,
-      stationFeatureValue: Number(paymentMethod),
-      isDeleted: false
-    }));
+    const filteredPaymentMethods = paymentMethods
+      .filter((paymentMethod) => paymentMethod.isChecked)
+      .map((paymentMethod) => ({
+        ...paymentMethod,
+        stationId: stationId,
+      }));
 
-    return JSON.stringify(configData);
+    return JSON.stringify(filteredPaymentMethods);
+  };
+  const createOpportunities = async () => {
+    await axios
+      .post(
+        process.env.ADD_STATION_FEATURE || '',
+        createOpportunitiesConfigData(),
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then((response) => response.data)
+  };
+  const createOpportunitiesConfigData = () => {
+    const filteredOpportunities = opportunities
+      .filter((opportunity) => opportunity.isChecked)
+      .map((opportunity) => ({
+        ...opportunity,
+        stationId: stationId,
+      }));
+
+    return JSON.stringify(filteredOpportunities);
   };
   const createServicePointDetails = () => {
     const actionURL = servicePointInformation?.id > 0
@@ -105,7 +123,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     await axios
       .post(
         process.env.GET_STATION_FEATURES || '',
-        { stationId: 65834 },
+        { stationId: stationId },
         { headers: { 'Content-Type': 'application/json' } }
       )
       .then((response) => response.data)
@@ -127,32 +145,30 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     dispatch(
       setServicePointInformation({
         ...servicePointInformation,
-        paymentMethods: fourthPageFormData[`${formProperties.paymentMethods}`].toString(),
+        paymentMethods: fourthPageFormData[`${formProperties.paymentMethods}`],
         parking: fourthPageFormData[`${formProperties.parking}`],
-        opportunities: selectedOptions
+        opportunities: fourthPageFormData[`${formProperties.opportunities}`],
       })
     );
 
     createServicePointDetails();
     createPaymentMethods();
-  };
-  const handleOptionChange = (newItems: IFeatureProps[]) => {
-    
+    createOpportunities();
   };
 
   useEffect(() => {
     setFourthPageFormData({
       ...fourthPageFormData,
-      [`${formProperties.opportunities}`]: selectedOptions
+      [`${formProperties.opportunities}`]: opportunities,
     });
 
     dispatch(setServicePointInformation({
       ...servicePointInformation,
-      paymentMethods: fourthPageFormData[`${formProperties.paymentMethods}`].toString(),
+      paymentMethods: fourthPageFormData[`${formProperties.paymentMethods}`],
       parking: fourthPageFormData[`${formProperties.parking}`],
-      opportunities: selectedOptions,
+      opportunities: fourthPageFormData[`${formProperties.opportunities}`],
     }));
-  }, [selectedOptions]);
+  }, [opportunities]);
 
 
   useEffect(() => {
@@ -175,7 +191,13 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
             id={`${formProperties.paymentMethods}`}
             inputName={`${formProperties.paymentMethods}`}
             items={paymentMethods}
-            onChange={(paymentMethods) => setPaymentMethods(paymentMethods)}
+            onChange={(paymentMethods) => {
+              setPaymentMethods(paymentMethods)
+              setFourthPageFormData({
+                ...fourthPageFormData,
+                [`${formProperties.paymentMethods}`]: paymentMethods,
+              });
+            }}
           />
         </div>
         <div className={`${formProperties.parking}-container`}>
@@ -208,7 +230,13 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
               id={`${formProperties.opportunities}`}
               inputName={`${formProperties.opportunities}`}
               items={opportunities}
-              onChange={(opportunities) => handleOptionChange(opportunities)}
+              onChange={(opportunities) => {
+                setOpportunities(opportunities)
+                setFourthPageFormData({
+                  ...fourthPageFormData,
+                  [`${formProperties.opportunities}`]: opportunities,
+                });
+              }}
             />
           </div>
         </div>
