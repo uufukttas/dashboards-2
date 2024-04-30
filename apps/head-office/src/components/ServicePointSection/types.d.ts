@@ -1,7 +1,7 @@
 export interface IFeatureProps {
-    name: string;
-    id: number | null;
+    id: null | number;
     isChecked?: boolean;
+    name: string; 
     rid: number | null;
     stationFeatureType: number;
     stationFeatureValue: number;
@@ -20,10 +20,10 @@ export interface IModalFirstPageInputsProps {
 
 export interface IModalFourthPageInputsProps {
     activePage: number;
-    paymentMethods: { id: null; name: string; rid: number; isChecked?: boolean; stationFeatureValue: number; stationFeatureType: number; }[];
+    paymentMethods: IFeatureProps[];
     stationId: number;
     setActivePage: React.Dispatch<React.SetStateAction<number>>;
-    setPaymentMethods: React.Dispatch<React.SetStateAction<{ id: null; name: string; rid: number; isChecked?: boolean; stationFeatureValue: number; stationFeatureType: number; }[]>>;
+    setPaymentMethods: React.Dispatch<React.SetStateAction<IFeatureProps[]>>;
 };
 
 export interface IModalSecondPageInputsProps {
@@ -40,7 +40,7 @@ export interface IModalThirdPageInputsProps {
     districts: { rid: number; name: string; plateCode: number; id: null }[];
     setActivePage: React.Dispatch<React.SetStateAction<number>>;
     setDistricts: React.Dispatch<React.SetStateAction<{ rid: number; name: string; plateCode: number; id: null }[]>>;
-    setPaymentMethods: React.Dispatch<React.SetStateAction<{ id: null; name: string; rid: number; isChecked?: boolean; stationFeatureValue: number; stationFeatureType: number; }[]>>;
+    setPaymentMethods: React.Dispatch<React.SetStateAction<IFeatureProps[]>>;
 };
 
 export interface IPaginationProps {

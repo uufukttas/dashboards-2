@@ -6,13 +6,14 @@ import ServicePointModalFormSecondPage from './ServicePointModalFormPages/Servic
 import ServicePointModalFormThirdPage from './ServicePointModalFormPages/ServicePointModalFormThirdPage';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import { RootState } from '../../../../app/redux/store';
+import { IFeatureProps } from '../types';
 
 const ServicePointModalForm: React.FC = () => {
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const [activePage, setActivePage] = useState(3);
   const [cities, setCities] = useState<{ id: null; rid: number; plateCode: number; name: string; }[]>([]);
   const [districts, setDistricts] = useState<{ id: null; rid: number; name: string; plateCode: number; }[]>([]);
-  const [paymentMethods, setPaymentMethods] = useState<{ id: null; name: string; rid: number; isChecked?: boolean | undefined; stationFeatureValue: number; stationFeatureType: number; }[]>([]);
+  const [paymentMethods, setPaymentMethods] = useState<IFeatureProps[]>([]);
   const [stationId, setStationId] = useState<number>(0);
 
   return (

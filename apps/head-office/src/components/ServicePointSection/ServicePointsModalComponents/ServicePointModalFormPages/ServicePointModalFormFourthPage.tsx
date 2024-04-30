@@ -137,16 +137,18 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     createServicePointDetails();
     createPaymentMethods();
   };
-  const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (selectedOptions.includes(event.target.value)) {
-      event.target.name.includes('payment-methods')
-        ? setSelectedPaymentMethods(selectedPaymentMethods.filter(option => option !== event.target.value))
-        : setSelectedOptions(selectedOptions.filter(option => option !== event.target.value));
-    } else {
-      event.target.name.includes('payment-methods')
-        ? setSelectedPaymentMethods([...selectedPaymentMethods, event.target.value])
-        : setSelectedOptions([...selectedOptions, event.target.value]);
-    }
+  const handleOptionChange = (newItems: IFeatureProps[]) => {
+    // if (selectedOptions.includes(event.target.value)) {
+    //   event.target.name.includes('payment-methods')
+    //     ? setSelectedPaymentMethods(selectedPaymentMethods.filter(option => option !== event.target.value))
+    //     : setSelectedOptions(selectedOptions.filter(option => option !== event.target.value));
+    // } else {
+    //   event.target.name.includes('payment-methods')
+    //     ? setSelectedPaymentMethods([...selectedPaymentMethods, event.target.value])
+    //     : setSelectedOptions([...selectedOptions, event.target.value]);
+    // }
+
+    setPaymentMethods(newItems);
   };
   const toggleDropdown = () => setIsSelectboxOpen(!isSelectboxOpen);
 
@@ -196,7 +198,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
             id={`${formProperties.paymentMethods}`}
             inputName={`${formProperties.paymentMethods}`}
             items={paymentMethods}
-            onChange={(event) => changeCheckedValue(Number(event.target.attributes['data-payment-type-value'].value))}
+            onChange={(paymentMethods) => handleOptionChange(paymentMethods)}
           />
         </div>
         <div className={`${formProperties.parking}-container flex items-center my-4`}>
