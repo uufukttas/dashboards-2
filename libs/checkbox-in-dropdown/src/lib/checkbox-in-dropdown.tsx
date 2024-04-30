@@ -4,10 +4,12 @@ import { Checkbox } from '@projects/checkbox';
 import { Label } from '@projects/label';
 
 interface IDropdownItemProps {
-  id: number | null;
+  id: null | number;
   isChecked?: boolean;
-  name: string;
+  name: string; 
   rid: number | null;
+  stationFeatureType: number;
+  stationFeatureValue: number;
 };
 
 interface IDropdownProps {
@@ -15,7 +17,7 @@ interface IDropdownProps {
   id: string;
   inputName: string;
   items: IDropdownItemProps[];
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (newItems: IDropdownItemProps[]) => void;
 };
 
 export function CheckboxInDropdown({ className, id, inputName, items, onChange }: IDropdownProps) {
@@ -23,7 +25,25 @@ export function CheckboxInDropdown({ className, id, inputName, items, onChange }
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
+  const handleCheckboxChange = (item: IDropdownItemProps) => {
+    // Toggle the checked state
+    const newItems = items.map((i) => {
 
+      if (i.id !== null) {
+        if (i.id === item.id || i.rid === item.rid) {
+          return { ...i, isChecked: !i.isChecked };
+        }
+      } else {
+        if (i.rid === item.rid) {
+          return { ...i, isChecked: !i.isChecked };
+        }
+      }
+      console.log('i', i)
+      return i;
+    });
+
+    onChange(newItems);
+  };
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -61,20 +81,22 @@ export function CheckboxInDropdown({ className, id, inputName, items, onChange }
       >
         {
           items.map((item: IDropdownItemProps, index: number) => (
-            <div className="py-2 px-4 checkbox-in-dropdown-input-container" key={index}>
-              <Label className="flex items-center space-x-2 checkbox-in-dropdown-label" htmlFor='' labelText=''>
-                <Checkbox
-                  checked={item.isChecked}
-                  className="form-checkbox h-5 w-5 checkbox-in-dropdown-input"
-                  id={`checkbox-in-dropdown-input-${item.id || item.rid}`}
-                  name={inputName}
-                  dataAttributes={{
-                    'data-payment-type-value': (item.id || item.rid)?.toString() || '',
-                  }}
-                  onChange={onChange}
-                />
-                <span>{item.name}</span>
-              </Label>
+            <div className="py-2 px-4 checkbox-in-dropdown-input-container flex" key={index}>
+              <Checkbox
+                checked={item.isChecked}
+                className="form-checkbox h-5 w-5 checkbox-in-dropdown-input"
+                id={`checkbox-in-dropdown-input-${item.id || item.rid}`}
+                name={`checkbox-${item.id || item.rid}`}
+                dataAttributes={{
+                  'data-payment-type-value': (item.id || item.rid)?.toString() || '',
+                }}
+                onChange={() => handleCheckboxChange(item)}
+              />
+              <Label
+                className="flex items-center space-x-2 checkbox-in-dropdown-label pl-4"
+                htmlFor={`checkbox-${item.id || item.rid}`}
+                labelText={item.name}
+              />
             </div>
           ))
         }
