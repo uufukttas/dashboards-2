@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { CheckboxInDropdown } from '@projects/checkbox-in-dropdown';
+import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { hideAlert, showAlert } from '../../../../../app/redux/features/alertInformation';
 import { toggleModalVisibility } from '../../../../../app/redux/features/isModalVisible';
@@ -12,7 +13,6 @@ import { setServicePointInformation } from '../../../../../app/redux/features/se
 import { RootState } from '../../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../constants/constants';
 import { IFeatureProps, IFormDataProps, IModalFourthPageInputsProps } from '../../types';
-import { Input } from '@projects/input';
 
 const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = ({
   activePage,
@@ -37,8 +37,8 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   });
   const [fourthPageFormData, setFourthPageFormData] = useState<IFormDataProps>({
     [`${formProperties.paymentMethods}`]: paymentMethods || [],
-    [`${formProperties.parking}`]: servicePointInformation?.parking || false,
-    [`${formProperties.opportunities}`]: servicePointInformation?.opportunities || [],
+    [`${formProperties.parking}`]: '0',
+    [`${formProperties.opportunities}`]: opportunities || [],
   });
 
   const createConfigData = () => ({
@@ -51,51 +51,62 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     districtId: servicePointInformation.districtId,
     ...(servicePointInformation?.id > 0 ? { id: servicePointInformation?.id } : { stationId: stationId })
   });
-  const createPaymentMethods = async () => {
-    await axios
-      .post(
-        process.env.ADD_STATION_FEATURE || '',
-        createPaymentMethodsConfigData(),
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-      .then((response) => response.data)
-  };
-  const createPaymentMethodsConfigData = () => {
-    const filteredPaymentMethods = paymentMethods
-      .filter((paymentMethod) => paymentMethod.isChecked)
-      .map((paymentMethod) => ({
-        ...paymentMethod,
+  const createParkingConfigData = () => {
+    return [
+      {
         stationId: stationId,
-      }));
-
-    return JSON.stringify(filteredPaymentMethods);
+        stationFeatureType: 8,
+        stationFeatureValue: Number(fourthPageFormData[`${formProperties.parking}`]),
+        isDeleted: false
+      }
+    ]
   };
-  const createOpportunities = async () => {
-    await axios
-      .post(
-        process.env.ADD_STATION_FEATURE || '',
-        createOpportunitiesConfigData(),
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-      .then((response) => response.data)
+  const createPaymentMethodsConfigData = (): Promise<IFeatureProps[] | []> => {
+    return new Promise((resolve) => {
+      if (paymentMethods.length === 0) {
+        resolve([]);
+      } else {
+        const filteredPaymentMethods = paymentMethods
+          .filter(paymentMethod => paymentMethod.isChecked)
+          .map(paymentMethod => ({
+            ...paymentMethod,
+            stationId: stationId,
+            id: null,
+            name: '',
+            rid: null,
+            stationFeatureType: 1,
+            stationFeatureValue: Number(paymentMethod.stationFeatureValue),
+            isDeleted: false
+          }));
+        resolve(filteredPaymentMethods);
+      }
+    });
   };
-  const createOpportunitiesConfigData = () => {
-    const filteredOpportunities = opportunities
-      .filter((opportunity) => opportunity.isChecked)
-      .map((opportunity) => ({
-        ...opportunity,
-        stationId: stationId,
-      }));
-
-    return JSON.stringify(filteredOpportunities);
+  const createOpportunitiesConfigData = (): Promise<IFeatureProps[] | []> => {
+    return new Promise((resolve, reject) => {
+      if (opportunities.length === 0) {
+        resolve([]);
+      } else {
+        const filteredOpportunities = opportunities
+          .filter(opportunity => opportunity.isChecked)
+          .map(opportunity => ({
+            ...opportunity,
+            stationId: stationId,
+            stationFeatureType: 2,
+            stationFeatureValue: Number(opportunity.stationFeatureValue),
+            isDeleted: false
+          }));
+        resolve(filteredOpportunities);
+      }
+    });
   };
-  const createServicePointDetails = () => {
+  const createServicePointDetails = async () => {
     const actionURL = servicePointInformation?.id > 0
       ? process.env.UPDATE_STATION_INFO_URL || ''
       : process.env.ADD_STATION_INFO_URL || '';
     const actionData = (createConfigData());
 
-    axios
+    await axios
       .post(
         actionURL,
         actionData,
@@ -119,7 +130,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
       })
       .catch((error) => console.log(error));
   };
-  const getStationFeatures = async () => {
+  const getStationParkingFeatures = async () => {
     await axios
       .post(
         process.env.GET_STATION_FEATURES || '',
@@ -128,18 +139,15 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
       )
       .then((response) => response.data)
       .then(data => {
-        const choosedPaymentMethods = data.data.filter((feature: IFeatureProps) => feature.stationFeatureType === 1);
+        const parkingCount = data.data
+          .filter((feature: IFeatureProps) => feature.stationFeatureType === 8)
+          .map((parking: IFeatureProps) => parking.stationFeatureValue)[0];
 
-        paymentMethods.map((method) => {
-          choosedPaymentMethods.map((choosedMethod: IFeatureProps) => {
-            if (method.stationFeatureValue === Number(choosedMethod.stationFeatureValue)) {
-              method.isChecked = method.isChecked || true;
-            }
-          })
+        setFourthPageFormData({
+          ...fourthPageFormData,
+          [`${formProperties.parking}`]: parkingCount,
         });
-
-        setPaymentMethods(paymentMethods);
-      })
+      });
   };
   const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
     dispatch(
@@ -152,8 +160,35 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     );
 
     createServicePointDetails();
-    createPaymentMethods();
-    createOpportunities();
+
+    Promise.all([
+      createPaymentMethodsConfigData(),
+      createOpportunitiesConfigData(),
+      createParkingConfigData()
+    ]).then(([filteredPaymentMethods, filteredOpportunities, parkingCount]) => {
+      if (filteredPaymentMethods && filteredOpportunities) {
+        setStationFeatures([
+          ...filteredPaymentMethods,
+          ...filteredOpportunities,
+          ...parkingCount
+        ]);
+      } else {
+        console.error('One of the arrays is empty or undefined');
+      }
+    })
+      .catch(error => console.error('Error in Promise.all:', error));
+  };
+
+  const setStationFeatures = async (featuresData: IFeatureProps[]) => {
+    try {
+      await axios.post(
+        process.env.ADD_STATION_FEATURE || '',
+        JSON.stringify(featuresData),
+        { headers: { 'Content-Type': 'application/json' } }
+      );
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   useEffect(() => {
@@ -170,10 +205,9 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     }));
   }, [opportunities]);
 
-
   useEffect(() => {
-    getStationFeatures();
-  }, [paymentMethods]);
+    getStationParkingFeatures();
+  }, []);
 
   return (
     paymentMethods.length === 0 ? null : (
@@ -209,6 +243,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
             className={`${formProperties.parking}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
             id={`${formProperties.parking}`}
             name={`${formProperties.parking}`}
+            value={fourthPageFormData[`${formProperties.parking}`]?.toString() || '0'}
             type='number'
             onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
               setFourthPageFormData({

@@ -10,7 +10,7 @@ import { IFeatureProps } from '../types';
 
 const ServicePointModalForm: React.FC = () => {
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
-  const [activePage, setActivePage] = useState(3);
+  const [activePage, setActivePage] = useState(1);
   const [cities, setCities] = useState<{ id: null; rid: number; plateCode: number; name: string; }[]>([]);
   const [districts, setDistricts] = useState<{ id: null; rid: number; name: string; plateCode: number; }[]>([]);
   const [paymentMethods, setPaymentMethods] = useState<IFeatureProps[]>([]);
