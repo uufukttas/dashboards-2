@@ -8,6 +8,7 @@ import type { IServiceDetailsContentProps, IServicePointsDetailsInfoProps, IServ
 const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slug }: IServiceDetailsContentProps) => {
     const initialServicePointsDetailsInfoStateValue = {
         address: '',
+        addressDetail: '',
         cityId: 0,
         districtId: 0,
         id: 0,
@@ -78,6 +79,14 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                         </p>
                         <p className={`${sectionPrefix}-info-item-value text-lg font-normal px-2`}>
                             {servicePointDetailsInfo.address}
+                        </p>
+                    </div>
+                    <div className={`${sectionPrefix}-info-item flex justify-start md:items-center flex-col md:flex-row`}>
+                        <p className={`${sectionPrefix}-info-item-label text-lg font-bold`}>
+                            Adres Tarifi:
+                        </p>
+                        <p className={`${sectionPrefix}-info-item-value text-lg font-normal px-2`}>
+                            {servicePointDetailsInfo.addressDetail}
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex justify-start md:items-center flex-col md:flex-row`}>
@@ -152,7 +161,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                     </div>
                     <div className={`${sectionPrefix}-info-item flex justify-start md:items-center flex-col md:flex-row`}>
                         <p className={`${sectionPrefix}-info-item-label text-lg font-bold`}>
-                            Park Yeri:
+                            Ucretsiz Park Yeri:
                         </p>
                         <p className={`${sectionPrefix}-info-item-value text-lg font-normal px-2`}>
                             {/* {servicePointDetailsInfo.resellerName} */}

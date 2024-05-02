@@ -23,17 +23,19 @@ const ServicePointModalFormSecondPage: React.FC<IModalSecondPageInputsProps> = (
   const servicePointInformation = useSelector((state: RootState) => {
     return state.servicePointInformation.servicePointInformation
   });
-  const formName = ['phone-number-1', 'phone-number-2', 'address'];
+  const formName = ['phone-number-1', 'phone-number-2', 'address', 'address-detail'];
   const sectionPrefix = 'service-point';
   const formProperties = {
     phone1: `${sectionPrefix}-${formName[0]}`,
     phone2: `${sectionPrefix}-${formName[1]}`,
     address: `${sectionPrefix}-${formName[2]}`,
+    'address-detail': `${sectionPrefix}-${formName[3]}`,
   };
   const [secondPageFormData, setSecondPageFormData] = useState<IFormDataProps>({
     [`${formProperties.phone1}`]: servicePointInformation.phone1 || '',
     [`${formProperties.phone2}`]: servicePointInformation.phone2 || '',
     [`${formProperties.address}`]: servicePointInformation.address || '',
+    [`${formProperties['address-detail']}`]: servicePointInformation['address-detail'] || '',
   });
 
   const getCities = async () => {
@@ -75,6 +77,7 @@ const ServicePointModalFormSecondPage: React.FC<IModalSecondPageInputsProps> = (
         phone1: secondPageFormData[`${formProperties.phone1}`],
         phone2: secondPageFormData[`${formProperties.phone2}`],
         address: secondPageFormData[`${formProperties.address}`],
+        'address-detail': secondPageFormData[`${formProperties['address-detail']}`],
       })
     );
 
@@ -186,6 +189,29 @@ const ServicePointModalFormSecondPage: React.FC<IModalSecondPageInputsProps> = (
               </p>
             </div>
           )}
+      </div>
+      <div className={`${formProperties['address-detail']}-container`}>
+        <Label
+          className={`${formProperties['address-detail']}-label block mb-2 text-heading font-semibold`}
+          htmlFor={`${formProperties['address-detail']}`}
+          labelText={'Adres Tarifi'} >
+        </Label>
+        <Textarea
+          className={`${formProperties['address-detail']}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
+          id={`${formProperties['address-detail']}`}
+          name={`${formProperties['address-detail']}`}
+          placeholder={'Kapı numarası, kat, daire numarası vb...'}
+          register={
+            register(`${formProperties['address-detail']}`, {
+              value: secondPageFormData[`${formProperties['address-detail']}`].toString(),
+              onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                setSecondPageFormData({
+                  ...secondPageFormData,
+                  [event.target.name]: event.target.value,
+                });
+              },
+            })}
+        />
       </div>
       <div className={`${sectionPrefix}-buttons-container flex justify-between items-center`}>
         <Button

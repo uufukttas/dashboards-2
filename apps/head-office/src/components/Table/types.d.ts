@@ -1,5 +1,6 @@
 export interface IServicePointInfoProps {
     address: string;
+    addressDetail?: string | null | undefined;
     cityId: number;
     districtId: number;
     freePark?: string | null | undefined;

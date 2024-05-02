@@ -11,6 +11,7 @@ const initialState: IServicePointInformationStateProps = {
         phone1: '',
         phone2: '',
         address: '',
+        addressDetail: '',
         cityId: 0,
         districtId: 0,
         opportunities: [],
@@ -25,6 +26,7 @@ export const servicePointInformation = createSlice({
     reducers: {
         setServicePointInformation: (state, action) => {
             state.servicePointInformation.address = action.payload.address;
+            state.servicePointInformation.addressDetail = action.payload.addressDetail;
             state.servicePointInformation.cityId = action.payload.cityId;
             state.servicePointInformation.districtId = action.payload.districtId;
             state.servicePointInformation.freePark = action.payload.freePark;

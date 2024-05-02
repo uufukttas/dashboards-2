@@ -166,6 +166,7 @@ export interface IServicePointsDetailsInfoProps {
   id: number;
   stationId: number;
   address: string;
+  addressDetail: string;
   phone1: string;
   phone2: string;
   lat: number;

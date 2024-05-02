@@ -32,6 +32,7 @@ interface IServicePointInformationProps {
     phone1: string;
     phone2: string;
     address: string;
+    addressDetail: string;
     cityId: number;
     districtId: number;
     opportunities: string[];

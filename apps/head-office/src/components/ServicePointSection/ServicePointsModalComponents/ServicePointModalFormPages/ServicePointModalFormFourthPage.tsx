@@ -43,6 +43,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
 
   const createConfigData = () => ({
     address: servicePointInformation.address,
+    addressDetail: servicePointInformation.addressDetail,
     phone1: servicePointInformation.phone1,
     phone2: servicePointInformation.phone2,
     lat: servicePointInformation.lat,

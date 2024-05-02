@@ -89,6 +89,7 @@ const ServicePointSection: React.FC = () => {
     };
     const servicePointInformationInitialValues = {
       address: '',
+      addressDetail: '',
       cityId: 0,
       districtId: 0,
       freePark: false,
