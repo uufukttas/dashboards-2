@@ -127,6 +127,15 @@ export interface IEnergyPriceDetailsProps {
   isActive: boolean;
   isDeleted: boolean;
 };
+export interface IFeatureProps {
+  stationId?: number;
+  id: null | number;
+  isChecked?: boolean;
+  name: string; 
+  rid: number | null;
+  stationFeatureType: number;
+  stationFeatureValue: number;
+};
 export interface IGetChargePointStationFeatureData {
   id: number;
   stationChargePointFeatureType: number;

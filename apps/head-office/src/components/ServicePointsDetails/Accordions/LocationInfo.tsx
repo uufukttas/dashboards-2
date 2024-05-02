@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { CITIES, DISTRICTS } from '../../../constants/constants';
 import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
-import type { IServiceDetailsContentProps, IServicePointsDetailsInfoProps, IServicePointsDetailsProps } from '../types';
+import type { IFeatureProps, IServiceDetailsContentProps, IServicePointsDetailsInfoProps, IServicePointsDetailsProps } from '../types';
 
 const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slug }: IServiceDetailsContentProps) => {
     const initialServicePointsDetailsInfoStateValue = {
@@ -30,13 +30,60 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
     }
     const sectionPrefix = 'service-point-details';
     const dispatch = useDispatch();
+    const [features, setFeatures] = useState<{ StationFeatureType: number; StationFeatureValue: string }[]>([]);
+    const [opportunitiesFeatureName, setOpportunitiesFeatureName] = useState<string[]>();
+    const [parkingFeatureValue, setParkingFeatureValue] = useState<string>();
+    const [paymentFeatureName, setPaymentFeatureName] = useState<string[]>();
     const [servicePointDetailsInfo, setServicePointDetailsInfo] =
         useState<IServicePointsDetailsInfoProps>(
             initialServicePointsDetailsInfoStateValue
         );
     const [servicePointData, setServicePointData] = useState<IServicePointsDetailsProps>(initialServicePointDataValue);
+    const getParkingValues = async () => {
+        setParkingFeatureValue(features.find((feature) => feature.StationFeatureType === 8)?.StationFeatureValue);
+    };
     const getSelectedCity = (cityId: number) => CITIES[cityId?.toString()];
     const getSelectedDistrict = (districtId: number) => DISTRICTS[districtId?.toString()];
+    const getSelectedOpportunitiesName = async () => {
+        const opportunities = features.filter((feature) => feature.StationFeatureType === 2);
+
+        await axios
+            .post(
+                process.env.GET_FEATURE_VALUES || '',
+                JSON.stringify({ stationFeatureType: 2 }),
+                { headers: { 'Content-Type': 'application/json' } }
+            )
+            .then((response) => response.data)
+            .then((data) => {
+
+                const selectedOpportunities = data.data
+                    .filter((item: IFeatureProps) =>
+                        opportunities.some(opportunity => item.rid === Number(opportunity.StationFeatureValue)))
+                    .map((item: IFeatureProps) => item.name);
+
+                setOpportunitiesFeatureName(selectedOpportunities.join(', '));
+            });
+    };
+    const getSelectedPaymentsMethodsName = async () => {
+        const paymentMethods = features.filter((feature) => feature.StationFeatureType === 1);
+
+        await axios
+            .post(
+                process.env.GET_FEATURE_VALUES || '',
+                JSON.stringify({ stationFeatureType: 1 }),
+                { headers: { 'Content-Type': 'application/json' } }
+            )
+            .then((response) => response.data)
+            .then((data) => {
+
+                const selectedPaymentMethodNames = data.data
+                    .filter((item: IFeatureProps) =>
+                        paymentMethods.some(paymentMethod => item.rid === Number(paymentMethod.StationFeatureValue)))
+                    .map((item: IFeatureProps) => item.name);
+
+                setPaymentFeatureName(selectedPaymentMethodNames.join(', '));
+            });
+    };
     const getServicePointsDetailsInfo = async (slug: string) => {
         axios
             .post(
@@ -53,21 +100,53 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
     };
     const getServicePointData = async (slug: string) => {
         axios
-        .post(
-            process.env.GET_STATION_BY_ID || '',
-            JSON.stringify({ id: Number(slug) }),
-            { headers: { 'Content-Type': 'application/json' } }
-        )
-        .then((response) => response.data)
-        .then((data) => {
-            data.data && setServicePointData(data.data[0]);
-        })
+            .post(
+                process.env.GET_STATION_BY_ID || '',
+                JSON.stringify({ id: Number(slug) }),
+                { headers: { 'Content-Type': 'application/json' } }
+            )
+            .then((response) => response.data)
+            .then((data) => {
+                data.data && setServicePointData(data.data[0]);
+            })
+    };
+    const getServicePointFeatures = async (slug: string) => {
+        axios
+            .post(
+                process.env.GET_STATION_SELECTED_FEATURES || '',
+                JSON.stringify(
+                    {
+                        featureTypeModel: [
+                            {
+                                featureType: 1
+                            },
+                            {
+                                featureType: 2
+                            },
+                            {
+                                featureType: 8
+                            }
+                        ],
+                        stationId: slug
+                    }
+                ),
+                { headers: { 'Content-Type': 'application/json' } }
+            )
+            .then((response) => response.data)
+            .then((response) => setFeatures(response.data));
     };
 
     useEffect(() => {
         getServicePointsDetailsInfo(slug);
         getServicePointData(slug);
+        getServicePointFeatures(slug);
     }, []);
+
+    useEffect(() => {
+        getSelectedPaymentsMethodsName();
+        getParkingValues();
+        getSelectedOpportunitiesName();
+    }, [features]);
 
     return (
         <div className={`${sectionPrefix}-content py-8 text-text`}>
@@ -156,7 +235,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                             Odeme Yontemleri:
                         </p>
                         <p className={`${sectionPrefix}-info-item-value text-lg font-normal px-2`}>
-                            {/* {servicePointDetailsInfo.resellerName} */}
+                            {paymentFeatureName}
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex justify-start md:items-center flex-col md:flex-row`}>
@@ -164,7 +243,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                             Ucretsiz Park Yeri:
                         </p>
                         <p className={`${sectionPrefix}-info-item-value text-lg font-normal px-2`}>
-                            {/* {servicePointDetailsInfo.resellerName} */}
+                            {parkingFeatureValue}
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex justify-start md:items-center flex-col md:flex-row`}>
@@ -172,7 +251,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                             Servis Noktasi Olanaklari:
                         </p>
                         <p className={`${sectionPrefix}-info-item-value text-lg font-normal px-2`}>
-                            {/* {servicePointDetailsInfo.resellerName} */}
+                            {opportunitiesFeatureName}
                         </p>
                     </div>
                 </div>
