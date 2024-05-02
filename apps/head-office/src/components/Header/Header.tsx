@@ -13,7 +13,7 @@ const Header: React.FC<IHeaderProps> = ({ className }: IHeaderProps) => {
   const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
 
   return (
-    <div className={`${BRAND_PREFIX}-header-container justify-between border-b border-gray-300 bg-background top-0 z-10 ${className}`}>
+    <div className={`${BRAND_PREFIX}-header-container justify-between border-b border-gray-300 bg-background top-0 z-10 sticky ${className}`}>
       <div className={`${BRAND_PREFIX}-sidebar-toggle-button-container`}>
         <Button
           className={`${BRAND_PREFIX}-sidebar-toggle-button bg-background hover:bg-background mx-8 py-2 px-2`}
