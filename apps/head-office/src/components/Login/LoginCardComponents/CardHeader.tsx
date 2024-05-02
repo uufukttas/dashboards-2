@@ -5,7 +5,7 @@ import { BRAND_PREFIX, userInfo } from '../../../constants/constants';
 const CardHeader: React.FC = () => {
     return (
         <>
-            <div className={`${BRAND_PREFIX}-card-title-container`}>
+            <div className={`${BRAND_PREFIX}-card-title-container w-full`}>
                 <h2 className={`${BRAND_PREFIX}-card-title text-2xl font-semibold text-heading`}>
                     {userInfo.name}
                 </h2>
