@@ -54,6 +54,9 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   const createParkingConfigData = () => {
     return [
       {
+        id: 0,
+        rid: 0,
+        name: fourthPageFormData[`${formProperties.parking}`].toString(),
         stationId: stationId,
         stationFeatureType: 8,
         stationFeatureValue: Number(fourthPageFormData[`${formProperties.parking}`]),
@@ -129,6 +132,52 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
         dispatch(toggleServicePointDataUpdated(true));
       })
       .catch((error) => console.log(error));
+  };
+  const getSelectedStationFeatures = async () => {
+    await axios
+      .post(
+        process.env.GET_STATION_FEATURES || '',
+        { stationId: stationId },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then((response) => response.data)
+      .then(data => {
+        const selectedPaymentMethods = data.data.filter((feature: IFeatureProps) => feature.stationFeatureType === 1);
+
+        const updatedPaymentMethods = paymentMethods.map((paymentMethod: IFeatureProps) => {
+          const isChecked = selectedPaymentMethods.some((selectedPaymentMethod: IFeatureProps) => {
+            return paymentMethod.stationFeatureValue === Number(selectedPaymentMethod.stationFeatureValue);
+          });
+
+          return {
+            ...paymentMethod,
+            isChecked: isChecked || paymentMethod.isChecked
+          };
+        });
+
+        setPaymentMethods(updatedPaymentMethods);
+
+        const selectedOpportunities = data.data.filter((feature: IFeatureProps) => feature.stationFeatureType === 2);
+
+        const updatedOpportunities = opportunities.map((opportunity: IFeatureProps) => {
+          const isChecked = selectedOpportunities.some((selectedOpportunity: IFeatureProps) => {
+            return opportunity.stationFeatureValue === Number(selectedOpportunity.stationFeatureValue);
+          });
+
+          return {
+            ...opportunity,
+            isChecked: isChecked || opportunity.isChecked
+          };
+        });
+
+        setOpportunities(updatedOpportunities);
+
+        setFourthPageFormData({
+          ...fourthPageFormData,
+          [`${formProperties.paymentMethods}`]: selectedPaymentMethods,
+          [`${formProperties.opportunities}`]: selectedOpportunities,
+        });
+      });
   };
   const getStationParkingFeatures = async () => {
     await axios
@@ -206,6 +255,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   }, [opportunities]);
 
   useEffect(() => {
+    getSelectedStationFeatures();
     getStationParkingFeatures();
   }, []);
 
@@ -243,7 +293,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
             className={`${formProperties.parking}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
             id={`${formProperties.parking}`}
             name={`${formProperties.parking}`}
-            value={fourthPageFormData[`${formProperties.parking}`]?.toString() || '0'}
+            value={fourthPageFormData[`${formProperties.parking}`]?.toString() || ''}
             type='number'
             onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
               setFourthPageFormData({

@@ -1,9 +1,9 @@
 export interface IFeatureProps {
     stationId?: number;
-    id?: null | number;
+    id: null | number;
     isChecked?: boolean;
-    name?: string; 
-    rid?: number | null;
+    name: string; 
+    rid: number | null;
     stationFeatureType: number;
     stationFeatureValue: number;
 };
