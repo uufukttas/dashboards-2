@@ -35,7 +35,7 @@ const ServicePointModalFormSecondPage: React.FC<IModalSecondPageInputsProps> = (
     [`${formProperties.phone1}`]: servicePointInformation.phone1 || '',
     [`${formProperties.phone2}`]: servicePointInformation.phone2 || '',
     [`${formProperties.address}`]: servicePointInformation.address || '',
-    [`${formProperties['address-detail']}`]: servicePointInformation['address-detail'] || '',
+    [`${formProperties['address-detail']}`]: servicePointInformation.addressDetail || '',
   });
 
   const getCities = async () => {
@@ -77,7 +77,7 @@ const ServicePointModalFormSecondPage: React.FC<IModalSecondPageInputsProps> = (
         phone1: secondPageFormData[`${formProperties.phone1}`],
         phone2: secondPageFormData[`${formProperties.phone2}`],
         address: secondPageFormData[`${formProperties.address}`],
-        'address-detail': secondPageFormData[`${formProperties['address-detail']}`],
+        addressDetail: secondPageFormData[`${formProperties['address-detail']}`],
       })
     );
 
