@@ -35,7 +35,7 @@ const ChargeUnitAddModal = ({
   const chargeUnitData = useSelector((state: RootState) => state.chargeUnitData.chargeUnitData);
   const [chargeUnitFormData, setChargeUnitFormData] = useState<IFormDataProps>({
     [`${formProperties['access-type']}`]: chargeUnitData.accessType || '1',
-    [`${formProperties.brands}`]: chargeUnitData.brandId || 1,
+    [`${formProperties.brands}`]: chargeUnitData.brandId || 3,
     [`${formProperties['connector-count']}`]: chargeUnitData.connectorCount || 1,
     [`${formProperties['is-free-usage']}`]: chargeUnitData.isFreeUsage || false,
     [`${formProperties['is-limited-usage']}`]: chargeUnitData.isLimitedUsage || false,
@@ -171,7 +171,6 @@ const ChargeUnitAddModal = ({
                 [event.target.name]: Number(event.target.value),
               });
             }}
-            selectedValue='3'
             value={chargeUnitFormData[`${formProperties.brands}`]?.toString()}
           />
         </div>
