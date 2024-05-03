@@ -5,18 +5,30 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import type { ICardProps } from './types';
 import './Card.css';
 
-const Card = ({ cardBody, cardFooter, cardHeader, className }: ICardProps): React.ReactNode => {
+const Card: React.FC<ICardProps> = ({ cardBody, cardFooter, cardHeader, className }: ICardProps) => {
   return (
     <div className={`${BRAND_PREFIX}-card-container p-8 shadow-custom ${className}`}>
-      <CardHeader>
-        {cardHeader}
-      </CardHeader>
-      <CardBody>
-        {cardBody}
-      </CardBody>
-      <CardFooter>
-        {cardFooter}
-      </CardFooter>
+      {
+        cardHeader && (
+          <CardHeader>
+            {cardHeader}
+          </CardHeader>
+        )
+      }
+      {
+        cardBody && (
+          <CardBody>
+            {cardBody}
+          </CardBody>
+        )
+      }
+      {
+        cardFooter && (
+          <CardFooter>
+            {cardFooter}
+          </CardFooter>
+        )
+      }
     </div>
   );
 };
