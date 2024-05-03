@@ -20,7 +20,7 @@ const Accordion = ({ accordionIcon, accordionTitle, actionButton, children, cont
 
   return (
     <div className={`${BRAND_PREFIX}-accordion-content-container border my-4 rounded-lg`}>
-      <div className={`${BRAND_PREFIX}-accordion-header justify-between`}>
+      <div className={`${BRAND_PREFIX}-accordion-header justify-between bg-primary`}>
         <div className={`${BRAND_PREFIX}-accordion-left-container flex items-center ${titleClassName}`}>
           <div className={`${BRAND_PREFIX}-accordion-title px-2`}>
             {accordionTitle}
@@ -36,13 +36,15 @@ const Accordion = ({ accordionIcon, accordionTitle, actionButton, children, cont
           <div className={`${BRAND_PREFIX}-accordion-arrow ${isOpen ? 'open' : ''}`} onClick={toggleAccordion}></div>
         </div>
       </div>
-      <div className={`${BRAND_PREFIX}-accordion-content ${isOpen
-        ? 'open'
-        : 'close'
-        } px-4 md:px-8 bg-white rounded-lg ${contentClassName}`}
-      >
-        {children}
-      </div>
+      {
+        <div className={`${BRAND_PREFIX}-accordion-content ${isOpen
+          ? 'open'
+          : 'close'
+          } px-4 md:px-8 bg-white rounded-lg ${contentClassName}`}
+        >
+          {children && children}
+        </div>
+      }
     </div>
   );
 };
