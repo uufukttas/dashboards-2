@@ -79,7 +79,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
         });
     };
     const getChargeUnitInfo = (chargeUnitId: number) => {
-        return chargeUnits.filter(chargeUnit => chargeUnit.chargePointId === chargeUnitId ? chargeUnit : {});
+        return chargeUnits.filter(chargeUnit => chargeUnit.chargePointId === chargeUnitId);
     };
     const getChargeUnitLocation = async (chargePointId: string) => {
         const location = await axios
