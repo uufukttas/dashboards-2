@@ -8,6 +8,7 @@ import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../../constants/constants';
+import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { toggleChargePointDataUpdated } from '../../../../app/redux/features/isChargePointDataUpdated';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
@@ -122,6 +123,16 @@ const ChargeUnitAddModal = ({
             }
           }
         )
+        .then((response) => response.data)
+        .then((response) => {
+          dispatch(
+            showAlert({
+              message: response.message,
+              type: 'success',
+            })
+          );
+          setTimeout(() => dispatch(hideAlert()), 5000);
+        });
 
       setAddChargeUnit(false)
       dispatch(

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import { Alert } from '@projects/alert';
 import { Dialog } from '@projects/dialog';
 import ServicePointDetailsHeader from './ServicePointsDetailsComponents/ServicePointDetailsHeader';
 import ServicePointsDetailsBody from './ServicePointsDetailsComponents/ServicePointsDetailsBody';
@@ -31,6 +32,7 @@ import type {
 
 const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
+  const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isChargePointDataUpdated = useSelector(
     (state: RootState) => state.isChargePointDataUpdated.isChargePointDataUpdated
@@ -349,7 +351,16 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               />
             )
           }
-        </div >
+          {
+            alertInformation.isVisible && (
+              <Alert
+                alertText={alertInformation.message}
+                alertType={alertInformation.type}
+                id={`${BRAND_PREFIX}-service-point-details-alert`}
+              />
+            )
+          }
+        </div>
       )
   );
 };
