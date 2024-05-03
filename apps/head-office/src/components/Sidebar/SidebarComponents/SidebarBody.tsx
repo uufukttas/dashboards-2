@@ -4,9 +4,10 @@ import { FaGift, FaLocationDot, FaUser, FaQuestion } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import { RootState } from '../../../../app/redux/store';
+import type { ISidebarElementProps } from '../types';
 
 const SidebarBody: React.FC = () => {
-    const sidebarElements = [
+    const sidebarElements: ISidebarElementProps[] = [
         {
             name: 'Servis Noktalari',
             link: '/service-points',
