@@ -39,7 +39,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
     const addChargeUnitButton = (
         <Button
             buttonText={``}
-            className={`add-charge-unit-button bg-primary bg-primary text-black font-bold rounded-md px-4 py-2 mx-2`}
+            className={`add-charge-unit-button bg-secondary text-white font-bold rounded-md px-4 py-2 mx-2`}
             id={`add-charge-unit-button`}
             type="button"
             onClick={() => {
@@ -55,7 +55,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
     const addEnergyPriceButton = (
         <Button
             buttonText={""}
-            className="button bg-primary rounded-md px-4 py-2 mx-4 hover:bg-primary-lighter font-bold text-black"
+            className="button bg-secondary rounded-md px-4 py-2 mx-4 font-bold text-white"
             id={`energy-prices-add-button`}
             type={'button'}
             onClick={() => {
@@ -88,14 +88,19 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                         contentClassName="overflow-y-auto"
                         titleClassName="font-bold"
                     >
-                        <ChargeUnitsContent
-                            chargeUnits={chargeUnits}
-                            connectorsList={connectorsList}
-                            slug={slug}
-                            setAddChargeUnit={setAddChargeUnit}
-                            setAddConnector={setAddConnector}
-                            setConnectorProperty={setConnectorProperty}
-                        />
+                        {
+                            chargeUnits.length > 0 && (
+
+                                <ChargeUnitsContent
+                                    chargeUnits={chargeUnits}
+                                    connectorsList={connectorsList}
+                                    slug={slug}
+                                    setAddChargeUnit={setAddChargeUnit}
+                                    setAddConnector={setAddConnector}
+                                    setConnectorProperty={setConnectorProperty}
+                                />
+                            )
+                        }
                     </Accordion>
                 )
             }

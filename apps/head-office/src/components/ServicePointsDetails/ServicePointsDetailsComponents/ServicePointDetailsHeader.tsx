@@ -15,13 +15,6 @@ const ServicePointDetailsHeader: React.FC<IServicePointDetailsHeaderProps> = ({
                 </h1>
             </div>
             <div className={`${BRAND_PREFIX}-${sectionPreifx}-header-right flex`}>
-                <div className={`${BRAND_PREFIX}-${sectionPreifx}-status text-sm font-bold`}>
-                    {
-                        servicePointDetailsStatus
-                            ? <div className='bg-green-500 rounded-full h-4 w-4 mx-2'></div>
-                            : <div className='bg-secondary rounded-full h-4 w-4 mx-2'></div>
-                    }
-                </div>
             </div>
         </div>
     );
