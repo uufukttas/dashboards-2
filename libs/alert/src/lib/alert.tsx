@@ -6,7 +6,7 @@ interface IAlertProps {
   id: string;
 };
 
-export function Alert({ alertText, alertType, id }: IAlertProps) {
+export function Alert({ alertText, alertType, id }: IAlertProps): JSX.Element {
   const alertTypes = {
     error: 'bg-red-50 border-red-300 text-red-800',
     info: 'bg-blue-50 border-blue-300 text-blue-800',
