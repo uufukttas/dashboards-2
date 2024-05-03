@@ -5,7 +5,7 @@ import ServicePointsPageWrapper from '../../src/components/ServicePointSection/S
 import '../../app/global.css';
 import '../../src/styles/style.css';
 
-export default function ServicePoints({ children }: { children: React.ReactNode }) {
+const ServicePoints: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <>
             <Head>
@@ -17,3 +17,5 @@ export default function ServicePoints({ children }: { children: React.ReactNode 
         </>
     )
 };
+
+export default ServicePoints;
