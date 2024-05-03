@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { Montserrat} from 'next/font/google';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../app/redux/store';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
@@ -6,6 +7,12 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import Loading from '../Loading/Loading';
 import MainPage from '../MainPage/MainPage';
 import DashboardSection from './DashboardSection';
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['300', '400', '500', '600', '700'],
+});
 
 const DashboardPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,7 +23,7 @@ const DashboardPage: React.FC = () => {
   // }, []);
 
   return (
-    <div className={`${BRAND_PREFIX}-service-points-page-wrapper w-full flex h-screen`}>
+    <div className={`${montserrat.className} ${BRAND_PREFIX}-service-points-page-wrapper w-full flex h-screen`}>
       {
         isLoading
           ? (
