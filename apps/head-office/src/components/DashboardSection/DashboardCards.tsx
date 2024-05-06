@@ -77,12 +77,30 @@ const DashboardCards: React.FC = () => {
 
     return (
         <div className={`${BRAND_PREFIX}-cards-container w-full flex justify-center`}>
-            <Card cardBody={chargeUnitContent1} className='w-full flex item-center h-[200px] !p-0 !bg-blue-300 rounded-lg mx-5 shadow-none text-blue-600' />
-            <Card cardBody={chargeUnitContent2} className='w-full flex item-center h-[200px] !p-0 !bg-green-300 rounded-lg mx-5 shadow-none text-green-600' />
-            <Card cardBody={chargeUnitContent3} className='w-full flex item-center h-[200px] !p-0 !bg-yellow-300 rounded-lg mx-5 shadow-none text-yellow-600' />
-            <Card cardBody={chargeUnitContent4} className='w-full flex item-center h-[200px] !p-0 !bg-red-300 rounded-lg mx-5 shadow-none text-red-600' />
-            <Card cardBody={chargeUnitContent5} className='w-full flex item-center h-[200px] !p-0 !bg-purple-300 rounded-lg mx-5 shadow-none text-purple-600' />
-            <Card cardBody={chargeUnitContent6} className='w-full flex item-center h-[200px] !p-0 !bg-gray-300 rounded-lg mx-5 shadow-none text-gray-600' />
+            <Card
+                cardBody={chargeUnitContent1}
+                className='w-full flex item-center h-[200px] p-0 bg-blue-300 rounded-lg mx-5 shadow-none text-blue-600'
+            />
+            <Card
+                cardBody={chargeUnitContent2}
+                className='w-full flex item-center h-[200px] p-0 bg-green-300 rounded-lg mx-5 shadow-none text-green-600'
+            />
+            <Card
+                cardBody={chargeUnitContent3}
+                className='w-full flex item-center h-[200px] p-0 bg-yellow-300 rounded-lg mx-5 shadow-none text-yellow-600'
+            />
+            <Card
+                cardBody={chargeUnitContent4}
+                className='w-full flex item-center h-[200px] p-0 bg-red-300 rounded-lg mx-5 shadow-none text-red-600'
+            />
+            <Card
+                cardBody={chargeUnitContent5}
+                className='w-full flex item-center h-[200px] p-0 bg-purple-300 rounded-lg mx-5 shadow-none text-purple-600'
+            />
+            <Card
+                cardBody={chargeUnitContent6}
+                className='w-full flex item-center h-[200px] p-0 bg-gray-300 rounded-lg mx-5 shadow-none text-gray-600'
+            />
         </div>
     );
 };
