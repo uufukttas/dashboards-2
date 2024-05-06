@@ -1,10 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { FaPlug } from 'react-icons/fa6';
 import Card from '../Card/Card';
 import { BRAND_PREFIX } from '../../constants/constants';
+import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 
-const DashboardCards = () => {
-    const [stationInfo, setStationInfo] = useState({});
+const DashboardCards: React.FC = () => {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(toggleLoadingVisibility(false));
+    }, []);
 
     const chargeUnitContent1 = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
@@ -15,7 +21,6 @@ const DashboardCards = () => {
             <div className='text-6xl'>24</div>
         </div>
     );
-
     const chargeUnitContent2 = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
@@ -25,7 +30,6 @@ const DashboardCards = () => {
             <div className='text-6xl'>24</div>
         </div>
     );
-
     const chargeUnitContent3 = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
@@ -35,7 +39,6 @@ const DashboardCards = () => {
             <div className='text-6xl'>24</div>
         </div>
     );
-
     const chargeUnitContent4 = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
@@ -45,7 +48,6 @@ const DashboardCards = () => {
             <div className='text-6xl'>24</div>
         </div>
     );
-
     const chargeUnitContent5 = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
@@ -55,7 +57,6 @@ const DashboardCards = () => {
             <div className='text-6xl'>24</div>
         </div>
     );
-
     const chargeUnitContent6 = (
         <div className={`flex flex-col text-center justify-center w-full h-full `}>
             <div className='card-title-container flex items-center justify-center px-4 '>
@@ -66,8 +67,7 @@ const DashboardCards = () => {
         </div>
     );
 
-
-    const getStationInfo = () => {
+    const getStationInfo = (): void => {
 
     };
 
@@ -84,7 +84,7 @@ const DashboardCards = () => {
             <Card cardBody={chargeUnitContent5} className='w-full flex item-center h-[200px] !p-0 !bg-purple-300 rounded-lg mx-5 shadow-none text-purple-600' />
             <Card cardBody={chargeUnitContent6} className='w-full flex item-center h-[200px] !p-0 !bg-gray-300 rounded-lg mx-5 shadow-none text-gray-600' />
         </div>
-    )
-}
+    );
+};
 
-export default DashboardCards
+export default DashboardCards;

@@ -1,12 +1,11 @@
-import React, { useEffect } from 'react'
+import React from 'react';
 import { Montserrat} from 'next/font/google';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../../app/redux/store';
-import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
+import { useSelector } from 'react-redux';
+import DashboardSection from './DashboardSection';
+import MainPage from '../MainPage/MainPage';
 import { BRAND_PREFIX } from '../../constants/constants';
 import Loading from '../Loading/Loading';
-import MainPage from '../MainPage/MainPage';
-import DashboardSection from './DashboardSection';
+import { RootState } from '../../../app/redux/store';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -15,12 +14,7 @@ const montserrat = Montserrat({
 });
 
 const DashboardPage: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
   const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
-
-  // useEffect(() => {
-  //   dispatch(toggleLoadingVisibility(true));
-  // }, []);
 
   return (
     <div className={`${montserrat.className} ${BRAND_PREFIX}-service-points-page-wrapper w-full flex h-screen`}>
@@ -38,7 +32,7 @@ const DashboardPage: React.FC = () => {
           )
       }
     </div>
-  )
-}
+  );
+};
 
-export default DashboardPage
+export default DashboardPage;

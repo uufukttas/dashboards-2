@@ -24,6 +24,7 @@ const CardBody: React.FC = () => {
             const { status, data }: IResponseStatusProps = await loginRequest(credentials) as IResponseStatusProps;
 
             if (status === 200) {
+                dispatch(toggleLoadingVisibility(true));
                 handleLoginSuccess();
             } else if (status === 401) {
                 handleLoginError(data.message);
@@ -49,8 +50,6 @@ const CardBody: React.FC = () => {
         await fetchLoginData(JSON.stringify(userLoginData));
     };
     const handleLoginSuccess = (): void => {
-        dispatch(toggleLoadingVisibility(false));
-
         router.push('/dashboards');
     };
 
