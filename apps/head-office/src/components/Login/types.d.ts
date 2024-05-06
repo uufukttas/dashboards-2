@@ -3,6 +3,7 @@ interface IContentTypeProps {
 };
 interface IResponseStatusProps {
     status: number;
+    message?: string;
 };
 export interface IHeaderProps {
     headers: IContentTypeProps

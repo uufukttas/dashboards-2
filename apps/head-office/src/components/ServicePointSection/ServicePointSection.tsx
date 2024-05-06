@@ -17,6 +17,8 @@ import { setServicePoints } from '../../../app/redux/features/servicePoints';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
 import { RootState, AppDispatch } from '../../../app/redux/store';
+import { IResponseStatusProps } from '../Login/types';
+import { IServicePointDataProps } from '../../../app/redux/types';
 
 const ServicePointSection: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -30,7 +32,7 @@ const ServicePointSection: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [servicePointCount, setServicePointCount] = useState(0);
 
-  const deleteServicePoint = async (deletedId: number) => {
+  const deleteServicePoint = async (deletedId: number): Promise<void> => {
     try {
       await axios
         .post(
@@ -38,23 +40,13 @@ const ServicePointSection: React.FC = () => {
           ({ 'id': deletedId })
         )
         .then((response) => response.data)
-        .then(response => {
-          dispatch
-            (showAlert({
-              message: response.message,
-              type: 'info',
-            }));
-
-          setTimeout(() => {
-            dispatch(hideAlert());
-          }, 5000);
-        })
+        .then((response => handleDeleteSuccess(response)))
         .catch((error) => console.log(error));
     } catch (error) {
       console.error(error);
     }
   };
-  const getAllServicePoints = async () => {
+  const getAllServicePoints = async (): Promise<void> => {
     try {
       await axios
         .post(
@@ -65,18 +57,13 @@ const ServicePointSection: React.FC = () => {
           })
         )
         .then((response) => response.data)
-        .then(response => {
-          setServicePointCount(response.count);
-          dispatch(setServicePoints(response.data));
-          dispatch(toggleServicePointDataUpdated(false));
-          dispatch(toggleLoadingVisibility(false));
-        })
+        .then((response) => handleGetServicePointSuccess(response))
         .catch((error) => console.log(error));
     } catch (error) {
       console.error(error);
     }
   };
-  const handleCloseModal = () => {
+  const handleCloseModal = (): void => {
     const servicePointDataInitialValues = {
       id: 0,
       isActive: true,
@@ -108,6 +95,26 @@ const ServicePointSection: React.FC = () => {
     dispatch(setServicePointInformation(servicePointInformationInitialValues));
     dispatch(toggleModalVisibility());
   };
+  const handleDeleteSuccess = (response: IResponseStatusProps): void => {
+    dispatch
+      (
+        showAlert({
+          message: response.message,
+          type: 'info',
+        })
+      );
+
+    setTimeout(() => {
+      dispatch(hideAlert());
+    }, 5000);
+  };
+  const handleGetServicePointSuccess = (response: {count: number; data: IServicePointDataProps}) => {
+    setServicePointCount(response.count);
+    dispatch(setServicePoints(response.data));
+    dispatch(toggleServicePointDataUpdated(false));
+    dispatch(toggleLoadingVisibility(false));
+  };
+
 
   useEffect(() => {
     getAllServicePoints();
