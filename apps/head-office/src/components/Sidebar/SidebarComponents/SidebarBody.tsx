@@ -9,24 +9,24 @@ import type { ISidebarElementProps } from '../types';
 const SidebarBody: React.FC = () => {
     const sidebarElements: ISidebarElementProps[] = [
         {
-            name: 'Servis Noktalari',
-            link: '/service-points',
             icon: <FaLocationDot />,
+            link: '/service-points',
+            name: 'Servis Noktalari',
         },
         {
-            name: 'Kampanyalar',
-            link: '/campaigns',
             icon: <FaGift />,
+            link: '/campaigns',
+            name: 'Kampanyalar',
         },
         {
-            name: 'Kullanici Yonetimi',
-            link: '/user-managements',
             icon: <FaUser />,
+            link: '/user-managements',
+            name: 'Kullanici Yonetimi',
         },
         {
-            name: 'FAQ',
-            link: '/faq',
             icon: <FaQuestion />,
+            link: '/faq',
+            name: 'FAQ',
         },
     ];
     const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);

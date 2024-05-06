@@ -5,7 +5,7 @@ import ServicePointsPageWrapper from '../../src/components/ServicePointSection/S
 import '../../app/global.css';
 import '../../src/styles/style.css';
 
-const ServicePoints: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+const ServicePoints: React.FC = () => {
     return (
         <>
             <Head>
@@ -15,7 +15,7 @@ const ServicePoints: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                 <ServicePointsPageWrapper />
             </ProviderComponent >
         </>
-    )
+    );
 };
 
 export default ServicePoints;
