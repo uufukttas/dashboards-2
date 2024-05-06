@@ -23,6 +23,7 @@ import type {
   IBrandsProps,
   IChargeUnitsProps,
   IConnectorProps,
+  IConnectorPropertyProps,
   IConnectorStateProps,
   IInvestorsProps,
   IServicePointsDetailsPageProps,
@@ -46,7 +47,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const [addEnergyPrice, setAddEnergyPrice] = useState<boolean>(false);
   const [brands, setBrands] = useState<IBrandsProps[]>([]);
   const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([]);
-  const [connectorProperty, setConnectorProperty] = useState<{ chargePointId: number; chargePointModelId: number; connectorNumber: number; connectorId: number }>({
+  const [connectorProperty, setConnectorProperty] = useState<IConnectorPropertyProps>({
     chargePointId: 0,
     chargePointModelId: 0,
     connectorNumber: 0,

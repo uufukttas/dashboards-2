@@ -1,10 +1,11 @@
+interface IConnectorPropertyProps {
+  chargePointId: number,
+  chargePointModelId: number,
+  connectorNumber: number,
+  connectorId: number
+};
 interface IConnectorAddModalProps {
-  connectorProperty: {
-    chargePointId: number,
-    chargePointModelId: number,
-    connectorNumber: number,
-    connectorId: number
-  };
+  connectorProperty: IConnectorPropertyProps;
 };
 interface IConnectorProps {
   RID: number;
