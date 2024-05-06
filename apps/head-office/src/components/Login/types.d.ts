@@ -1,8 +1,12 @@
 interface IContentTypeProps {
     [key: string]: string;
 };
+interface IResponseDataProps {
+    message: string;
+};
 interface IResponseStatusProps {
     status: number;
+    data : IResponseDataProps;
     message?: string;
 };
 export interface IHeaderProps {

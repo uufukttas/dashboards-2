@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -7,9 +6,10 @@ import { Button } from '@projects/button';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../../constants/constants';
+import loginRequest from '../../../../app/api/login/loginApi';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
-import type { IHeaderProps, ILoginFormDataProps, ILoginRequestDataProps, IResponseErrorProps } from '../types';
+import type { ILoginFormDataProps, ILoginRequestDataProps, IResponseStatusProps } from '../types';
 
 const CardBody: React.FC = () => {
     const initialLoginFormData: ILoginFormDataProps = { password: '', username: '' };
@@ -19,18 +19,15 @@ const CardBody: React.FC = () => {
     const router = useRouter();
     const [loginFormData, setLoginFormData] = useState<ILoginFormDataProps>(initialLoginFormData);
 
-    const fetchLoginData = async (data: string): Promise<void> => {
-        const requestHeaders: IHeaderProps = { headers: { 'Content-Type': 'application/json' } };
-
+    const fetchLoginData = async (credentials: string): Promise<void> => {
         try {
-            await axios
-                .post(
-                    process.env.LOGIN_URL || '',
-                    data,
-                    requestHeaders
-                )
-                .then(handleLoginSuccess)
-                .catch((error) => handleLoginError(error));
+            const { status, data }: IResponseStatusProps = await loginRequest(credentials) as IResponseStatusProps;
+
+            if (status === 200) {
+                handleLoginSuccess();
+            } else if (status === 401) {
+                handleLoginError(data.message);
+            };
         } catch (error) {
             console.log(error);
         };
@@ -46,13 +43,9 @@ const CardBody: React.FC = () => {
 
         await fetchLoginData(JSON.stringify(userLoginData));
     };
-    const handleLoginError = (error: IResponseErrorProps): void => {
-        const errorMessage: string = error.response.status > 399 && error.response.status < 500
-            ? 'Kullanıcı adı veya şifre hatalı.'
-            : 'Bir hata oluştu. Lütfen tekrar deneyin.';
-
+    const handleLoginError = (message: string): void => {
         dispatch(toggleLoadingVisibility(false));
-        dispatch(showAlert({ message: errorMessage, type: 'error' }));
+        dispatch(showAlert({ message, type: 'error' }));
         setTimeout(() => dispatch(hideAlert()), 5000);
     };
     const handleLoginSuccess = (): void => {
