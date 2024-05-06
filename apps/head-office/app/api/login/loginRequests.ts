@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { IResponseStatusProps } from '../types';
+import type { IResponseInfoProps } from '../types.d';
 
-const loginRequest = async (credentials: string): Promise<IResponseStatusProps | null >  => {
+const loginRequest = async (credentials: string): Promise<IResponseInfoProps | null> => {
     try {
         const response = await axios.post(
             process.env.LOGIN_URL || '',
@@ -9,9 +9,13 @@ const loginRequest = async (credentials: string): Promise<IResponseStatusProps |
             { headers: { 'Content-Type': 'application/json' } }
         );
 
-        return response;
+        return response.data;
     } catch (error) {
-        return null;
+        if (axios.isAxiosError(error)) {
+            return error.response || null;
+        } else {
+            return null;
+        };
     };
 };
 

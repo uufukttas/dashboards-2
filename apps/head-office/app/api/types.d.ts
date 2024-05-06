@@ -1,9 +1,13 @@
 interface IResponseDataProps {
     message: string;
 };
-
-export interface IResponseStatusProps {
+export interface IResponseInfoProps {
     status: number;
-    data : IResponseDataProps;
+    data: IResponseDataProps;
     message?: string;
+};
+export interface IResponseProps {
+    error: {
+        response: IResponseInfoProps;
+    },
 };
