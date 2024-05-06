@@ -8,9 +8,9 @@
     "@nx/next": "17.2.8",
     "@nx/webpack": "^17.3.2",
     "@reduxjs/toolkit": "^2.2.3",
+    "axios": "^1.6.8",
     "flowbite": "^2.3.0",
     "flowbite-react": "^0.7.2",
-    "axios": "^1.6.8",
     "next": "13.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -18,6 +18,7 @@
     "react-icons": "^5.1.0",
     "react-redux": "^9.1.1",
     "redux": "^5.0.1",
+    "swr": "^2.2.5",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
