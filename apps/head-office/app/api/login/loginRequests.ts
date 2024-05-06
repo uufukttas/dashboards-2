@@ -1,6 +1,7 @@
 import axios from 'axios';
+import { IResponseStatusProps } from '../types';
 
-const loginRequest = async (credentials) => {
+const loginRequest = async (credentials: string): Promise<IResponseStatusProps | null >  => {
     try {
         const response = await axios.post(
             process.env.LOGIN_URL || '',
@@ -10,9 +11,8 @@ const loginRequest = async (credentials) => {
 
         return response;
     } catch (error) {
-        console.log('error', error)
-        return error.response;
-    }
+        return null;
+    };
 };
 
 export default loginRequest;

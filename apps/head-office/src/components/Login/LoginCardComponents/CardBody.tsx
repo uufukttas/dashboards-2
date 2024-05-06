@@ -6,7 +6,7 @@ import { Button } from '@projects/button';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../../constants/constants';
-import loginRequest from '../../../../app/api/login/loginApi';
+import loginRequest from '../../../../app/api/login/loginRequests';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
 import type { ILoginFormDataProps, ILoginRequestDataProps, IResponseStatusProps } from '../types';
@@ -33,6 +33,11 @@ const CardBody: React.FC = () => {
         };
     };
     const getDisplayName = (type: string): string => type === loginFormInputs[0] ? 'Kullanıcı Adı' : 'Şifre';
+    const handleLoginError = (message: string): void => {
+        dispatch(toggleLoadingVisibility(false));
+        dispatch(showAlert({ message, type: 'error' }));
+        setTimeout(() => dispatch(hideAlert()), 5000);
+    };
     const handleLoginSubmit = async (): Promise<void> => {
         const userLoginData: ILoginRequestDataProps = {
             userName: loginFormData.username,
@@ -42,11 +47,6 @@ const CardBody: React.FC = () => {
         dispatch(toggleLoadingVisibility(true));
 
         await fetchLoginData(JSON.stringify(userLoginData));
-    };
-    const handleLoginError = (message: string): void => {
-        dispatch(toggleLoadingVisibility(false));
-        dispatch(showAlert({ message, type: 'error' }));
-        setTimeout(() => dispatch(hideAlert()), 5000);
     };
     const handleLoginSuccess = (): void => {
         dispatch(toggleLoadingVisibility(false));
@@ -59,7 +59,7 @@ const CardBody: React.FC = () => {
             <form className={`${BRAND_PREFIX}-card-login-form`} onSubmit={handleSubmit(handleLoginSubmit)}>
                 {
                     loginFormInputs.map((loginFormInput: string, index: number) => (
-                        <div key={index} className={`${BRAND_PREFIX}-${loginFormInput}-input-container mb-4`}>
+                        <div className={`${BRAND_PREFIX}-${loginFormInput}-input-container mb-4`} key={index} >
                             <Label
                                 className={`${loginFormInput}-label block text-sm font-medium text-gray-600`}
                                 htmlFor={loginFormInput}
@@ -72,27 +72,27 @@ const CardBody: React.FC = () => {
                                 register={
                                     register(
                                         loginFormInput, {
-                                        pattern: {
-                                            message: `Geçersiz ${getDisplayName(loginFormInput)}.`,
-                                            // TODO: Add pattern for username email if it need // /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/
-                                            value: loginFormInput === loginFormInputs[0]
-                                                ? /^.*$/
-                                                : /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$.*])/,
-                                        },
-                                        required: `${getDisplayName(loginFormInput)} zorunlu bir alandır.`,
-                                        validate: loginFormInput === loginFormInputs[1]
-                                            ? {
-                                                checkLength: (value) => value.length >= 8,
-                                                matchPattern: (value) => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.*-]).{8,}$/.test(value)
-                                            }
-                                            : {},
-                                        onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-                                            setLoginFormData({
-                                                ...loginFormData,
-                                                [loginFormInput.toLowerCase()]: event.target.value,
-                                            });
-                                        },
-                                    }
+                                            pattern: {
+                                                message: `Geçersiz ${getDisplayName(loginFormInput)}.`,
+                                                // TODO: Add pattern for username email if it need // /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/
+                                                value: loginFormInput === loginFormInputs[0]
+                                                    ? /^.*$/
+                                                    : /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$.*])/,
+                                            },
+                                            required: `${getDisplayName(loginFormInput)} zorunlu bir alandır.`,
+                                            validate: loginFormInput === loginFormInputs[1]
+                                                ? {
+                                                    checkLength: (value: string) => value.length >= 8,
+                                                    matchPattern: (value: string) => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.*-]).{8,}$/.test(value),
+                                                }
+                                                : {},
+                                            onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
+                                                setLoginFormData({
+                                                    ...loginFormData,
+                                                    [loginFormInput.toLowerCase()]: event.target.value,
+                                                });
+                                            },
+                                        }
                                     )
                                 }
                                 type={loginFormInput === loginFormInputs[1] ? loginFormInputs[1] : 'text'}
