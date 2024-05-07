@@ -213,7 +213,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
     };
     const prepareTime = (date: string | null) => {
         if (date === null) {
-            return `1900/01/01 00:00`;
+            return ``;
         };
 
         const dateArray = date.split('T');
@@ -311,8 +311,8 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
                                             <div className={`${sectionPrefix}-name-container`}>
                                                 <h3 className={`${chargeUnitPrefix}-name text-lg font-bold text-heading flex items-center`}>
                                                     {getChargeUnitStatus(chargeUnit.lastHeartBeat)
-                                                        ? (<div className='bg-green-500 rounded-full h-4 w-4 mx-2'></div>)
-                                                        : (<div className='bg-red-500 rounded-full h-4 w-4 mx-2'></div>)
+                                                        ? (<div className='bg-green-500 rounded-full h-4 w-4 mr-2'></div>)
+                                                        : (<div className='bg-red-500 rounded-full h-4 w-4 mr-2'></div>)
                                                     }
                                                     {`${chargeUnit.model}`}
                                                 </h3>
