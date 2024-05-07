@@ -136,7 +136,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
           );
           const data = response.data;
 
-          // setConnectors((prev) => [...prev, getConnectorProperties(data.data)])
           return getConnectorProperties(data.data);  // Promise dönüyor, ama hemen beklemiyoruz.
         } catch (error) {
           console.error(error);
@@ -145,7 +144,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
 
       // @ts-expect-error We did not wait for the checking to be resolved.
       // TODO : We need to wait for the checking to be resolved.
-      await Promise.all(promises).then(data => setConnectors((prev) => [...prev, data]));
+      await Promise.all(promises).then(data => setConnectors([data]));
 
     } catch (error) {
       console.error(error);
