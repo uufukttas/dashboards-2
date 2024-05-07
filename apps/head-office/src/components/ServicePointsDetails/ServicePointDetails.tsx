@@ -104,9 +104,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
         )
         .then((response) => response.data.data)
         .then((data) => {
-          if (chargeUnits.length !== data.length) {
             setChargeUnits(data)
-          }
         })
         .catch((error) => console.log(error));
     } catch (error) {
