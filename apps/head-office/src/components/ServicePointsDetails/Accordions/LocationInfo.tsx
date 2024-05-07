@@ -150,10 +150,10 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
 
     return (
         <div className={`${sectionPrefix}-content py-8 text-text`}>
-            <div className={`${sectionPrefix}-info-container flex justify-between`}>
-                <div className={`${sectionPrefix}-left-info-container flex flex-col w-1/2`}>
+            <div className={`${sectionPrefix}-info-container flex flex-col justify-between`}>
+                <div className={`${sectionPrefix}-left-info-container flex flex-col w-full`}>
                     <div className={`${sectionPrefix}-info-item flex justify-start md:items-center flex-col md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label text-lg font-bold`}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/4 text-lg font-bold`}>
                             Adres:
                         </p>
                         <p className={`${sectionPrefix}-info-item-value text-lg font-normal px-2`}>
@@ -161,7 +161,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex justify-start md:items-center flex-col md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label text-lg font-bold`}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/4 text-lg font-bold`}>
                             Adres Tarifi:
                         </p>
                         <p className={`${sectionPrefix}-info-item-value text-lg font-normal px-2`}>
@@ -169,7 +169,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex justify-start md:items-center flex-col md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label text-lg font-bold `}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/4 text-lg font-bold `}>
                             Telefon:
                         </p>
                         <p className={`${sectionPrefix}-info-item-value text-lg font-normal px-2`}>
@@ -179,7 +179,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                     {
                         servicePointDetailsInfo.phone2 && (
                             <div className={`${sectionPrefix}-info-item flex justify-start md:items-center flex-col md:flex-row`}>
-                                <p className={`${sectionPrefix}-info-item-label text-lg font-bold `}>
+                                <p className={`${sectionPrefix}-info-item-label w-1/4 text-lg font-bold `}>
                                     Telefon 2:
                                 </p>
                                 <p className={`${sectionPrefix}-info-item-value text-lg px-2`}>
@@ -189,7 +189,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                         )
                     }
                     <div className={`${sectionPrefix}-info-item flex justify-start md:items-center flex-col md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label text-lg font-bold `}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/4 text-lg font-bold `}>
                             Il:
                         </p>
                         <p className={`${sectionPrefix}-info-item-value text-lg font-normal px-2`}>
@@ -197,7 +197,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex justify-start md:items-center flex-col md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label text-lg font-bold `}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/4 text-lg font-bold `}>
                             Ilce:
                         </p>
                         <p className={`${sectionPrefix}-info-item-value text-lg font-normal px-2`}>
@@ -205,7 +205,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex justify-start md:items-center flex-col md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label text-lg font-bold `}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/4 text-lg font-bold `}>
                             Konum:
                         </p>
                         <p className={`${sectionPrefix}-info-item-value text-lg font-normal px-2`}>
@@ -213,9 +213,9 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                         </p>
                     </div>
                 </div>
-                <div className={`${sectionPrefix}-right-info-container flex flex-col w-1/2`}>
+                <div className={`${sectionPrefix}-right-info-container flex flex-col`}>
                     <div className={`${sectionPrefix}-info-item flex justify-start md:items-center flex-col md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label text-lg font-bold`}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/4 text-lg font-bold`}>
                             Sirket:
                         </p>
                         <p className={`${sectionPrefix}-info-item-value text-lg font-normal px-2`}>
@@ -223,7 +223,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex justify-start md:items-center flex-col md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label text-lg font-bold`}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/4 text-lg font-bold`}>
                             Bayi:
                         </p>
                         <p className={`${sectionPrefix}-info-item-value text-lg font-normal px-2`}>
@@ -231,7 +231,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex justify-start md:items-center flex-col md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label text-lg font-bold`}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/4 text-lg font-bold`}>
                             Odeme Yontemleri:
                         </p>
                         <p className={`${sectionPrefix}-info-item-value text-lg font-normal px-2`}>
@@ -239,7 +239,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex justify-start md:items-center flex-col md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label text-lg font-bold`}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/4 text-lg font-bold`}>
                             Ucretsiz Park Yeri:
                         </p>
                         <p className={`${sectionPrefix}-info-item-value text-lg font-normal px-2`}>
@@ -247,7 +247,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex justify-start md:items-center flex-col md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label text-lg font-bold`}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/4 text-lg font-bold`}>
                             Servis Noktasi Olanaklari:
                         </p>
                         <p className={`${sectionPrefix}-info-item-value text-lg font-normal px-2`}>
