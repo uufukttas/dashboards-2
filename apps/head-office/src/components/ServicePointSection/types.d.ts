@@ -60,3 +60,9 @@ export interface IPaginationItemProps {
     page: number;
     onClick: () => void;
 };
+
+export interface IResponseDataProps {
+    data: boolean;
+    message: string;
+    success: boolean;
+};

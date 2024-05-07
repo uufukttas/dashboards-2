@@ -8,6 +8,7 @@ import ServicePointModalForm from './ServicePointsModalComponents/ServicePointMo
 import Modal from '../Modal/Modal';
 import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
+import deleteServicePointRequest from '../../../app/api/servicePoints/servicePointsRequests';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
@@ -17,8 +18,8 @@ import { setServicePoints } from '../../../app/redux/features/servicePoints';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
 import { RootState, AppDispatch } from '../../../app/redux/store';
-import { IResponseStatusProps } from '../Login/types';
 import { IServicePointDataProps } from '../../../app/redux/types';
+import type { IResponseDataProps } from './types';
 
 const ServicePointSection: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -34,14 +35,9 @@ const ServicePointSection: React.FC = () => {
 
   const deleteServicePoint = async (deletedId: number): Promise<void> => {
     try {
-      await axios
-        .post(
-          process.env.DELETE_STATION_URL || '',
-          ({ 'id': deletedId })
-        )
-        .then((response) => response.data)
-        .then((response => handleDeleteSuccess(response)))
-        .catch((error) => console.log(error));
+      const { data } = await deleteServicePointRequest(deletedId);
+
+      handleDeleteSuccess(data);
     } catch (error) {
       console.error(error);
     }
@@ -95,12 +91,12 @@ const ServicePointSection: React.FC = () => {
     dispatch(setServicePointInformation(servicePointInformationInitialValues));
     dispatch(toggleModalVisibility());
   };
-  const handleDeleteSuccess = (response: IResponseStatusProps): void => {
+  const handleDeleteSuccess = (data: IResponseDataProps): void => {
     dispatch
       (
         showAlert({
-          message: response.message,
-          type: 'info',
+          message: data.message,
+          type: data.success ? 'success' : 'error',
         })
       );
 
@@ -108,7 +104,7 @@ const ServicePointSection: React.FC = () => {
       dispatch(hideAlert());
     }, 5000);
   };
-  const handleGetServicePointSuccess = (response: {count: number; data: IServicePointDataProps}) => {
+  const handleGetServicePointSuccess = (response: { count: number; data: IServicePointDataProps }) => {
     setServicePointCount(response.count);
     dispatch(setServicePoints(response.data));
     dispatch(toggleServicePointDataUpdated(false));
