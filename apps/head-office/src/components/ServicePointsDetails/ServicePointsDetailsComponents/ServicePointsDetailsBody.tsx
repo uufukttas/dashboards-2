@@ -2,11 +2,12 @@ import React from 'react';
 import { FaChargingStation, FaSackDollar } from 'react-icons/fa6';
 import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
+import Accordion from '../../Accordion/Accordion';
 import ChargeUnitsContent from '../Accordions/ChargeUnitsContent';
 import EnergyPricesContent from '../Accordions/EnergyPricesContent';
 import LocationInfo from '../Accordions/LocationInfo';
+import ServicePointPermissions from '../Accordions/ServicePointPermissions';
 import WorkingHoursContent from '../Accordions/WorkingHoursContent';
-import Accordion from '../../Accordion/Accordion';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import type { IServicePointsDetailsBodyProps } from '../types';
@@ -92,7 +93,6 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                     >
                         {
                             chargeUnits.length > 0 && (
-
                                 <ChargeUnitsContent
                                     chargeUnits={chargeUnits}
                                     connectorsList={connectorsList}
@@ -138,7 +138,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                         accordionTitle="Servis Noktasi Yetkisi"
                         titleClassName="font-bold"
                     >
-                        <></>
+                        <ServicePointPermissions />
                     </Accordion>
                 )
             }
