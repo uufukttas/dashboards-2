@@ -251,7 +251,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
                                         <p
                                             className={`${chargeUnitPrefix}-connector-list-item-kw text-lg text-text`}
                                         >
-                                            {`${connectorItem.kw} - ${connectorItem.isAc ? 'AC' : 'DC'}` || '22KW - AC'}
+                                            {`${connectorItem.kw || ' - '} kw - ${connectorItem.isAc ? 'AC' : 'DC'}` || '22KW - AC'}
                                         </p>
                                     </div>
                                     <Button

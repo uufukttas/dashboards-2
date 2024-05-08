@@ -29,20 +29,21 @@ const ConnectorAddModal: React.FC<IConnectorAddModalProps> = ({ connectorPropert
                 rid: null,
             }));
 
-            setDropdownItems([...items]);
+            setDropdownItems(items);
         } catch (error) {
             console.error(error);
         }
     };
-    const setConenctorProperty = async (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+
         await axios
             .post(
                 process.env.UPDATE_CONNECTOR_URL || '',
                 {
-                    id: connectorProperty.chargePointId,
+                    id: connectorProperty.connectorId,
                     connectorNr: connectorProperty.connectorNumber,
-                    stationChargePointID: connectorProperty.connectorId,
+                    stationChargePointID: connectorProperty.chargePointId,
                     stationChargePointModelConnectorID: connectorValue,
                 }
             )
@@ -57,7 +58,7 @@ const ConnectorAddModal: React.FC<IConnectorAddModalProps> = ({ connectorPropert
         <div className={`${BRAND_PREFIX}-${sectionPrefix}-modal-form-container relative p-6 bg-white rounded-lg`}>
             <form
                 className={`${BRAND_PREFIX}-add-${sectionPrefix}-form w-full`}
-                onSubmit={setConenctorProperty}
+                onSubmit={handleSubmit}
             >
                 <div className={`${BRAND_PREFIX}-connector-type-container`}>
                     <Label
@@ -73,7 +74,7 @@ const ConnectorAddModal: React.FC<IConnectorAddModalProps> = ({ connectorPropert
                         items={dropdownItems}
                         name={`connector-type-dropdown`}
                         onChange={(event) => setConnectorValue(Number(event.currentTarget.value))}
-                        value={``}
+                        value={connectorValue.toString()}
                     />
                     <Button
                         buttonText='Kaydet'
