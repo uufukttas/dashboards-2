@@ -28,7 +28,8 @@ import type {
   IInvestorsProps,
   IServicePointsDetailsPageProps,
   IServicePointsDetailsProps,
-  IStatusListItemProps
+  IStatusListItemProps,
+  IEnergyPriceDetailsProps
 } from './types';
 
 const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
@@ -40,8 +41,9 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   );
   const isLoadingVisible = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
+
   const [accessTypeList, setAccessTypeList] = useState<IAccessTypeListItemProps[]>([]);
-  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [activeIndex, setActiveIndex] = useState<number>(3);
   const [addChargeUnit, setAddChargeUnit] = useState<boolean>(false);
   const [addConnector, setAddConnector] = useState(false);
   const [addEnergyPrice, setAddEnergyPrice] = useState<boolean>(false);
@@ -54,7 +56,9 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     connectorId: 0
   });
   const [connectors, setConnectors] = useState<IConnectorStateProps[]>([]);
+  const [energyPriceDetails, setEnergyPriceDetails] = useState<IEnergyPriceDetailsProps[]>([]);
   const [investors, setInvestors] = useState<IInvestorsProps[]>([]);
+  const [isEnergyPriceListUpdated, setIsEnergyPriceListUpdated] = useState<boolean>(false);
   const [servicePointDetails, setServicePointDetails] =
     useState<IServicePointsDetailsProps>({
       name: '',
@@ -104,7 +108,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
         )
         .then((response) => response.data.data)
         .then((data) => {
-            setChargeUnits(data)
+          setChargeUnits(data)
         })
         .catch((error) => console.log(error));
     } catch (error) {
@@ -175,6 +179,21 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     // Tüm promise'leri bekleyip, sonuçları döndürüyoruz.
     return Promise.all(promises);
   };
+  const getEnergyPrices = async () => {
+    try {
+      await axios
+        .post(
+          process.env.GET_ENERGY_PRICE || '',
+          ({ stationId: Number(slug) }),
+        )
+        .then((response) => {
+          setEnergyPriceDetails(response.data.data);
+          setIsEnergyPriceListUpdated(false);
+        });
+    } catch (error) {
+      console.log(error);
+    };
+  };
   const getInvestors = async () => {
     try {
       await axios
@@ -221,6 +240,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     getBrands();
     getChargeUnits();
     getChargeUnitFeatures();
+    getEnergyPrices();
     getInvestors();
     getServicePointsDetails(slug);
     getWorkingHours();
@@ -242,6 +262,10 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     }
   }, [chargeUnits]);
 
+  useEffect(() => {
+    getEnergyPrices();
+  }, [isEnergyPriceListUpdated]);
+
   return (
     isLoadingVisible
       ? (
@@ -262,10 +286,12 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               activeIndex={activeIndex}
               chargeUnits={chargeUnits}
               connectorsList={connectors}
+              energyPriceDetails={energyPriceDetails}
               setAddChargeUnit={setAddChargeUnit}
               setAddConnector={setAddConnector}
               setAddEnergyPrice={setAddEnergyPrice}
               setConnectorProperty={setConnectorProperty}
+              setIsEnergyPriceListUpdated={setIsEnergyPriceListUpdated}
               slug={slug}
             />
           </div>
@@ -325,6 +351,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
                 onClose={() => { }}
               >
                 <EnergyPricesModal
+                  setIsEnergyPriceListUpdated={setIsEnergyPriceListUpdated}
                   setAddEnergyPrice={setAddEnergyPrice}
                   slug={slug}
                 />

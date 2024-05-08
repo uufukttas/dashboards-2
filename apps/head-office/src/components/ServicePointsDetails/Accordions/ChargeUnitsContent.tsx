@@ -230,6 +230,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
                 return connectors.map((connector: IConnectorStateProps[], idx: number) => {
                     return connector.map((connectorItem: IConnectorStateProps, connectorIndex: number) => {
                         if (connectorItem.stationChargePointID === chargePointId && idx + 1 === connectorItem.connectorNr) {
+                            const connectorId = connectorItem.RID;
                             return (
                                 <div
                                     className={`${chargeUnitPrefix}-connector-list-item w-full flex flex-row items-center justify-between`}
@@ -252,7 +253,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
                                         <p
                                             className={`${chargeUnitPrefix}-connector-list-item-kw text-lg text-text`}
                                         >
-                                            <ConnectorInfo connectorId={connectorItem.RID} />
+                                            <ConnectorInfo connectorId={connectorId} />
                                         </p>
                                     </div>
                                     <Button
