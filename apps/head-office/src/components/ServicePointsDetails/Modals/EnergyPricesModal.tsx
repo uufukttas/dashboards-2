@@ -6,7 +6,11 @@ import { useForm } from 'react-hook-form';
 import { Button } from '@projects/button';
 import axios from 'axios';
 
-const EnergyPricesModal = ({ slug, setAddEnergyPrice }: { slug: string; setAddEnergyPrice: React.Dispatch<React.SetStateAction<boolean>> }) => {
+const EnergyPricesModal = ({ slug, setAddEnergyPrice, setIsEnergyPriceListUpdated }: {
+  slug: string;
+  setAddEnergyPrice: React.Dispatch<React.SetStateAction<boolean>>,
+  setIsEnergyPriceListUpdated: React.Dispatch<React.SetStateAction<boolean>>
+}) => {
   const sectionPrefix = 'energy-prices';
   const [energyPricesProperty, setEnergyPricesProperty] = React.useState<{ price: number; time: string; isActive: boolean }>({
     price: 0,
@@ -28,7 +32,8 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice }: { slug: string; setAddEn
         { headers: { 'Content-Type': 'application/json' } }
       )
       .then((response) => {
-        setAddEnergyPrice && setAddEnergyPrice(false);
+        setAddEnergyPrice(false);
+        setIsEnergyPriceListUpdated(true);
       })
   }
 
@@ -42,7 +47,7 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice }: { slug: string; setAddEn
           <Label
             className={`${sectionPrefix}-label block mb-2 text-heading font-semibold`}
             htmlFor={``}
-            labelText={`Enerji Fiyati (kw/Birim fiyat)`}
+            labelText={`Enerji Fiyati (kwh/Birim fiyat)`}
           >
             <span className="text-md text-error">*</span>
           </Label>

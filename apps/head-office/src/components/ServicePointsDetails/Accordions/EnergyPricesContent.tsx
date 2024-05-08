@@ -1,24 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 import { FaTrashCan } from 'react-icons/fa6';
 import { Button } from '@projects/button';
-import type { IEnergyPriceDetailsProps, IServiceDetailsContentProps } from '../types';
+import type { IEnergyPriceDetailsProps, IServicePointsEnergyPricesContentProps } from '../types';
 
-const EnergyPricesContent = ({ slug }: IServiceDetailsContentProps) => {
+const EnergyPricesContent = ({ energyPriceDetails, setIsEnergyPriceListUpdated }: IServicePointsEnergyPricesContentProps) => {
   const sectionPrefix = 'energy-prices-details';
-  const [energyPriceDetails, setEnergyPriceDetails] = useState<IEnergyPriceDetailsProps[]>([]);
 
-  const getEnergyPriceDetails = async (slug: string) => {
-    axios
-      .post(
-        process.env.GET_ENERGY_PRICES || '',
-        JSON.stringify({ stationId: Number(slug) }),
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-      .then((response) => response.data)
-      .then((data) => data.data && setEnergyPriceDetails(data.data))
-      .catch((error) => console.log(error));
-  };
   const handleDelete = (event: React.MouseEvent) => {
     const deletedEnergyPriceId = event.currentTarget.getAttribute('energy-price-id');
 
@@ -28,13 +16,11 @@ const EnergyPricesContent = ({ slug }: IServiceDetailsContentProps) => {
         JSON.stringify({ Id: deletedEnergyPriceId }),
         { headers: { 'Content-Type': 'application/json' } }
       )
+      .then((response) => {
+        setIsEnergyPriceListUpdated(true);
+      })
       .catch((error) => console.log(error));
   };
-
-  useEffect(() => {
-    if (energyPriceDetails.length === 0)
-      getEnergyPriceDetails(slug);
-  }, [energyPriceDetails]);
 
   return (
     energyPriceDetails && energyPriceDetails.map((energyPriceDetail: IEnergyPriceDetailsProps, idx: number) => {
@@ -80,4 +66,5 @@ const EnergyPricesContent = ({ slug }: IServiceDetailsContentProps) => {
     })
   );
 };
+
 export default EnergyPricesContent;

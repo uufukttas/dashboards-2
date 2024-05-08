@@ -55,6 +55,7 @@ interface IServicePointsDetailsBodyProps {
   activeIndex: number;
   chargeUnits: IChargeUnitsProps[];
   connectorsList: IConnectorStateProps[];
+  energyPriceDetails: IEnergyPriceDetailsProps[];
   setAddChargeUnit: Dispatch<SetStateAction<boolean>>;
   setAddConnector: Dispatch<SetStateAction<boolean>>;
   setAddEnergyPrice: Dispatch<SetStateAction<boolean>>;
@@ -64,6 +65,7 @@ interface IServicePointsDetailsBodyProps {
     connectorNumber: number,
     connectorId: number
   }>>;
+  setIsEnergyPriceListUpdated: Dispatch<SetStateAction<boolean>>;
   slug: string;
 };
 interface IWorkingHoursContentProps {
@@ -170,6 +172,11 @@ export interface IFormDataProps {
   [key: string]: boolean | number | string;
 };
 export interface IServiceDetailsContentProps {
+  slug: string;
+};
+export interface IServicePointsEnergyPricesContentProps {
+  energyPriceDetails: IEnergyPriceDetailsProps[];
+  setIsEnergyPriceListUpdated: React.Dispatch<React.SetStateAction<boolean>>;
   slug: string;
 };
 export interface IServicePointsDetailsInfoProps {
