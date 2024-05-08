@@ -48,11 +48,26 @@ const nextConfig = {
     UPDATE_STATION_SETTINGS: 'https://sharztestapi.azurewebsites.net/ServicePoint/UpdateStationSettings',
     UPDATE_STATION_URL: 'https://sharztestapi.azurewebsites.net/ServicePoint/UpdateStation',
   },
+  generateStaticParams: async () => {
+    return [
+      {
+        params: {},
+        path: '/'
+      },
+    ];
+  },
+  async redirects() {
+    return [
+      {
+        source: '/dashboards',
+        destination: '/dashboards.html',
+        permanent: true,  // Kalıcı yönlendirme (HTTP 301), false ise geçici (HTTP 307)
+      },
+    ];
+  },
 };
 
-const plugins = [
-  // Add more Next.js plugins to this list if needed.
-  withNx,
-];
+const plugins = [withNx];
 
 module.exports = composePlugins(...plugins)(nextConfig);
+
