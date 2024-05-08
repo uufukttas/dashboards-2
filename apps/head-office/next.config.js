@@ -28,6 +28,7 @@ const nextConfig = {
     GET_CHARGE_POINT_STATION_FEATURE: 'https://sharztestapi.azurewebsites.net/StationFeature/GetChargePointFeature',
     GET_CHARGE_UNIT_MODELS: 'https://sharztestapi.azurewebsites.net/Values/GetModels',
     GET_COMPANIES_URL: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetCompanies',
+    GET_CONNECTOR_INFO: 'https://sharztestapi.azurewebsites.net/ServicePoint/StationConnectorInfo',
     GET_CONNECTOR_MODELS: 'https://sharztestapi.azurewebsites.net/Values/GetConnectorModels',
     GET_DEVICE_CODE: 'https://sharztestapi.azurewebsites.net/Values/GetDeviceCode',
     GET_ENERGY_PRICE: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetEnergyPrice',

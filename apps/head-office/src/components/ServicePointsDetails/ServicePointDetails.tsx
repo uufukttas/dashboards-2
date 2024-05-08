@@ -150,7 +150,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       console.error(error);
     }
   };
-
   const getConnectorProperties = async (connectorData: []) => {
     const promises = connectorData.map(async (connector: IConnectorProps) => {
       try {
@@ -176,11 +175,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     // Tüm promise'leri bekleyip, sonuçları döndürüyoruz.
     return Promise.all(promises);
   };
-
-
-
-
-
   const getInvestors = async () => {
     try {
       await axios

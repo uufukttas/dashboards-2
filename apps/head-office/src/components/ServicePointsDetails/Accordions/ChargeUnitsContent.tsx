@@ -3,6 +3,7 @@ import axios from 'axios';
 import { FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
 import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
+import ConnectorInfo from './ConnectorInfo';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { showDialog } from '../../../../app/redux/features/dialogInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
@@ -251,7 +252,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
                                         <p
                                             className={`${chargeUnitPrefix}-connector-list-item-kw text-lg text-text`}
                                         >
-                                            {`${connectorItem.kw || ' - '} kw - ${connectorItem.isAc ? 'AC' : 'DC'}` || '22KW - AC'}
+                                            <ConnectorInfo connectorId={connectorItem.RID} />
                                         </p>
                                     </div>
                                     <Button
@@ -282,7 +283,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
                                 </div>
                             );
                         } else {
-                            return null;  // Eğer koşul sağlanmıyorsa, null dön.
+                            return null;
                         }
                     });
                 });
