@@ -118,7 +118,7 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice, setIsEnergyPriceListUpdate
         </div>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default EnergyPricesModal
+export default EnergyPricesModal;
