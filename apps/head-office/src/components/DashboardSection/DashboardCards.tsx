@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaPlug } from 'react-icons/fa6';
 import Card from '../Card/Card';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
+import { RootState } from '../../../app/redux/store';
 
 const DashboardCards: React.FC = () => {
     const dispatch = useDispatch();
+    const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
 
     useEffect(() => {
         dispatch(toggleLoadingVisibility(false));
@@ -15,55 +17,62 @@ const DashboardCards: React.FC = () => {
     const chargeUnitContent1 = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className='text-md'>Aktif Servis Noktasi</div>
-                <FaPlug className='text-2xl bg-transparent' />
+                <div className={`text-xl lg:text-base`}>Aktif Servis Noktasi</div>
             </div>
-            <div className='text-6xl'>24</div>
+            <div className='text-4xl flex items-center justify-center'>
+                24
+                <FaPlug className='text-2xl bg-transparent mx-4' />
+            </div>
         </div>
     );
     const chargeUnitContent2 = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className='text-md'>Aktif Sarj Unitesi</div>
-                <FaPlug className='text-2xl bg-transparent' />
+                <div className={`text-xl lg:text-base`}>Aktif Sarj Unitesi</div>
             </div>
-            <div className='text-6xl'>24</div>
+            <div className='text-4xl flex items-center justify-center'>24
+                <FaPlug className='text-2xl bg-transparent mx-4' />
+            </div>
         </div>
     );
     const chargeUnitContent3 = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className='text-md'>Aktif Konnektor</div>
-                <FaPlug className='text-2xl bg-transparent' />
+                <div className={`text-xl lg:text-base`}>Aktif Konnektor</div>
             </div>
-            <div className='text-6xl'>24</div>
+            <div className='text-4xl flex items-center justify-center'>24
+                <FaPlug className='text-2xl bg-transparent mx-4' />
+            </div>
         </div>
     );
     const chargeUnitContent4 = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className='text-md'>Arizali Sarj Unitesi</div>
-                <FaPlug className='text-2xl bg-transparent' />
+                <div className={`text-xl lg:text-base`}>Arizali Sarj Unitesi</div>
             </div>
-            <div className='text-6xl'>24</div>
+            <div className='text-4xl flex items-center justify-center'>24
+                <FaPlug className='text-2xl bg-transparent mx-4' />
+            </div>
         </div>
     );
     const chargeUnitContent5 = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className='text-md'>Planli Olan Servis Noktasi</div>
-                <FaPlug className='text-2xl bg-transparent' />
+                <div className={`text-xl lg:text-base`}>Planli Servis Noktasi</div>
             </div>
-            <div className='text-6xl'>24</div>
+            <div className='text-4xl flex items-center justify-center'>24
+                <FaPlug className='text-2xl bg-transparent mx-4' />
+            </div>
         </div>
     );
     const chargeUnitContent6 = (
         <div className={`flex flex-col text-center justify-center w-full h-full `}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className='text-md'>Bozuk Sarj Konnektor</div>
-                <FaPlug className='text-2xl bg-transparent' />
+                <div className={`text-xl lg:text-base`}>Calismayan Konnektor</div>
             </div>
-            <div className='text-6xl'>24</div>
+            <div className='text-4xl flex items-center justify-center'>24
+                <FaPlug className='text-2xl bg-transparent mx-4' />
+            </div>
         </div>
     );
 
@@ -76,30 +85,30 @@ const DashboardCards: React.FC = () => {
     }, []);
 
     return (
-        <div className={`${BRAND_PREFIX}-cards-container w-full flex justify-center`}>
+        <div className={`${BRAND_PREFIX}-cards-container w-full flex justify-center flex-wrap`}>
             <Card
                 cardBody={chargeUnitContent1}
-                className='w-full flex item-center h-[200px] p-0 bg-blue-300 rounded-lg mx-5 shadow-none text-blue-600'
+                className={`w-full mx-8 my-4 flex items-center justify-center h-[200px] p-0 bg-blue-300 rounded-lg shadow-none text-blue-600 md:${isSidebarExpanded ? 'w-full' : 'w-1/3'} lg:w-[14%] lg:mx-2`}
             />
             <Card
                 cardBody={chargeUnitContent2}
-                className='w-full flex item-center h-[200px] p-0 bg-green-300 rounded-lg mx-5 shadow-none text-green-600'
+                className={`w-full mx-8 my-4 flex items-center justify-center h-[200px] p-0 bg-green-300 rounded-lg shadow-none text-green-600 md:${isSidebarExpanded ? 'w-full' : 'w-1/3'} lg:w-[14%] lg:mx-2`}
             />
             <Card
                 cardBody={chargeUnitContent3}
-                className='w-full flex item-center h-[200px] p-0 bg-yellow-300 rounded-lg mx-5 shadow-none text-yellow-600'
+                className={`w-full mx-8 my-4 flex items-center justify-center h-[200px] p-0 bg-yellow-300 rounded-lg shadow-none text-yellow-600 md:${isSidebarExpanded ? 'w-full' : 'w-1/3'} lg:w-[14%] lg:mx-2`}
             />
             <Card
                 cardBody={chargeUnitContent4}
-                className='w-full flex item-center h-[200px] p-0 bg-red-300 rounded-lg mx-5 shadow-none text-red-600'
+                className={`w-full mx-8 my-4 flex items-center justify-center h-[200px] p-0 bg-red-300 rounded-lg shadow-none text-red-600 md:${isSidebarExpanded ? 'w-full' : 'w-1/3'} lg:w-[14%] lg:mx-2`}
             />
             <Card
                 cardBody={chargeUnitContent5}
-                className='w-full flex item-center h-[200px] p-0 bg-purple-300 rounded-lg mx-5 shadow-none text-purple-600'
+                className={`w-full mx-8 my-4 flex items-center justify-center h-[200px] p-0 bg-purple-300 rounded-lg shadow-none text-purple-600 md:${isSidebarExpanded ? 'w-full' : 'w-1/3'} lg:w-[14%] lg:mx-2`}
             />
             <Card
                 cardBody={chargeUnitContent6}
-                className='w-full flex item-center h-[200px] p-0 bg-gray-300 rounded-lg mx-5 shadow-none text-gray-600'
+                className={`w-full mx-8 my-4 flex items-center justify-center h-[200px] p-0 bg-gray-300 rounded-lg shadow-none text-gray-600 md:${isSidebarExpanded ? 'w-full' : 'w-1/3'} lg:w-[14%] lg:mx-2`}
             />
         </div>
     );
