@@ -12,6 +12,7 @@
     "axios": "^1.6.8",
     "flowbite": "^2.3.0",
     "flowbite-react": "^0.7.2",
+    "follow-redirects": "^1.15.6",
     "next": "13.4.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
