@@ -15,7 +15,7 @@ const Navbar: React.FC<INavbarProps> = ({ activeIndex, setActiveIndex }: INavbar
       title: (
         <>
           <FaLocationDot />
-          {detectDevice().isMobile ? '' : 'Servis Noktasi Bilgileri'}
+          {detectDevice().isMobile ? '' : 'Servis Noktasi Bilgisi'}
         </>
       ),
     },
@@ -52,7 +52,7 @@ const Navbar: React.FC<INavbarProps> = ({ activeIndex, setActiveIndex }: INavbar
         <>
           <FaUserGear />
           {
-            detectDevice().isMobile ? '' : 'Servis Noktasi Yetkisi'
+            detectDevice().isMobile ? '' : 'Servis Noktasi Yetki'
           }
         </>
       ),
