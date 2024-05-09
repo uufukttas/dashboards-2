@@ -153,104 +153,104 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
             <div className={`${sectionPrefix}-info-container flex flex-col justify-between`}>
                 <div className={`${sectionPrefix}-left-info-container flex flex-col w-full`}>
                     <div className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label w-1/3 text-lg font-bold`}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold`}>
                             Adres:
                         </p>
-                        <p className={`${sectionPrefix}-info-item-value w-2/3 text-lg font-normal px-2`}>
+                        <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>
                             {servicePointDetailsInfo.address}
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label w-1/3 text-lg font-bold`}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold`}>
                             Adres Tarifi:
                         </p>
-                        <p className={`${sectionPrefix}-info-item-value w-2/3 text-lg font-normal px-2`}>
+                        <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>
                             {servicePointDetailsInfo.addressDetail}
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label w-1/3 text-lg font-bold `}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold `}>
                             Telefon:
                         </p>
-                        <p className={`${sectionPrefix}-info-item-value w-2/3 text-lg font-normal px-2`}>
+                        <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>
                             {servicePointDetailsInfo.phone1}
                         </p>
                     </div>
                     {
                         servicePointDetailsInfo.phone2 && (
                             <div className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
-                                <p className={`${sectionPrefix}-info-item-label w-1/3 text-lg font-bold `}>
+                                <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold `}>
                                     Telefon 2:
                                 </p>
-                                <p className={`${sectionPrefix}-info-item-value w-2/3 text-lg px-2`}>
+                                <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg px-2`}>
                                     {servicePointDetailsInfo.phone2}
                                 </p>
                             </div>
                         )
                     }
                     <div className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label w-1/3 text-lg font-bold `}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold `}>
                             Il:
                         </p>
-                        <p className={`${sectionPrefix}-info-item-value w-2/3 text-lg font-normal px-2`}>
+                        <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>
                             {getSelectedCity(servicePointDetailsInfo.cityId)}
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label w-1/3 text-lg font-bold `}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold `}>
                             Ilce:
                         </p>
-                        <p className={`${sectionPrefix}-info-item-value w-2/3 text-lg font-normal px-2`}>
+                        <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>
                             {getSelectedDistrict(servicePointDetailsInfo.districtId)}
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label w-1/3 text-lg font-bold `}>
-                            Konum:
+                        <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold `}>
+                            Enlem - Boylam:
                         </p>
-                        <p className={`${sectionPrefix}-info-item-value w-2/3 text-lg font-normal px-2`}>
+                        <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>
                             {servicePointDetailsInfo.lat} - {servicePointDetailsInfo.lon}
                         </p>
                     </div>
                 </div>
                 <div className={`${sectionPrefix}-right-info-container flex flex-col`}>
                     <div className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label w-1/3 text-lg font-bold`}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold`}>
                             Sirket:
                         </p>
-                        <p className={`${sectionPrefix}-info-item-value w-2/3 text-lg font-normal px-2`}>
+                        <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>
                             {servicePointData.companyName}
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label w-1/3 text-lg font-bold`}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold`}>
                             Bayi:
                         </p>
-                        <p className={`${sectionPrefix}-info-item-value w-2/3 text-lg font-normal px-2`}>
+                        <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>
                             {servicePointData.resellerName}
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label w-1/3 text-lg font-bold`}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold`}>
                             Odeme Yontemleri:
                         </p>
-                        <p className={`${sectionPrefix}-info-item-value w-2/3 text-lg font-normal px-2`}>
+                        <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>
                             {paymentFeatureName}
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label w-1/3 text-lg font-bold`}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold`}>
                             Ucretsiz Park Yeri:
                         </p>
-                        <p className={`${sectionPrefix}-info-item-value w-2/3 text-lg font-normal px-2`}>
+                        <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>
                             {parkingFeatureValue}
                         </p>
                     </div>
                     <div className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label w-1/3 text-lg font-bold`}>
+                        <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold`}>
                             Servis Noktasi Olanaklari:
                         </p>
-                        <p className={`${sectionPrefix}-info-item-value w-2/3 text-lg font-normal px-2`}>
+                        <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>
                             {opportunitiesFeatureName}
                         </p>
                     </div>
