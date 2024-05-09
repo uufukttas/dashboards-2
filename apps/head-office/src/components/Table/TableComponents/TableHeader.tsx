@@ -11,19 +11,16 @@ import { toggleModalVisibility } from '../../../../app/redux/features/isModalVis
 
 const TableActions: React.FC = () => {
     const [searchedText, setSearchedText] = useState<string>('');
-    const [currentPage, setCurrentPage] = useState(1);
 
     const dispatch = useDispatch();
 
     const getSearchedData = async () => {
-        console.log('searchedText:', searchedText);
-
         try {
             await axios
                 .post(
                     process.env.GET_ALL_SERVICE_POINTS || '',
                     ({
-                        'pageNumber': currentPage,
+                        'pageNumber': 1,
                         'userCount': 10,
                         'name': searchedText,
                     })
