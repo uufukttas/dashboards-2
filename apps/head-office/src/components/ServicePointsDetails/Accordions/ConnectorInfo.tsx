@@ -8,7 +8,7 @@ const ConnectorInfo: React.FC<{ connectorId: number }> = ({ connectorId }: { con
         try {
             const response = await axios.post(
                 process.env.GET_CONNECTOR_INFO || '',
-                ([connectorId]),
+                ([{connectorId: connectorId}]),
                 { headers: { 'Content-Type': 'application/json' } }
             );
             return setDisplayName(response.data.data[0].displayName);
