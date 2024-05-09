@@ -155,7 +155,7 @@ const ServicePointSection: React.FC = () => {
         )
       }
       {
-        servicePointCount > 1 && (
+        servicePointCount > 10 && (
           <Pagination
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
