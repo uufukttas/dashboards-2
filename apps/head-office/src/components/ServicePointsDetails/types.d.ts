@@ -58,6 +58,7 @@ interface IServicePointsDetailsBodyProps {
   connectorsList: IConnectorStateProps[];
   energyPriceDetails: IEnergyPriceDetailsProps[];
   setAddChargeUnit: Dispatch<SetStateAction<boolean>>;
+  setAddComission: Dispatch<SetStateAction<boolean>>;
   setAddConnector: Dispatch<SetStateAction<boolean>>;
   setAddEnergyPrice: Dispatch<SetStateAction<boolean>>;
   setAddPermission: Dispatch<SetStateAction<boolean>>;

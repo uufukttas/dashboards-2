@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import Accordion from '../../Accordion/Accordion';
 import ChargeUnitsContent from '../Accordions/ChargeUnitsContent';
+import Comissions from '../Accordions/Comissions';
 import EnergyPricesContent from '../Accordions/EnergyPricesContent';
 import LocationInfo from '../Accordions/LocationInfo';
 import ServicePointPermissions from '../Accordions/ServicePointPermissions';
@@ -18,6 +19,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
     connectorsList,
     energyPriceDetails,
     setAddChargeUnit,
+    setAddComission,
     setAddConnector,
     setAddEnergyPrice,
     setAddPermission,
@@ -80,6 +82,20 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             }}
         >
             + Servis Noktasi Yetkisi Ekle
+        </Button>
+    );
+    const addComissionButton = (
+        <Button
+            buttonText={""}
+            className="button bg-secondary rounded-md px-4 py-2 mx-4 font-bold text-white"
+            id={`comission-add-button`}
+            type={'button'}
+            onClick={() => {
+                setAddComission(true);
+                dispatch(toggleModalVisibility());
+            }}
+        >
+            + Komisyon Ekle
         </Button>
     );
 
@@ -159,10 +175,11 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             {
                 activeIndex === 5 && (
                     <Accordion
-                        accordionTitle="Sharz.net Fiyatlandirma"
+                        accordionTitle="Komisyonlar"
+                        actionButton={addComissionButton}
                         titleClassName="font-bold"
                     >
-                        <></>
+                        <Comissions />
                     </Accordion>
                 )
             }

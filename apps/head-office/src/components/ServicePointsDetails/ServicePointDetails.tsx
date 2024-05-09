@@ -6,6 +6,7 @@ import { Dialog } from '@projects/dialog';
 import ServicePointDetailsHeader from './ServicePointsDetailsComponents/ServicePointDetailsHeader';
 import ServicePointsDetailsBody from './ServicePointsDetailsComponents/ServicePointsDetailsBody';
 import ChargeUnitAddModal from './Modals/ChargeUnitAddModal';
+import ComissionModal from './Modals/ComissionModal';
 import ConnectorAddModal from './Modals/ConnectorAddModal';
 import EnergyPricesModal from './Modals/EnergyPricesModal';
 import ServicePointPermissionsModal from './Modals/ServicePointPermissionsModal';
@@ -46,6 +47,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const [accessTypeList, setAccessTypeList] = useState<IAccessTypeListItemProps[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(3);
   const [addChargeUnit, setAddChargeUnit] = useState<boolean>(false);
+  const [addComission, setAddComission] = useState<boolean>(false);
   const [addConnector, setAddConnector] = useState(false);
   const [addEnergyPrice, setAddEnergyPrice] = useState<boolean>(false);
   const [addPermission, setAddPermission] = useState<boolean>(false);
@@ -290,6 +292,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               connectorsList={connectors}
               energyPriceDetails={energyPriceDetails}
               setAddChargeUnit={setAddChargeUnit}
+              setAddComission={setAddComission}
               setAddConnector={setAddConnector}
               setAddEnergyPrice={setAddEnergyPrice}
               setAddPermission={setAddPermission}
@@ -372,6 +375,17 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
                 <ServicePointPermissionsModal
                   slug={slug}
                 />
+              </Modal>
+            )
+          }
+          {
+            addComission && isModalVisible && (
+              <Modal
+                modalHeaderTitle='Komisyon Ekle'
+                modalId={`${BRAND_PREFIX}-service-point-comission-modal`}
+                onClose={() => dispatch(toggleModalVisibility()) && setAddComission(false)}
+              >
+                <ComissionModal />
               </Modal>
             )
           }
