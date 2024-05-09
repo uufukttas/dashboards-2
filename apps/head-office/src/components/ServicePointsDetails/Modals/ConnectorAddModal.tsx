@@ -8,7 +8,7 @@ import { toggleModalVisibility } from '../../../../app/redux/features/isModalVis
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type { IConnectorAddModalProps } from '../types';
 
-const ConnectorAddModal: React.FC<IConnectorAddModalProps> = ({ connectorProperty }: IConnectorAddModalProps) => {
+const ConnectorAddModal: React.FC<IConnectorAddModalProps> = ({ connectorProperty, setAddConnector }: IConnectorAddModalProps) => {
     const sectionPrefix = 'connector';
     const dispatch = useDispatch();
     const [dropdownItems, setDropdownItems] = useState<{ id: 0, name: 'Please Select', rid: null }[]>([]);
@@ -48,6 +48,7 @@ const ConnectorAddModal: React.FC<IConnectorAddModalProps> = ({ connectorPropert
                 }
             )
         dispatch(toggleModalVisibility());
+        setAddConnector(false);
     };
 
     useEffect(() => {
