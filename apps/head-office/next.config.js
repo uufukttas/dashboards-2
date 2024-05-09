@@ -56,15 +56,6 @@ const nextConfig = {
       },
     ];
   },
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: '/dashboards',
-  //       destination: '/dashboards.html',
-  //       permanent: true,  // Kalıcı yönlendirme (HTTP 301), false ise geçici (HTTP 307)
-  //     },
-  //   ];
-  // },
 };
 
 const plugins = [withNx];
