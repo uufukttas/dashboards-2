@@ -1,16 +1,25 @@
 import React from 'react'
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { Button } from '@projects/button';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
+import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
-import { Button } from '@projects/button';
+import type { IServicePointPermissionsModalProps } from '../types';
 
-const ServicePointPermissionsModal = () => {
+const ServicePointPermissionsModal = ({ slug }: IServicePointPermissionsModalProps) => {
     const sectionPrefix = 'service-point-permission';
+    const dispatch = useDispatch();
     const [permissionPhoneNumber, setPermissionPhoneNumber] = React.useState<string>('');
     const { register, handleSubmit, formState: { errors } } = useForm();
     const handleFormSubmit = () => {
+
+        console.log('slug', slug)
         console.log('handleFormSubmit');
+        console.log('permissionPhoneNumber', permissionPhoneNumber)
+
+        dispatch(toggleModalVisibility());
     };
 
     return (

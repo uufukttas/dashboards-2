@@ -20,6 +20,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
     setAddChargeUnit,
     setAddConnector,
     setAddEnergyPrice,
+    setAddPermission,
     setConnectorProperty,
     setIsEnergyPriceListUpdated,
     slug,
@@ -38,7 +39,6 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
         chargePointId: 0,
     };
     const dispatch = useDispatch();
-
     const addChargeUnitButton = (
         <Button
             buttonText={``}
@@ -54,7 +54,6 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             + Sarj Ünitesi
         </Button>
     );
-
     const addEnergyPriceButton = (
         <Button
             buttonText={""}
@@ -62,11 +61,25 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             id={`energy-prices-add-button`}
             type={'button'}
             onClick={() => {
-                setAddEnergyPrice && setAddEnergyPrice(true);
+                setAddEnergyPrice(true);
                 dispatch(toggleModalVisibility());
             }}
         >
             + Enerji Fiyati Ekle
+        </Button>
+    );
+    const addServicePointPermissionButton = (
+        <Button
+            buttonText={""}
+            className="button bg-secondary rounded-md px-4 py-2 mx-4 font-bold text-white"
+            id={`service-point-permission-add-button`}
+            type={'button'}
+            onClick={() => {
+                setAddPermission(true);
+                dispatch(toggleModalVisibility());
+            }}
+        >
+            + Servis Noktasi Yetkisi Ekle
         </Button>
     );
 
@@ -136,6 +149,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                 activeIndex === 4 && (
                     <Accordion
                         accordionTitle="Servis Noktasi Yetkisi"
+                        actionButton={addServicePointPermissionButton}
                         titleClassName="font-bold"
                     >
                         <ServicePointPermissions />

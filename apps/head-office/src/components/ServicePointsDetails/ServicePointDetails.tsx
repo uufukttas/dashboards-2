@@ -8,6 +8,7 @@ import ServicePointsDetailsBody from './ServicePointsDetailsComponents/ServicePo
 import ChargeUnitAddModal from './Modals/ChargeUnitAddModal';
 import ConnectorAddModal from './Modals/ConnectorAddModal';
 import EnergyPricesModal from './Modals/EnergyPricesModal';
+import ServicePointPermissionsModal from './Modals/ServicePointPermissionsModal';
 import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
@@ -47,6 +48,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const [addChargeUnit, setAddChargeUnit] = useState<boolean>(false);
   const [addConnector, setAddConnector] = useState(false);
   const [addEnergyPrice, setAddEnergyPrice] = useState<boolean>(false);
+  const [addPermission, setAddPermission] = useState<boolean>(false);
   const [brands, setBrands] = useState<IBrandsProps[]>([]);
   const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([]);
   const [connectorProperty, setConnectorProperty] = useState<IConnectorPropertyProps>({
@@ -290,6 +292,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               setAddChargeUnit={setAddChargeUnit}
               setAddConnector={setAddConnector}
               setAddEnergyPrice={setAddEnergyPrice}
+              setAddPermission={setAddPermission}
               setConnectorProperty={setConnectorProperty}
               setIsEnergyPriceListUpdated={setIsEnergyPriceListUpdated}
               slug={slug}
@@ -339,6 +342,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               >
                 <ConnectorAddModal
                   connectorProperty={connectorProperty}
+                  setAddConnector={setAddConnector}
                 />
               </Modal>
             )
@@ -348,11 +352,24 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               <Modal
                 modalHeaderTitle='Enerji Fiyat Ayarlari'
                 modalId={`${BRAND_PREFIX}-energy-prices-modal`}
-                onClose={() => { }}
+                onClose={() => dispatch(toggleModalVisibility()) && setAddEnergyPrice(false) }
               >
                 <EnergyPricesModal
                   setIsEnergyPriceListUpdated={setIsEnergyPriceListUpdated}
                   setAddEnergyPrice={setAddEnergyPrice}
+                  slug={slug}
+                />
+              </Modal>
+            )
+          }
+          {
+            addPermission && isModalVisible && (
+              <Modal
+                modalHeaderTitle='Yetki Ekle'
+                modalId={`${BRAND_PREFIX}-service-point-permissions-modal`}
+                onClose={() => dispatch(toggleModalVisibility()) && setAddPermission(false)}
+              >
+                <ServicePointPermissionsModal
                   slug={slug}
                 />
               </Modal>

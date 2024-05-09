@@ -6,6 +6,7 @@ interface IConnectorPropertyProps {
 };
 interface IConnectorAddModalProps {
   connectorProperty: IConnectorPropertyProps;
+  setAddConnector: React.Dispatch<React.SetStateAction<boolean>>;
 };
 interface IConnectorProps {
   RID: number;
@@ -59,6 +60,7 @@ interface IServicePointsDetailsBodyProps {
   setAddChargeUnit: Dispatch<SetStateAction<boolean>>;
   setAddConnector: Dispatch<SetStateAction<boolean>>;
   setAddEnergyPrice: Dispatch<SetStateAction<boolean>>;
+  setAddPermission: Dispatch<SetStateAction<boolean>>;
   setConnectorProperty: Dispatch<SetStateAction<{
     chargePointId: number,
     chargePointModelId: number,
@@ -198,6 +200,9 @@ export interface IServicePointDetailsModalProps {
   accessTypeList: IAccessTypeListItemProps[];
   statusList: IStatusListItemProps[];
   setAddChargeUnit: React.Dispatch<React.SetStateAction<boolean>>;
+};
+export interface IServicePointPermissionsModalProps {
+  slug: string;
 };
 export interface IServicePointsDetailsPageProps {
   slug: string;
