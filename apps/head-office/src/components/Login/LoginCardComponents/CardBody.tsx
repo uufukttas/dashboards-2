@@ -9,26 +9,22 @@ import { BRAND_PREFIX } from '../../../constants/constants';
 import loginRequest from '../../../../app/api/login/loginRequests';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
-import type { ILoginFormDataProps, ILoginRequestDataProps, IResponseStatusProps } from '../types';
+import { AppDispatch } from '../../../../app/redux/store';
+import type { ILoginFormDataProps, ILoginRequestDataProps } from '../types';
 
 const CardBody: React.FC = () => {
     const initialLoginFormData: ILoginFormDataProps = { password: '', username: '' };
     const loginFormInputs: string[] = ['username', 'password'];
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const { formState: { errors }, handleSubmit, register } = useForm();
     const router = useRouter();
     const [loginFormData, setLoginFormData] = useState<ILoginFormDataProps>(initialLoginFormData);
 
     const fetchLoginData = async (credentials: string): Promise<void> => {
         try {
-            const { status, data }: IResponseStatusProps = await loginRequest(credentials) as IResponseStatusProps;
+            const response = await loginRequest(credentials);
 
-            if (status === 200) {
-                dispatch(toggleLoadingVisibility(true));
-                handleLoginSuccess();
-            } else if (status === 401) {
-                handleLoginError(data.message);
-            };
+            response.status === 200 ? handleLoginSuccess() : handleLoginError(response.data.message);
         } catch (error) {
             console.log(error);
         };
@@ -36,20 +32,22 @@ const CardBody: React.FC = () => {
     const getDisplayName = (type: string): string => type === loginFormInputs[0] ? 'Kullanıcı Adı' : 'Şifre';
     const handleLoginError = (message: string): void => {
         dispatch(toggleLoadingVisibility(false));
-        dispatch(showAlert({ message, type: 'error' }));
+        dispatch(showAlert({ message, type: 'error', }));
         setTimeout(() => dispatch(hideAlert()), 5000);
     };
     const handleLoginSubmit = async (): Promise<void> => {
+        dispatch(toggleLoadingVisibility(true));
+
         const userLoginData: ILoginRequestDataProps = {
             userName: loginFormData.username,
             password: loginFormData.password,
         };
 
-        dispatch(toggleLoadingVisibility(true));
-
         await fetchLoginData(JSON.stringify(userLoginData));
     };
     const handleLoginSuccess = (): void => {
+        dispatch(toggleLoadingVisibility(true));
+
         router.push('/dashboards');
     };
 

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { IResponseInfoProps } from '../types.d';
 
-const loginRequest = async (credentials: string): Promise<IResponseInfoProps | null> => {
+const loginRequest = async (credentials: string): Promise<IResponseInfoProps> => {
     try {
         const response = await axios.post(
             process.env.LOGIN_URL || '',
@@ -12,10 +12,14 @@ const loginRequest = async (credentials: string): Promise<IResponseInfoProps | n
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error)) {
-            return error.response || null;
-        } else {
-            return null;
-        };
+            if (error.response?.status === 400) {
+                return { status: 400, data: { message: 'Hay aksi bir seyler ters gitti...' } };
+            } else if (error.response?.status === 401) {
+                return { status: 401, data: { message: 'Kullanici adi veya sifre hatali.' } };
+            }
+        }
+
+        return { status: 500, data: { message: 'Sunucu hatasi olustu.' } };
     };
 };
 
