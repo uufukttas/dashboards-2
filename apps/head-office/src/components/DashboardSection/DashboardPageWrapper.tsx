@@ -17,7 +17,7 @@ const DashboardPage: React.FC = () => {
   const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
 
   return (
-    <div className={`${montserrat.className} ${BRAND_PREFIX}-service-points-page-wrapper w-full flex h-screen`}>
+    <div className={`${montserrat.className} ${BRAND_PREFIX}-dashboards-page-wrapper w-full flex h-screen`}>
       {
         isLoading
           ? (
@@ -25,7 +25,9 @@ const DashboardPage: React.FC = () => {
           )
           : (
             <MainPage sectionName='Dashboards'>
-              <div className={`${BRAND_PREFIX}-dashboard-page-container flex justify-center items-center md:pt-12 flex-wrap`}>
+              <div className={`${
+                BRAND_PREFIX}-dashboard-page-container flex justify-center items-center md:pt-12 flex-wrap
+                `}>
                 <DashboardSection />
               </div>
             </MainPage>

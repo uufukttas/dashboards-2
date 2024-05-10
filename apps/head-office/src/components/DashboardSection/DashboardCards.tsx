@@ -76,14 +76,6 @@ const DashboardCards: React.FC = () => {
         </div>
     );
 
-    const getStationInfo = (): void => {
-
-    };
-
-    useEffect(() => {
-        getStationInfo();
-    }, []);
-
     return (
         <div className={`${BRAND_PREFIX}-cards-container w-full flex justify-center flex-wrap`}>
             <Card
