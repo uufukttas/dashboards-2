@@ -13,7 +13,7 @@ interface IChargeUnitDataProps {
 };
 
 interface IServicePointDataProps {
-    IsDeleted: boolean;
+    isDeleted: boolean;
     address: string;
     cityId:number;
     companyId:number;

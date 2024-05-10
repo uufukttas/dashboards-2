@@ -12,6 +12,12 @@ const initialState: IServicePointDataStateProps = {
         resellerName: '',
         isActive: true,
         isDeleted: false,
+        address: '',
+        cityId: 0,
+        districtId: 0,
+        latitude: 0,
+        longitude: 0,
+        phone: '',
     },
 };
 

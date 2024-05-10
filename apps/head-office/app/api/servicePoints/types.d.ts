@@ -4,7 +4,7 @@ interface IDeleteResponseDataProps {
     success: boolean;
 };
 interface IGetServicePointsDataProps {
-    IsDeleted: boolean;
+    isDeleted: boolean;
     address: string;
     cityId:number;
     companyId:number;
