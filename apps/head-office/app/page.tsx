@@ -24,8 +24,7 @@ const Index: React.FC = () => {
     isDetectedDevice && (
       <div className={
         `${userInfo.name}-head-office w-full flex items-center justify-center bg-[${
-          stylesProps.loginFormPageBackgroundColor}] ${detectDevice().isMobile ? 'h-screen' : ''}
-        `
+          stylesProps.loginFormPageBackgroundColor}] ${detectDevice().isMobile ? 'h-screen' : ''}`
       }>
         <Login />
         <Background

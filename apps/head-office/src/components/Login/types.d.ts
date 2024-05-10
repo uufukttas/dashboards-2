@@ -9,6 +9,18 @@ interface IResponseStatusProps {
     data : IResponseDataProps;
     message?: string;
 };
+export interface IFormElementProps {
+    errors: FieldValues;
+    loginFormInput: string;
+    index: number;
+    loginFormData: ILoginFormDataProps;
+    register: UseFormRegister<FieldValues>;
+    setLoginFormData: React.Dispatch<React.SetStateAction<ILoginFormDataProps>>;
+};
+export interface IFormErrorProps {
+    loginFormInput: string;
+    errors: FieldValues;
+};
 export interface IHeaderProps {
     headers: IContentTypeProps
 };

@@ -3,8 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
-import { Input } from '@projects/input';
-import { Label } from '@projects/label';
+import CardBodyFormElement from './FormElement';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import loginRequest from '../../../../app/api/login/loginRequests';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
@@ -14,7 +13,6 @@ import type { ILoginFormDataProps, ILoginRequestDataProps } from '../types';
 
 const CardBody: React.FC = () => {
     const initialLoginFormData: ILoginFormDataProps = { password: '', username: '' };
-    const loginFormInputs: string[] = ['username', 'password'];
     const dispatch = useDispatch<AppDispatch>();
     const { formState: { errors }, handleSubmit, register } = useForm();
     const router = useRouter();
@@ -29,7 +27,6 @@ const CardBody: React.FC = () => {
             console.log(error);
         };
     };
-    const getDisplayName = (type: string): string => type === loginFormInputs[0] ? 'Kullanıcı Adı' : 'Şifre';
     const handleLoginError = (message: string): void => {
         dispatch(toggleLoadingVisibility(false));
         dispatch(showAlert({ message, type: 'error', }));
@@ -55,56 +52,16 @@ const CardBody: React.FC = () => {
         <div className={`${BRAND_PREFIX}-card-login-form-container`}>
             <form className={`${BRAND_PREFIX}-card-login-form`} onSubmit={handleSubmit(handleLoginSubmit)}>
                 {
-                    loginFormInputs.map((loginFormInput: string, index: number) => (
-                        <div className={`${BRAND_PREFIX}-${loginFormInput}-input-container mb-4`} key={index} >
-                            <Label
-                                className={`${loginFormInput}-label block text-sm font-medium text-gray-600`}
-                                htmlFor={loginFormInput}
-                                labelText={getDisplayName(loginFormInput)}
-                            />
-                            <Input
-                                className={`${loginFormInput}-input mt-1 p-2 w-full border focus:ring-primary focus:border-primary rounded-lg text-text text-sm ${BRAND_PREFIX}-login-input`}
-                                id={loginFormInput}
-                                name={loginFormInput}
-                                register={
-                                    register(
-                                        loginFormInput, {
-                                            pattern: {
-                                                message: `Geçersiz ${getDisplayName(loginFormInput)}.`,
-                                                // TODO: Add pattern for username email if it need // /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/
-                                                value: loginFormInput === loginFormInputs[0]
-                                                    ? /^.*$/
-                                                    : /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$.*])/,
-                                            },
-                                            required: `${getDisplayName(loginFormInput)} zorunlu bir alandır.`,
-                                            validate: loginFormInput === loginFormInputs[1]
-                                                ? {
-                                                    checkLength: (value: string) => value.length >= 8,
-                                                    matchPattern: (value: string) => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.*-]).{8,}$/.test(value),
-                                                }
-                                                : {},
-                                            onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-                                                setLoginFormData({
-                                                    ...loginFormData,
-                                                    [loginFormInput.toLowerCase()]: event.target.value,
-                                                });
-                                            },
-                                        }
-                                    )
-                                }
-                                type={loginFormInput === loginFormInputs[1] ? loginFormInputs[1] : 'text'}
-                            />
-                            {
-                                errors[loginFormInput] &&
-                                errors[loginFormInput]?.message && (
-                                    <div className={`${loginFormInput}-error-wrapper my-4 font-bold text-error`}>
-                                        <p className={`${loginFormInput}-error-message text-error`}>
-                                            {(errors[loginFormInput]?.message?.toString())}
-                                        </p>
-                                    </div>
-                                )
-                            }
-                        </div>
+                    ['username', 'password'].map((loginFormInput: string, index: number) => (
+                        <CardBodyFormElement
+                            errors={errors}
+                            index={index}
+                            key={index}
+                            loginFormData={loginFormData}
+                            loginFormInput={loginFormInput}
+                            register={register}
+                            setLoginFormData={setLoginFormData}
+                        />
                     ))
                 }
                 <div className={`${BRAND_PREFIX}-login-button-container mb-4`}>
