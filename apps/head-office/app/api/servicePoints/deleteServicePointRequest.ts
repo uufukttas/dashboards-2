@@ -1,15 +1,7 @@
 import axios from "axios";
-interface IResponseDataProps {
-    data: boolean;
-    message: string;
-    success: boolean;
-};
-interface IResponseProps {
-    data: IResponseDataProps;
-    status: number;
-};
+import type { IDeleteResonseProps } from "./types";
 
-const deleteServicePointRequest = async (servicePointId: number): Promise<IResponseProps> => {
+const deleteServicePointRequest = async (servicePointId: number): Promise<IDeleteResonseProps> => {
     try {
         const response = await axios
             .post(
@@ -31,4 +23,4 @@ const deleteServicePointRequest = async (servicePointId: number): Promise<IRespo
     }
 };
 
-export default deleteServicePointRequest;
+export { deleteServicePointRequest };
