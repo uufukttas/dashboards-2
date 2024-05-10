@@ -56,7 +56,7 @@ const TableBody: React.FC = () => {
     };
 
     return (
-        <tbody className={`${BRAND_PREFIX}-table-body bg-white divide-y divide-gray-200 text-black`}>
+        <tbody className={`${BRAND_PREFIX}-service-points-table-body bg-white divide-y divide-gray-200 text-black`}>
             {
                 servicePoints.length > 0 &&
                 servicePoints.map((servicePoint: IServicePointInfoProps) => {
