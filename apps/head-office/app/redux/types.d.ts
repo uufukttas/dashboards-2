@@ -13,14 +13,20 @@ interface IChargeUnitDataProps {
 };
 
 interface IServicePointDataProps {
-    id: number;
-    name: string;
-    companyId: number;
+    IsDeleted: boolean;
+    address: string;
+    cityId:number;
+    companyId:number;
     companyName: string;
+    districtId: number;
+    id: number;
+    isActive: boolean;
+    latitude: number;
+    longitude: number;
+    name: string;
+    phone: string;
     resellerCompanyId: number;
     resellerName: string;
-    isActive: boolean;
-    isDeleted: boolean;
 };
 
 interface IServicePointInformationProps {

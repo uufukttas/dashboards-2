@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from '@projects/alert';
 import { Dialog } from '@projects/dialog';
@@ -8,7 +7,7 @@ import ServicePointModalForm from './ServicePointsModalComponents/ServicePointMo
 import Modal from '../Modal/Modal';
 import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
-import deleteServicePointRequest from '../../../app/api/servicePoints/servicePointsRequests';
+import { deleteServicePointRequest, getAllServicePointsRequest } from '../../../app/api/servicePoints/index';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
@@ -18,8 +17,7 @@ import { setServicePoints } from '../../../app/redux/features/servicePoints';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
 import { RootState, AppDispatch } from '../../../app/redux/store';
-import { IServicePointDataProps } from '../../../app/redux/types';
-import type { IResponseDataProps } from './types';
+import type { IGetServicePointsProps, IResponseDataProps } from './types';
 
 const ServicePointSection: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -44,17 +42,9 @@ const ServicePointSection: React.FC = () => {
   };
   const getAllServicePoints = async (): Promise<void> => {
     try {
-      await axios
-        .post(
-          process.env.GET_ALL_SERVICE_POINTS || '',
-          ({
-            'pageNumber': currentPage,
-            'userCount': 10,
-          })
-        )
-        .then((response) => response.data)
-        .then((response) => handleGetServicePointSuccess(response))
-        .catch((error) => console.log(error));
+      const response =  await getAllServicePointsRequest(currentPage);
+
+      handleGetServicePointSuccess(response);
     } catch (error) {
       console.error(error);
     }
@@ -104,7 +94,7 @@ const ServicePointSection: React.FC = () => {
       dispatch(hideAlert());
     }, 5000);
   };
-  const handleGetServicePointSuccess = (response: { count: number; data: IServicePointDataProps }) => {
+  const handleGetServicePointSuccess = ( response: IGetServicePointsProps ) => {
     setServicePointCount(response.count);
     dispatch(setServicePoints(response.data));
     dispatch(toggleServicePointDataUpdated(false));

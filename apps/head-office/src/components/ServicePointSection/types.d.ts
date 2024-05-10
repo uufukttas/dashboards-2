@@ -2,7 +2,7 @@ export interface IFeatureProps {
     stationId?: number;
     id: null | number;
     isChecked?: boolean;
-    name: string; 
+    name: string;
     rid: number | null;
     stationFeatureType: number;
     stationFeatureValue: number;
@@ -11,7 +11,11 @@ export interface IFeatureProps {
 export interface IFormDataProps {
     [key: string]: boolean | number | string | string[] | IFeatureProps[];
 };
-
+export interface IGetServicePointsProps {
+    count: number;
+    data: IGetServicePointsDataProps[];
+    success: boolean;
+};
 export interface IModalFirstPageInputsProps {
     activePage: number;
     stationId: number;
