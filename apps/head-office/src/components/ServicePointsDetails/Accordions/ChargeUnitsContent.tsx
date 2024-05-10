@@ -233,10 +233,10 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
                             const connectorId = connectorItem.RID;
                             return (
                                 <div
-                                    className={`${chargeUnitPrefix}-connector-list-item w-full flex flex-row items-center justify-between`}
+                                    className={`${chargeUnitPrefix}-connector-list-item w-full flex flex-row items-baseline justify-between`}
                                     key={connectorIndex}
                                 >
-                                    <div className={`${chargeUnitPrefix}-connector-list-item-name-container`}>
+                                    <div className={`${chargeUnitPrefix}-connector-list-item-name-container p-2`}>
                                         <p
                                             className={`${chargeUnitPrefix}-connector-list-item-name text-lg font-bold text-heading`}
                                             key={`${connectorIndex}-${connectorIndex + 1}`}
@@ -244,14 +244,14 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
                                             <span className='font-bold'>{connectorIndex + 1}</span>.
                                         </p>
                                     </div>
-                                    <div className={`${chargeUnitPrefix}-connector-list-item-content-container flex w-full justify-evenly`}>
+                                    <div className={`${chargeUnitPrefix}-connector-list-item-content-container flex w-full justify-evenly p-2`}>
                                         <p
-                                            className={`${chargeUnitPrefix}-connector-list-item-epdk text-lg text-text`}
+                                            className={`${chargeUnitPrefix}-connector-list-item-epdk text-lg text-text p-2`}
                                         >
                                             {connectorItem.epdkSocketNumber || 'EPDK Soket Numarası Yok'}
                                         </p>
                                         <p
-                                            className={`${chargeUnitPrefix}-connector-list-item-kw text-lg text-text`}
+                                            className={`${chargeUnitPrefix}-connector-list-item-kw text-lg text-text p-2`}
                                         >
                                             <ConnectorInfo connectorId={connectorId} />
                                         </p>
