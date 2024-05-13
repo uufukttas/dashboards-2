@@ -1,36 +1,26 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import axios from 'axios';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { Button } from '@projects/button';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../../constants/constants';
+import { getAllServicePointsRequest } from '../../../../app/api/servicePoints';
 import { setServicePoints } from '../../../../app/redux/features/servicePoints';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 
 const TableActions: React.FC = () => {
+    const dispatch = useDispatch();
     const [searchedText, setSearchedText] = useState<string>('');
 
-    const dispatch = useDispatch();
-
-    const getSearchedData = async () => {
+    const getSearchedData = async (): Promise<void> => {
         try {
-            await axios
-                .post(
-                    process.env.GET_ALL_SERVICE_POINTS || '',
-                    ({
-                        'pageNumber': 1,
-                        'userCount': 10,
-                        'name': searchedText,
-                    })
-                )
-                .then((response) => response.data)
-                .then((response) => dispatch(setServicePoints(response.data)))
-                .catch((error) => console.log(error));
+            const searchedData = await getAllServicePointsRequest(1, searchedText);
+
+            dispatch(setServicePoints(searchedData.data));
         } catch (error) {
             console.log(error);
-        }
+        };
     };
 
     return (
@@ -41,7 +31,7 @@ const TableActions: React.FC = () => {
                     <FaMagnifyingGlass />
                 </div>
                 <Input
-                    className={`${BRAND_PREFIX}-service-point-search-input w-full block p-2 md:mx-2 pl-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-yellow-500 focus:border-yellow-300`}
+                    className={`${BRAND_PREFIX}-service-point-search-input w-full block p-2 md:mx-2 pl-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary focus:border-primary`}
                     id="table-search-input"
                     name="search"
                     placeholder="Search"

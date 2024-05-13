@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
-import axios from 'axios';
 import Link from 'next/link';
 import { FaCircleInfo, FaExclamation, FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../constants/constants';
+import { getServicePointDataRequest, getServicePointInformationRequest } from '../../../../app/api/servicePoints';
 import { showDialog } from '../../../../app/redux/features/dialogInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { setServicePointData } from '../../../../app/redux/features/servicePointData';
@@ -25,34 +25,19 @@ const TableBody: React.FC = () => {
     };
     const getCity = (rid: number) => (CITIES[rid?.toString()] || '');
     const getDistricts = (districtCode: number) => (DISTRICTS[districtCode?.toString()] || '');
-    const getUpdatedServicePointsInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const getUpdatedServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
         const servicePointIdAttr = event.currentTarget.getAttribute('data-service-point-id') || '0';
         const servicePointId = Number(servicePointIdAttr);
 
         try {
-            await axios
-                .post(
-                    process.env.GET_STATION_BY_ID || '',
-                    ({ 'id': servicePointId })
-                )
-                .then((response) => response.data)
-                .then(response => {
-                    dispatch(toggleModalVisibility());
-                    dispatch(setServicePointData(response.data[0]));
-                })
-                .catch((error) => console.log(error));
+            const servicePointData = await getServicePointDataRequest(servicePointId);
+            const servicePointInformation = await getServicePointInformationRequest(servicePointId);
 
-            await axios
-                .post(
-                    process.env.GET_STATION_INFO_BY_ID || '',
-                    ({ 'stationId': servicePointId })
-                )
-                .then((response) => response.data)
-                .then(response => dispatch(setServicePointInformation(response.data[0])))
-                .catch((error) => console.log(error));
+            dispatch(setServicePointData(servicePointData.data[0]));
+            dispatch(setServicePointInformation(servicePointInformation.data[0]));
         } catch (error) {
             console.error(error);
-        }
+        };
     };
 
     return (
@@ -62,7 +47,7 @@ const TableBody: React.FC = () => {
                 servicePoints.map((servicePoint: IServicePointInfoProps) => {
                     return (
                         <Fragment key={servicePoint.id}>
-                            <tr data-service-point-id={servicePoint.id}>
+                            <tr data-service-point-id={servicePoint.id} className='h-[10%]'>
                                 <td className="px-4 py-2">
                                     <div className={`${BRAND_PREFIX}-service-point-item-information-container h-full flex items-center`}>
                                         <div className={`${BRAND_PREFIX}-service-point-status-container`}>
@@ -89,7 +74,7 @@ const TableBody: React.FC = () => {
                                             className="font-medium text-blue-600 cursor-pointer px-4"
                                             data-modal-show="editUserModal"
                                             data-service-point-id={servicePoint.id}
-                                            onClick={getUpdatedServicePointsInfo}
+                                            onClick={getUpdatedServicePointInfo}
                                         >
                                             <FaPen className='text-primary' />
                                         </a>
