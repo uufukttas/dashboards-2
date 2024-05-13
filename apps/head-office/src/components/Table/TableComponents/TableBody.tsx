@@ -43,64 +43,72 @@ const TableBody: React.FC = () => {
         <tbody className={`${BRAND_PREFIX}-service-points-table-body bg-white divide-y divide-gray-200 text-black`}>
             {
                 servicePointsCount > 0 &&
-                servicePointsData.map((servicePoint: IServicePointInfoProps) => {
+                [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(((index: number) => {
                     return (
-                        <tr className='h-[10%]' data-service-point-id={servicePoint.id} key={servicePoint.id}>
+                        <tr className='h-[10%]' data-service-point-id={servicePointsData[index]?.id || 0} key={servicePointsData[index]?.id || index + 1}>
                             <td className="px-4 py-2">
-                                <div className={`${BRAND_PREFIX}-service-point-item-information-container h-full flex items-center`}>
-                                    <div className={`${BRAND_PREFIX}-service-point-status-container`}>
-                                        {
-                                            // TODO: We change this column to show the status of the service point from charge units
-                                            <div className='text-red-500 text-2xl'>
-                                                <FaExclamation />
+                                {
+                                    servicePointsData[index]?.name && (
+                                        <div className={`${BRAND_PREFIX}-service-point-item-information-container h-full flex items-center`}>
+                                            <div className={`${BRAND_PREFIX}-service-point-status-container`}>
+                                                {
+                                                    // TODO: We change this column to show the status of the service point from charge units
+                                                    <div className='text-red-500 text-2xl'>
+                                                        <FaExclamation />
+                                                    </div>
+                                                }
                                             </div>
-                                        }
-                                    </div>
-                                    <div className={`${BRAND_PREFIX}-service-point-name`}>
-                                        {servicePoint.name}
-                                    </div>
-                                </div>
+                                            <div className={`${BRAND_PREFIX}-service-point-name`}>
+                                                {servicePointsData[index]?.name || ''}
+                                            </div>
+                                        </div>
+                                    )
+                                }
                             </td>
-                            <td className="px-4 py-2 text-center">{servicePoint.phone}</td>
-                            <td className="px-4 py-2 text-center">{servicePoint.address}</td>
-                            <td className="px-4 py-2 text-center">{getCity((servicePoint.cityId))}</td>
-                            <td className="px-4 py-2 text-center">{getDistricts(servicePoint.districtId)}</td>
+                            <td className="px-4 py-2 text-center">{servicePointsData[index]?.phone || ''}</td>
+                            <td className="px-4 py-2 text-center">{servicePointsData[index]?.address || ''}</td>
+                            <td className="px-4 py-2 text-center">{getCity((servicePointsData[index]?.cityId)) || ''}</td>
+                            <td className="px-4 py-2 text-center">{getDistricts(servicePointsData[index]?.districtId) || ''}</td>
                             <td className="px-4 py-4">
-                                <div className="flex justify-start text-2xl">
-                                    <a
-                                        className="font-medium text-blue-600 cursor-pointer px-4"
-                                        data-modal-show="editUserModal"
-                                        data-service-point-id={servicePoint.id}
-                                        onClick={getUpdatedServicePointInfo}
-                                    >
-                                        <FaPen className='text-primary' />
-                                    </a>
-                                    <a
-                                        className="font-medium text-red-600 cursor-pointer px-4"
-                                        data-modal-show="deleteUserModal"
-                                        data-service-point-id={servicePoint.id}
-                                        onClick={deleteServicePointInfo}
-                                    >
-                                        <FaTrashCan />
-                                    </a>
-                                    {
-                                        servicePoint.address &&
-                                        servicePoint.districtId &&
-                                        servicePoint.cityId &&
-                                        servicePoint.phone && (
-                                            <Link
-                                                className='px-4'
-                                                href={`/service-points/service-point/${servicePoint.id}`}
+                                {
+                                    servicePointsData[index]?.name && (
+                                        <div className="flex justify-start text-2xl">
+                                            <a
+                                                className="font-medium text-blue-600 cursor-pointer px-4"
+                                                data-modal-show="editUserModal"
+                                                data-service-point-id={servicePointsData[index]?.id || 0}
+                                                onClick={getUpdatedServicePointInfo}
                                             >
-                                                <FaCircleInfo className={`text-blue-700`} />
-                                            </Link>
-                                        )
-                                    }
-                                </div>
+                                                <FaPen className='text-primary' />
+                                            </a>
+                                            <a
+                                                className="font-medium text-red-600 cursor-pointer px-4"
+                                                data-modal-show="deleteUserModal"
+                                                data-service-point-id={servicePointsData[index]?.id || 0}
+                                                onClick={deleteServicePointInfo}
+                                            >
+                                                <FaTrashCan />
+                                            </a>
+                                            {
+                                                servicePointsData[index]?.address &&
+                                                servicePointsData[index]?.districtId &&
+                                                servicePointsData[index]?.cityId &&
+                                                servicePointsData[index]?.phone && (
+                                                    <Link
+                                                        className='px-4'
+                                                        href={`/service-points/service-point/${servicePointsData[index]?.id || 0}`}
+                                                    >
+                                                        <FaCircleInfo className={`text-blue-700`} />
+                                                    </Link>
+                                                )
+                                            }
+                                        </div>
+                                    )
+                                }
                             </td>
                         </tr>
                     );
-                })
+                }))
             }
         </tbody>
     );

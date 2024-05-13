@@ -43,6 +43,7 @@ const ServicePointPermissions = ({ permissions, setPermissions }: {
                                     </div>
                                 </div>
                                 <div className={`${sectionPrefix}-info-item flex justify-between md:items-center flex-col md:flex-row`}>
+                                    <Toggle onToggle={() => { }} />
                                     <Button
                                         buttonText={""}
                                         className="bg-secondary rounded-md px-4 py-2 mx-4 text-white"
@@ -53,7 +54,6 @@ const ServicePointPermissions = ({ permissions, setPermissions }: {
                                     >
                                         <FaTrashCan />
                                     </Button>
-                                    <Toggle onToggle={() => {}}/>
                                 </div>
                             </div>
                         </div>

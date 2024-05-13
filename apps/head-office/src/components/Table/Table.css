@@ -9,11 +9,13 @@ table {
 
 td {
   width: 16.6666666667%;
+  max-height: 85px !important;
   height: 10%;
 }
 
 tr {
   height: 10%;
+  max-height: 85px !important;
 }
 tr:nth-child(even) {
   background-color: #EEEEEE;
