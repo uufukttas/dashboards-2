@@ -5,11 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../constants/constants';
 import { getServicePointDataRequest, getServicePointInformationRequest } from '../../../../app/api/servicePoints';
 import { showDialog } from '../../../../app/redux/features/dialogInformation';
+import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { setServicePointData } from '../../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../app/redux/store';
 import type { IServicePointInfoProps } from '../types';
-import { toggleModalVisibility } from 'apps/head-office/app/redux/features/isModalVisible';
 
 const TableBody: React.FC = () => {
     const dispatch = useDispatch();
