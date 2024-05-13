@@ -28,9 +28,9 @@ const ServicePointSection: React.FC = () => {
   const isServicePointDataUpdated = useSelector((state: RootState) => {
     return state.isServicePointDataUpdated.isServicePointDataUpdated
   });
+  const servicePointsCount = useSelector((state: RootState) => state.servicePoints.count);
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const [currentPage, setCurrentPage] = useState(1);
-  const [servicePointCount, setServicePointCount] = useState(0);
 
   const deleteServicePoint = async (deletedId: number): Promise<void> => {
     try {
@@ -44,7 +44,6 @@ const ServicePointSection: React.FC = () => {
   const getAllServicePoints = async (): Promise<void> => {
     try {
       const response = await getAllServicePointsRequest(currentPage);
-
       handleGetServicePointSuccess(response);
     } catch (error) {
       console.error(error);
@@ -68,8 +67,7 @@ const ServicePointSection: React.FC = () => {
     }, 5000);
   };
   const handleGetServicePointSuccess = (response: IGetServicePointsProps) => {
-    setServicePointCount(response.count);
-    dispatch(setServicePoints(response.data));
+    dispatch(setServicePoints(response));
     dispatch(toggleServicePointDataUpdated(false));
     dispatch(toggleLoadingVisibility(false));
   };
@@ -117,11 +115,11 @@ const ServicePointSection: React.FC = () => {
         )
       }
       {
-        servicePointCount > 10 && (
+        servicePointsCount > 10 && (
           <Pagination
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
-            totalCounts={servicePointCount}
+            totalCounts={servicePointsCount}
           />
         )
       }

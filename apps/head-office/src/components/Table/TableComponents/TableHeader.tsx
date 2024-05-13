@@ -19,7 +19,7 @@ const TableActions: React.FC = () => {
         try {
             const searchedData = await getAllServicePointsRequest(1, searchedText);
 
-            dispatch(setServicePoints(searchedData.data));
+            dispatch(setServicePoints(searchedData));
         } catch (error) {
             console.log(error);
         };

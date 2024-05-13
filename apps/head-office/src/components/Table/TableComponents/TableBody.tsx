@@ -12,7 +12,8 @@ import type { IServicePointInfoProps } from '../types';
 
 const TableBody: React.FC = () => {
     const dispatch = useDispatch();
-    const servicePoints = useSelector((state: RootState) => state.servicePoints.servicePoints);
+    const servicePointsCount = useSelector((state: RootState) => state.servicePoints.count);
+    const servicePointsData = useSelector((state: RootState) => state.servicePoints.servicePoints);
 
     const deleteServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
         dispatch(
@@ -41,8 +42,8 @@ const TableBody: React.FC = () => {
     return (
         <tbody className={`${BRAND_PREFIX}-service-points-table-body bg-white divide-y divide-gray-200 text-black`}>
             {
-                servicePoints.length > 0 &&
-                servicePoints.map((servicePoint: IServicePointInfoProps) => {
+                servicePointsCount > 0 &&
+                servicePointsData.map((servicePoint: IServicePointInfoProps) => {
                     return (
                         <tr className='h-[10%]' data-service-point-id={servicePoint.id} key={servicePoint.id}>
                             <td className="px-4 py-2">

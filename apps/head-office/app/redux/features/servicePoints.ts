@@ -1,10 +1,13 @@
 import { createSlice, Reducer } from '@reduxjs/toolkit';
+import { IServicePointDataProps } from '../types';
 
 interface ServicePointState {
-    servicePoints: any[];  // Assuming service points are strings
-}
+    count: number;
+    servicePoints: IServicePointDataProps[];
+};
 
 const initialState: ServicePointState = {
+    count: 0,
     servicePoints: [],
 };
 
@@ -13,11 +16,8 @@ export const servicePoints = createSlice({
     initialState,
     reducers: {
         setServicePoints: (state, action) => {
-            if (Array.isArray(action.payload)) {
-                state.servicePoints = action.payload;
-            } else {
-                console.error('Payload must be an array', action.payload);  // Show error in console if not array
-            }
+            state.servicePoints = action.payload.data;
+            state.count = action.payload.count;
         },
     },
 });
