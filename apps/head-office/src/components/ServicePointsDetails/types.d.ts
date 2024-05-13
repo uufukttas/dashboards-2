@@ -38,10 +38,7 @@ interface IConvertedStructure {
 };
 interface IPermissionsProps {
   id: number;
-  stationId: number;
-  userId: number;
-  isActive: boolean;
-  isDeleted: boolean;
+  user: string;
 };
 interface IResponse {
   RID: number,
