@@ -14,14 +14,14 @@ const SidebarBody: React.FC = () => {
             name: 'Servis Noktalari',
         },
         {
+            icon: <FaUser />,
+            link: '/users-management',
+            name: 'Kullanici Yonetimi',
+        },
+        {
             icon: <FaGift />,
             link: '/campaigns',
             name: 'Kampanyalar',
-        },
-        {
-            icon: <FaUser />,
-            link: '/user-managements',
-            name: 'Kullanici Yonetimi',
         },
         {
             icon: <FaQuestion />,

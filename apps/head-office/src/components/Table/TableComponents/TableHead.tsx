@@ -1,15 +1,7 @@
 import React from 'react';
 import { BRAND_PREFIX } from '../../../constants/constants';
 
-const TableHead: React.FC = () => {
-    const tableHeadData = [
-        'Servis Noktasi',
-        'Telefon',
-        'Adres',
-        'Il',
-        'Ilce',
-        'Islemler',
-    ];
+const TableHead: React.FC<{tableHeadData: string[]}> = ({ tableHeadData }: { tableHeadData: string[] }) => {
 
     return (
         <thead className={`${BRAND_PREFIX}-service-points-table-head text-xs text-gray-700 uppercase bg-gray-50`}>

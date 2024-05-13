@@ -15,7 +15,16 @@ const Table: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedText }: I
       />
       <div className={`${BRAND_PREFIX}-service-points-table-content-container border-r-0 border-l-0`}>
         <table className={`${BRAND_PREFIX}-service-points-table w-full text-sm text-left rtl:text-right text-gray-500`}>
-          <TableHead />
+          <TableHead
+            tableHeadData={[
+              'Servis Noktasi',
+              'Telefon',
+              'Adres',
+              'Il',
+              'Ilce',
+              'Islemler',
+            ]}
+          />
           <TableBody />
         </table>
       </div>
