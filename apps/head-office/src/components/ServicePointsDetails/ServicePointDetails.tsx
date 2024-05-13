@@ -45,7 +45,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
 
   const [accessTypeList, setAccessTypeList] = useState<IAccessTypeListItemProps[]>([]);
-  const [activeIndex, setActiveIndex] = useState<number>(3);
+  const [activeIndex, setActiveIndex] = useState<number>(4);
   const [addChargeUnit, setAddChargeUnit] = useState<boolean>(false);
   const [addComission, setAddComission] = useState<boolean>(false);
   const [addConnector, setAddConnector] = useState(false);
@@ -63,6 +63,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const [energyPriceDetails, setEnergyPriceDetails] = useState<IEnergyPriceDetailsProps[]>([]);
   const [investors, setInvestors] = useState<IInvestorsProps[]>([]);
   const [isEnergyPriceListUpdated, setIsEnergyPriceListUpdated] = useState<boolean>(false);
+  const [permissions, setPermissions] = useState([]);
   const [servicePointDetails, setServicePointDetails] =
     useState<IServicePointsDetailsProps>({
       name: '',
@@ -291,6 +292,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               chargeUnits={chargeUnits}
               connectorsList={connectors}
               energyPriceDetails={energyPriceDetails}
+              permissions={permissions}
               setAddChargeUnit={setAddChargeUnit}
               setAddComission={setAddComission}
               setAddConnector={setAddConnector}
@@ -298,6 +300,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               setAddPermission={setAddPermission}
               setConnectorProperty={setConnectorProperty}
               setIsEnergyPriceListUpdated={setIsEnergyPriceListUpdated}
+              setPermissions={setPermissions}
               slug={slug}
             />
           </div>
