@@ -10,6 +10,7 @@ const TableHead: React.FC = () => {
         'Ilce',
         'Islemler',
     ];
+
     return (
         <thead className={`${BRAND_PREFIX}-service-points-table-head text-xs text-gray-700 uppercase bg-gray-50`}>
             <tr>
