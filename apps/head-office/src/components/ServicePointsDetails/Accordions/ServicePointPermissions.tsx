@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import { Button } from '@projects/button';
 import { FaTrashCan } from 'react-icons/fa6';
-
+import { Toggle } from '@projects/toggle';
 interface IPermissionsProps {
     id: number;
     user: string;
@@ -52,6 +52,7 @@ const ServicePointPermissions = ({ permissions, setPermissions }: {
                                     >
                                         <FaTrashCan />
                                     </Button>
+                                    <Toggle onToggle={() => {}}/>
                                 </div>
                             </div>
                         </div>

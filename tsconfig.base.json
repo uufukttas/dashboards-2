@@ -30,7 +30,8 @@
       "@projects/my-plugin": ["libs/my-plugin/src/index.ts"],
       "@projects/radio": ["libs/radio/src/index.ts"],
       "@projects/reporting": ["apps/reporting/app/page.tsx"],
-      "@projects/textarea": ["libs/textarea/src/index.ts"]
+      "@projects/textarea": ["libs/textarea/src/index.ts"],
+      "@projects/toggle": ["libs/toggle/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
