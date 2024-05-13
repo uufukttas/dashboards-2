@@ -9,6 +9,7 @@ import { setServicePointData } from '../../../../app/redux/features/servicePoint
 import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../app/redux/store';
 import type { IServicePointInfoProps } from '../types';
+import { toggleModalVisibility } from 'apps/head-office/app/redux/features/isModalVisible';
 
 const TableBody: React.FC = () => {
     const dispatch = useDispatch();
@@ -34,6 +35,7 @@ const TableBody: React.FC = () => {
 
             dispatch(setServicePointData(servicePointData.data[0]));
             dispatch(setServicePointInformation(servicePointInformation.data[0]));
+            dispatch(toggleModalVisibility());
         } catch (error) {
             console.error(error);
         };
