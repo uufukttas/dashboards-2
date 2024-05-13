@@ -28,6 +28,7 @@ const ServicePointSection: React.FC = () => {
   const isServicePointDataUpdated = useSelector((state: RootState) => {
     return state.isServicePointDataUpdated.isServicePointDataUpdated
   });
+  const [searchedText, setSearchedText] = useState<string>('');
   const servicePointsCount = useSelector((state: RootState) => state.servicePoints.count);
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const [currentPage, setCurrentPage] = useState(1);
@@ -43,7 +44,7 @@ const ServicePointSection: React.FC = () => {
   };
   const getAllServicePoints = async (): Promise<void> => {
     try {
-      const response = await getAllServicePointsRequest(currentPage);
+      const response = await getAllServicePointsRequest(currentPage, searchedText);
       handleGetServicePointSuccess(response);
     } catch (error) {
       console.error(error);
@@ -79,7 +80,10 @@ const ServicePointSection: React.FC = () => {
   return (
     <div className={`${BRAND_PREFIX}-service-points-container flex justify-between items-center flex-col`}>
       <div className={`${BRAND_PREFIX}-service-point-listing-container flex items-center w-full`}>
-        <Table />
+        <Table
+          searchedText={searchedText}
+          setSearchedText={setSearchedText}
+        />
       </div>
       {
         isModalVisible && (

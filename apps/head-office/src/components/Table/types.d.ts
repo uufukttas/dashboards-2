@@ -14,6 +14,7 @@ export interface IServicePointInfoProps {
     type?: string | null | undefined;
 };
 
-export interface ITableProps {
-    servicePoints: IServicePointInfoProps[];
+export interface ITableHeaderProps {
+    searchedText: string;
+    setSearchedText: React.Dispatch<React.SetStateAction<string>>;
 };

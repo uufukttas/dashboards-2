@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { Button } from '@projects/button';
@@ -8,12 +8,12 @@ import { BRAND_PREFIX } from '../../../constants/constants';
 import { getAllServicePointsRequest } from '../../../../app/api/servicePoints';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { setServicePoints } from '../../../../app/redux/features/servicePoints';
+import type { ITableHeaderProps } from '../types';
 
-const TableActions: React.FC = () => {
+const TableHeader: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedText }: ITableHeaderProps) => {
     const sectionPrefix = 'service-point';
 
     const dispatch = useDispatch();
-    const [searchedText, setSearchedText] = useState<string>('');
 
     const getSearchedData = async (): Promise<void> => {
         try {
@@ -62,4 +62,4 @@ const TableActions: React.FC = () => {
     );
 };
 
-export default TableActions;
+export default TableHeader;
