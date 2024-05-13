@@ -1,0 +1,28 @@
+const initialServicePointDataValues = {
+    id: 0,
+    isActive: true,
+    isDeleted: false,
+    name: '',
+    companyId: 0,
+    companyName: '',
+    resellerCompanyId: 0,
+    resellerName: '',
+};
+const initialServicePointInformationValue = {
+    address: '',
+    addressDetail: '',
+    cityId: 0,
+    districtId: 0,
+    freePark: false,
+    id: 0,
+    lon: 0,
+    lat: 0,
+    name: '',
+    opportunities: [],
+    paymentMethods: '1',
+    phone1: '',
+    phone2: '',
+    type: '',
+};
+
+export { initialServicePointDataValues, initialServicePointInformationValue };

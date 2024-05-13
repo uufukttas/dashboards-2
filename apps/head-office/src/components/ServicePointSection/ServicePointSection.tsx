@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from '@projects/alert';
 import { Dialog } from '@projects/dialog';
+import { initialServicePointDataValues, initialServicePointInformationValue } from './constants';
 import Pagination from './PaginationComponents/Pagination';
 import ServicePointModalForm from './ServicePointsModalComponents/ServicePointModal';
 import Modal from '../Modal/Modal';
@@ -42,7 +43,7 @@ const ServicePointSection: React.FC = () => {
   };
   const getAllServicePoints = async (): Promise<void> => {
     try {
-      const response =  await getAllServicePointsRequest(currentPage);
+      const response = await getAllServicePointsRequest(currentPage);
 
       handleGetServicePointSuccess(response);
     } catch (error) {
@@ -50,57 +51,28 @@ const ServicePointSection: React.FC = () => {
     }
   };
   const handleCloseModal = (): void => {
-    const servicePointDataInitialValues = {
-      id: 0,
-      isActive: true,
-      isDeleted: false,
-      name: '',
-      companyId: 0,
-      companyName: '',
-      resellerCompanyId: 0,
-      resellerName: '',
-    };
-    const servicePointInformationInitialValues = {
-      address: '',
-      addressDetail: '',
-      cityId: 0,
-      districtId: 0,
-      freePark: false,
-      id: 0,
-      lon: 0,
-      lat: 0,
-      name: '',
-      opportunities: [],
-      paymentMethods: '1',
-      phone1: '',
-      phone2: '',
-      type: '',
-    };
-
-    dispatch(setServicePointData(servicePointDataInitialValues));
-    dispatch(setServicePointInformation(servicePointInformationInitialValues));
+    dispatch(setServicePointData(initialServicePointDataValues));
+    dispatch(setServicePointInformation(initialServicePointInformationValue));
     dispatch(toggleModalVisibility());
   };
   const handleDeleteSuccess = (data: IResponseDataProps): void => {
-    dispatch
-      (
-        showAlert({
-          message: data.message,
-          type: data.success ? 'success' : 'error',
-        })
-      );
+    dispatch(
+      showAlert({
+        message: data.message,
+        type: data.success ? 'success' : 'error',
+      })
+    );
 
     setTimeout(() => {
       dispatch(hideAlert());
     }, 5000);
   };
-  const handleGetServicePointSuccess = ( response: IGetServicePointsProps ) => {
+  const handleGetServicePointSuccess = (response: IGetServicePointsProps) => {
     setServicePointCount(response.count);
     dispatch(setServicePoints(response.data));
     dispatch(toggleServicePointDataUpdated(false));
     dispatch(toggleLoadingVisibility(false));
   };
-
 
   useEffect(() => {
     getAllServicePoints();
