@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { IGetServicePointsProps } from './types';
 
-const getAllServicePointsRequest = async (currentPage: number): Promise<IGetServicePointsProps> => {
+const getAllServicePointsRequest = async (currentPage: number, searchedServicePointName?: string): Promise<IGetServicePointsProps> => {
     try {
         const response = await axios
             .post(
@@ -9,6 +9,7 @@ const getAllServicePointsRequest = async (currentPage: number): Promise<IGetServ
                 ({
                     'pageNumber': currentPage,
                     'userCount': 10,
+                    'name': searchedServicePointName || '',
                 })
             )
             .then((response) => {
