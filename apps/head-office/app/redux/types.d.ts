@@ -64,8 +64,6 @@ export type IDialogInformationStateProps = {
     isVisible: boolean;
     actionType: string;
     data: number;
-    success: () => void;
-    cancel: () => void;
 };
 
 export type IIsLoadingStateProps = {

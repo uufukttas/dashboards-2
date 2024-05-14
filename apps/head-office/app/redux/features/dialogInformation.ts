@@ -5,8 +5,6 @@ const initialState: IDialogInformationStateProps = {
     isVisible: false,
     actionType: '',
     data: 0,
-    success: async () => {},
-    cancel: () => {},
 };
 
 export const dialogInformation = createSlice({
@@ -20,8 +18,6 @@ export const dialogInformation = createSlice({
             state.isVisible = true;
             state.actionType = action.payload.actionType;
             state.data = action.payload.data;
-            state.success = action.payload.success;
-            state.cancel = action.payload.cancel;
         },
     },
 });

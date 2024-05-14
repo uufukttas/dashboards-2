@@ -83,11 +83,27 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
         process.env.UPDATE_STATION_SETTINGS || '',
         JSON.stringify(deletedChargeUnitData),
         { headers: { 'Content-Type': 'application/json' } }
-      );
+      )
+        .then(() => {
+          dispatch(hideDialog());
+          dispatch(toggleChargePointDataUpdated(true));
+        })
     } catch (error) {
       console.log(error);
     };
   };
+  const deleteEnergyPrice = async (deletedEnergyPriceId: number) => {
+    await axios
+      .post(
+        process.env.REMOVE_ENERGY_PRICE || '',
+        JSON.stringify({ Id: deletedEnergyPriceId }),
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then(() => {
+        dispatch(hideDialog());
+        setIsEnergyPriceListUpdated(true);
+      })
+  }
   const getBrands = async () => {
     try {
       await axios
@@ -239,6 +255,15 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     } catch (error) {
       console.log(error);
     };
+  };
+  const handleDialogSuccess = () => {
+    if (dialogInformation.actionType === 'deleteChargePoint') {
+      deleteChargePoint(dialogInformation.data);
+    } else if (dialogInformation.actionType === 'deleteEnergyPrice') {
+      deleteEnergyPrice(dialogInformation.data);
+    }
+
+    hideDialog();
   };
 
   useEffect(() => {
@@ -395,8 +420,8 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
           {
             dialogInformation.isVisible && (
               <Dialog
-                handleCancel={dialogInformation.cancel}
-                handleSuccess={dialogInformation.success}
+                handleCancel={() => dispatch(hideDialog())}
+                handleSuccess={() => handleDialogSuccess()}
               />
             )
           }
