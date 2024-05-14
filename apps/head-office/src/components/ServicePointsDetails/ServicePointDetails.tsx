@@ -358,7 +358,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               <Modal
                 modalHeaderTitle='Enerji Fiyat Ayarlari'
                 modalId={`${BRAND_PREFIX}-energy-prices-modal`}
-                onClose={() => dispatch(toggleModalVisibility()) && setAddEnergyPrice(false) }
+                onClose={() => dispatch(toggleModalVisibility()) && setAddEnergyPrice(false)}
               >
                 <EnergyPricesModal
                   setIsEnergyPriceListUpdated={setIsEnergyPriceListUpdated}
@@ -395,12 +395,8 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
           {
             dialogInformation.isVisible && (
               <Dialog
-                handleCancel={() => dispatch(hideDialog())}
-                handleSuccess={() => {
-                  deleteChargePoint(dialogInformation.data);
-                  dispatch(hideDialog());
-                  dispatch(toggleChargePointDataUpdated(true));
-                }}
+                handleCancel={dialogInformation.cancel}
+                handleSuccess={dialogInformation.success}
               />
             )
           }
@@ -419,3 +415,4 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
 };
 
 export default ServicePointsDetails;
+

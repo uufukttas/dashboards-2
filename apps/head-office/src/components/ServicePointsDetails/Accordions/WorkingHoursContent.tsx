@@ -1,10 +1,13 @@
 // File: TimeSchedule.tsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
+import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { IWorkingHoursContentProps, ITimeSlot } from '../types';
 
 const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
+    const dispatch = useDispatch();
     const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const [timeSlots, setTimeSlots] = useState<ITimeSlot[]>(() =>
         Array.from({ length: 7 * 24 }).map((_, index) => ({
@@ -177,7 +180,15 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
                     JSON.stringify(createdWorkingHours),
                     { headers: { 'Content-Type': 'application/json' } }
                 )
-                .then((response) => { console.log(response.data); })
+                .then((response) => { 
+                    dispatch(
+                        showAlert({
+                          message: response.data.message,
+                          type: 'success',
+                        })
+                      );
+                      setTimeout(() => dispatch(hideAlert()), 5000);
+                 })
                 .catch((error) => {
                     console.log(error);
                 }

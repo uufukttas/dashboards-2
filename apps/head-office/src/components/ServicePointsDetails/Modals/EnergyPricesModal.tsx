@@ -1,10 +1,13 @@
 import React from 'react';
+import axios from 'axios';
+import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import { Button } from '@projects/button';
+import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
+import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
-import { useForm } from 'react-hook-form';
-import { Button } from '@projects/button';
-import axios from 'axios';
 
 const EnergyPricesModal = ({ slug, setAddEnergyPrice, setIsEnergyPriceListUpdated }: {
   slug: string;
@@ -12,6 +15,7 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice, setIsEnergyPriceListUpdate
   setIsEnergyPriceListUpdated: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
   const sectionPrefix = 'energy-prices';
+  const dispatch = useDispatch();
   const [energyPricesProperty, setEnergyPricesProperty] = React.useState<{ price: number; time: string; isActive: boolean }>({
     price: 0,
     time: '',
@@ -34,8 +38,15 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice, setIsEnergyPriceListUpdate
       .then((response) => {
         setAddEnergyPrice(false);
         setIsEnergyPriceListUpdated(true);
+        dispatch(
+          showAlert({
+            message: response.data.message,
+            type: 'success',
+          })
+        );
+        setTimeout(() => dispatch(hideAlert()), 5000);
       })
-  }
+  };
 
   return (
     <div className={`${BRAND_PREFIX}-${sectionPrefix}-modal-form-container relative p-6 bg-white rounded-lg`}>
@@ -51,28 +62,39 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice, setIsEnergyPriceListUpdate
           >
             <span className="text-md text-error">*</span>
           </Label>
-          <Input
-            className={`${sectionPrefix}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
-            id={`${sectionPrefix}`}
-            name={`${sectionPrefix}`}
-            register={
-              register(`${sectionPrefix}`, {
-                min: {
-                  value: 1,
-                  message: `Enerji Fiyati 0'dan büyük olmalıdır.`,
-                },
-                required: `Enerji Fiyati zorunludur.`,
-                value: energyPricesProperty.price.toString(),
-                onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                  setEnergyPricesProperty({
-                    ...energyPricesProperty,
-                    price: parseFloat(event.target.value),
-                  });
-                },
-              })
-            }
-            type={`text`}
-          />
+          <div className='inputs-container flex justify-start items-center mb-4'>
+            <Input
+              className={`${sectionPrefix}-input border text-text text-sm rounded-lg block p-2.5 mb-4 focus:ring-primary focus:border-primary`}
+              id={`${sectionPrefix}`}
+              name={`${sectionPrefix}`}
+              register={
+                register(`${sectionPrefix}`, {
+                  min: {
+                    value: 1,
+                    message: `Enerji Fiyati 0'dan büyük olmalıdır.`,
+                  },
+                  required: `Enerji Fiyati zorunludur.`,
+                  value: energyPricesProperty.price.toString(),
+                  onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                    setEnergyPricesProperty({
+                      ...energyPricesProperty,
+                      price: parseFloat(event.target.value),
+                    });
+                  },
+                })
+              }
+              type={`text`}
+            />
+            <Dropdown
+              className={`${sectionPrefix}-dropdown border text-text text-sm rounded-lg block p-2.5 mb-4 mx-4 focus:ring-primary focus:border-primary`}
+              id={`${sectionPrefix}-dropdown`}
+              name={`${sectionPrefix}-dropdown`}
+              items={[
+                { id: 1, name: 'TL', rid: null },
+                { id: 2, name: 'USD', rid: null },
+              ]}
+            />
+          </div>
           {errors[`${sectionPrefix}`]
             && errors[`${sectionPrefix}`]?.message
             && (
@@ -82,8 +104,6 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice, setIsEnergyPriceListUpdate
                 </p>
               </div>
             )}
-
-
           <Label
             className={`${sectionPrefix}-label block mb-2 text-heading font-semibold`}
             htmlFor={``}
