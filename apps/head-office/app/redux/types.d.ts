@@ -11,7 +11,10 @@ interface IChargeUnitDataProps {
     location: string;
     chargePointId: number;
 };
-
+interface IPermissionsProps {
+    id: number;
+    phoneNumber: string;
+};
 interface IServicePointDataProps {
     isDeleted: boolean;
     address: string;
@@ -88,4 +91,7 @@ export type IServicePointDataStateProps = {
 
 export type IServicePointInformationStateProps = {
     servicePointInformation: IServicePointInformationProps;
+};
+export type IServicePointPermissionsStateProps = {
+    servicePointPermissions: IPermissionsProps[];
 };

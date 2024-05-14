@@ -6,10 +6,11 @@ import isChargePointDataUpdated from './features/isChargePointDataUpdated';
 import isLoadingVisible from './features/isLoadingVisible';
 import isModalVisible from './features/isModalVisible';
 import isServicePointDataUpdated from './features/isServicePointDataUpdated';
+import isSidebarExpand from './features/isSidebarExpand';
 import servicePoints from './features/servicePoints';
 import servicePointData from './features/servicePointData';
 import servicePointInformation from './features/servicePointInformation';
-import isSidebarExpand from './features/isSidebarExpand';
+import servicePointPermissions from './features/servicePointPermissions';
 
 export const store: EnhancedStore = configureStore({
   reducer: {
@@ -20,10 +21,11 @@ export const store: EnhancedStore = configureStore({
     isModalVisible,
     isServicePointDataUpdated,
     isLoadingVisible,
+    isSidebarExpand,
     servicePoints,
     servicePointData,
     servicePointInformation,
-    isSidebarExpand,
+    servicePointPermissions,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });
