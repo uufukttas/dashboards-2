@@ -94,7 +94,6 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
             .then((response) => response.data)
             .then((data) => {
                 data.data[0] && setServicePointDetailsInfo(data.data[0]);
-                dispatch(toggleLoadingVisibility(false));
             })
             .catch((error) => console.log(error));
     };
@@ -133,7 +132,10 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                 { headers: { 'Content-Type': 'application/json' } }
             )
             .then((response) => response.data)
-            .then((response) => setFeatures(response.data));
+            .then((response) => {
+                setFeatures(response.data);
+                toggleLoadingVisibility(false);
+            });
     };
 
     useEffect(() => {
