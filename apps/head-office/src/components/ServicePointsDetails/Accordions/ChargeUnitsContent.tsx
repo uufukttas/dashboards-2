@@ -5,8 +5,9 @@ import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import ConnectorInfo from './ConnectorInfo';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
-import { showDialog } from '../../../../app/redux/features/dialogInformation';
+import { hideDialog, showDialog } from '../../../../app/redux/features/dialogInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import { toggleChargePointDataUpdated } from '../../../../app/redux/features/isChargePointDataUpdated';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type {
     IAccessTypeListItemProps,
@@ -180,8 +181,21 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
             showDialog({
                 actionType: 'delete',
                 data: getRequestBody,
+                success: async () => {
+                    await axios
+                        .post(
+                            process.env.UPDATE_STATION_SETTINGS || '',
+                            getRequestBody,
+                            { headers: { 'Content-Type': 'application/json' } }
+                        )
+                        .then(() => {
+                            dispatch(hideDialog());
+                            dispatch(toggleChargePointDataUpdated(true));
+                        })
+                },
+                cancel: async () => hideDialog(),
             })
-        );
+        )
     };
     const handleUpdate = async (event: React.MouseEvent) => {
         const chargeUnitId = event.currentTarget.getAttribute(`data-charge-point-id`);

@@ -1,25 +1,37 @@
 import React from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { FaTrashCan } from 'react-icons/fa6';
 import { Button } from '@projects/button';
+import { hideDialog, showDialog } from '../../../../app/redux/features/dialogInformation';
 import type { IEnergyPriceDetailsProps, IServicePointsEnergyPricesContentProps } from '../types';
 
 const EnergyPricesContent = ({ energyPriceDetails, setIsEnergyPriceListUpdated }: IServicePointsEnergyPricesContentProps) => {
   const sectionPrefix = 'energy-prices-details';
+  const dispatch = useDispatch();
 
   const handleDelete = (event: React.MouseEvent) => {
     const deletedEnergyPriceId = event.currentTarget.getAttribute('energy-price-id');
 
-    axios
-      .post(
-        process.env.REMOVE_ENERGY_PRICE || '',
-        JSON.stringify({ Id: deletedEnergyPriceId }),
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-      .then((response) => {
-        setIsEnergyPriceListUpdated(true);
+    dispatch(
+      showDialog({
+        actionType: 'delete',
+        data: { Id: deletedEnergyPriceId },
+        success: async () => {
+          await axios
+            .post(
+              process.env.REMOVE_ENERGY_PRICE || '',
+              JSON.stringify({ Id: deletedEnergyPriceId }),
+              { headers: { 'Content-Type': 'application/json' } }
+            )
+            .then(() => {
+              setIsEnergyPriceListUpdated(true);
+              dispatch(hideDialog());
+            })
+        },
+        cancel: () => dispatch(hideDialog())
       })
-      .catch((error) => console.log(error));
+    );
   };
 
   return (
