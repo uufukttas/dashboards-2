@@ -1,9 +1,11 @@
 import React from 'react'
+import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
+import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type { IServicePointPermissionsModalProps } from '../types';
@@ -13,13 +15,31 @@ const ServicePointPermissionsModal = ({ slug }: IServicePointPermissionsModalPro
     const dispatch = useDispatch();
     const [permissionPhoneNumber, setPermissionPhoneNumber] = React.useState<string>('');
     const { register, handleSubmit, formState: { errors } } = useForm();
+
     const handleFormSubmit = () => {
+        axios
+            .post(
+                'https://sharztestapi.azurewebsites.net/Auth/ChargePointUserCreate',
+                {
+                    phoneNumber: permissionPhoneNumber,
+                    stationId: Number(slug),
+                },
+                { headers: { 'Content-Type': 'application/json' } }
+            )
+            .then((response) => {
+                dispatch(
+                    showAlert({
+                        message: response.data.message,
+                        type: 'success',
+                    })
+                );
 
-        console.log('slug', slug)
-        console.log('handleFormSubmit');
-        console.log('permissionPhoneNumber', permissionPhoneNumber)
+                setTimeout(() => {
+                    hideAlert();
+                }, 5000);
 
-        dispatch(toggleModalVisibility());
+                dispatch(toggleModalVisibility());
+            });
     };
 
     return (
