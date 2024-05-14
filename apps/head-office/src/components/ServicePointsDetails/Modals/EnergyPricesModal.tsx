@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -16,12 +16,27 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice, setIsEnergyPriceListUpdate
 }) => {
   const sectionPrefix = 'energy-prices';
   const dispatch = useDispatch();
+  const [currencies, setCurrencies] = React.useState<{ id: number; name: string; rid: null }[]>(
+    [
+      { id: 0, name: 'Seçiniz', rid: null }
+    ]
+  );
   const [energyPricesProperty, setEnergyPricesProperty] = React.useState<{ price: number; time: string; isActive: boolean }>({
     price: 0,
     time: '',
     isActive: true,
   });
   const { register, handleSubmit, formState: { errors } } = useForm();
+
+  const getCurrencies = async () => {
+    await axios
+      .get(
+        'https://sharztestapi.azurewebsites.net/Values/Currencies'
+      )
+      .then((response) => {
+        setCurrencies(response.data.data);
+      });
+  };
   const handleFormSubmit = () => {
     axios
       .post(
@@ -47,6 +62,10 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice, setIsEnergyPriceListUpdate
         setTimeout(() => dispatch(hideAlert()), 5000);
       })
   };
+
+  useEffect(() => {
+    getCurrencies();
+  }, []);
 
   return (
     <div className={`${BRAND_PREFIX}-${sectionPrefix}-modal-form-container relative p-6 bg-white rounded-lg`}>
@@ -89,10 +108,7 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice, setIsEnergyPriceListUpdate
               className={`${sectionPrefix}-dropdown border text-text text-sm rounded-lg block p-2.5 mb-4 mx-4 focus:ring-primary focus:border-primary`}
               id={`${sectionPrefix}-dropdown`}
               name={`${sectionPrefix}-dropdown`}
-              items={[
-                { id: 1, name: 'TL', rid: null },
-                { id: 2, name: 'USD', rid: null },
-              ]}
+              items={currencies}
             />
           </div>
           {errors[`${sectionPrefix}`]
