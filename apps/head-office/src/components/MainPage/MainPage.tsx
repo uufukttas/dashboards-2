@@ -1,3 +1,5 @@
+'use client';
+
 import Header from '../Header/Header';
 import Section from '../Section/Section';
 import Sidebar from '../Sidebar/Sidebar';
