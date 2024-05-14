@@ -29,7 +29,7 @@ const ServicePointPermissionsModal = ({ slug }: IServicePointPermissionsModalPro
             .then((response) => {
                 dispatch(
                     showAlert({
-                        message: response.data.message,
+                        message: 'Yetkili telefon numarasi basariyla eklendi.',
                         type: 'success',
                     })
                 );

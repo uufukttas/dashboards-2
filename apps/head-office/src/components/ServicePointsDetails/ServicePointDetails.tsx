@@ -35,6 +35,7 @@ import type {
   IPermissionsProps
 } from './types';
 import './ServicePointDetails.css';
+import { showAlert } from 'apps/head-office/app/redux/features/alertInformation';
 
 const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
@@ -110,16 +111,18 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     try {
       await axios
         .post(
-          process.env.REMOVE_SERVICE_POINT_PERMISSION || '',
-          JSON.stringify({ Id: deletedPermissionId }),
+          'https://sharztestapi.azurewebsites.net/Auth/ChargePointUserDelete',
+          JSON.stringify({ userId: deletedPermissionId }),
           { headers: { 'Content-Type': 'application/json' } }
         )
-        .then(() => {
+        .then((response) => {
           dispatch(
-            setServicePointPermissions((prevState: { userId: number; userName: string }[]) =>
-              prevState.filter((permission: { userId: number; userName: string; }) => permission.userId !== deletedPermissionId
-              ))
+            showAlert({
+              type: 'success',
+              message: response.data.message
+            })
           );
+          dispatch(hideDialog());
         })
     } catch (error) {
       console.log(error);
@@ -254,7 +257,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
         { stationId: Number(slug) },
         { headers: { 'Content-Type': 'application/json' } }
       )
-      .then((response) =>  response.data.data)
+      .then((response) => response.data.data)
       .then((data) => setPermissions(data))
   };
   const getServicePointsDetails = async (slug: string) => {
