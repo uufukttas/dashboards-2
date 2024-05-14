@@ -170,7 +170,9 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                         actionButton={addServicePointPermissionButton}
                         titleClassName="font-bold"
                     >
-                        <ServicePointPermissions permissions={permissions} setPermissions={setPermissions} />
+                        <ServicePointPermissions
+                            permissions={permissions}
+                        />
                     </Accordion>
                 )
             }

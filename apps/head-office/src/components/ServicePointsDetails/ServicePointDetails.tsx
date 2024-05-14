@@ -18,8 +18,8 @@ import { setChargeUnitData } from '../../../app/redux/features/chargeUnitData';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleChargePointDataUpdated } from '../../../app/redux/features/isChargePointDataUpdated';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
+import { setServicePointPermissions } from '../../../app/redux/features/servicePointPermissions';
 import { RootState } from '../../../app/redux/store';
-import './ServicePointDetails.css';
 import type {
   IAccessTypeListItemProps,
   IBrandsProps,
@@ -31,8 +31,10 @@ import type {
   IServicePointsDetailsPageProps,
   IServicePointsDetailsProps,
   IStatusListItemProps,
-  IEnergyPriceDetailsProps
+  IEnergyPriceDetailsProps,
+  IPermissionsProps
 } from './types';
+import './ServicePointDetails.css';
 
 const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
@@ -63,7 +65,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const [energyPriceDetails, setEnergyPriceDetails] = useState<IEnergyPriceDetailsProps[]>([]);
   const [investors, setInvestors] = useState<IInvestorsProps[]>([]);
   const [isEnergyPriceListUpdated, setIsEnergyPriceListUpdated] = useState<boolean>(false);
-  const [permissions, setPermissions] = useState([]);
+  const [permissions, setPermissions] = useState<IPermissionsProps[]>([]);
   const [servicePointDetails, setServicePointDetails] =
     useState<IServicePointsDetailsProps>({
       name: '',
@@ -103,7 +105,26 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
         dispatch(hideDialog());
         setIsEnergyPriceListUpdated(true);
       })
-  }
+  };
+  const deleteServicePointPermission = async (deletedPermissionId: number) => {
+    try {
+      await axios
+        .post(
+          process.env.REMOVE_SERVICE_POINT_PERMISSION || '',
+          JSON.stringify({ Id: deletedPermissionId }),
+          { headers: { 'Content-Type': 'application/json' } }
+        )
+        .then(() => {
+          dispatch(
+            setServicePointPermissions((prevState: { userId: number; userName: string }[]) =>
+              prevState.filter((permission: { userId: number; userName: string; }) => permission.userId !== deletedPermissionId
+              ))
+          );
+        })
+    } catch (error) {
+      console.log(error);
+    };
+  };
   const getBrands = async () => {
     try {
       await axios
@@ -226,6 +247,16 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       console.log(error);
     };
   };
+  const getServicePointPermissions = async () => {
+    await axios
+      .post(
+        'https://sharztestapi.azurewebsites.net/auth/ChargePointUsers',
+        { stationId: Number(slug) },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then((response) =>  response.data.data)
+      .then((data) => setPermissions(data))
+  };
   const getServicePointsDetails = async (slug: string) => {
     try {
       await axios
@@ -261,6 +292,8 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       deleteChargePoint(dialogInformation.data);
     } else if (dialogInformation.actionType === 'deleteEnergyPrice') {
       deleteEnergyPrice(dialogInformation.data);
+    } else if (dialogInformation.actionType === 'deleteServicePointPermission') {
+      deleteServicePointPermission(dialogInformation.data);
     }
 
     hideDialog();
@@ -273,6 +306,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     getEnergyPrices();
     getInvestors();
     getServicePointsDetails(slug);
+    getServicePointPermissions();
     getWorkingHours();
   }, [slug]);
 

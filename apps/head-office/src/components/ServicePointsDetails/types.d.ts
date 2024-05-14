@@ -37,8 +37,8 @@ interface IConvertedStructure {
   isDeleted: boolean;
 };
 interface IPermissionsProps {
-  id: number;
-  user: string;
+  userId: number;
+  userName: string;
 };
 interface IResponse {
   RID: number,

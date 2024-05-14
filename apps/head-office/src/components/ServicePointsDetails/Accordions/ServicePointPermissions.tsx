@@ -1,35 +1,20 @@
-import React, { Dispatch, SetStateAction } from 'react';
-import { BRAND_PREFIX } from '../../../../src/constants/constants';
-import { Button } from '@projects/button';
+import React from 'react';
 import { FaTrashCan } from 'react-icons/fa6';
-import { Toggle } from '@projects/toggle';
+import { Button } from '@projects/button';
+import { showDialog } from '../../../../app/redux/features/dialogInformation';
+import { useDispatch } from 'react-redux';
 
 interface IPermissionsProps {
-    id: number;
-    user: string;
+    userId: number;
+    userName: string;
 };
 
-const ServicePointPermissions = ({ permissions, setPermissions }: {
-    permissions: IPermissionsProps[];
-    setPermissions: Dispatch<SetStateAction<IPermissionsProps[]>>;
-}) => {
+const ServicePointPermissions = ({ permissions }: { permissions: IPermissionsProps[] }) => {
     const sectionPrefix = 'service-point-permissions';
-
-    const dummyPermissions: IPermissionsProps[] = [
-        {
-            id: 1,
-            user: '05552583614'
-        }, {
-            id: 2,
-            user: '05552583614'
-        }, {
-            id: 3,
-            user: '05552583614'
-        }
-    ];
+    const dispatch = useDispatch();
 
     return (
-        dummyPermissions.length > 0 && dummyPermissions.map((permission: IPermissionsProps, idx: number) => {
+        permissions.length > 0 && permissions.map((permission: IPermissionsProps, idx: number) => {
             return (
                 <div key={idx} className='flex flex-col items-end py-4 text-white'>
                     <div className='flex w-full'>
@@ -38,19 +23,27 @@ const ServicePointPermissions = ({ permissions, setPermissions }: {
                                 <div className={`${sectionPrefix}-info-item flex justify-between md:items-center flex-col md:flex-row w-full`}>
                                     <div className={`${sectionPrefix}-info-item-value text-lg font-normal flex items-center justify-between w-full`}>
                                         <p>
-                                            <span className='font-bold'>{`${idx + 1}`}</span>{`. ${permission.user}`}
+                                            <span className='font-bold'>{`${idx + 1}`}</span>{`. ${permission.userName}`}
                                         </p>
                                     </div>
                                 </div>
                                 <div className={`${sectionPrefix}-info-item flex justify-between md:items-center flex-col md:flex-row`}>
-                                    <Toggle onToggle={() => { }} />
+                                    {/* <Toggle onToggle={() => { }} /> */}
                                     <Button
                                         buttonText={""}
                                         className="bg-secondary rounded-md px-4 py-2 mx-4 text-white"
                                         id={`permission-delete-button`}
                                         type={'button'}
-                                        dataAttributes={{ 'permission-id': idx.toString() }}
-                                        onClick={() => { }}
+                                        dataAttributes={{ 'permission-id': permission.userId?.toString() }}
+                                        onClick={() => {
+                                            dispatch(
+                                                showDialog({
+                                                    isVisible: true,
+                                                    actionType: 'deleteServicePointPermission',
+                                                    data: permission.userId
+                                                })
+                                            );
+                                        }}
                                     >
                                         <FaTrashCan />
                                     </Button>
