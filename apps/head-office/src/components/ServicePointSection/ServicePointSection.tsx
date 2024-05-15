@@ -31,6 +31,7 @@ const ServicePointSection: React.FC = () => {
   const [searchedText, setSearchedText] = useState<string>('');
   const servicePointsCount = useSelector((state: RootState) => state.servicePoints.count);
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
+  const servicePointsData = useSelector((state: RootState) => state.servicePoints.servicePoints);
   const [currentPage, setCurrentPage] = useState(1);
 
   const deleteServicePoint = async (deletedId: number): Promise<void> => {
@@ -83,6 +84,16 @@ const ServicePointSection: React.FC = () => {
       <div className={`${BRAND_PREFIX}-service-point-listing-container flex items-center w-full`}>
         <Table
           searchedText={searchedText}
+          tableData={servicePointsData}
+          tableDataCount={servicePointsCount}
+          tableHeadData={[
+            'Servis Noktasi',
+            'Telefon',
+            'Adres',
+            'Il',
+            'Ilce',
+            'Islemler',
+          ]}
           setSearchedText={setSearchedText}
         />
       </div>

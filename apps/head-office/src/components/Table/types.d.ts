@@ -1,3 +1,14 @@
+interface IUserDataProps {
+    id: number;
+    name: string;
+    email: string;
+    phone: string;
+    role: string[];
+    status: string;
+    address?: string;
+    cityId?: number;
+    districtId?: number;
+};
 export interface IServicePointInfoProps {
     address: string;
     addressDetail?: string | null | undefined;
@@ -12,6 +23,17 @@ export interface IServicePointInfoProps {
     paymentMethods?: string[] | null | undefined;
     phone?: string | null | undefined;
     type?: string | null | undefined;
+    email?: string;
+    role?: string[];
+    status?: string;
+};
+
+export interface ITableProps {
+    searchedText: string;
+    tableData: IServicePointInfoProps[] | IUserDataProps[];
+    tableDataCount: number;
+    tableHeadData: string[];
+    setSearchedText: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export interface ITableHeaderProps {

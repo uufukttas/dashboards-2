@@ -5,9 +5,39 @@ import { AppDispatch } from '../../../app/redux/store';
 import { BRAND_PREFIX } from '../../constants/constants';
 import Table from '../Table/Table';
 
+interface IUserDataProps {
+    id: number;
+    name: string;
+    email: string;
+    phone: string;
+    role: string[];
+    status: string;
+    address?: string;
+    cityId?: number;
+    districtId?: number;
+};
+
 const UserManagementSection: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const [searchedText, setSearchedText] = useState<string>('');
+
+    const userData: IUserDataProps[] = [
+        {
+            id: 1,
+            name: 'John Doe',
+            email: 'john@doe.com',
+            phone: '1234567890',
+            role: ['Admin', 'User', 'Guest'],
+            status: 'Active',
+        }, {
+            id: 2,
+            name: 'Jane Doe',
+            email: 'jane@doe.com',
+            phone: '0987654321',
+            role: ['User', 'Employee'],
+            status: 'Active',
+        }
+    ];
 
     useEffect(() => {
         dispatch(toggleLoadingVisibility(true));
@@ -18,51 +48,12 @@ const UserManagementSection: React.FC = () => {
             <div className={`${BRAND_PREFIX}-service-point-listing-container flex items-center w-full`}>
                 <Table
                     searchedText={searchedText}
+                    tableData={userData}
+                    tableDataCount= {userData.length}
+                    tableHeadData={['Name', 'Phone/Email', 'Role', 'Status', 'Actions']}
                     setSearchedText={setSearchedText}
                 />
             </div>
-            {/* {
-                isModalVisible && (
-                    <Modal
-                        className={`${BRAND_PREFIX}-service-point-modal-container`}
-                        modalHeaderTitle={`Servis Noktasi ${servicePointData.id > 0 ? 'Güncelle' : 'Ekle'}`}
-                        modalId={`${BRAND_PREFIX}-service-point-modal`}
-                        onClose={handleCloseModal}
-                    >
-                        <ServicePointModalForm />
-                    </Modal>
-                )
-            }
-            {
-                alertInformation.isVisible && (
-                    <Alert
-                        alertText={alertInformation.message}
-                        alertType={alertInformation.type}
-                        id={`service-point-alert`}
-                    />
-                )
-            }
-            {
-                dialogInformation.isVisible && (
-                    <Dialog
-                        handleCancel={() => dispatch(hideDialog())}
-                        handleSuccess={() => {
-                            deleteServicePoint(dialogInformation.data);
-                            dispatch(hideDialog());
-                            dispatch(toggleServicePointDataUpdated(true));
-                        }}
-                    />
-                )
-            }
-            {
-                servicePointsCount > 10 && (
-                    <Pagination
-                        currentPage={currentPage}
-                        setCurrentPage={setCurrentPage}
-                        totalCounts={servicePointsCount}
-                    />
-                )
-            } */}
         </div>
     );
 };
