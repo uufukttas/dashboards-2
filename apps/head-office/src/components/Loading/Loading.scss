@@ -1,5 +1,4 @@
-$spinnerColor: #FCD800;
-$borderColor: #D3D3D3;
+@import "../../constants/variables.scss";
 
 .loading-spinner {
   border: 16px solid $borderColor;
