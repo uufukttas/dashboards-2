@@ -13,19 +13,20 @@ const FormElement = ({
     register,
     setLoginFormData,
 }: IFormElementProps) => {
+    const loginFormIputPrefix = `${BRAND_PREFIX}-${loginFormInput}`;
     const loginFormInputs: string[] = ['username', 'password'];
 
     const getDisplayName = (type: string): string => type === loginFormInputs[0] ? 'Kullanıcı Adı' : 'Şifre';
 
     return (
-        <div className={`${BRAND_PREFIX}-${loginFormInput}-input-container mb-4`} key={index}>
+        <div className={`${loginFormIputPrefix}-input-container mb-4`} key={index}>
             <Label
-                className={`${BRAND_PREFIX}-${loginFormInput}-label block text-sm font-medium text-gray-600`}
+                className={`${loginFormIputPrefix}-label block text-sm font-medium text-gray-600`}
                 htmlFor={loginFormInput}
                 labelText={getDisplayName(loginFormInput)}
             />
             <Input
-                className={`${BRAND_PREFIX}-${loginFormInput}-input mt-1 p-2 w-full border focus:ring-primary focus:border-primary rounded-lg text-text text-sm ${BRAND_PREFIX}-login-input`}
+                className={`${loginFormIputPrefix}-input mt-1 p-2 w-full border focus:ring-primary focus:border-primary rounded-lg text-text text-sm`}
                 id={loginFormInput}
                 name={loginFormInput}
                 register={

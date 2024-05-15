@@ -13,6 +13,7 @@ import type { ILoginFormDataProps, ILoginRequestDataProps } from '../types';
 
 const CardBody: React.FC = () => {
     const initialLoginFormData: ILoginFormDataProps = { password: '', username: '' };
+    const loginPrefix = `${BRAND_PREFIX}-login`;
     const dispatch = useDispatch<AppDispatch>();
     const { formState: { errors }, handleSubmit, register } = useForm();
     const router = useRouter();
@@ -49,8 +50,8 @@ const CardBody: React.FC = () => {
     };
 
     return (
-        <div className={`${BRAND_PREFIX}-card-login-form-container`}>
-            <form className={`${BRAND_PREFIX}-card-login-form`} onSubmit={handleSubmit(handleLoginSubmit)}>
+        <div className={`${loginPrefix}-form-container`}>
+            <form className={`${loginPrefix}-form`} onSubmit={handleSubmit(handleLoginSubmit)}>
                 {
                     ['username', 'password'].map((loginFormInput: string, index: number) => (
                         <CardBodyFormElement
@@ -64,11 +65,11 @@ const CardBody: React.FC = () => {
                         />
                     ))
                 }
-                <div className={`${BRAND_PREFIX}-login-button-container mb-4`}>
+                <div className={`${loginPrefix}-button-container mb-4`}>
                     <Button
                         buttonText={'Giriş Yap'}
-                        className={`bg-primary hover:bg-primary-lighter text-text font-bold py-2 px-4 focus:outline-none focus:shadow-outline ${BRAND_PREFIX}-login-button p-2 w-full`}
-                        id={`${BRAND_PREFIX}-login-button`}
+                        className={`bg-primary hover:bg-primary-lighter text-text font-bold py-2 px-4 focus:outline-none focus:shadow-outline ${loginPrefix}-button p-2 w-full`}
+                        id={`${loginPrefix}-button`}
                         type={'submit'}
                     />
                 </div>
