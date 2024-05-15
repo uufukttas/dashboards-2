@@ -9,25 +9,26 @@ import type { IHeaderProps } from './types';
 import './Header.css';
 
 const Header: React.FC<IHeaderProps> = ({ className }: IHeaderProps) => {
+  const headerPrefix = `${BRAND_PREFIX}-header`;
   const dispatch = useDispatch<AppDispatch>();
   const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
 
   return (
-    <div className={`${BRAND_PREFIX}-header-container justify-between border-b border-gray-300 bg-background top-0 z-10 sticky ${className}`}>
-      <div className={`${BRAND_PREFIX}-sidebar-toggle-button-container`}>
+    <div className={`${headerPrefix}-container justify-between border-b border-gray-300 bg-background top-0 z-10 sticky ${className}`}>
+      <div className={`${headerPrefix}-sidebar-toggle-button-container`}>
         <Button
-          className={`${BRAND_PREFIX}-sidebar-toggle-button bg-background hover:bg-background mx-8 py-2 px-2`}
-          id={`${BRAND_PREFIX}-sidebar-toggle-button`}
+          className={`${headerPrefix}-sidebar-toggle-button bg-background hover:bg-background mx-8 py-2 px-2`}
+          id={`${headerPrefix}-sidebar-toggle-button`}
           type='button'
           onClick={() => dispatch(toggleSidebarExpanded(isSidebarExpanded))}
         >
           <FaAlignJustify />
         </Button>
       </div>
-      <div className={`${BRAND_PREFIX}-profile-button-container`}>
+      <div className={`${headerPrefix}-profile-button-container`}>
         <Button
-          className={`${BRAND_PREFIX}-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center mx-8 rounded-full px-2 py-2`}
-          id={`${BRAND_PREFIX}-header-profile-button`}
+          className={`${headerPrefix}-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center mx-8 rounded-full px-2 py-2`}
+          id={`${headerPrefix}-profile-button`}
           type='button'
           onClick={() => { }}
         >
