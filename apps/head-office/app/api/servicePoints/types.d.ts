@@ -46,6 +46,28 @@ interface IGetServicePointsProps {
     success: boolean;
     count: number;
 };
+export interface IChargeUnitsProps {
+    accessType: string;
+    chargePointId: number;
+    connectorNumber: number;
+    connectorId: number;
+    count: number;
+    deviceCode: string;
+    externalAddress: string;
+    hoStatus: string;
+    internalAddress: string;
+    investor: string;
+    isFreePoint: boolean;
+    lastHeartBeat: string;
+    limitedUsage: boolean;
+    modelId: number;
+    model: string;
+    ocppVersion: string;
+    sendRoaming: boolean;
+    stationId: number;
+    status: string;
+    location: string;
+  };
 export interface IDeleteResonseProps {
     data: IDeleteResponseDataProps
     status: number;

@@ -14,11 +14,12 @@ import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
 import { BRAND_PREFIX } from '../../constants/constants';
+import { deleteChargePointRequest } from '../../../app/api/servicePoints/deleteChargePointRequest';
+import { showAlert } from '../../../app/redux/features/alertInformation';
 import { setChargeUnitData } from '../../../app/redux/features/chargeUnitData';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleChargePointDataUpdated } from '../../../app/redux/features/isChargePointDataUpdated';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
-import { setServicePointPermissions } from '../../../app/redux/features/servicePointPermissions';
 import { RootState } from '../../../app/redux/store';
 import type {
   IAccessTypeListItemProps,
@@ -35,7 +36,6 @@ import type {
   IPermissionsProps
 } from './types';
 import './ServicePointDetails.css';
-import { showAlert } from 'apps/head-office/app/redux/features/alertInformation';
 
 const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
@@ -82,15 +82,26 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
 
   const deleteChargePoint = async (deletedChargeUnitData: IChargeUnitsProps[]) => {
     try {
-      await axios.post(
-        process.env.UPDATE_STATION_SETTINGS || '',
-        JSON.stringify(deletedChargeUnitData),
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-        .then(() => {
-          dispatch(hideDialog());
-          dispatch(toggleChargePointDataUpdated(true));
+      const data = await deleteChargePointRequest(deletedChargeUnitData);
+
+      if (data.success) {
+        dispatch(hideDialog());
+        dispatch(toggleChargePointDataUpdated(true));
+        dispatch(
+          showAlert({
+            type: 'success',
+            message: data.message
+          })
+        );
+      } else {
+        dispatch(showAlert({
+          type: 'error',
+          message: data.message
         })
+        );
+        dispatch(hideDialog());
+      }
+
     } catch (error) {
       console.log(error);
     };
