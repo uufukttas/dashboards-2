@@ -9,8 +9,8 @@ export const isModalVisibility = createSlice({
     name: 'isModalVisibility',
     initialState,
     reducers: {
-        toggleModalVisibility: (state) => {
-            state.isModalVisible = !state.isModalVisible;
+        toggleModalVisibility: (state, action) => {
+            state.isModalVisible = action.payload;
         },
     },
 });

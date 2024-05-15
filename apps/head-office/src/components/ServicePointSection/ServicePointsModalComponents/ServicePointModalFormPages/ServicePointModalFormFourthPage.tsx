@@ -118,7 +118,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
       )
       .then((response) => response.data)
       .then(data => {
-        dispatch(toggleModalVisibility());
+        dispatch(toggleModalVisibility(false));
         dispatch(
           showAlert({
             message: data.message,

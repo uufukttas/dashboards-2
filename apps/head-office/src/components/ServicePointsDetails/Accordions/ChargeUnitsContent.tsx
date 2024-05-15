@@ -270,7 +270,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
                                         onClick={() => {
                                             setAddConnector(true);
                                             setAddChargeUnit(false);
-                                            dispatch(toggleModalVisibility());
+                                            dispatch(toggleModalVisibility(true));
                                             setConnectorProperty({
                                                 chargePointModelId: connectorItem.modelID,
                                                 chargePointId: connectorItem.stationChargePointID,

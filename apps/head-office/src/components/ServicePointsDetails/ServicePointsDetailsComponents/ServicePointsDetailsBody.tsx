@@ -50,7 +50,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             id={`add-charge-unit-button`}
             type="button"
             onClick={() => {
-                dispatch(toggleModalVisibility());
+                dispatch(toggleModalVisibility(true));
                 dispatch(setChargeUnitData(initialChargeUnitData));
                 setAddChargeUnit(true);
             }}
@@ -66,7 +66,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             type={'button'}
             onClick={() => {
                 setAddEnergyPrice(true);
-                dispatch(toggleModalVisibility());
+                dispatch(toggleModalVisibility(true));
             }}
         >
             + Enerji Fiyati Ekle
@@ -80,7 +80,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             type={'button'}
             onClick={() => {
                 setAddPermission(true);
-                dispatch(toggleModalVisibility());
+                dispatch(toggleModalVisibility(true));
             }}
         >
             + Servis Noktasi Yetkisi Ekle
@@ -94,7 +94,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             type={'button'}
             onClick={() => {
                 setAddComission(true);
-                dispatch(toggleModalVisibility());
+                dispatch(toggleModalVisibility(true));
             }}
         >
             + Komisyon Ekle

@@ -47,7 +47,7 @@ const ConnectorAddModal: React.FC<IConnectorAddModalProps> = ({ connectorPropert
                     stationChargePointModelConnectorID: connectorValue,
                 }
             )
-        dispatch(toggleModalVisibility());
+        dispatch(toggleModalVisibility(false));
         setAddConnector(false);
     };
 

@@ -55,7 +55,7 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedTex
                     className={`${BRAND_PREFIX}-add-${sectionPrefix}-button w-full bg-primary rounded-md font-semibold hover:bg-primary-lighter px-2 py-2`}
                     id={`${BRAND_PREFIX}-add-${sectionPrefix}-button`}
                     type="button"
-                    onClick={() => dispatch(toggleModalVisibility())}
+                    onClick={() => dispatch(toggleModalVisibility(true))}
                 />
             </div>
         </div>

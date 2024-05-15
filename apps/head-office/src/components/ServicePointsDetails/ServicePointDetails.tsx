@@ -387,7 +387,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
                       status: 1,
                     })
                   );
-                  dispatch(toggleModalVisibility());
+                  dispatch(toggleModalVisibility(false));
                 }}
               >
                 <ChargeUnitAddModal
@@ -406,7 +406,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               <Modal
                 modalHeaderTitle='Konnektör Ekle'
                 modalId={`${BRAND_PREFIX}-connector-add-modal`}
-                onClose={() => dispatch(toggleModalVisibility())}
+                onClose={() => dispatch(toggleModalVisibility(false))}
               >
                 <ConnectorAddModal
                   connectorProperty={connectorProperty}
@@ -420,7 +420,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               <Modal
                 modalHeaderTitle='Enerji Fiyat Ayarlari'
                 modalId={`${BRAND_PREFIX}-energy-prices-modal`}
-                onClose={() => dispatch(toggleModalVisibility()) && setAddEnergyPrice(false)}
+                onClose={() => dispatch(toggleModalVisibility(false)) && setAddEnergyPrice(false)}
               >
                 <EnergyPricesModal
                   setIsEnergyPriceListUpdated={setIsEnergyPriceListUpdated}
@@ -435,7 +435,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               <Modal
                 modalHeaderTitle='Yetki Ekle'
                 modalId={`${BRAND_PREFIX}-service-point-permissions-modal`}
-                onClose={() => dispatch(toggleModalVisibility()) && setAddPermission(false)}
+                onClose={() => dispatch(toggleModalVisibility(false)) && setAddPermission(false)}
               >
                 <ServicePointPermissionsModal
                   slug={slug}
@@ -448,7 +448,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               <Modal
                 modalHeaderTitle='Komisyon Ekle'
                 modalId={`${BRAND_PREFIX}-service-point-comission-modal`}
-                onClose={() => dispatch(toggleModalVisibility()) && setAddComission(false)}
+                onClose={() => dispatch(toggleModalVisibility(false)) && setAddComission(false)}
               >
                 <ComissionModal />
               </Modal>

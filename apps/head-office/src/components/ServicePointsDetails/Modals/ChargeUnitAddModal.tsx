@@ -150,7 +150,7 @@ const ChargeUnitAddModal = ({
           status: chargeUnitFormData[`${formProperties.status}`],
         })
       );
-      dispatch(toggleModalVisibility());
+      dispatch(toggleModalVisibility(false));
       dispatch(toggleChargePointDataUpdated(true));
     } catch (error) {
       console.error(error);

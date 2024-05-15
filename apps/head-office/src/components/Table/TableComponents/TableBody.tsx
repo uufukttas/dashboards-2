@@ -35,7 +35,7 @@ const TableBody: React.FC = () => {
 
             dispatch(setServicePointData(servicePointData.data[0]));
             dispatch(setServicePointInformation(servicePointInformation.data[0]));
-            dispatch(toggleModalVisibility());
+            dispatch(toggleModalVisibility(false));
         } catch (error) {
             console.error(error);
         };

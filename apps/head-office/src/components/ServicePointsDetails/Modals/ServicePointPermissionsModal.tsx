@@ -38,7 +38,7 @@ const ServicePointPermissionsModal = ({ slug }: IServicePointPermissionsModalPro
                     hideAlert();
                 }, 5000);
 
-                dispatch(toggleModalVisibility());
+                dispatch(toggleModalVisibility(false));
             });
     };
 
