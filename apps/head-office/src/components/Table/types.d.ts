@@ -9,6 +9,7 @@ interface IUserDataProps {
     cityId?: number;
     districtId?: number;
 };
+
 export interface IServicePointInfoProps {
     address: string;
     addressDetail?: string | null | undefined;
@@ -24,8 +25,18 @@ export interface IServicePointInfoProps {
     phone?: string | null | undefined;
     type?: string | null | undefined;
     email?: string;
-    role?: string[];
+    role: string[] | [];
     status?: string;
+};
+
+export interface ITableBodyProps {
+    tableData: IServicePointInfoProps[] | IUserDataProps[];
+    tableDataCount: number;
+};
+
+export interface ITableHeaderProps {
+    searchedText: string;
+    setSearchedText: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export interface ITableProps {
@@ -33,10 +44,5 @@ export interface ITableProps {
     tableData: IServicePointInfoProps[] | IUserDataProps[];
     tableDataCount: number;
     tableHeadData: string[];
-    setSearchedText: React.Dispatch<React.SetStateAction<string>>;
-};
-
-export interface ITableHeaderProps {
-    searchedText: string;
     setSearchedText: React.Dispatch<React.SetStateAction<string>>;
 };

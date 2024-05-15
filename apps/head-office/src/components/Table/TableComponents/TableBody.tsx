@@ -8,24 +8,7 @@ import { showDialog } from '../../../../app/redux/features/dialogInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { setServicePointData } from '../../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
-import type { IServicePointInfoProps } from '../types';
-
-interface IUserDataProps {
-    id: number;
-    name: string;
-    email: string;
-    phone: string;
-    role: string[];
-    status: string;
-    address?: string;
-    cityId?: number;
-    districtId?: number;
-};
-
-interface ITableBodyProps {
-    tableData: IServicePointInfoProps[] | IUserDataProps[];
-    tableDataCount: number;
-};
+import type { ITableBodyProps } from '../types';
 
 const TableBody: React.FC<ITableBodyProps> = ({ tableData, tableDataCount }: ITableBodyProps) => {
     const dispatch = useDispatch();
@@ -56,7 +39,7 @@ const TableBody: React.FC<ITableBodyProps> = ({ tableData, tableDataCount }: ITa
     };
 
     return (
-        <tbody className={`${BRAND_PREFIX}-service-points-table-body bg-white divide-y divide-gray-200 text-black`}>
+        <tbody className={`${BRAND_PREFIX}-table-body bg-white divide-y divide-gray-200 text-black`}>
             {
                 tableDataCount > 0 &&
                 [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(((index: number) => {
@@ -65,16 +48,16 @@ const TableBody: React.FC<ITableBodyProps> = ({ tableData, tableDataCount }: ITa
                             <td className="px-4 py-2">
                                 {
                                     tableData[index]?.name && (
-                                        <div className={`${BRAND_PREFIX}-service-point-item-information-container h-full flex items-center`}>
-                                            <div className={`${BRAND_PREFIX}-service-point-status-container`}>
+                                        <div className={`${BRAND_PREFIX}-table-body-item-information-container h-full flex items-center`}>
+                                            <div className={`${BRAND_PREFIX}-table-body-item-status-container`}>
                                                 {
                                                     // TODO: We change this column to show the status of the service point from charge units
-                                                    <div className='text-red-500 text-2xl'>
+                                                    <div className={`${BRAND_PREFIX}-table-body-item-status text-red-500 text-2xl`}>
                                                         <FaExclamation />
                                                     </div>
                                                 }
                                             </div>
-                                            <div className={`${BRAND_PREFIX}-service-point-name`}>
+                                            <div className={`${BRAND_PREFIX}-item-information-name`}>
                                                 {tableData[index]?.name || ''}
                                             </div>
                                         </div>
@@ -136,10 +119,10 @@ const TableBody: React.FC<ITableBodyProps> = ({ tableData, tableDataCount }: ITa
                                 (tableData[index])?.role &&
                                 (tableData[index])?.status && (
                                     <>
-                                        <td className="px-4 py-2 text-center">{(tableData[index] as IUserDataProps).email || tableData[index].phone}</td>
+                                        <td className="px-4 py-2 text-center">{(tableData[index]).email || tableData[index].phone}</td>
                                         <td className="px-4 py-2 text-center flex w-full flex-wrap">
                                             {
-                                                (tableData[index] as IUserDataProps).role.map((role: string, index: number) => (
+                                                tableData[index].role.map((role: string, index: number) => (
                                                     <div className={`border rounded text-bold px-2 mx-2 my-2 w-[100px] ${role === 'Admin'
                                                         ? 'bg-green-300 text-green-800 border-green-300'
                                                         : (role === 'Employee'
@@ -151,7 +134,7 @@ const TableBody: React.FC<ITableBodyProps> = ({ tableData, tableDataCount }: ITa
                                             }
 
                                         </td>
-                                        <td className="px-4 py-2 text-center">{(tableData[index] as IUserDataProps).status || ''}</td>
+                                        <td className="px-4 py-2 text-center">{(tableData[index]).status || ''}</td>
                                         <td className="px-4 py-4">
                                             {
                                                 tableData[index]?.name && (
