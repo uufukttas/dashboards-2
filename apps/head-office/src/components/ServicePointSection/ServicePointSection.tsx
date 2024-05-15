@@ -84,6 +84,7 @@ const ServicePointSection: React.FC = () => {
     <div className={`${BRAND_PREFIX}-service-points-container flex justify-between items-center flex-col`}>
       <div className={`${BRAND_PREFIX}-service-point-listing-container flex items-center w-full`}>
         <Table
+          attributeName="service-point"
           searchedText={searchedText}
           tableData={servicePointsData}
           tableDataCount={servicePointsCount}

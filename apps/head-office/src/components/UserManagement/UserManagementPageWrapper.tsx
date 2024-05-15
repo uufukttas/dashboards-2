@@ -23,7 +23,7 @@ const UserManagement: React.FC = () => {
     }, []);
 
     return (
-        <div className={`${montserrat.className} ${BRAND_PREFIX}-service-points-page-wrapper w-full flex h-screen`}>
+        <div className={`${montserrat.className} ${BRAND_PREFIX}-user-management-page-wrapper w-full flex h-screen`}>
             {
                 isLoading
                     ? (
@@ -31,7 +31,7 @@ const UserManagement: React.FC = () => {
                     )
                     : (
                         <MainPage sectionName='Kullanici Yonetimi'>
-                            <div className={`${BRAND_PREFIX}-service-points-page-container flex justify-center items-center md:pt-6 flex-wrap`}>
+                            <div className={`${BRAND_PREFIX}-usermanagement-page-container justify-center items-center md:pt-6 flex-wrap`}>
                                 <UserManagementSection />
                             </div>
                         </MainPage>

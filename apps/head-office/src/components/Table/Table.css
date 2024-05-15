@@ -12,7 +12,6 @@ tr {
   height: 10%;
   max-height: 85px !important;
 }
-
 tr:nth-child(even) {
   background-color: #eeeeee;
 }

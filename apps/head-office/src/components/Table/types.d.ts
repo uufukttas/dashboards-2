@@ -3,7 +3,7 @@ interface IUserDataProps {
     name: string;
     email: string;
     phone: string;
-    role: string[];
+    roles: string[];
     status: string;
     address?: string;
     cityId?: number;
@@ -25,11 +25,12 @@ export interface IServicePointInfoProps {
     phone?: string | null | undefined;
     type?: string | null | undefined;
     email?: string;
-    role: string[] | [];
+    roles: string[] | [];
     status?: string;
 };
 
 export interface ITableBodyProps {
+    attributeName: string;
     tableData: IServicePointInfoProps[] | IUserDataProps[];
     tableDataCount: number;
 };
@@ -40,6 +41,7 @@ export interface ITableHeaderProps {
 };
 
 export interface ITableProps {
+    attributeName: string;
     searchedText: string;
     tableData: IServicePointInfoProps[] | IUserDataProps[];
     tableDataCount: number;

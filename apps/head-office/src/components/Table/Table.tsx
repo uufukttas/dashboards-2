@@ -7,7 +7,7 @@ import type { ITableProps } from './types';
 import './Table.css';
 
 const Table: React.FC<ITableProps> = ({
-  searchedText, tableData, tableDataCount, tableHeadData, setSearchedText
+  attributeName, searchedText, tableData, tableDataCount, tableHeadData, setSearchedText
 }: ITableProps) => {
   const tablePrefix = `${BRAND_PREFIX}-table`;
 
@@ -23,6 +23,7 @@ const Table: React.FC<ITableProps> = ({
             tableHeadData={tableHeadData}
           />
           <TableBody
+            attributeName={attributeName}
             tableData={tableData}
             tableDataCount={tableDataCount}
           />

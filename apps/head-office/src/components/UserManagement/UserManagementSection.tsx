@@ -10,7 +10,7 @@ interface IUserDataProps {
     name: string;
     email: string;
     phone: string;
-    role: string[];
+    roles: string[];
     status: string;
     address?: string;
     cityId?: number;
@@ -27,14 +27,14 @@ const UserManagementSection: React.FC = () => {
             name: 'John Doe',
             email: 'john@doe.com',
             phone: '1234567890',
-            role: ['Admin', 'User', 'Guest'],
+            roles: ['Admin', 'User', 'Guest'],
             status: 'Active',
         }, {
             id: 2,
             name: 'Jane Doe',
             email: 'jane@doe.com',
             phone: '0987654321',
-            role: ['User', 'Employee'],
+            roles: ['User', 'Employee'],
             status: 'Active',
         }
     ];
@@ -44,12 +44,13 @@ const UserManagementSection: React.FC = () => {
     }, []);
 
     return (
-        <div className={`${BRAND_PREFIX}-service-points-container flex justify-between items-center flex-col`}>
-            <div className={`${BRAND_PREFIX}-service-point-listing-container flex items-center w-full`}>
+        <div className={`${BRAND_PREFIX}-user-management-table-container flex justify-between items-center flex-col`}>
+            <div className={`${BRAND_PREFIX}-user-management-listing-container flex items-center w-full`}>
                 <Table
+                    attributeName='user-management'
                     searchedText={searchedText}
                     tableData={userData}
-                    tableDataCount= {userData.length}
+                    tableDataCount={userData.length}
                     tableHeadData={['Name', 'Phone/Email', 'Role', 'Status', 'Actions']}
                     setSearchedText={setSearchedText}
                 />
