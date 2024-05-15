@@ -29,6 +29,10 @@ export interface IServicePointInfoProps {
     status?: string;
 };
 
+export interface ITableActionsProps {
+    tableCellData: IServicePointInfoProps | IUserDataProps;
+};
+
 export interface ITableBodyProps {
     attributeName: string;
     tableData: IServicePointInfoProps[] | IUserDataProps[];
@@ -47,4 +51,10 @@ export interface ITableProps {
     tableDataCount: number;
     tableHeadData: string[];
     setSearchedText: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export interface ITableRowProps {
+    attributeName: string;
+    tableRowData: IServicePointInfoProps | IUserDataProps;
+    index: number;
 };

@@ -3,6 +3,7 @@ const { join } = require('path');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  mode: 'jit',
   content: [
     "../../node_modules/flowbite-react/lib/**/*.js",
     join(
@@ -29,6 +30,10 @@ module.exports = {
       success: '#03543F',
       info: '#1E429F',
       warning: '#723B13',
+      admin: 'red',
+      guest: 'blue',
+      employee: 'green',
+      manager: 'yellow',
     }
   },
   plugins: [
