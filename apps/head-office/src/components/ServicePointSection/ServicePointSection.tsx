@@ -19,6 +19,7 @@ import { setServicePointData } from '../../../app/redux/features/servicePointDat
 import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
 import { RootState, AppDispatch } from '../../../app/redux/store';
 import type { IGetServicePointsProps, IResponseDataProps } from './types';
+import './ServicePointSection.css';
 
 const ServicePointSection: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();

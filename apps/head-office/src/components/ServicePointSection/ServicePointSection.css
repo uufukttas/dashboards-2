@@ -1,0 +1,26 @@
+.sh-table-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@media screen and (max-width: 480px) {
+  .sh-service-points-container {
+    min-width: 300px;
+  }
+  td {
+    width: 50%;
+  }
+}
+@media screen and (min-width: 480px) and (max-width: 768px) {
+  .sh-service-points-container {
+    min-width: 100%;
+  }
+  td {
+    width: 33.3333333333%;
+  }
+}
+@media screen and (min-width: 768px) {
+  .sh-service-points-container {
+    min-width: 100%;
+  }
+}
