@@ -1,4 +1,6 @@
-.sh-page-container {
+@import "../../constants/variables";
+
+.#{$brand-prefix}-page-container {
   overflow-y: scroll;
   overflow-x: hidden;
 
@@ -13,15 +15,15 @@
 }
 
 @media screen and (max-width: 767px) {
-  .sh-page-container {
+  .#{$brand-prefix}-page-container {
     width: 100%;
   }
 
-  .expanded ~ .sh-page-container {
+  .expanded ~ .#{$brand-prefix}-page-container {
     animation: collapse 1s forwards;
   }
 
-  .collapsed ~ .sh-page-container {
+  .collapsed ~ .#{$brand-prefix}-page-container {
     animation: expand 1s forwards;
   }
 
@@ -47,15 +49,15 @@
 }
 
 @media screen and (min-width: 768px) and (max-width: 1279px) {
-  .sh-page-container {
+  .#{$brand-prefix}-page-container {
     width: 100%;
   }
 
-  .expanded ~ .sh-page-container {
+  .expanded ~ .#{$brand-prefix}-page-container {
     animation: collapse 1s forwards;
   }
 
-  .collapsed ~ .sh-page-container {
+  .collapsed ~ .#{$brand-prefix}-page-container {
     animation: expand 1s forwards;
   }
 
@@ -81,7 +83,7 @@
 }
 
 @media screen and (min-width: 1280px) {
-  .sh-page-container {
+  .#{$brand-prefix}-page-container {
     width: 100% !important;
   }
 }

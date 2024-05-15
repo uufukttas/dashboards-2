@@ -8,10 +8,12 @@ import type { IMainPageProps } from './types';
 import './MainPage.css';
 
 const MainPage: React.FC<IMainPageProps> = ({ children, sectionName }: IMainPageProps) => {
+  const pagePrefix = `${BRAND_PREFIX}-page`;
+
   return (
-    <div className={`${BRAND_PREFIX}-page-wrapper w-full flex`}>
+    <div className={`${pagePrefix}-wrapper w-full flex`}>
       <Sidebar />
-      <div className={`${BRAND_PREFIX}-page-container bg-white overflow-x-hidden no-scrollbar`}>
+      <div className={`${pagePrefix}-container bg-white overflow-x-hidden no-scrollbar`}>
         <Header className={`h-[80px] flex items-center w-full`} />
         <Section sectionName={sectionName}>
           {children}
