@@ -1,3 +1,5 @@
-.sh-background-container {
+@import "../../constants/variables.scss";
+
+.#{$brand-prefix}-background-container {
   background-size: cover;
 }
