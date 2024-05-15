@@ -3,8 +3,9 @@ import type { IModalBodyProps } from '../types';
 import '../Modal.css';
 
 const ModalBody = ({ children }: IModalBodyProps) => {
+    const modalBodyContentPrefix = `${BRAND_PREFIX}-modal-content`;
     return (
-        <div className={`${BRAND_PREFIX}-modal-content-container relative bg-white rounded-lg`}>
+        <div className={`${modalBodyContentPrefix}-container relative bg-white rounded-lg`}>
             {children}
         </div>
     );
