@@ -18,7 +18,7 @@ const FormElement = ({
     const getDisplayName = (type: string): string => type === loginFormInputs[0] ? 'Kullanıcı Adı' : 'Şifre';
 
     return (
-        <div className={`${BRAND_PREFIX}-${loginFormInput}-input-container mb-4`} key={index} >
+        <div className={`${BRAND_PREFIX}-${loginFormInput}-input-container mb-4`} key={index}>
             <Label
                 className={`${BRAND_PREFIX}-${loginFormInput}-label block text-sm font-medium text-gray-600`}
                 htmlFor={loginFormInput}

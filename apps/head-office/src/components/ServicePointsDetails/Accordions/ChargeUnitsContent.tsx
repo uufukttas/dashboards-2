@@ -210,7 +210,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
             })
         );
         setSelectedBrand(parseInt(chargeUnitId || '0'));
-        dispatch(toggleModalVisibility());
+        dispatch(toggleModalVisibility(false));
     };
     const prepareTime = (date: string | null) => {
         if (date === null) {

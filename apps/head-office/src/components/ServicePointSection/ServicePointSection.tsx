@@ -45,6 +45,7 @@ const ServicePointSection: React.FC = () => {
   const getAllServicePoints = async (): Promise<void> => {
     try {
       const response = await getAllServicePointsRequest(currentPage, searchedText);
+
       handleGetServicePointSuccess(response);
     } catch (error) {
       console.error(error);
@@ -53,7 +54,7 @@ const ServicePointSection: React.FC = () => {
   const handleCloseModal = (): void => {
     dispatch(setServicePointData(initialServicePointDataValues));
     dispatch(setServicePointInformation(initialServicePointInformationValue));
-    dispatch(toggleModalVisibility());
+    dispatch(toggleModalVisibility(false));
   };
   const handleDeleteSuccess = (data: IResponseDataProps): void => {
     dispatch(
@@ -67,7 +68,7 @@ const ServicePointSection: React.FC = () => {
       dispatch(hideAlert());
     }, 5000);
   };
-  const handleGetServicePointSuccess = (response: IGetServicePointsProps) => {
+  const handleGetServicePointSuccess = (response: IGetServicePointsProps): void => {
     dispatch(setServicePoints(response));
     dispatch(toggleServicePointDataUpdated(false));
     dispatch(toggleLoadingVisibility(false));
