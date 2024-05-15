@@ -1,6 +1,8 @@
+@import "../../constants/variables";
+
 /* Mobil cihazlar için */
 @media only screen and (max-width: 767px) {
-  .sh-sidebar-container {
+  .#{$brand-prefix}-sidebar-container {
     width: 0;
     overflow: hidden;
   }
@@ -37,7 +39,7 @@
 
 /* Tablet cihazlar için */
 @media only screen and (min-width: 768px) and (max-width: 1279px) {
-  .sh-sidebar-container {
+  .#{$brand-prefix}-sidebar-container {
     width: 0;
     overflow: hidden;
   }
@@ -74,11 +76,11 @@
 
 /* Masaüstü cihazlar için */
 @media only screen and (min-width: 1280px) {
-  .sh-sidebar-header-logo {
+  .#{$brand-prefix}-sidebar-header-logo {
     height: 80px;
   }
 
-  .sh-sidebar-container {
+  .#{$brand-prefix}-sidebar-container {
     overflow: hidden;
     width: 4%;
     img {

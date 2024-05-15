@@ -8,6 +8,7 @@ import { RootState } from '../../../app/redux/store';
 import './Sidebar.css';
 
 const Sidebar: React.FC = () => {
+  const sidebarPrefix = `${BRAND_PREFIX}-sidebar`;
   const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
   const [isDetectedDevice, setIsDetectedDevice] = useState<boolean>(false);
 
@@ -18,7 +19,7 @@ const Sidebar: React.FC = () => {
   return (
     isDetectedDevice && (
       <div
-        className={`${BRAND_PREFIX}-sidebar-container border-r border-gray-300 flex flex-col justify-between bg-background ${
+        className={`${sidebarPrefix}-container border-r border-gray-300 flex flex-col justify-between bg-background ${
           isSidebarExpanded !== null && (
             isSidebarExpanded
               ? 'expanded'

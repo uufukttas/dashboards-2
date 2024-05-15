@@ -10,26 +10,27 @@ import { toggleSidebarExpanded } from '../../../../app/redux/features/isSidebarE
 import { RootState } from '../../../../app/redux/store';
 
 const SidebarHeader: React.FC = () => {
+    const sidebarHeaderPrefix = `${BRAND_PREFIX}-sidebar-header`;
     const dispatch = useDispatch();
     const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
 
     return (
-        <div className={`${BRAND_PREFIX}-sidebar-header-container flex items-center justify-between h-[80px]`}>
-            <div className={`${BRAND_PREFIX}-sidebar-header-logo-container`}>
+        <div className={`${sidebarHeaderPrefix}-container flex items-center justify-between h-[80px]`}>
+            <div className={`${sidebarHeaderPrefix}-logo-container`}>
                 <Link href="/dashboards">
                     <Image
                         alt={userInfo.name}
-                        className={`${BRAND_PREFIX}-sidebar-header-logo`}
+                        className={`${sidebarHeaderPrefix}-logo`}
                         src={userInfo.logo}
                     />
                 </Link>
             </div>
             {
                 detectDevice().isMobile === true && (
-                    <div className={`${BRAND_PREFIX}-sidebar-header-close-container mx-4`}>
+                    <div className={`${sidebarHeaderPrefix}-close-container mx-4`}>
                         <Button
-                            className={`${BRAND_PREFIX}-sidebar-header-close-button`}
-                            id={`${BRAND_PREFIX}-sidebar-header-close-button`}
+                            className={`${sidebarHeaderPrefix}-close-button`}
+                            id={`${sidebarHeaderPrefix}-close-button`}
                             type="button"
                             onClick={() => dispatch(toggleSidebarExpanded(isSidebarExpanded))}
                         >
