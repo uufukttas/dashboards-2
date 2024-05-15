@@ -1,19 +1,6 @@
-$borderColor: #000000;
-$borderFocusColor: #FFCE0B;
-$borderColor: #000000;
-$borderRadius: 6px;
-$buttonBackgroundColor: #FFCE0B;
-$buttonHoverBackgroundColor: #FFCC00B3;
-$fontColor: #000000;
-$fontSize: 16px;
-$inputBackgroundColor: #FFFFFF;
-$loginBackgroundColor: #FFFFFF;
-$loginBackgroundImage:  ""; //"";
-$loginFormBackgroundColor: #54565A;
-$loginFormBackgroundImage: "";
-$loginPageBackgroundImage: "https://ho.sharz.net/images/theme/5000/background.jpg";
+@import "../../constants/variables";
 
-.sh-background-container {
+.#{$brand-prefix}-background-container {
     @if loginPageBackgroundImage {
         background-image: url($loginPageBackgroundImage);
     } @else {
@@ -21,7 +8,7 @@ $loginPageBackgroundImage: "https://ho.sharz.net/images/theme/5000/background.jp
     }
 }
 
-.sh-card-container {
+.#{$brand-prefix}-card-container {
     @if $loginBackgroundImage != "" {
       background-image: url($loginBackgroundImage);
     } @else {
