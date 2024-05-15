@@ -1,17 +1,19 @@
-.sh-accordion-content-container {
+@import '../../constants/variables.scss'; 
+
+.#{$brand-prefix}-accordion-content-container {
   border-color: #CCCCCC;
 
-  .sh-accordion-header {
+  .#{$brand-prefix}-accordion-header {
     display: flex;
     align-items: center;
     padding: 10px;
     cursor: pointer;
     user-select: none;
 
-    .sh-accordion-title {
+    .#{$brand-prefix}-accordion-title {
       flex: 1;
     }
-    .sh-accordion-arrow {
+    .#{$brand-prefix}-accordion-arrow {
       width: 0;
       height: 0;
       border-left: 5px solid transparent;
@@ -25,7 +27,7 @@
     }
   }
 
-  .sh-accordion-content {
+  .#{$brand-prefix}-accordion-content {
     -ms-overflow-style: none;
     scrollbar-width: none;
     transition: max-height 0.3s ease, opacity 0.3s ease;
