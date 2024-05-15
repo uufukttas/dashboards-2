@@ -2,9 +2,10 @@ import React from 'react';
 import { BRAND_PREFIX } from '../../../constants/constants';
 
 const TableHead: React.FC<{tableHeadData: string[]}> = ({ tableHeadData }: { tableHeadData: string[] }) => {
+    const tableHeadPrefix = `${BRAND_PREFIX}-table-head`
 
     return (
-        <thead className={`${BRAND_PREFIX}-service-points-table-head text-xs text-gray-700 uppercase bg-gray-50`}>
+        <thead className={`${tableHeadPrefix} text-xs text-gray-700 uppercase bg-gray-50`}>
             <tr>
                 {
                     tableHeadData.map((tableHeadItem: string, index: number) => (

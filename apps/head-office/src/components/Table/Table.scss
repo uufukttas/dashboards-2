@@ -1,12 +1,6 @@
-.sh-table-container {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
 table {
   min-height: 850px;
 }
-
 
 td {
   width: calc(100% / 6);
@@ -19,33 +13,6 @@ tr {
   max-height: 85px !important;
 
   &:nth-child(even) {
-   
-    background-color: #EEEEEE;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .sh-service-points-container {
-    min-width: 300px;
-  }
-
-  td {
-    width: calc(100% / 2);
-  }
-}
-
-@media screen and (min-width: 480px) and (max-width: 768px) {
-  .sh-service-points-container {
-    min-width: 100%;
-  }
-
-  td {
-    width: calc(100% / 3);
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .sh-service-points-container {
-    min-width: 100%;
+    background-color: #eeeeee;
   }
 }

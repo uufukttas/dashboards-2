@@ -6,15 +6,19 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import type { ITableProps } from './types';
 import './Table.css';
 
-const Table: React.FC<ITableProps> = ({ searchedText, tableData, tableDataCount, tableHeadData, setSearchedText }: ITableProps) => {
+const Table: React.FC<ITableProps> = ({
+  searchedText, tableData, tableDataCount, tableHeadData, setSearchedText
+}: ITableProps) => {
+  const tablePrefix = `${BRAND_PREFIX}-table`;
+
   return (
-    <div className={`${BRAND_PREFIX}-service-points-table-container relative overflow-x-auto shadow-md max-w-[330px] md:max-w-full w-full border-2 border-gray-200`}>
+    <div className={`${tablePrefix}-container relative overflow-x-auto shadow-md max-w-[330px] md:max-w-full w-full border-2 border-gray-200`}>
       <TableHeader
         searchedText={searchedText}
         setSearchedText={setSearchedText}
       />
-      <div className={`${BRAND_PREFIX}-service-points-table-content-container border-r-0 border-l-0`}>
-        <table className={`${BRAND_PREFIX}-service-points-table w-full text-sm text-left rtl:text-right text-gray-500`}>
+      <div className={`${tablePrefix}-content-container border-r-0 border-l-0`}>
+        <table className={`${tablePrefix} w-full text-sm text-left rtl:text-right text-gray-500`}>
           <TableHead
             tableHeadData={tableHeadData}
           />
