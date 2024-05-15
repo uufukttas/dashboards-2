@@ -1,4 +1,6 @@
-.sh-service-point-details-page-navbar-container {
+@import "../../constants/variables";
+
+.#{$brand-prefix}-navbar-container {
   position: relative;
   height: 35px;
   background-color: #656567;

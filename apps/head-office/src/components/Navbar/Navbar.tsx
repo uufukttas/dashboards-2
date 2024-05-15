@@ -68,19 +68,19 @@ const Navbar: React.FC<INavbarProps> = ({ activeIndex, setActiveIndex }: INavbar
       ),
     },
   ];
-
+  const navbarPrefix = `${BRAND_PREFIX}-navbar`;
   return (
-    <nav className={`${BRAND_PREFIX}-service-point-details-page-navbar-container flex items-center`}>
+    <nav className={`${navbarPrefix}-container flex items-center`}>
       {
         navbarItems.map((item: INavbarItemProps, index: number) => (
           <Button key={index}
-            className={`${BRAND_PREFIX}-navbar-item px-4 py-0 w-1/6 flex justify-center items-center text-2xl ${
+            className={`${navbarPrefix}-item px-4 py-0 w-1/6 flex justify-center items-center text-2xl ${
               activeIndex === index
                 ? 'active'
                 : ''
               }`
             }
-            id={`${BRAND_PREFIX}-navbar-item-${index}`}
+            id={`${navbarPrefix}-item-${index}`}
             type="button"
             onClick={() => setActiveIndex(index)}
           >
