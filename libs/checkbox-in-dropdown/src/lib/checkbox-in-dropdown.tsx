@@ -28,7 +28,7 @@ export function CheckboxInDropdown({ className, id, inputName, items, onChange }
     const newItems = items.map((i) => {
 
       if (i.id !== null) {
-        if (i.id === item.id || i.rid === item.rid) {
+        if (i.id === item.id) {
           return { ...i, isChecked: !i.isChecked };
         }
       } else {
