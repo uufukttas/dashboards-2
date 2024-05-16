@@ -1,39 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { initialServicePointDataValue, initialServicePointsDetailsInfoStateValue } from '../constants';
 import { CITIES, DISTRICTS } from '../../../constants/constants';
+import { getSelectedStationFeatures } from '../../../../app/api/servicePointDetails/index';
+import { getServicePointDataRequest, getServicePointInformationRequest } from '../../../../app/api/servicePoints/index';
+import { getServicePointFeatureValues } from '../../../../app/api/servicePointDetails/getFeatureValuesRequest';
 import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
-import type { IFeatureProps, IServiceDetailsContentProps, IServicePointsDetailsInfoProps, IServicePointsDetailsProps } from '../types';
+import type {
+    IFeatureValueProps,
+    IServiceDetailsContentProps,
+    IServicePointsDetailsInfoProps,
+    IServicePointsDetailsProps
+} from '../types';
 
 const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slug }: IServiceDetailsContentProps) => {
-    const initialServicePointsDetailsInfoStateValue = {
-        address: '',
-        addressDetail: '',
-        cityId: 0,
-        districtId: 0,
-        id: 0,
-        lat: 0,
-        lon: 0,
-        phone1: '',
-        phone2: '',
-        stationId: 0,
-    };
-    const initialServicePointDataValue = {
-        id: 0,
-        name: '',
-        companyId: 1,
-        companyName: '',
-        resellerCompanyId: 0,
-        resellerName: '',
-        isActive: true,
-        isDeleted: false
-    }
     const sectionPrefix = 'service-point-details';
-    const dispatch = useDispatch();
     const [features, setFeatures] = useState<{ StationFeatureType: number; StationFeatureValue: string }[]>([]);
-    const [opportunitiesFeatureName, setOpportunitiesFeatureName] = useState<string[]>();
+    const [opportunitiesFeatureName, setOpportunitiesFeatureName] = useState<string | null[]>();
     const [parkingFeatureValue, setParkingFeatureValue] = useState<string>();
-    const [paymentFeatureName, setPaymentFeatureName] = useState<string[]>();
+    const [paymentFeatureName, setPaymentFeatureName] = useState<string | null[]>();
     const [servicePointDetailsInfo, setServicePointDetailsInfo] =
         useState<IServicePointsDetailsInfoProps>(
             initialServicePointsDetailsInfoStateValue
@@ -44,98 +28,45 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
     };
     const getSelectedCity = (cityId: number) => CITIES[cityId?.toString()];
     const getSelectedDistrict = (districtId: number) => DISTRICTS[districtId?.toString()];
-    const getSelectedOpportunitiesName = async () => {
+    const getSelectedOpportunitiesName = async (): Promise<void> => {
         const opportunities = features.filter((feature) => feature.StationFeatureType === 2);
+        const opportunitiesFeatureValues = await getServicePointFeatureValues(2);
 
-        await axios
-            .post(
-                process.env.GET_FEATURE_VALUES || '',
-                JSON.stringify({ stationFeatureType: 2 }),
-                { headers: { 'Content-Type': 'application/json' } }
-            )
-            .then((response) => response.data)
-            .then((data) => {
+        const selectedOpportunities = opportunitiesFeatureValues.data
+            .filter((item: IFeatureValueProps) => {
+                return opportunities.some(opportunity => item.rid === Number(opportunity.StationFeatureValue))
+            })
+            .map((item: IFeatureValueProps) => item.name);
 
-                const selectedOpportunities = data.data
-                    .filter((item: IFeatureProps) =>
-                        opportunities.some(opportunity => item.rid === Number(opportunity.StationFeatureValue)))
-                    .map((item: IFeatureProps) => item.name);
-
-                setOpportunitiesFeatureName(selectedOpportunities.join(', '));
-            });
+        setOpportunitiesFeatureName(selectedOpportunities.join(', '));
     };
-    const getSelectedPaymentsMethodsName = async () => {
+    const getSelectedPaymentsMethodsName = async (): Promise<void> => {
         const paymentMethods = features.filter((feature) => feature.StationFeatureType === 1);
+        const paymentsFeatureValues = await getServicePointFeatureValues(1);
 
-        await axios
-            .post(
-                process.env.GET_FEATURE_VALUES || '',
-                JSON.stringify({ stationFeatureType: 1 }),
-                { headers: { 'Content-Type': 'application/json' } }
-            )
-            .then((response) => response.data)
-            .then((data) => {
+        const selectedPaymentMethodNames = paymentsFeatureValues.data
+            .filter((item: IFeatureValueProps) =>
+                paymentMethods.some(paymentMethod => item.rid === Number(paymentMethod.StationFeatureValue)))
+            .map((item: IFeatureValueProps) => item.name);
 
-                const selectedPaymentMethodNames = data.data
-                    .filter((item: IFeatureProps) =>
-                        paymentMethods.some(paymentMethod => item.rid === Number(paymentMethod.StationFeatureValue)))
-                    .map((item: IFeatureProps) => item.name);
+        setPaymentFeatureName(selectedPaymentMethodNames.join(', '));
 
-                setPaymentFeatureName(selectedPaymentMethodNames.join(', '));
-            });
     };
-    const getServicePointsDetailsInfo = async (slug: string) => {
-        axios
-            .post(
-                process.env.GET_STATION_INFO_BY_ID || '',
-                JSON.stringify({ stationId: Number(slug) }),
-                { headers: { 'Content-Type': 'application/json' } }
-            )
-            .then((response) => response.data)
-            .then((data) => {
-                data.data[0] && setServicePointDetailsInfo(data.data[0]);
-            })
-            .catch((error) => console.log(error));
+    const getServicePointsDetailsInfo = async (slug: string): Promise<void> => {
+        const stationInfo = await getServicePointInformationRequest(Number(slug));
+
+        stationInfo.data[0] && setServicePointDetailsInfo(stationInfo.data[0]);
     };
-    const getServicePointData = async (slug: string) => {
-        axios
-            .post(
-                process.env.GET_STATION_BY_ID || '',
-                JSON.stringify({ id: Number(slug) }),
-                { headers: { 'Content-Type': 'application/json' } }
-            )
-            .then((response) => response.data)
-            .then((data) => {
-                data.data && setServicePointData(data.data[0]);
-            })
+    const getServicePointData = async (slug: string): Promise<void> => {
+        const stationData = await getServicePointDataRequest(Number(slug));
+
+        stationData.data && setServicePointData(stationData.data[0]);
     };
-    const getServicePointFeatures = async (slug: string) => {
-        axios
-            .post(
-                process.env.GET_STATION_SELECTED_FEATURES || '',
-                JSON.stringify(
-                    {
-                        featureTypeModel: [
-                            {
-                                featureType: 1
-                            },
-                            {
-                                featureType: 2
-                            },
-                            {
-                                featureType: 8
-                            }
-                        ],
-                        stationId: slug
-                    }
-                ),
-                { headers: { 'Content-Type': 'application/json' } }
-            )
-            .then((response) => response.data)
-            .then((response) => {
-                setFeatures(response.data);
-                toggleLoadingVisibility(false);
-            });
+    const getServicePointFeatures = async (slug: string): Promise<void> => {
+        const featureData = await getSelectedStationFeatures(Number(slug));
+
+        setFeatures(featureData.data);
+        toggleLoadingVisibility(false);
     };
 
     useEffect(() => {

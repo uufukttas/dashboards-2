@@ -162,6 +162,10 @@ export interface IInvestorsProps {
   name: string,
   rid: null;
 };
+export interface IFeatureValueProps {
+  name: string;
+  rid: number;
+};
 export interface IServicePointsDetailsProps {
   name: string;
   id: number;
