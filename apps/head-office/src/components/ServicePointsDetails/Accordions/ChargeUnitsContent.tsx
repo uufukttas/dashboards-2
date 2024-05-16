@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
 import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import ConnectorInfo from './ConnectorInfo';
+import {
+    getChargePointFeatureStatus,
+    getChargePointInvestors,
+    getChargeUnitFeatureValuesRequest,
+    getConnectorModels
+} from '../../../../app/api/servicePointDetails';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { showDialog } from '../../../../app/redux/features/dialogInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
@@ -83,47 +88,31 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
         return chargeUnits.filter(chargeUnit => chargeUnit.chargePointId === chargeUnitId);
     };
     const getChargeUnitLocation = async (chargePointId: string) => {
-        const location = await axios
-            .post(
-                process.env.GET_CHARGE_POINT_STATION_FEATURE || '',
-                { "StationChargePointID": Number(chargePointId) },
-                { headers: { 'Content-Type': 'application/json' } }
-            );
+        const location = await getChargeUnitFeatureValuesRequest(chargePointId);
 
-        return location.data.data[2].stationChargePointFeatureTypeValue;
+        return location.data[2].stationChargePointFeatureTypeValue;
     };
     const getChargeUnitStatus = (date: string) => {
         return new Date(date).getTime() > new Date().getTime() - (10 * 10 * 60 * 10 * 15);
     };
-    const getConnectorTypes = () => {
-        axios
-            .post(
-                process.env.GET_CONNECTOR_MODELS || '',
-                { brandId: selectedBrand },
-                { headers: { 'Content-Type': 'application/json' } }
-            )
-            .then(response => {
-                setConnectorTypes(response.data.data);
-                createConnectorDropdownItems();
-            });
-    };
-    const getStationFeaturesId = async (chargePointId: number) => {
-        try {
-            const data = await axios
-                .post(
-                    process.env.GET_CHARGE_POINT_STATION_FEATURE || '',
-                    { StationChargePointID: Number(chargePointId) },
-                    { headers: { 'Content-Type': 'application/json' } }
-                );
+    const getConnectorTypes = async () => {
+        const response = await getConnectorModels(selectedBrand.toString());
 
-            return data.data;
+        setConnectorTypes(response.data);
+        createConnectorDropdownItems();
+    };
+    const getStationFeaturesId = async (chargePointId: string) => {
+        try {
+            const data = await getChargeUnitFeatureValuesRequest(chargePointId);
+
+            return data;
         } catch (error) {
             return error;
         }
     };
     const getGetChargePointFeaturesStatus = async (status: string, accessType: string) => {
         try {
-            const { data: { data } } = await axios.get(process.env.GET_CHARGE_POINT_FEATURES || '');
+            const data = await getChargePointFeatureStatus();
 
             const statusIds = data.statusList.filter((statusItem: IStatusListItemProps) => {
                 return statusItem.name.toLowerCase() === status.toLowerCase();
@@ -143,19 +132,15 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
     };
     const getInvestorId = async (investorName: string) => {
         try {
-            const investor = await axios
-                .get(process.env.GET_INVESTORS || '')
-                .then((response) => response.data)
-                .then((response) => {
-                    return response.data.filter((investor: IInvestorsProps) => {
-                        if (investor.name.toLowerCase() === investorName.toLowerCase()) {
-                            return investor.id;
-                        };
-                    });
-                })
-                .catch((error) => console.log(error));
+            const investors = await getChargePointInvestors();
 
-            return investor[0].id;
+            investors.data.filter((investor: IInvestorsProps) => {
+                if (investor.name.toLowerCase() === investorName.toLowerCase()) {
+                    return investor.id;
+                };
+            });
+
+            return investors[0].id;
         } catch (error) {
             console.log(error);
         };
@@ -163,7 +148,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
     const handleDelete = async (event: React.MouseEvent) => {
         const chargePointId = event.currentTarget.getAttribute(`data-charge-point-id`) || '0';
 
-        const featuresData: IGetChargePointStationFeatureResponse = await getStationFeaturesId(parseInt(chargePointId));
+        const featuresData: IGetChargePointStationFeatureResponse = await getStationFeaturesId(chargePointId);
         const features = featuresData.data;
 
         const deletedChargeUnit = chargeUnits.filter(chargeUnit => chargeUnit.chargePointId === Number(chargePointId));

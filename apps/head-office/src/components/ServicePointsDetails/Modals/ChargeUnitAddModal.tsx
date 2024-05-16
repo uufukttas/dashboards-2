@@ -8,6 +8,7 @@ import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../../constants/constants';
+import { getChargeUnitDeviceCode, getChargeUnitFeatureValuesRequest } from '../../../../app/api/servicePointDetails';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { toggleChargePointDataUpdated } from '../../../../app/redux/features/isChargePointDataUpdated';
@@ -82,26 +83,18 @@ const ChargeUnitAddModal = ({
   };
   const getChargePointCode = async () => {
     try {
-      const response = await axios
-        .post(
-          process.env.GET_DEVICE_CODE || '',
-          JSON.stringify({ "stationID": Number(slug) }),
-          { headers: { 'Content-Type': 'application/json' } }
-        );
+      const response = await getChargeUnitDeviceCode(slug);
 
-      return response.data;
+      return response;
     } catch (error) {
       return error;
     }
   };
-  const getStationFeaturesId = async (chargePointId: number) => {
+  const getStationFeaturesId = async (chargePointId: string) => {
     try {
-      const response = await axios.post(
-        process.env.GET_CHARGE_POINT_STATION_FEATURE || '',
-        JSON.stringify({ StationChargePointID: chargePointId }),
-        { headers: { 'Content-Type': 'application/json' } }
-      );
-      return response.data.data;
+      const response = await getChargeUnitFeatureValuesRequest(chargePointId);
+
+      return response.data;
     } catch (error) {
       console.error(error);
       throw error;
