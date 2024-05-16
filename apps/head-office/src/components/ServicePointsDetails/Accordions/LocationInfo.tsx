@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { initialServicePointDataValue, initialServicePointsDetailsInfoStateValue } from '../constants';
 import { CITIES, DISTRICTS } from '../../../constants/constants';
 import { getSelectedStationFeatures } from '../../../../app/api/servicePointDetails/index';
@@ -14,6 +15,7 @@ import type {
 
 const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slug }: IServiceDetailsContentProps) => {
     const sectionPrefix = 'service-point-details';
+    const dispatch = useDispatch();
     const [features, setFeatures] = useState<{ StationFeatureType: number; StationFeatureValue: string }[]>([]);
     const [opportunitiesFeatureName, setOpportunitiesFeatureName] = useState<string | null[]>();
     const [parkingFeatureValue, setParkingFeatureValue] = useState<string>();
@@ -66,7 +68,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
         const featureData = await getSelectedStationFeatures(Number(slug));
 
         setFeatures(featureData.data);
-        toggleLoadingVisibility(false);
+        dispatch(toggleLoadingVisibility(false));
     };
 
     useEffect(() => {
