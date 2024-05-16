@@ -11,7 +11,8 @@ const ConnectorInfo: React.FC<{ connectorId: number }> = ({ connectorId }: { con
                 ([{connectorId: connectorId}]),
                 { headers: { 'Content-Type': 'application/json' } }
             );
-            return setDisplayName(response.data.data[0].displayName);
+
+            return setDisplayName(response.data.data[0]?.displayName);
         } catch (error) {
             console.error('Failed to fetch connector info:', error);
             return '';
