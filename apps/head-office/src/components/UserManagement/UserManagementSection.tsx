@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../../app/redux/store';
-import { BRAND_PREFIX } from '../../constants/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import Modal from '../Modal/Modal';
 import Table from '../Table/Table';
+import { BRAND_PREFIX } from '../../constants/constants';
+import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
+import isModalVisible, { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
+import { AppDispatch, RootState } from '../../../app/redux/store';
+import UserManagementModalPage from './UserManagementModal/UserManagementModalPage';
 
 interface IUserDataProps {
     id: number;
@@ -20,6 +23,7 @@ interface IUserDataProps {
 const UserManagementSection: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const [searchedText, setSearchedText] = useState<string>('');
+    const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
 
     const userData: IUserDataProps[] = [
         {
@@ -55,6 +59,18 @@ const UserManagementSection: React.FC = () => {
                     setSearchedText={setSearchedText}
                 />
             </div>
+            {
+                isModalVisible && (
+                    <Modal
+                        className={`${BRAND_PREFIX}-user-management-modal-container`}
+                        modalHeaderTitle='Kullanici Yonetimi'
+                        modalId={`${BRAND_PREFIX}-user-management-modal`}
+                        onClose={() => dispatch(toggleModalVisibility(false))}
+                    >
+                        <UserManagementModalPage />
+                    </Modal>
+                )
+            }
         </div>
     );
 };
