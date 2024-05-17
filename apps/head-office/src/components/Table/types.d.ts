@@ -1,13 +1,14 @@
 interface IUserDataProps {
     id: number;
-    name: string;
+    userName: string;
     email: string;
     phone: string;
     roles: string[];
-    status: string;
+    lastLoginDate: string;
     address?: string;
     cityId?: number;
     districtId?: number;
+    name?: string;
 };
 
 export interface IServicePointInfoProps {
@@ -27,6 +28,8 @@ export interface IServicePointInfoProps {
     email?: string;
     roles: string[] | [];
     status?: string;
+    lastLoginDate?: string;
+    userName?: string;
 };
 
 export interface ITableActionsProps {

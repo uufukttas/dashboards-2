@@ -4,47 +4,43 @@ import Modal from '../Modal/Modal';
 import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
-import isModalVisible, { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
+import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { AppDispatch, RootState } from '../../../app/redux/store';
 import UserManagementModalPage from './UserManagementModal/UserManagementModalPage';
+import axios from 'axios';
 
 interface IUserDataProps {
     id: number;
-    name: string;
+    userName: string;
     email: string;
     phone: string;
     roles: string[];
-    status: string;
+    lastLoginDate: string;
     address?: string;
     cityId?: number;
     districtId?: number;
+    name?: string;
 };
 
 const UserManagementSection: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const [searchedText, setSearchedText] = useState<string>('');
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
+    const [userData, setUserData] = useState<IUserDataProps[]>([]);
 
-    const userData: IUserDataProps[] = [
-        {
-            id: 1,
-            name: 'John Doe',
-            email: 'john@doe.com',
-            phone: '1234567890',
-            roles: ['Admin', 'User', 'Guest'],
-            status: 'Active',
-        }, {
-            id: 2,
-            name: 'Jane Doe',
-            email: 'jane@doe.com',
-            phone: '0987654321',
-            roles: ['User', 'Employee'],
-            status: 'Active',
-        }
-    ];
+    const getUsers = async () => {
+        await axios.get(
+            'https://sharztestapi.azurewebsites.net/Auth/Users'
+        ).then((response) => {
+            setUserData(response.data.data);
+        }).catch((error) => {
+            console.log('error', error);
+        });
+    };
 
     useEffect(() => {
         dispatch(toggleLoadingVisibility(true));
+        getUsers();
     }, []);
 
     return (
@@ -55,7 +51,7 @@ const UserManagementSection: React.FC = () => {
                     searchedText={searchedText}
                     tableData={userData}
                     tableDataCount={userData.length}
-                    tableHeadData={['Name', 'Phone/Email', 'Role', 'Status', 'Actions']}
+                    tableHeadData={['Name', 'Phone/Email', 'Role', 'Last Login', 'Actions']}
                     setSearchedText={setSearchedText}
                 />
             </div>

@@ -59,7 +59,7 @@ const TableRow = ({ attributeName, tableRowData, index }: ITableRowProps) => {
                             })
                         }
                     </td>
-                    <td className="px-4 py-2 text-center">{tableCellData.status || ''}</td>
+                    <td className="px-4 py-2 text-center">{tableCellData.lastLoginDate || 'null'}</td>
                     <td className="px-4 py-4 text-center">
                         <div className="flex justify-start text-2xl">
                             {
@@ -76,16 +76,18 @@ const TableRow = ({ attributeName, tableRowData, index }: ITableRowProps) => {
     return (
         <tr className='h-[10%]' key={tableRowData?.id || index + 1} {...dataAttributes}>
             <td className="px-4 py-2">
-                {tableRowData?.name ? (
-                    <div className={`${BRAND_PREFIX}-table-body-item-information-container h-full flex items-center`}>
-                        <div className={`${BRAND_PREFIX}-table-body-item-status text-red-500 text-2xl`}>
-                            <FaExclamation />
-                        </div>
-                        <div className={`${BRAND_PREFIX}-item-information-name`}>
-                            {tableRowData.name || ''}
-                        </div>
-                    </div>
-                ) : <div className="text-center"></div>}
+                {
+                    tableRowData?.name
+                        ? (
+                            <div className={`${BRAND_PREFIX}-table-body-item-information-container h-full flex items-center`}>
+                                <div className={`${BRAND_PREFIX}-table-body-item-status text-red-500 text-2xl`}>
+                                    <FaExclamation />
+                                </div>
+                                <div className={`${BRAND_PREFIX}-item-information-name`}>
+                                    {tableRowData.name}
+                                </div>
+                            </div>
+                        ) : <div className="text-center">{tableRowData.userName}</div>}
             </td>
             {
                 renderTableDataInfo(tableRowData, index)
