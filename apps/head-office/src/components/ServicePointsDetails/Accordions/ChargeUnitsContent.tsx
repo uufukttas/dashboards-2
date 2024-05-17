@@ -140,7 +140,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
                 };
             });
 
-            return investors[0].id;
+            return investors.id;
         } catch (error) {
             console.log(error);
         };
@@ -195,7 +195,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
             })
         );
         setSelectedBrand(parseInt(chargeUnitId || '0'));
-        dispatch(toggleModalVisibility(false));
+        dispatch(toggleModalVisibility(true));
     };
     const prepareTime = (date: string | null) => {
         if (date === null) {
