@@ -114,10 +114,10 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
         try {
             const data = await getChargePointFeatureStatus();
 
-            const statusIds = data.statusList.filter((statusItem: IStatusListItemProps) => {
+            const statusIds = data.data.statusList.filter((statusItem: IStatusListItemProps) => {
                 return statusItem.name.toLowerCase() === status.toLowerCase();
             });
-            const accessTypeIds = data.accessTypeList.filter((accessTypeListItem: IAccessTypeListItemProps) => {
+            const accessTypeIds = data.data.accessTypeList.filter((accessTypeListItem: IAccessTypeListItemProps) => {
                 return accessTypeListItem.name.toLowerCase() === accessType.toLowerCase();
             });
 
@@ -134,13 +134,13 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
         try {
             const investors = await getChargePointInvestors();
 
-            investors.data.filter((investor: IInvestorsProps) => {
+            const selectedInvestor = investors.data.filter((investor: IInvestorsProps) => {
                 if (investor.name.toLowerCase() === investorName.toLowerCase()) {
                     return investor.id;
                 };
             });
 
-            return investors.id;
+            return selectedInvestor[0].id;
         } catch (error) {
             console.log(error);
         };
