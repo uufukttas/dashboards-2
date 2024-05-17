@@ -40,7 +40,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     [`${formProperties.parking}`]: '0',
     [`${formProperties.opportunities}`]: opportunities || [],
   });
-  const [isDisabled, setIsDisabled] = useState<boolean>(true);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   const createConfigData = () => ({
     address: servicePointInformation.address,

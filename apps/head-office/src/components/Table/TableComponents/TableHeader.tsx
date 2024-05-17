@@ -7,8 +7,14 @@ import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import { getAllServicePointsRequest } from '../../../../app/api/servicePoints';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import { setServicePointData } from '../../../../app/redux/features/servicePointData';
+import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
 import { setServicePoints } from '../../../../app/redux/features/servicePoints';
 import type { ITableHeaderProps } from '../types';
+import {
+    initialServicePointDataValues,
+    initialServicePointInformationValue
+} from '../../ServicePointSection/constants';
 
 const TableHeader: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedText }: ITableHeaderProps) => {
     const tableHeaderPrefix = `${BRAND_PREFIX}-table-header`;
@@ -22,6 +28,11 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedTex
         } catch (error) {
             console.log(error);
         };
+    };
+    const handleClose = (): void => {
+        dispatch(setServicePointData(initialServicePointDataValues));
+        dispatch(setServicePointInformation(initialServicePointInformationValue));
+        dispatch(toggleModalVisibility(true));
     };
 
     return (
@@ -54,10 +65,7 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedTex
                     className={`${tableHeaderPrefix}-add-button w-full bg-primary rounded-md font-semibold hover:bg-primary-lighter px-2 py-2`}
                     id={`${tableHeaderPrefix}-add-button`}
                     type="button"
-                    onClick={() =>  {
-                        console.log('test')
-                        dispatch(toggleModalVisibility(true))
-                    }}
+                    onClick={() => handleClose()}
                 />
             </div>
         </div>
