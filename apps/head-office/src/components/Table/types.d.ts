@@ -3,7 +3,7 @@ interface IUserDataProps {
     userName: string;
     email: string;
     phone: string;
-    roles: string[];
+    roleNames: string;
     lastLoginDate: string;
     address?: string;
     cityId?: number;
@@ -26,7 +26,7 @@ export interface IServicePointInfoProps {
     phone?: string | null | undefined;
     type?: string | null | undefined;
     email?: string;
-    roles: string[] | [];
+    roleNames: string;
     status?: string;
     lastLoginDate?: string;
     userName?: string;

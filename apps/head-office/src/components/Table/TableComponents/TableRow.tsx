@@ -51,9 +51,9 @@ const TableRow = ({ attributeName, tableRowData, index }: ITableRowProps) => {
                     <td className="px-4 py-2 text-center">{tableCellData.phone || ''}</td>
                     <td className="px-4 py-2 text-center w-full flex flex-wrap">
                         {
-                            tableCellData.roles?.map((role) => {
+                            JSON.parse(tableCellData.roleNames).map((role: string, index: number) => {
                                 return (
-                                    <Fragment key={role}>
+                                    <Fragment key={index}>
                                         {getRolePills(role)}
                                     </Fragment>
                                 )
@@ -64,7 +64,7 @@ const TableRow = ({ attributeName, tableRowData, index }: ITableRowProps) => {
                     <td className="px-4 py-4 text-center">
                         <div className="flex justify-start text-2xl">
                             {
-                                tableCellData.roles && (
+                                tableCellData.roleNames && (
                                     <TableActions tableCellData={tableCellData} />
                                 )
                             }

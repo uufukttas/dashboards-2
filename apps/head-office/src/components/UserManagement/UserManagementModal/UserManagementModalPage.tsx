@@ -36,7 +36,8 @@ const UserManagementModalPage = () => {
         lastName: '',
         email: '',
         phone: '',
-        roles: []
+        roleNames: '',
+        id: 0
     });
 
     const handleFormSubmit = () => {

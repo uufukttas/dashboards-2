@@ -3,5 +3,6 @@ export interface IUserDataProps {
     lastName: string;
     name: string;
     phone: string;
-    roles: string[];
+    roleNames: string;
+    id: number;
 };

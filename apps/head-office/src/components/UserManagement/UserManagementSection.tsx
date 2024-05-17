@@ -14,7 +14,7 @@ interface IUserDataProps {
     userName: string;
     email: string;
     phone: string;
-    roles: string[];
+    roleNames: string;
     lastLoginDate: string;
     address?: string;
     cityId?: number;
