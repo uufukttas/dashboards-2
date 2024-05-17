@@ -9,6 +9,7 @@ import { Radio } from '@projects/radio';
 
 const ComissionModal = () => {
     const sectionPrefix = 'comission-details';
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const [comissionFeatures, setComissionFeatures] = useState<{
         servicePoint: string; reseller: string; chargeUnitReseller: string; breakpoint: string; percent: string
     }>({
@@ -18,9 +19,10 @@ const ComissionModal = () => {
         breakpoint: '',
         percent: ''
     });
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const [isDisabled, setIsDisabled] = useState<boolean>(false);
     const handleFormSubmit = () => {
         console.log('first')
+        setIsDisabled(true);
     };
 
     return (
@@ -87,9 +89,10 @@ const ComissionModal = () => {
                     />
                     <Button
                         buttonText='Kaydet'
+                        className={`-button bg-primary text-white w-full py-2.5 rounded-lg`}
+                        disabled={isDisabled}
                         id='addConnectorButton'
                         type='submit'
-                        className={`-button bg-primary text-white w-full py-2.5 rounded-lg`}
                     />
                 </div>
             </form>

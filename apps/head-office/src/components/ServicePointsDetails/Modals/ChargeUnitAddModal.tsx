@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm, SubmitHandler, set } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { Checkbox } from '@projects/checkbox';
@@ -47,6 +47,7 @@ const ChargeUnitAddModal = ({
     [`${formProperties.status}`]: chargeUnitData.status || '1',
     ...(chargeUnitData?.code > 0 ? { code: chargeUnitData?.code } : ''),
   });
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const createRequestData = ({ chargePointId, features }: IRequestDataProps) => {
     return ({
@@ -101,6 +102,8 @@ const ChargeUnitAddModal = ({
     }
   };
   const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
+    setIsDisabled(true);
+
     try {
       const chargePointId = chargeUnitData.code ? chargeUnitData.code : await getChargePointCode();
       const features = chargeUnitData.chargePointId ? await getStationFeaturesId(chargeUnitData.chargePointId) : [];
@@ -426,6 +429,7 @@ const ChargeUnitAddModal = ({
           <Button
             buttonText={'Kaydet'}
             className={`charge-unit-submit-button bg-primary text-white rounded-md px-4 py-2`}
+            disabled={isDisabled}
             id={`charge-unit-submit-button`}
             type={'submit'}
           />

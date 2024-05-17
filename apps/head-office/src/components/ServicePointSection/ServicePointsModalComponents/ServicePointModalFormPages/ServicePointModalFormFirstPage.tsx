@@ -22,6 +22,7 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
   const { formState: { errors }, handleSubmit, register } = useForm();
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const [companies, setCompanies] = useState<{ id: number; name: string; rid: null; }[]>([]);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [resellers, setResellers] = useState<{ id: number; name: string; rid: null; }[]>([]);
   const formName = ['name', 'reseller', 'company'];
   const hasServicePointDataId = servicePointData.id > 0;
@@ -67,6 +68,8 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
     });
   };
   const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
+    setIsDisabled(true);
+
     if (stationId !== 0) {
       setActivePage(activePage + 1);
 
@@ -235,6 +238,7 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
           <Button
             buttonText="Ileri"
             className={`${sectionPrefix}-submit-button bg-primary text-text text-sm rounded-lg block p-2.5`}
+            disabled={isDisabled}
             id={`${sectionPrefix}-submit-button`}
             type={`submit`}
           />

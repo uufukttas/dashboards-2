@@ -40,6 +40,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     [`${formProperties.parking}`]: '0',
     [`${formProperties.opportunities}`]: opportunities || [],
   });
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
 
   const createConfigData = () => ({
     address: servicePointInformation.address,
@@ -200,6 +201,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
       });
   };
   const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
+    setIsDisabled(true);
     dispatch(
       setServicePointInformation({
         ...servicePointInformation,
@@ -337,6 +339,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
           <Button
             buttonText={servicePointInformation?.id > 0 ? 'Guncelle' : 'Kaydet'}
             className={`${sectionPrefix}-submit-button bg-primary text-text text-sm rounded-lg block p-2.5`}
+            disabled={isDisabled}
             id={`${sectionPrefix}-submit-button`}
             type={`submit`}
           />

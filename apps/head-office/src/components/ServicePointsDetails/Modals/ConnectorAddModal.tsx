@@ -13,6 +13,7 @@ const ConnectorAddModal: React.FC<IConnectorAddModalProps> = ({ connectorPropert
     const dispatch = useDispatch();
     const [dropdownItems, setDropdownItems] = useState<{ id: 0, name: 'Please Select', rid: null }[]>([]);
     const [connectorValue, setConnectorValue] = useState<number>(1);
+    const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
     const fetchAndPrepareDropdownItems = async () => {
         try {
@@ -35,6 +36,7 @@ const ConnectorAddModal: React.FC<IConnectorAddModalProps> = ({ connectorPropert
         }
     };
     const handleSubmit = async (event: React.FormEvent) => {
+        setIsDisabled(true);
         event.preventDefault();
 
         await axios
@@ -79,9 +81,10 @@ const ConnectorAddModal: React.FC<IConnectorAddModalProps> = ({ connectorPropert
                     />
                     <Button
                         buttonText='Kaydet'
+                        className={`connector-type-add-button bg-primary text-white w-full py-2.5 rounded-lg`}
+                        disabled={isDisabled}
                         id='addConnectorButton'
                         type='submit'
-                        className={`connector-type-add-button bg-primary text-white w-full py-2.5 rounded-lg`}
                     />
                 </div>
             </form>

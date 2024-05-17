@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -16,17 +16,18 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice, setIsEnergyPriceListUpdate
 }) => {
   const sectionPrefix = 'energy-prices';
   const dispatch = useDispatch();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   const [currencies, setCurrencies] = React.useState<{ id: number; name: string; rid: null }[]>(
     [
       { id: 0, name: 'Seçiniz', rid: null }
     ]
   );
-  const [energyPricesProperty, setEnergyPricesProperty] = React.useState<{ price: number; time: string; isActive: boolean }>({
+  const [energyPricesProperty, setEnergyPricesProperty] = useState<{ price: number; time: string; isActive: boolean }>({
     price: 0,
     time: '',
     isActive: true,
   });
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   const getCurrencies = async () => {
     await axios
@@ -38,6 +39,7 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice, setIsEnergyPriceListUpdate
       });
   };
   const handleFormSubmit = () => {
+    setIsDisabled(true);
     axios
       .post(
         'https://sharztestapi.azurewebsites.net/ServicePoint/AddEnergyPrice',
@@ -147,9 +149,10 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice, setIsEnergyPriceListUpdate
           />
           <Button
             buttonText='Kaydet'
+            className={`-button bg-primary text-white w-full py-2.5 rounded-lg`}
+            disabled={isDisabled}
             id='addConnectorButton'
             type='submit'
-            className={`-button bg-primary text-white w-full py-2.5 rounded-lg`}
           />
         </div>
       </form>

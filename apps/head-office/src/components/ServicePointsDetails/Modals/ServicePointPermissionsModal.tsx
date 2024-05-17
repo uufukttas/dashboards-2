@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -13,10 +13,12 @@ import type { IServicePointPermissionsModalProps } from '../types';
 const ServicePointPermissionsModal = ({ slug }: IServicePointPermissionsModalProps) => {
     const sectionPrefix = 'service-point-permission';
     const dispatch = useDispatch();
-    const [permissionPhoneNumber, setPermissionPhoneNumber] = React.useState<string>('');
+    const [isDisabled, setIsDisabled] = useState<boolean>(false);
+    const [permissionPhoneNumber, setPermissionPhoneNumber] = useState<string>('');
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const handleFormSubmit = () => {
+        setIsDisabled(true);
         axios
             .post(
                 'https://sharztestapi.azurewebsites.net/Auth/ChargePointUserCreate',
@@ -86,9 +88,10 @@ const ServicePointPermissionsModal = ({ slug }: IServicePointPermissionsModalPro
                         )}
                     <Button
                         buttonText='Kaydet'
+                        className={`${sectionPrefix}-button bg-primary text-white w-full py-2.5 rounded-lg`}
+                        disabled={isDisabled}
                         id='addPermissionPhoneNmber'
                         type='submit'
-                        className={`${sectionPrefix}-button bg-primary text-white w-full py-2.5 rounded-lg`}
                     />
                 </div>
             </form>
