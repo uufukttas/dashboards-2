@@ -27,7 +27,7 @@ const ServicePointInfoPage: React.FC = () => {
       </Head>
       <Provider store={store}>
         <div className={`${montserrat.className} ${BRAND_PREFIX}-service-point-details-page-wrapper w-full h-screen flex`}>
-          <MainPage sectionName={`Servis Noktasi: ${slug}`}>
+          <MainPage sectionName={`Istasyon: ${slug}`}>
             <div
               className={`${BRAND_PREFIX}-service-point-details-page-container flex justify-center items-center md:pt-12 flex-wrap w-full`}
             >

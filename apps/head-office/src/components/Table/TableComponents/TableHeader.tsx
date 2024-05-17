@@ -50,7 +50,7 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedTex
             </div>
             <div className={`${tableHeaderPrefix}-add-button-container w-full mx-2 md:w-1/2 lg:w-1/4 lg:mx-4`}>
                 <Button
-                    buttonText="+ Servis Noktasi"
+                    buttonText="+ Istasyon"
                     className={`${tableHeaderPrefix}-add-button w-full bg-primary rounded-md font-semibold hover:bg-primary-lighter px-2 py-2`}
                     id={`${tableHeaderPrefix}-add-button`}
                     type="button"

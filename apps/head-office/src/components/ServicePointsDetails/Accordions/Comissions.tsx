@@ -10,7 +10,7 @@ const Comissions = () => {
                 <div className={`${sectionPrefix}-header-container w-full`}>
                     <div className={`${sectionPrefix}-header w-full flex`}>
                         <div className={`${sectionPrefix}-service-point-container flex justify-between md:items-center flex-col md:flex-row w-full`}>
-                            <p className={`${sectionPrefix}-service-point text-lg font-bold w-full`}>Hizmet Noktasi</p>
+                            <p className={`${sectionPrefix}-service-point text-lg font-bold w-full`}>Istasyon</p>
                         </div>
                         <div className={`${sectionPrefix}-reseller-container flex justify-between md:items-center flex-col md:flex-row w-full`}>
                             <p className={`${sectionPrefix}-reseller text-lg font-bold w-full`}>Reseller</p>

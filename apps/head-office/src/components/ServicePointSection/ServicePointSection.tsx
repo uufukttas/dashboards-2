@@ -89,7 +89,7 @@ const ServicePointSection: React.FC = () => {
           tableData={servicePointsData}
           tableDataCount={servicePointsCount}
           tableHeadData={[
-            'Servis Noktasi',
+            'Istasyon Adi',
             'Telefon',
             'Adres',
             'Il',
@@ -103,7 +103,7 @@ const ServicePointSection: React.FC = () => {
         isModalVisible && (
           <Modal
             className={`${BRAND_PREFIX}-service-point-modal-container`}
-            modalHeaderTitle={`Servis Noktasi ${servicePointData.id > 0 ? 'Güncelle' : 'Ekle'}`}
+            modalHeaderTitle={`Istasyon ${servicePointData.id > 0 ? 'Güncelle' : 'Ekle'}`}
             modalId={`${BRAND_PREFIX}-service-point-modal`}
             onClose={handleCloseModal}
           >

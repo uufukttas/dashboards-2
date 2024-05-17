@@ -11,7 +11,7 @@ const SidebarBody: React.FC = () => {
         {
             icon: <FaLocationDot />,
             link: '/service-points',
-            name: 'Servis Noktalari',
+            name: 'Istasyonlar',
         },
         {
             icon: <FaUser />,

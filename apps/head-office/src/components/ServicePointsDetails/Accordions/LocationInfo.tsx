@@ -183,7 +183,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
                     </div>
                     <div className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
                         <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold`}>
-                            Servis Noktasi Olanaklari:
+                            Istayon Olanaklari:
                         </p>
                         <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>
                             {opportunitiesFeatureName}

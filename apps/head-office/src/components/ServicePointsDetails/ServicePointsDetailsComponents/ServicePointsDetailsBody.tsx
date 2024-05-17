@@ -83,7 +83,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                 dispatch(toggleModalVisibility(true));
             }}
         >
-            + Servis Noktasi Yetkisi Ekle
+            + Istasyon Yetkisi Ekle
         </Button>
     );
     const addComissionButton = (
@@ -106,7 +106,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             {
                 activeIndex === 0 && (
                     <Accordion
-                        accordionTitle="Servis Noktasi Bilgileri"
+                        accordionTitle="Istasyon Bilgileri"
                         titleClassName="font-bold"
                     >
                         <LocationInfo slug={slug} />
@@ -166,7 +166,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             {
                 activeIndex === 4 && (
                     <Accordion
-                        accordionTitle="Servis Noktasi Yetkisi"
+                        accordionTitle="Istasyon Yetkisi"
                         actionButton={addServicePointPermissionButton}
                         titleClassName="font-bold"
                     >

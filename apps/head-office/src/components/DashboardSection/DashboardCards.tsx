@@ -17,7 +17,7 @@ const DashboardCards: React.FC = () => {
     const chargeUnitContent1 = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Aktif Servis Noktasi</div>
+                <div className={`text-xl lg:text-base`}>Aktif Istasyon</div>
             </div>
             <div className='text-4xl flex items-center justify-center'>
                 24
@@ -58,7 +58,7 @@ const DashboardCards: React.FC = () => {
     const chargeUnitContent5 = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Planli Servis Noktasi</div>
+                <div className={`text-xl lg:text-base`}>Planli Istasyon</div>
             </div>
             <div className='text-4xl flex items-center justify-center'>24
                 <FaPlug className='text-2xl bg-transparent mx-4' />
