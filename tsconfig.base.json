@@ -31,7 +31,8 @@
       "@projects/radio": ["libs/radio/src/index.ts"],
       "@projects/reporting": ["apps/reporting/app/page.tsx"],
       "@projects/textarea": ["libs/textarea/src/index.ts"],
-      "@projects/toggle": ["libs/toggle/src/index.ts"]
+      "@projects/toggle": ["libs/toggle/src/index.ts"],
+      "@projects/tooltip": ["libs/tooltip/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,5 +1,6 @@
 import React, { Fragment } from 'react';
 import { FaExclamation } from 'react-icons/fa6';
+import { Tooltip } from '@projects/tooltip';
 import TableActions from './TableActions';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../constants/constants';
 import { IServicePointInfoProps, ITableRowProps, IUserDataProps } from '../types';
@@ -81,7 +82,9 @@ const TableRow = ({ attributeName, tableRowData, index }: ITableRowProps) => {
                         ? (
                             <div className={`${BRAND_PREFIX}-table-body-item-information-container h-full flex items-center`}>
                                 <div className={`${BRAND_PREFIX}-table-body-item-status text-red-500 text-2xl`}>
-                                    <FaExclamation />
+                                    <Tooltip text="Istasyonda problem var!">
+                                        <FaExclamation />
+                                    </Tooltip>
                                 </div>
                                 <div className={`${BRAND_PREFIX}-item-information-name`}>
                                     {tableRowData.name}
