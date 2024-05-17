@@ -37,11 +37,27 @@ const UserManagementSection: React.FC = () => {
             console.log('error', error);
         });
     };
+    const getSearchedUsers = async () => {
+        axios
+            .post(
+                'https://sharztestapi.azurewebsites.net/Auth/SearchUser',
+                JSON.stringify({
+                    "userName": searchedText
+                }),
+                { headers: { 'Content-Type': 'application/json' } }
+            )
+            .then((response) => {
+                setUserData(response.data.data);
+            })
+    };
 
     useEffect(() => {
-        dispatch(toggleLoadingVisibility(true));
-        getUsers();
-    }, []);
+        if (searchedText !== '') {
+            getSearchedUsers();
+        } else {
+            getUsers();
+        }
+    }, [searchedText]);
 
     return (
         <div className={`${BRAND_PREFIX}-user-management-table-container flex justify-between items-center flex-col`}>
