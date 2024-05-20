@@ -157,7 +157,6 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
                     stationID: slug
                 })
             } else {
-                debugger;
                 updatedArr.push({
                     dayOfTheWeek: day.dayOfTheWeek,
                     isClosed: isReset ? false : day.isClosed,
@@ -172,7 +171,7 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
         isReset = false
         setWorkingHours(createdArr, updatedArr);
     };
-    const setWorkingHours = (
+    const setWorkingHours = async (
         createdWorkingHours: {
             dayOfTheWeek: number;
             isClosed: boolean;
@@ -190,11 +189,11 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
         }[]) => {
 
         if (createdWorkingHours.length > 0) {
-            const response = sendRequest('https://sharztestapi.azurewebsites.net/ServicePoint/AddWorkHours', JSON.stringify(createdWorkingHours))
+            const response = await sendRequest('https://sharztestapi.azurewebsites.net/ServicePoint/AddWorkHours', JSON.stringify(createdWorkingHours))
 
             dispatch(
                 showAlert({
-                    message: response?.data?.message,
+                    message: response.data?.message,
                     type: 'success',
                 })
             );
@@ -203,6 +202,7 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
 
         if (updatedWorkingHours.length > 0) {
             const response = sendRequest('https://sharztestapi.azurewebsites.net/ServicePoint/UpdateWorkHours', JSON.stringify(updatedWorkingHours))
+            console.log('response', response)
         };
 
     };
