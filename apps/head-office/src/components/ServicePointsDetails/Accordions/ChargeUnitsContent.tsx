@@ -24,6 +24,7 @@ import type {
     IStatusListItemProps,
     IConnectorStateProps,
 } from '../types';
+import isConnectorUpdated from '../../../../app/redux/features/isConnectorUpdated';
 
 const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
     chargeUnits, connectorsList, slug, setAddChargeUnit, setAddConnector, setConnectorProperty
@@ -33,6 +34,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
     const dispatch = useDispatch();
     const [connectorTypes, setConnectorTypes] = useState([]);
     const [selectedBrand, setSelectedBrand] = useState(1);
+    const [connectorUpdate, setConnectorUpdate] = useState(false);
 
     const buildChargeUnitRequestBody = (
         accessTypeId: string,
@@ -196,6 +198,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
         );
         setSelectedBrand(parseInt(chargeUnitId || '0'));
         dispatch(toggleModalVisibility(true));
+        setConnectorUpdate(true);
     };
     const prepareTime = (date: string | null) => {
         if (date === null) {
@@ -278,8 +281,12 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
     };
 
     useEffect(() => {
+        setConnectorUpdate(true);
+    }, []);
+
+    useEffect(() => {
         getConnectorTypes();
-    }, [chargeUnits]);
+    }, [chargeUnits, isConnectorUpdated]);
 
     return (
         <div className={`${sectionPrefix}-content py-8`}>
@@ -350,6 +357,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
                                             <div className={`${chargeUnitPrefix}-connector-info flex justify-between flex-col`}>
                                                 <div className={`${chargeUnitPrefix}-connector-list-container`}>
                                                     {
+                                                        connectorUpdate &&
                                                         renderConnectors(chargeUnit.chargePointId)
                                                     }
                                                 </div>

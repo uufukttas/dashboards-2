@@ -1,8 +1,11 @@
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../app/redux/store';
 
 const ConnectorInfo: React.FC<{ connectorId: number }> = ({ connectorId }: { connectorId: number; }) => {
     const [displayName, setDisplayName] = useState('');
+    const isConnectorUpdated = useSelector((state: RootState) => state.isConnectorUpdated.isConnectorUpdated);
 
     const getConnectorInfo = async () => {
         try {
@@ -22,6 +25,10 @@ const ConnectorInfo: React.FC<{ connectorId: number }> = ({ connectorId }: { con
     useEffect(() => {
         getConnectorInfo();
     }, []);
+
+    useEffect(() => {
+        getConnectorInfo();
+    }, [isConnectorUpdated]);
 
     return (
         <>
