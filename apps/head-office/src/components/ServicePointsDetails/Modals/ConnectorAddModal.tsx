@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Label } from '@projects/label';
+import { toggleConnectorUpdated } from '../../../../app/redux/features/isConnectorUpdated';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type { IConnectorAddModalProps } from '../types';
@@ -31,6 +32,7 @@ const ConnectorAddModal: React.FC<IConnectorAddModalProps> = ({ connectorPropert
             }));
 
             setDropdownItems(items);
+            setConnectorValue(items[0].id);
         } catch (error) {
             console.error(error);
         }
@@ -50,6 +52,7 @@ const ConnectorAddModal: React.FC<IConnectorAddModalProps> = ({ connectorPropert
                 }
             )
         dispatch(toggleModalVisibility(false));
+        dispatch(toggleConnectorUpdated(true));
         setAddConnector(false);
     };
 
