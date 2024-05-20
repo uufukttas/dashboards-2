@@ -22,6 +22,8 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
     const [isUpdated, setIsUpdated] = useState(false);
     const [selectionStart, setSelectionStart] = useState<ITimeSlot | null>(null);
 
+    let isReset = false;
+
     const applyDefaultTimes = (response: {
         RID: number;
         OpeningTime: string;
@@ -38,7 +40,7 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
 
             for (let hour = startHour; hour <= endHour; hour++) {
                 const index = day * 24 + hour;
-                newTimeSlots[index].isSelected = true; // Set selected based on default times
+                newTimeSlots[index].isSelected = startHour === endHour ? false : true
                 newTimeSlots[index].rid = rid; // Set the rid for the time slot
             }
         });
@@ -68,6 +70,7 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
                 { headers: { 'Content-Type': 'application/json' } }
             )
             .then(response => {
+                console.log('response.data', response.data)
                 applyDefaultTimes(response.data)
 
                 if (response.data.length > 0) {
@@ -98,6 +101,16 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
             updateTimeSlotSelection(clickedSlot, true);
         }
     };
+    const sendRequest = async (url: string, data: string) => {
+        const response = await axios
+            .post(
+                url,
+                data,
+                { headers: { 'Content-Type': 'application/json' } }
+            )
+
+        return response;
+    };
     const handleSubmit = () => {
         const daysWeek = daysOfWeek.map((_, dayIndex) => {
             const dailySelectedSlots = timeSlots.filter(slot => slot.day === dayIndex && slot.isSelected);
@@ -108,7 +121,7 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
 
             return {
                 dayOfTheWeek: dayIndex,
-                isClosed: dailySelectedSlots.length === 0,
+                isClosed: dailySelectedSlots.length === 24,
                 openingTime: firstSelectedSlot ? `${firstSelectedSlot.hour}:00` : null,
                 closingTime: lastSelectedSlot ? `${lastSelectedSlot.hour}:00` : null,
                 isDeleted: false,
@@ -132,6 +145,7 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
             isDeleted: boolean;
             stationID: number;
         }[] = [];
+
         daysWeek.forEach(day => {
             if (typeof day.rid === 'undefined') {
                 createdArr.push({
@@ -143,17 +157,19 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
                     stationID: slug
                 })
             } else {
+                debugger;
                 updatedArr.push({
                     dayOfTheWeek: day.dayOfTheWeek,
-                    isClosed: day.isClosed,
-                    openingTime: day.openingTime,
-                    closingTime: day.closingTime,
+                    isClosed: isReset ? false : day.isClosed,
+                    openingTime: isReset ? '' : day.openingTime,
+                    closingTime: isReset ? '' : day.closingTime,
                     isDeleted: day.isDeleted,
                     rid: day?.rid
-                }
-                )
+                })
             }
         });
+
+        isReset = false
         setWorkingHours(createdArr, updatedArr);
     };
     const setWorkingHours = (
@@ -173,40 +189,30 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
             rid: number;
         }[]) => {
 
-        if (createdWorkingHours.length > 0)
-            axios
-                .post(
-                    'https://sharztestapi.azurewebsites.net/ServicePoint/AddWorkHours',
-                    JSON.stringify(createdWorkingHours),
-                    { headers: { 'Content-Type': 'application/json' } }
-                )
-                .then((response) => { 
-                    dispatch(
-                        showAlert({
-                          message: response.data.message,
-                          type: 'success',
-                        })
-                      );
-                      setTimeout(() => dispatch(hideAlert()), 5000);
-                 })
-                .catch((error) => {
-                    console.log(error);
-                }
-                );
+        if (createdWorkingHours.length > 0) {
+            const response = sendRequest('https://sharztestapi.azurewebsites.net/ServicePoint/AddWorkHours', JSON.stringify(createdWorkingHours))
 
-        if (updatedWorkingHours.length > 0)
-            axios
-                .post(
-                    'https://sharztestapi.azurewebsites.net/ServicePoint/UpdateWorkHours',
-                    JSON.stringify(updatedWorkingHours),
-                    { headers: { 'Content-Type': 'application/json' } }
-                )
-                .then((response) => { console.log(response.data); })
-                .catch((error) => {
-                    console.log(error);
-                }
-                );
+            dispatch(
+                showAlert({
+                    message: response?.data?.message,
+                    type: 'success',
+                })
+            );
+            setTimeout(() => dispatch(hideAlert()), 5000);
+        }
+
+        if (updatedWorkingHours.length > 0) {
+            const response = sendRequest('https://sharztestapi.azurewebsites.net/ServicePoint/UpdateWorkHours', JSON.stringify(updatedWorkingHours))
+        };
+
     };
+    const resetSelection = () => {
+        setTimeout(() => {
+            clearSelection();
+            handleSubmit();
+        }, 750);
+    };
+
     const updateTimeSlotsForRange = (day: number, startHour: number, endHour: number, isSelected: boolean) => {
         setTimeSlots(currentSlots =>
             currentSlots.map(slot =>
@@ -264,13 +270,23 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
                     ))}
                 </tbody>
             </table>
-
-            <Button buttonText={isUpdated ? 'Guncelle' : 'Kaydet'}
-                className={`${sectionPrefix}-button bg-primary text-white rounded-md px-4 py-2 my-2 w-fit`}
-                id='working-hours-button'
-                type='button'
-                onClick={() => handleSubmit()}
-            />
+            <div className='flex items-center w-full justify-end action-container'>
+                <Button buttonText={`Temizle`}
+                    className={`${sectionPrefix}-button bg-primary text-white rounded-md px-4 py-2 my-2 w-fit mx-4`}
+                    id='working-hours-reset-button'
+                    type='button'
+                    onClick={() => {
+                        isReset = true;
+                        resetSelection();
+                    }}
+                />
+                <Button buttonText={isUpdated ? 'Guncelle' : 'Kaydet'}
+                    className={`${sectionPrefix}-button bg-primary text-white rounded-md px-4 py-2 my-2 w-fit`}
+                    id={`working-hours-${isUpdated ? 'update' : 'add'}-button`}
+                    type='button'
+                    onClick={() => handleSubmit()}
+                />
+            </div>
         </div>
     );
 };
