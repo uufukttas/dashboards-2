@@ -3,9 +3,11 @@ import alertInformation from './features/alertInformation';
 import chargeUnitData from './features/chargeUnitData';
 import dialogInformation from './features/dialogInformation';
 import isChargePointDataUpdated from './features/isChargePointDataUpdated';
+import isConnectorUpdated from './features/isConnectorUpdated';
 import isLoadingVisible from './features/isLoadingVisible';
 import isModalVisible from './features/isModalVisible';
 import isServicePointDataUpdated from './features/isServicePointDataUpdated';
+import isServicePointPermissionsUpdated from './features/isServicePointPermissionsUpdated';
 import isSidebarExpand from './features/isSidebarExpand';
 import servicePoints from './features/servicePoints';
 import servicePointData from './features/servicePointData';
@@ -18,9 +20,11 @@ export const store: EnhancedStore = configureStore({
     chargeUnitData,
     dialogInformation,
     isChargePointDataUpdated,
+    isConnectorUpdated,
     isModalVisible,
-    isServicePointDataUpdated,
     isLoadingVisible,
+    isServicePointDataUpdated,
+    isServicePointPermissionsUpdated,
     isSidebarExpand,
     servicePoints,
     servicePointData,
