@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
-import { Dropdown } from '@projects/dropdown';
+// import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
@@ -17,11 +17,7 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice, setIsEnergyPriceListUpdate
   const sectionPrefix = 'energy-prices';
   const dispatch = useDispatch();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [currencies, setCurrencies] = React.useState<{ id: number; name: string; rid: null }[]>(
-    [
-      { id: 0, name: 'Seçiniz', rid: null }
-    ]
-  );
+  // const [currencies, setCurrencies] = React.useState<{ id: number; name: string; rid: null }[]>([{ id: 0, name: 'Seçiniz', rid: null }]);
   const [energyPricesProperty, setEnergyPricesProperty] = useState<{ price: number; time: string; isActive: boolean }>({
     price: 0,
     time: '',
@@ -29,15 +25,15 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice, setIsEnergyPriceListUpdate
   });
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
-  const getCurrencies = async () => {
-    await axios
-      .get(
-        'https://sharztestapi.azurewebsites.net/Values/Currencies'
-      )
-      .then((response) => {
-        setCurrencies(response.data.data);
-      });
-  };
+  // const getCurrencies = async () => {
+  //   await axios
+  //     .get(
+  //       'https://sharztestapi.azurewebsites.net/Values/Currencies'
+  //     )
+  //     .then((response) => {
+  //       setCurrencies(response.data.data);
+  //     });
+  // };
   const handleFormSubmit = () => {
     setIsDisabled(true);
     axios
@@ -64,10 +60,6 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice, setIsEnergyPriceListUpdate
         setTimeout(() => dispatch(hideAlert()), 5000);
       })
   };
-
-  useEffect(() => {
-    getCurrencies();
-  }, []);
 
   return (
     <div className={`${BRAND_PREFIX}-${sectionPrefix}-modal-form-container relative p-6 bg-white rounded-lg`}>
@@ -106,12 +98,12 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice, setIsEnergyPriceListUpdate
               }
               type={`text`}
             />
-            <Dropdown
+            {/* <Dropdown
               className={`${sectionPrefix}-dropdown border text-text text-sm rounded-lg block p-2.5 mb-4 mx-4 focus:ring-primary focus:border-primary`}
               id={`${sectionPrefix}-dropdown`}
               name={`${sectionPrefix}-dropdown`}
               items={currencies}
-            />
+            /> */}
           </div>
           {errors[`${sectionPrefix}`]
             && errors[`${sectionPrefix}`]?.message

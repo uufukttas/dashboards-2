@@ -308,6 +308,8 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       deleteEnergyPrice(dialogInformation.data);
     } else if (dialogInformation.actionType === 'deleteServicePointPermission') {
       deleteServicePointPermission(dialogInformation.data);
+    } else if (dialogInformation.actionType === 'deleteWorkingHours') {
+      // deleteWorkingHours(dialogInformation.data);
     }
 
     hideDialog();
