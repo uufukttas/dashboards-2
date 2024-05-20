@@ -1,6 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { Reducer, createSlice } from '@reduxjs/toolkit';
+import { IIsServicePointPermissionsUpdatedProps } from '../types';
 
-const initialState = {
+const initialState: IIsServicePointPermissionsUpdatedProps = {
     isServicePointPermissionsUpdated: false,
 };
 
@@ -15,4 +16,4 @@ export const isServicePointPermissionsUpdated = createSlice({
 });
 
 export const { toggleServicePointPermissionsUpdated } = isServicePointPermissionsUpdated.actions;
-export default isServicePointPermissionsUpdated.reducer;
+export default isServicePointPermissionsUpdated.reducer as Reducer<IIsServicePointPermissionsUpdatedProps>;

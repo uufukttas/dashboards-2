@@ -1,6 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { Reducer, createSlice } from '@reduxjs/toolkit';
+import { IIsConnectorUpdatedProps } from '../types';
 
-const initialState = {
+const initialState: IIsConnectorUpdatedProps = {
     isConnectorUpdated: false,
 };
 
@@ -15,4 +16,4 @@ export const isConnectorUpdated = createSlice({
 });
 
 export const { toggleConnectorUpdated } = isConnectorUpdated.actions;
-export default isConnectorUpdated.reducer;
+export default isConnectorUpdated.reducer as Reducer<IIsConnectorUpdatedProps>;

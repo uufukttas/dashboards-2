@@ -68,6 +68,9 @@ export type IDialogInformationStateProps = {
     actionType: string;
     data: number;
 };
+export type IIsConnectorUpdatedProps = {
+    isConnectorUpdated: boolean;
+};
 
 export type IIsLoadingStateProps = {
     isLoading: boolean;
@@ -76,7 +79,9 @@ export type IIsLoadingStateProps = {
 export type IIsModalVisibleStateProps = {
     isModalVisible: boolean;
 };
-
+export type IIsServicePointPermissionsUpdatedProps = {
+    isServicePointPermissionsUpdated: boolean;
+};
 export type IIsServicePointDataUpdatedProps = {
     isServicePointDataUpdated: boolean;
 };
