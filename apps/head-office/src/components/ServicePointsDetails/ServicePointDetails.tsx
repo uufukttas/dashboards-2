@@ -15,11 +15,13 @@ import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { deleteChargePointRequest } from '../../../app/api/servicePoints/deleteChargePointRequest';
-import { showAlert } from '../../../app/redux/features/alertInformation';
+import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
 import { setChargeUnitData } from '../../../app/redux/features/chargeUnitData';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleChargePointDataUpdated } from '../../../app/redux/features/isChargePointDataUpdated';
+import { toggleConnectorUpdated } from '../../../app/redux/features/isConnectorUpdated';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
+import { toggleServicePointPermissionsUpdated } from '../../../app/redux/features/isServicePointPermissionsUpdated';
 import { RootState } from '../../../app/redux/store';
 import type {
   IAccessTypeListItemProps,
@@ -44,9 +46,12 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const isChargePointDataUpdated = useSelector(
     (state: RootState) => state.isChargePointDataUpdated.isChargePointDataUpdated
   );
+  const isConnectorUpdated = useSelector((state: RootState) => state.isConnectorUpdated.isConnectorUpdated);
   const isLoadingVisible = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
-
+  const isServicePointPermissionsUpdated = useSelector((state: RootState) => {
+    return state.isServicePointPermissionsUpdated.isServicePointPermissionsUpdated
+  });
   const [accessTypeList, setAccessTypeList] = useState<IAccessTypeListItemProps[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [addChargeUnit, setAddChargeUnit] = useState<boolean>(false);
@@ -133,8 +138,13 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               message: response.data.message
             })
           );
+          dispatch(toggleServicePointPermissionsUpdated(true));
           dispatch(hideDialog());
-        })
+
+          setTimeout(() => {
+            dispatch(hideAlert());
+          }, 5000);
+        });
     } catch (error) {
       console.log(error);
     };
@@ -206,6 +216,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       // TODO : We need to wait for the checking to be resolved.
       await Promise.all(promises).then(data => setConnectors([data]));
 
+      dispatch(toggleConnectorUpdated(false));
     } catch (error) {
       console.error(error);
     }
@@ -345,6 +356,14 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   useEffect(() => {
     getEnergyPrices();
   }, [isEnergyPriceListUpdated]);
+
+  useEffect(() => {
+    getServicePointPermissions();
+  }, [isServicePointPermissionsUpdated]);
+
+  useEffect(() => {
+    getConnectors();
+  }, [isConnectorUpdated])
 
   return (
     isLoadingVisible
