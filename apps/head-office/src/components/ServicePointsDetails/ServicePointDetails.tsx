@@ -312,6 +312,31 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       console.log(error);
     };
   };
+
+  const deleteServicePointComission = async (dialogData: number) => {
+    await axios
+      .post(
+        'https://sharztestapi.azurewebsites.net/ServicePoint/UpdateCommisionRate',
+        JSON.stringify({
+          "rid": dialogData,
+          "stationId": Number(slug),
+          "isActive": false
+        }),
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .then(() => {
+        dispatch(hideDialog());
+        dispatch(
+          showAlert({
+            type: 'success',
+            message: 'Komisyon başarıyla silindi.'
+          })
+        );
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   const handleDialogSuccess = () => {
     if (dialogInformation.actionType === 'deleteChargePoint') {
       deleteChargePoint(dialogInformation.data);
@@ -321,8 +346,9 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       deleteServicePointPermission(dialogInformation.data);
     } else if (dialogInformation.actionType === 'deleteWorkingHours') {
       // deleteWorkingHours(dialogInformation.data);
+    } else if (dialogInformation.actionType === 'deleteServicePointComission') {
+      deleteServicePointComission(dialogInformation.data);
     }
-
     hideDialog();
   };
 

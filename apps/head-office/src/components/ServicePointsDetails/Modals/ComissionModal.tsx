@@ -1,29 +1,52 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '@projects/button';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
+import { getChargePointInvestors } from '../../../../app/api/servicePointDetails';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import { Dropdown } from '@projects/dropdown';
-import { Radio } from '@projects/radio';
+import { Checkbox } from '@projects/checkbox';
+import axios from 'axios';
 
 const ComissionModal = () => {
     const sectionPrefix = 'comission-details';
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { handleSubmit, formState: { errors } } = useForm();
     const [comissionFeatures, setComissionFeatures] = useState<{
-        servicePoint: string; reseller: string; chargeUnitReseller: string; breakpoint: string; percent: string
+        resller: number; isResellerForServicePoint: boolean; tariffFraction: number; rate: number;
     }>({
-        servicePoint: '',
-        reseller: '',
-        chargeUnitReseller: '',
-        breakpoint: '',
-        percent: ''
+        resller: 0,
+        isResellerForServicePoint: false,
+        tariffFraction: 0,
+        rate: 0,
     });
+    const [investorList, setInvestorList] = useState([]);
     const [isDisabled, setIsDisabled] = useState<boolean>(false);
-    const handleFormSubmit = () => {
-        console.log('first')
-        setIsDisabled(true);
+    const [tariffFractionList, setTariffFractionList] = useState([]);
+
+    const getInvestors = async () => {
+        const investors = await getChargePointInvestors();
+
+        setInvestorList(investors.data);
+        comissionFeatures.resller = investors.data[0].id;
     };
+
+    const getTariffFraction = async () => {
+        const tariffFraction = await axios.get('https://sharztestapi.azurewebsites.net/ServicePoint/TariffSubFractionTypes');
+
+        setTariffFractionList(tariffFraction.data.data);
+        comissionFeatures.tariffFraction = tariffFraction.data.data[0].id;
+    };
+
+    const handleFormSubmit = () => {
+        setIsDisabled(true);
+        console.log('comissionFeatures', comissionFeatures)
+    };
+
+    useEffect(() => {
+        getInvestors();
+        getTariffFraction()
+    }, []);
 
     return (
         <div className={`${BRAND_PREFIX}-${sectionPrefix}-modal-form-container relative p-6 bg-white rounded-lg`} >
@@ -35,14 +58,23 @@ const ComissionModal = () => {
                     <Label
                         className={`${sectionPrefix}-label block mb-2 text-heading font-semibold`}
                         htmlFor={``}
-                        labelText={`Enerji Fiyati (kwh/Birim fiyat)`}
+                        labelText={`Istasyon Komisyon Tanimlama`}
                     >
                         <span className="text-md text-error">*</span>
                     </Label>
                     <Dropdown
+                        className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary'
                         id='comission-details-service-point'
                         name='comission-details-service-point'
-                        items={[{ id: 1, name: 'Hizmet Noktasi', rid: null }, { id: 2, name: 'Reseller', rid: null }]}
+                        items={investorList}
+                        onChange={(event) => {
+                            setComissionFeatures({
+                                ...comissionFeatures,
+                                resller: Number(event.target.value)
+                            })
+                        }}
+                        value={comissionFeatures.resller.toString()}
+
                     />
                     {errors[`${sectionPrefix}`]
                         && errors[`${sectionPrefix}`]?.message
@@ -53,28 +85,45 @@ const ComissionModal = () => {
                                 </p>
                             </div>
                         )}
-
-                    <Label
-                        className={`${sectionPrefix}-label block mb-2 text-heading font-semibold`}
-                        htmlFor={``}
-                        labelText={`Cihaz Yatirimcisi Hizmet Noktasi Sahibi mi?`}
-                    >
-                        <span className="text-md text-error">*</span>
-                    </Label>
-                    <Radio
-                        id='comission-details-charge-unit-reseller'
-                        name='comission-details-charge-unit-reseller'
-                        className='comission-details-charge-unit-reseller'
-                    />
+                    <div className='flex flex-row justify-between'>
+                        <Label
+                            className={`${sectionPrefix}-label block mb-2 text-heading font-semibold w-2/3`}
+                            htmlFor={``}
+                            labelText={`Cihaz Yatirimcisi Hizmet Noktasi Sahibi mi?`}
+                        >
+                            <span className="text-md text-error">*</span>
+                        </Label>
+                        <Checkbox
+                            className='border text-text text-sm rounded-lg block p-2.5 mb-4 focus:ring-primary focus:border-primary'
+                            id={`${sectionPrefix}-is-reseller`}
+                            name={`${sectionPrefix}-is-reseller`}
+                            onChange={(event) => {
+                                setComissionFeatures({
+                                    ...comissionFeatures,
+                                    isResellerForServicePoint: event.target.checked
+                                })
+                            }}
+                            checked={comissionFeatures.isResellerForServicePoint}
+                        />
+                    </div>
                     <Label
                         className={`${sectionPrefix}-label block mb-2 text-heading font-semibold`}
                         htmlFor={``}
                         labelText={`Alt Kirilmlari seciniz`}
                     />
                     <Dropdown
+                        className=' border text-text text-sm rounded-lg w-full block p-2.5 mb-4 focus:ring-primary focus:border-primary'
                         id='comission-details-service-point'
                         name='comission-details-service-point'
-                        items={[{ id: 1, name: 'Enerji Bedeli', rid: null }, { id: 2, name: 'KDV', rid: null }, { id: 3, name: 'Hizmet Geliri', rid: null }]}
+                        items={tariffFractionList}
+                        onChange={
+                            (event) => {
+                                setComissionFeatures({
+                                    ...comissionFeatures,
+                                    tariffFraction: Number(event.target.value)
+                                })
+                            }
+                        }
                     />
                     <Label
                         className={`${sectionPrefix}-label block mb-2 text-heading font-semibold`}
@@ -86,6 +135,13 @@ const ComissionModal = () => {
                         id={`${sectionPrefix}-datetime`}
                         name={`${sectionPrefix}-datetime`}
                         type='number'
+                        value={comissionFeatures.rate.toString()}
+                        onChange={(event) => {
+                            setComissionFeatures({
+                                ...comissionFeatures,
+                                rate: Number(event.target.value)
+                            })
+                        }}
                     />
                     <Button
                         buttonText='Kaydet'
