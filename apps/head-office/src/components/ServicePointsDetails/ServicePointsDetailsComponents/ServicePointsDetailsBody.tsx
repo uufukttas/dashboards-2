@@ -183,7 +183,9 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                         actionButton={addComissionButton}
                         titleClassName="font-bold"
                     >
-                        <Comissions />
+                        <Comissions
+                            slug={slug}
+                        />
                     </Accordion>
                 )
             }

@@ -127,6 +127,22 @@ export interface IChargeUnitsProps {
   status: string;
   location: string;
 };
+export interface IComissionProps {
+  RID: number;
+  ID: number;
+  TariffSubFractionTypeID: number;
+  TariffSubFractionTypeName: string;
+  Rate: number;
+  OwnerType: number;
+  OwnerTypeName: string
+  OwnerID: number;
+  OwnerName: string;
+  IsActive: boolean;
+  IsActive: null,
+  LocationTypeName: string;
+  LocationRelatedID: null,
+  ForInvestor: number;
+};
 export interface IConnectorBrandProps {
   connectorTypeId: number;
   displayName: string;
@@ -143,7 +159,7 @@ export interface IFeatureProps {
   stationId?: number;
   id: null | number;
   isChecked?: boolean;
-  name: string; 
+  name: string;
   rid: number | null;
   stationFeatureType: number;
   stationFeatureValue: number;
