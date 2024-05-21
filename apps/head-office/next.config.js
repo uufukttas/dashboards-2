@@ -40,6 +40,8 @@ const nextConfig = {
     GET_STATION_BY_ID: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationById',
     GET_STATION_INFO_BY_ID: 'https://sharztestapi.azurewebsites.net/StationInfo/GetByStationId',
     GET_STATION_SETTINGS: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationSettings',
+    GET_USERS: 'https://sharztestapi.azurewebsites.net/Auth/Users',
+    GET_SEARCH_USERS: 'https://sharztestapi.azurewebsites.net/Auth/SearchUser',
     GET_WORKING_HOURS: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetWorkHours',
     LOGIN_URL: 'https://sharztestapi.azurewebsites.net/Auth/Login',
     REMOVE_ENERGY_PRICE: 'https://sharztestapi.azurewebsites.net/ServicePoint/RemoveEnergyPrice',

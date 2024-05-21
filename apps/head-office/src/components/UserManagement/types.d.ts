@@ -1,8 +1,6 @@
 export interface IUserDataProps {
-    email: string;
-    lastName: string;
-    name: string;
-    phone: string;
+    userId: number;
+    userName: string;
     roleNames: string;
-    id: number;
+    lastLoginDate: string | null;
 };
