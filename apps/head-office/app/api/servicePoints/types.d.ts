@@ -67,7 +67,7 @@ export interface IChargeUnitsProps {
     stationId: number;
     status: string;
     location: string;
-  };
+};
 export interface IDeleteResonseProps {
     data: IDeleteResponseDataProps
     status: number;
