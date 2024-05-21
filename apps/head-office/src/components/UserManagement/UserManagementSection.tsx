@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../Modal/Modal';
 import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { AppDispatch, RootState } from '../../../app/redux/store';
 import UserManagementModalPage from './UserManagementModal/UserManagementModalPage';

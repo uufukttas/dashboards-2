@@ -7,6 +7,7 @@ import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVi
 import { RootState } from '../../../app/redux/store';
 
 const DashboardCards: React.FC = () => {
+    const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page`;
     const dispatch = useDispatch();
     const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
 
@@ -77,7 +78,7 @@ const DashboardCards: React.FC = () => {
     );
 
     return (
-        <div className={`${BRAND_PREFIX}-cards-container w-full flex justify-center flex-wrap`}>
+        <div className={`${pagePrefix}-container w-full flex justify-center flex-wrap`}>
             <Card
                 cardBody={chargeUnitContent1}
                 className={`w-full mx-8 my-4 flex items-center justify-center h-[200px] p-0 bg-blue-300 rounded-lg shadow-none text-blue-600 md:${isSidebarExpanded ? 'w-full' : 'w-1/3'} lg:w-[14%] lg:mx-2`}
