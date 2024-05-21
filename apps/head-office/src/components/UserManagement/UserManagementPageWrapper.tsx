@@ -15,6 +15,7 @@ const montserrat = Montserrat({
 });
 
 const UserManagement: React.FC = () => {
+    const pagePrefix: string = `${BRAND_PREFIX}-user-management-page`;
     const dispatch = useDispatch<AppDispatch>();
     const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
 
@@ -23,7 +24,7 @@ const UserManagement: React.FC = () => {
     }, []);
 
     return (
-        <div className={`${montserrat.className} ${BRAND_PREFIX}-user-management-page-wrapper w-full flex h-screen`}>
+        <div className={`${montserrat.className} ${pagePrefix}-wrapper w-full flex h-screen`}>
             {
                 isLoading
                     ? (
@@ -31,7 +32,7 @@ const UserManagement: React.FC = () => {
                     )
                     : (
                         <MainPage sectionName='Kullanici Yonetimi'>
-                            <div className={`${BRAND_PREFIX}-usermanagement-page-container justify-center items-center md:pt-6 flex-wrap`}>
+                            <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap`}>
                                 <UserManagementSection />
                             </div>
                         </MainPage>
