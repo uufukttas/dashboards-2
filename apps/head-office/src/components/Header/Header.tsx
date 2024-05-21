@@ -9,7 +9,7 @@ import type { IHeaderProps } from './types';
 import './Header.css';
 
 const Header: React.FC<IHeaderProps> = ({ className }: IHeaderProps) => {
-  const headerPrefix = `${BRAND_PREFIX}-header`;
+  const headerPrefix: string = `${BRAND_PREFIX}-header`;
   const dispatch = useDispatch<AppDispatch>();
   const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
 
