@@ -8,7 +8,7 @@ import { RootState } from '../../../app/redux/store';
 import './Sidebar.css';
 
 const Sidebar: React.FC = () => {
-  const sidebarPrefix = `${BRAND_PREFIX}-sidebar`;
+  const sidebarPrefix: string = `${BRAND_PREFIX}-sidebar`;
   const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
   const [isDetectedDevice, setIsDetectedDevice] = useState<boolean>(false);
 

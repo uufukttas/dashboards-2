@@ -10,7 +10,7 @@ import { toggleSidebarExpanded } from '../../../../app/redux/features/isSidebarE
 import { RootState } from '../../../../app/redux/store';
 
 const SidebarHeader: React.FC = () => {
-    const sidebarHeaderPrefix = `${BRAND_PREFIX}-sidebar-header`;
+    const sidebarHeaderPrefix: string = `${BRAND_PREFIX}-sidebar-header`;
     const dispatch = useDispatch();
     const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
 

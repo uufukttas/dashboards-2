@@ -3,3 +3,9 @@ export interface ISidebarElementProps {
     link: string;
     icon: JSX.Element;
 };
+
+export interface ISidebarBodyItemProps {
+    index: number;
+    item: ISidebarElementProps;
+    sidebarElementsLength: number;
+};
