@@ -3,7 +3,7 @@ import type { ISectionProps } from './types';
 import './Section.css';
 
 const Section: React.FC<ISectionProps> = ({ children, sectionName }: ISectionProps) => {
-  const sectionPrefix = `${BRAND_PREFIX}-section`;
+  const sectionPrefix: string = `${BRAND_PREFIX}-section`;
 
   return (
     <section
