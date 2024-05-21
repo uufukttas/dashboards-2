@@ -1,8 +1,9 @@
 import React from 'react';
+import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type { IFormErrorProps } from '../types';
 
 const FormError = ({ loginFormInput, errors }: IFormErrorProps) => {
-    const loginFormInputErrorPrefix = `${loginFormInput}-error`;
+    const loginFormInputErrorPrefix = `${BRAND_PREFIX}-${loginFormInput}-error`;
 
     return (
         <div className={`${loginFormInputErrorPrefix}-wrapper my-4 font-bold text-error`}>

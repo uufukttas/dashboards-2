@@ -13,7 +13,7 @@ import type { ILoginFormDataProps, ILoginRequestDataProps } from '../types';
 
 const CardBody: React.FC = () => {
     const initialLoginFormData: ILoginFormDataProps = { password: '', username: '' };
-    const loginPrefix = `${BRAND_PREFIX}-login`;
+    const loginPrefix: string = `${BRAND_PREFIX}-login`;
     const dispatch = useDispatch<AppDispatch>();
     const { formState: { errors }, handleSubmit, register } = useForm();
     const router = useRouter();

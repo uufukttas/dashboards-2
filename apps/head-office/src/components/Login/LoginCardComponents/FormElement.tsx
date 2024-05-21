@@ -13,7 +13,7 @@ const FormElement = ({
     register,
     setLoginFormData,
 }: IFormElementProps) => {
-    const loginFormIputPrefix = `${BRAND_PREFIX}-${loginFormInput}`;
+    const loginFormIputPrefix: string = `${BRAND_PREFIX}-${loginFormInput}`;
     const loginFormInputs: string[] = ['username', 'password'];
 
     const getDisplayName = (type: string): string => type === loginFormInputs[0] ? 'Kullanıcı Adı' : 'Şifre';
