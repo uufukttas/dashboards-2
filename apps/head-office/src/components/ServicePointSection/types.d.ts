@@ -1,3 +1,11 @@
+export interface ICitiesProps {
+    id: null; rid: number; plateCode: number; name: string;
+};
+export interface ICompanyProps {
+    id: number;
+    name: string;
+    rid: null;
+};
 export interface IFeatureProps {
     stationId?: number;
     id: null | number;
@@ -7,7 +15,6 @@ export interface IFeatureProps {
     stationFeatureType: number;
     stationFeatureValue: number;
 };
-
 export interface IFormDataProps {
     [key: string]: boolean | number | string | string[] | IFeatureProps[];
 };
@@ -61,7 +68,7 @@ export interface IPaginationItemProps {
     children: React.ReactNode;
     isActive: boolean;
     isDisabled: boolean;
-    page: number;
+    pageNumber: number;
     onClick: () => void;
 };
 

@@ -6,20 +6,21 @@ import ServicePointModalFormSecondPage from './ServicePointModalFormPages/Servic
 import ServicePointModalFormThirdPage from './ServicePointModalFormPages/ServicePointModalFormThirdPage';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import { RootState } from '../../../../app/redux/store';
-import { IFeatureProps } from '../types';
+import { ICitiesProps, IFeatureProps } from '../types';
 
 const ServicePointModalForm: React.FC = () => {
+  const servicePointModalPrefix: string = `${BRAND_PREFIX}-service-point`;
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const [activePage, setActivePage] = useState(1);
-  const [cities, setCities] = useState<{ id: null; rid: number; plateCode: number; name: string; }[]>([]);
-  const [districts, setDistricts] = useState<{ id: null; rid: number; name: string; plateCode: number; }[]>([]);
+  const [cities, setCities] = useState<ICitiesProps[]>([]);
+  const [districts, setDistricts] = useState<ICitiesProps[]>([]);
   const [paymentMethods, setPaymentMethods] = useState<IFeatureProps[]>([]);
   const [opportunities, setOpportunities] = useState<IFeatureProps[]>([]);
   const [stationId, setStationId] = useState<number>(0);
 
   return (
-    <div className={`${BRAND_PREFIX}-service-point-${servicePointData.id > 0 ? 'update' : 'create'}-form-wrapper`}>
-      <div className={`${BRAND_PREFIX}-service-point-${servicePointData.id > 0 ? 'update' : 'create'}-modal-page-container relative p-6 bg-white rounded-lg max-h-[650px]`}>
+    <div className={`${servicePointModalPrefix}-${servicePointData.id > 0 ? 'update' : 'create'}-modal-form-wrapper`}>
+      <div className={`${servicePointModalPrefix}-${servicePointData.id > 0 ? 'update' : 'create'}-modal-form-container relative p-6 bg-white rounded-lg max-h-[650px]`}>
         {
           activePage === 1 && (
             <ServicePointModalFormFirstPage

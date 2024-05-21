@@ -10,7 +10,7 @@ import { toggleServicePointDataUpdated } from '../../../../../app/redux/features
 import { setServicePointData } from '../../../../../app/redux/features/servicePointData';
 import { RootState } from '../../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../constants/constants';
-import { IFormDataProps, IModalFirstPageInputsProps } from '../../types';
+import { ICompanyProps, IFormDataProps, IModalFirstPageInputsProps } from '../../types';
 
 const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
   activePage,
@@ -18,28 +18,28 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
   setActivePage,
   setStationId,
 }: IModalFirstPageInputsProps) => {
-  const dispatch = useDispatch();
-  const { formState: { errors }, handleSubmit, register } = useForm();
-  const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
-  const [companies, setCompanies] = useState<{ id: number; name: string; rid: null; }[]>([]);
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  const [resellers, setResellers] = useState<{ id: number; name: string; rid: null; }[]>([]);
-  const formName = ['name', 'reseller', 'company'];
-  const hasServicePointDataId = servicePointData.id > 0;
-  const hasStationId = stationId !== 0;
-  const sectionPrefix = 'service-point';
+  const formName: string[] = ['name', 'reseller', 'company'];
+  const hasStationId: boolean = stationId !== 0;
+  const sectionPrefix: string = 'service-point';
   const formProperties = {
     name: `${sectionPrefix}-${formName[0]}`,
     reseller: `${sectionPrefix}-${formName[1]}`,
     company: `${sectionPrefix}-${formName[2]}`,
   };
+  const dispatch = useDispatch();
+  const { formState: { errors }, handleSubmit, register } = useForm();
+  const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
+  const [companies, setCompanies] = useState<ICompanyProps[]>([]);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [resellers, setResellers] = useState<ICompanyProps[]>([]);
+  const hasServicePointDataId: boolean = servicePointData.id > 0;
   const [firstPageFormData, setFirstPageFormData] = useState<IFormDataProps>({
     [`${formProperties.name}`]: servicePointData.name || '',
     [`${formProperties.reseller}`]: servicePointData.resellerCompanyId || 1,
     [`${formProperties.company}`]: servicePointData.companyId || 1,
   });
 
-  const createServicePointConfigData = () => ({
+  const createServicePointConfigData = (): IFormDataProps => ({
     name: firstPageFormData[`${formProperties.name}`],
     resellerCompanyId: firstPageFormData[`${formProperties.reseller}`],
     companyId: firstPageFormData[`${formProperties.company}`],
