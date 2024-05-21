@@ -5,13 +5,13 @@ import { BRAND_PREFIX } from '../../../constants/constants';
 import type { IPaginationProps } from '../types';
 
 const Pagination: React.FC<IPaginationProps> = ({ currentPage, totalCounts, setCurrentPage }: IPaginationProps) => {
-    const sectionPrefix = `${BRAND_PREFIX}-pagination`;
-    const totalPages = Math.ceil(totalCounts / 10);
+    const sectionPrefix: string = `${BRAND_PREFIX}-pagination`;
+    const totalPages: number = Math.ceil(totalCounts / 10);
 
-    const renderPageNumbers = () => {
-        const maxVisiblePages = 3;
-        const pageNumbers = [];
-        let startPage = 1;
+    const renderPageNumbers = (): React.ReactNode[] => {
+        const maxVisiblePages: number = 3;
+        const pageNumbers: React.ReactNode[] | HTMLElement = [];
+        let startPage: number = 1;
 
         if (currentPage > Math.floor(maxVisiblePages / 2)) {
             startPage = Math.max(currentPage - Math.floor(maxVisiblePages / 2), 1);
@@ -21,7 +21,13 @@ const Pagination: React.FC<IPaginationProps> = ({ currentPage, totalCounts, setC
 
         if (startPage > 1) {
             pageNumbers.push(
-                <PaginationItem isDisabled={false} key={1} page={1} onClick={() => setCurrentPage(1)} isActive={false}>
+                <PaginationItem
+                    isActive={false}
+                    isDisabled={false}
+                    key={1}
+                    pageNumber={1}
+                    onClick={() => setCurrentPage(1)}
+                >
                     1
                 </PaginationItem>
             );
@@ -38,13 +44,13 @@ const Pagination: React.FC<IPaginationProps> = ({ currentPage, totalCounts, setC
             };
         };
 
-        for (let pageIndex = startPage; pageIndex <= endPage; pageIndex++) {
+        for (let pageIndex: number = startPage; pageIndex <= endPage; pageIndex++) {
             pageNumbers.push(
                 <PaginationItem
                     isActive={pageIndex === currentPage}
                     isDisabled={false}
                     key={pageIndex}
-                    page={pageIndex}
+                    pageNumber={pageIndex}
                     onClick={() => setCurrentPage(pageIndex)}
                 >
                     {pageIndex}
@@ -69,7 +75,7 @@ const Pagination: React.FC<IPaginationProps> = ({ currentPage, totalCounts, setC
                     isActive={false}
                     isDisabled={false}
                     key={totalPages}
-                    page={totalPages}
+                    pageNumber={totalPages}
                     onClick={() => setCurrentPage(totalPages)}
                 >
                     {totalPages}
@@ -91,7 +97,7 @@ const Pagination: React.FC<IPaginationProps> = ({ currentPage, totalCounts, setC
                 <PaginationItem
                     isActive={false}
                     isDisabled={currentPage === 1}
-                    page={currentPage - 1}
+                    pageNumber={currentPage - 1}
                     onClick={() => setCurrentPage(currentPage - 1)}
                 >
                     <FaChevronLeft />
@@ -100,7 +106,7 @@ const Pagination: React.FC<IPaginationProps> = ({ currentPage, totalCounts, setC
                 <PaginationItem
                     isActive={false}
                     isDisabled={currentPage === totalPages}
-                    page={currentPage + 1}
+                    pageNumber={currentPage + 1}
                     onClick={() => setCurrentPage(currentPage + 1)}
                 >
                     <FaChevronRight />
