@@ -76,7 +76,7 @@ const ServicePointSection: React.FC = () => {
 
   useEffect(() => {
     getAllServicePoints();
-  }, [isServicePointDataUpdated, currentPage]);
+  }, [currentPage, isServicePointDataUpdated, searchedText]);
 
   return (
     <div className={`${BRAND_PREFIX}-service-points-container flex justify-between items-center flex-col`}>
