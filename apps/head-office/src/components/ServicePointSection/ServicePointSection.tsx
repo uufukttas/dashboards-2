@@ -26,20 +26,18 @@ const ServicePointSection: React.FC = () => {
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
-  const isServicePointDataUpdated = useSelector((state: RootState) => {
-    return state.isServicePointDataUpdated.isServicePointDataUpdated
-  });
-  const [searchedText, setSearchedText] = useState<string>('');
+  const isServicePointDataUpdated = useSelector((state: RootState) => state.isServicePointDataUpdated.isServicePointDataUpdated);
   const servicePointsCount = useSelector((state: RootState) => state.servicePoints.count);
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const servicePointsData = useSelector((state: RootState) => state.servicePoints.servicePoints);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchedText, setSearchedText] = useState<string>('');
 
   const deleteServicePoint = async (deletedId: number): Promise<void> => {
     try {
       const { data } = await deleteServicePointRequest(deletedId);
 
-      handleDeleteSuccess(data);
+      handleDeleteServicePointSuccess(data);
     } catch (error) {
       console.error(error);
     }
@@ -58,7 +56,7 @@ const ServicePointSection: React.FC = () => {
     dispatch(setServicePointInformation(initialServicePointInformationValue));
     dispatch(toggleModalVisibility(false));
   };
-  const handleDeleteSuccess = (data: IResponseDataProps): void => {
+  const handleDeleteServicePointSuccess = (data: IResponseDataProps): void => {
     dispatch(
       showAlert({
         message: data.message,
@@ -136,8 +134,8 @@ const ServicePointSection: React.FC = () => {
         servicePointsCount > 10 && (
           <Pagination
             currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
             totalCounts={servicePointsCount}
+            setCurrentPage={setCurrentPage}
           />
         )
       }
