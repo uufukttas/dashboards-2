@@ -1,5 +1,5 @@
+import React from 'react';
 import Link from 'next/link';
-import React from 'react'
 import { FaCircleInfo } from 'react-icons/fa6';
 import { IServicePointInfoProps, IUserDataProps } from '../types';
 

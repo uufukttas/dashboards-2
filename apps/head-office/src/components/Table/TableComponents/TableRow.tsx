@@ -3,18 +3,22 @@ import { FaExclamation } from 'react-icons/fa6';
 import { Tooltip } from '@projects/tooltip';
 import TableActions from './TableActions';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../constants/constants';
-import { IServicePointInfoProps, ITableRowProps, IUserDataProps } from '../types';
+import {
+    IRolesStyleProps,
+    IServicePointInfoProps,
+    ITableDataAttributeProps,
+    ITableRowProps,
+    IUserDataProps
+} from '../types';
 
 const TableRow = ({ attributeName, tableRowData, index }: ITableRowProps) => {
-    const dataAttributes: { [key: string]: number } = {
-        [`data-${attributeName}-id`]: tableRowData?.id || 0,
-    };
-    const roleStyles: { [key: string]: { [key: string]: string } } = {
+    const dataAttributes: ITableDataAttributeProps = { [`data-${attributeName}-id`]: tableRowData?.id || 0 };
+    const roleStyles: IRolesStyleProps = {
         Admin: { backgroundColor: 'bg-red-300', textColor: 'text-red-800', borderColor: 'border-red-300' },
         Employee: { backgroundColor: 'bg-green-300', textColor: 'text-green-800', borderColor: 'border-green-300' },
         User: { backgroundColor: 'bg-blue-300', textColor: 'text-blue-800', borderColor: 'border-blue-300' },
         Manager: { backgroundColor: 'bg-purple-300', textColor: 'text-purple-800', borderColor: 'border-purple-300' },
-        'Super Admin': { backgroundColor: 'bg-yellow-300', textColor: 'text-yellow-800', borderColor: 'border-yellow-300' },
+        Super: { backgroundColor: 'bg-yellow-300', textColor: 'text-yellow-800', borderColor: 'border-yellow-300' },
         Default: { backgroundColor: 'bg-gray-300', textColor: 'text-gray-800', borderColor: 'border-gray-300' }
     };
 
@@ -32,7 +36,7 @@ const TableRow = ({ attributeName, tableRowData, index }: ITableRowProps) => {
             </div>
         );
     };
-    const renderTableDataInfo = (tableCellData: IServicePointInfoProps | IUserDataProps, index: number): React.ReactNode => {
+    const renderTableDataInfo = (tableCellData: IServicePointInfoProps | IUserDataProps): React.ReactNode => {
         return tableCellData.phone && tableCellData.address && tableCellData.cityId && tableCellData.districtId
             ? (
                 <>
@@ -49,7 +53,7 @@ const TableRow = ({ attributeName, tableRowData, index }: ITableRowProps) => {
             ) : (
                 <>
                     <td className="px-4 py-2 text-center">{tableCellData.phone || ''}</td>
-                    <td className="px-4 py-2 text-center w-full flex flex-wrap">
+                    <td className="px-4 py-2 text-center w-full flex flex-wrap justify-center">
                         {
                             JSON.parse(tableCellData?.roleNames || '[]').map((role: string, index: number) => {
                                 return (
@@ -78,7 +82,7 @@ const TableRow = ({ attributeName, tableRowData, index }: ITableRowProps) => {
         <tr className='h-[10%]' key={tableRowData?.id || index + 1} {...dataAttributes}>
             <td className="px-4 py-2">
                 {
-                    tableRowData?.name
+                    tableRowData.name
                         ? (
                             <div className={`${BRAND_PREFIX}-table-body-item-information-container h-full flex items-center`}>
                                 <div className={`${BRAND_PREFIX}-table-body-item-status text-red-500 text-2xl`}>
@@ -93,7 +97,7 @@ const TableRow = ({ attributeName, tableRowData, index }: ITableRowProps) => {
                         ) : <div className="text-center">{tableRowData.userName}</div>}
             </td>
             {
-                renderTableDataInfo(tableRowData, index)
+                renderTableDataInfo(tableRowData)
             }
         </tr>
     );

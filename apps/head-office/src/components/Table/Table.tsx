@@ -9,7 +9,7 @@ import './Table.css';
 const Table: React.FC<ITableProps> = ({
   attributeName, searchedText, tableData, tableDataCount, tableHeadData, setSearchedText
 }: ITableProps) => {
-  const tablePrefix = `${BRAND_PREFIX}-table`;
+  const tablePrefix: string = `${BRAND_PREFIX}-table`;
 
   return (
     <div className={`${tablePrefix}-container relative overflow-x-auto shadow-md max-w-[330px] md:max-w-full w-full border-2 border-gray-200`}>

@@ -14,7 +14,7 @@ const TableRowDelete: React.FC<{ tableCellDataId: number }> = ({ tableCellDataId
         );
     };
     return (
-        <a className="font-medium text-red-600 cursor-pointer px-4" data-modal-show="deleteUserModal"
+        <a className="font-medium text-red-600 cursor-pointer px-4"
             data-service-point-id={tableCellDataId || 0} onClick={(event) => deleteServicePointInfo(event)}>
             <FaTrashCan />
         </a>

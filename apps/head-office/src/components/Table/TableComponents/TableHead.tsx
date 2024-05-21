@@ -1,8 +1,8 @@
 import React from 'react';
 import { BRAND_PREFIX } from '../../../constants/constants';
 
-const TableHead: React.FC<{tableHeadData: string[]}> = ({ tableHeadData }: { tableHeadData: string[] }) => {
-    const tableHeadPrefix = `${BRAND_PREFIX}-table-head`
+const TableHead: React.FC<{ tableHeadData: string[] }> = ({ tableHeadData }: { tableHeadData: string[] }) => {
+    const tableHeadPrefix: string = `${BRAND_PREFIX}-table-head`;
 
     return (
         <thead className={`${tableHeadPrefix} text-xs text-gray-700 uppercase bg-gray-50`}>
