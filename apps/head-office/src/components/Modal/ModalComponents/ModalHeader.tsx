@@ -4,9 +4,9 @@ import { BRAND_PREFIX } from '../../../constants/constants';
 import type { IModalHeaderProps } from '../types';
 
 const ModalHeader: React.FC<IModalHeaderProps> = ({ modalHeaderTitle, onClose }: IModalHeaderProps) => {
-    const modalHeaderPrefix = `${BRAND_PREFIX}-modal-header`;
+    const modalHeaderPrefix: string = `${BRAND_PREFIX}-modal-header`;
 
-    const handleClose = () => {
+    const handleClose = (): void => {
         onClose && onClose();
     };
 
