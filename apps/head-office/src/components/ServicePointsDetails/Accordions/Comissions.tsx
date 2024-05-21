@@ -1,11 +1,14 @@
 import axios from 'axios';
 import React, { Fragment, useEffect, useState } from 'react'
-import { FaPencilAlt } from 'react-icons/fa';
 import { FaTrashCan } from 'react-icons/fa6';
 import type { IComissionProps } from '../types';
+import { Button } from '@projects/button';
+import { useDispatch } from 'react-redux';
+import { showDialog } from '../../../../app/redux/features/dialogInformation';
 
 const Comissions = ({ slug }: { slug: string }) => {
     const sectionPrefix = 'comission-details';
+    const dispatch = useDispatch();
     const [comissionDetails, setComissionDetails] = useState([]);
 
     const getComissionDetails = async (): Promise<void> => {
@@ -53,42 +56,52 @@ const Comissions = ({ slug }: { slug: string }) => {
                 <div className={`${sectionPrefix}-content-container w-full`}>
                     <div className={`${sectionPrefix}-content w-full`}>
                         <div className={`${sectionPrefix}-info-container flex flex-col justify-between`}>
-                            <div className={`${sectionPrefix}-info-item flex justify-between md:items-center flex-col md:flex-row w-full py-4`}>
-                                <div className={`${sectionPrefix}-info-item-value text-lg font-normal flex items-baseline justify-between w-full py-4`}>
-                                    {
-                                        comissionDetails.map((comissionDetail: IComissionProps) => {
-                                            return (
-                                                <Fragment key={comissionDetail.ID}>
-                                                    <div className={`${sectionPrefix}-reseller-container flex justify-between md:items-center flex-col md:flex-row w-full `}>
-                                                        <p className={`${sectionPrefix}-reseller text-lg font-normal`}>{comissionDetail.OwnerTypeName}</p>
-                                                    </div>
-                                                    <div className={`${sectionPrefix}-charge-unit-reseller-container flex justify-between md:items-center flex-col md:flex-row w-full `}>
-                                                        <p className={`${sectionPrefix}-charge-unit-reseller text-lg font-normal`}>{comissionDetail.ForInvestor ? 'Evet' : 'Hayir'}</p>
-                                                    </div>
-                                                    <div className={`${sectionPrefix}-breakpoint-container flex justify-between md:items-center flex-col md:flex-row w-full `}>
-                                                        <p className={`${sectionPrefix}-breakpoint text-lg font-normal`}>{comissionDetail.TariffSubFractionTypeName}</p>
-                                                    </div>
-                                                    <div className={`${sectionPrefix}-percent-container flex justify-between md:items-center flex-col md:flex-row w-full `}>
-                                                        <p className={`${sectionPrefix}-percent text-lg font-normal`}>{comissionDetail.Rate}</p>
-                                                    </div>
-                                                    <div className={`${sectionPrefix}-percent-container flex justify-start md:items-center flex-col md:flex-row w-full `}>
-                                                        <button type='button' className='bg-secondary rounded-md px-4 py-2 mx-4 text-white'>
-                                                            <FaPencilAlt />
-                                                        </button>
-                                                        <button type='button' className='bg-secondary rounded-md px-4 py-2 text-white'>
-                                                            <FaTrashCan />
-                                                        </button>
-                                                    </div>
-                                                </Fragment>
-                                            )
-                                        })
-                                    }
-                                </div>
+                            <div className={`${sectionPrefix}-info-item flex justify-between md:items-center flex-col flex-wrap md:flex-row w-full py-4`}>
+                                {
+                                    comissionDetails.map((comissionDetail: IComissionProps) => {
+                                        return (
+                                            <div className={`${sectionPrefix}-info-item-value text-lg font-normal flex justify-between w-full py-4`} key={comissionDetail.ID}>
+                                                <div className={`${sectionPrefix}-reseller-container flex justify-center md:items-center flex-col md:flex-row `}>
+                                                    <p className={`${sectionPrefix}-reseller text-lg font-normal`}>{comissionDetail.OwnerTypeName}</p>
+                                                </div>
+                                                <div className={`${sectionPrefix}-charge-unit-reseller-container flex justify-center md:items-center flex-col md:flex-row `}>
+                                                    <p className={`${sectionPrefix}-charge-unit-reseller text-lg font-normal`}>{comissionDetail.ForInvestor ? 'Evet' : 'Hayir'}</p>
+                                                </div>
+                                                <div className={`${sectionPrefix}-breakpoint-container flex justify-center md:items-center flex-col md:flex-row `}>
+                                                    <p className={`${sectionPrefix}-breakpoint text-lg font-normal`}>{comissionDetail.TariffSubFractionTypeName}</p>
+                                                </div>
+                                                <div className={`${sectionPrefix}-percent-container flex justify-center md:items-center flex-col md:flex-row `}>
+                                                    <p className={`${sectionPrefix}-percent text-lg font-normal`}>{comissionDetail.Rate}</p>
+                                                </div>
+                                                <div className={`${sectionPrefix}-percent-container flex justify-center md:items-center flex-col md:flex-row `}>
+                                                    <Button
+                                                        buttonText={""}
+                                                        className="bg-secondary rounded-md px-4 py-2 mx-4 text-white"
+                                                        id={`permission-delete-button`}
+                                                        type={'button'}
+                                                        dataAttributes={{ 'comission-id': comissionDetail.RID?.toString() }}
+                                                        onClick={() => {
+                                                            dispatch(
+                                                                showDialog({
+                                                                    isVisible: true,
+                                                                    actionType: 'deleteServicePointComission',
+                                                                    data: comissionDetail.RID
+                                                                })
+                                                            );
+                                                        }}
+                                                    >
+                                                        <FaTrashCan />
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        )
+                                    })
+                                }
                             </div>
                         </div>
                     </div>
                 </div>
-            </div >
+            </div>
         </>
     );
 };
