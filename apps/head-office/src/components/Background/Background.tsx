@@ -3,7 +3,8 @@ import type { IBackgroundProps } from './types';
 import './Background.css';
 
 const Background: React.FC<IBackgroundProps> = ({ backgroundUrl, className }: IBackgroundProps) => {
-  const backgroundPrefix = `${BRAND_PREFIX}-background`;
+  const backgroundPrefix: string = `${BRAND_PREFIX}-background`;
+
   return (
     <div
       className={`${backgroundPrefix}-container h-screen ${className}`}
