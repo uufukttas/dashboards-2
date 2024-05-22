@@ -3,13 +3,13 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from '@projects/alert';
 import { Dialog } from '@projects/dialog';
-import ServicePointDetailsHeader from './ServicePointsDetailsComponents/ServicePointDetailsHeader';
-import ServicePointsDetailsBody from './ServicePointsDetailsComponents/ServicePointsDetailsBody';
 import ChargeUnitAddModal from './Modals/ChargeUnitAddModal';
 import ComissionModal from './Modals/ComissionModal';
 import ConnectorAddModal from './Modals/ConnectorAddModal';
 import EnergyPricesModal from './Modals/EnergyPricesModal';
 import ServicePointPermissionsModal from './Modals/ServicePointPermissionsModal';
+import ServicePointsDetailsBody from './ServicePointsDetailsComponents/ServicePointsDetailsBody';
+import ServicePointDetailsHeader from './ServicePointsDetailsComponents/ServicePointDetailsHeader';
 import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
@@ -43,9 +43,9 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const dispatch = useDispatch();
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
-  const isChargePointDataUpdated = useSelector(
-    (state: RootState) => state.isChargePointDataUpdated.isChargePointDataUpdated
-  );
+  const isChargePointDataUpdated = useSelector((state: RootState) => {
+    return state.isChargePointDataUpdated.isChargePointDataUpdated
+  });
   const isConnectorUpdated = useSelector((state: RootState) => state.isConnectorUpdated.isConnectorUpdated);
   const isLoadingVisible = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
@@ -65,8 +65,8 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const [connectorProperty, setConnectorProperty] = useState<IConnectorPropertyProps>({
     chargePointId: 0,
     chargePointModelId: 0,
+    connectorId: 0,
     connectorNumber: 0,
-    connectorId: 0
   });
   const [connectors, setConnectors] = useState<IConnectorStateProps[]>([]);
   const [energyPriceDetails, setEnergyPriceDetails] = useState<IEnergyPriceDetailsProps[]>([]);
@@ -328,7 +328,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       console.log(error);
     };
   };
-
   const deleteServicePointComission = async (dialogData: number) => {
     await axios
       .post(
