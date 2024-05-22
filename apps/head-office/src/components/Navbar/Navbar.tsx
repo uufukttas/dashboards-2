@@ -10,7 +10,7 @@ import type { INavbarItemProps, INavbarProps } from './types';
 import './Navbar.css';
 
 const Navbar: React.FC<INavbarProps> = ({ activeIndex, setActiveIndex }: INavbarProps) => {
-  const navbarItems = [
+  const navbarItems: INavbarItemProps[] = [
     {
       title: (
         <>
@@ -68,7 +68,8 @@ const Navbar: React.FC<INavbarProps> = ({ activeIndex, setActiveIndex }: INavbar
       ),
     },
   ];
-  const navbarPrefix = `${BRAND_PREFIX}-navbar`;
+  const navbarPrefix: string = `${BRAND_PREFIX}-navbar`;
+
   return (
     <nav className={`${navbarPrefix}-container flex items-center`}>
       {
