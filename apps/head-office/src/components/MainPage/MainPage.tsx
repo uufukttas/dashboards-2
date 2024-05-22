@@ -8,7 +8,7 @@ import type { IMainPageProps } from './types';
 import './MainPage.css';
 
 const MainPage: React.FC<IMainPageProps> = ({ children, sectionName }: IMainPageProps) => {
-  const pagePrefix = `${BRAND_PREFIX}-page`;
+  const pagePrefix: string = `${BRAND_PREFIX}-page`;
 
   return (
     <div className={`${pagePrefix}-wrapper w-full flex`}>
