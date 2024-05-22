@@ -1,6 +1,7 @@
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 import accessTypeList from './features/accessTypeList';
 import alertInformation from './features/alertInformation';
+import chargeUnitBrands from './features/chargeUnitBrands';
 import chargeUnitData from './features/chargeUnitData';
 import dialogInformation from './features/dialogInformation';
 import isChargePointDataUpdated from './features/isChargePointDataUpdated';
@@ -20,6 +21,7 @@ export const store: EnhancedStore = configureStore({
   reducer: {
     accessTypeList,
     alertInformation,
+    chargeUnitBrands,
     chargeUnitData,
     dialogInformation,
     isChargePointDataUpdated,

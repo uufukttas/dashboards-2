@@ -14,10 +14,11 @@ import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { getChargePointFeatureStatus } from '../../../app/api/servicePointDetails';
+import { getChargePointFeatureStatus, getChargeUnitBrands } from '../../../app/api/servicePointDetails';
 import { deleteChargePointRequest } from '../../../app/api/servicePoints/deleteChargePointRequest';
 import { setAccessTypeList } from '../../../app/redux/features/accessTypeList';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
+import { setChargeUnitBrands } from '../../../app/redux/features/chargeUnitBrands';
 import { setChargeUnitData } from '../../../app/redux/features/chargeUnitData';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleChargePointDataUpdated } from '../../../app/redux/features/isChargePointDataUpdated';
@@ -27,7 +28,6 @@ import { toggleServicePointPermissionsUpdated } from '../../../app/redux/feature
 import { setStatusList } from '../../../app/redux/features/statusList';
 import { RootState } from '../../../app/redux/store';
 import type {
-  IBrandsProps,
   IChargeUnitsProps,
   IConnectorProps,
   IConnectorPropertyProps,
@@ -59,7 +59,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const [addConnector, setAddConnector] = useState(false);
   const [addEnergyPrice, setAddEnergyPrice] = useState<boolean>(false);
   const [addPermission, setAddPermission] = useState<boolean>(false);
-  const [brands, setBrands] = useState<IBrandsProps[]>([]);
   const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([]);
   const [comissions, setComissions] = useState([]);
   const [connectorProperty, setConnectorProperty] = useState<IConnectorPropertyProps>({
@@ -151,15 +150,13 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     };
   };
   const getBrands = async () => {
-    try {
-      await axios
-        .get(process.env.GET_CHARGE_UNIT_MODELS || '')
-        .then((response) => response.data)
-        .then((response) => setBrands(response.data))
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    };
+    const chargeUnitBrands = await getChargeUnitBrands();
+
+    if (!chargeUnitBrands.success) {
+      console.error('Error getting charge unit brands', chargeUnitBrands.error);
+    }
+
+    dispatch(setChargeUnitBrands(chargeUnitBrands.data));
   };
   const getChargeUnits = async () => {
     try {
@@ -464,7 +461,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
                 }}
               >
                 <ChargeUnitAddModal
-                  brands={brands}
                   investors={investors}
                   slug={slug}
                   setAddChargeUnit={setAddChargeUnit}

@@ -47,6 +47,11 @@ interface IServicePointInformationProps {
     freePark: boolean;
     paymentMethods: string[];
 };
+export interface IChargeUnitBrandsProps {
+    id: number;
+    isDeleted: boolean;
+    name: string;
+};
 export interface IStationFeatureListItemsProps {
     id: number;
     name: string;

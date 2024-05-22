@@ -223,7 +223,6 @@ export interface IServicePointsDetailsInfoProps {
 };
 export interface IServicePointDetailsModalProps {
   slug: string;
-  brands: IBrandsProps[];
   investors: IInvestorsProps[];
   setAddChargeUnit: React.Dispatch<React.SetStateAction<boolean>>;
 };
