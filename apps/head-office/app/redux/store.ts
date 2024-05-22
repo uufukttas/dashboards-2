@@ -3,6 +3,7 @@ import accessTypeList from './features/accessTypeList';
 import alertInformation from './features/alertInformation';
 import chargeUnitBrands from './features/chargeUnitBrands';
 import chargeUnitData from './features/chargeUnitData';
+import chargeUnitInvestors from './features/chargeUnitInvestors';
 import dialogInformation from './features/dialogInformation';
 import isChargePointDataUpdated from './features/isChargePointDataUpdated';
 import isConnectorUpdated from './features/isConnectorUpdated';
@@ -23,6 +24,7 @@ export const store: EnhancedStore = configureStore({
     alertInformation,
     chargeUnitBrands,
     chargeUnitData,
+    chargeUnitInvestors,
     dialogInformation,
     isChargePointDataUpdated,
     isConnectorUpdated,

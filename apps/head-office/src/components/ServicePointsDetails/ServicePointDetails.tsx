@@ -14,7 +14,7 @@ import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { getChargePointFeatureStatus, getChargeUnitBrands } from '../../../app/api/servicePointDetails';
+import { getChargePointFeatureStatus, getChargePointInvestors, getChargeUnitBrands } from '../../../app/api/servicePointDetails';
 import { deleteChargePointRequest } from '../../../app/api/servicePoints/deleteChargePointRequest';
 import { setAccessTypeList } from '../../../app/redux/features/accessTypeList';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
@@ -39,6 +39,7 @@ import type {
   IPermissionsProps
 } from './types';
 import './ServicePointDetails.css';
+import { setChargeUnitInvestors } from 'apps/head-office/app/redux/features/chargeUnitInvestors';
 
 const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
@@ -270,15 +271,13 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     };
   };
   const getInvestors = async () => {
-    try {
-      await axios
-        .get(process.env.GET_INVESTORS || '')
-        .then((response) => response.data)
-        .then((response) => setInvestors(response.data))
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    };
+    const investorResponse = await getChargePointInvestors();
+
+    if (!investorResponse.success) {
+      console.error('Error getting charge point investors', investorResponse.error);
+    }
+
+    dispatch(setChargeUnitInvestors(investorResponse.data));
   };
   const getServicePointPermissions = async () => {
     await axios
@@ -461,7 +460,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
                 }}
               >
                 <ChargeUnitAddModal
-                  investors={investors}
                   slug={slug}
                   setAddChargeUnit={setAddChargeUnit}
                 />

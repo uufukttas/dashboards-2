@@ -4,5 +4,6 @@ export { getChargePointFeatureStatus } from './getChargePointFeatureStatus';
 export { getChargeUnitFeatureValuesRequest } from './getChargeUnitFeatureValuesRequest';
 export { getChargePointInvestors } from './getChargePointInvestors';
 export { getConnectorModels } from './getConnectorModels';
+export { getInvestors } from './getInvestors';
 export { getServicePointFeatureValues } from './getFeatureValuesRequest';
 export { getSelectedStationFeatures } from './getSelectedStationFeatures';

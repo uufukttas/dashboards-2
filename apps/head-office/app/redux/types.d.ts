@@ -62,28 +62,27 @@ export interface IAlertInformationStateProps {
     message: string;
     type: 'success' | 'error' | 'info' | 'warning';
 };
-
 export type IChargePointDataStateProps = {
     isChargePointDataUpdated: boolean;
 };
-
 export type IChargeUnitDataStateProps = {
     chargeUnitData: IChargeUnitDataProps;
 };
-
 export type IDialogInformationStateProps = {
     isVisible: boolean;
     actionType: string;
     data: number;
 };
+export type IInvestorsProps = {
+    id: number;
+    name: string;
+};
 export type IIsConnectorUpdatedProps = {
     isConnectorUpdated: boolean;
 };
-
 export type IIsLoadingStateProps = {
     isLoading: boolean;
 };
-
 export type IIsModalVisibleStateProps = {
     isModalVisible: boolean;
 };
@@ -93,15 +92,12 @@ export type IIsServicePointPermissionsUpdatedProps = {
 export type IIsServicePointDataUpdatedProps = {
     isServicePointDataUpdated: boolean;
 };
-
 export type IIsSidebarExpandStateProps = {
     isSidebarExpanded: boolean | null;
 };
-
 export type IServicePointDataStateProps = {
     servicePointData: IServicePointDataProps;
 };
-
 export type IServicePointInformationStateProps = {
     servicePointInformation: IServicePointInformationProps;
 };

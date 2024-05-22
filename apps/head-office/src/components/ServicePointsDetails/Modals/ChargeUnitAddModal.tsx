@@ -16,7 +16,7 @@ import { toggleModalVisibility } from '../../../../app/redux/features/isModalVis
 import { RootState } from '../../../../app/redux/store';
 import type { IFormDataProps, IRequestDataProps, IServicePointDetailsModalProps } from '../types';
 
-const ChargeUnitAddModal = ({ investors, slug, setAddChargeUnit }: IServicePointDetailsModalProps) => {
+const ChargeUnitAddModal = ({ slug, setAddChargeUnit }: IServicePointDetailsModalProps) => {
   const formName = ['brands', 'connector-count', 'ocpp-version', 'is-free-usage', 'is-limited-usage', 'investor', 'status', 'access-type', 'location'];
   const sectionPrefix = 'charge-unit';
   const formProperties = {
@@ -35,6 +35,7 @@ const ChargeUnitAddModal = ({ investors, slug, setAddChargeUnit }: IServicePoint
   const accessTypeList = useSelector((state: RootState) => state.accessTypeList);
   const brands = useSelector((state: RootState) => state.chargeUnitBrands);
   const chargeUnitData = useSelector((state: RootState) => state.chargeUnitData.chargeUnitData);
+  const investors = useSelector((state: RootState) => state.chargeUnitInvestors);
   const statusList = useSelector((state: RootState) => state.statusList);
   const [chargeUnitFormData, setChargeUnitFormData] = useState<IFormDataProps>({
     [`${formProperties['access-type']}`]: chargeUnitData.accessType || '1',
