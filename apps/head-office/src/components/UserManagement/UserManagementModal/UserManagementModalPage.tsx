@@ -31,12 +31,12 @@ const UserManagementModalPage = () => {
             stationFeatureValue: 0
         }]
     );
-    const [userData, setUserData] = useState<IUserDataProps>({
+    const [userData, setUserData] = useState<{name: string; lastName: string; email: string; phone: string; roleNames: string[]; id: number;}>({
         name: '',
         lastName: '',
         email: '',
         phone: '',
-        roleNames: '',
+        roleNames: [],
         id: 0
     });
 

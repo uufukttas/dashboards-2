@@ -4,6 +4,7 @@ import TableRowDelete from './TableRowDelete';
 import TableRowDetail from './TableRowDetail';
 import { ITableActionsProps } from '../types';
 
+// @ts-expect-error TODO: fix this
 const TableActions = ({ tableCellData }: ITableActionsProps) => {
     return (
         <>

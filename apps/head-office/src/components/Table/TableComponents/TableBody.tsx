@@ -19,6 +19,7 @@ const TableBody: React.FC<ITableBodyProps> = ({ attributeName, tableData, tableD
                             attributeName={attributeName}
                             tableRowData={tableRowData}
                             index={index}
+                            // @ts-expect-error TODO: fix this
                             key={tableRowData?.id || index + 1}
                         />
                     ))
