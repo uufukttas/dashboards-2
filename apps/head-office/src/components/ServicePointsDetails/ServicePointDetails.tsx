@@ -14,7 +14,9 @@ import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
 import { BRAND_PREFIX } from '../../constants/constants';
+import { getChargePointFeatureStatus } from '../../../app/api/servicePointDetails';
 import { deleteChargePointRequest } from '../../../app/api/servicePoints/deleteChargePointRequest';
+import { setAccessTypeList } from '../../../app/redux/features/accessTypeList';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
 import { setChargeUnitData } from '../../../app/redux/features/chargeUnitData';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
@@ -24,7 +26,6 @@ import { toggleModalVisibility } from '../../../app/redux/features/isModalVisibl
 import { toggleServicePointPermissionsUpdated } from '../../../app/redux/features/isServicePointPermissionsUpdated';
 import { RootState } from '../../../app/redux/store';
 import type {
-  IAccessTypeListItemProps,
   IBrandsProps,
   IChargeUnitsProps,
   IConnectorProps,
@@ -41,6 +42,7 @@ import './ServicePointDetails.css';
 
 const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
+  const accessTypeList = useSelector((state: RootState) => state.accessTypeList);
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isChargePointDataUpdated = useSelector((state: RootState) => {
@@ -52,7 +54,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const isServicePointPermissionsUpdated = useSelector((state: RootState) => {
     return state.isServicePointPermissionsUpdated.isServicePointPermissionsUpdated
   });
-  const [accessTypeList, setAccessTypeList] = useState<IAccessTypeListItemProps[]>([]);
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [addChargeUnit, setAddChargeUnit] = useState<boolean>(false);
   const [addComission, setAddComission] = useState<boolean>(false);
@@ -183,19 +184,15 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       console.log(error);
     };
   };
-  const getChargeUnitFeatures = async () => {
-    try {
-      await axios
-        .get(process.env.GET_CHARGE_POINT_FEATURES || '')
-        .then((response) => response.data.data)
-        .then((data) => {
-          setStatusList(data.statusList);
-          setAccessTypeList(data.accessTypeList);
-        })
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    };
+  const getChargeUnitFeatures = async (): Promise<void> => {
+    const featureResponse = await getChargePointFeatureStatus();
+
+    if (!featureResponse.success) {
+      console.error('Error getting charge point features', featureResponse.error);
+    }
+
+    setStatusList(featureResponse.data.statusList);
+    dispatch(setAccessTypeList(featureResponse.data.accessTypeList));
   };
   const getComissionDetails = async () => {
     await axios

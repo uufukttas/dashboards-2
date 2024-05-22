@@ -18,8 +18,8 @@ interface IPermissionsProps {
 interface IServicePointDataProps {
     isDeleted: boolean;
     address: string;
-    cityId:number;
-    companyId:number;
+    cityId: number;
+    companyId: number;
     companyName: string;
     districtId: number;
     id: number;
@@ -31,7 +31,6 @@ interface IServicePointDataProps {
     resellerCompanyId: number;
     resellerName: string;
 };
-
 interface IServicePointInformationProps {
     id: number;
     name: string;
@@ -48,7 +47,11 @@ interface IServicePointInformationProps {
     freePark: boolean;
     paymentMethods: string[];
 };
-
+export interface IAccessTypeListStateProps {
+    id: number;
+    name: string;
+    rid: null;
+};
 export interface IAlertInformationStateProps {
     isVisible: boolean;
     message: string;
