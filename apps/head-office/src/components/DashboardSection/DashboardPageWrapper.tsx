@@ -2,9 +2,9 @@ import React from 'react';
 import { Montserrat} from 'next/font/google';
 import { useSelector } from 'react-redux';
 import DashboardSection from './DashboardSection';
+import Loading from '../Loading/Loading';
 import MainPage from '../MainPage/MainPage';
 import { BRAND_PREFIX } from '../../constants/constants';
-import Loading from '../Loading/Loading';
 import { RootState } from '../../../app/redux/store';
 
 const montserrat = Montserrat({

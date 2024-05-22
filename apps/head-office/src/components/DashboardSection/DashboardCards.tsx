@@ -15,7 +15,7 @@ const DashboardCards: React.FC = () => {
         dispatch(toggleLoadingVisibility(false));
     }, []);
 
-    const chargeUnitContent1 = (
+    const chargeUnitContent1: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
                 <div className={`text-xl lg:text-base`}>Aktif Istasyon</div>
@@ -26,7 +26,7 @@ const DashboardCards: React.FC = () => {
             </div>
         </div>
     );
-    const chargeUnitContent2 = (
+    const chargeUnitContent2: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
                 <div className={`text-xl lg:text-base`}>Aktif Sarj Unitesi</div>
@@ -36,7 +36,7 @@ const DashboardCards: React.FC = () => {
             </div>
         </div>
     );
-    const chargeUnitContent3 = (
+    const chargeUnitContent3: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
                 <div className={`text-xl lg:text-base`}>Aktif Konnektor</div>
@@ -46,7 +46,7 @@ const DashboardCards: React.FC = () => {
             </div>
         </div>
     );
-    const chargeUnitContent4 = (
+    const chargeUnitContent4: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
                 <div className={`text-xl lg:text-base`}>Arizali Sarj Unitesi</div>
@@ -56,7 +56,7 @@ const DashboardCards: React.FC = () => {
             </div>
         </div>
     );
-    const chargeUnitContent5 = (
+    const chargeUnitContent5: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
                 <div className={`text-xl lg:text-base`}>Planli Istasyon</div>
@@ -66,7 +66,7 @@ const DashboardCards: React.FC = () => {
             </div>
         </div>
     );
-    const chargeUnitContent6 = (
+    const chargeUnitContent6: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-full `}>
             <div className='card-title-container flex items-center justify-center px-4 '>
                 <div className={`text-xl lg:text-base`}>Calismayan Konnektor</div>
