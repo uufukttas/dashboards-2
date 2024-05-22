@@ -1,14 +1,8 @@
-interface IUserDataProps {
-    id: number;
-    userName: string;
-    email: string;
-    phone: string;
+export interface IUserDataProps {
+    lastLoginDate: string | null;
     roleNames: string;
-    lastLoginDate: string;
-    address?: string;
-    cityId?: number;
-    districtId?: number;
-    name?: string;
+    userId: number;
+    userName: string;
 };
 export interface IRolesStyleProps {
     [key: string]: ITableDataAttributeProps
@@ -28,13 +22,11 @@ export interface IServicePointInfoProps {
     phone?: string | null | undefined;
     type?: string | null | undefined;
     email?: string;
-    roleNames: string;
     status?: string;
-    lastLoginDate?: string;
-    userName?: string;
 };
 export interface ITableActionsProps {
-    tableCellData: IServicePointInfoProps | IUserDataProps;
+    servicePointId?: number;
+    userId?: number;
 };
 export interface ITableBodyProps {
     attributeName: string;

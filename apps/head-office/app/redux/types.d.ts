@@ -100,3 +100,7 @@ export type IServicePointInformationStateProps = {
 export type IServicePointPermissionsStateProps = {
     servicePointPermissions: IPermissionsProps[];
 };
+export interface IUserDataProps {
+    roles: string[];
+    userId: number;
+};

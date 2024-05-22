@@ -108,6 +108,9 @@ const ChargeUnitAddModal = ({
       const chargePointId = chargeUnitData.code ? chargeUnitData.code : await getChargePointCode();
       const features = chargeUnitData.chargePointId ? await getStationFeaturesId(chargeUnitData.chargePointId) : [];
 
+      // const response = (chargeUnitData.code ? await updateStationSettingsRequest() : addStationSettingsRequest())
+
+
       await axios
         .post(
           (chargeUnitData.code ? process.env.UPDATE_STATION_SETTINGS : process.env.ADD_STATION_SETTINGS) || '',
