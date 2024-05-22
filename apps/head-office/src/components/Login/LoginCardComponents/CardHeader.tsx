@@ -4,6 +4,7 @@ import { BRAND_PREFIX, userInfo } from '../../../constants/constants';
 
 const CardHeader: React.FC = () => {
     const loginPrefix: string = `${BRAND_PREFIX}-login-card`;
+
     return (
         <>
             <div className={`${loginPrefix}-title-container w-full`}>

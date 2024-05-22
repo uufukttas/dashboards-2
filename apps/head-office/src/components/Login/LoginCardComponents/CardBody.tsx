@@ -20,13 +20,9 @@ const CardBody: React.FC = () => {
     const [loginFormData, setLoginFormData] = useState<ILoginFormDataProps>(initialLoginFormData);
 
     const fetchLoginData = async (credentials: string): Promise<void> => {
-        try {
-            const response = await loginRequest(credentials);
+        const response = await loginRequest(credentials);
 
-            response.status === 200 ? handleLoginSuccess() : handleLoginError(response.data.message);
-        } catch (error) {
-            console.log(error);
-        };
+        response.status === 200 ? handleLoginSuccess() : handleLoginError(response.data.message);
     };
     const handleLoginError = (message: string): void => {
         dispatch(toggleLoadingVisibility(false));

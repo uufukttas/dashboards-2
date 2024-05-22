@@ -2,7 +2,7 @@ import React from 'react';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type { IFormErrorProps } from '../types';
 
-const FormError = ({ loginFormInput, errors }: IFormErrorProps) => {
+const FormError: React.FC<IFormErrorProps> = ({ loginFormInput, errors }: IFormErrorProps) => {
     const loginFormInputErrorPrefix = `${BRAND_PREFIX}-${loginFormInput}-error`;
 
     return (

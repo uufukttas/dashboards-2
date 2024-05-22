@@ -5,7 +5,7 @@ import FormError from './FormError';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import type { IFormElementProps } from '../types';
 
-const FormElement = ({
+const FormElement: React.FC<IFormElementProps> = ({
     errors,
     loginFormData,
     loginFormInput,
