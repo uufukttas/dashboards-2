@@ -27,13 +27,13 @@ const SidebarBody: React.FC = () => {
             name: 'FAQ',
         },
     ];
-    const sidebarPrefix = `${BRAND_PREFIX}-sidebar`;
+    const sidebarPrefix: string = `${BRAND_PREFIX}-sidebar`;
 
     return (
         <div className={`${sidebarPrefix}-body-container flex items-center justify-center flex-col`}>
             <ul className={`${sidebarPrefix}-list-container w-full flex flex-col`}>
                 {
-                    sidebarElements.map((item, index) => {
+                    sidebarElements.map((item: ISidebarElementProps, index: number) => {
                         return (
                             <SidebarBodyItem
                                 index={index}

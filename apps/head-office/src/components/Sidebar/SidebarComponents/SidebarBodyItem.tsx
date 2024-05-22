@@ -5,7 +5,7 @@ import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type { ISidebarBodyItemProps } from '../types';
 
-const SidebarBodyItem = ({ index, item, sidebarElementsLength }: ISidebarBodyItemProps) => {
+const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({ index, item, sidebarElementsLength }: ISidebarBodyItemProps) => {
     const sidebarPrefix: string = `${BRAND_PREFIX}-sidebar`;
     const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
 

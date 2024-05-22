@@ -1,6 +1,6 @@
 @import "../../constants/variables";
 
-/* Mobil cihazlar için */
+/* Mobile */
 @media only screen and (max-width: 767px) {
   .#{$brand-prefix}-sidebar-container {
     width: 0;
@@ -37,7 +37,7 @@
   }
 }
 
-/* Tablet cihazlar için */
+/* Tablet */
 @media only screen and (min-width: 768px) and (max-width: 1279px) {
   .#{$brand-prefix}-sidebar-container {
     width: 0;
@@ -74,7 +74,7 @@
   }
 }
 
-/* Masaüstü cihazlar için */
+/* Desktop */
 @media only screen and (min-width: 1280px) {
   .#{$brand-prefix}-sidebar-header-logo {
     height: 80px;
