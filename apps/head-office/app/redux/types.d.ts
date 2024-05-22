@@ -47,7 +47,7 @@ interface IServicePointInformationProps {
     freePark: boolean;
     paymentMethods: string[];
 };
-export interface IAccessTypeListStateProps {
+export interface IStationFeatureListItemsProps {
     id: number;
     name: string;
     rid: null;

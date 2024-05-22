@@ -16,9 +16,7 @@ import { toggleModalVisibility } from '../../../../app/redux/features/isModalVis
 import { RootState } from '../../../../app/redux/store';
 import type { IFormDataProps, IRequestDataProps, IServicePointDetailsModalProps } from '../types';
 
-const ChargeUnitAddModal = ({
-  accessTypeList, brands, investors, slug, statusList, setAddChargeUnit
-}: IServicePointDetailsModalProps) => {
+const ChargeUnitAddModal = ({ brands, investors, slug, setAddChargeUnit }: IServicePointDetailsModalProps) => {
   const formName = ['brands', 'connector-count', 'ocpp-version', 'is-free-usage', 'is-limited-usage', 'investor', 'status', 'access-type', 'location'];
   const sectionPrefix = 'charge-unit';
   const formProperties = {
@@ -34,7 +32,9 @@ const ChargeUnitAddModal = ({
   };
   const dispatch = useDispatch();
   const { formState: { errors }, handleSubmit, register } = useForm();
+  const accessTypeList = useSelector((state: RootState) => state.accessTypeList);
   const chargeUnitData = useSelector((state: RootState) => state.chargeUnitData.chargeUnitData);
+  const statusList = useSelector((state: RootState) => state.statusList);
   const [chargeUnitFormData, setChargeUnitFormData] = useState<IFormDataProps>({
     [`${formProperties['access-type']}`]: chargeUnitData.accessType || '1',
     [`${formProperties.brands}`]: chargeUnitData.brandId || 3,
@@ -201,27 +201,27 @@ const ChargeUnitAddModal = ({
               register={
                 register(
                   `${formProperties['connector-count']}`, {
-                    required: 'Konnektör sayısı zorunludur.',
-                    valueAsNumber: true,
-                    min: {
-                      value: 1,
-                      message: 'Konnektör sayısı en az 1 olmalıdır.'
-                    },
-                    max: {
-                      value: 4,
-                      message: 'Konnektör sayısı en fazla 4 olmalıdır.'
-                    },
-                    value:
-                      chargeUnitFormData[`${formProperties['connector-count']}`]
-                        ? chargeUnitFormData[`${formProperties['connector-count']}`].toString()
-                        : '',
-                    onChange: (event) => {
-                      setChargeUnitFormData({
-                        ...chargeUnitFormData,
-                        [event.target.name]: Number(event.target.value),
-                      });
-                    }
+                  required: 'Konnektör sayısı zorunludur.',
+                  valueAsNumber: true,
+                  min: {
+                    value: 1,
+                    message: 'Konnektör sayısı en az 1 olmalıdır.'
+                  },
+                  max: {
+                    value: 4,
+                    message: 'Konnektör sayısı en fazla 4 olmalıdır.'
+                  },
+                  value:
+                    chargeUnitFormData[`${formProperties['connector-count']}`]
+                      ? chargeUnitFormData[`${formProperties['connector-count']}`].toString()
+                      : '',
+                  onChange: (event) => {
+                    setChargeUnitFormData({
+                      ...chargeUnitFormData,
+                      [event.target.name]: Number(event.target.value),
+                    });
                   }
+                }
                 )
               }
               type="number"
@@ -343,19 +343,19 @@ const ChargeUnitAddModal = ({
             register={
               register(
                 `${formProperties.location}`, {
-                  required: 'Şarj Ünitesi Konumu zorunludur.',
-                  minLength: {
-                    value: 3,
-                    message: 'En az 3 karakter girmelisiniz.',
-                  },
-                  value: chargeUnitFormData[`${formProperties.location}`],
-                  onChange: (event) => {
-                    setChargeUnitFormData({
-                      ...chargeUnitFormData,
-                      [event.target.name]: event.target.value,
-                    });
-                  }
+                required: 'Şarj Ünitesi Konumu zorunludur.',
+                minLength: {
+                  value: 3,
+                  message: 'En az 3 karakter girmelisiniz.',
+                },
+                value: chargeUnitFormData[`${formProperties.location}`],
+                onChange: (event) => {
+                  setChargeUnitFormData({
+                    ...chargeUnitFormData,
+                    [event.target.name]: event.target.value,
+                  });
                 }
+              }
               )
             }
             type="text"

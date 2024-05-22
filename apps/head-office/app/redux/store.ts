@@ -14,6 +14,7 @@ import servicePoints from './features/servicePoints';
 import servicePointData from './features/servicePointData';
 import servicePointInformation from './features/servicePointInformation';
 import servicePointPermissions from './features/servicePointPermissions';
+import statusList from './features/statusList';
 
 export const store: EnhancedStore = configureStore({
   reducer: {
@@ -32,6 +33,7 @@ export const store: EnhancedStore = configureStore({
     servicePointData,
     servicePointInformation,
     servicePointPermissions,
+    statusList,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });

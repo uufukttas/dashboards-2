@@ -225,8 +225,6 @@ export interface IServicePointDetailsModalProps {
   slug: string;
   brands: IBrandsProps[];
   investors: IInvestorsProps[];
-  accessTypeList: IAccessTypeListItemProps[];
-  statusList: IStatusListItemProps[];
   setAddChargeUnit: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export interface IServicePointPermissionsModalProps {

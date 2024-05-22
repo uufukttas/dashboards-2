@@ -7,15 +7,15 @@ const initialState: IStationFeatureListItemsProps[] = [{
     rid: null,
 }];
 
-export const accessTypeList = createSlice({
-    name: 'accessTypeList',
+export const statusList = createSlice({
+    name: 'statusList',
     initialState,
     reducers: {
-        setAccessTypeList: (state, action) => {
+        setStatusList: (state, action) => {
             return action.payload;
         },
     }
 });
 
-export const { setAccessTypeList } = accessTypeList.actions;
-export default accessTypeList.reducer as Reducer<IStationFeatureListItemsProps[]>;
+export const { setStatusList } = statusList.actions;
+export default statusList.reducer as Reducer<IStationFeatureListItemsProps[]>;

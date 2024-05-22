@@ -24,6 +24,7 @@ import { toggleChargePointDataUpdated } from '../../../app/redux/features/isChar
 import { toggleConnectorUpdated } from '../../../app/redux/features/isConnectorUpdated';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { toggleServicePointPermissionsUpdated } from '../../../app/redux/features/isServicePointPermissionsUpdated';
+import { setStatusList } from '../../../app/redux/features/statusList';
 import { RootState } from '../../../app/redux/store';
 import type {
   IBrandsProps,
@@ -34,7 +35,6 @@ import type {
   IInvestorsProps,
   IServicePointsDetailsPageProps,
   IServicePointsDetailsProps,
-  IStatusListItemProps,
   IEnergyPriceDetailsProps,
   IPermissionsProps
 } from './types';
@@ -42,7 +42,6 @@ import './ServicePointDetails.css';
 
 const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
-  const accessTypeList = useSelector((state: RootState) => state.accessTypeList);
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isChargePointDataUpdated = useSelector((state: RootState) => {
@@ -86,7 +85,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       isActive: false,
       isDeleted: false,
     });
-  const [statusList, setStatusList] = useState<IStatusListItemProps[]>([]);
 
   const deleteChargePoint = async (deletedChargeUnitData: IChargeUnitsProps[]) => {
     try {
@@ -191,8 +189,8 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       console.error('Error getting charge point features', featureResponse.error);
     }
 
-    setStatusList(featureResponse.data.statusList);
     dispatch(setAccessTypeList(featureResponse.data.accessTypeList));
+    dispatch(setStatusList(featureResponse.data.statusList));
   };
   const getComissionDetails = async () => {
     await axios
@@ -466,9 +464,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
                 }}
               >
                 <ChargeUnitAddModal
-                  accessTypeList={accessTypeList}
                   brands={brands}
-                  statusList={statusList}
                   investors={investors}
                   slug={slug}
                   setAddChargeUnit={setAddChargeUnit}
