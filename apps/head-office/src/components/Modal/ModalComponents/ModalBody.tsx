@@ -2,7 +2,7 @@ import { BRAND_PREFIX } from '../../../constants/constants';
 import type { IModalBodyProps } from '../types';
 import '../Modal.css';
 
-const ModalBody = ({ children }: IModalBodyProps) => {
+const ModalBody: React.FC<IModalBodyProps> = ({ children }: IModalBodyProps) => {
     const modalBodyContentPrefix: string = `${BRAND_PREFIX}-modal-content`;
 
     return (
