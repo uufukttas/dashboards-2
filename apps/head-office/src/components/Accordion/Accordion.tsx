@@ -3,13 +3,13 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import { IAccordionProps } from './types';
 import './Accordion.css';
 
-const Accordion = ({
+const Accordion: React.FC<IAccordionProps> = ({
   accordionIcon, accordionTitle, actionButton, children, contentClassName = "", titleClassName
 }: IAccordionProps) => {
-  const accordionPrefix = `${BRAND_PREFIX}-accordion`;
+  const accordionPrefix: string = `${BRAND_PREFIX}-accordion`;
   const [isOpen, setIsOpen] = useState(true);
 
-  const toggleAccordion = () => {
+  const toggleAccordion = (): void => {
     setIsOpen(!isOpen);
   };
 
