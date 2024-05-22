@@ -6,7 +6,8 @@ import type { ICardProps } from './types';
 import './Card.css';
 
 const Card: React.FC<ICardProps> = ({ cardBody, cardFooter, cardHeader, className }: ICardProps) => {
-  const cardPrefix = `${BRAND_PREFIX}-card`;
+  const cardPrefix: string = `${BRAND_PREFIX}-card`;
+
   return (
     <div className={`${cardPrefix}-container p-8 shadow-custom ${className}`}>
       {
