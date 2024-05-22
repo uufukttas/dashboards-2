@@ -1,15 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
+import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
+import { Checkbox } from '@projects/checkbox';
+import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { getChargePointInvestors } from '../../../../app/api/servicePointDetails';
+import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
+import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
-import { Dropdown } from '@projects/dropdown';
-import { Checkbox } from '@projects/checkbox';
-import axios from 'axios';
 
-const ComissionModal = () => {
+const ComissionModal = ({ slug, setIsComissionListUpdated }: {
+    slug: number;
+    setIsComissionListUpdated: React.Dispatch<SetStateAction<boolean>>; 
+}) => {
+    const dispatch = useDispatch();
     const sectionPrefix = 'comission-details';
     const { handleSubmit, formState: { errors } } = useForm();
     const [comissionFeatures, setComissionFeatures] = useState<{
@@ -38,9 +45,29 @@ const ComissionModal = () => {
         comissionFeatures.tariffFraction = tariffFraction.data.data[0].id;
     };
 
-    const handleFormSubmit = () => {
+    const handleFormSubmit = async () => {
         setIsDisabled(true);
-        console.log('comissionFeatures', comissionFeatures)
+        await axios
+            .post(
+                'https://sharztestapi.azurewebsites.net/ServicePoint/InsertCommisionRate',
+                {
+                    "ownerType": comissionFeatures.resller,
+                    "forInvestor": comissionFeatures.isResellerForServicePoint,
+                    "tariffSubFractionTypeID": comissionFeatures.tariffFraction,
+                    "rate": comissionFeatures.rate,
+                    "stationId": slug.toString(),
+                    "isActive": true
+                }
+            )
+            .then(() => {
+                dispatch(showAlert({
+                    alertType: 'success',
+                    message: 'Istasyon komisyon bilgileri basariyla eklendi.'
+                }))
+                dispatch(toggleModalVisibility(false));
+                setTimeout(() => { dispatch(hideAlert()) }, 5000);
+                setIsComissionListUpdated(true);
+            })
     };
 
     useEffect(() => {

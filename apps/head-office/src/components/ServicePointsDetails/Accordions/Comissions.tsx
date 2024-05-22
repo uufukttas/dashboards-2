@@ -1,34 +1,13 @@
-import axios from 'axios';
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment } from 'react'
 import { FaTrashCan } from 'react-icons/fa6';
 import type { IComissionProps } from '../types';
 import { Button } from '@projects/button';
 import { useDispatch } from 'react-redux';
 import { showDialog } from '../../../../app/redux/features/dialogInformation';
 
-const Comissions = ({ slug }: { slug: string }) => {
+const Comissions = ({ comissions, slug }: { comissions: IComissionProps[], slug: string }) => {
     const sectionPrefix = 'comission-details';
     const dispatch = useDispatch();
-    const [comissionDetails, setComissionDetails] = useState([]);
-
-    const getComissionDetails = async (): Promise<void> => {
-        await axios
-            .post(
-                'https://sharztestapi.azurewebsites.net/ServicePoint/SelectCommisionRate',
-                {
-                    "stationId": slug
-                },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }
-            ).then((response) => setComissionDetails(response.data.data));
-    };
-
-    useEffect(() => {
-        getComissionDetails();
-    }, []);
 
     return (
         <>
@@ -58,7 +37,7 @@ const Comissions = ({ slug }: { slug: string }) => {
                         <div className={`${sectionPrefix}-info-container flex flex-col justify-between`}>
                             <div className={`${sectionPrefix}-info-item flex justify-between md:items-center flex-col flex-wrap md:flex-row w-full py-4`}>
                                 {
-                                    comissionDetails.map((comissionDetail: IComissionProps) => {
+                                    comissions.map((comissionDetail: IComissionProps) => {
                                         return (
                                             <div className={`${sectionPrefix}-info-item-value text-lg font-normal flex justify-between w-full py-4`} key={comissionDetail.ID}>
                                                 <div className={`${sectionPrefix}-reseller-container flex justify-center md:items-center flex-col md:flex-row `}>

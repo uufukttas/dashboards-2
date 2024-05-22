@@ -61,6 +61,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const [addPermission, setAddPermission] = useState<boolean>(false);
   const [brands, setBrands] = useState<IBrandsProps[]>([]);
   const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([]);
+  const [comissions, setComissions] = useState([]);
   const [connectorProperty, setConnectorProperty] = useState<IConnectorPropertyProps>({
     chargePointId: 0,
     chargePointModelId: 0,
@@ -71,6 +72,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const [energyPriceDetails, setEnergyPriceDetails] = useState<IEnergyPriceDetailsProps[]>([]);
   const [investors, setInvestors] = useState<IInvestorsProps[]>([]);
   const [isEnergyPriceListUpdated, setIsEnergyPriceListUpdated] = useState<boolean>(false);
+  const [isComissionsListUpdated, setIsComissionListUpdated] = useState<boolean>(false);
   const [permissions, setPermissions] = useState<IPermissionsProps[]>([]);
   const [servicePointDetails, setServicePointDetails] =
     useState<IServicePointsDetailsProps>({
@@ -194,6 +196,20 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     } catch (error) {
       console.log(error);
     };
+  };
+  const getComissionDetails = async () => {
+    await axios
+      .post(
+        'https://sharztestapi.azurewebsites.net/ServicePoint/SelectCommisionRate',
+        {
+          "stationId": slug
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      ).then((response) => setComissions(response.data.data));
   };
   const getConnectors = async () => {
     try {
@@ -391,6 +407,10 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     getConnectors();
   }, [isConnectorUpdated])
 
+  useEffect(() => {
+    getComissionDetails();
+  }, [isComissionsListUpdated]);
+
   return (
     isLoadingVisible
       ? (
@@ -410,6 +430,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
             <ServicePointsDetailsBody
               activeIndex={activeIndex}
               chargeUnits={chargeUnits}
+              comissions={comissions}
               connectorsList={connectors}
               energyPriceDetails={energyPriceDetails}
               permissions={permissions}
@@ -508,7 +529,10 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
                 modalId={`${BRAND_PREFIX}-service-point-comission-modal`}
                 onClose={() => dispatch(toggleModalVisibility(false)) && setAddComission(false)}
               >
-                <ComissionModal />
+                <ComissionModal
+                  slug={Number(slug)}
+                  setIsComissionListUpdated={setIsComissionListUpdated}
+                />
               </Modal>
             )
           }

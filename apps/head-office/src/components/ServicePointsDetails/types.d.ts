@@ -59,6 +59,7 @@ interface IRequestDataProps {
 interface IServicePointsDetailsBodyProps {
   activeIndex: number;
   chargeUnits: IChargeUnitsProps[];
+  comissions: IComissionProps[];
   connectorsList: IConnectorStateProps[];
   energyPriceDetails: IEnergyPriceDetailsProps[];
   permissions: IPermissionsProps[];
