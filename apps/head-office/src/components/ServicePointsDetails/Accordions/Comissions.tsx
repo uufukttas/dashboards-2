@@ -15,7 +15,7 @@ const Comissions = () => {
         <>
             <div className={`${sectionPrefix} items-center py-4 w-full`}>
                 <div className={`${sectionPrefix}-header-container w-full`}>
-                    <div className={`${sectionPrefix}-header w-full flex`}>
+                    <div className={`${sectionPrefix}-header w-full flex text-center`}>
                         <div className={`${sectionPrefix}-reseller-container flex justify-between md:items-center flex-col md:flex-row w-full`}>
                             <p className={`${sectionPrefix}-reseller text-lg font-bold w-full`}>Reseller</p>
                         </div>
@@ -35,26 +35,26 @@ const Comissions = () => {
                 </div>
                 <hr className={`${sectionPrefix}-header-line w-full`} />
                 <div className={`${sectionPrefix}-content-container w-full`}>
-                    <div className={`${sectionPrefix}-content w-full`}>
+                    <div className={`${sectionPrefix}-content w-full flex`}>
                         <div className={`${sectionPrefix}-info-container flex flex-col justify-between`}>
                             <div className={`${sectionPrefix}-info-item flex justify-between md:items-center flex-col flex-wrap md:flex-row w-full py-4`}>
                                 {
                                     comissions.map((comissionDetail: IComissionProps) => {
                                         return (
                                             <div className={`${sectionPrefix}-info-item-value text-lg font-normal flex justify-between w-full py-4`} key={comissionDetail.ID}>
-                                                <div className={`${sectionPrefix}-reseller-container flex justify-center md:items-center flex-col md:flex-row `}>
+                                                <div className={`${sectionPrefix}-reseller-container flex justify-center md:items-center flex-col md:flex-row w-1/5`}>
                                                     <p className={`${sectionPrefix}-reseller text-lg font-normal`}>{comissionDetail.OwnerTypeName}</p>
                                                 </div>
-                                                <div className={`${sectionPrefix}-charge-unit-reseller-container flex justify-center md:items-center flex-col md:flex-row `}>
+                                                <div className={`${sectionPrefix}-charge-unit-reseller-container flex justify-center md:items-center flex-col md:flex-row w-1/5`}>
                                                     <p className={`${sectionPrefix}-charge-unit-reseller text-lg font-normal`}>{comissionDetail.ForInvestor ? 'Evet' : 'Hayir'}</p>
                                                 </div>
-                                                <div className={`${sectionPrefix}-breakpoint-container flex justify-center md:items-center flex-col md:flex-row `}>
+                                                <div className={`${sectionPrefix}-breakpoint-container flex justify-center md:items-center flex-col md:flex-row w-1/5`}>
                                                     <p className={`${sectionPrefix}-breakpoint text-lg font-normal`}>{comissionDetail.TariffSubFractionTypeName}</p>
                                                 </div>
-                                                <div className={`${sectionPrefix}-percent-container flex justify-center md:items-center flex-col md:flex-row `}>
+                                                <div className={`${sectionPrefix}-percent-container flex justify-center md:items-center flex-col md:flex-row w-1/5`}>
                                                     <p className={`${sectionPrefix}-percent text-lg font-normal`}>{comissionDetail.Rate}</p>
                                                 </div>
-                                                <div className={`${sectionPrefix}-percent-container flex justify-center md:items-center flex-col md:flex-row `}>
+                                                <div className={`${sectionPrefix}-percent-container flex justify-center md:items-center flex-col md:flex-row w-1/5`}>
                                                     <Button
                                                         buttonText={""}
                                                         className="bg-secondary rounded-md px-4 py-2 mx-4 text-white"
