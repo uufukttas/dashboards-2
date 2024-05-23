@@ -20,7 +20,7 @@ const ServicePointDetailsHeader: React.FC<IServicePointDetailsHeaderProps> = ({
     );
 
     return (
-        <Card cardBody={servicePointHeader} className='my-5 lg:mx-0' />
+        <Card cardBody={servicePointHeader} className='my-5 lg:mx-0 min-h-[96px]' />
     );
 };
 
