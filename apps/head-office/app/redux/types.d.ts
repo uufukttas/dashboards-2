@@ -68,6 +68,22 @@ export type IChargePointDataStateProps = {
 export type IChargeUnitDataStateProps = {
     chargeUnitData: IChargeUnitDataProps;
 };
+export type IComissionDataStateProps = {
+    ForInvestor: number;
+    ID: number;
+    IsActive: boolean;
+    LocationRelatedID: null;
+    LocationType: null;
+    LocationTypeName: string;
+    OwnerID: number;
+    OwnerName: string;
+    OwnerType: number;
+    OwnerTypeName: string;
+    RID: number;
+    Rate: number;
+    TariffSubFractionTypeID: number;
+    TariffSubFractionTypeName: string;
+};
 export type IDialogInformationStateProps = {
     isVisible: boolean;
     actionType: string;

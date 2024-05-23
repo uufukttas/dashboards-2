@@ -3,6 +3,7 @@ export { getChargeUnitDeviceCode } from './getChargeUnitDeviceCode';
 export { getChargePointFeatureStatus } from './getChargePointFeatureStatus';
 export { getChargeUnitFeatureValuesRequest } from './getChargeUnitFeatureValuesRequest';
 export { getChargePointInvestors } from './getChargePointInvestors';
+export { getComissionDetails } from './getComissionDetails';
 export { getConnectorModels } from './getConnectorModels';
 export { getInvestors } from './getInvestors';
 export { getServicePointFeatureValues } from './getFeatureValuesRequest';

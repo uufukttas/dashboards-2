@@ -16,7 +16,6 @@ import type { IServicePointsDetailsBodyProps } from '../types';
 const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
     activeIndex,
     chargeUnits,
-    comissions,
     connectorsList,
     energyPriceDetails,
     permissions,
@@ -184,10 +183,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                         actionButton={addComissionButton}
                         titleClassName="font-bold"
                     >
-                        <Comissions
-                            comissions={comissions}
-                            slug={slug}
-                        />
+                        <Comissions />
                     </Accordion>
                 )
             }

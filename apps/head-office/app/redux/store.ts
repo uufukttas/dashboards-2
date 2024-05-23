@@ -4,6 +4,7 @@ import alertInformation from './features/alertInformation';
 import chargeUnitBrands from './features/chargeUnitBrands';
 import chargeUnitData from './features/chargeUnitData';
 import chargeUnitInvestors from './features/chargeUnitInvestors';
+import comissionData from './features/comissionData';
 import dialogInformation from './features/dialogInformation';
 import isChargePointDataUpdated from './features/isChargePointDataUpdated';
 import isConnectorUpdated from './features/isConnectorUpdated';
@@ -25,6 +26,7 @@ export const store: EnhancedStore = configureStore({
     chargeUnitBrands,
     chargeUnitData,
     chargeUnitInvestors,
+    comissionData,
     dialogInformation,
     isChargePointDataUpdated,
     isConnectorUpdated,

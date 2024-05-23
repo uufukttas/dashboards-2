@@ -14,12 +14,14 @@ import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { getChargePointFeatureStatus, getChargePointInvestors, getChargeUnitBrands } from '../../../app/api/servicePointDetails';
+import { getChargePointFeatureStatus, getChargePointInvestors, getChargeUnitBrands, getComissionDetails } from '../../../app/api/servicePointDetails';
 import { deleteChargePointRequest } from '../../../app/api/servicePoints/deleteChargePointRequest';
 import { setAccessTypeList } from '../../../app/redux/features/accessTypeList';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
 import { setChargeUnitBrands } from '../../../app/redux/features/chargeUnitBrands';
 import { setChargeUnitData } from '../../../app/redux/features/chargeUnitData';
+import { setChargeUnitInvestors } from '../../../app/redux/features/chargeUnitInvestors';
+import { setComissionData } from '../../../app/redux/features/comissionData';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleChargePointDataUpdated } from '../../../app/redux/features/isChargePointDataUpdated';
 import { toggleConnectorUpdated } from '../../../app/redux/features/isConnectorUpdated';
@@ -32,14 +34,12 @@ import type {
   IConnectorProps,
   IConnectorPropertyProps,
   IConnectorStateProps,
-  IInvestorsProps,
   IServicePointsDetailsPageProps,
   IServicePointsDetailsProps,
   IEnergyPriceDetailsProps,
   IPermissionsProps
 } from './types';
 import './ServicePointDetails.css';
-import { setChargeUnitInvestors } from 'apps/head-office/app/redux/features/chargeUnitInvestors';
 
 const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
@@ -61,7 +61,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const [addEnergyPrice, setAddEnergyPrice] = useState<boolean>(false);
   const [addPermission, setAddPermission] = useState<boolean>(false);
   const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([]);
-  const [comissions, setComissions] = useState([]);
   const [connectorProperty, setConnectorProperty] = useState<IConnectorPropertyProps>({
     chargePointId: 0,
     chargePointModelId: 0,
@@ -70,7 +69,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   });
   const [connectors, setConnectors] = useState<IConnectorStateProps[]>([]);
   const [energyPriceDetails, setEnergyPriceDetails] = useState<IEnergyPriceDetailsProps[]>([]);
-  const [investors, setInvestors] = useState<IInvestorsProps[]>([]);
   const [isEnergyPriceListUpdated, setIsEnergyPriceListUpdated] = useState<boolean>(false);
   const [isComissionsListUpdated, setIsComissionListUpdated] = useState<boolean>(false);
   const [permissions, setPermissions] = useState<IPermissionsProps[]>([]);
@@ -190,19 +188,14 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     dispatch(setAccessTypeList(featureResponse.data.accessTypeList));
     dispatch(setStatusList(featureResponse.data.statusList));
   };
-  const getComissionDetails = async () => {
-    await axios
-      .post(
-        'https://sharztestapi.azurewebsites.net/ServicePoint/SelectCommisionRate',
-        {
-          "stationId": slug
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      ).then((response) => setComissions(response.data.data));
+  const getComissionDetail = async () => {
+    const comissionResponse = await getComissionDetails(slug);
+
+    if (!comissionResponse.success) {
+      console.error('Error getting comission details', comissionResponse.error);
+    }
+
+    dispatch(setComissionData(comissionResponse.data));
   };
   const getConnectors = async () => {
     try {
@@ -323,11 +316,11 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     await axios
       .post(
         'https://sharztestapi.azurewebsites.net/ServicePoint/UpdateCommisionRate',
-        JSON.stringify({
+        {
           "rid": dialogData,
-          "stationId": Number(slug),
+          "stationId": slug.toString(),
           "isActive": false
-        }),
+        },
         { headers: { 'Content-Type': 'application/json' } }
       )
       .then(() => {
@@ -354,8 +347,13 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       // deleteWorkingHours(dialogInformation.data);
     } else if (dialogInformation.actionType === 'deleteServicePointComission') {
       deleteServicePointComission(dialogInformation.data);
+    } else if (dialogInformation.actionType === 'deleteComission') {
+      deleteServicePointComission(dialogInformation.data);
     }
-    hideDialog();
+
+    setTimeout(() => {
+      dispatch(hideDialog());
+    }, 5000);
   };
 
   useEffect(() => {
@@ -398,7 +396,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   }, [isConnectorUpdated])
 
   useEffect(() => {
-    getComissionDetails();
+    getComissionDetail();
   }, [isComissionsListUpdated]);
 
   return (
@@ -420,7 +418,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
             <ServicePointsDetailsBody
               activeIndex={activeIndex}
               chargeUnits={chargeUnits}
-              comissions={comissions}
               connectorsList={connectors}
               energyPriceDetails={energyPriceDetails}
               permissions={permissions}

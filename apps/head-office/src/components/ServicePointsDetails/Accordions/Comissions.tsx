@@ -1,13 +1,15 @@
 import React, { Fragment } from 'react'
 import { FaTrashCan } from 'react-icons/fa6';
-import type { IComissionProps } from '../types';
 import { Button } from '@projects/button';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { showDialog } from '../../../../app/redux/features/dialogInformation';
+import { RootState } from '../../../../app/redux/store';
+import type { IComissionProps } from '../types';
 
-const Comissions = ({ comissions, slug }: { comissions: IComissionProps[], slug: string }) => {
+const Comissions = () => {
     const sectionPrefix = 'comission-details';
     const dispatch = useDispatch();
+    const comissions = useSelector((state: RootState) => state.comissionData);
 
     return (
         <>
