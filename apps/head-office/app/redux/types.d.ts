@@ -156,6 +156,9 @@ export type IInvestorsProps = {
     id: number;
     name: string;
 };
+export type IIsComissionListUpdatedProps = {
+    isComissionListUpdated: boolean;
+};
 export type IIsConnectorUpdatedProps = {
     isConnectorUpdated: boolean;
 };

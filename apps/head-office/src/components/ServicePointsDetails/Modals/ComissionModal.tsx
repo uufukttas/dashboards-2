@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
@@ -9,14 +9,12 @@ import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { getChargePointInvestors } from '../../../../app/api/servicePointDetails';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
+import { toggleComissionListUpdate } from '../../../../app/redux/features/isComissionListUpdated';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import { setAddComission } from '../../../../app/redux/features/setVisibleModal';
 
-const ComissionModal = ({ slug, setIsComissionListUpdated }: {
-    slug: number;
-    setIsComissionListUpdated: React.Dispatch<SetStateAction<boolean>>; 
-}) => {
+const ComissionModal = ({ slug }: { slug: number; }) => {
     const dispatch = useDispatch();
     const sectionPrefix = 'comission-details';
     const { handleSubmit, formState: { errors } } = useForm();
@@ -67,7 +65,7 @@ const ComissionModal = ({ slug, setIsComissionListUpdated }: {
                 }))
                 dispatch(toggleModalVisibility(false));
                 setTimeout(() => { dispatch(hideAlert()) }, 5000);
-                setIsComissionListUpdated(true);
+                dispatch(toggleComissionListUpdate(true));
                 dispatch(setAddComission(false))
             })
     };
