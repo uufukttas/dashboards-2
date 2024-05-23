@@ -1,3 +1,4 @@
+export { deleteComissionRequest } from './deleteComissionRequest';
 export { deleteEnergyPriceRequest } from './deleteEnergyPriceRequest';
 export { deleteServicePointPermissionRequest } from './deleteServicePointPermissionRequest';
 export { getChargePointConnetors } from './getChargePointConnetors';
@@ -15,3 +16,4 @@ export { getInvestors } from './getInvestors';
 export { getPermissionRequest } from './getPermissionRequest';
 export { getServicePointFeatureValues } from './getFeatureValuesRequest';
 export { getSelectedStationFeatures } from './getSelectedStationFeatures';
+export { getWorkingHoursRequest } from './getWorkingHoursRequest';

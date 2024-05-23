@@ -48,6 +48,7 @@ const nextConfig = {
     GET_WORKING_HOURS: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetWorkHours',
     LOGIN_URL: 'https://sharztestapi.azurewebsites.net/Auth/Login',
     REMOVE_ENERGY_PRICE: 'https://sharztestapi.azurewebsites.net/ServicePoint/RemoveEnergyPrice',
+    UPDATE_COMISSION_URL: 'https://sharztestapi.azurewebsites.net/ServicePoint/UpdateCommisionRate',
     UPDATE_CONNECTOR_URL: 'https://sharztestapi.azurewebsites.net/ServicePoint/UpdateConnector',
     UPDATE_STATION_INFO_URL: 'https://sharztestapi.azurewebsites.net/StationInfo/UpdateStationInfo',
     UPDATE_STATION_SETTINGS: 'https://sharztestapi.azurewebsites.net/ServicePoint/UpdateStationSettings',

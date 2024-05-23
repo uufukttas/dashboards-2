@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from '@projects/alert';
 import { Dialog } from '@projects/dialog';
@@ -15,6 +14,7 @@ import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
 import { BRAND_PREFIX } from '../../constants/constants';
 import {
+  deleteComissionRequest,
   deleteEnergyPriceRequest,
   deleteServicePointPermissionRequest,
   getChargePointConnetors,
@@ -25,7 +25,7 @@ import {
   getComissionDetails,
   getConnectorPropertiesRequest,
   getEnergyPriceDetails,
-  getPermissionRequest
+  getPermissionRequest,
 } from '../../../app/api/servicePointDetails';
 import { deleteChargePointRequest } from '../../../app/api/servicePoints/deleteChargePointRequest';
 import { setAccessTypeList } from '../../../app/redux/features/accessTypeList';
@@ -44,6 +44,7 @@ import { toggleEnergyPriceListUpdate } from '../../../app/redux/features/isEnerg
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { toggleServicePointPermissionsUpdated } from '../../../app/redux/features/isServicePointPermissionsUpdated';
 import { setPermissionData } from '../../../app/redux/features/permissionsData';
+import { getServicePointDataRequest } from '../../../app/api/servicePoints';
 import { setAddConnector, setAddEnergyPrice, setAddPermission } from '../../../app/redux/features/setVisibleModal';
 import { setStatusList } from '../../../app/redux/features/statusList';
 import { RootState } from '../../../app/redux/store';
@@ -209,7 +210,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     const promises = chargeUnits.map(async (chargeUnit: IChargeUnitsProps) => {
       const connectorResponse = await getChargePointConnetors(chargeUnit.chargePointId);
 
-      return getConnectorProperties(connectorResponse.data);  // Promise dönüyor, ama hemen beklemiyoruz.
+      return getConnectorProperties(connectorResponse.data);
     });
 
     await Promise.all(promises).then(data => dispatch(setConnectors([data])));
@@ -230,10 +231,9 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       return connectorData;
     });
 
-    // Tüm promise'leri bekleyip, sonuçları döndürüyoruz.
     return Promise.all(promises);
   };
-  const getEnergyPrices = async () => {
+  const getEnergyPrices = async (): Promise<void | null> => {
     const energyPriceResponse = await getEnergyPriceDetails(slug)
 
     if (!energyPriceResponse.success) {
@@ -243,7 +243,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     dispatch(setEnergyPriceDetails(energyPriceResponse.data));
     dispatch(toggleEnergyPriceListUpdate(false));
   };
-  const getInvestors = async () => {
+  const getInvestors = async (): Promise<void | null> => {
     const investorResponse = await getChargePointInvestors();
 
     if (!investorResponse.success) {
@@ -252,7 +252,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
 
     dispatch(setChargeUnitInvestors(investorResponse.data));
   };
-  const getServicePointPermissions = async () => {
+  const getServicePointPermissions = async (): Promise<void | null> => {
     const permissionResponse = await getPermissionRequest(Number(slug));
 
     if (!permissionResponse.success) {
@@ -262,59 +262,38 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     dispatch(setPermissionData(permissionResponse.data))
     dispatch(toggleServicePointPermissionsUpdated(false));
   };
-  const getServicePointsDetails = async (slug: string) => {
-    try {
-      await axios
-        .post(
-          process.env.GET_STATION_BY_ID || '',
-          { id: slug },
-          { headers: { 'Content-Type': 'application/json' } }
-        )
-        .then((response) => response.data)
-        .then((data) => setServicePointDetails(data.data[0]))
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    };
+  const getServicePointsDetails = async (slug: string): Promise<void | null> => {
+    const stationResponse = await getServicePointDataRequest(Number(slug));
+
+    if (!stationResponse.success) {
+      console.error('Error getting service point details', stationResponse.error);
+
+      return;
+    }
+
+    setServicePointDetails(stationResponse.data[0]);
   };
-  const getWorkingHours = async () => {
-    try {
-      await axios
-        .post(
-          process.env.GET_WORKING_HOURS || '',
-          JSON.stringify({ stationID: Number(slug) }),
-          { headers: { 'Content-Type': 'application/json' } }
-        )
-        .then((response) => response.data)
-        .then((data) => data)
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    };
-  };
+
   const deleteServicePointComission = async (dialogData: number) => {
-    await axios
-      .post(
-        'https://sharztestapi.azurewebsites.net/ServicePoint/UpdateCommisionRate',
-        {
-          "rid": dialogData,
-          "stationId": slug.toString(),
-          "isActive": false
-        },
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-      .then(() => {
-        dispatch(hideDialog());
-        dispatch(
-          showAlert({
-            type: 'success',
-            message: 'Komisyon başarıyla silindi.'
-          })
-        );
+    const comissionResponse = await deleteComissionRequest(dialogData, slug);
+
+    if (!comissionResponse.success) {
+      console.error('Error deleting comission', comissionResponse.error);
+
+      return;
+    }
+
+    dispatch(hideDialog());
+    dispatch(
+      showAlert({
+        type: 'success',
+        message: 'Komisyon başarıyla silindi.'
       })
-      .catch((error) => {
-        console.log(error);
-      });
+    );
+
+    setTimeout(() => {
+      dispatch(hideAlert());
+    }, 5000);
   };
   const handleDialogSuccess = () => {
     if (dialogInformation.actionType === 'deleteChargePoint') {
@@ -344,7 +323,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     getInvestors();
     getServicePointsDetails(slug);
     getServicePointPermissions();
-    getWorkingHours();
   }, [slug]);
 
   useEffect(() => {
