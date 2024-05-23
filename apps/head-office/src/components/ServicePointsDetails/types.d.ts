@@ -23,7 +23,7 @@ interface IConnectorStateProps {
   stationChargePointID: number;
   connectorNr: number;
   epdkSocketNumber: number;
-  isAc: boolean;
+  isAC: boolean;
   modelID: number;
   kw: number;
   RID: number;

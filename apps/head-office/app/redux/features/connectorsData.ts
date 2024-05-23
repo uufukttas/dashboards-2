@@ -1,4 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, Reducer } from '@reduxjs/toolkit';
+import { IConnectorPropertyStateProps } from '../types'
 
 const connectorsData = createSlice({
   name: 'connectorsData',
@@ -13,4 +14,4 @@ const connectorsData = createSlice({
 });
 
 export const { setConnectors } = connectorsData.actions;
-export default connectorsData.reducer;
+export default connectorsData.reducer as unknown as Reducer<IConnectorPropertyStateProps>;

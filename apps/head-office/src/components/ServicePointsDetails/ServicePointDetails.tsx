@@ -230,7 +230,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
         if (connector.RID === element.id)
           connector.kw = element.kw;
         connector.connectorName = element.connectorName;
-        connector.isAc = element.isAC;
+        connector.isAC = element.isAC;
       });
 
       return connectorData;

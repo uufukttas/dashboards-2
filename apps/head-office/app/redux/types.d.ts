@@ -102,6 +102,36 @@ export type IComissionDataStateProps = {
     TariffSubFractionTypeID: number;
     TariffSubFractionTypeName: string;
 };
+export type IConnectorPropertyStateProps = {
+    RID: number;
+    chargingStatus: null;
+    chargingStatusMessage: null;
+    cityName: string;
+    code: string;
+    companyID: number;
+    companyName: string;
+    connectorName: string;
+    connectorNr: number;
+    districtName: string;
+    energyUsed: null;
+    epdkSocketNumber: string;
+    hoStatusStatusName: string;
+    isAC: boolean;
+    isActive: boolean;
+    isFreePoint: string;
+    kw: number;
+    lastConnectionDate: string;
+    meterStartDate: null
+    modelID: number;
+    modelName: string;
+    stationChargePointID: number;
+    stationConnectorAC: boolean;
+    stationConnectorKW: number;
+    stationID: number;
+    stationName: string;
+    status: number;
+    statusName: string;
+};
 export type IDialogInformationStateProps = {
     isVisible: boolean;
     actionType: string;
