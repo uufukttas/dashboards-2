@@ -13,6 +13,7 @@ import isModalVisible from './features/isModalVisible';
 import isServicePointDataUpdated from './features/isServicePointDataUpdated';
 import isServicePointPermissionsUpdated from './features/isServicePointPermissionsUpdated';
 import isSidebarExpand from './features/isSidebarExpand';
+import permissionsData from './features/permissionsData';
 import servicePoints from './features/servicePoints';
 import servicePointData from './features/servicePointData';
 import servicePointInformation from './features/servicePointInformation';
@@ -35,6 +36,7 @@ export const store: EnhancedStore = configureStore({
     isServicePointDataUpdated,
     isServicePointPermissionsUpdated,
     isSidebarExpand,
+    permissionsData,
     servicePoints,
     servicePointData,
     servicePointInformation,

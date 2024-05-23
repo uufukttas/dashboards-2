@@ -14,7 +14,7 @@ import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { getChargePointFeatureStatus, getChargePointInvestors, getChargeUnitBrands, getComissionDetails } from '../../../app/api/servicePointDetails';
+import { getChargePointFeatureStatus, getChargePointInvestors, getChargeUnitBrands, getComissionDetails, getPermissionRequest } from '../../../app/api/servicePointDetails';
 import { deleteChargePointRequest } from '../../../app/api/servicePoints/deleteChargePointRequest';
 import { setAccessTypeList } from '../../../app/redux/features/accessTypeList';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
@@ -27,6 +27,7 @@ import { toggleChargePointDataUpdated } from '../../../app/redux/features/isChar
 import { toggleConnectorUpdated } from '../../../app/redux/features/isConnectorUpdated';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { toggleServicePointPermissionsUpdated } from '../../../app/redux/features/isServicePointPermissionsUpdated';
+import { setPermissionData } from '../../../app/redux/features/permissionsData';
 import { setStatusList } from '../../../app/redux/features/statusList';
 import { RootState } from '../../../app/redux/store';
 import type {
@@ -37,7 +38,6 @@ import type {
   IServicePointsDetailsPageProps,
   IServicePointsDetailsProps,
   IEnergyPriceDetailsProps,
-  IPermissionsProps
 } from './types';
 import './ServicePointDetails.css';
 
@@ -71,7 +71,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const [energyPriceDetails, setEnergyPriceDetails] = useState<IEnergyPriceDetailsProps[]>([]);
   const [isEnergyPriceListUpdated, setIsEnergyPriceListUpdated] = useState<boolean>(false);
   const [isComissionsListUpdated, setIsComissionListUpdated] = useState<boolean>(false);
-  const [permissions, setPermissions] = useState<IPermissionsProps[]>([]);
   const [servicePointDetails, setServicePointDetails] =
     useState<IServicePointsDetailsProps>({
       name: '',
@@ -273,14 +272,14 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     dispatch(setChargeUnitInvestors(investorResponse.data));
   };
   const getServicePointPermissions = async () => {
-    await axios
-      .post(
-        'https://sharztestapi.azurewebsites.net/auth/ChargePointUsers',
-        { stationId: Number(slug) },
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-      .then((response) => response.data.data)
-      .then((data) => setPermissions(data))
+    const permissionResponse = await getPermissionRequest(Number(slug));
+
+    if (!permissionResponse.success) {
+      console.error('Error getting service point permissions', permissionResponse.error);
+    }
+
+    dispatch(setPermissionData(permissionResponse.data))
+    dispatch(toggleServicePointPermissionsUpdated(false));
   };
   const getServicePointsDetails = async (slug: string) => {
     try {
@@ -420,7 +419,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               chargeUnits={chargeUnits}
               connectorsList={connectors}
               energyPriceDetails={energyPriceDetails}
-              permissions={permissions}
               setAddChargeUnit={setAddChargeUnit}
               setAddComission={setAddComission}
               setAddConnector={setAddConnector}
@@ -428,7 +426,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               setAddPermission={setAddPermission}
               setConnectorProperty={setConnectorProperty}
               setIsEnergyPriceListUpdated={setIsEnergyPriceListUpdated}
-              setPermissions={setPermissions}
               slug={slug}
             />
           </div>

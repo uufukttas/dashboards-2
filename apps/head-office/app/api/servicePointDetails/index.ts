@@ -6,5 +6,6 @@ export { getChargePointInvestors } from './getChargePointInvestors';
 export { getComissionDetails } from './getComissionDetails';
 export { getConnectorModels } from './getConnectorModels';
 export { getInvestors } from './getInvestors';
+export { getPermissionRequest } from './getPermissionRequest';
 export { getServicePointFeatureValues } from './getFeatureValuesRequest';
 export { getSelectedStationFeatures } from './getSelectedStationFeatures';

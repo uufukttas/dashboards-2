@@ -11,10 +11,6 @@ interface IChargeUnitDataProps {
     location: string;
     chargePointId: number;
 };
-interface IPermissionsProps {
-    id: number;
-    phoneNumber: string;
-};
 interface IServicePointDataProps {
     isDeleted: boolean;
     address: string;
@@ -110,6 +106,17 @@ export type IIsServicePointDataUpdatedProps = {
 };
 export type IIsSidebarExpandStateProps = {
     isSidebarExpanded: boolean | null;
+};
+export interface IPermissionsStateProps {
+    phoneNumber: string;
+    userName?: string;
+    password?: string;
+    newPassword?: string;
+    eMail?: string;
+    ipAddress?: string;
+    roles?: string[];
+    userId?: number;
+    stationId: number;
 };
 export type IServicePointDataStateProps = {
     servicePointData: IServicePointDataProps;

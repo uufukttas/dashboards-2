@@ -61,7 +61,6 @@ interface IServicePointsDetailsBodyProps {
   chargeUnits: IChargeUnitsProps[];
   connectorsList: IConnectorStateProps[];
   energyPriceDetails: IEnergyPriceDetailsProps[];
-  permissions: IPermissionsProps[];
   setAddChargeUnit: Dispatch<SetStateAction<boolean>>;
   setAddComission: Dispatch<SetStateAction<boolean>>;
   setAddConnector: Dispatch<SetStateAction<boolean>>;
@@ -74,7 +73,6 @@ interface IServicePointsDetailsBodyProps {
     connectorId: number
   }>>;
   setIsEnergyPriceListUpdated: Dispatch<SetStateAction<boolean>>;
-  setPermissions: Dispatch<SetStateAction<IPermissionsProps[]>>;
   slug: string;
 };
 interface IWorkingHoursContentProps {

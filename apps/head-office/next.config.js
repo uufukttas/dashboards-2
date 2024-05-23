@@ -37,6 +37,7 @@ const nextConfig = {
     GET_STATION_SELECTED_FEATURES: 'https://sharztestapi.azurewebsites.net/StationFeature/StationSelectedValues',
     GET_FEATURE_VALUES: 'https://sharztestapi.azurewebsites.net/StationFeature/GetFeatureValues',
     GET_INVESTORS: 'https://sharztestapi.azurewebsites.net/Values/GetInvestors',
+    GET_PERMISSIONS_URL: 'https://sharztestapi.azurewebsites.net/auth/ChargePointUsers',
     GET_RESELLERS_URL: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetResellers',
     GET_STATION_BY_ID: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetStationById',
     GET_STATION_INFO_BY_ID: 'https://sharztestapi.azurewebsites.net/StationInfo/GetByStationId',

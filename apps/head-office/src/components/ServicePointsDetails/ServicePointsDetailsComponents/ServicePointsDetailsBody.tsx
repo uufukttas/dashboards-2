@@ -18,7 +18,6 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
     chargeUnits,
     connectorsList,
     energyPriceDetails,
-    permissions,
     setAddChargeUnit,
     setAddComission,
     setAddConnector,
@@ -26,7 +25,6 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
     setAddPermission,
     setConnectorProperty,
     setIsEnergyPriceListUpdated,
-    setPermissions,
     slug,
 }: IServicePointsDetailsBodyProps) => {
     const initialChargeUnitData = {
@@ -170,9 +168,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                         actionButton={addServicePointPermissionButton}
                         titleClassName="font-bold"
                     >
-                        <ServicePointPermissions
-                            permissions={permissions}
-                        />
+                        <ServicePointPermissions />
                     </Accordion>
                 )
             }

@@ -1,17 +1,19 @@
 import React from 'react';
 import { FaTrashCan } from 'react-icons/fa6';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { showDialog } from '../../../../app/redux/features/dialogInformation';
-import { useDispatch } from 'react-redux';
+import { RootState } from '../../../../app/redux/store';
 
 interface IPermissionsProps {
     userId: number;
     userName: string;
 };
 
-const ServicePointPermissions = ({ permissions }: { permissions: IPermissionsProps[] }) => {
-    const sectionPrefix = 'service-point-permissions';
+const ServicePointPermissions: React.FC = () => {
+    const sectionPrefix: string = 'service-point-permissions';
     const dispatch = useDispatch();
+    const permissions = useSelector((state: RootState) => state.permissionsData);
 
     return (
         permissions.length > 0 && permissions.map((permission: IPermissionsProps, idx: number) => {
