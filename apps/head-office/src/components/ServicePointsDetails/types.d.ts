@@ -13,7 +13,7 @@ interface IConnectorProps {
   connectorName: string;
   connectorNr: number;
   id: number;
-  isAc: boolean;
+  isAC: boolean;
   kw: number;
   stationChargePointID: number;
   epdkSocketNumber: number;
@@ -58,7 +58,6 @@ interface IRequestDataProps {
 }
 interface IServicePointsDetailsBodyProps {
   activeIndex: number;
-  connectorsList: IConnectorStateProps[];
   setAddChargeUnit: Dispatch<SetStateAction<boolean>>;
   setAddComission: Dispatch<SetStateAction<boolean>>;
   setAddConnector: Dispatch<SetStateAction<boolean>>;
@@ -89,7 +88,6 @@ export interface IBrandsProps {
 
 export interface IChargeUnitsContentProps {
   chargeUnits: IChargeUnitsProps[];
-  connectorsList: IConnectorStateProps[];
   slug: string;
   setAddChargeUnit: React.Dispatch<React.SetStateAction<boolean>>;
   setAddConnector: React.Dispatch<React.SetStateAction<boolean>>;

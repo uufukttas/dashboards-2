@@ -1,5 +1,6 @@
 export { deleteEnergyPriceRequest } from './deleteEnergyPriceRequest';
 export { deleteServicePointPermissionRequest } from './deleteServicePointPermissionRequest';
+export { getChargePointConnetors } from './getChargePointConnetors';
 export { getChargeUnitsRequest } from './getChargeUnitsRequest';
 export { getChargeUnitBrands } from './getChargeUnitBrands';
 export { getChargeUnitDeviceCode } from './getChargeUnitDeviceCode';
@@ -8,6 +9,7 @@ export { getChargeUnitFeatureValuesRequest } from './getChargeUnitFeatureValuesR
 export { getChargePointInvestors } from './getChargePointInvestors';
 export { getComissionDetails } from './getComissionDetails';
 export { getConnectorModels } from './getConnectorModels';
+export { getConnectorPropertiesRequest } from './getConnectorPropertiesRequest';
 export { getEnergyPriceDetails } from './getEnergyPriceDetails';
 export { getInvestors } from './getInvestors';
 export { getPermissionRequest } from './getPermissionRequest';

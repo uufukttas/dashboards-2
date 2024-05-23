@@ -16,7 +16,6 @@ import type { IServicePointsDetailsBodyProps } from '../types';
 
 const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
     activeIndex,
-    connectorsList,
     setAddChargeUnit,
     setAddComission,
     setAddConnector,
@@ -49,6 +48,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                 dispatch(toggleModalVisibility(true));
                 dispatch(setChargeUnitData(initialChargeUnitData));
                 setAddChargeUnit(true);
+                setAddConnector(false);
             }}
         >
             + Sarj Ünitesi
@@ -123,7 +123,6 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                             chargeUnits.length > 0 && (
                                 <ChargeUnitsContent
                                     chargeUnits={chargeUnits}
-                                    connectorsList={connectorsList}
                                     slug={slug}
                                     setAddChargeUnit={setAddChargeUnit}
                                     setAddConnector={setAddConnector}

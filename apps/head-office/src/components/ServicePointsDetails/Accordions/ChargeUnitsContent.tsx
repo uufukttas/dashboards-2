@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import ConnectorInfo from './ConnectorInfo';
 import {
@@ -25,13 +25,15 @@ import type {
     IConnectorStateProps,
 } from '../types';
 import isConnectorUpdated from '../../../../app/redux/features/isConnectorUpdated';
+import { RootState } from '../../../../app/redux/store';
 
 const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
-    chargeUnits, connectorsList, slug, setAddChargeUnit, setAddConnector, setConnectorProperty
+    chargeUnits, slug, setAddChargeUnit, setAddConnector, setConnectorProperty
 }: IChargeUnitsContentProps) => {
     const chargeUnitPrefix = `${BRAND_PREFIX}-charge-unit`;
     const sectionPrefix = `${BRAND_PREFIX}-charge-units`;
     const dispatch = useDispatch();
+    const connectorList = useSelector((state: RootState) => state.setConnectors.connectors);
     const [connectorTypes, setConnectorTypes] = useState([]);
     const [selectedBrand, setSelectedBrand] = useState(1);
     const [connectorUpdate, setConnectorUpdate] = useState(false);
@@ -211,9 +213,8 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
         return `${dateArray[0]} ${timeArray[0]}:${timeArray[1]}`;
     };
     const renderConnectors = (chargePointId: number) => {
-        // @ts-expect-error we need to check type in the future
-        // TODO: Type kontrolü yapılmalı.
-        return connectorsList.map((chargeUnitConnectors: IConnectorStateProps[][][]) => {
+
+        return connectorList.map((chargeUnitConnectors: IConnectorStateProps[][][]) => {
             return chargeUnitConnectors.map((connectors: IConnectorStateProps[][]) => {
                 return connectors.map((connector: IConnectorStateProps[], idx: number) => {
                     return connector.map((connectorItem: IConnectorStateProps, connectorIndex: number) => {
@@ -256,8 +257,8 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
                                         id={`${chargeUnitPrefix}-connector-add-button`}
                                         type={'button'}
                                         onClick={() => {
-                                            setAddConnector(true);
                                             setAddChargeUnit(false);
+                                            setAddConnector(true);
                                             dispatch(toggleModalVisibility(true));
                                             setConnectorProperty({
                                                 chargePointModelId: connectorItem.modelID,

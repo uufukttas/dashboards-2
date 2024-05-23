@@ -39,6 +39,7 @@ const ConnectorAddModal: React.FC<IConnectorAddModalProps> = ({ connectorPropert
     };
     const handleSubmit = async (event: React.FormEvent) => {
         setIsDisabled(true);
+        setAddConnector(false);
         event.preventDefault();
 
         await axios
@@ -53,7 +54,6 @@ const ConnectorAddModal: React.FC<IConnectorAddModalProps> = ({ connectorPropert
             )
         dispatch(toggleModalVisibility(false));
         dispatch(toggleConnectorUpdated(true));
-        setAddConnector(false);
     };
 
     useEffect(() => {

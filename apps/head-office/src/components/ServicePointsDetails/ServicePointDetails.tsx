@@ -17,11 +17,13 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import {
   deleteEnergyPriceRequest,
   deleteServicePointPermissionRequest,
+  getChargePointConnetors,
   getChargePointFeatureStatus,
   getChargePointInvestors,
   getChargeUnitBrands,
   getChargeUnitsRequest,
   getComissionDetails,
+  getConnectorPropertiesRequest,
   getEnergyPriceDetails,
   getPermissionRequest
 } from '../../../app/api/servicePointDetails';
@@ -33,6 +35,7 @@ import { setChargeUnitData } from '../../../app/redux/features/chargeUnitData';
 import { setChargeUnitInvestors } from '../../../app/redux/features/chargeUnitInvestors';
 import { setChargeUnitList } from '../../../app/redux/features/chargeUnitList';
 import { setComissionData } from '../../../app/redux/features/comissionData';
+import { setConnectors } from '../../../app/redux/features/connectorsData';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { setEnergyPriceDetails } from '../../../app/redux/features/energyPriceDetails';
 import { toggleChargePointDataUpdated } from '../../../app/redux/features/isChargePointDataUpdated';
@@ -47,7 +50,6 @@ import type {
   IChargeUnitsProps,
   IConnectorProps,
   IConnectorPropertyProps,
-  IConnectorStateProps,
   IServicePointsDetailsPageProps,
   IServicePointsDetailsProps,
 } from './types';
@@ -80,7 +82,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     connectorId: 0,
     connectorNumber: 0,
   });
-  const [connectors, setConnectors] = useState<IConnectorStateProps[]>([]);
   const [isComissionsListUpdated, setIsComissionListUpdated] = useState<boolean>(false);
   const [servicePointDetails, setServicePointDetails] =
     useState<IServicePointsDetailsProps>({
@@ -194,12 +195,14 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
 
     if (!featureResponse.success) {
       console.error('Error getting charge point features', featureResponse.error);
+
+      return;
     }
 
     dispatch(setAccessTypeList(featureResponse.data.accessTypeList));
     dispatch(setStatusList(featureResponse.data.statusList));
   };
-  const getComissionDetail = async () => {
+  const getComissionDetail = async (): Promise<void | null> => {
     const comissionResponse = await getComissionDetails(slug);
 
     if (!comissionResponse.success) {
@@ -209,52 +212,28 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     dispatch(setComissionData(comissionResponse.data));
   };
   const getConnectors = async () => {
-    try {
-      const promises = chargeUnits.map(async (chargeUnit: IChargeUnitsProps) => {
-        console.log('chargeUnit', chargeUnit)
-        try {
-          const response = await axios.post(
-            process.env.GET_CHARGE_POINT_CONNECTORSV2 || '',
-            JSON.stringify({ stationChargePointId: chargeUnit.chargePointId }),
-            { headers: { 'Content-Type': 'application/json' } }
-          );
-          const data = response.data;
+    const promises = chargeUnits.map(async (chargeUnit: IChargeUnitsProps) => {
+      const connectorResponse = await getChargePointConnetors(chargeUnit.chargePointId);
 
-          return getConnectorProperties(data.data);  // Promise dönüyor, ama hemen beklemiyoruz.
-        } catch (error) {
-          console.error(error);
-        }
-      });
+      return getConnectorProperties(connectorResponse.data);  // Promise dönüyor, ama hemen beklemiyoruz.
+    });
 
-      // @ts-expect-error We did not wait for the checking to be resolved.
-      // TODO : We need to wait for the checking to be resolved.
-      await Promise.all(promises).then(data => setConnectors([data]));
+    await Promise.all(promises).then(data => dispatch(setConnectors([data])));
 
-      dispatch(toggleConnectorUpdated(false));
-    } catch (error) {
-      console.error(error);
-    }
+    dispatch(toggleConnectorUpdated(false));
   };
   const getConnectorProperties = async (connectorData: []) => {
     const promises = connectorData.map(async (connector: IConnectorProps) => {
-      try {
-        await axios.post(
-          process.env.GET_CHARGE_POINT_CONNECTORS || '',
-          JSON.stringify({ stationChargePointId: connector.stationChargePointID }),
-          { headers: { 'Content-Type': 'application/json' } }
-        ).then(data => {
-          data.data.data.forEach((element: IConnectorProps) => {
-            if (connector.RID === element.id)
-              connector.kw = element.kw;
-            connector.connectorName = element.connectorName;
-            connector.isAc = element.isAc;
-          })
-        });
+      const connectorPropertiesResponse = await getConnectorPropertiesRequest(connector.stationChargePointID);
 
-        return connectorData
-      } catch (error) {
-        console.error(error);
-      }
+      connectorPropertiesResponse.data.forEach((element: IConnectorProps) => {
+        if (connector.RID === element.id)
+          connector.kw = element.kw;
+        connector.connectorName = element.connectorName;
+        connector.isAc = element.isAC;
+      });
+
+      return connectorData;
     });
 
     // Tüm promise'leri bekleyip, sonuçları döndürüyoruz.
@@ -424,7 +403,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
             />
             <ServicePointsDetailsBody
               activeIndex={activeIndex}
-              connectorsList={connectors}
               setAddChargeUnit={setAddChargeUnit}
               setAddComission={setAddComission}
               setAddConnector={setAddConnector}

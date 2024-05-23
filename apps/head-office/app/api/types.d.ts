@@ -11,3 +11,14 @@ export interface IResponseProps {
         response: IResponseInfoProps;
     },
 };
+
+export interface IConnectorProps {
+    RID: number;
+    connectorName: string;
+    connectorNr: number;
+    id: number;
+    isAC: boolean;
+    kw: number;
+    stationChargePointID: number;
+    epdkSocketNumber: number;
+};
