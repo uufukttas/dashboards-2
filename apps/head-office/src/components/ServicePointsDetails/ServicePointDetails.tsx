@@ -45,7 +45,13 @@ import { toggleModalVisibility } from '../../../app/redux/features/isModalVisibl
 import { toggleServicePointPermissionsUpdated } from '../../../app/redux/features/isServicePointPermissionsUpdated';
 import { setPermissionData } from '../../../app/redux/features/permissionsData';
 import { getServicePointDataRequest } from '../../../app/api/servicePoints';
-import { setAddConnector, setAddEnergyPrice, setAddPermission } from '../../../app/redux/features/setVisibleModal';
+import {
+  setAddChargeUnit,
+  setAddComission,
+  setAddConnector,
+  setAddEnergyPrice,
+  setAddPermission
+} from '../../../app/redux/features/setVisibleModal';
 import { setStatusList } from '../../../app/redux/features/statusList';
 import { RootState } from '../../../app/redux/store';
 import type {
@@ -69,6 +75,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const isChargePointDataUpdated = useSelector((state: RootState) => {
     return state.isChargePointDataUpdated.isChargePointDataUpdated
   });
+  const isComissionsListUpdated = useSelector((state: RootState) => state.isComissionListUpdated.isComissionListUpdated);
   const isConnectorUpdated = useSelector((state: RootState) => state.isConnectorUpdated.isConnectorUpdated);
   const isEnergyPriceListUpdated = useSelector((state: RootState) => state.isEnergyPriceListUpdated.isEnergyPriceListUpdated);
   const isLoadingVisible = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
@@ -77,7 +84,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     return state.isServicePointPermissionsUpdated.isServicePointPermissionsUpdated
   });
   const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [isComissionsListUpdated, setIsComissionListUpdated] = useState<boolean>(false);
   const [servicePointDetails, setServicePointDetails] =
     useState<IServicePointsDetailsProps>({
       name: '',
@@ -89,6 +95,55 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       isActive: false,
       isDeleted: false,
     });
+  const modalConfig = [
+    {
+      condition: addChargeUnit,
+      headerTitle: 'Şarj Ünitesi Ekle',
+      modalId: `${BRAND_PREFIX}-charge-points-add-modal`,
+      content: <ChargeUnitAddModal slug={slug} />,
+      closeAction: () => setChargeUnitData({
+        accessType: 1,
+        brandId: 1,
+        chargePointId: 0,
+        code: '',
+        connectorCount: 1,
+        isFreeUsage: false,
+        isLimitedUsage: false,
+        investor: 1,
+        location: '',
+        ocppVersion: 1600,
+        status: 1,
+      }) && setAddChargeUnit(false),
+    },
+    {
+      condition: addConnector,
+      headerTitle: 'Konnektör Ekle',
+      modalId: `${BRAND_PREFIX}-connector-add-modal`,
+      content: <ConnectorAddModal />,
+      closeAction: () => setAddConnector(false),
+    },
+    {
+      condition: addEnergyPrice,
+      headerTitle: 'Enerji Fiyat Ayarlari',
+      modalId: `${BRAND_PREFIX}-energy-prices-modal`,
+      content: <EnergyPricesModal slug={slug} />,
+      closeAction: () => setAddEnergyPrice(false),
+    },
+    {
+      condition: addPermission,
+      headerTitle: 'Yetki Ekle',
+      modalId: `${BRAND_PREFIX}-service-point-permissions-modal`,
+      content: <ServicePointPermissionsModal slug={slug} />,
+      closeAction: () => setAddPermission(false),
+    },
+    {
+      condition: addComission,
+      headerTitle: 'Komisyon Ekle',
+      modalId: `${BRAND_PREFIX}-service-point-comission-modal`,
+      content: <ComissionModal slug={Number(slug)} />,
+      closeAction: () => setAddComission(false),
+    }
+  ];
 
   const deleteChargePoint = async (deletedChargeUnitData: IChargeUnitsProps[]): Promise<void> => {
     try {
@@ -273,8 +328,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
 
     setServicePointDetails(stationResponse.data[0]);
   };
-
-  const deleteServicePointComission = async (dialogData: number) => {
+  const deleteServicePointComission = async (dialogData: number): Promise<void | null> => {
     const comissionResponse = await deleteComissionRequest(dialogData, slug);
 
     if (!comissionResponse.success) {
@@ -295,15 +349,13 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       dispatch(hideAlert());
     }, 5000);
   };
-  const handleDialogSuccess = () => {
+  const handleDialogSuccess = (): void => {
     if (dialogInformation.actionType === 'deleteChargePoint') {
       deleteChargePoint(dialogInformation.data);
     } else if (dialogInformation.actionType === 'deleteEnergyPrice') {
       deleteEnergyPrices(dialogInformation.data);
     } else if (dialogInformation.actionType === 'deleteServicePointPermission') {
       deleteServicePointPermission(dialogInformation.data);
-    } else if (dialogInformation.actionType === 'deleteWorkingHours') {
-      // deleteWorkingHours(dialogInformation.data);
     } else if (dialogInformation.actionType === 'deleteServicePointComission') {
       deleteServicePointComission(dialogInformation.data);
     } else if (dialogInformation.actionType === 'deleteComission') {
@@ -379,85 +431,24 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
             />
           </div>
           {
-            addChargeUnit && isModalVisible && (
-              <Modal
-                modalHeaderTitle='Şarj Ünitesi Ekle'
-                modalId={`${BRAND_PREFIX}-charge-points-add-modal`}
-                onClose={() => {
-                  dispatch(
-                    setChargeUnitData({
-                      accessType: 1,
-                      brandId: 1,
-                      chargePointId: 0,
-                      code: '',
-                      connectorCount: 1,
-                      isFreeUsage: false,
-                      isLimitedUsage: false,
-                      investor: 1,
-                      location: '',
-                      ocppVersion: 1600,
-                      status: 1,
-                    })
-                  );
-                  dispatch(toggleModalVisibility(false));
-                }}
-              >
-                <ChargeUnitAddModal
-                  slug={slug}
-                />
-              </Modal>
-            )
-          }
-          {
-            addConnector && isModalVisible && (
-              <Modal
-                modalHeaderTitle='Konnektör Ekle'
-                modalId={`${BRAND_PREFIX}-connector-add-modal`}
-                onClose={() => dispatch(toggleModalVisibility(false)) && dispatch(setAddConnector(false))}
-              >
-                <ConnectorAddModal />
-              </Modal>
-            )
-          }
-          {
-            addEnergyPrice && isModalVisible && (
-              <Modal
-                modalHeaderTitle='Enerji Fiyat Ayarlari'
-                modalId={`${BRAND_PREFIX}-energy-prices-modal`}
-                onClose={() => dispatch(toggleModalVisibility(false)) && dispatch(setAddEnergyPrice(false))}
-              >
-                <EnergyPricesModal
-                  slug={slug}
-                />
-              </Modal>
-            )
-          }
-          {
-            addPermission && isModalVisible && (
-              <Modal
-                modalHeaderTitle='Yetki Ekle'
-                modalId={`${BRAND_PREFIX}-service-point-permissions-modal`}
-                onClose={() => dispatch(toggleModalVisibility(false)) && dispatch(setAddPermission(false))}
-              >
-                <ServicePointPermissionsModal
-                  slug={slug}
-                />
-              </Modal>
-            )
-          }
-          {
-            addComission && isModalVisible && (
-              <Modal
-                modalHeaderTitle='Komisyon Ekle'
-                modalId={`${BRAND_PREFIX}-service-point-comission-modal`}
-                onClose={() => dispatch(toggleModalVisibility(false)) && dispatch(setAddPermission(false))}
-              >
-                <ComissionModal
-                  slug={Number(slug)}
-                  setIsComissionListUpdated={setIsComissionListUpdated}
-                />
-              </Modal>
-            )
+            modalConfig.map((modal) => {
+              if (modal.condition && isModalVisible) {
+                return (
+                  <Modal
+                    key={modal.modalId}
+                    modalHeaderTitle={modal.headerTitle}
+                    modalId={modal.modalId}
+                    onClose={() => {
+                      dispatch(toggleModalVisibility(false));
+                      dispatch(modal.closeAction());
+                    }}
+                  >
+                    {modal.content}
+                  </Modal>
+                );
+              }
+              return null;
+            })
           }
           {
             dialogInformation.isVisible && (
