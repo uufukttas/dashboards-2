@@ -23,6 +23,7 @@ import servicePointData from './features/servicePointData';
 import servicePointInformation from './features/servicePointInformation';
 import servicePointPermissions from './features/servicePointPermissions';
 import setConnectors from './features/connectorsData';
+import setVisibleModal from './features/setVisibleModal';
 import statusList from './features/statusList';
 
 export const store: EnhancedStore = configureStore({
@@ -51,11 +52,11 @@ export const store: EnhancedStore = configureStore({
     servicePointInformation,
     servicePointPermissions,
     setConnectors,
+    setVisibleModal,
     statusList,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });
-
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof store.getState>;

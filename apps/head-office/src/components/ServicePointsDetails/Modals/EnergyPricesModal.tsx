@@ -7,11 +7,11 @@ import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleEnergyPriceListUpdate } from '../../../../app/redux/features/isEnergyPriceListUpdated';
+import { setAddEnergyPrice } from '../../../../app/redux/features/setVisibleModal';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 
-const EnergyPricesModal = ({ slug, setAddEnergyPrice }: {
+const EnergyPricesModal = ({ slug }: {
   slug: string;
-  setAddEnergyPrice: React.Dispatch<React.SetStateAction<boolean>>,
 }) => {
   const sectionPrefix = 'energy-prices';
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice }: {
         { headers: { 'Content-Type': 'application/json' } }
       )
       .then((response) => {
-        setAddEnergyPrice(false);
+        dispatch(setAddEnergyPrice(false));
         dispatch(toggleEnergyPriceListUpdate(true));
         dispatch(
           showAlert({

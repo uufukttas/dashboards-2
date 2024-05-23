@@ -54,11 +54,6 @@ interface IRequestDataProps {
 }
 interface IServicePointsDetailsBodyProps {
   activeIndex: number;
-  setAddChargeUnit: Dispatch<SetStateAction<boolean>>;
-  setAddComission: Dispatch<SetStateAction<boolean>>;
-  setAddConnector: Dispatch<SetStateAction<boolean>>;
-  setAddEnergyPrice: Dispatch<SetStateAction<boolean>>;
-  setAddPermission: Dispatch<SetStateAction<boolean>>;
   slug: string;
 };
 interface IWorkingHoursContentProps {
@@ -79,8 +74,6 @@ export interface IBrandsProps {
 export interface IChargeUnitsContentProps {
   chargeUnits: IChargeUnitsProps[];
   slug: string;
-  setAddChargeUnit: React.Dispatch<React.SetStateAction<boolean>>;
-  setAddConnector: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export interface IChargeUnitsProps {
   accessType: string;
@@ -198,7 +191,6 @@ export interface IServicePointsDetailsInfoProps {
 };
 export interface IServicePointDetailsModalProps {
   slug: string;
-  setAddChargeUnit: React.Dispatch<React.SetStateAction<boolean>>;
 };
 export interface IServicePointPermissionsModalProps {
   slug: string;

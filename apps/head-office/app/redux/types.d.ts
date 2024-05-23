@@ -102,7 +102,7 @@ export type IComissionDataStateProps = {
     TariffSubFractionTypeID: number;
     TariffSubFractionTypeName: string;
 };
-export type IConnectorPropertyStateProps = {
+export type IConnectorsDataStateProps = {
     RID: number;
     chargingStatus: null;
     chargingStatusMessage: null;
@@ -131,6 +131,12 @@ export type IConnectorPropertyStateProps = {
     stationName: string;
     status: number;
     statusName: string;
+};
+export type IConnectorPropertyStateProps = {
+    chargePointId: number;
+    chargePointModelId: number;
+    connectorId: number;
+    connectorNumber: number;
 };
 export type IDialogInformationStateProps = {
     isVisible: boolean;

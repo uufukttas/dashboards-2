@@ -6,10 +6,11 @@ import { Dropdown } from '@projects/dropdown';
 import { Label } from '@projects/label';
 import { toggleConnectorUpdated } from '../../../../app/redux/features/isConnectorUpdated';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import { setAddConnector } from '../../../../app/redux/features/setVisibleModal';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import { RootState } from '../../../../app/redux/store';
 
-const ConnectorAddModal: React.FC<{ setAddConnector: React.Dispatch<React.SetStateAction<boolean>> }> = ({ setAddConnector }) => {
+const ConnectorAddModal: React.FC = () => {
     const sectionPrefix = 'connector';
     const dispatch = useDispatch();
     const connectorProperty = useSelector((state: RootState) => state.setConnectorProperty.connectorProperty);
@@ -40,7 +41,7 @@ const ConnectorAddModal: React.FC<{ setAddConnector: React.Dispatch<React.SetSta
     };
     const handleSubmit = async (event: React.FormEvent) => {
         setIsDisabled(true);
-        setAddConnector(false);
+        dispatch(setAddConnector(false))
         event.preventDefault();
 
         await axios

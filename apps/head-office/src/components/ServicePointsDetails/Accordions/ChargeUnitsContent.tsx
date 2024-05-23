@@ -14,6 +14,7 @@ import { setConnectorProperty } from '../../../../app/redux/features/connectorPr
 import { showDialog } from '../../../../app/redux/features/dialogInformation';
 import isConnectorUpdated from '../../../../app/redux/features/isConnectorUpdated';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import { setAddChargeUnit, setAddConnector } from '../../../../app/redux/features/setVisibleModal';
 import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type {
@@ -28,10 +29,7 @@ import type {
     IConnectorStateProps,
 } from '../types';
 
-
-const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
-    chargeUnits, slug, setAddChargeUnit, setAddConnector
-}: IChargeUnitsContentProps) => {
+const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, slug }: IChargeUnitsContentProps) => {
     const chargeUnitPrefix = `${BRAND_PREFIX}-charge-unit`;
     const sectionPrefix = `${BRAND_PREFIX}-charge-units`;
     const dispatch = useDispatch();
@@ -184,7 +182,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
         );
         const location = await getChargeUnitLocation(chargeUnitId || '0');
 
-        setAddChargeUnit(true);
+        dispatch(setAddChargeUnit(true));
         dispatch(
             setChargeUnitData({
                 code: deviceCode,
@@ -259,8 +257,8 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
                                         id={`${chargeUnitPrefix}-connector-add-button`}
                                         type={'button'}
                                         onClick={() => {
-                                            setAddChargeUnit(false);
-                                            setAddConnector(true);
+                                            dispatch(setAddChargeUnit(false));
+                                            dispatch(setAddConnector(true));
                                             dispatch(toggleModalVisibility(true));
                                             dispatch(setConnectorProperty({
                                                 chargePointModelId: connectorItem.modelID,

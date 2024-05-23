@@ -11,6 +11,7 @@ import { getChargePointInvestors } from '../../../../app/api/servicePointDetails
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
+import { setAddComission } from '../../../../app/redux/features/setVisibleModal';
 
 const ComissionModal = ({ slug, setIsComissionListUpdated }: {
     slug: number;
@@ -67,6 +68,7 @@ const ComissionModal = ({ slug, setIsComissionListUpdated }: {
                 dispatch(toggleModalVisibility(false));
                 setTimeout(() => { dispatch(hideAlert()) }, 5000);
                 setIsComissionListUpdated(true);
+                dispatch(setAddComission(false))
             })
     };
 

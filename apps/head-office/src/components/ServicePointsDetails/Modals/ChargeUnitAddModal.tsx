@@ -13,10 +13,11 @@ import { hideAlert, showAlert } from '../../../../app/redux/features/alertInform
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { toggleChargePointDataUpdated } from '../../../../app/redux/features/isChargePointDataUpdated';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import { setAddChargeUnit } from '../../../../app/redux/features/setVisibleModal';
 import { RootState } from '../../../../app/redux/store';
 import type { IFormDataProps, IRequestDataProps, IServicePointDetailsModalProps } from '../types';
 
-const ChargeUnitAddModal = ({ slug, setAddChargeUnit }: IServicePointDetailsModalProps) => {
+const ChargeUnitAddModal = ({ slug }: IServicePointDetailsModalProps) => {
   const formName = ['brands', 'connector-count', 'ocpp-version', 'is-free-usage', 'is-limited-usage', 'investor', 'status', 'access-type', 'location'];
   const sectionPrefix = 'charge-unit';
   const formProperties = {
@@ -135,7 +136,7 @@ const ChargeUnitAddModal = ({ slug, setAddChargeUnit }: IServicePointDetailsModa
           setTimeout(() => dispatch(hideAlert()), 5000);
         });
 
-      setAddChargeUnit(false)
+      dispatch(setAddChargeUnit(false))
       dispatch(
         setChargeUnitData({
           ...chargeUnitData,

@@ -11,16 +11,12 @@ import ServicePointPermissions from '../Accordions/ServicePointPermissions';
 import WorkingHoursContent from '../Accordions/WorkingHoursContent';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import { setAddChargeUnit, setAddComission, setAddEnergyPrice, setAddPermission } from '../../../../app/redux/features/setVisibleModal';
 import { RootState } from '../../../../app/redux/store'; 
 import type { IServicePointsDetailsBodyProps } from '../types';
 
 const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
     activeIndex,
-    setAddChargeUnit,
-    setAddComission,
-    setAddConnector,
-    setAddEnergyPrice,
-    setAddPermission,
     slug,
 }: IServicePointsDetailsBodyProps) => {
     const initialChargeUnitData = {
@@ -46,8 +42,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             onClick={() => {
                 dispatch(toggleModalVisibility(true));
                 dispatch(setChargeUnitData(initialChargeUnitData));
-                setAddChargeUnit(true);
-                setAddConnector(false);
+                dispatch(setAddChargeUnit(true));
             }}
         >
             + Sarj Ünitesi
@@ -60,7 +55,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             id={`energy-prices-add-button`}
             type={'button'}
             onClick={() => {
-                setAddEnergyPrice(true);
+                dispatch(setAddEnergyPrice(true));
                 dispatch(toggleModalVisibility(true));
             }}
         >
@@ -74,7 +69,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             id={`service-point-permission-add-button`}
             type={'button'}
             onClick={() => {
-                setAddPermission(true);
+                dispatch(setAddPermission(true));
                 dispatch(toggleModalVisibility(true));
             }}
         >
@@ -88,7 +83,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             id={`comission-add-button`}
             type={'button'}
             onClick={() => {
-                setAddComission(true);
+                dispatch(setAddComission(true));
                 dispatch(toggleModalVisibility(true));
             }}
         >
@@ -123,8 +118,6 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                                 <ChargeUnitsContent
                                     chargeUnits={chargeUnits}
                                     slug={slug}
-                                    setAddChargeUnit={setAddChargeUnit}
-                                    setAddConnector={setAddConnector}
                                 />
                             )
                         }

@@ -8,6 +8,7 @@ import { Label } from '@projects/label';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { toggleServicePointPermissionsUpdated } from '../../../../app/redux/features/isServicePointPermissionsUpdated';
+import { setAddPermission } from '../../../../app/redux/features/setVisibleModal';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type { IServicePointPermissionsModalProps } from '../types';
 
@@ -43,6 +44,7 @@ const ServicePointPermissionsModal = ({ slug }: IServicePointPermissionsModalPro
 
                 dispatch(toggleModalVisibility(false));
                 dispatch(toggleServicePointPermissionsUpdated(true));
+                dispatch(setAddPermission(false));
             });
     };
 

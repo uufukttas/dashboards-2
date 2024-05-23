@@ -44,6 +44,7 @@ import { toggleEnergyPriceListUpdate } from '../../../app/redux/features/isEnerg
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { toggleServicePointPermissionsUpdated } from '../../../app/redux/features/isServicePointPermissionsUpdated';
 import { setPermissionData } from '../../../app/redux/features/permissionsData';
+import { setAddConnector, setAddEnergyPrice, setAddPermission } from '../../../app/redux/features/setVisibleModal';
 import { setStatusList } from '../../../app/redux/features/statusList';
 import { RootState } from '../../../app/redux/store';
 import type {
@@ -56,6 +57,11 @@ import './ServicePointDetails.css';
 
 const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
+  const addChargeUnit = useSelector((state: RootState) => state.setVisibleModal.addChargeUnit);
+  const addComission = useSelector((state: RootState) => state.setVisibleModal.addComission);
+  const addConnector = useSelector((state: RootState) => state.setVisibleModal.addConnector);
+  const addEnergyPrice = useSelector((state: RootState) => state.setVisibleModal.addEnergyPrice);
+  const addPermission = useSelector((state: RootState) => state.setVisibleModal.addPermission);
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const chargeUnits = useSelector((state: RootState) => state.chargeUnitList);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
@@ -70,17 +76,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     return state.isServicePointPermissionsUpdated.isServicePointPermissionsUpdated
   });
   const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [addChargeUnit, setAddChargeUnit] = useState<boolean>(false);
-  const [addComission, setAddComission] = useState<boolean>(false);
-  const [addConnector, setAddConnector] = useState(false);
-  const [addEnergyPrice, setAddEnergyPrice] = useState<boolean>(false);
-  const [addPermission, setAddPermission] = useState<boolean>(false);
-  // const [connectorProperty, setConnectorProperty] = useState<IConnectorPropertyProps>({
-  //   chargePointId: 0,
-  //   chargePointModelId: 0,
-  //   connectorId: 0,
-  //   connectorNumber: 0,
-  // });
   const [isComissionsListUpdated, setIsComissionListUpdated] = useState<boolean>(false);
   const [servicePointDetails, setServicePointDetails] =
     useState<IServicePointsDetailsProps>({
@@ -402,11 +397,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
             />
             <ServicePointsDetailsBody
               activeIndex={activeIndex}
-              setAddChargeUnit={setAddChargeUnit}
-              setAddComission={setAddComission}
-              setAddConnector={setAddConnector}
-              setAddEnergyPrice={setAddEnergyPrice}
-              setAddPermission={setAddPermission}
               slug={slug}
             />
           </div>
@@ -436,7 +426,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               >
                 <ChargeUnitAddModal
                   slug={slug}
-                  setAddChargeUnit={setAddChargeUnit}
                 />
               </Modal>
             )
@@ -446,11 +435,9 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               <Modal
                 modalHeaderTitle='Konnektör Ekle'
                 modalId={`${BRAND_PREFIX}-connector-add-modal`}
-                onClose={() => dispatch(toggleModalVisibility(false))}
+                onClose={() => dispatch(toggleModalVisibility(false)) && dispatch(setAddConnector(false))}
               >
-                <ConnectorAddModal
-                  setAddConnector={setAddConnector}
-                />
+                <ConnectorAddModal />
               </Modal>
             )
           }
@@ -459,10 +446,9 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               <Modal
                 modalHeaderTitle='Enerji Fiyat Ayarlari'
                 modalId={`${BRAND_PREFIX}-energy-prices-modal`}
-                onClose={() => dispatch(toggleModalVisibility(false)) && setAddEnergyPrice(false)}
+                onClose={() => dispatch(toggleModalVisibility(false)) && dispatch(setAddEnergyPrice(false))}
               >
                 <EnergyPricesModal
-                  setAddEnergyPrice={setAddEnergyPrice}
                   slug={slug}
                 />
               </Modal>
@@ -473,7 +459,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               <Modal
                 modalHeaderTitle='Yetki Ekle'
                 modalId={`${BRAND_PREFIX}-service-point-permissions-modal`}
-                onClose={() => dispatch(toggleModalVisibility(false)) && setAddPermission(false)}
+                onClose={() => dispatch(toggleModalVisibility(false)) && dispatch(setAddPermission(false))}
               >
                 <ServicePointPermissionsModal
                   slug={slug}
@@ -486,7 +472,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               <Modal
                 modalHeaderTitle='Komisyon Ekle'
                 modalId={`${BRAND_PREFIX}-service-point-comission-modal`}
-                onClose={() => dispatch(toggleModalVisibility(false)) && setAddComission(false)}
+                onClose={() => dispatch(toggleModalVisibility(false)) && dispatch(setAddPermission(false))}
               >
                 <ComissionModal
                   slug={Number(slug)}
