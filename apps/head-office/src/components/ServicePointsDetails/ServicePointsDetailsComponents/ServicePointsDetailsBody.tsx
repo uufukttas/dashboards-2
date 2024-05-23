@@ -17,14 +17,12 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
     activeIndex,
     chargeUnits,
     connectorsList,
-    energyPriceDetails,
     setAddChargeUnit,
     setAddComission,
     setAddConnector,
     setAddEnergyPrice,
     setAddPermission,
     setConnectorProperty,
-    setIsEnergyPriceListUpdated,
     slug,
 }: IServicePointsDetailsBodyProps) => {
     const initialChargeUnitData = {
@@ -153,11 +151,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                         actionButton={addEnergyPriceButton}
                         titleClassName="font-bold"
                     >
-                        <EnergyPricesContent
-                            energyPriceDetails={energyPriceDetails}
-                            slug={slug}
-                            setIsEnergyPriceListUpdated={setIsEnergyPriceListUpdated}
-                        />
+                        <EnergyPricesContent />
                     </Accordion>
                 )
             }

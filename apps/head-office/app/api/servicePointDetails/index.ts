@@ -5,6 +5,7 @@ export { getChargeUnitFeatureValuesRequest } from './getChargeUnitFeatureValuesR
 export { getChargePointInvestors } from './getChargePointInvestors';
 export { getComissionDetails } from './getComissionDetails';
 export { getConnectorModels } from './getConnectorModels';
+export { getEnergyPriceDetails } from './getEnergyPriceDetails';
 export { getInvestors } from './getInvestors';
 export { getPermissionRequest } from './getPermissionRequest';
 export { getServicePointFeatureValues } from './getFeatureValuesRequest';

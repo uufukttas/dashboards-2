@@ -23,7 +23,6 @@ const comissionData = createSlice({
     initialState,
     reducers: {
         setComissionData: (state, action) => {
-            console.log('action.payload', action.payload)
             return action.payload;
         },
     },

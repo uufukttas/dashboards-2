@@ -85,12 +85,24 @@ export type IDialogInformationStateProps = {
     actionType: string;
     data: number;
 };
+export type IEnergyPriceDetailsStateProps = {
+    createdDate: string,
+    id: number,
+    isActive: boolean,
+    isDeleted: boolean,
+    price: number,
+    startDate: string,
+    stationId: number
+};
 export type IInvestorsProps = {
     id: number;
     name: string;
 };
 export type IIsConnectorUpdatedProps = {
     isConnectorUpdated: boolean;
+};
+export type IIsEnergyPriceListUpdatedProps = {
+    isEnergyPriceListUpdated: boolean;
 };
 export type IIsLoadingStateProps = {
     isLoading: boolean;

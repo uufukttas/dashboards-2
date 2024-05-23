@@ -14,7 +14,14 @@ import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { getChargePointFeatureStatus, getChargePointInvestors, getChargeUnitBrands, getComissionDetails, getPermissionRequest } from '../../../app/api/servicePointDetails';
+import {
+  getChargePointFeatureStatus,
+  getChargePointInvestors,
+  getChargeUnitBrands,
+  getComissionDetails,
+  getEnergyPriceDetails,
+  getPermissionRequest
+} from '../../../app/api/servicePointDetails';
 import { deleteChargePointRequest } from '../../../app/api/servicePoints/deleteChargePointRequest';
 import { setAccessTypeList } from '../../../app/redux/features/accessTypeList';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
@@ -23,8 +30,10 @@ import { setChargeUnitData } from '../../../app/redux/features/chargeUnitData';
 import { setChargeUnitInvestors } from '../../../app/redux/features/chargeUnitInvestors';
 import { setComissionData } from '../../../app/redux/features/comissionData';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
+import { setEnergyPriceDetails } from '../../../app/redux/features/energyPriceDetails';
 import { toggleChargePointDataUpdated } from '../../../app/redux/features/isChargePointDataUpdated';
 import { toggleConnectorUpdated } from '../../../app/redux/features/isConnectorUpdated';
+import { toggleEnergyPriceListUpdate } from '../../../app/redux/features/isEnergyPriceListUpdated';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { toggleServicePointPermissionsUpdated } from '../../../app/redux/features/isServicePointPermissionsUpdated';
 import { setPermissionData } from '../../../app/redux/features/permissionsData';
@@ -37,7 +46,6 @@ import type {
   IConnectorStateProps,
   IServicePointsDetailsPageProps,
   IServicePointsDetailsProps,
-  IEnergyPriceDetailsProps,
 } from './types';
 import './ServicePointDetails.css';
 
@@ -49,6 +57,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     return state.isChargePointDataUpdated.isChargePointDataUpdated
   });
   const isConnectorUpdated = useSelector((state: RootState) => state.isConnectorUpdated.isConnectorUpdated);
+  const isEnergyPriceListUpdated = useSelector((state: RootState) => state.isEnergyPriceListUpdated.isEnergyPriceListUpdated);
   const isLoadingVisible = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
   const isServicePointPermissionsUpdated = useSelector((state: RootState) => {
@@ -68,8 +77,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     connectorNumber: 0,
   });
   const [connectors, setConnectors] = useState<IConnectorStateProps[]>([]);
-  const [energyPriceDetails, setEnergyPriceDetails] = useState<IEnergyPriceDetailsProps[]>([]);
-  const [isEnergyPriceListUpdated, setIsEnergyPriceListUpdated] = useState<boolean>(false);
   const [isComissionsListUpdated, setIsComissionListUpdated] = useState<boolean>(false);
   const [servicePointDetails, setServicePointDetails] =
     useState<IServicePointsDetailsProps>({
@@ -118,7 +125,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       )
       .then(() => {
         dispatch(hideDialog());
-        setIsEnergyPriceListUpdated(true);
+        dispatch(toggleEnergyPriceListUpdate(true));
       })
   };
   const deleteServicePointPermission = async (deletedPermissionId: number) => {
@@ -248,19 +255,14 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     return Promise.all(promises);
   };
   const getEnergyPrices = async () => {
-    try {
-      await axios
-        .post(
-          process.env.GET_ENERGY_PRICE || '',
-          ({ stationId: Number(slug) }),
-        )
-        .then((response) => {
-          setEnergyPriceDetails(response.data.data);
-          setIsEnergyPriceListUpdated(false);
-        });
-    } catch (error) {
-      console.log(error);
-    };
+    const energyPriceResponse = await getEnergyPriceDetails(slug)
+
+    if (!energyPriceResponse.success) {
+      console.error('Error getting energy prices', energyPriceResponse.error);
+    }
+
+    dispatch(setEnergyPriceDetails(energyPriceResponse.data));
+    dispatch(toggleEnergyPriceListUpdate(false));
   };
   const getInvestors = async () => {
     const investorResponse = await getChargePointInvestors();
@@ -418,14 +420,12 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               activeIndex={activeIndex}
               chargeUnits={chargeUnits}
               connectorsList={connectors}
-              energyPriceDetails={energyPriceDetails}
               setAddChargeUnit={setAddChargeUnit}
               setAddComission={setAddComission}
               setAddConnector={setAddConnector}
               setAddEnergyPrice={setAddEnergyPrice}
               setAddPermission={setAddPermission}
               setConnectorProperty={setConnectorProperty}
-              setIsEnergyPriceListUpdated={setIsEnergyPriceListUpdated}
               slug={slug}
             />
           </div>
@@ -482,7 +482,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
                 onClose={() => dispatch(toggleModalVisibility(false)) && setAddEnergyPrice(false)}
               >
                 <EnergyPricesModal
-                  setIsEnergyPriceListUpdated={setIsEnergyPriceListUpdated}
                   setAddEnergyPrice={setAddEnergyPrice}
                   slug={slug}
                 />

@@ -8,8 +8,6 @@ const getComissionDetails = async (servicePointId: string) => {
             { headers: { "Content-Type": "application/json" } },
         );
 
-        console.log('response', response)
-
         return response.data;
     } catch (error) {
         console.error("Error while fetching comission details: ", error);

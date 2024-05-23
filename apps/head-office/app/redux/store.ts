@@ -6,8 +6,10 @@ import chargeUnitData from './features/chargeUnitData';
 import chargeUnitInvestors from './features/chargeUnitInvestors';
 import comissionData from './features/comissionData';
 import dialogInformation from './features/dialogInformation';
+import energyPriceDetails from './features/energyPriceDetails';
 import isChargePointDataUpdated from './features/isChargePointDataUpdated';
 import isConnectorUpdated from './features/isConnectorUpdated';
+import isEnergyPriceListUpdated from './features/isEnergyPriceListUpdated';
 import isLoadingVisible from './features/isLoadingVisible';
 import isModalVisible from './features/isModalVisible';
 import isServicePointDataUpdated from './features/isServicePointDataUpdated';
@@ -29,8 +31,10 @@ export const store: EnhancedStore = configureStore({
     chargeUnitInvestors,
     comissionData,
     dialogInformation,
+    energyPriceDetails,
     isChargePointDataUpdated,
     isConnectorUpdated,
+    isEnergyPriceListUpdated,
     isModalVisible,
     isLoadingVisible,
     isServicePointDataUpdated,

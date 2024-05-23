@@ -1,13 +1,15 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaTrashCan } from 'react-icons/fa6';
 import { Button } from '@projects/button';
 import { showDialog } from '../../../../app/redux/features/dialogInformation';
-import type { IEnergyPriceDetailsProps, IServicePointsEnergyPricesContentProps } from '../types';
+import { RootState } from '../../../../app/redux/store';
+import type { IEnergyPriceDetailsProps } from '../types';
 
-const EnergyPricesContent = ({ energyPriceDetails, setIsEnergyPriceListUpdated }: IServicePointsEnergyPricesContentProps) => {
+const EnergyPricesContent = () => {
   const sectionPrefix = 'energy-prices-details';
   const dispatch = useDispatch();
+  const energyPriceDetails = useSelector((state: RootState) => state.energyPriceDetails);
 
   return (
     energyPriceDetails && energyPriceDetails.map((energyPriceDetail: IEnergyPriceDetailsProps, idx: number) => {
