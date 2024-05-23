@@ -9,12 +9,12 @@ const WorkingHoursModal = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isSelectboxOpen, setIsSelectboxOpen] = useState(false);
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
-  const [workingHoursData, setWorkingHoursData] = useState({
-    openingTime: '',
-    closingTime: '',
-    status: 'active',
-    days: []
-  });
+  // const [workingHoursData, setWorkingHoursData] = useState({
+  //   openingTime: '',
+  //   closingTime: '',
+  //   status: 'active',
+  //   days: []
+  // });
   const days = [
     { label: 'Pazartesi', value: 'pazartesi' },
     { label: 'Sali', value: 'sali' },
@@ -59,10 +59,10 @@ const WorkingHoursModal = () => {
     console.log('selectedDays', selectedDays);
   }
 
-  const handleChanges = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setWorkingHoursData({ ...workingHoursData, [name]: value });
-  };
+  // const handleChanges = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { name, value } = event.target;
+  //   setWorkingHoursData({ ...workingHoursData, [name]: value });
+  // };
 
   return (
     <div className="working-hours-modal-form-container relative p-6 bg-white rounded-lg ">
