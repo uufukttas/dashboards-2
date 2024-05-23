@@ -49,7 +49,6 @@ import { RootState } from '../../../app/redux/store';
 import type {
   IChargeUnitsProps,
   IConnectorProps,
-  IConnectorPropertyProps,
   IServicePointsDetailsPageProps,
   IServicePointsDetailsProps,
 } from './types';
@@ -76,12 +75,12 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const [addConnector, setAddConnector] = useState(false);
   const [addEnergyPrice, setAddEnergyPrice] = useState<boolean>(false);
   const [addPermission, setAddPermission] = useState<boolean>(false);
-  const [connectorProperty, setConnectorProperty] = useState<IConnectorPropertyProps>({
-    chargePointId: 0,
-    chargePointModelId: 0,
-    connectorId: 0,
-    connectorNumber: 0,
-  });
+  // const [connectorProperty, setConnectorProperty] = useState<IConnectorPropertyProps>({
+  //   chargePointId: 0,
+  //   chargePointModelId: 0,
+  //   connectorId: 0,
+  //   connectorNumber: 0,
+  // });
   const [isComissionsListUpdated, setIsComissionListUpdated] = useState<boolean>(false);
   const [servicePointDetails, setServicePointDetails] =
     useState<IServicePointsDetailsProps>({
@@ -408,7 +407,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
               setAddConnector={setAddConnector}
               setAddEnergyPrice={setAddEnergyPrice}
               setAddPermission={setAddPermission}
-              setConnectorProperty={setConnectorProperty}
               slug={slug}
             />
           </div>
@@ -451,7 +449,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
                 onClose={() => dispatch(toggleModalVisibility(false))}
               >
                 <ConnectorAddModal
-                  connectorProperty={connectorProperty}
                   setAddConnector={setAddConnector}
                 />
               </Modal>

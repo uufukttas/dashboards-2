@@ -4,10 +4,6 @@ interface IConnectorPropertyProps {
   connectorNumber: number,
   connectorId: number
 };
-interface IConnectorAddModalProps {
-  connectorProperty: IConnectorPropertyProps;
-  setAddConnector: React.Dispatch<React.SetStateAction<boolean>>;
-};
 interface IConnectorProps {
   RID: number;
   connectorName: string;
@@ -63,12 +59,6 @@ interface IServicePointsDetailsBodyProps {
   setAddConnector: Dispatch<SetStateAction<boolean>>;
   setAddEnergyPrice: Dispatch<SetStateAction<boolean>>;
   setAddPermission: Dispatch<SetStateAction<boolean>>;
-  setConnectorProperty: Dispatch<SetStateAction<{
-    chargePointId: number,
-    chargePointModelId: number,
-    connectorNumber: number,
-    connectorId: number
-  }>>;
   slug: string;
 };
 interface IWorkingHoursContentProps {
@@ -91,12 +81,6 @@ export interface IChargeUnitsContentProps {
   slug: string;
   setAddChargeUnit: React.Dispatch<React.SetStateAction<boolean>>;
   setAddConnector: React.Dispatch<React.SetStateAction<boolean>>;
-  setConnectorProperty: React.Dispatch<SetStateAction<{
-    chargePointId: number,
-    chargePointModelId: number,
-    connectorNumber: number,
-    connectorId: number
-  }>>;
 };
 export interface IChargeUnitsProps {
   accessType: string;

@@ -21,7 +21,6 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
     setAddConnector,
     setAddEnergyPrice,
     setAddPermission,
-    setConnectorProperty,
     slug,
 }: IServicePointsDetailsBodyProps) => {
     const initialChargeUnitData = {
@@ -126,7 +125,6 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                                     slug={slug}
                                     setAddChargeUnit={setAddChargeUnit}
                                     setAddConnector={setAddConnector}
-                                    setConnectorProperty={setConnectorProperty}
                                 />
                             )
                         }

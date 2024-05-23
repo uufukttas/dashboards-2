@@ -10,8 +10,11 @@ import {
     getConnectorModels
 } from '../../../../app/api/servicePointDetails';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
+import { setConnectorProperty } from '../../../../app/redux/features/connectorProperty';
 import { showDialog } from '../../../../app/redux/features/dialogInformation';
+import isConnectorUpdated from '../../../../app/redux/features/isConnectorUpdated';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type {
     IAccessTypeListItemProps,
@@ -24,11 +27,10 @@ import type {
     IStatusListItemProps,
     IConnectorStateProps,
 } from '../types';
-import isConnectorUpdated from '../../../../app/redux/features/isConnectorUpdated';
-import { RootState } from '../../../../app/redux/store';
+
 
 const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
-    chargeUnits, slug, setAddChargeUnit, setAddConnector, setConnectorProperty
+    chargeUnits, slug, setAddChargeUnit, setAddConnector
 }: IChargeUnitsContentProps) => {
     const chargeUnitPrefix = `${BRAND_PREFIX}-charge-unit`;
     const sectionPrefix = `${BRAND_PREFIX}-charge-units`;
@@ -260,12 +262,12 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({
                                             setAddChargeUnit(false);
                                             setAddConnector(true);
                                             dispatch(toggleModalVisibility(true));
-                                            setConnectorProperty({
+                                            dispatch(setConnectorProperty({
                                                 chargePointModelId: connectorItem.modelID,
                                                 chargePointId: connectorItem.stationChargePointID,
                                                 connectorNumber: connectorItem.connectorNr,
                                                 connectorId: connectorItem.RID,
-                                            });
+                                            }));
                                         }}
                                     >
                                         <FaPlugCirclePlus />

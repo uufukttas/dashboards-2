@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Label } from '@projects/label';
 import { toggleConnectorUpdated } from '../../../../app/redux/features/isConnectorUpdated';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
-import type { IConnectorAddModalProps } from '../types';
+import { RootState } from '../../../../app/redux/store';
 
-const ConnectorAddModal: React.FC<IConnectorAddModalProps> = ({ connectorProperty, setAddConnector }: IConnectorAddModalProps) => {
+const ConnectorAddModal: React.FC<{ setAddConnector: React.Dispatch<React.SetStateAction<boolean>> }> = ({ setAddConnector }) => {
     const sectionPrefix = 'connector';
     const dispatch = useDispatch();
+    const connectorProperty = useSelector((state: RootState) => state.setConnectorProperty.connectorProperty);
     const [dropdownItems, setDropdownItems] = useState<{ id: 0, name: 'Please Select', rid: null }[]>([]);
     const [connectorValue, setConnectorValue] = useState<number>(1);
     const [isDisabled, setIsDisabled] = useState<boolean>(false);
