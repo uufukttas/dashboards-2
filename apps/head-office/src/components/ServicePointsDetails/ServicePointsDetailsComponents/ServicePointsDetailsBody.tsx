@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaChargingStation, FaSackDollar } from 'react-icons/fa6';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import Accordion from '../../Accordion/Accordion';
 import ChargeUnitsContent from '../Accordions/ChargeUnitsContent';
@@ -11,11 +11,11 @@ import ServicePointPermissions from '../Accordions/ServicePointPermissions';
 import WorkingHoursContent from '../Accordions/WorkingHoursContent';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import { RootState } from '../../../../app/redux/store'; 
 import type { IServicePointsDetailsBodyProps } from '../types';
 
 const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
     activeIndex,
-    chargeUnits,
     connectorsList,
     setAddChargeUnit,
     setAddComission,
@@ -96,6 +96,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             + Komisyon Ekle
         </Button>
     );
+    const chargeUnits = useSelector((state: RootState) => state.chargeUnitList);
 
     return (
         <div className="service-point-details-accordion-container">

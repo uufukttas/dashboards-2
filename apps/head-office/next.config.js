@@ -18,6 +18,7 @@ const nextConfig = {
     ADD_STATION_URL: 'https://sharztestapi.azurewebsites.net/ServicePoint/AddStation',
     ADD_STATION_SETTINGS: 'https://sharztestapi.azurewebsites.net/ServicePoint/AddStationSettings',
     CITY_URL: 'https://sharztestapi.azurewebsites.net/Values/GetCities',
+    DELETE_SERVICE_POINT_PERMISSION_URL: 'https://sharztestapi.azurewebsites.net/Auth/ChargePointUserDelete',
     DELETE_STATION_URL: 'https://sharztestapi.azurewebsites.net/ServicePoint/DeleteStation',
     DISTRICT_URL: 'https://sharztestapi.azurewebsites.net/Values/GetDistricts',
     GET_ALL_SERVICE_POINTS: 'https://sharztestapi.azurewebsites.net/ServicePoint/GetAllPoints',

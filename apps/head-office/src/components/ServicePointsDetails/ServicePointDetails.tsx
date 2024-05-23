@@ -15,9 +15,12 @@ import Modal from '../Modal/Modal';
 import Navbar from '../Navbar/Navbar';
 import { BRAND_PREFIX } from '../../constants/constants';
 import {
+  deleteEnergyPriceRequest,
+  deleteServicePointPermissionRequest,
   getChargePointFeatureStatus,
   getChargePointInvestors,
   getChargeUnitBrands,
+  getChargeUnitsRequest,
   getComissionDetails,
   getEnergyPriceDetails,
   getPermissionRequest
@@ -28,6 +31,7 @@ import { hideAlert, showAlert } from '../../../app/redux/features/alertInformati
 import { setChargeUnitBrands } from '../../../app/redux/features/chargeUnitBrands';
 import { setChargeUnitData } from '../../../app/redux/features/chargeUnitData';
 import { setChargeUnitInvestors } from '../../../app/redux/features/chargeUnitInvestors';
+import { setChargeUnitList } from '../../../app/redux/features/chargeUnitList';
 import { setComissionData } from '../../../app/redux/features/comissionData';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { setEnergyPriceDetails } from '../../../app/redux/features/energyPriceDetails';
@@ -52,6 +56,7 @@ import './ServicePointDetails.css';
 const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
+  const chargeUnits = useSelector((state: RootState) => state.chargeUnitList);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isChargePointDataUpdated = useSelector((state: RootState) => {
     return state.isChargePointDataUpdated.isChargePointDataUpdated
@@ -69,7 +74,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const [addConnector, setAddConnector] = useState(false);
   const [addEnergyPrice, setAddEnergyPrice] = useState<boolean>(false);
   const [addPermission, setAddPermission] = useState<boolean>(false);
-  const [chargeUnits, setChargeUnits] = useState<IChargeUnitsProps[]>([]);
   const [connectorProperty, setConnectorProperty] = useState<IConnectorPropertyProps>({
     chargePointId: 0,
     chargePointModelId: 0,
@@ -90,7 +94,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       isDeleted: false,
     });
 
-  const deleteChargePoint = async (deletedChargeUnitData: IChargeUnitsProps[]) => {
+  const deleteChargePoint = async (deletedChargeUnitData: IChargeUnitsProps[]): Promise<void> => {
     try {
       const data = await deleteChargePointRequest(deletedChargeUnitData);
 
@@ -111,78 +115,79 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
         );
         dispatch(hideDialog());
       }
-
     } catch (error) {
       console.log(error);
     };
+
+    setTimeout(() => {
+      dispatch(hideAlert());
+    }, 5000);
   };
-  const deleteEnergyPrice = async (deletedEnergyPriceId: number) => {
-    await axios
-      .post(
-        process.env.REMOVE_ENERGY_PRICE || '',
-        JSON.stringify({ Id: deletedEnergyPriceId }),
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-      .then(() => {
-        dispatch(hideDialog());
-        dispatch(toggleEnergyPriceListUpdate(true));
+  const deleteEnergyPrices = async (deletedEnergyPriceId: number): Promise<void | null> => {
+    const response = await deleteEnergyPriceRequest(deletedEnergyPriceId);
+
+    if (!response.success) {
+      console.error('Error deleting energy price', response.error);
+
+      return;
+    }
+
+    dispatch(hideDialog());
+    dispatch(toggleEnergyPriceListUpdate(true));
+    dispatch(
+      showAlert({
+        type: 'success',
+        message: response.message
       })
-  };
-  const deleteServicePointPermission = async (deletedPermissionId: number) => {
-    try {
-      await axios
-        .post(
-          'https://sharztestapi.azurewebsites.net/Auth/ChargePointUserDelete',
-          JSON.stringify({ userId: deletedPermissionId }),
-          { headers: { 'Content-Type': 'application/json' } }
-        )
-        .then((response) => {
-          dispatch(
-            showAlert({
-              type: 'success',
-              message: response.data.message
-            })
-          );
-          dispatch(toggleServicePointPermissionsUpdated(true));
-          dispatch(hideDialog());
+    );
 
-          setTimeout(() => {
-            dispatch(hideAlert());
-          }, 5000);
-        });
-    } catch (error) {
-      console.log(error);
-    };
+    setTimeout(() => {
+      dispatch(hideAlert());
+    }, 5000);
   };
-  const getBrands = async () => {
+  const deleteServicePointPermission = async (deletedPermissionId: number): Promise<void | null> => {
+    const response = await deleteServicePointPermissionRequest(deletedPermissionId);
+
+    if (!response.success) {
+      console.error('Error deleting service point permission', response.error);
+
+      return;
+    }
+
+    dispatch(hideDialog());
+    dispatch(toggleServicePointPermissionsUpdated(true));
+    dispatch(
+      showAlert({
+        type: 'success',
+        message: response.message
+      })
+    );
+
+    setTimeout(() => {
+      dispatch(hideAlert());
+    }, 5000);
+  };
+  const getBrands = async (): Promise<void | null> => {
     const chargeUnitBrands = await getChargeUnitBrands();
 
     if (!chargeUnitBrands.success) {
       console.error('Error getting charge unit brands', chargeUnitBrands.error);
+
+      return null;
     }
 
     dispatch(setChargeUnitBrands(chargeUnitBrands.data));
   };
-  const getChargeUnits = async () => {
-    try {
-      await axios
-        .post(
-          process.env.GET_STATION_SETTINGS || '',
-          JSON.stringify({
-            stationId: Number(slug),
-            PageNumber: 1,
-            PageSize: 10
-          }),
-          { headers: { 'Content-Type': 'application/json' } }
-        )
-        .then((response) => response.data.data)
-        .then((data) => {
-          setChargeUnits(data)
-        })
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    };
+  const getChargeUnits = async (): Promise<void | null> => {
+    const response = await getChargeUnitsRequest(Number(slug));
+
+    if (!response.success) {
+      console.error('Error getting charge units', response.error);
+
+      return;
+    }
+
+    dispatch(setChargeUnitList(response.data));
   };
   const getChargeUnitFeatures = async (): Promise<void> => {
     const featureResponse = await getChargePointFeatureStatus();
@@ -205,7 +210,8 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   };
   const getConnectors = async () => {
     try {
-      const promises = chargeUnits.map(async (chargeUnit) => {
+      const promises = chargeUnits.map(async (chargeUnit: IChargeUnitsProps) => {
+        console.log('chargeUnit', chargeUnit)
         try {
           const response = await axios.post(
             process.env.GET_CHARGE_POINT_CONNECTORSV2 || '',
@@ -341,7 +347,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     if (dialogInformation.actionType === 'deleteChargePoint') {
       deleteChargePoint(dialogInformation.data);
     } else if (dialogInformation.actionType === 'deleteEnergyPrice') {
-      deleteEnergyPrice(dialogInformation.data);
+      deleteEnergyPrices(dialogInformation.data);
     } else if (dialogInformation.actionType === 'deleteServicePointPermission') {
       deleteServicePointPermission(dialogInformation.data);
     } else if (dialogInformation.actionType === 'deleteWorkingHours') {
@@ -418,7 +424,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
             />
             <ServicePointsDetailsBody
               activeIndex={activeIndex}
-              chargeUnits={chargeUnits}
               connectorsList={connectors}
               setAddChargeUnit={setAddChargeUnit}
               setAddComission={setAddComission}
@@ -538,4 +543,3 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
 };
 
 export default ServicePointsDetails;
-

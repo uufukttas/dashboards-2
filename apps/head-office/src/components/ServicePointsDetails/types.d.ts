@@ -58,7 +58,6 @@ interface IRequestDataProps {
 }
 interface IServicePointsDetailsBodyProps {
   activeIndex: number;
-  chargeUnits: IChargeUnitsProps[];
   connectorsList: IConnectorStateProps[];
   setAddChargeUnit: Dispatch<SetStateAction<boolean>>;
   setAddComission: Dispatch<SetStateAction<boolean>>;

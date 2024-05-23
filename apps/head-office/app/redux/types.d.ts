@@ -64,6 +64,28 @@ export type IChargePointDataStateProps = {
 export type IChargeUnitDataStateProps = {
     chargeUnitData: IChargeUnitDataProps;
 };
+export type IChargeUnitListStateProps = {
+    accessType: string;
+    chargePointId: number;
+    connectorNumber: number;
+    connectorId: number;
+    count: number;
+    deviceCode: string;
+    externalAddress: string;
+    hoStatus: string;
+    internalAddress: string;
+    investor: string;
+    isFreePoint: boolean;
+    lastHeartBeat: string;
+    limitedUsage: boolean;
+    modelId: number;
+    model: string;
+    ocppVersion: string;
+    sendRoaming: boolean;
+    stationId: number;
+    status: string;
+    location: string;
+};
 export type IComissionDataStateProps = {
     ForInvestor: number;
     ID: number;
