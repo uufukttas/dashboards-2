@@ -70,7 +70,6 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
                 { headers: { 'Content-Type': 'application/json' } }
             )
             .then(response => {
-                console.log('response.data', response.data)
                 applyDefaultTimes(response.data)
 
                 if (response.data.length > 0) {

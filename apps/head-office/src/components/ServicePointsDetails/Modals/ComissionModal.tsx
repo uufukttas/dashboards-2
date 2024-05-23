@@ -174,7 +174,7 @@ const ComissionModal = ({ slug, setIsComissionListUpdated }: {
                         buttonText='Kaydet'
                         className={`-button bg-primary text-white w-full py-2.5 rounded-lg`}
                         disabled={isDisabled}
-                        id='addConnectorButton'
+                        id='addComissionButton'
                         type='submit'
                     />
                 </div>

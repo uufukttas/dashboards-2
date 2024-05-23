@@ -132,7 +132,7 @@ const EnergyPricesModal = ({ slug, setAddEnergyPrice }: {
             buttonText='Kaydet'
             className={`-button bg-primary text-white w-full py-2.5 rounded-lg`}
             disabled={isDisabled}
-            id='addConnectorButton'
+            id='addEnergyPriceButton'
             type='submit'
           />
         </div>
