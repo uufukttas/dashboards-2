@@ -11,7 +11,7 @@ import ServicePointPermissions from '../Accordions/ServicePointPermissions';
 import WorkingHoursContent from '../Accordions/WorkingHoursContent';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
-import { setAddChargeUnit, setAddComission, setAddEnergyPrice, setAddPermission } from '../../../../app/redux/features/setVisibleModal';
+import { setAddChargeUnit, setAddComission, setAddEnergyPrice, setAddPermission, setAddServicePointImage } from '../../../../app/redux/features/setVisibleModal';
 import { RootState } from '../../../../app/redux/store';
 
 const ServicePointsDetailsBody: React.FC<{ slug: string }> = ({ slug }: { slug: string }) => {
@@ -57,6 +57,20 @@ const ServicePointsDetailsBody: React.FC<{ slug: string }> = ({ slug }: { slug: 
             + Enerji Fiyati Ekle
         </Button>
     );
+    const addImageButton = (
+        <Button
+            buttonText={""}
+            className="button bg-secondary rounded-md px-4 py-2 mx-4 font-bold text-white"
+            id={`service-point-image-add-button`}
+            type={'button'}
+            onClick={() => {
+                dispatch(setAddServicePointImage(true));
+                dispatch(toggleModalVisibility(true));
+            }}
+        >
+            + Istasyon Resmi Ekle
+        </Button>
+    );
     const addServicePointPermissionButton = (
         <Button
             buttonText={""}
@@ -95,6 +109,7 @@ const ServicePointsDetailsBody: React.FC<{ slug: string }> = ({ slug }: { slug: 
                 activeTabIndex === 0 && (
                     <Accordion
                         accordionTitle="Istasyon Bilgileri"
+                        actionButton={addImageButton}
                         titleClassName="font-bold"
                     >
                         <LocationInfo slug={slug} />

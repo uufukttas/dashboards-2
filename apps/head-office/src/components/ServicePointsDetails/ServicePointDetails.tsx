@@ -51,7 +51,8 @@ import {
   setAddComission,
   setAddConnector,
   setAddEnergyPrice,
-  setAddPermission
+  setAddPermission,
+  setAddServicePointImage
 } from '../../../app/redux/features/setVisibleModal';
 import { setStatusList } from '../../../app/redux/features/statusList';
 import { RootState } from '../../../app/redux/store';
@@ -61,6 +62,7 @@ import type {
   IServicePointsDetailsPageProps,
 } from './types';
 import './ServicePointDetails.css';
+import ImageAddModal from './Modals/ImageAddModal';
 
 const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
@@ -69,6 +71,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const addConnector = useSelector((state: RootState) => state.setVisibleModal.addConnector);
   const addEnergyPrice = useSelector((state: RootState) => state.setVisibleModal.addEnergyPrice);
   const addPermission = useSelector((state: RootState) => state.setVisibleModal.addPermission);
+  const addServicePointImage = useSelector((state: RootState) => state.setVisibleModal.addServicePointImage);
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const chargeUnits = useSelector((state: RootState) => state.chargeUnitList);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
@@ -83,7 +86,17 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const isServicePointPermissionsUpdated = useSelector((state: RootState) => {
     return state.isServicePointPermissionsUpdated.isServicePointPermissionsUpdated
   });
+
+  // const [isModalOpen, setModalOpen] = useState(false);
+
   const modalConfig = [
+    {
+      condition: addServicePointImage,
+      headerTitle: 'Resim Ekle',
+      modalId: `${BRAND_PREFIX}-service-point-image-add-modal`,
+      content: <ImageAddModal />,
+      closeAction: () => setAddServicePointImage(false),
+    },
     {
       condition: addChargeUnit,
       headerTitle: 'Şarj Ünitesi Ekle',

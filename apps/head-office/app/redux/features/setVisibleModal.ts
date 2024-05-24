@@ -6,7 +6,8 @@ interface FeatureState {
     addConnector: boolean;
     addEnergyPrice: boolean;
     addPermission: boolean;
-}
+    addServicePointImage: boolean;
+};
 
 const initialState: FeatureState = {
     addChargeUnit: false,
@@ -14,6 +15,7 @@ const initialState: FeatureState = {
     addConnector: false,
     addEnergyPrice: false,
     addPermission: false,
+    addServicePointImage: false,
 };
 
 const featureSlice = createSlice({
@@ -35,6 +37,9 @@ const featureSlice = createSlice({
         setAddPermission(state, action: PayloadAction<boolean>) {
             state.addPermission = action.payload;
         },
+        setAddServicePointImage(state, action: PayloadAction<boolean>) {
+            state.addServicePointImage = action.payload;
+        },
     },
 });
 
@@ -43,7 +48,8 @@ export const {
     setAddComission,
     setAddConnector,
     setAddEnergyPrice,
-    setAddPermission
+    setAddPermission,
+    setAddServicePointImage,
 } = featureSlice.actions;
 
 export default featureSlice.reducer as Reducer<FeatureState>;
