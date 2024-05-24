@@ -31,7 +31,7 @@ const UserManagementModalPage = () => {
             stationFeatureValue: 0
         }]
     );
-    const [userData, setUserData] = useState<{name: string; lastName: string; email: string; phone: string; roleNames: string[]; id: number;}>({
+    const [userData, setUserData] = useState<{ name: string; lastName: string; email: string; phone: string; roleNames: string[]; id: number; }>({
         name: '',
         lastName: '',
         email: '',
@@ -73,7 +73,7 @@ const UserManagementModalPage = () => {
                         />
 
                     </div>
-                    <div className='user-management-N-input-container w-1/2'>
+                    <div className='user-management-lastName-input-container w-1/2'>
                         <Label
                             className='block mb-2 text-heading mx-2 mt-2'
                             htmlFor="user-management-lastname"
@@ -95,6 +95,28 @@ const UserManagementModalPage = () => {
                             type="text"
                         />
                     </div>
+                </div>
+                <div className='user-management-username-input-container w-1/2'>
+                    <Label
+                        className='block mb-2 text-heading mx-2 mt-2'
+                        htmlFor="user-management-username"
+                        labelText={`Kullanici Adi`}
+                    />
+                    <Input
+                        className='border text-text text-sm rounded-lg block w-2/3 p-2.5 mb-4 focus:ring-primary focus:border-primary mx-2'
+                        id="user-management-username"
+                        name="user-management-username"
+                        register={register('user-management-username', {
+                            required: 'Kullanici Adi zorunlu',
+                        })}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
+                            setUserData({
+                                ...userData,
+                                [event.target.name]: event.target.value,
+                            });
+                        }}
+                        type="text"
+                    />
                 </div>
                 <div className='user-management-email-input-container'>
                     <Label
