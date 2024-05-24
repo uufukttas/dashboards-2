@@ -17,13 +17,13 @@ const Comissions = () => {
                 <div className={`${sectionPrefix}-header-container w-full`}>
                     <div className={`${sectionPrefix}-header w-full flex text-center`}>
                         <div className={`${sectionPrefix}-reseller-container flex justify-between md:items-center flex-col md:flex-row w-full`}>
-                            <p className={`${sectionPrefix}-reseller text-lg font-bold w-full`}>Reseller</p>
+                            <p className={`${sectionPrefix}-reseller text-lg font-bold w-full`}>Hizmet Nok. / Reseller</p>
                         </div>
                         <div className={`${sectionPrefix}-charge-unit-reseller-container flex justify-between md:items-center flex-col md:flex-row w-full`}>
                             <p className={`${sectionPrefix}-charge-unit-reseller text-lg font-bold w-full`}>Cihaz Yatirimcisi</p>
                         </div>
                         <div className={`${sectionPrefix}-breakpoint-container flex justify-between md:items-center flex-col md:flex-row w-full`}>
-                            <p className={`${sectionPrefix}-breakpoint text-lg font-bold w-full`}>Kirilimlar</p>
+                            <p className={`${sectionPrefix}-breakpoint text-lg font-bold w-full`}>Komisyon Türü</p>
                         </div>
                         <div className={`${sectionPrefix}-percent-container flex justify-between md:items-center flex-col md:flex-row w-full `}>
                             <p className={`${sectionPrefix}-percent text-lg font-bold w-full`}>Yuzde Degeri</p>

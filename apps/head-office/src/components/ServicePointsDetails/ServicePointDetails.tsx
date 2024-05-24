@@ -6,6 +6,7 @@ import ChargeUnitAddModal from './Modals/ChargeUnitAddModal';
 import ComissionModal from './Modals/ComissionModal';
 import ConnectorAddModal from './Modals/ConnectorAddModal';
 import EnergyPricesModal from './Modals/EnergyPricesModal';
+import ImageAddModal from './Modals/ImageAddModal';
 import ServicePointPermissionsModal from './Modals/ServicePointPermissionsModal';
 import ServicePointsDetailsBody from './ServicePointsDetailsComponents/ServicePointsDetailsBody';
 import ServicePointDetailsHeader from './ServicePointsDetailsComponents/ServicePointDetailsHeader';
@@ -52,7 +53,7 @@ import {
   setAddConnector,
   setAddEnergyPrice,
   setAddPermission,
-  setAddServicePointImage
+  setAddServicePointImage,
 } from '../../../app/redux/features/setVisibleModal';
 import { setStatusList } from '../../../app/redux/features/statusList';
 import { RootState } from '../../../app/redux/store';
@@ -62,7 +63,6 @@ import type {
   IServicePointsDetailsPageProps,
 } from './types';
 import './ServicePointDetails.css';
-import ImageAddModal from './Modals/ImageAddModal';
 
 const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
