@@ -12,13 +12,9 @@ import WorkingHoursContent from '../Accordions/WorkingHoursContent';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { setAddChargeUnit, setAddComission, setAddEnergyPrice, setAddPermission } from '../../../../app/redux/features/setVisibleModal';
-import { RootState } from '../../../../app/redux/store'; 
-import type { IServicePointsDetailsBodyProps } from '../types';
+import { RootState } from '../../../../app/redux/store';
 
-const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
-    activeIndex,
-    slug,
-}: IServicePointsDetailsBodyProps) => {
+const ServicePointsDetailsBody: React.FC<{ slug: string }> = ({ slug }: { slug: string }) => {
     const initialChargeUnitData = {
         code: '',
         brandId: 0,
@@ -90,12 +86,13 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
             + Komisyon Ekle
         </Button>
     );
+    const activeTabIndex = useSelector((state: RootState) => state.activeTabIndex);
     const chargeUnits = useSelector((state: RootState) => state.chargeUnitList);
 
     return (
         <div className="service-point-details-accordion-container">
             {
-                activeIndex === 0 && (
+                activeTabIndex === 0 && (
                     <Accordion
                         accordionTitle="Istasyon Bilgileri"
                         titleClassName="font-bold"
@@ -105,7 +102,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                 )
             }
             {
-                activeIndex === 1 && (
+                activeTabIndex === 1 && (
                     <Accordion
                         accordionIcon={<FaChargingStation />}
                         accordionTitle="Sarj Üniteleri"
@@ -125,7 +122,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                 )
             }
             {
-                activeIndex === 2 && (
+                activeTabIndex === 2 && (
                     <Accordion
                         accordionTitle="Calisma Saatleri"
                         titleClassName="font-bold"
@@ -135,7 +132,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                 )
             }
             {
-                activeIndex === 3 && (
+                activeTabIndex === 3 && (
                     <Accordion
                         accordionIcon={<FaSackDollar />}
                         accordionTitle="Enerji Fiyat Ayarlari"
@@ -147,7 +144,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                 )
             }
             {
-                activeIndex === 4 && (
+                activeTabIndex === 4 && (
                     <Accordion
                         accordionTitle="Istasyon Yetkisi"
                         actionButton={addServicePointPermissionButton}
@@ -158,7 +155,7 @@ const ServicePointsDetailsBody: React.FC<IServicePointsDetailsBodyProps> = ({
                 )
             }
             {
-                activeIndex === 5 && (
+                activeTabIndex === 5 && (
                     <Accordion
                         accordionTitle="Komisyonlar"
                         actionButton={addComissionButton}

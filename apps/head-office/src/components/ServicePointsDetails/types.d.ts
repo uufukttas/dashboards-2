@@ -52,10 +52,6 @@ interface IRequestDataProps {
   chargePointId: number;
   features: { id: number, stationChargePointFeatureType: number, stationChargePointFeatureTypeValue: string }[];
 }
-interface IServicePointsDetailsBodyProps {
-  activeIndex: number;
-  slug: string;
-};
 interface IWorkingHoursContentProps {
   slug: number;
 };

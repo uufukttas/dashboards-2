@@ -3,13 +3,16 @@ import { FaCoins } from 'react-icons/fa';
 import { FaLocationDot, FaClock, FaUserGear } from 'react-icons/fa6';
 import { RiBattery2ChargeFill } from 'react-icons/ri';
 import { SlEnergy } from 'react-icons/sl';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { detectDevice } from '@projects/common';
 import { BRAND_PREFIX } from '../../constants/constants';
-import type { INavbarItemProps, INavbarProps } from './types';
+import { setActiveTabIndex } from '../../../app/redux/features/activeTabIndex';
+import { RootState } from '../../../app/redux/store';
+import type { INavbarItemProps } from './types';
 import './Navbar.css';
 
-const Navbar: React.FC<INavbarProps> = ({ activeIndex, setActiveIndex }: INavbarProps) => {
+const Navbar: React.FC = () => {
   const navbarItems: INavbarItemProps[] = [
     {
       title: (
@@ -69,6 +72,8 @@ const Navbar: React.FC<INavbarProps> = ({ activeIndex, setActiveIndex }: INavbar
     },
   ];
   const navbarPrefix: string = `${BRAND_PREFIX}-navbar`;
+  const dispatch = useDispatch();
+  const activeTabIndex = useSelector((state: RootState) => state.activeTabIndex);
 
   return (
     <nav className={`${navbarPrefix}-container flex items-center`}>
@@ -76,14 +81,14 @@ const Navbar: React.FC<INavbarProps> = ({ activeIndex, setActiveIndex }: INavbar
         navbarItems.map((item: INavbarItemProps, index: number) => (
           <Button key={index}
             className={`${navbarPrefix}-item px-4 py-0 w-1/6 flex justify-center items-center text-2xl ${
-              activeIndex === index
+              activeTabIndex === index
                 ? 'active'
                 : ''
               }`
             }
             id={`${navbarPrefix}-item-${index}`}
             type="button"
-            onClick={() => setActiveIndex(index)}
+            onClick={() => dispatch(setActiveTabIndex(index))}
           >
             {item.title}
           </Button>

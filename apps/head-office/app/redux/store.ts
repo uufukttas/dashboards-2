@@ -1,5 +1,6 @@
 import { configureStore, EnhancedStore } from '@reduxjs/toolkit';
 import accessTypeList from './features/accessTypeList';
+import activeTabIndex from './features/activeTabIndex';
 import alertInformation from './features/alertInformation';
 import chargeUnitBrands from './features/chargeUnitBrands';
 import chargeUnitData from './features/chargeUnitData';
@@ -30,6 +31,7 @@ import statusList from './features/statusList';
 export const store: EnhancedStore = configureStore({
   reducer: {
     accessTypeList,
+    activeTabIndex,
     alertInformation,
     chargeUnitBrands,
     chargeUnitData,

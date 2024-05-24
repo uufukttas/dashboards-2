@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from '@projects/alert';
 import { Dialog } from '@projects/dialog';
@@ -45,6 +45,7 @@ import { toggleModalVisibility } from '../../../app/redux/features/isModalVisibl
 import { toggleServicePointPermissionsUpdated } from '../../../app/redux/features/isServicePointPermissionsUpdated';
 import { setPermissionData } from '../../../app/redux/features/permissionsData';
 import { getServicePointDataRequest } from '../../../app/api/servicePoints';
+import { setServicePointData } from '../../../app/redux/features/servicePointData';
 import {
   setAddChargeUnit,
   setAddComission,
@@ -58,7 +59,6 @@ import type {
   IChargeUnitsProps,
   IConnectorProps,
   IServicePointsDetailsPageProps,
-  IServicePointsDetailsProps,
 } from './types';
 import './ServicePointDetails.css';
 
@@ -83,18 +83,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const isServicePointPermissionsUpdated = useSelector((state: RootState) => {
     return state.isServicePointPermissionsUpdated.isServicePointPermissionsUpdated
   });
-  const [activeIndex, setActiveIndex] = useState<number>(0);
-  const [servicePointDetails, setServicePointDetails] =
-    useState<IServicePointsDetailsProps>({
-      name: '',
-      id: 0,
-      resellerCompanyId: 0,
-      companyId: 0,
-      resellerName: '',
-      companyName: '',
-      isActive: false,
-      isDeleted: false,
-    });
   const modalConfig = [
     {
       condition: addChargeUnit,
@@ -326,7 +314,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       return;
     }
 
-    setServicePointDetails(stationResponse.data[0]);
+    dispatch(setServicePointData(stationResponse.data[0]));
   };
   const deleteServicePointComission = async (dialogData: number): Promise<void | null> => {
     const comissionResponse = await deleteComissionRequest(dialogData, slug);
@@ -417,17 +405,9 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       : (
         <div className={`${BRAND_PREFIX}-service-point-details-page-content-wrapper w-full`}>
           <div className={`${BRAND_PREFIX}-service-point-details-page-content-container w-full`}>
-            <ServicePointDetailsHeader
-              servicePointDetailsName={servicePointDetails.name}
-              servicePointDetailsStatus={servicePointDetails.isActive}
-            />
-            <Navbar
-              activeIndex={activeIndex}
-              setActiveIndex={setActiveIndex}
-            />
-            <ServicePointsDetailsBody
-              activeIndex={activeIndex}
-              slug={slug}
+            <ServicePointDetailsHeader />
+            <Navbar />
+            <ServicePointsDetailsBody slug={slug}
             />
           </div>
           {
