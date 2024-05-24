@@ -28,7 +28,6 @@ const ServicePointsDetailsBody: React.FC<{ slug: string }> = ({ slug }: { slug: 
         isLimitedUsage: false,
         chargePointId: 0,
     };
-    const dispatch = useDispatch();
     const addChargeUnitButton = (
         <Button
             buttonText={``}
@@ -86,6 +85,7 @@ const ServicePointsDetailsBody: React.FC<{ slug: string }> = ({ slug }: { slug: 
             + Komisyon Ekle
         </Button>
     );
+    const dispatch = useDispatch();
     const activeTabIndex = useSelector((state: RootState) => state.activeTabIndex);
     const chargeUnits = useSelector((state: RootState) => state.chargeUnitList);
 

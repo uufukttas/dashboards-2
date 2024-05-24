@@ -407,8 +407,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
           <div className={`${BRAND_PREFIX}-service-point-details-page-content-container w-full`}>
             <ServicePointDetailsHeader />
             <Navbar />
-            <ServicePointsDetailsBody slug={slug}
-            />
+            <ServicePointsDetailsBody slug={slug} />
           </div>
           {
             modalConfig.map((modal) => {

@@ -67,10 +67,6 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
     const getWorkingHours = async () => {
         const workingHoursResponse = await getWorkingHoursRequest(slug.toString());
 
-        if (!workingHoursResponse.success) {
-            console.error('Error getting working hours', workingHoursResponse.error);
-        }
-
         applyDefaultTimes(workingHoursResponse)
 
         if (workingHoursResponse.length > 0) {
