@@ -7,12 +7,13 @@ import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import type { ITableHeaderProps } from '../types';
+import { CheckboxInDropdown } from '@projects/checkbox-in-dropdown';
 
 const TableHeader: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedText }: ITableHeaderProps) => {
     const tableHeaderPrefix: string = `${BRAND_PREFIX}-table-header`;
     const dispatch = useDispatch();
 
-    const openModal  = (): void => {
+    const openModal = (): void => {
         dispatch(toggleModalVisibility(true));
     };
 
@@ -23,7 +24,7 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedTex
                 htmlFor="table-search"
                 labelText={`Search`}
             />
-            <div className={`${tableHeaderPrefix}-search-input-container flex relative w-full mx-2 md:w-1/2 lg:w-1/4`}>
+            <div className={`${tableHeaderPrefix}-search-input-container flex relative w-full mx-2 md:w-1/2 lg:w-1/2`}>
                 <div className={`${tableHeaderPrefix}-search-icon-container absolute inset-y-0 flex items-center pl-5 pointer-events-none justify-end `}>
                     <FaMagnifyingGlass />
                 </div>
@@ -35,6 +36,41 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedTex
                     type="text"
                     value={searchedText}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => setSearchedText(event.target.value)}
+                />
+                <CheckboxInDropdown
+                    className={`${tableHeaderPrefix}-search-checkbox`}
+                    id={`${tableHeaderPrefix}-search-checkbox`}
+                    inputName='search-checkbox'
+                    items={[{
+                        id: 1,
+                        isChecked: false,
+                        name: 'Telefon',
+                        rid: null,
+                        stationFeatureType: 0,
+                        stationFeatureValue: 0,
+                    }, {
+                        id: 2,
+                        isChecked: false,
+                        name: 'Adres',
+                        rid: null,
+                        stationFeatureType: 0,
+                        stationFeatureValue: 0,
+                    }, {
+                        id: 3,
+                        isChecked: false,
+                        name: 'il',
+                        rid: null,
+                        stationFeatureType: 0,
+                        stationFeatureValue: 0,
+                    }, {
+                        id: 4,
+                        isChecked: false,
+                        name: 'ilce',
+                        rid: null,
+                        stationFeatureType: 0,
+                        stationFeatureValue: 0,
+                    }]}
+                    onChange={() => { }}
                 />
             </div>
             <div className={`${tableHeaderPrefix}-add-button-container w-full mx-2 md:w-1/2 lg:w-1/4 lg:mx-4`}>
