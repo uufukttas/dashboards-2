@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const deleteComissionRequest = async (id: number, stationId: string) => {
+const deleteComissionRequest = async (id: number, stationId: number) => {
     try {
         const response = await axios
             .post(
@@ -8,7 +8,7 @@ const deleteComissionRequest = async (id: number, stationId: string) => {
                 ({
                     rid: id,
                     stationId,
-                    isActive: false,
+                    isDelete: 1,
                 }),
                 { headers: { 'Content-Type': 'application/json' } }
             );

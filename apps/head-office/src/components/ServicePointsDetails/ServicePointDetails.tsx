@@ -330,7 +330,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     dispatch(setServicePointData(stationResponse.data[0]));
   };
   const deleteServicePointComission = async (dialogData: number): Promise<void | null> => {
-    const comissionResponse = await deleteComissionRequest(dialogData, slug);
+    const comissionResponse = await deleteComissionRequest(dialogData, Number(slug));
 
     if (!comissionResponse.success) {
       console.error('Error deleting comission', comissionResponse.error);
