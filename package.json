@@ -8,6 +8,7 @@
     "@netlify/blobs": "^7.3.0",
     "@nx/next": "17.2.8",
     "@nx/webpack": "^17.3.2",
+    "@react-google-maps/api": "^2.19.3",
     "@reduxjs/toolkit": "^2.2.3",
     "axios": "^1.6.8",
     "flowbite": "^2.3.0",
