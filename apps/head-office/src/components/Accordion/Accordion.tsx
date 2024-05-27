@@ -4,10 +4,17 @@ import { IAccordionProps } from './types';
 import './Accordion.css';
 
 const Accordion: React.FC<IAccordionProps> = ({
-  accordionIcon, accordionTitle, actionButton, backgroundColor="primary", children, contentClassName = "", titleClassName
+  accordionIcon,
+  accordionTitle,
+  actionButton,
+  backgroundColor = "primary",
+  children,
+  contentClassName = "",
+  isAccordionOpen = true,
+  titleClassName,
 }: IAccordionProps) => {
   const accordionPrefix: string = `${BRAND_PREFIX}-accordion`;
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(isAccordionOpen);
 
   const toggleAccordion = (): void => {
     setIsOpen(!isOpen);

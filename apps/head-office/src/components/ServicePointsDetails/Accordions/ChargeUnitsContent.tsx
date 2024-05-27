@@ -3,6 +3,7 @@ import { FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import ConnectorInfo from './ConnectorInfo';
+import Accordion from '../../Accordion/Accordion';
 import {
     getChargePointFeatureStatus,
     getChargePointInvestors,
@@ -294,79 +295,84 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
             <div className={`${sectionPrefix}-list`}>
                 {
                     chargeUnits.map((chargeUnit, index) => {
-                        return (
-                            <div
-                                className={`${sectionPrefix}-container flex justify-between items-baseline border-b-2 border-gray-200 py-4`}
-                                data-charge-point-id={chargeUnit.chargePointId}
-                                key={index}
-                            >
-                                <div className={`${sectionPrefix}-item-info-container w-full`}>
-                                    <div className={`${sectionPrefix}-info flex justify-between w-full`}>
-                                        <div className={`${sectionPrefix} flex justify-between w-full`}>
-                                            <div className={`${sectionPrefix}-name-container`}>
-                                                <h3 className={`${chargeUnitPrefix}-name text-lg font-bold text-heading flex items-center`}>
-                                                    {getChargeUnitStatus(chargeUnit.lastHeartBeat)
-                                                        ? (<div className='bg-green-500 rounded-full h-4 w-4 mr-2'></div>)
-                                                        : (<div className='bg-red-500 rounded-full h-4 w-4 mr-2'></div>)
-                                                    }
-                                                    {`${chargeUnit.model}`}
+                        const createAccordionTitle = () => {
+                            return (
+                                <div className={`${sectionPrefix}-info flex justify-between w-full`}>
+                                    <div className={`${sectionPrefix} flex justify-between w-full`}>
+                                        <div className={`${sectionPrefix}-name-container`}>
+                                            <h3 className={`${chargeUnitPrefix}-name text-lg font-bold text-heading flex items-center text-[#FFF]`}>
+                                                {getChargeUnitStatus(chargeUnit.lastHeartBeat)
+                                                    ? (<div className='bg-green-500 rounded-full h-4 w-4 mr-2'></div>)
+                                                    : (<div className='bg-red-500 rounded-full h-4 w-4 mr-2'></div>)
+                                                }
+                                                {`${chargeUnit.model}`}
+                                            </h3>
+                                            <div className={`${chargeUnitPrefix}-device-code-container`}>
+                                                <h3 className={`${chargeUnitPrefix}-device-code text-lg font-bold text-[#FFF]`}>
+                                                    {chargeUnit.deviceCode}
                                                 </h3>
-                                                <div className={`${chargeUnitPrefix}-device-code-container`}>
-                                                    <h3 className={`${chargeUnitPrefix}-device-code text-lg font-bold text-text`}>
-                                                        {chargeUnit.deviceCode}
-                                                    </h3>
-                                                </div>
-                                                <div className={`${chargeUnitPrefix}-time-container`}>
-                                                    <h3 className={`${chargeUnitPrefix}-time text-lg text-text`}>
-                                                        {`${prepareTime(chargeUnit.lastHeartBeat)}`}
-                                                    </h3>
-                                                </div>
                                             </div>
-                                            <div className={`${sectionPrefix}-actions-container mx-2`}>
-                                                <div className={`${chargeUnitPrefix}-actions mx-2`}>
-                                                    <Button
-                                                        buttonText={``}
-                                                        className={`${chargeUnitPrefix}-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2`}
-                                                        dataAttributes={{
-                                                            'data-charge-point-id': chargeUnit.chargePointId.toString(),
-                                                            'data-charge-point-device-code': chargeUnit.deviceCode.toString(),
-                                                        }}
-                                                        id={`${chargeUnitPrefix}-edit-button`}
-                                                        type={'button'} onClick={handleUpdate}
-                                                    >
-                                                        <FaPencil />
-                                                    </Button>
-                                                    <Button
-                                                        buttonText={''}
-                                                        className={`${chargeUnitPrefix}-delete-button bg-secondary text-white rounded-md px-4 py-2`}
-                                                        dataAttributes={{
-                                                            'data-charge-point-id': chargeUnit.chargePointId.toString(),
-                                                            'data-charge-point-device-code': chargeUnit.deviceCode.toString(),
-                                                        }}
-                                                        id={`${chargeUnitPrefix}-delete-button`}
-                                                        type={'button'}
-                                                        onClick={(event) => handleDelete(event)}
-                                                    >
-                                                        <FaTrash />
-                                                    </Button>
-                                                </div>
+                                            <div className={`${chargeUnitPrefix}-time-container`}>
+                                                <h3 className={`${chargeUnitPrefix}-time text-lg text-text`}>
+                                                    {`${prepareTime(chargeUnit.lastHeartBeat)}`}
+                                                </h3>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className={`${sectionPrefix}-connectors-container`}>
-                                        <div className={`${sectionPrefix}-connectors pt-12 pl-4 mx-2 w-full`}>
-                                            <div className={`${chargeUnitPrefix}-connector-info flex justify-between flex-col`}>
-                                                <div className={`${chargeUnitPrefix}-connector-list-container`}>
-                                                    {
-                                                        connectorUpdate &&
-                                                        renderConnectors(chargeUnit.chargePointId)
-                                                    }
-                                                </div>
+                                        <div className={`${sectionPrefix}-actions-container mx-2 flex items-center justify-center`}>
+                                            <div className={`${chargeUnitPrefix}-actions mx-2 `}>
+                                                <Button
+                                                    buttonText={``}
+                                                    className={`${chargeUnitPrefix}-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2`}
+                                                    dataAttributes={{
+                                                        'data-charge-point-id': chargeUnit.chargePointId.toString(),
+                                                        'data-charge-point-device-code': chargeUnit.deviceCode.toString(),
+                                                    }}
+                                                    id={`${chargeUnitPrefix}-edit-button`}
+                                                    type={'button'} onClick={handleUpdate}
+                                                >
+                                                    <FaPencil />
+                                                </Button>
+                                                <Button
+                                                    buttonText={''}
+                                                    className={`${chargeUnitPrefix}-delete-button bg-secondary text-white rounded-md px-4 py-2`}
+                                                    dataAttributes={{
+                                                        'data-charge-point-id': chargeUnit.chargePointId.toString(),
+                                                        'data-charge-point-device-code': chargeUnit.deviceCode.toString(),
+                                                    }}
+                                                    id={`${chargeUnitPrefix}-delete-button`}
+                                                    type={'button'}
+                                                    onClick={(event) => handleDelete(event)}
+                                                >
+                                                    <FaTrash />
+                                                </Button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            );
+                        }
+
+                        return (
+                            <Accordion
+                                accordionTitle={createAccordionTitle()}
+                                backgroundColor='secondary text-[#FFF] '
+                                isAccordionOpen={false}
+                                titleClassName={`w-full flex jsutiify-evenly items-center`}
+                                key={index}
+                            >
+                                <div className={`${sectionPrefix}-connectors-container text-white`}>
+                                    <div className={`${sectionPrefix}-connectors pt-12 pl-4 mx-2 w-full`}>
+                                        <div className={`${chargeUnitPrefix}-connector-info flex justify-between flex-col`}>
+                                            <div className={`${chargeUnitPrefix}-connector-list-container`}>
+                                                {
+                                                    connectorUpdate &&
+                                                    renderConnectors(chargeUnit.chargePointId)
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Accordion>
                         );
                     })
                 }
