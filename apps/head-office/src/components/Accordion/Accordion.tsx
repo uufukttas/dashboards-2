@@ -4,7 +4,7 @@ import { IAccordionProps } from './types';
 import './Accordion.css';
 
 const Accordion: React.FC<IAccordionProps> = ({
-  accordionIcon, accordionTitle, actionButton, children, contentClassName = "", titleClassName
+  accordionIcon, accordionTitle, actionButton, backgroundColor="primary", children, contentClassName = "", titleClassName
 }: IAccordionProps) => {
   const accordionPrefix: string = `${BRAND_PREFIX}-accordion`;
   const [isOpen, setIsOpen] = useState(true);
@@ -15,7 +15,7 @@ const Accordion: React.FC<IAccordionProps> = ({
 
   return (
     <div className={`${accordionPrefix}-content-container border my-4 rounded-lg`}>
-      <div className={`${accordionPrefix}-header justify-between bg-primary`}>
+      <div className={`${accordionPrefix}-header justify-between bg-${backgroundColor}`}>
         <div className={`${accordionPrefix}-left-container flex items-center ${titleClassName}`}>
           <div className={`${accordionPrefix}-title px-2`}>
             {accordionTitle}
