@@ -6,6 +6,7 @@ import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
+import MapComponent from '../../Map';
 import { BRAND_PREFIX } from '../../../../constants/constants';
 import { setServicePointInformation } from '../../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../../app/redux/store';
@@ -41,6 +42,11 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
   });
   const [selectedCity, setSelectedCity] = useState<number>(Number(thirdPageFormData[formProperties.cityId]));
 
+  const handleSelectLocation = (location: { lat: number; lng: number }) => {
+    const { lat, lng } = location;
+    setThirdPageFormData(({ ...thirdPageFormData, [`${formProperties['x-coord']}`]: lat, [`${formProperties['y-coord']}`]: lng }));
+  };
+
   const getDistricts = async (selectedCity: number) => {
     try {
       await axios
@@ -70,7 +76,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
               id: null,
               name: item.name,
               rid: item.rid,
-              isChecked: false, 
+              isChecked: false,
               stationFeatureValue: index + 1,
               stationFeatureType: 1,
             };
@@ -97,7 +103,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
               id: null,
               name: item.name,
               rid: item.rid,
-              isChecked: false, 
+              isChecked: false,
               stationFeatureValue: index + 1,
               stationFeatureType: 2,
             };
@@ -136,10 +142,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
 
   useEffect(() => {
     setSelectedCity(
-      Number(thirdPageFormData[`${formProperties.cityId}`] !== 0
-        ? thirdPageFormData[`${formProperties.cityId}`]
-        : selectedCity
-      )
+      Number(thirdPageFormData[`${formProperties.cityId}`] ?? 0)
     );
     getDistricts(selectedCity);
     getPaymentMethods();
@@ -194,12 +197,12 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
             register={
               register(`${formProperties['x-coord']}`, {
                 // required: `X Koordinati zorunludur.`,
-                value: thirdPageFormData[`${formProperties['x-coord']}`],
                 onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                   setThirdPageFormData(({ ...thirdPageFormData, [event.target.name]: Number(event.target.value) }));
                 }
               })}
             type={`text`}
+            value={thirdPageFormData[`${formProperties['x-coord']}`].toString()}
           />
           {
             errors[`${formProperties['x-coord']}`]
@@ -228,12 +231,12 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
             register={
               register(`${formProperties['y-coord']}`, {
                 // required: `Y Koordinati zorunludur.`,
-                value: thirdPageFormData[`${formProperties['y-coord']}`],
                 onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                   setThirdPageFormData(({ ...thirdPageFormData, [event.target.name]: Number(event.target.value) }));
                 }
               })}
             type={`text`}
+            value={thirdPageFormData[`${formProperties['y-coord']}`].toString()}
           />
           {
             errors[`${formProperties['y-coord']}`]
@@ -248,7 +251,8 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
           }
         </div>
       </div>
-      <div className={`${sectionPrefix}-buttons-container flex justify-between items-center`}>
+      <MapComponent onSelectLocation={handleSelectLocation} />
+      <div className={`${sectionPrefix}-buttons-container flex justify-between items-center mt-4`}>
         <Button
           buttonText='Geri'
           className={`${sectionPrefix}-prev-button bg-primary text-text text-sm rounded-lg block p-2.5`}

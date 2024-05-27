@@ -7,7 +7,10 @@
     "build": {
       "cache": true,
       "dependsOn": ["^build"],
-      "inputs": ["production", "^production"]
+      "inputs": ["production", "^production"],
+      "options": {
+        "envFile": "/apps/head-office/.env.production"
+      }
     },
     "lint": {
       "cache": true,
