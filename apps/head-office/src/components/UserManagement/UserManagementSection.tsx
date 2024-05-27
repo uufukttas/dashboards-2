@@ -42,7 +42,7 @@ const UserManagementSection: React.FC = () => {
                     searchedText={searchedText}
                     tableData={userData}
                     tableDataCount={userData.length}
-                    tableHeadData={['Name', 'Phone/Email', 'Role', 'Last Login', 'Actions']}
+                    tableHeadData={['Name', 'Phone', 'Role', 'Last Login', 'Actions']}
                     setSearchedText={setSearchedText}
                 />
             </div>
