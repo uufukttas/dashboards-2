@@ -39,7 +39,7 @@ const TableRow = ({ attributeName, tableRowData, index }: ITableRowProps) => {
     };
     const renderTableDataInfo = (tableCellData: IServicePointInfoProps | IUserDataProps): React.ReactNode => {
         // @ts-expect-error TODO: fix this
-        return tableCellData.phone && tableCellData.address && tableCellData.cityId && tableCellData.districtId
+        return tableCellData.name
             ? (
                 <>
                     {/* @ts-expect-error TODO: fix this */}
