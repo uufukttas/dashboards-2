@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { Button } from '@projects/button';
@@ -6,7 +6,7 @@ import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
-import type { ITableHeaderProps } from '../types';
+import type { IDropdownItemProps, ITableHeaderProps } from '../types';
 import { CheckboxInDropdown } from '@projects/checkbox-in-dropdown';
 
 const TableHeader: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedText }: ITableHeaderProps) => {
@@ -16,6 +16,36 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedTex
     const openModal = (): void => {
         dispatch(toggleModalVisibility(true));
     };
+
+    const [filteredData, setFilteredData] = useState<IDropdownItemProps[]>([{
+        id: 1,
+        isChecked: false,
+        name: 'Telefon',
+        rid: null,
+        stationFeatureType: 0,
+        stationFeatureValue: 0,
+    }, {
+        id: 2,
+        isChecked: false,
+        name: 'Adres',
+        rid: null,
+        stationFeatureType: 0,
+        stationFeatureValue: 0,
+    }, {
+        id: 3,
+        isChecked: false,
+        name: 'il',
+        rid: null,
+        stationFeatureType: 0,
+        stationFeatureValue: 0,
+    }, {
+        id: 4,
+        isChecked: false,
+        name: 'ilce',
+        rid: null,
+        stationFeatureType: 0,
+        stationFeatureValue: 0,
+    }]);
 
     return (
         <div className={`${tableHeaderPrefix}-actions-container flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 w-full md:flex-row border-t border-gray-300 bg-transparent`}>
@@ -41,36 +71,10 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedTex
                     className={`${tableHeaderPrefix}-search-checkbox`}
                     id={`${tableHeaderPrefix}-search-checkbox`}
                     inputName='search-checkbox'
-                    items={[{
-                        id: 1,
-                        isChecked: false,
-                        name: 'Telefon',
-                        rid: null,
-                        stationFeatureType: 0,
-                        stationFeatureValue: 0,
-                    }, {
-                        id: 2,
-                        isChecked: false,
-                        name: 'Adres',
-                        rid: null,
-                        stationFeatureType: 0,
-                        stationFeatureValue: 0,
-                    }, {
-                        id: 3,
-                        isChecked: false,
-                        name: 'il',
-                        rid: null,
-                        stationFeatureType: 0,
-                        stationFeatureValue: 0,
-                    }, {
-                        id: 4,
-                        isChecked: false,
-                        name: 'ilce',
-                        rid: null,
-                        stationFeatureType: 0,
-                        stationFeatureValue: 0,
-                    }]}
-                    onChange={() => { }}
+                    items={filteredData}
+                    onChange={(filterData) => {
+                        setFilteredData(filterData);
+                    }}
                 />
             </div>
             <div className={`${tableHeaderPrefix}-add-button-container w-full mx-2 md:w-1/2 lg:w-1/4 lg:mx-4`}>

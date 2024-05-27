@@ -1,3 +1,11 @@
+export interface IDropdownItemProps {
+    id: null | number;
+    isChecked?: boolean;
+    name: string;
+    rid: number | null;
+    stationFeatureType: number;
+    stationFeatureValue: number;
+};
 export interface IUserDataProps {
     lastLoginDate: string | null;
     roleNames: string;
