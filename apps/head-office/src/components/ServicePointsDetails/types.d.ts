@@ -121,6 +121,11 @@ export interface IEnergyPriceDetailsProps {
   isActive: boolean;
   isDeleted: boolean;
 };
+export interface IEnergyPriceModalProps {
+  price: number;
+  time: string;
+  isActive: boolean
+};
 export interface IFeatureProps {
   stationId?: number;
   id: null | number;

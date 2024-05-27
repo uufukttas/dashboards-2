@@ -9,22 +9,24 @@ import { hideAlert, showAlert } from '../../../../app/redux/features/alertInform
 import { toggleEnergyPriceListUpdate } from '../../../../app/redux/features/isEnergyPriceListUpdated';
 import { setAddEnergyPrice } from '../../../../app/redux/features/setVisibleModal';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
+import type { IEnergyPriceModalProps } from '../types';
 
-const EnergyPricesModal = ({ slug }: {
-  slug: string;
-}) => {
-  const sectionPrefix = 'energy-prices';
+const EnergyPricesModal = ({ slug }: { slug: string; }) => {
+  const sectionPrefix: string = 'energy-prices';
   const dispatch = useDispatch();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [energyPricesProperty, setEnergyPricesProperty] = useState<{ price: number; time: string; isActive: boolean }>({
+  const today = new Date();
+  const formattedDate: string = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
+  const [energyPricesProperty, setEnergyPricesProperty] = useState<IEnergyPriceModalProps>({
     price: 0,
-    time: '',
+    time: formattedDate,
     isActive: true,
   });
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  
+
   const handleFormSubmit = () => {
     setIsDisabled(true);
+
     axios
       .post(
         'https://sharztestapi.azurewebsites.net/ServicePoint/AddEnergyPrice',
@@ -87,12 +89,6 @@ const EnergyPricesModal = ({ slug }: {
               }
               type={`text`}
             />
-            {/* <Dropdown
-              className={`${sectionPrefix}-dropdown border text-text text-sm rounded-lg block p-2.5 mb-4 mx-4 focus:ring-primary focus:border-primary`}
-              id={`${sectionPrefix}-dropdown`}
-              name={`${sectionPrefix}-dropdown`}
-              items={currencies}
-            /> */}
           </div>
           {errors[`${sectionPrefix}`]
             && errors[`${sectionPrefix}`]?.message
@@ -117,7 +113,7 @@ const EnergyPricesModal = ({ slug }: {
             register={
               register(`${sectionPrefix}-datetime`, {
                 required: `Tarih zorunludur.`,
-                value: energyPricesProperty.price.toString(),
+                value: energyPricesProperty.time.toString(),
                 onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                   setEnergyPricesProperty({
                     ...energyPricesProperty,
