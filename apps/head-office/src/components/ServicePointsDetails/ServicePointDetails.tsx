@@ -94,7 +94,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       condition: addServicePointImage,
       headerTitle: 'Resim Ekle',
       modalId: `${BRAND_PREFIX}-service-point-image-add-modal`,
-      content: <ImageAddModal />,
+      content: <ImageAddModal slug={slug} />,
       closeAction: () => setAddServicePointImage(false),
     },
     {
