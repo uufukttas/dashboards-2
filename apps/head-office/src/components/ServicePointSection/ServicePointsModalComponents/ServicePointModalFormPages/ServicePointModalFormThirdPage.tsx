@@ -251,7 +251,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
           }
         </div>
       </div>
-      <MapComponent onSelectLocation={handleSelectLocation} />
+      <MapComponent formData={thirdPageFormData} onSelectLocation={handleSelectLocation} />
       <div className={`${sectionPrefix}-buttons-container flex justify-between items-center mt-4`}>
         <Button
           buttonText='Geri'
