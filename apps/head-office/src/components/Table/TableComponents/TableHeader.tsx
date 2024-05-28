@@ -54,7 +54,7 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedTex
                 htmlFor="table-search"
                 labelText={`Search`}
             />
-            <div className={`${tableHeaderPrefix}-search-input-container flex relative w-full mx-2 md:w-1/2 lg:w-1/2`}>
+            <div className={`${tableHeaderPrefix}-search-input-container flex relative w-full mx-2 md:w-1/2 lg:w-1/3`}>
                 <div className={`${tableHeaderPrefix}-search-icon-container absolute inset-y-0 flex items-center pl-5 pointer-events-none justify-end `}>
                     <FaMagnifyingGlass />
                 </div>

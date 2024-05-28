@@ -130,7 +130,7 @@ export const areaLineOptions = {
 
 const StaticsPage = () => {
     return (
-        <div className='flex justify-between w-full px-12 flex-wrap h-full'>
+        <div className='flex justify-between w-full px-20 flex-wrap h-full'>
             <div className='w-full flex justify-between'>
                 <Card
                     cardHeader={<h3 className='font-bold'>Şarj Üniteleri</h3>}
@@ -143,7 +143,7 @@ const StaticsPage = () => {
                 <Card
                     cardHeader={<h3 className='font-bold'>Şarj Üniteleri</h3>}
                     cardBody={
-                        <Line options={lineOptions} data={lineData} height={350} />
+                        <Line options={lineOptions} data={lineData} style={{ width: "800px" }} />
                     }
                     className='w-2/3 flex flex-col items-center m-2 '
                 />
@@ -152,9 +152,9 @@ const StaticsPage = () => {
                 <Card
                     cardHeader={<h3 className='font-bold'>Şarj Üniteleri</h3>}
                     cardBody={
-                        <Line options={areaLineOptions} data={areaLineData} style={{height: "400px"}} />
+                        <Line options={areaLineOptions} data={areaLineData} style={{ height: "400px" }} />
                     }
-                    className='w-2/3 flex flex-col items-center m-2 h-[430px]'
+                    className='w-2/3 flex flex-col items-center m-2'
                 />
                 <Card
                     cardHeader={<h3 className='font-bold'>Şarj Üniteleri</h3>}

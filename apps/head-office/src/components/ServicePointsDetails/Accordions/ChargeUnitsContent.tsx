@@ -300,7 +300,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                 <div className={`${sectionPrefix}-info flex justify-between w-full`}>
                                     <div className={`${sectionPrefix} flex justify-between w-full`}>
                                         <div className={`${sectionPrefix}-name-container`}>
-                                            <h3 className={`${chargeUnitPrefix}-name text-lg font-bold text-heading flex items-center text-[#FFF]`}>
+                                            <h3 className={`${chargeUnitPrefix}-name text-lg font-bold flex items-center text-[#FFF]`}>
                                                 {getChargeUnitStatus(chargeUnit.lastHeartBeat)
                                                     ? (<div className='bg-green-500 rounded-full h-4 w-4 mr-2'></div>)
                                                     : (<div className='bg-red-500 rounded-full h-4 w-4 mr-2'></div>)
