@@ -23,13 +23,13 @@ const MapComponent: React.FC<MapProps> = ({ formData, onSelectLocation }) => {
     const searchBoxRef = useRef<google.maps.places.SearchBox>(null);
 
     const onLoad = useCallback(function callback(map: google.maps.Map) {
+        // @ts-ignore
         mapRef.current = map;
     }, []);
 
     const onSearchBoxLoad = useCallback(function callback(searchBox: google.maps.places.SearchBox) {
-
+        // @ts-ignore
         searchBoxRef.current = searchBox;
-    
     }, []);
 
     const onPlacesChanged = () => {
