@@ -274,7 +274,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
             labelText={`Odeme Yontemleri`}
           />
           <CheckboxInDropdown
-            className={`${formProperties.paymentMethods}-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+            className={`${formProperties.paymentMethods}-input bg-gray-50 border rounded-lg block w-full mb-4 border-gray-300 text-sm text-gray-900`}
             id={`${formProperties.paymentMethods}`}
             inputName={`${formProperties.paymentMethods}`}
             items={paymentMethods}
@@ -314,7 +314,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
               labelText={`Istasyon Olanaklari`}
             />
             <CheckboxInDropdown
-              className={`${formProperties.opportunities}-input bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 mb-4`}
+              className={`${formProperties.opportunities}-input bg-gray-50 border rounded-lg block w-full mb-4 border-gray-300 text-sm text-gray-900`}
               id={`${formProperties.opportunities}`}
               inputName={`${formProperties.opportunities}`}
               items={opportunities}

@@ -59,7 +59,7 @@ const FileUpload: React.FC<FileUploadProps> = ({ slug }: { slug: string }) => {
                 id="file-upload-button"
                 type="button"
                 onClick={handleSubmit}>
-                Upload
+                Yukle
             </Button>
             {uploadStatus && <p className="upload-status">{uploadStatus}</p>}
         </div>
