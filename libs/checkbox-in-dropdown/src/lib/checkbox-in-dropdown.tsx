@@ -60,7 +60,7 @@ export function CheckboxInDropdown({ className, id, inputName, items, onChange }
   }, []);
 
   return (
-    <div className={`checkbox-in-dropdown-wrapper relative rounded-md border w-full text-left`} id={id} ref={dropdownRef}>
+    <div className={`checkbox-in-dropdown-wrapper relative rounded-md border w-full text-left ${className}`} id={id} ref={dropdownRef}>
       <div className='flex w-full'>
         <Button
           className="w-full px-4 py-2 text-left flex justify-between items-center"
@@ -79,7 +79,7 @@ export function CheckboxInDropdown({ className, id, inputName, items, onChange }
       <div
         className={`${isOpen
           ? 'absolute bg-white shadow-lg w-48 rounded-md z-10'
-          : 'hidden'} checkbox-in-dropdown-input-wrapper border w-full`}
+          : 'hidden'} checkbox-in-dropdown-input-wrapper border w-full border-gray-300`}
         id="checkbox-in-dropdown-input-wrapper"
       >
         {

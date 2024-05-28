@@ -34,14 +34,14 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedTex
     }, {
         id: 3,
         isChecked: false,
-        name: 'il',
+        name: 'Il',
         rid: null,
         stationFeatureType: 0,
         stationFeatureValue: 0,
     }, {
         id: 4,
         isChecked: false,
-        name: 'ilce',
+        name: 'Ilce',
         rid: null,
         stationFeatureType: 0,
         stationFeatureValue: 0,
@@ -68,7 +68,7 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedTex
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => setSearchedText(event.target.value)}
                 />
                 <CheckboxInDropdown
-                    className={`${tableHeaderPrefix}-search-checkbox`}
+                    className={`${tableHeaderPrefix}-search-checkbox border-gray-300 text-sm text-gray-900`}
                     id={`${tableHeaderPrefix}-search-checkbox`}
                     inputName='search-checkbox'
                     items={filteredData}
