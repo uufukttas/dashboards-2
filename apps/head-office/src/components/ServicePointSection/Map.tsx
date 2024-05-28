@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { GoogleMap, LoadScript, Marker, StandaloneSearchBox } from '@react-google-maps/api';
+import { Libraries } from '@react-google-maps/api';
 import { CITIES, DISTRICTS } from '../../constants/constants';
 import { IFormDataProps } from './types';
 
@@ -17,7 +18,7 @@ interface MapProps {
 const MapComponent: React.FC<MapProps> = ({ formData, onSelectLocation }) => {
     const [markerPosition, setMarkerPosition] = useState<Location | null>(null);
     const [mapCenter, setMapCenter] = useState<Location>({ lat: 41.0848993, lng: 28.9765895 });
-    const libraries = ["places"];
+    const libraries: Libraries = ["places"];
     const mapRef = useRef<google.maps.Map>(null);
     const searchBoxRef = useRef<google.maps.places.SearchBox>(null);
 
@@ -26,7 +27,9 @@ const MapComponent: React.FC<MapProps> = ({ formData, onSelectLocation }) => {
     }, []);
 
     const onSearchBoxLoad = useCallback(function callback(searchBox: google.maps.places.SearchBox) {
+
         searchBoxRef.current = searchBox;
+    
     }, []);
 
     const onPlacesChanged = () => {
