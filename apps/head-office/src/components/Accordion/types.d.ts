@@ -5,6 +5,7 @@ export interface IAccordionProps {
     backgroundColor?: string;
     children: React.ReactNode;
     contentClassName?: string;
+    iconType?: 'plus-minus' | 'up-down';
     isAccordionOpen?: boolean;
     titleClassName?: string;
 };

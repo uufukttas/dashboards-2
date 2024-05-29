@@ -1,5 +1,5 @@
 .sh-accordion-content-container {
-  border-color: #CCCCCC;
+  border-color: #cccccc;
 }
 .sh-accordion-content-container .sh-accordion-header {
   display: flex;
@@ -13,28 +13,22 @@
 .sh-accordion-content-container .sh-accordion-header .sh-accordion-title {
   flex: 1;
 }
-.sh-accordion-content-container .sh-accordion-header .sh-accordion-arrow {
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-top: 5px solid #333333;
-  transition: transform 0.3s ease;
-}
-.sh-accordion-content-container .sh-accordion-header .sh-accordion-arrow.open {
+.sh-accordion-content-container .sh-accordion-header.open {
   transform: rotate(180deg);
 }
-.sh-accordion-content-container .sh-accordion-content {
+
+.sh-accordion-content {
   -ms-overflow-style: none;
   scrollbar-width: none;
   transition: max-height 0.3s ease, opacity 0.3s ease;
 }
-.sh-accordion-content-container .sh-accordion-content.open {
+.sh-accordion-content.open {
   animation: slideDown 0.5s ease forwards;
 }
-.sh-accordion-content-container .sh-accordion-content.close {
+.sh-accordion-content.close {
   animation: slideUp 0.5s ease forwards;
 }
+
 @keyframes slideDown {
   from {
     max-height: 0;

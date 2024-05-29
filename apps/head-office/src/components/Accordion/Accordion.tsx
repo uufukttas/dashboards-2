@@ -10,6 +10,7 @@ const Accordion: React.FC<IAccordionProps> = ({
   backgroundColor = "primary",
   children,
   contentClassName = "",
+  iconType = 'up-down',
   isAccordionOpen = true,
   titleClassName,
 }: IAccordionProps) => {
@@ -20,24 +21,38 @@ const Accordion: React.FC<IAccordionProps> = ({
     setIsOpen(!isOpen);
   };
 
+  const renderIcon = () => {
+    if (iconType === 'plus-minus') {
+      return isOpen ? '-' : '+';
+    } else {
+      return isOpen ? '▲' : '▼';
+    }
+  };
+
   return (
     <div className={`${accordionPrefix}-content-container border my-4 rounded-lg`}>
       <div className={`${accordionPrefix}-header justify-between bg-${backgroundColor}`}>
         <div className={`${accordionPrefix}-left-container flex items-center ${titleClassName}`}>
-          <div className={`${accordionPrefix}-title px-2`}>
+          <div className={`${accordionPrefix}-title`}>
             {accordionTitle}
           </div>
-          <div className={`${BRAND_PREFIX}-icon-container px-2`}>
-            {accordionIcon}
-          </div>
+          {
+            accordionIcon && (
+              <div className={`${BRAND_PREFIX}-icon-container px-2`}>
+                {accordionIcon}
+              </div>
+            )
+          }
         </div>
         <div className={`${accordionPrefix}-right-container flex items-center justify-center`}>
           <div className={`${BRAND_PREFIX}-action-button-container`}>
             {actionButton}
           </div>
           <div
-            className={`${accordionPrefix}-arrow ${isOpen ? 'open' : ''}`}
-            onClick={toggleAccordion}>
+            className={`${accordionPrefix}-arrow ${isOpen ? 'open' : ''} text-2xl cursor-pointer text-white px-2`}
+            onClick={toggleAccordion}
+          >
+            {renderIcon()}
           </div>
         </div>
       </div>
