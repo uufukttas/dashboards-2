@@ -1,9 +1,16 @@
 import axios from "axios";
 import type { IGetUsersManagementUsersResponseProps } from "./types";
 
-const getUsersRequest = async (): Promise<IGetUsersManagementUsersResponseProps> => {
+const getUsersRequest = async (currentPage: number, searchedUserName?: string): Promise<IGetUsersManagementUsersResponseProps> => {
     try {
-        const response = await axios.get(process.env.GET_USERS || '');
+        const response = await axios
+            .post(process.env.GET_USERS || '',
+                ({
+                    'pageNumber': currentPage,
+                    'userCount': 10,
+                    'name': searchedUserName || '',
+                })
+            );
 
         return response.data;
     } catch (error) {

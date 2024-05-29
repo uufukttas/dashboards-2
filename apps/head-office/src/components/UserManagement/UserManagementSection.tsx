@@ -11,12 +11,13 @@ import { IUserDataProps } from './types';
 
 const UserManagementSection: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
+    const [currentPage, setCurrentPage] = useState<number>(1);
     const [searchedText, setSearchedText] = useState<string>('');
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
     const [userData, setUserData] = useState<IUserDataProps[]>([]);
 
     const getUsers = async (): Promise<void> => {
-        const response = await getUsersRequest();
+        const response = await getUsersRequest(currentPage);
 
         setUserData(response.data);
     };
