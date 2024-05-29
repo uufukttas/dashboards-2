@@ -1,17 +1,21 @@
 import axios from "axios";
 import { ISearchedUserDataResponseProps } from './types';
 
-const searchUserRequest = async (searchedText: string): Promise<ISearchedUserDataResponseProps> => {
+const searchUserRequest = async (pageNumber: number, searchedText: string): Promise<ISearchedUserDataResponseProps> => {
     try {
         const response = await axios.post(
             process.env.GET_SEARCH_USERS || '',
-            JSON.stringify({ "userName": searchedText }),
-            { headers: { 'Content-Type': 'application/json' } }
+            ({
+                pageNumber,
+                'userCount': 10,
+                'name': searchedText || '',
+            })
         );
 
         return response.data;
     } catch (error) {
-        return { 
+        return {
+            count: 0,
             data: [],
             success: false,
         };

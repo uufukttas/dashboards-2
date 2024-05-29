@@ -15,6 +15,7 @@ const getUsersRequest = async (currentPage: number, searchedUserName?: string): 
         return response.data;
     } catch (error) {
         return {
+            count: 0,
             data: [],
             message: "İşlem sırasında hata oluştu. Lütfen tekrar deneyiniz.",
             success: false,
