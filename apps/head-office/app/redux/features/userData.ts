@@ -2,7 +2,7 @@ import { createSlice, Reducer } from "@reduxjs/toolkit";
 import { IUserDataProps } from '../types';
 
 const initialState: IUserDataProps = {
-    roles: ['Guest'],
+    roles: '',
     userId: 0,
 };
 

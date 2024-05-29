@@ -27,6 +27,7 @@ import servicePointPermissions from './features/servicePointPermissions';
 import setConnectors from './features/connectorsData';
 import setVisibleModal from './features/setVisibleModal';
 import statusList from './features/statusList';
+import users from './features/users';
 
 export const store: EnhancedStore = configureStore({
   reducer: {
@@ -58,6 +59,7 @@ export const store: EnhancedStore = configureStore({
     setConnectors,
     setVisibleModal,
     statusList,
+    users,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });
