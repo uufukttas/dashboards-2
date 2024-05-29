@@ -4,7 +4,6 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
-import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import MapComponent from '../../Map';
 import { BRAND_PREFIX } from '../../../../constants/constants';
@@ -22,7 +21,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
   setOpportunities,
 }: IModalThirdPageInputsProps) => {
   const dispatch = useDispatch();
-  const { formState: { errors }, handleSubmit, register } = useForm();
+  const { handleSubmit } = useForm();
   const servicePointInformation = useSelector((state: RootState) => {
     return state.servicePointInformation.servicePointInformation;
   });
@@ -55,7 +54,13 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
           { 'plateNumber': selectedCity }
         )
         .then((response) => response.data.data)
-        .then(data => setDistricts(data))
+        .then(data => {
+          setDistricts(data)
+          setThirdPageFormData(({ ...thirdPageFormData,
+            [`${formProperties.districtId}`]: data[0].rid,
+            [`${formProperties.cityId}`]: selectedCity
+          }));
+        })
         .catch((error) => console.log(error));
     } catch (error) {
       console.log(error);
@@ -120,7 +125,6 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
 
     getDistricts(cityId);
     setSelectedCity(cityId);
-    setThirdPageFormData(({ ...thirdPageFormData, [`${formProperties.cityId}`]: cityId }));
   };
   const handleDistrictChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const districtId = Number(event.target.value);
@@ -141,9 +145,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
   };
 
   useEffect(() => {
-    setSelectedCity(
-      Number(thirdPageFormData[`${formProperties.cityId}`] ?? 0)
-    );
+    setSelectedCity( Number(thirdPageFormData[`${formProperties.cityId}`] ?? 0));
     getDistricts(selectedCity);
     getPaymentMethods();
     getOpportunities();
@@ -190,33 +192,15 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
           >
             <span className="text-md text-error">*</span>
           </Label>
-          <Input
-            className={`${formProperties['x-coord']}-input text-text text-sm rounded-lg block w-3/4 p-2.5 mb-4`}
-            id={`${formProperties['x-coord']}`}
-            name={`${formProperties['x-coord']}`}
-            register={
-              register(`${formProperties['x-coord']}`, {
-                // required: `X Koordinati zorunludur.`,
-                onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                  setThirdPageFormData(({ ...thirdPageFormData, [event.target.name]: Number(event.target.value) }));
-                }
-              })}
-            type={`text`}
-            value={thirdPageFormData[`${formProperties['x-coord']}`].toString()}
-          />
-          {
-            errors[`${formProperties['x-coord']}`]
-            && errors[`${formProperties['x-coord']}`]?.message
-            && (
-              <div className={`${formProperties['x-coord']}-error-wrapper mb-4 font-bold text-error`}>
-                <p className={`${formProperties['x-coord']}-error-message text-error`}>
-                  {'X-Koordinatı zorunludur.'}
-                </p>
-              </div>
-            )
-          }
+          <Label
+            className={`${formProperties['x-coord']}-label-value block mb-2`}
+            htmlFor={`${formProperties['x-coord']}-value`}
+            labelText={''}
+          >
+            {thirdPageFormData[`${formProperties['x-coord']}`].toString()}
+          </Label>
         </div>
-        <div className={`${formProperties['y-coord']}-container w-1/2 flex flex-col items-end`}>
+        <div className={`${formProperties['y-coord']}-container w-1/2 flex flex-col justify-center`}>
           <Label
             className={`${formProperties['y-coord']}-label block mb-2 text-heading font-semibold`}
             htmlFor={`${formProperties['y-coord']}`}
@@ -224,31 +208,13 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
           >
             <span className="text-md text-error">*</span>
           </Label>
-          <Input
-            className={`${formProperties['y-coord']}-input text-text text-sm rounded-lg block w-3/4 p-2.5 mb-4`}
-            id={`${formProperties['y-coord']}`}
-            name={`${formProperties['y-coord']}`}
-            register={
-              register(`${formProperties['y-coord']}`, {
-                // required: `Y Koordinati zorunludur.`,
-                onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                  setThirdPageFormData(({ ...thirdPageFormData, [event.target.name]: Number(event.target.value) }));
-                }
-              })}
-            type={`text`}
-            value={thirdPageFormData[`${formProperties['y-coord']}`].toString()}
-          />
-          {
-            errors[`${formProperties['y-coord']}`]
-            && errors[`${formProperties['y-coord']}`]?.message
-            && (
-              <div className={`${formProperties['y-coord']}-error-wrapper mb-4 font-bold text-error`}>
-                <p className={`${formProperties['y-coord']}-error-message text-error`}>
-                  {'Y-Koordinatı zorunludur.'}
-                </p>
-              </div>
-            )
-          }
+          <Label
+            className={`${formProperties['y-coord']}-label-value block mb-2`}
+            htmlFor={`${formProperties['y-coord']}-value`}
+            labelText={''}
+          >
+            {thirdPageFormData[`${formProperties['y-coord']}`].toString()}
+          </Label>
         </div>
       </div>
       <MapComponent formData={thirdPageFormData} onSelectLocation={handleSelectLocation} />
