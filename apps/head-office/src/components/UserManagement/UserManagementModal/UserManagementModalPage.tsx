@@ -3,10 +3,9 @@ import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
-import { IUserDataProps } from '../types';
 
 const UserManagementModalPage = () => {
-    const { formState: { errors }, handleSubmit, register } = useForm();
+    const { handleSubmit, register } = useForm();
     const [roles, setRoles] = useState([
         {
             id: 1,
