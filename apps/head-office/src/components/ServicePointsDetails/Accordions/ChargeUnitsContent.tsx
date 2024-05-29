@@ -363,7 +363,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                 <div className={`${sectionPrefix}-connectors-container text-white`}>
                                     <div className={`${sectionPrefix}-connectors pt-12 pl-4 mx-2 w-full`}>
                                         <div className={`${chargeUnitPrefix}-connector-info flex justify-between flex-col`}>
-                                            <div className={`${chargeUnitPrefix}-connector-list-container`}>
+                                            <div className={`${chargeUnitPrefix}-connector-list-container text-black`}>
                                                 {
                                                     connectorUpdate &&
                                                     renderConnectors(chargeUnit.chargePointId)
