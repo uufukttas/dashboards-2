@@ -60,6 +60,8 @@ const TableRow = ({ attributeName, tableRowData, index }: ITableRowProps) => {
             ) : (
                 <>
                     {/* @ts-expect-error TODO: fix this */}
+                    <td className="px-4 py-2 text-center">{tableCellData.userName}</td>
+                    {/* @ts-expect-error TODO: fix this */}
                     <td className="px-4 py-2 text-center">{tableCellData.phone || ''}</td>
                     <td className="px-4 py-2 text-center w-full flex flex-wrap justify-center">
                         {
@@ -110,7 +112,7 @@ const TableRow = ({ attributeName, tableRowData, index }: ITableRowProps) => {
                                 </div>
                             </div>
                             /* @ts-expect-error TODO: fix this */
-                        ) : <div className="text-center">{tableRowData.userName}</div>}
+                        ) : <div className="text-center">{tableRowData.name}</div>}
             </td>
             {
                 renderTableDataInfo(tableRowData)
