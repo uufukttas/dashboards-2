@@ -70,6 +70,13 @@ const MapComponent: React.FC<MapProps> = ({ formData, onSelectLocation }) => {
             })
     };
 
+    const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            onPlacesChanged();
+        };
+    };
+
     useEffect(() => {
         changeMapLocation();
     }, [formData[`service-point-cityId`], formData[`service-point-districtId`]]);
@@ -85,6 +92,7 @@ const MapComponent: React.FC<MapProps> = ({ formData, onSelectLocation }) => {
                         type="text"
                         placeholder="Search places..."
                         style={{ zIndex: 10, boxSizing: 'border-box', border: '1px solid transparent', width: '240px', height: '40px', padding: '0 12px', borderRadius: '3px', boxShadow: '0 2px 6px rgba(0, 0, 0, 0.3)', fontSize: '14px', outline: 'none', textOverflow: 'ellipses', position: 'absolute', top: '10px', left: '50%', marginLeft: '-120px' }}
+                        onKeyPress={handleKeyPress}
                     />
                 </StandaloneSearchBox>
                 <GoogleMap
