@@ -197,7 +197,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
             htmlFor={`${formProperties['x-coord']}-value`}
             labelText={''}
           >
-            {thirdPageFormData[`${formProperties['x-coord']}`].toString()}
+            {(thirdPageFormData[`${formProperties['x-coord']}`] || '').toString()}
           </Label>
         </div>
         <div className={`${formProperties['y-coord']}-container w-1/2 flex flex-col justify-center`}>
@@ -213,7 +213,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
             htmlFor={`${formProperties['y-coord']}-value`}
             labelText={''}
           >
-            {thirdPageFormData[`${formProperties['y-coord']}`].toString()}
+            {(thirdPageFormData[`${formProperties['y-coord']}`] || '').toString()}
           </Label>
         </div>
       </div>

@@ -16,8 +16,8 @@ const TableRowEdit: React.FC<{ tableCellDataId: number }> = ({ tableCellDataId }
             const servicePointData = await getServicePointDataRequest(servicePointId);
             const servicePointInformation = await getServicePointInformationRequest(servicePointId);
 
-            dispatch(setServicePointData(servicePointData.data[0]));
-            dispatch(setServicePointInformation(servicePointInformation.data[0]));
+            dispatch(setServicePointData(servicePointData.data[0] || {}));
+            dispatch(setServicePointInformation(servicePointInformation.data[0] || {}));
             dispatch(toggleModalVisibility(true));
         } catch (error) {
             console.error(error);
