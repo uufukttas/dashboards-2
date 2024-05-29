@@ -122,7 +122,6 @@ const ServicePointsDetailsBody: React.FC<{ slug: string }> = ({ slug }: { slug: 
                         accordionIcon={<FaChargingStation />}
                         accordionTitle="Sarj Üniteleri"
                         actionButton={addChargeUnitButton}
-                        contentClassName="overflow-y-auto"
                         titleClassName="font-bold"
                     >
                         {

@@ -214,7 +214,6 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
         return `${dateArray[0]} ${timeArray[0]}:${timeArray[1]}`;
     };
     const renderConnectors = (chargePointId: number) => {
-
         return connectorList.map((chargeUnitConnectors: IConnectorStateProps[][][]) => {
             return chargeUnitConnectors.map((connectors: IConnectorStateProps[][]) => {
                 return connectors.map((connector: IConnectorStateProps[], idx: number) => {
@@ -248,7 +247,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                     </div>
                                     <Button
                                         buttonText={""}
-                                        className="connector-add-button rounded-md px-4 py-2 mx-4"
+                                        className="connector-add-button rounded-md px-2 py-2 mx-4"
                                         dataAttributes={{
                                             'data-charge-point-id': connectorItem.stationChargePointID.toString(),
                                             'data-charge-point-model-id': connectorItem.modelID.toString(),
@@ -319,7 +318,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                             </div>
                                         </div>
                                         <div className={`${sectionPrefix}-actions-container mx-2 flex items-center justify-center`}>
-                                            <div className={`${chargeUnitPrefix}-actions mx-2 `}>
+                                            <div className={`${chargeUnitPrefix}-actions`}>
                                                 <Button
                                                     buttonText={``}
                                                     className={`${chargeUnitPrefix}-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2`}
@@ -356,8 +355,9 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                             <Accordion
                                 accordionTitle={createAccordionTitle()}
                                 backgroundColor='secondary text-[#FFF] '
+                                iconType='plus-minus'
                                 isAccordionOpen={false}
-                                titleClassName={`w-full flex jsutiify-evenly items-center`}
+                                titleClassName={`w-full flex justify-between items-center`}
                                 key={index}
                             >
                                 <div className={`${sectionPrefix}-connectors-container text-white`}>
