@@ -21,7 +21,7 @@ const Accordion: React.FC<IAccordionProps> = ({
     setIsOpen(!isOpen);
   };
 
-  const renderIcon = () => {
+  const renderIcon = (): string => {
     if (iconType === 'plus-minus') {
       return isOpen ? '-' : '+';
     } else {
