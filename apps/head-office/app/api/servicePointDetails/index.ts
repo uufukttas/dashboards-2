@@ -9,6 +9,7 @@ export { getChargePointFeatureStatus } from './getChargePointFeatureStatus';
 export { getChargeUnitFeatureValuesRequest } from './getChargeUnitFeatureValuesRequest';
 export { getChargePointInvestors } from './getChargePointInvestors';
 export { getComissionDetails } from './getComissionDetails';
+export { getConnectorInfo } from './getConnectorInfo';
 export { getConnectorModels } from './getConnectorModels';
 export { getConnectorPropertiesRequest } from './getConnectorPropertiesRequest';
 export { getEnergyPriceDetails } from './getEnergyPriceDetails';
