@@ -43,7 +43,7 @@ const UserManagementModalPage = () => {
         'user-management-phone': string;
         'user-management-role': [];
         'user-management-email': string;
-        id?: number;
+        id: number | null;
     }>({
         'user-management-username': '',
         'user-management-name': '',
@@ -51,6 +51,7 @@ const UserManagementModalPage = () => {
         'user-management-email': '',
         "user-management-phone": '',
         'user-management-role': [],
+        id: null,
     });
 
     const handleFormSubmit = async () => {
@@ -60,7 +61,14 @@ const UserManagementModalPage = () => {
             newPassword: 'Welcome123!',
             eMail: userData['user-management-email'],
             phoneNumber: userData['user-management-phone'],
-            roles: userData['user-management-role'].map((role: any) => role.name),
+            roles: userData['user-management-role'].map((role: {
+                id: number;
+                name: string;
+                isChecked: boolean;
+                rid: number | null;
+                stationFeatureType: number;
+                stationFeatureValue: number;
+            }) => role.name),
         });
 
         dispatch(showAlert({
@@ -207,10 +215,18 @@ const UserManagementModalPage = () => {
                         inputName='user-management-role'
                         items={roles}
                         onChange={(role) => {
-                            setRoles(role);
+                            const updatedRoles = role.map((item) => ({
+                                id: item.id || 0,
+                                name: item.name,
+                                isChecked: item.isChecked || false,
+                                rid: null,
+                                stationFeatureType: item.stationFeatureType,
+                                stationFeatureValue: item.stationFeatureValue,
+                            }));
+                            setRoles(updatedRoles);
                             setUserData({
                                 ...userData,
-                                'user-management-role': role.filter((role) => role.isChecked),
+                                'user-management-role': updatedRoles.filter((role) => role.isChecked) as [],
                             });
                         }}
                     />
