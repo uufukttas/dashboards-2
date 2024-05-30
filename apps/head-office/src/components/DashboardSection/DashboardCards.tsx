@@ -7,7 +7,7 @@ import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVi
 import { RootState } from '../../../app/redux/store';
 
 const DashboardCards: React.FC = () => {
-    const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page`;
+    const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page-cards`;
     const dispatch = useDispatch();
     const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
 

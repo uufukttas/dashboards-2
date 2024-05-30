@@ -1,5 +1,5 @@
 import React from 'react';
-import { Montserrat} from 'next/font/google';
+import { Montserrat } from 'next/font/google';
 import { useSelector } from 'react-redux';
 import DashboardSection from './DashboardSection';
 import Loading from '../Loading/Loading';
@@ -25,9 +25,9 @@ const DashboardPage: React.FC = () => {
           )
           : (
             <MainPage sectionName='Dashboards'>
-              <div className={`${
-                BRAND_PREFIX}-dashboard-page-container flex justify-center items-center md:pt-12 flex-wrap
-                `}>
+              <div className={
+                `${BRAND_PREFIX}-dashboard-page-container flex justify-center items-center md:pt-12 flex-wrap`
+              }>
                 <DashboardSection />
               </div>
             </MainPage>
