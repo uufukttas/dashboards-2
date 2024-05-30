@@ -14,6 +14,7 @@ const Table: React.FC<ITableProps> = ({
   return (
     <div className={`${tablePrefix}-container relative overflow-x-auto shadow-md max-w-[330px] md:max-w-full w-full border-2 border-gray-200`}>
       <TableHeader
+      attributeName={attributeName}
         searchedText={searchedText}
         setSearchedText={setSearchedText}
       />

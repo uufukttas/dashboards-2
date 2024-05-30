@@ -45,6 +45,7 @@ export interface ITableDataAttributeProps {
     [key: string]: string | number | undefined;
 };
 export interface ITableHeaderProps {
+    attributeName: string;
     searchedText: string;
     setSearchedText: React.Dispatch<React.SetStateAction<string>>;
 };

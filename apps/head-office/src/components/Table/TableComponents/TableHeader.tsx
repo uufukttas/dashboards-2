@@ -9,7 +9,7 @@ import { toggleModalVisibility } from '../../../../app/redux/features/isModalVis
 import type { IDropdownItemProps, ITableHeaderProps } from '../types';
 import { CheckboxInDropdown } from '@projects/checkbox-in-dropdown';
 
-const TableHeader: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedText }: ITableHeaderProps) => {
+const TableHeader: React.FC<ITableHeaderProps> = ({ attributeName, searchedText, setSearchedText }: ITableHeaderProps) => {
     const tableHeaderPrefix: string = `${BRAND_PREFIX}-table-header`;
     const dispatch = useDispatch();
 
@@ -79,7 +79,7 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ searchedText, setSearchedTex
             </div>
             <div className={`${tableHeaderPrefix}-add-button-container w-full mx-2 md:w-1/2 lg:w-1/4 lg:mx-4`}>
                 <Button
-                    buttonText="+ Istasyon"
+                    buttonText={attributeName === 'user-management' ? "+ Kullanici" : "+ Istasyon"}
                     className={`${tableHeaderPrefix}-add-button w-full bg-primary rounded-md font-semibold hover:bg-primary-lighter px-2 py-2`}
                     id={`${tableHeaderPrefix}-add-button`}
                     type="button"
