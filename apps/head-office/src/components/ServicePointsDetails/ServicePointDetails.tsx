@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from '@projects/alert';
 import { Dialog } from '@projects/dialog';
+import { initialChargeUnitDataValue } from './constants';
 import ChargeUnitAddModal from './Modals/ChargeUnitAddModal';
 import ComissionModal from './Modals/ComissionModal';
 import ConnectorAddModal from './Modals/ConnectorAddModal';
@@ -60,87 +61,76 @@ import { RootState } from '../../../app/redux/store';
 import type {
   IChargeUnitsProps,
   IConnectorProps,
+  IModalConfigProps,
   IServicePointsDetailsPageProps,
 } from './types';
 import './ServicePointDetails.css';
 
 const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
-  const addChargeUnit = useSelector((state: RootState) => state.setVisibleModal.addChargeUnit);
-  const addComission = useSelector((state: RootState) => state.setVisibleModal.addComission);
-  const addConnector = useSelector((state: RootState) => state.setVisibleModal.addConnector);
-  const addEnergyPrice = useSelector((state: RootState) => state.setVisibleModal.addEnergyPrice);
-  const addPermission = useSelector((state: RootState) => state.setVisibleModal.addPermission);
-  const addServicePointImage = useSelector((state: RootState) => state.setVisibleModal.addServicePointImage);
-  const alertInformation = useSelector((state: RootState) => state.alertInformation);
-  const chargeUnits = useSelector((state: RootState) => state.chargeUnitList);
-  const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
-  const isChargePointDataUpdated = useSelector((state: RootState) => {
-    return state.isChargePointDataUpdated.isChargePointDataUpdated
-  });
-  const isComissionsListUpdated = useSelector((state: RootState) => state.isComissionListUpdated.isComissionListUpdated);
-  const isConnectorUpdated = useSelector((state: RootState) => state.isConnectorUpdated.isConnectorUpdated);
-  const isEnergyPriceListUpdated = useSelector((state: RootState) => state.isEnergyPriceListUpdated.isEnergyPriceListUpdated);
-  const isLoadingVisible = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
-  const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
-  const isServicePointPermissionsUpdated = useSelector((state: RootState) => {
-    return state.isServicePointPermissionsUpdated.isServicePointPermissionsUpdated
-  });
+  const {
+    addChargeUnit,
+    addComission,
+    addConnector,
+    addEnergyPrice,
+    addPermission,
+    addServicePointImage,
+  } = useSelector((state: RootState) => state.setVisibleModal);
+  const {
+    alertInformation,
+    chargeUnitList,
+    dialogInformation,
+    isChargePointDataUpdated: { isChargePointDataUpdated },
+    isComissionListUpdated: { isComissionsListUpdated },
+    isConnectorUpdated: { isConnectorUpdated },
+    isEnergyPriceListUpdated: { isEnergyPriceListUpdated },
+    isLoadingVisible: { isLoadingVisible },
+    isModalVisible: { isModalVisible },
+    isServicePointPermissionsUpdated: { isServicePointPermissionsUpdated },
+  } = useSelector((state: RootState) => state);
 
-  const modalConfig = [
+  const modalConfig: IModalConfigProps[] = [
     {
       condition: addServicePointImage,
       headerTitle: 'Resim Ekle',
       modalId: `${BRAND_PREFIX}-service-point-image-add-modal`,
       content: <ImageAddModal slug={slug} />,
-      closeAction: () => setAddServicePointImage(false),
+      closeAction: () => dispatch(setAddServicePointImage(false)),
     },
     {
       condition: addChargeUnit,
       headerTitle: 'Şarj Ünitesi Ekle',
       modalId: `${BRAND_PREFIX}-charge-points-add-modal`,
       content: <ChargeUnitAddModal slug={slug} />,
-      closeAction: () => setChargeUnitData({
-        accessType: 1,
-        brandId: 1,
-        chargePointId: 0,
-        code: '',
-        connectorCount: 1,
-        isFreeUsage: false,
-        isLimitedUsage: false,
-        investor: 1,
-        location: '',
-        ocppVersion: 1600,
-        status: 1,
-      }) && setAddChargeUnit(false),
+      closeAction: () => dispatch(setChargeUnitData(initialChargeUnitDataValue)) && dispatch(setAddChargeUnit(false)),
     },
     {
       condition: addConnector,
       headerTitle: 'Konnektör Ekle',
       modalId: `${BRAND_PREFIX}-connector-add-modal`,
       content: <ConnectorAddModal />,
-      closeAction: () => setAddConnector(false),
+      closeAction: () => dispatch(setAddConnector(false)),
     },
     {
       condition: addEnergyPrice,
       headerTitle: 'Enerji Fiyat Ayarlari',
       modalId: `${BRAND_PREFIX}-energy-prices-modal`,
       content: <EnergyPricesModal slug={slug} />,
-      closeAction: () => setAddEnergyPrice(false),
+      closeAction: () => dispatch(setAddEnergyPrice(false)),
     },
     {
       condition: addPermission,
       headerTitle: 'Yetki Ekle',
       modalId: `${BRAND_PREFIX}-service-point-permissions-modal`,
       content: <ServicePointPermissionsModal slug={slug} />,
-      closeAction: () => setAddPermission(false),
+      closeAction: () => dispatch(setAddPermission(false)),
     },
     {
       condition: addComission,
       headerTitle: 'Komisyon Ekle',
       modalId: `${BRAND_PREFIX}-service-point-comission-modal`,
       content: <ComissionModal slug={Number(slug)} />,
-      closeAction: () => setAddComission(false),
+      closeAction: () => dispatch(setAddComission(false)),
     }
   ];
 
@@ -261,7 +251,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     dispatch(setComissionData(comissionResponse.data));
   };
   const getConnectors = async () => {
-    const promises = chargeUnits.map(async (chargeUnit: IChargeUnitsProps) => {
+    const promises = chargeUnitList.map(async (chargeUnit: IChargeUnitsProps) => {
       const connectorResponse = await getChargePointConnetors(chargeUnit.chargePointId);
 
       return getConnectorProperties(connectorResponse.data);
@@ -387,10 +377,10 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   }, [isChargePointDataUpdated]);
 
   useEffect(() => {
-    if (chargeUnits.length > 0) {
+    if (chargeUnitList.length > 0) {
       getConnectors();
     }
-  }, [chargeUnits]);
+  }, [chargeUnitList]);
 
   useEffect(() => {
     getEnergyPrices();
@@ -446,8 +436,8 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
                     modalHeaderTitle={modal.headerTitle}
                     modalId={modal.modalId}
                     onClose={() => {
-                      dispatch(toggleModalVisibility(false));
-                      dispatch(modal.closeAction());
+                      dispatch(toggleModalVisibility(false))
+                      modal.closeAction();
                     }}
                   >
                     {modal.content}

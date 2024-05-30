@@ -1,3 +1,16 @@
+const initialChargeUnitDataValue = {
+    accessType: 1,
+    brandId: 1,
+    chargePointId: 0,
+    code: '',
+    connectorCount: 1,
+    isFreeUsage: false,
+    isLimitedUsage: false,
+    investor: 1,
+    location: '',
+    ocppVersion: 1600,
+    status: 1,
+};
 const initialServicePointsDetailsInfoStateValue = {
     address: '',
     addressDetail: '',
@@ -21,4 +34,4 @@ const initialServicePointDataValue = {
     isDeleted: false
 };
 
-export { initialServicePointsDetailsInfoStateValue, initialServicePointDataValue };
+export { initialChargeUnitDataValue, initialServicePointsDetailsInfoStateValue, initialServicePointDataValue };

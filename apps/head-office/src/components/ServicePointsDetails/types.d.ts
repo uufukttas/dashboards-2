@@ -156,6 +156,13 @@ export interface IFeatureValueProps {
   name: string;
   rid: number;
 };
+export interface IModalConfigProps {
+  condition: boolean;
+  headerTitle: string;
+  modalId: string;
+  content: React.ReactNode;
+  closeAction: () => void;
+};
 export interface IServicePointsDetailsProps {
   name: string;
   id: number;
