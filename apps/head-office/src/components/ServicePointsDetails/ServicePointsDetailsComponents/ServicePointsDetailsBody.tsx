@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import Accordion from '../../Accordion/Accordion';
 import ChargeUnitsContent from '../Accordions/ChargeUnitsContent';
-import Comissions from '../Accordions/Comissions';
+import Comissions from '../Accordions/Comissions/Comissions';
 import EnergyPricesContent from '../Accordions/EnergyPricesContent';
 import LocationInfo from '../Accordions/LocationInfo';
 import ServicePointPermissions from '../Accordions/ServicePointPermissions';
