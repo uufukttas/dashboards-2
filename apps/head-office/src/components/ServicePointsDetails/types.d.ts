@@ -55,6 +55,13 @@ interface IRequestDataProps {
 interface IWorkingHoursContentProps {
   slug: number;
 };
+export interface IAccordionConfigProps {
+  actionButton?: React.ReactNode;
+  accordionContent: React.ReactNode;
+  accordionTitle: string;
+  titleClassName: string;
+  accordionIcon?: React.ReactNode;
+};
 export interface IBrandsProps {
   id: number,
   name: string,
@@ -162,6 +169,9 @@ export interface IModalConfigProps {
   modalId: string;
   content: React.ReactNode;
   closeAction: () => void;
+};
+export interface IServicePointDetailsContentProps { 
+  slug: string;
 };
 export interface IServicePointsDetailsProps {
   name: string;

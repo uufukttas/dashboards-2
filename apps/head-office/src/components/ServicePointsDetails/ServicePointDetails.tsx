@@ -9,7 +9,7 @@ import ConnectorAddModal from './Modals/ConnectorAddModal';
 import EnergyPricesModal from './Modals/EnergyPricesModal';
 import ImageAddModal from './Modals/ImageAddModal';
 import ServicePointPermissionsModal from './Modals/ServicePointPermissionsModal';
-import ServicePointsDetailsBody from './ServicePointsDetailsComponents/ServicePointsDetailsBody';
+import ServicePointsDetailsContent from './ServicePointsDetailsComponents/ServicePointsDetailsContent';
 import ServicePointDetailsHeader from './ServicePointsDetailsComponents/ServicePointDetailsHeader';
 import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
@@ -408,7 +408,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
           <div className={`${BRAND_PREFIX}-service-point-details-page-content-container w-full`}>
             <ServicePointDetailsHeader />
             <Tabs />
-            <ServicePointsDetailsBody slug={slug} />
+            <ServicePointsDetailsContent slug={slug} />
           </div>
           {
             alertInformation.isVisible && (
