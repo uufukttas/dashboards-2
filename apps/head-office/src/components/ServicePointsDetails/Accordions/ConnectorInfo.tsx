@@ -1,42 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { getConnectorInfo } from '../../../../app/api/servicePointDetails';
 import { RootState } from '../../../../app/redux/store';
+import { IConnectorInfoProps } from '../types';
 
-const ConnectorInfo: React.FC<{ connectorId: number }> = ({ connectorId }: { connectorId: number; }) => {
+const ConnectorInfo: React.FC<IConnectorInfoProps> = (props: IConnectorInfoProps) => {
     const [displayName, setDisplayName] = useState('');
     const isConnectorUpdated = useSelector((state: RootState) => state.isConnectorUpdated.isConnectorUpdated);
 
-    const getConnectorInfo = async () => {
-        try {
-            const response = await axios.post(
-                process.env.GET_CONNECTOR_INFO || '',
-                ([{connectorId: connectorId}]),
-                { headers: { 'Content-Type': 'application/json' } }
-            );
+    const changeConnectorName = async (): Promise<void> => {
+        const connectorInfo = await getConnectorInfo(props.connectorId);
 
-            return setDisplayName(response.data.data[0]?.displayName);
-        } catch (error) {
-            console.error('Failed to fetch connector info:', error);
-            return '';
-        }
+        setDisplayName(connectorInfo);
     };
 
     useEffect(() => {
-        getConnectorInfo();
+        changeConnectorName();
     }, []);
 
     useEffect(() => {
-        getConnectorInfo();
+        changeConnectorName();
     }, [isConnectorUpdated]);
 
     return (
         <>
-            {
-                displayName || '- KW - '
-            }
+            {displayName}
         </>
-    )
-}
+    );
+};
 
 export default ConnectorInfo;

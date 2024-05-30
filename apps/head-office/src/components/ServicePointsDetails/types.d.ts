@@ -55,11 +55,6 @@ interface IRequestDataProps {
 interface IWorkingHoursContentProps {
   slug: number;
 };
-export interface IAccessTypeListItemProps {
-  id: number;
-  name: string;
-  rid: null;
-};
 export interface IBrandsProps {
   id: number,
   name: string,
@@ -113,6 +108,9 @@ export interface IConnectorBrandProps {
   connectorTypeId: number;
   displayName: string;
 };
+export interface IConnectorInfoProps {
+  connectorId: number;
+};
 export interface IEnergyPriceDetailsProps {
   id: number;
   stationId: number;
@@ -144,6 +142,11 @@ export interface IGetChargePointStationFeatureResponse {
   success: boolean;
   data: IGetChargePointStationFeatureData[];
 };
+export interface IFeatureTypeListProps {
+  id: number;
+  name: string;
+  rid: null;
+};
 export interface IInvestorsProps {
   id: number,
   name: string,
@@ -162,11 +165,6 @@ export interface IServicePointsDetailsProps {
   companyName: string;
   isActive: boolean;
   isDeleted: boolean;
-};
-export interface IStatusListItemProps {
-  id: number;
-  name: string;
-  rid: null;
 };
 export interface IFormDataProps {
   [key: string]: boolean | number | string;
