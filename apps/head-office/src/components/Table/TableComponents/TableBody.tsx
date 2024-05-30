@@ -4,7 +4,7 @@ import { BRAND_PREFIX } from '../../../constants/constants';
 import type { IServicePointInfoProps, ITableBodyProps, IUserDataProps } from '../types';
 
 const TableBody: React.FC<ITableBodyProps> = ({ attributeName, tableData, tableDataCount }: ITableBodyProps) => {
-    const fullTableData = [...tableData];
+    const fullTableData = [...tableData || []];
 
     while (fullTableData.length < 10) {
         fullTableData.push({} as IServicePointInfoProps | IUserDataProps);

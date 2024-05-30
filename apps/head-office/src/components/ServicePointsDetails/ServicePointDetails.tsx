@@ -12,7 +12,7 @@ import ServicePointsDetailsBody from './ServicePointsDetailsComponents/ServicePo
 import ServicePointDetailsHeader from './ServicePointsDetailsComponents/ServicePointDetailsHeader';
 import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
-import Navbar from '../Navbar/Navbar';
+import Tabs from '../Tabs/Tabs';
 import { BRAND_PREFIX } from '../../constants/constants';
 import {
   deleteComissionRequest,
@@ -86,8 +86,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const isServicePointPermissionsUpdated = useSelector((state: RootState) => {
     return state.isServicePointPermissionsUpdated.isServicePointPermissionsUpdated
   });
-
-  // const [isModalOpen, setModalOpen] = useState(false);
 
   const modalConfig = [
     {
@@ -419,9 +417,26 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
         <div className={`${BRAND_PREFIX}-service-point-details-page-content-wrapper w-full`}>
           <div className={`${BRAND_PREFIX}-service-point-details-page-content-container w-full`}>
             <ServicePointDetailsHeader />
-            <Navbar />
+            <Tabs />
             <ServicePointsDetailsBody slug={slug} />
           </div>
+          {
+            alertInformation.isVisible && (
+              <Alert
+                alertText={alertInformation.message}
+                alertType={alertInformation.type}
+                id={`${BRAND_PREFIX}-service-point-details-alert`}
+              />
+            )
+          }
+          {
+            dialogInformation.isVisible && (
+              <Dialog
+                handleCancel={() => dispatch(hideDialog())}
+                handleSuccess={() => handleDialogSuccess()}
+              />
+            )
+          }
           {
             modalConfig.map((modal) => {
               if (modal.condition && isModalVisible) {
@@ -439,25 +454,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
                   </Modal>
                 );
               }
-              return null;
             })
-          }
-          {
-            dialogInformation.isVisible && (
-              <Dialog
-                handleCancel={() => dispatch(hideDialog())}
-                handleSuccess={() => handleDialogSuccess()}
-              />
-            )
-          }
-          {
-            alertInformation.isVisible && (
-              <Alert
-                alertText={alertInformation.message}
-                alertType={alertInformation.type}
-                id={`${BRAND_PREFIX}-service-point-details-alert`}
-              />
-            )
           }
         </div>
       )

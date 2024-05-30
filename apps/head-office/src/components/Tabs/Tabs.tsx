@@ -9,11 +9,11 @@ import { detectDevice } from '@projects/common';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { setActiveTabIndex } from '../../../app/redux/features/activeTabIndex';
 import { RootState } from '../../../app/redux/store';
-import type { INavbarItemProps } from './types';
-import './Navbar.css';
+import type { ITabsItemProps } from './types';
+import './Tabs.css';
 
-const Navbar: React.FC = () => {
-  const navbarItems: INavbarItemProps[] = [
+const Tabs: React.FC = () => {
+  const tabItems: ITabsItemProps[] = [
     {
       title: (
         <>
@@ -71,22 +71,22 @@ const Navbar: React.FC = () => {
       ),
     },
   ];
-  const navbarPrefix: string = `${BRAND_PREFIX}-navbar`;
+  const tabPrefix: string = `${BRAND_PREFIX}-tabs`;
   const dispatch = useDispatch();
   const activeTabIndex = useSelector((state: RootState) => state.activeTabIndex);
 
   return (
-    <nav className={`${navbarPrefix}-container flex items-center`}>
+    <nav className={`${tabPrefix}-container flex items-center`}>
       {
-        navbarItems.map((item: INavbarItemProps, index: number) => (
+        tabItems.map((item: ITabsItemProps, index: number) => (
           <Button key={index}
-            className={`${navbarPrefix}-item px-4 py-0 w-1/6 flex justify-center items-center text-2xl ${
+            className={`${tabPrefix}-item px-4 py-0 w-1/6 flex justify-center items-center text-2xl ${
               activeTabIndex === index
                 ? 'active'
                 : ''
               }`
             }
-            id={`${navbarPrefix}-item-${index}`}
+            id={`${tabPrefix}-item-${index}`}
             type="button"
             onClick={() => dispatch(setActiveTabIndex(index))}
           >
@@ -98,4 +98,4 @@ const Navbar: React.FC = () => {
   );
 };
 
-export default Navbar;
+export default Tabs;
