@@ -48,6 +48,9 @@ export interface ITableHeaderProps {
     attributeName: string;
     filteredDropdownItems: IDropdownItemProps[];
 };
+export interface ITableHeadProps {
+    tableHeadData: string[];
+};
 export interface ITableProps {
     attributeName: string;
     filteredDropdownItems: IDropdownItemProps[];

@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaMagnifyingGlass } from 'react-icons/fa6';
 import { Button } from '@projects/button';
+import { CheckboxInDropdown } from '@projects/checkbox-in-dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import { setSearchedText } from '../../../../app/redux/features/searchedText';
+import { RootState } from '../../../../app/redux/store';
 import type { IDropdownItemProps, ITableHeaderProps } from '../types';
-import { CheckboxInDropdown } from '@projects/checkbox-in-dropdown';
-import { RootState } from 'apps/head-office/app/redux/store';
-import { setSearchedText } from 'apps/head-office/app/redux/features/searchedText';
 
 const TableHeader: React.FC<ITableHeaderProps> = ({ attributeName, filteredDropdownItems }: ITableHeaderProps) => {
     const tableHeaderPrefix: string = `${BRAND_PREFIX}-table-header`;
@@ -39,16 +39,16 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ attributeName, filteredDropd
                     placeholder="Search"
                     type="text"
                     value={searchedText}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => dispatch(setSearchedText(event.target.value))}
+                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        dispatch(setSearchedText(event.target.value))
+                    }}
                 />
                 <CheckboxInDropdown
                     className={`${tableHeaderPrefix}-search-checkbox border-gray-300 text-sm text-gray-900`}
                     id={`${tableHeaderPrefix}-search-checkbox`}
                     inputName='search-checkbox'
                     items={filteredData}
-                    onChange={(filterData) => {
-                        setFilteredData(filterData);
-                    }}
+                    onChange={(filterData) => { setFilteredData(filterData) }}
                 />
             </div>
             <div className={`${tableHeaderPrefix}-add-button-container w-full mx-2 md:w-1/2 lg:w-1/4 lg:mx-4`}>

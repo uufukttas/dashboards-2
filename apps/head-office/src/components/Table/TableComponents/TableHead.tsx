@@ -1,7 +1,8 @@
 import React from 'react';
 import { BRAND_PREFIX } from '../../../constants/constants';
+import type { ITableHeadProps } from '../types';
 
-const TableHead: React.FC<{ tableHeadData: string[] }> = ({ tableHeadData }: { tableHeadData: string[] }) => {
+const TableHead: React.FC<ITableHeadProps> = ({ tableHeadData }: ITableHeadProps) => {
     const tableHeadPrefix: string = `${BRAND_PREFIX}-table-head`;
 
     return (
