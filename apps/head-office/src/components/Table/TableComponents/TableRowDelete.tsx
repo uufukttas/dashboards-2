@@ -3,7 +3,7 @@ import { FaTrashCan } from 'react-icons/fa6';
 import { useDispatch } from 'react-redux';
 import { showDialog } from '../../../../app/redux/features/dialogInformation';
 
-const TableRowDelete: React.FC<{ tableCellDataId: number }> = ({ tableCellDataId }: { tableCellDataId: number }) => {
+const TableRowDelete: React.FC<{ tableCellDataId: number | null | undefined }> = ({ tableCellDataId }: { tableCellDataId: number | undefined | null }) => {
     const dispatch = useDispatch();
     const deleteServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
         dispatch(

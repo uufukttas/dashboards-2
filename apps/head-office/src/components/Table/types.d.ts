@@ -11,6 +11,7 @@ export interface IUserDataProps {
     roleNames: string;
     userId: number;
     userName: string;
+    id?: number | null | undefined;
 };
 export interface IRolesStyleProps {
     [key: string]: ITableDataAttributeProps
@@ -36,6 +37,27 @@ export interface ITableActionsProps {
     servicePointId?: number;
     userId?: number;
 };
+export interface ITableBodyPlaceholderProps {
+    address?: string;
+    addressDetail?: string | null | undefined;
+    cityId?: number;
+    districtId?: number;
+    freePark?: string | null | undefined;
+    id?: number | null;
+    latitude?: number;
+    longitude?: number;
+    name?: string;
+    opportunities?: string[] | null | undefined;
+    paymentMethods?: string[] | null | undefined;
+    phone?: string | null | undefined;
+    type?: string | null | undefined;
+    email?: string;
+    status?: string;
+    lastLoginDate?: string | null;
+    roleNames?: string;
+    userId?: number;
+    userName?: string;
+};
 export interface ITableBodyProps {
     attributeName: string;
     tableData: IServicePointInfoProps[] | IUserDataProps[];
@@ -60,6 +82,6 @@ export interface ITableProps {
 };
 export interface ITableRowProps {
     attributeName: string;
-    tableRowData: IServicePointInfoProps | IUserDataProps;
+    tableRowData: ITableBodyPlaceholderProps;
     index: number;
 };

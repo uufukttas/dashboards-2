@@ -6,7 +6,7 @@ import { toggleModalVisibility } from '../../../../app/redux/features/isModalVis
 import { setServicePointData } from '../../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
 
-const TableRowEdit: React.FC<{ tableCellDataId: number }> = ({ tableCellDataId }: { tableCellDataId: number }) => {
+const TableRowEdit: React.FC<{ tableCellDataId: number | null | undefined }> = ({ tableCellDataId }: { tableCellDataId: number | null | undefined }) => {
     const dispatch = useDispatch();
 
     const getUpdatedServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
@@ -25,7 +25,7 @@ const TableRowEdit: React.FC<{ tableCellDataId: number }> = ({ tableCellDataId }
     };
 
     return (
-        <a className="font-medium text-blue-600 cursor-pointer px-4" 
+        <a className="font-medium text-blue-600 cursor-pointer px-4"
             data-service-point-id={tableCellDataId || 0} onClick={(event) => getUpdatedServicePointInfo(event)}>
             <FaPen className='text-primary' />
         </a>
