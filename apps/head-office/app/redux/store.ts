@@ -20,6 +20,7 @@ import isServicePointDataUpdated from './features/isServicePointDataUpdated';
 import isServicePointPermissionsUpdated from './features/isServicePointPermissionsUpdated';
 import isSidebarExpand from './features/isSidebarExpand';
 import permissionsData from './features/permissionsData';
+import searchedText from './features/searchedText';
 import servicePoints from './features/servicePoints';
 import servicePointData from './features/servicePointData';
 import servicePointInformation from './features/servicePointInformation';
@@ -52,6 +53,7 @@ export const store: EnhancedStore = configureStore({
     isServicePointPermissionsUpdated,
     isSidebarExpand,
     permissionsData,
+    searchedText,
     servicePoints,
     servicePointData,
     servicePointInformation,
