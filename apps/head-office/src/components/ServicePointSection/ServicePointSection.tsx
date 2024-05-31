@@ -83,6 +83,35 @@ const ServicePointSection: React.FC = () => {
       <div className={`${BRAND_PREFIX}-service-point-listing-container flex items-center w-full`}>
         <Table
           attributeName="service-point"
+          filteredDropdownItems={[{
+            id: 1,
+            isChecked: false,
+            name: 'Telefon',
+            rid: null,
+            stationFeatureType: 0,
+            stationFeatureValue: 0,
+        }, {
+            id: 2,
+            isChecked: false,
+            name: 'Adres',
+            rid: null,
+            stationFeatureType: 0,
+            stationFeatureValue: 0,
+        }, {
+            id: 3,
+            isChecked: false,
+            name: 'Il',
+            rid: null,
+            stationFeatureType: 0,
+            stationFeatureValue: 0,
+        }, {
+            id: 4,
+            isChecked: false,
+            name: 'Ilce',
+            rid: null,
+            stationFeatureType: 0,
+            stationFeatureValue: 0,
+        }]}
           searchedText={searchedText}
           tableData={servicePointsData}
           tableDataCount={servicePointsCount}
