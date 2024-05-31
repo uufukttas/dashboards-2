@@ -53,18 +53,39 @@ const TableRow = ({ attributeName, index, tableRowData }: ITableRowProps) => {
                     </div>
                 </div>
             </td>
-            <td className="px-4 py-2 text-center">{attributeName === 'service-point' ? tableRowData.phone : tableRowData.userName}</td>
-            <td className="px-4 py-2 text-center">{attributeName === 'service-point' ? tableRowData.address : tableRowData.phone}</td>
-            <td className="px-4 py-2 text-center">{attributeName === 'service-point' ? getCity(tableRowData.cityId ?? 0) :
-                JSON.parse(tableRowData?.roleNames || '[]').map((role: string, index: number) => {
-                    return (
-                        <Fragment key={index}>
-                            {getRolePills(role)}
-                        </Fragment>
-                    )
-                })
-            }</td>
-            <td className="px-4 py-2 text-center">{attributeName === 'service-point' ? getDistricts(tableRowData.districtId ?? 0) : tableRowData.lastLoginDate}</td>
+            <td className="px-4 py-2 text-center">{
+                attributeName === 'service-point'
+                    ? tableRowData.phone
+                    : tableRowData.userName
+            }
+            </td>
+            <td className="px-4 py-2 text-center">
+                {
+                    attributeName === 'service-point'
+                        ? tableRowData.address
+                        : tableRowData.phone
+                }
+            </td>
+            <td className="px-4 py-2 text-center">
+                {
+                    attributeName === 'service-point'
+                        ? getCity(tableRowData.cityId ?? 0)
+                        : JSON.parse(tableRowData?.roleNames || '[]').map((role: string, index: number) => {
+                            return (
+                                <Fragment key={index}>
+                                    {getRolePills(role)}
+                                </Fragment>
+                            )
+                        })
+                }
+            </td>
+            <td className="px-4 py-2 text-center">
+                {
+                    attributeName === 'service-point'
+                        ? getDistricts(tableRowData.districtId ?? 0)
+                        : tableRowData.lastLoginDate
+                }
+            </td>
             <td className="px-4 py-4">
                 <div className="flex justify-start text-2xl">
                     <TableActions tableCellData={tableRowData} />
