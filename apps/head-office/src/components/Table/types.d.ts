@@ -47,17 +47,13 @@ export interface ITableDataAttributeProps {
 export interface ITableHeaderProps {
     attributeName: string;
     filteredDropdownItems: IDropdownItemProps[];
-    searchedText: string;
-    setSearchedText: React.Dispatch<React.SetStateAction<string>>;
 };
 export interface ITableProps {
     attributeName: string;
     filteredDropdownItems: IDropdownItemProps[];
-    searchedText: string;
     tableData: IServicePointInfoProps[] | IUserDataProps[];
     tableDataCount: number;
     tableHeadData: string[];
-    setSearchedText: React.Dispatch<React.SetStateAction<string>>;
 };
 export interface ITableRowProps {
     attributeName: string;

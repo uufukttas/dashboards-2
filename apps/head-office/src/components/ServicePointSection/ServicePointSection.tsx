@@ -20,6 +20,7 @@ import { setServicePointInformation } from '../../../app/redux/features/serviceP
 import { RootState, AppDispatch } from '../../../app/redux/store';
 import type { IGetServicePointsProps, IResponseDataProps } from './types';
 import './ServicePointSection.css';
+import { setSearchedText } from 'apps/head-office/app/redux/features/searchedText';
 
 const ServicePointSection: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -27,11 +28,11 @@ const ServicePointSection: React.FC = () => {
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
   const isServicePointDataUpdated = useSelector((state: RootState) => state.isServicePointDataUpdated.isServicePointDataUpdated);
+  const searchedText = useSelector((state: RootState) => state.searchedText.searchedText);
   const servicePointsCount = useSelector((state: RootState) => state.servicePoints.count);
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const servicePointsData = useSelector((state: RootState) => state.servicePoints.servicePoints);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchedText, setSearchedText] = useState<string>('');
 
   const deleteServicePoint = async (deletedId: number): Promise<void> => {
     try {
@@ -75,6 +76,10 @@ const ServicePointSection: React.FC = () => {
   };
 
   useEffect(() => {
+    dispatch(setSearchedText(''));
+  }, []);
+
+  useEffect(() => {
     getAllServicePoints();
   }, [currentPage, isServicePointDataUpdated, searchedText]);
 
@@ -112,7 +117,6 @@ const ServicePointSection: React.FC = () => {
             stationFeatureType: 0,
             stationFeatureValue: 0,
         }]}
-          searchedText={searchedText}
           tableData={servicePointsData}
           tableDataCount={servicePointsCount}
           tableHeadData={[
@@ -123,7 +127,6 @@ const ServicePointSection: React.FC = () => {
             'Ilce',
             'Islemler',
           ]}
-          setSearchedText={setSearchedText}
         />
       </div>
       {

@@ -7,7 +7,7 @@ import type { ITableProps } from './types';
 import './Table.css';
 
 const Table: React.FC<ITableProps> = ({
-  attributeName, filteredDropdownItems, searchedText, tableData, tableDataCount, tableHeadData, setSearchedText
+  attributeName, filteredDropdownItems, tableData, tableDataCount, tableHeadData
 }: ITableProps) => {
   const tablePrefix: string = `${BRAND_PREFIX}-table`;
 
@@ -16,8 +16,6 @@ const Table: React.FC<ITableProps> = ({
       <TableHeader
         attributeName={attributeName}
         filteredDropdownItems={filteredDropdownItems}
-        searchedText={searchedText}
-        setSearchedText={setSearchedText}
       />
       <div className={`${tablePrefix}-content-container border-r-0 border-l-0`}>
         <table className={`${tablePrefix} w-full text-sm text-left rtl:text-right text-gray-500`}>

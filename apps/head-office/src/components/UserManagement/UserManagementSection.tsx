@@ -9,14 +9,15 @@ import { getUsersRequest, searchUserRequest } from '../../../app/api/userManagem
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { setUsers } from '../../../app/redux/features/users';
 import { AppDispatch, RootState } from '../../../app/redux/store';
+import { setSearchedText } from 'apps/head-office/app/redux/features/searchedText';
 
 const UserManagementSection: React.FC = () => {
     const userManagementPrefix: string = `${BRAND_PREFIX}-user-management`;
     const dispatch = useDispatch<AppDispatch>();
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
+    const searchedText = useSelector((state: RootState) => state.searchedText.searchedText);
     const { count, users } = useSelector((state: RootState) => state.users);
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const [searchedText, setSearchedText] = useState<string>('');
 
     const getUsers = async (): Promise<void> => {
         const response = await getUsersRequest(currentPage);
@@ -28,6 +29,10 @@ const UserManagementSection: React.FC = () => {
 
         dispatch(setUsers({ users: response.data, count: response.count }));
     };
+
+    useEffect(() => {
+        dispatch(setSearchedText(''));
+    }, [])
 
     useEffect(() => {
         if (searchedText !== '') {
@@ -71,11 +76,9 @@ const UserManagementSection: React.FC = () => {
                         stationFeatureType: 0,
                         stationFeatureValue: 0,
                     }]}
-                    searchedText={searchedText}
                     tableData={users}
                     tableDataCount={count}
                     tableHeadData={['Isim/Soyisim', 'Kullanici Adi', 'Telefon', 'Rol', 'Son Giris', 'Aksiyonlar']}
-                    setSearchedText={setSearchedText}
                 />
             </div>
             {
