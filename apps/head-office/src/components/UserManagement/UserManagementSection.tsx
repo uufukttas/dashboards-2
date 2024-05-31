@@ -11,10 +11,10 @@ import { setUsers } from '../../../app/redux/features/users';
 import { AppDispatch, RootState } from '../../../app/redux/store';
 
 const UserManagementSection: React.FC = () => {
+    const userManagementPrefix: string = `${BRAND_PREFIX}-user-management`;
     const dispatch = useDispatch<AppDispatch>();
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
-    const userCount = useSelector((state: RootState) => state.users.count);
-    const users = useSelector((state: RootState) => state.users.users);
+    const { count, users } = useSelector((state: RootState) => state.users);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [searchedText, setSearchedText] = useState<string>('');
 
@@ -38,13 +38,13 @@ const UserManagementSection: React.FC = () => {
     }, [currentPage, searchedText]);
 
     return (
-        <div className={`${BRAND_PREFIX}-user-management-table-container flex justify-between items-center flex-col`}>
-            <div className={`${BRAND_PREFIX}-user-management-listing-container flex items-center w-full`}>
+        <div className={`${userManagementPrefix}-table-container flex justify-between items-center flex-col`}>
+            <div className={`${userManagementPrefix}-listing-container flex items-center w-full`}>
                 <Table
                     attributeName='user-management'
                     searchedText={searchedText}
                     tableData={users}
-                    tableDataCount={userCount}
+                    tableDataCount={count}
                     tableHeadData={['Isim/Soyisim', 'Kullanici Adi', 'Telefon', 'Rol', 'Son Giris', 'Aksiyonlar']}
                     setSearchedText={setSearchedText}
                 />
@@ -52,9 +52,9 @@ const UserManagementSection: React.FC = () => {
             {
                 isModalVisible && (
                     <Modal
-                        className={`${BRAND_PREFIX}-user-management-modal-container`}
+                        className={`${userManagementPrefix}-modal-container`}
                         modalHeaderTitle='Kullanici Yonetimi'
-                        modalId={`${BRAND_PREFIX}-user-management-modal`}
+                        modalId={`${userManagementPrefix}-modal`}
                         onClose={() => dispatch(toggleModalVisibility(false))}
                     >
                         <UserManagementModalPage />
@@ -62,10 +62,10 @@ const UserManagementSection: React.FC = () => {
                 )
             }
             {
-                userCount > 10 && (
+                count > 10 && (
                     <Pagination
                         currentPage={currentPage}
-                        totalCounts={userCount}
+                        totalCounts={count}
                         setCurrentPage={setCurrentPage}
                     />
                 )

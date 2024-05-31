@@ -9,8 +9,8 @@ import { RootState, AppDispatch } from '../../../app/redux/store';
 import UserManagementSection from '../../../src/components/UserManagement/UserManagementSection';
 
 const montserrat = Montserrat({
-    subsets: ['latin'],
     display: 'swap',
+    subsets: ['latin'],
     weight: ['300', '400', '500', '600', '700'],
 });
 
