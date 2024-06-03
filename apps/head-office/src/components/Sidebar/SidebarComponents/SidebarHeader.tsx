@@ -1,10 +1,10 @@
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { FaRegCircleXmark } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { detectDevice } from '@projects/common';
-import { Image } from '@projects/image';
 import { BRAND_PREFIX, userInfo } from '../../../constants/constants';
 import { toggleSidebarExpanded } from '../../../../app/redux/features/isSidebarExpand';
 import { RootState } from '../../../../app/redux/store';
@@ -16,12 +16,14 @@ const SidebarHeader: React.FC = () => {
 
     return (
         <div className={`${sidebarHeaderPrefix}-container flex items-center justify-between h-[80px]`}>
-            <div className={`${sidebarHeaderPrefix}-logo-container`}>
+            <div className={`${sidebarHeaderPrefix}-logo-container relative`}>
                 <Link href="/dashboards">
                     <Image
                         alt={userInfo.name}
                         className={`${sidebarHeaderPrefix}-logo`}
+                        height={100}
                         src={userInfo.logo}
+                        width={100}
                     />
                 </Link>
             </div>

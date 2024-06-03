@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image } from '@projects/image';
+import Image from 'next/image';
 import { BRAND_PREFIX, userInfo } from '../../../constants/constants';
 
 const CardHeader: React.FC = () => {
