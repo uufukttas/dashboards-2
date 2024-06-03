@@ -7,6 +7,7 @@ import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpa
 import { RootState, AppDispatch } from '../../../app/redux/store';
 import type { IHeaderProps } from './types';
 import './Header.css';
+import Link from 'next/link';
 
 const Header: React.FC<IHeaderProps> = ({ className }: IHeaderProps) => {
   const headerPrefix: string = `${BRAND_PREFIX}-header`;
@@ -26,14 +27,13 @@ const Header: React.FC<IHeaderProps> = ({ className }: IHeaderProps) => {
         </Button>
       </div>
       <div className={`${headerPrefix}-profile-button-container`}>
-        <Button
+
+        <Link
           className={`${headerPrefix}-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center mx-8 rounded-full px-2 py-2`}
-          id={`${headerPrefix}-profile-button`}
-          type='button'
-          onClick={() => { }}
+          href='/profile'
         >
           <FaUser />
-        </Button>
+        </Link>
       </div>
     </div>
   );
