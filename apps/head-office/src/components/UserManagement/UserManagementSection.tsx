@@ -7,9 +7,9 @@ import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { getUsersRequest, searchUserRequest } from '../../../app/api/userManagements';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
+import { setSearchedText } from '../../../app/redux/features/searchedText';
 import { setUsers } from '../../../app/redux/features/users';
 import { AppDispatch, RootState } from '../../../app/redux/store';
-import { setSearchedText } from 'apps/head-office/app/redux/features/searchedText';
 
 const UserManagementSection: React.FC = () => {
     const userManagementPrefix: string = `${BRAND_PREFIX}-user-management`;

@@ -14,13 +14,13 @@ import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { toggleServicePointDataUpdated } from '../../../app/redux/features/isServicePointDataUpdated';
+import { setSearchedText } from '../../../app/redux/features/searchedText';
 import { setServicePoints } from '../../../app/redux/features/servicePoints';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
 import { RootState, AppDispatch } from '../../../app/redux/store';
 import type { IGetServicePointsProps, IResponseDataProps } from './types';
 import './ServicePointSection.css';
-import { setSearchedText } from 'apps/head-office/app/redux/features/searchedText';
 
 const ServicePointSection: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
