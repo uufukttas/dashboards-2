@@ -9,7 +9,7 @@ import {
     ITableRowProps,
 } from '../types';
 
-const TableRow = ({ attributeName, index, tableRowData }: ITableRowProps) => {
+const TableRow = ({ attributeName, index = 0, tableRowData }: ITableRowProps) => {
     const dataAttributes: ITableDataAttributeProps = { [`data-${attributeName}-id`]: tableRowData?.id || 0 };
     const roleStyles: IRolesStyleProps = {
         Admin: { backgroundColor: 'bg-red-300', textColor: 'text-red-800', borderColor: 'border-red-300' },
@@ -88,7 +88,7 @@ const TableRow = ({ attributeName, index, tableRowData }: ITableRowProps) => {
             </td>
             <td className="px-4 py-4">
                 <div className="flex justify-start text-2xl">
-                    <TableActions tableCellData={tableRowData} />
+                    <TableActions attributeName={attributeName} tableRowData={tableRowData} />
                 </div>
             </td>
         </tr>

@@ -5,11 +5,15 @@ import { getServicePointDataRequest, getServicePointInformationRequest } from '.
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { setServicePointData } from '../../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
+import { ITableDataAttributeProps, ITableRowEditProps } from '../types';
 
-const TableRowEdit: React.FC<{ tableCellDataId: number | null | undefined }> = ({ tableCellDataId }: { tableCellDataId: number | null | undefined }) => {
+const TableRowEdit: React.FC<ITableRowEditProps> = ({ attributeName, tableCellData }: ITableRowEditProps) => {
+    const dataAttributes: ITableDataAttributeProps = {
+        [`data-${attributeName}-id`]: tableCellData?.id || tableCellData.userId,
+    };
     const dispatch = useDispatch();
 
-    const getUpdatedServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const getUpdatedServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>): Promise<void> => {
         const servicePointId = Number(event.currentTarget.getAttribute('data-service-point-id') || '0');
 
         try {
@@ -24,9 +28,22 @@ const TableRowEdit: React.FC<{ tableCellDataId: number | null | undefined }> = (
         };
     };
 
+    const getUpdatedUserInfo = (event: React.MouseEvent<HTMLAnchorElement>): void => {
+        const userId = Number(event.currentTarget.getAttribute('data-user-management-id') || '0');
+
+        console.log('userId', userId)
+        dispatch(toggleModalVisibility(true));
+    };
+
     return (
         <a className="font-medium text-blue-600 cursor-pointer px-4"
-            data-service-point-id={tableCellDataId || 0} onClick={(event) => getUpdatedServicePointInfo(event)}>
+            {...dataAttributes}
+            onClick={(event) => {
+                attributeName.indexOf('service-point') > -1
+                    ? getUpdatedServicePointInfo(event)
+                    : getUpdatedUserInfo(event)
+            }}
+        >
             <FaPen className='text-primary' />
         </a>
     )

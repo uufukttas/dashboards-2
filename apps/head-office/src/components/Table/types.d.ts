@@ -80,8 +80,12 @@ export interface ITableProps {
     tableDataCount: number;
     tableHeadData: string[];
 };
+export interface ITableRowEditProps {
+    attributeName: string;
+    tableCellData: ITableBodyPlaceholderProps;
+};
 export interface ITableRowProps {
     attributeName: string;
     tableRowData: ITableBodyPlaceholderProps;
-    index: number;
+    index?: number;
 };
