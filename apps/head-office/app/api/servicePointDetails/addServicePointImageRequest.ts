@@ -6,7 +6,7 @@ const addServicePointImageRequest = async (formData: FormData): Promise<{ messag
             process.env.NEXT_PUBLIC_ADD_IMAGE_URL || '',
             formData,
             {
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'multipart/form-data' },
                 maxBodyLength: Infinity,
             }
         );
