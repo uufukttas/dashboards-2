@@ -2,8 +2,10 @@ import React from 'react';
 import { FaTrashCan } from 'react-icons/fa6';
 import { useDispatch } from 'react-redux';
 import { showDialog } from '../../../../app/redux/features/dialogInformation';
+import { ITableRowDeleteProps } from '../types';
 
-const TableRowDelete: React.FC<{ tableCellDataId: number | null | undefined }> = ({ tableCellDataId }: { tableCellDataId: number | undefined | null }) => {
+const TableRowDelete: React.FC<ITableRowDeleteProps> = ({ tableCellDataId }: ITableRowDeleteProps) => {
+    const isComponentVisible: boolean = typeof tableCellDataId === 'number';
     const dispatch = useDispatch();
     const deleteServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
         dispatch(
@@ -13,11 +15,14 @@ const TableRowDelete: React.FC<{ tableCellDataId: number | null | undefined }> =
             })
         );
     };
+
     return (
-        <a className="font-medium text-red-600 cursor-pointer px-4"
-            data-service-point-id={tableCellDataId || 0} onClick={(event) => deleteServicePointInfo(event)}>
-            <FaTrashCan />
-        </a>
+        isComponentVisible && (
+            <a className="font-medium text-red-600 cursor-pointer px-4"
+                data-service-point-id={tableCellDataId || 0} onClick={(event) => deleteServicePointInfo(event)}>
+                <FaTrashCan />
+            </a>
+        )
     );
 };
 

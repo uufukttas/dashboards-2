@@ -11,7 +11,7 @@ const TableActions: React.FC<ITableRowProps> = ({ attributeName, tableRowData }:
             <TableRowDelete tableCellDataId={tableRowData.id} />
             <TableRowDetail tableCellData={tableRowData} />
         </>
-    )
-}
+    );
+};
 
 export default TableActions;

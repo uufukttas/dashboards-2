@@ -5,7 +5,7 @@ const getAllServicePointsRequest = async (currentPage: number, searchedServicePo
     try {
         const response = await axios
             .post(
-                process.env.GET_ALL_SERVICE_POINTS || '',
+                process.env.NEXT_PUBLIC_GET_ALL_SERVICE_POINTS || '',
                 ({
                     'pageNumber': currentPage,
                     'userCount': 10,

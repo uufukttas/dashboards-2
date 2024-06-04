@@ -40,7 +40,7 @@ const TableRow = ({ attributeName, index = 0, tableRowData }: ITableRowProps) =>
             <td className="px-4 py-2 text-center">
                 <div className={`${BRAND_PREFIX}-table-body-item-information-container h-full flex items-center`}>
                     {
-                        attributeName === 'service-point' && (
+                        attributeName === 'service-point' && tableRowData.name && (
                             <div className={`${BRAND_PREFIX}-table-body-item-status text-red-500 text-2xl`}>
                                 <Tooltip text="Istasyonda problem var!">
                                     <FaExclamation />

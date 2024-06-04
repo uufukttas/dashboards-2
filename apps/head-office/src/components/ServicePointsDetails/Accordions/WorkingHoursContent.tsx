@@ -1,9 +1,8 @@
 // File: TimeSchedule.tsx
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
-import { getWorkingHoursRequest } from '../../../../app/api/servicePointDetails';
+import { addWorkingHoursRequest, getWorkingHoursRequest, updateWorkingHoursRequest } from '../../../../app/api/servicePointDetails';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { IWorkingHoursContentProps, ITimeSlot } from '../types';
 import { Tooltip } from '@projects/tooltip';
@@ -104,16 +103,6 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
             updateTimeSlotSelection(clickedSlot, true);
         }
     };
-    const sendRequest = async (url: string, data: string) => {
-        const response = await axios
-            .post(
-                url,
-                data,
-                { headers: { 'Content-Type': 'application/json' } }
-            )
-
-        return response;
-    };
     const handleSubmit = () => {
         const daysWeek = daysOfWeek.map((_, dayIndex) => {
             const dailySelectedSlots = timeSlots.filter(slot => slot.day === dayIndex && slot.isSelected);
@@ -192,8 +181,8 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
         }[]) => {
 
         if (createdWorkingHours.length > 0) {
-            const response = await sendRequest('https://sharztestapi.azurewebsites.net/ServicePoint/AddWorkHours', JSON.stringify(createdWorkingHours))
-
+            const response = await addWorkingHoursRequest(JSON.stringify(createdWorkingHours));
+            
             dispatch(
                 showAlert({
                     message: response.data?.message,
@@ -204,7 +193,7 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
         }
 
         if (updatedWorkingHours.length > 0) {
-            const response = sendRequest('https://sharztestapi.azurewebsites.net/ServicePoint/UpdateWorkHours', JSON.stringify(updatedWorkingHours))
+            const response = await updateWorkingHoursRequest(JSON.stringify(updatedWorkingHours));
             console.log('response', response)
         };
 

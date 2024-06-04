@@ -11,6 +11,7 @@ const TableRowEdit: React.FC<ITableRowEditProps> = ({ attributeName, tableCellDa
     const dataAttributes: ITableDataAttributeProps = {
         [`data-${attributeName}-id`]: tableCellData?.id || tableCellData.userId,
     };
+    const isComponentVisible: boolean = typeof (tableCellData.id || tableCellData.userId) === 'number';
     const dispatch = useDispatch();
 
     const getUpdatedServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>): Promise<void> => {
@@ -27,7 +28,6 @@ const TableRowEdit: React.FC<ITableRowEditProps> = ({ attributeName, tableCellDa
             console.error(error);
         };
     };
-
     const getUpdatedUserInfo = (event: React.MouseEvent<HTMLAnchorElement>): void => {
         const userId = Number(event.currentTarget.getAttribute('data-user-management-id') || '0');
 
@@ -36,17 +36,19 @@ const TableRowEdit: React.FC<ITableRowEditProps> = ({ attributeName, tableCellDa
     };
 
     return (
-        <a className="font-medium text-blue-600 cursor-pointer px-4"
-            {...dataAttributes}
-            onClick={(event) => {
-                attributeName.indexOf('service-point') > -1
-                    ? getUpdatedServicePointInfo(event)
-                    : getUpdatedUserInfo(event)
-            }}
-        >
-            <FaPen className='text-primary' />
-        </a>
-    )
+        isComponentVisible && (
+            <a className="font-medium text-blue-600 cursor-pointer px-4"
+                {...dataAttributes}
+                onClick={(event) => {
+                    attributeName.indexOf('service-point') > -1
+                        ? getUpdatedServicePointInfo(event)
+                        : getUpdatedUserInfo(event)
+                }}
+            >
+                <FaPen className='text-primary' />
+            </a>
+        )
+    );
 };
 
 export default TableRowEdit;

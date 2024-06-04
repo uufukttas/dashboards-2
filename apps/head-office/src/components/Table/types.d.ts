@@ -80,6 +80,9 @@ export interface ITableProps {
     tableDataCount: number;
     tableHeadData: string[];
 };
+export interface ITableRowDeleteProps {
+    tableCellDataId: number | null | undefined; 
+};
 export interface ITableRowEditProps {
     attributeName: string;
     tableCellData: ITableBodyPlaceholderProps;

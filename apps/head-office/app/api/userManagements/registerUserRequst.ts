@@ -4,7 +4,7 @@ import type { IRegisterUserRequestData } from "./types";
 const registerUserRequest = async (userData: IRegisterUserRequestData) => {
     try {
         const response = await axios.post(
-            'https://sharztestapi.azurewebsites.net/Auth/Register',
+            process.env.NEXT_PUBLIC_REGISTER_USER_URL || '',
             userData,
             { headers: { 'Content-Type': 'application/json', } }
         );

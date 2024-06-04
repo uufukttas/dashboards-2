@@ -3,7 +3,7 @@ import axios from "axios";
 const getPermissionRequest = async (stationId: number) => {
     try {
         const response = await axios.post(
-            process.env.GET_PERMISSIONS_URL || '',
+            process.env.NEXT_PUBLIC_GET_PERMISSIONS_URL || '',
             { stationId },
             { headers: { 'Content-Type': 'application/json' } }
         )

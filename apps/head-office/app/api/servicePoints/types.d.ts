@@ -72,6 +72,19 @@ export interface IDeleteResonseProps {
     data: IDeleteResponseDataProps
     status: number;
 };
+export interface ICompanyRequestProps {
+    id: number;
+    name: string;
+    rid: null;
+};
+export interface IFormDataProps {
+    [key: string]: boolean | number | string | string[] | IFeatureProps[];
+};
+export interface IResellerRequestProps {
+    id: number;
+    name: string;
+    rid: null;
+};
 export interface IServicePointDataResponseProps {
     data: IGetServicePointDataProps[];
     error?: string;

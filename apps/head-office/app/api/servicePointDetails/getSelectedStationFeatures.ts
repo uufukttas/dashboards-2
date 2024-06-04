@@ -5,7 +5,7 @@ const getSelectedStationFeatures = async (stationId: number): Promise<IServicePo
     try {
         const response = await axios
             .post(
-                process.env.GET_STATION_SELECTED_FEATURES || '',
+                process.env.NEXT_PUBLIC_GET_STATION_SELECTED_FEATURES || '',
                 JSON.stringify(
                     {
                         featureTypeModel: [

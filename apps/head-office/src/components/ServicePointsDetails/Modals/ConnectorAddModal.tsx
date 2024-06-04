@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Label } from '@projects/label';
+import { getConnectorModels, updateConnectorRequest } from '../../../../app/api/servicePointDetails';
 import { toggleConnectorUpdated } from '../../../../app/redux/features/isConnectorUpdated';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { setAddConnector } from '../../../../app/redux/features/setVisibleModal';
@@ -20,11 +20,7 @@ const ConnectorAddModal: React.FC = () => {
 
     const fetchAndPrepareDropdownItems = async () => {
         try {
-            const response = await axios
-                .post(
-                    process.env.GET_CONNECTOR_MODELS || '',
-                    { "brandId": connectorProperty.chargePointModelId || 1 }
-                );
+            const response = await getConnectorModels(connectorProperty.chargePointModelId || 1);
             const connectorTypes = response.data.data;
 
             const items = connectorTypes.map((item: { stationChargePointModelConnectorId: number; displayName: string; }) => ({
@@ -43,17 +39,12 @@ const ConnectorAddModal: React.FC = () => {
         setIsDisabled(true);
         dispatch(setAddConnector(false))
         event.preventDefault();
-
-        await axios
-            .post(
-                process.env.UPDATE_CONNECTOR_URL || '',
-                {
-                    id: connectorProperty.connectorId,
-                    connectorNr: connectorProperty.connectorNumber,
-                    stationChargePointID: connectorProperty.chargePointId,
-                    stationChargePointModelConnectorID: connectorValue,
-                }
-            )
+        const response = await updateConnectorRequest({
+            id: connectorProperty.connectorId,
+            connectorNr: connectorProperty.connectorNumber,
+            stationChargePointID: connectorProperty.chargePointId,
+            stationChargePointModelConnectorID: connectorValue,
+        });
         dispatch(toggleModalVisibility(false));
         dispatch(toggleConnectorUpdated(true));
     };

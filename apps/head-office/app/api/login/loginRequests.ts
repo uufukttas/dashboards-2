@@ -4,7 +4,7 @@ import type { IResponseInfoProps } from '../types.d';
 const loginRequest = async (credentials: string): Promise<IResponseInfoProps> => {
     try {
         const response = await axios.post(
-            process.env.LOGIN_URL || '',
+            process.env.NEXT_PUBLIC_LOGIN_URL || '',
             credentials,
             { headers: { 'Content-Type': 'application/json' } }
         );

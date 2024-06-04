@@ -3,7 +3,7 @@ import axios from "axios";
 const deleteEnergyPriceRequest = async (energyPriceId: number) => {
     try {
         const response = await axios.post(
-            process.env.REMOVE_ENERGY_PRICE || '',
+            process.env.NEXT_PUBLIC_REMOVE_ENERGY_PRICE || '',
             { Id: energyPriceId },
             { headers: { "Content-Type": "application/json" } },
         );

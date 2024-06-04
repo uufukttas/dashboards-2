@@ -5,7 +5,7 @@ const getServicePointInformationRequest = async (servicePointId: number): Promis
     try {
         const response = await axios
         .post(
-            process.env.GET_STATION_INFO_BY_ID || '',
+            process.env.NEXT_PUBLIC_GET_STATION_INFO_BY_ID || '',
             ({ 'stationId': servicePointId })
         )
         .then((response) => response)

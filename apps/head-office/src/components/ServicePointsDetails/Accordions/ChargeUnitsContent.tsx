@@ -113,7 +113,8 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                     'data-charge-point-device-code': chargeUnit.deviceCode.toString(),
                                 }}
                                 id={`${chargeUnitPrefix}-edit-button`}
-                                type={'button'} onClick={handleUpdate}
+                                type={'button'}
+                                onClick={handleUpdate}
                             >
                                 <FaPencil />
                             </Button>
@@ -202,6 +203,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
     const getInvestorId = async (investorName: string): Promise<number> => {
         const investors = await getChargePointInvestors();
 
+        debugger;
         if (investors.data.length === 0) {
             return 0;
         };

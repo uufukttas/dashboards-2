@@ -3,7 +3,7 @@ import axios from "axios";
 const getChargePointConnetors = async (chargePointId: number) => {
     try {
         const response = await axios.post(
-            process.env.GET_CHARGE_POINT_CONNECTORSV2 || '',
+            process.env.NEXT_PUBLIC_GET_CHARGE_POINT_CONNECTORSV2 || '',
             JSON.stringify({ stationChargePointId: chargePointId }),
             { headers: { 'Content-Type': 'application/json' } }
         );

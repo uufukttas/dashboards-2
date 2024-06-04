@@ -4,7 +4,7 @@ const getConnectorModels = async (selectedBrandId: string) => {
     try {
         const response = await axios
             .post(
-                process.env.GET_CONNECTOR_MODELS || '',
+                process.env.NEXT_PUBLIC_GET_CONNECTOR_MODELS || '',
                 { brandId: selectedBrandId },
                 { headers: { 'Content-Type': 'application/json' } }
             )

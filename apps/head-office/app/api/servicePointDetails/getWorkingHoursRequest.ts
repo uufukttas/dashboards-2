@@ -4,7 +4,7 @@ const getWorkingHoursRequest = async (servicePointId: string) => {
     try {
         const response = await axios
             .post(
-                process.env.GET_WORKING_HOURS || '',
+                process.env.NEXT_PUBLIC_GET_WORKING_HOURS || '',
                 JSON.stringify({ "stationID": servicePointId }),
                 { headers: { 'Content-Type': 'application/json' } }
             )

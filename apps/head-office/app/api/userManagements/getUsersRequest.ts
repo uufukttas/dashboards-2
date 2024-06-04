@@ -4,7 +4,7 @@ import type { IGetUsersManagementUsersResponseProps } from "./types";
 const getUsersRequest = async (currentPage: number, searchedUserName?: string): Promise<IGetUsersManagementUsersResponseProps> => {
     try {
         const response = await axios
-            .post(process.env.GET_USERS || '',
+            .post(process.env.NEXT_PUBLIC_GET_USERS || '',
                 ({
                     'pageNumber': currentPage,
                     'userCount': 10,

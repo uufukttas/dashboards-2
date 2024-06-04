@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
@@ -11,6 +10,7 @@ import { setServicePointData } from '../../../../../app/redux/features/servicePo
 import { RootState } from '../../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../constants/constants';
 import { ICompanyProps, IFormDataProps, IModalFirstPageInputsProps } from '../../types';
+import { addStationRequest, getCompaniesRequest, getResellersRequest, updateStationRequest } from '../../../../../app/api/servicePoints';
 
 const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
   activePage,
@@ -29,9 +29,9 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
   const dispatch = useDispatch();
   const { formState: { errors }, handleSubmit, register } = useForm();
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
-  const [companies, setCompanies] = useState<ICompanyProps[]>([]);
+  const [companies, setCompanies] = useState<ICompanyProps[] | []>([]);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  const [resellers, setResellers] = useState<ICompanyProps[]>([]);
+  const [resellers, setResellers] = useState<ICompanyProps[] | []>([]);
   const hasServicePointDataId: boolean = servicePointData.id > 0;
   const [firstPageFormData, setFirstPageFormData] = useState<IFormDataProps>({
     [`${formProperties.name}`]: servicePointData.name || '',
@@ -46,21 +46,6 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
     isActive: true,
     ...(hasServicePointDataId && { id: servicePointData.id }),
   });
-  const getDropdownItems = async (dropdownDataUrl: string) => {
-    try {
-      await axios
-        .get(dropdownDataUrl)
-        .then((response) => response.data)
-        .then((data) =>
-          dropdownDataUrl.indexOf('Companies') > -1
-            ? setCompanies(data.data)
-            : setResellers(data.data),
-        )
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const handleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setFirstPageFormData({
       ...firstPageFormData,
@@ -79,54 +64,51 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
     handleServicePointOperation();
   };
   const handleServicePointOperation = async () => {
-    const actionURL = hasServicePointDataId
-      ? process.env.UPDATE_STATION_URL || ''
-      : process.env.ADD_STATION_URL || '';
+    let response;
     const actionData = createServicePointConfigData();
 
-    try {
-      await axios
-        .post(
-          actionURL,
-          actionData,
-          { headers: { 'Content-Type': 'application/json' } }
-        )
-        .then((response) => response.data)
-        .then((data) => {
-          if (hasServicePointDataId) {
-            setStationId(servicePointData.id);
-          } else {
-            setStationId(data.data[0].id)
-          }
+    if (hasServicePointDataId) {
+      response = await updateStationRequest(actionData);
+      setStationId(servicePointData.id);
+    } else {
+      response = await addStationRequest(actionData);
+      setStationId(response.data[0].id);
+    }
 
-          dispatch(
-            setServicePointData({
-              ...servicePointData,
-              id: servicePointData.id || data.data[0].id,
-              name: firstPageFormData[`${formProperties.name}`],
-              resellerCompanyId: firstPageFormData[`${formProperties.reseller}`],
-              companyId: firstPageFormData[`${formProperties.company}`]
-            })
-          );
-          dispatch(toggleServicePointDataUpdated(true));
-          setActivePage(activePage + 1);
-        })
-        .catch((error) => console.error(error));
+
+    dispatch(
+      setServicePointData({
+        ...servicePointData,
+        id: servicePointData.id || response.data[0].id,
+        name: firstPageFormData[`${formProperties.name}`],
+        resellerCompanyId: firstPageFormData[`${formProperties.reseller}`],
+        companyId: firstPageFormData[`${formProperties.company}`]
+      })
+    );
+    dispatch(toggleServicePointDataUpdated(true));
+    setActivePage(activePage + 1);
+  };
+  const getDropdownData = async () => {
+    try {
+      if (resellers.length === 0 && companies.length === 0) {
+        const resellers = await getResellersRequest();
+        const companies = await getCompaniesRequest();
+
+        setResellers(resellers);
+        setCompanies(companies);
+      }
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
 
   useEffect(() => {
-    if (resellers.length === 0 && companies.length === 0) {
-      getDropdownItems(process.env.GET_RESELLERS_URL || '');
-      getDropdownItems(process.env.GET_COMPANIES_URL || '');
-    }
+    getDropdownData();
   }, []);
 
   return (
-    companies &&
-    resellers && (
+    companies.length > 0 &&
+    resellers.length > 0 && (
       <form
         className={`${BRAND_PREFIX}-modal-form-page-1 ${activePage === 1 ? 'block' : 'hidden'}`}
         onSubmit={handleSubmit(handleFormSubmit)}

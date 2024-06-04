@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
@@ -8,6 +7,7 @@ import { Label } from '@projects/label';
 import { Textarea } from '@projects/textarea';
 import { BRAND_PREFIX } from '../../../../constants/constants';
 import { setServicePointInformation } from '../../../../../app/redux/features/servicePointInformation';
+import { getCityRequest, getDistrictsRequest } from '../../../../../app/api/servicePoints';
 import { RootState } from '../../../../../app/redux/store';
 import { IFormDataProps, IModalSecondPageInputsProps } from '../../types';
 
@@ -39,35 +39,16 @@ const ServicePointModalFormSecondPage: React.FC<IModalSecondPageInputsProps> = (
   });
 
   const getCities = async () => {
-    try {
-      await axios
-        .get(
-          process.env.CITY_URL || ''
-        )
-        .then((response) => response.data.data)
-        .then((cities) => {
-          setCities(cities);
-          getDistricts();
-        })
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    };
+    const response = await getCityRequest();
+    
+    setCities(response);
+    getDistricts();
   };
 
   const getDistricts = async () => {
-    try {
-      await axios
-        .post(
-          process.env.DISTRICT_URL || '',
-          { 'plateNumber': 1 }
-        )
-        .then((response) => response.data.data)
-        .then(data => setDistricts(data))
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    };
+    const response = await getDistrictsRequest(1);
+
+    setDistricts(response);
   };
 
   const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {

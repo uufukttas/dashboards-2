@@ -3,7 +3,7 @@ import axios from 'axios';
 const getConnectorInfo = async (connectorId: number): Promise<string> => {
     try {
         const response = await axios.post(
-            process.env.GET_CONNECTOR_INFO || '',
+            process.env.NEXT_PUBLIC_GET_CONNECTOR_INFO || '',
             ([{ connectorId: connectorId }]),
             { headers: { 'Content-Type': 'application/json' } }
         );

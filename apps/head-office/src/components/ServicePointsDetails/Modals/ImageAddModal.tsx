@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import FormData from 'form-data';
 import { Input } from '@projects/input';
 import { Button } from '@projects/button';
+import { addServicePointImageRequest } from '../../../../app/api/servicePointDetails';
+import type FormData from 'form-data'
 
 interface FileUploadProps {
     slug: string; // Optional callback function to inform parent components
 }
 
-const FileUpload: React.FC<FileUploadProps> = ({ slug }: { slug: string }) => {
+const FileUpload: React.FC<FileUploadProps> = ({ slug }: FileUploadProps) => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
     const [uploadStatus, setUploadStatus] = useState<string>("");
 
@@ -30,16 +31,11 @@ const FileUpload: React.FC<FileUploadProps> = ({ slug }: { slug: string }) => {
         formData.append('StationId', slug);
         formData.append('FileName', selectedFile.name);
 
-        const config = {
-            method: 'post',
-            url: 'https://sharztestapi.azurewebsites.net/Image/AddServicePointImage',
-            data: formData,
-            maxBodyLength: Infinity,
-        };
-
+        console.log('formData', formData)
         try {
-            const response = await axios(config);
-            setUploadStatus("File uploaded successfully: " + response.data.message);
+            // const response = await addServicePointImageRequest(formData);
+
+            // setUploadStatus("File uploaded successfully: " + response.message);
         } catch (error) {
             console.error('Error uploading file:', error);
         }

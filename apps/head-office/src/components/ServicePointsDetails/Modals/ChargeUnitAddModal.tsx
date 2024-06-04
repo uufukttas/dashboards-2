@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
@@ -8,7 +7,7 @@ import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../../constants/constants';
-import { getChargeUnitDeviceCode, getChargeUnitFeatureValuesRequest } from '../../../../app/api/servicePointDetails';
+import { addStationSettingsRequest, getChargeUnitDeviceCode, getChargeUnitFeatureValuesRequest, updateStationSettings } from '../../../../app/api/servicePointDetails';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { toggleChargePointDataUpdated } from '../../../../app/redux/features/isChargePointDataUpdated';
@@ -51,6 +50,9 @@ const ChargeUnitAddModal = ({ slug }: IServicePointDetailsModalProps) => {
     ...(chargeUnitData?.code > 0 ? { code: chargeUnitData?.code } : ''),
   });
   const [isDisabled, setIsDisabled] = useState(false);
+
+
+  console.log('investors', investors)
 
   const createRequestData = ({ chargePointId, features }: IRequestDataProps) => {
     return ({
@@ -113,28 +115,22 @@ const ChargeUnitAddModal = ({ slug }: IServicePointDetailsModalProps) => {
 
       // const response = (chargeUnitData.code ? await updateStationSettingsRequest() : addStationSettingsRequest())
 
+      let response;
 
-      await axios
-        .post(
-          (chargeUnitData.code ? process.env.UPDATE_STATION_SETTINGS : process.env.ADD_STATION_SETTINGS) || '',
-          JSON.stringify(createRequestData({ chargePointId, features })),
-          {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${chargePointId.token}`
-            }
-          }
-        )
-        .then((response) => response.data)
-        .then((response) => {
-          dispatch(
-            showAlert({
-              message: response.message,
-              type: 'success',
-            })
-          );
-          setTimeout(() => dispatch(hideAlert()), 5000);
-        });
+      if (chargeUnitData.code) {
+        response = await updateStationSettings(JSON.stringify(createRequestData({ chargePointId, features })), chargePointId.token);
+      } else {
+        response = await addStationSettingsRequest(JSON.stringify(createRequestData({ chargePointId, features })), chargePointId.token);
+      }
+
+
+      dispatch(
+        showAlert({
+          message: response?.data.message,
+          type: 'success',
+        })
+      );
+      setTimeout(() => dispatch(hideAlert()), 5000);
 
       dispatch(setAddChargeUnit(false))
       dispatch(

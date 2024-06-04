@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
+import { addChargePointPermission } from '../../../../app/api/servicePointDetails/addChargePointPermission';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { toggleServicePointPermissionsUpdated } from '../../../../app/redux/features/isServicePointPermissionsUpdated';
@@ -21,31 +21,21 @@ const ServicePointPermissionsModal = ({ slug }: IServicePointPermissionsModalPro
 
     const handleFormSubmit = () => {
         setIsDisabled(true);
-        axios
-            .post(
-                'https://sharztestapi.azurewebsites.net/Auth/ChargePointUserCreate',
-                {
-                    phoneNumber: permissionPhoneNumber,
-                    stationId: Number(slug),
-                },
-                { headers: { 'Content-Type': 'application/json' } }
-            )
-            .then((response) => {
-                dispatch(
-                    showAlert({
-                        message: 'Yetkili telefon numarasi basariyla eklendi.',
-                        type: 'success',
-                    })
-                );
+        const response = addChargePointPermission(permissionPhoneNumber, slug);
+        dispatch(
+            showAlert({
+                message: 'Yetkili telefon numarasi basariyla eklendi.',
+                type: 'success',
+            })
+        );
 
-                setTimeout(() => {
-                    dispatch(hideAlert());
-                }, 5000);
+        setTimeout(() => {
+            dispatch(hideAlert());
+        }, 5000);
 
-                dispatch(toggleModalVisibility(false));
-                dispatch(toggleServicePointPermissionsUpdated(true));
-                dispatch(setAddPermission(false));
-            });
+        dispatch(toggleModalVisibility(false));
+        dispatch(toggleServicePointPermissionsUpdated(true));
+        dispatch(setAddPermission(false));
     };
 
     return (

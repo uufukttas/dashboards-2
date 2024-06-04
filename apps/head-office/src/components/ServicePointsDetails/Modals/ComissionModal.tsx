@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
@@ -7,7 +6,7 @@ import { Checkbox } from '@projects/checkbox';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
-import { getChargePointInvestors } from '../../../../app/api/servicePointDetails';
+import { addComissionRequest, getChargePointInvestors, getTariffFractionTypeRequest } from '../../../../app/api/servicePointDetails';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleComissionListUpdate } from '../../../../app/redux/features/isComissionListUpdated';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
@@ -38,36 +37,32 @@ const ComissionModal = ({ slug }: { slug: number; }) => {
     };
 
     const getTariffFraction = async () => {
-        const tariffFraction = await axios.get('https://sharztestapi.azurewebsites.net/ServicePoint/TariffSubFractionTypes');
+        const tariffFraction = await getTariffFractionTypeRequest();
 
-        setTariffFractionList(tariffFraction.data.data);
-        comissionFeatures.tariffFraction = tariffFraction.data.data[0].id;
+        setTariffFractionList(tariffFraction);
+        comissionFeatures.tariffFraction = tariffFraction[0].id;
     };
 
     const handleFormSubmit = async () => {
         setIsDisabled(true);
-        await axios
-            .post(
-                'https://sharztestapi.azurewebsites.net/ServicePoint/InsertCommisionRate',
-                {
-                    "ownerType": comissionFeatures.resller,
-                    "forInvestor": comissionFeatures.isResellerForServicePoint,
-                    "tariffSubFractionTypeID": comissionFeatures.tariffFraction,
-                    "rate": comissionFeatures.rate,
-                    "stationId": slug.toString(),
-                    "isActive": true
-                }
-            )
-            .then(() => {
-                dispatch(showAlert({
-                    alertType: 'success',
-                    message: 'Istasyon komisyon bilgileri basariyla eklendi.'
-                }))
-                dispatch(toggleModalVisibility(false));
-                setTimeout(() => { dispatch(hideAlert()) }, 5000);
-                dispatch(toggleComissionListUpdate(true));
-                dispatch(setAddComission(false))
-            })
+
+        const response = await addComissionRequest({
+            "ownerType": comissionFeatures.resller,
+            "forInvestor": comissionFeatures.isResellerForServicePoint,
+            "tariffSubFractionTypeID": comissionFeatures.tariffFraction,
+            "rate": comissionFeatures.rate,
+            "stationId": slug.toString(),
+            "isActive": true
+        });
+
+        dispatch(showAlert({
+            alertType: 'success',
+            message: 'Istasyon komisyon bilgileri basariyla eklendi.'
+        }))
+        dispatch(toggleModalVisibility(false));
+        setTimeout(() => { dispatch(hideAlert()) }, 5000);
+        dispatch(toggleComissionListUpdate(true));
+        dispatch(setAddComission(false))
     };
 
     useEffect(() => {

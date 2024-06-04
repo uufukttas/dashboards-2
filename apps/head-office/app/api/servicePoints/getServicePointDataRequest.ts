@@ -5,7 +5,7 @@ const getServicePointDataRequest = async (servicePointId: number): Promise<IServ
     try {
         const response = await axios
             .post(
-                process.env.GET_STATION_BY_ID || '',
+                process.env.NEXT_PUBLIC_GET_STATION_BY_ID || '',
                 ({ 'id': servicePointId })
             )
             .then((response) => response.data)

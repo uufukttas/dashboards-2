@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
@@ -7,9 +6,11 @@ import { Dropdown } from '@projects/dropdown';
 import { Label } from '@projects/label';
 import MapComponent from '../../Map';
 import { BRAND_PREFIX } from '../../../../constants/constants';
+import { getServicePointFeatureValues } from '../../../../../app/api/servicePointDetails';
+import { getDistrictsRequest } from '../../../../../app/api/servicePoints';
 import { setServicePointInformation } from '../../../../../app/redux/features/servicePointInformation';
 import { RootState } from '../../../../../app/redux/store';
-import { IFeatureProps, IFormDataProps, IModalThirdPageInputsProps } from '../../types';
+import { IFormDataProps, IModalThirdPageInputsProps } from '../../types';
 
 const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
   activePage,
@@ -47,78 +48,46 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
   };
 
   const getDistricts = async (selectedCity: number) => {
-    try {
-      await axios
-        .post(
-          process.env.DISTRICT_URL || '',
-          { 'plateNumber': selectedCity }
-        )
-        .then((response) => response.data.data)
-        .then(data => {
-          setDistricts(data)
-          setThirdPageFormData(({ ...thirdPageFormData,
-            [`${formProperties.districtId}`]: data[0].rid,
-            [`${formProperties.cityId}`]: selectedCity
-          }));
-        })
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    };
+    const response = await getDistrictsRequest(selectedCity);
+
+    setDistricts(response);
+    setThirdPageFormData(({
+      ...thirdPageFormData,
+      [`${formProperties.districtId}`]: response[0].rid,
+      [`${formProperties.cityId}`]: selectedCity
+    }));
   };
   const getPaymentMethods = async () => {
-    try {
-      axios
-        .post(
-          process.env.GET_FEATURE_VALUES || '',
-          { "stationFeatureType": 1 },
-          { headers: { 'Content-Type': 'application/json' } }
-        )
-        .then((response) => response.data)
-        .then(data => {
-          const paymentMethods = data.data.map((item: IFeatureProps, index: number) => {
-            return {
-              id: null,
-              name: item.name,
-              rid: item.rid,
-              isChecked: false,
-              stationFeatureValue: index + 1,
-              stationFeatureType: 1,
-            };
-          });
+    const response = await getServicePointFeatureValues(1);
 
-          setPaymentMethods(paymentMethods);
-        });
-    } catch (error) {
-      console.log(error);
-    };
+    const paymentMethods = response.data.map((item: { rid: number; name: string }, index: number) => {
+      return {
+        id: null,
+        name: item.name,
+        rid: item.rid,
+        isChecked: false,
+        stationFeatureValue: index + 1,
+        stationFeatureType: 1,
+      };
+    });
+
+    setPaymentMethods(paymentMethods);
   };
   const getOpportunities = async () => {
-    try {
-      axios
-        .post(
-          process.env.GET_FEATURE_VALUES || '',
-          { "stationFeatureType": 2 },
-          { headers: { 'Content-Type': 'application/json' } }
-        )
-        .then((response) => response.data)
-        .then(data => {
-          const opportunities = data.data.map((item: IFeatureProps, index: number) => {
-            return {
-              id: null,
-              name: item.name,
-              rid: item.rid,
-              isChecked: false,
-              stationFeatureValue: index + 1,
-              stationFeatureType: 2,
-            };
-          });
+    const response = await getServicePointFeatureValues(2);
 
-          setOpportunities(opportunities);
-        });
-    } catch (error) {
-      console.log(error);
-    };
+    const opportunities = response.data.map((item: { rid: number; name: string }, index: number) => {
+      return {
+        id: null,
+        name: item.name,
+        rid: item.rid,
+        isChecked: false,
+        stationFeatureValue: index + 1,
+        stationFeatureType: 2,
+      };
+    });
+
+    setOpportunities(opportunities);
   };
   const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const cityId = Number(event.target.value);

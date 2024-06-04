@@ -1,3 +1,8 @@
+export { addComissionRequest } from './addComissionRequest';
+export { addEnergyPriceRequest } from './addEnergyPriceRequest';
+export { addServicePointImageRequest } from './addServicePointImageRequest';
+export { addStationSettingsRequest } from './addStationSettingsRequest';
+export { addWorkingHoursRequest } from './addWorkingHoursRequest';
 export { deleteComissionRequest } from './deleteComissionRequest';
 export { deleteEnergyPriceRequest } from './deleteEnergyPriceRequest';
 export { deleteServicePointPermissionRequest } from './deleteServicePointPermissionRequest';
@@ -17,4 +22,8 @@ export { getInvestors } from './getInvestors';
 export { getPermissionRequest } from './getPermissionRequest';
 export { getServicePointFeatureValues } from './getFeatureValuesRequest';
 export { getSelectedStationFeatures } from './getSelectedStationFeatures';
+export { getTariffFractionTypeRequest } from './getTariffFractionTypeRequest';
 export { getWorkingHoursRequest } from './getWorkingHoursRequest';
+export { updateConnectorRequest } from './updateConnectorRequest';
+export { updateStationSettings } from './updateStationSettings';
+export { updateWorkingHoursRequest } from './updateWorkingHoursRequest';
