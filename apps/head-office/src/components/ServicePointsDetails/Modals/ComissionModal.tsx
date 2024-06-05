@@ -61,7 +61,7 @@ const ComissionModal = ({ slug }: { slug: number; }) => {
         }))
         dispatch(toggleModalVisibility(false));
         setTimeout(() => { dispatch(hideAlert()) }, 5000);
-        dispatch(toggleComissionListUpdate(false));
+        dispatch(toggleComissionListUpdate(true));
         dispatch(setAddComission(false))
     };
 

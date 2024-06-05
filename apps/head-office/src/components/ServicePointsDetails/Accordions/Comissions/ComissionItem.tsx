@@ -2,7 +2,6 @@ import { FaTrashCan } from 'react-icons/fa6';
 import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { showDialog } from '../../../../../app/redux/features/dialogInformation';
-import { toggleComissionListUpdate } from '../../../../../app/redux/features/isComissionListUpdated';
 import { BRAND_PREFIX } from '../../../../../src/constants/constants';
 import { IComissionProps } from '../../types';
 
@@ -18,8 +17,6 @@ const ComissionItem: React.FC<IComissionProps> = (comissionDetail: IComissionPro
                 data: comissionDetail.RID
             })
         );
-
-        dispatch(toggleComissionListUpdate(true));
     };
 
     return (

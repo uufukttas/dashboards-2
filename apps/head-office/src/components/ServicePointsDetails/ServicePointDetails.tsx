@@ -41,6 +41,7 @@ import { setConnectors } from '../../../app/redux/features/connectorsData';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { setEnergyPriceDetails } from '../../../app/redux/features/energyPriceDetails';
 import { toggleChargePointDataUpdated } from '../../../app/redux/features/isChargePointDataUpdated';
+import { toggleComissionListUpdate } from '../../../app/redux/features/isComissionListUpdated';
 import { toggleConnectorUpdated } from '../../../app/redux/features/isConnectorUpdated';
 import { toggleEnergyPriceListUpdate } from '../../../app/redux/features/isEnergyPriceListUpdated';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
@@ -68,26 +69,26 @@ import './ServicePointDetails.css';
 
 const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
   const dispatch = useDispatch();
-  const {
-    addChargeUnit,
-    addComission,
-    addConnector,
-    addEnergyPrice,
-    addPermission,
-    addServicePointImage,
-  } = useSelector((state: RootState) => state.setVisibleModal);
-  const {
-    alertInformation,
-    chargeUnitList,
-    dialogInformation,
-    isChargePointDataUpdated: { isChargePointDataUpdated },
-    isComissionListUpdated: { isComissionsListUpdated },
-    isConnectorUpdated: { isConnectorUpdated },
-    isEnergyPriceListUpdated: { isEnergyPriceListUpdated },
-    isLoadingVisible: { isLoadingVisible },
-    isModalVisible: { isModalVisible },
-    isServicePointPermissionsUpdated: { isServicePointPermissionsUpdated },
-  } = useSelector((state: RootState) => state);
+  const addChargeUnit = useSelector((state: RootState) => state.setVisibleModal.addChargeUnit);
+  const addComission = useSelector((state: RootState) => state.setVisibleModal.addComission);
+  const addConnector = useSelector((state: RootState) => state.setVisibleModal.addConnector);
+  const addEnergyPrice = useSelector((state: RootState) => state.setVisibleModal.addEnergyPrice);
+  const addPermission = useSelector((state: RootState) => state.setVisibleModal.addPermission);
+  const addServicePointImage = useSelector((state: RootState) => state.setVisibleModal.addServicePointImage);
+  const alertInformation = useSelector((state: RootState) => state.alertInformation);
+  const chargeUnitList = useSelector((state: RootState) => state.chargeUnitList);
+  const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
+  const isChargePointDataUpdated = useSelector((state: RootState) => {
+    return state.isChargePointDataUpdated.isChargePointDataUpdated
+  });
+  const isComissionsListUpdated = useSelector((state: RootState) => state.isComissionListUpdated.isComissionListUpdated);
+  const isConnectorUpdated = useSelector((state: RootState) => state.isConnectorUpdated.isConnectorUpdated);
+  const isEnergyPriceListUpdated = useSelector((state: RootState) => state.isEnergyPriceListUpdated.isEnergyPriceListUpdated);
+  const isLoadingVisible = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
+  const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
+  const isServicePointPermissionsUpdated = useSelector((state: RootState) => {
+    return state.isServicePointPermissionsUpdated.isServicePointPermissionsUpdated
+  });
 
   const modalConfig: IModalConfigProps[] = [
     {
@@ -338,6 +339,8 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     setTimeout(() => {
       dispatch(hideAlert());
     }, 5000);
+
+    dispatch(toggleComissionListUpdate(true));
   };
   const handleDialogSuccess = (): void => {
     if (dialogInformation.actionType === 'deleteChargePoint') {
@@ -361,6 +364,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     getBrands();
     getChargeUnits();
     getChargeUnitFeatures();
+    getComissionDetail();
     getEnergyPrices();
     getInvestors();
     getServicePointsDetails(slug);
@@ -396,7 +400,11 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   }, [isConnectorUpdated])
 
   useEffect(() => {
-    getComissionDetail();
+    if (isComissionsListUpdated) {
+      getComissionDetail();
+    }
+
+    dispatch(toggleComissionListUpdate(false));
   }, [isComissionsListUpdated]);
 
   return (
