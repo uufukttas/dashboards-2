@@ -61,7 +61,7 @@ const ComissionModal = ({ slug }: { slug: number; }) => {
         }))
         dispatch(toggleModalVisibility(false));
         setTimeout(() => { dispatch(hideAlert()) }, 5000);
-        dispatch(toggleComissionListUpdate(true));
+        dispatch(toggleComissionListUpdate(false));
         dispatch(setAddComission(false))
     };
 
@@ -111,7 +111,7 @@ const ComissionModal = ({ slug }: { slug: number; }) => {
                         <Label
                             className={`${sectionPrefix}-label block mb-2 text-heading font-semibold w-2/3`}
                             htmlFor={``}
-                            labelText={`Cihaz Yatirimcisi Hizmet Noktasi Sahibi mi?`}
+                            labelText={`Cihaz Yatirimcisi mi?`}
                         >
                             <span className="text-md text-error">*</span>
                         </Label>

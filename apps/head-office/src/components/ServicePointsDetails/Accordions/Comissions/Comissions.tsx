@@ -1,37 +1,13 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import ComissionItem from './ComissionItem';
-import { getComissionDetails } from '../../../../../app/api/servicePointDetails';
-import { setComissionData } from '../../../../../app/redux/features/comissionData';
-import { toggleComissionListUpdate } from '../../../../../app/redux/features/isComissionListUpdated';
-import { RootState } from '../../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../constants/constants';
+import { RootState } from '../../../../../app/redux/store';
 import type { IComissionDetailProps, IComissionProps } from '../../types';
 
 const Comissions: React.FC<IComissionDetailProps> = ({ slug }: IComissionDetailProps) => {
     const sectionPrefix: string = `${BRAND_PREFIX}-comission-details`;
-    const dispatch = useDispatch();
     const comissions = useSelector((state: RootState) => state.comissionData);
-    const isComissionListUpdated =
-        useSelector((state: RootState) => state.isComissionListUpdated.isComissionListUpdated);
-
-    const getComissionsDetails = async (): Promise<void | null> => {
-        const comissionResponse = await getComissionDetails(slug);
-
-        if (!comissionResponse.success) {
-            console.error('Error getting comission details', comissionResponse.error);
-        }
-
-        dispatch(setComissionData(comissionResponse.data));
-    };
-
-    useEffect(() => {
-        if (isComissionListUpdated) {
-            getComissionsDetails();
-        }
-
-        dispatch(toggleComissionListUpdate(false));
-    }, [isComissionListUpdated])
 
     return (
             <div className={`${sectionPrefix} items-center py-4 w-full`}>
