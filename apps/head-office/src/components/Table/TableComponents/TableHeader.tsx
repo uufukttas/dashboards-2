@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FaMagnifyingGlass } from 'react-icons/fa6';
+import { FaPlus, FaMagnifyingGlass } from 'react-icons/fa6';
 import { Button } from '@projects/button';
 import { CheckboxInDropdown } from '@projects/checkbox-in-dropdown';
 import { Input } from '@projects/input';
@@ -53,12 +53,16 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ attributeName, filteredDropd
             </div>
             <div className={`${tableHeaderPrefix}-add-button-container w-full mx-2 md:w-1/2 lg:w-1/4 lg:mx-4`}>
                 <Button
-                    buttonText={attributeName === 'user-management' ? "+ Kullanici" : "+ Istasyon"}
                     className={`${tableHeaderPrefix}-add-button w-full bg-primary rounded-md font-semibold hover:bg-primary-lighter px-2 py-2`}
                     id={`${tableHeaderPrefix}-add-button`}
                     type="button"
                     onClick={() => openModal()}
-                />
+                >
+                    <span className='flex justify-center items-center'>
+                        <FaPlus className="mr-2" />
+                        {attributeName === 'service-points' ? 'Istasyon' : 'Kullanici'}
+                    </span>
+                </Button>
             </div>
         </div>
     );
