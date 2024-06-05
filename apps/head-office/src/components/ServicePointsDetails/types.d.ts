@@ -1,3 +1,7 @@
+export interface IConnectorModel {
+  stationChargePointModelConnectorId: number;
+  displayName: string;
+};
 interface IConnectorPropertyProps {
   chargePointId: number,
   chargePointModelId: number,
@@ -111,12 +115,12 @@ export interface IComissionProps {
   LocationRelatedID: null,
   ForInvestor: number;
 };
-export interface IConnectorBrandProps {
-  connectorTypeId: number;
-  displayName: string;
-};
 export interface IConnectorInfoProps {
   connectorId: number;
+};
+export interface IConnectorModelProps {
+  success: boolean;
+  data: IConnectorModel[];
 };
 export interface IEnergyPriceDetailsProps {
   id: number;

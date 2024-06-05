@@ -14,15 +14,19 @@ const ConnectorAddModal: React.FC = () => {
     const sectionPrefix = 'connector';
     const dispatch = useDispatch();
     const connectorProperty = useSelector((state: RootState) => state.setConnectorProperty.connectorProperty);
-    const [dropdownItems, setDropdownItems] = useState<{ id: 0, name: 'Please Select', rid: null }[]>([]);
+    const [dropdownItems, setDropdownItems] = useState<{ id: number, name: string; rid: null }[]>([]);
     const [connectorValue, setConnectorValue] = useState<number>(1);
     const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
     const fetchAndPrepareDropdownItems = async () => {
         try {
             const response = await getConnectorModels(connectorProperty.chargePointModelId || 1);
-            const connectorTypes = response.data.data;
 
+            if (!response.success) {
+                return [];
+            }
+
+            const connectorTypes = response.data;
             const items = connectorTypes.map((item: { stationChargePointModelConnectorId: number; displayName: string; }) => ({
                 id: item.stationChargePointModelConnectorId,
                 name: item.displayName,

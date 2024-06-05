@@ -21,12 +21,12 @@ import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type {
     IChargeUnitsContentProps,
     IChargeUnitsProps,
-    IConnectorBrandProps,
     IFeatureTypeListProps,
     IInvestorsProps,
     IGetChargePointStationFeatureData,
     IGetChargePointStationFeatureResponse,
     IConnectorStateProps,
+    IConnectorModel,
 } from '../types';
 
 const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, slug }: IChargeUnitsContentProps) => {
@@ -34,7 +34,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
     const sectionPrefix: string = `${BRAND_PREFIX}-charge-units`;
     const dispatch = useDispatch();
     const connectorList = useSelector((state: RootState) => state.setConnectors.connectors);
-    const [connectorTypes, setConnectorTypes] = useState([]);
+    const [connectorTypes, setConnectorTypes] = useState<IConnectorModel[]>([]);
     const [selectedBrand, setSelectedBrand] = useState(1);
     const [connectorUpdate, setConnectorUpdate] = useState(false);
 
@@ -138,9 +138,9 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
         );
     };
     const createConnectorDropdownItems = (): IFeatureTypeListProps[] => {
-        return connectorTypes.map((connectorType: IConnectorBrandProps) => {
+        return connectorTypes.map((connectorType: IConnectorModel) => {
             return {
-                id: connectorType.connectorTypeId,
+                id: connectorType.stationChargePointModelConnectorId,
                 name: connectorType.displayName,
                 rid: null,
             };
@@ -175,7 +175,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
     };
     const getConnectorTypes = async ():Promise<void> => {
         const response = await getConnectorModels(selectedBrand.toString());
-
+        console.log('response1', response.data)
         setConnectorTypes(response.data);
         createConnectorDropdownItems();
     };

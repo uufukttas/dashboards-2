@@ -1,3 +1,7 @@
+interface IConnectorModel {
+    stationChargePointModelConnectorId: number;
+    displayName: string;
+};
 interface IServicePointDetailsFeature {
     StationFeatureType: number;
     StationFeatureValue: string;
@@ -7,9 +11,9 @@ interface IServicePointDetailsFeatureValues {
     name: string;
 };
 export interface IImageModalProps {
-    FileName : string;
-    Image : File,
-    StationId : string;
+    FileName: string;
+    Image: File,
+    StationId: string;
 };
 export interface IComissionRequestProps {
     ownerType: number;
@@ -18,6 +22,10 @@ export interface IComissionRequestProps {
     rate: number;
     stationId: string;
     isActive: boolean;
+};
+export interface IConnectorModelProps {
+    success: boolean;
+    data: IConnectorModel[];
 };
 export interface IServicePointDetailsFeatureResponse {
     data: IServicePointDetailsFeature[];
