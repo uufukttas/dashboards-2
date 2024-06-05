@@ -8,6 +8,8 @@ import { RootState } from '../../../../app/redux/store';
 interface IPermissionsProps {
     userId: number;
     userName: string;
+    name: string;
+    surName: string;
 };
 
 const ServicePointPermissions: React.FC = () => {
@@ -23,14 +25,17 @@ const ServicePointPermissions: React.FC = () => {
                         <div className={`${sectionPrefix}-content py-4 text-text w-full`}>
                             <div className={`${sectionPrefix}-info-container flex justify-between`}>
                                 <div className={`${sectionPrefix}-info-item flex justify-between md:items-center flex-col md:flex-row w-full`}>
-                                    <div className={`${sectionPrefix}-info-item-value text-lg font-normal flex items-center justify-between w-full`}>
+                                    <div className={`${sectionPrefix}-info-item-value text-lg font-normal flex items-center w-3/4`}>
                                         <p>
                                             <span className='font-bold'>{`${idx + 1}`}</span>{`. ${permission.userName}`}
                                         </p>
+                                        <p className='px-20'>
+                                            <span>{`${permission.name}`}</span>
+                                            <span>{`${permission.surName}`}</span>
+                                        </p>
                                     </div>
                                 </div>
-                                <div className={`${sectionPrefix}-info-item flex justify-between md:items-center flex-col md:flex-row`}>
-                                    {/* <Toggle onToggle={() => { }} /> */}
+                                <div className={`${sectionPrefix}-info-item flex justify-end md:items-center flex-col md:flex-row w-1/4`}>
                                     <Button
                                         buttonText={""}
                                         className="bg-secondary rounded-md px-4 py-2 mx-4 text-white"

@@ -6,7 +6,7 @@ import { showDialog } from '../../../../app/redux/features/dialogInformation';
 import { RootState } from '../../../../app/redux/store';
 import type { IEnergyPriceDetailsProps } from '../types';
 
-const EnergyPricesContent = () => {
+const EnergyPricesContent: React.FC = () => {
   const sectionPrefix = 'energy-prices-details';
   const dispatch = useDispatch();
   const energyPriceDetails = useSelector((state: RootState) => state.energyPriceDetails);

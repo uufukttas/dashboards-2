@@ -117,7 +117,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> = 
             titleClassName: "font-bold",
         }, {
             actionButton: addComissionButton,
-            accordionContent: <Comissions />,
+            accordionContent: <Comissions slug={slug} />,
             accordionTitle: "Komisyonlar",
             titleClassName: "font-bold",
         },
