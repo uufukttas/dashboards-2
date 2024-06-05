@@ -8,7 +8,7 @@ const TableActions: React.FC<ITableRowProps> = ({ attributeName, tableRowData }:
     return (
         <>
             <TableRowEdit attributeName={attributeName} tableCellData={tableRowData} />
-            <TableRowDelete tableCellDataId={tableRowData.id} />
+            <TableRowDelete tableCellDataId={tableRowData?.id || tableRowData?.userId} />
             <TableRowDetail tableCellData={tableRowData} />
         </>
     );

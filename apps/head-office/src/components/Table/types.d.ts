@@ -57,6 +57,7 @@ export interface ITableBodyPlaceholderProps {
     roleNames?: string;
     userId?: number;
     userName?: string;
+    surName?: string;
 };
 export interface ITableBodyProps {
     attributeName: string;

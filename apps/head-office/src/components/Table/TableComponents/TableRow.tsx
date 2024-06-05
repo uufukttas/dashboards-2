@@ -49,21 +49,21 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, index = 0, tableRow
                         )
                     }
                     <div className={`${BRAND_PREFIX}-item-information-name px-6`}>
-                        {tableRowData.name}
+                        {`${`${tableRowData?.name || ''} ${tableRowData?.surName || ''}` || ''}`}
                     </div>
                 </div>
             </td>
             <td className="px-4 py-2 text-center">{
                 attributeName === 'service-point'
                     ? tableRowData.phone
-                    : tableRowData.userName
+                    : tableRowData?.userName
             }
             </td>
             <td className="px-4 py-2 text-center">
                 {
                     attributeName === 'service-point'
                         ? tableRowData.address
-                        : tableRowData.phone
+                        : tableRowData?.phone
                 }
             </td>
             <td className="px-4 py-2 text-center">
@@ -83,11 +83,11 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, index = 0, tableRow
                 {
                     attributeName === 'service-point'
                         ? getDistricts(tableRowData.districtId ?? 0)
-                        : tableRowData.lastLoginDate
+                        : tableRowData?.lastLoginDate
                 }
             </td>
             <td className="px-4 py-4">
-                <div className="flex justify-start text-2xl">
+                <div className="flex justify-center text-2xl">
                     <TableActions attributeName={attributeName} tableRowData={tableRowData} />
                 </div>
             </td>

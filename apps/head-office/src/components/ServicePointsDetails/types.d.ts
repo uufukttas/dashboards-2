@@ -99,6 +99,9 @@ export interface IChargeUnitsProps {
   status: string;
   location: string;
 };
+export interface IComissionDetailProps {
+  slug: string;
+};
 export interface IComissionProps {
   RID: number;
   ID: number;

@@ -16,15 +16,20 @@ const ServicePointPermissionsModal = ({ slug }: IServicePointPermissionsModalPro
     const sectionPrefix = 'service-point-permission';
     const dispatch = useDispatch();
     const [isDisabled, setIsDisabled] = useState<boolean>(false);
-    const [permissionPhoneNumber, setPermissionPhoneNumber] = useState<string>('');
+    const [permissionProperties, setPermissionProperties] = useState({
+        name: '',
+        surname: '',
+        phoneNumber: '',
+    });
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-    const handleFormSubmit = () => {
+    const handleFormSubmit = async () => {
         setIsDisabled(true);
-        const response = addChargePointPermission(permissionPhoneNumber, slug);
+
+        const response = await addChargePointPermission(permissionProperties, slug);
         dispatch(
             showAlert({
-                message: 'Yetkili telefon numarasi basariyla eklendi.',
+                message: response.message,
                 type: 'success',
             })
         );
@@ -45,41 +50,120 @@ const ServicePointPermissionsModal = ({ slug }: IServicePointPermissionsModalPro
                 onSubmit={handleSubmit(handleFormSubmit)}
             >
                 <div className={`${sectionPrefix}-container`}>
-                    <Label
-                        className={`${sectionPrefix}-label block mb-2 text-heading font-semibold`}
-                        htmlFor={``}
-                        labelText={`Yetkili Telefon Numarasi`}
-                    >
-                        <span className="text-md text-error">*</span>
-                    </Label>
-                    <Input
-                        className={`${sectionPrefix}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
-                        id={`${sectionPrefix}`}
-                        name={`${sectionPrefix}`}
-                        register={
-                            register(`${sectionPrefix}`, {
-                                min: {
-                                    value: 10,
-                                    message: `Telefon numarasi icin en az 10 karakter girmelisiniz.`,
-                                },
-                                required: `Telefon numarasi zorunludur.`,
-                                value: permissionPhoneNumber,
-                                onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                                    setPermissionPhoneNumber(parseFloat(event.target.value).toString());
-                                },
-                            })
-                        }
-                        type={`number`}
-                    />
-                    {errors[`${sectionPrefix}`]
-                        && errors[`${sectionPrefix}`]?.message
-                        && (
-                            <div className={`${sectionPrefix}-error-wrapper my-4 font-bold text-error`}>
-                                <p className={`${sectionPrefix}-error-message text-error`}>
-                                    {errors[`${sectionPrefix}`]?.message?.toString()}
-                                </p>
-                            </div>
-                        )}
+                    <div className={`${sectionPrefix}-name-lastname-container flex w-full flex-row justify-between`}>
+                        <div className={`${sectionPrefix}-name-container w-1/2 mr-2`}>
+                            <Label
+                                className={`${sectionPrefix}-name-label block mb-2 text-heading font-semibold`}
+                                htmlFor={``}
+                                labelText={`Yetkili Isim`}
+                            >
+                                <span className="text-md text-error">*</span>
+                            </Label>
+                            <Input
+                                className={`${sectionPrefix}-name-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
+                                id={`${sectionPrefix}-name`}
+                                name={`${sectionPrefix}-name`}
+                                register={
+                                    register(`${sectionPrefix}-name`, {
+                                        required: `Isim zorunludur.`,
+                                        value: permissionProperties.name,
+                                        onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                                            setPermissionProperties({
+                                                ...permissionProperties,
+                                                name: event.target.value,
+                                            });
+                                        },
+                                    })
+                                }
+                                type={`text`}
+                            />
+                            {errors[`${sectionPrefix}-name`]
+                                && errors[`${sectionPrefix}-name`]?.message
+                                && (
+                                    <div className={`${sectionPrefix}-name-error-wrapper my-4 font-bold text-error`}>
+                                        <p className={`${sectionPrefix}-name-error-message text-error`}>
+                                            {errors[`${sectionPrefix}-name`]?.message?.toString()}
+                                        </p>
+                                    </div>
+                                )}
+                        </div>
+                        <div className={`${sectionPrefix}-surname-container w-1/2 ml-2`}>
+                            <Label
+                                className={`${sectionPrefix}-surname-label block mb-2 text-heading font-semibold`}
+                                htmlFor={``}
+                                labelText={`Yetkili Soyisim`}
+                            >
+                                <span className="text-md text-error">*</span>
+                            </Label>
+                            <Input
+                                className={`${sectionPrefix}-surname-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
+                                id={`${sectionPrefix}-surname`}
+                                name={`${sectionPrefix}-surname`}
+                                register={
+                                    register(`${sectionPrefix}-surname`, {
+                                        required: `Soyisim zorunludur.`,
+                                        value: permissionProperties.surname,
+                                        onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                                            setPermissionProperties({
+                                                ...permissionProperties,
+                                                surname: event.target.value,
+                                            });
+                                        },
+                                    })
+                                }
+                                type={`text`}
+                            />
+                            {errors[`${sectionPrefix}-surname`]
+                                && errors[`${sectionPrefix}-surname`]?.message
+                                && (
+                                    <div className={`${sectionPrefix}-surname-error-wrapper my-4 font-bold text-error`}>
+                                        <p className={`${sectionPrefix}-surname-error-message text-error`}>
+                                            {errors[`${sectionPrefix}-surname`]?.message?.toString()}
+                                        </p>
+                                    </div>
+                                )}
+                        </div>
+                    </div>
+                    <div className={`${sectionPrefix}-phone-container`}>
+                        <Label
+                            className={`${sectionPrefix}-label block mb-2 text-heading font-semibold`}
+                            htmlFor={``}
+                            labelText={`Yetkili Telefon Numarasi`}
+                        >
+                            <span className="text-md text-error">*</span>
+                        </Label>
+                        <Input
+                            className={`${sectionPrefix}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
+                            id={`${sectionPrefix}-phone-number`}
+                            name={`${sectionPrefix}-phone-number`}
+                            register={
+                                register(`${sectionPrefix}-phone-number`, {
+                                    min: {
+                                        value: 10,
+                                        message: `Telefon numarasi icin en az 10 karakter girmelisiniz.`,
+                                    },
+                                    required: `Telefon numarasi zorunludur.`,
+                                    value: permissionProperties.phoneNumber,
+                                    onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                                        setPermissionProperties({
+                                            ...permissionProperties,
+                                            phoneNumber: event.target.value,
+                                        });
+                                    },
+                                })
+                            }
+                            type={`number`}
+                        />
+                        {errors[`${sectionPrefix}-phone-number`]
+                            && errors[`${sectionPrefix}-phone-number`]?.message
+                            && (
+                                <div className={`${sectionPrefix}-phone-number-error-wrapper my-4 font-bold text-error`}>
+                                    <p className={`${sectionPrefix}-phone-number-error-message text-error`}>
+                                        {errors[`${sectionPrefix}-phone-number`]?.message?.toString()}
+                                    </p>
+                                </div>
+                            )}
+                    </div>
                     <Button
                         buttonText='Kaydet'
                         className={`${sectionPrefix}-button bg-primary text-white w-full py-2.5 rounded-lg`}

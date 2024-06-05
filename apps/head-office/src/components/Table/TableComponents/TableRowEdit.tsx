@@ -9,9 +9,9 @@ import { ITableDataAttributeProps, ITableRowEditProps } from '../types';
 
 const TableRowEdit: React.FC<ITableRowEditProps> = ({ attributeName, tableCellData }: ITableRowEditProps) => {
     const dataAttributes: ITableDataAttributeProps = {
-        [`data-${attributeName}-id`]: tableCellData?.id || tableCellData.userId,
+        [`data-${attributeName}-id`]: tableCellData?.id || tableCellData?.userId,
     };
-    const isComponentVisible: boolean = typeof (tableCellData.id || tableCellData.userId) === 'number';
+    const isComponentVisible: boolean = typeof (tableCellData?.id || tableCellData?.userId) === 'number';
     const dispatch = useDispatch();
 
     const getUpdatedServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>): Promise<void> => {
