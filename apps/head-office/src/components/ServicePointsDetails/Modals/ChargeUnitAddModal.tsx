@@ -7,7 +7,12 @@ import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { BRAND_PREFIX } from '../../../constants/constants';
-import { addStationSettingsRequest, getChargeUnitDeviceCode, getChargeUnitFeatureValuesRequest, updateStationSettings } from '../../../../app/api/servicePointDetails';
+import {
+  addStationSettingsRequest,
+  getChargeUnitDeviceCode,
+  getChargeUnitFeatureValuesRequest,
+  updateStationSettings
+} from '../../../../app/api/servicePointDetails';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { toggleChargePointDataUpdated } from '../../../../app/redux/features/isChargePointDataUpdated';
@@ -50,9 +55,6 @@ const ChargeUnitAddModal = ({ slug }: IServicePointDetailsModalProps) => {
     ...(chargeUnitData?.code > 0 ? { code: chargeUnitData?.code } : ''),
   });
   const [isDisabled, setIsDisabled] = useState(false);
-
-
-  console.log('investors', investors)
 
   const createRequestData = ({ chargePointId, features }: IRequestDataProps) => {
     return ({

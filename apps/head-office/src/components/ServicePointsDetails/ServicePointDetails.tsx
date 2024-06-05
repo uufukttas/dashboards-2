@@ -266,8 +266,9 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       const connectorPropertiesResponse = await getConnectorPropertiesRequest(connector.stationChargePointID);
 
       connectorPropertiesResponse.data.forEach((element: IConnectorProps) => {
-        if (connector.RID === element.id)
+        if (connector.RID === element.id) {
           connector.kw = element.kw;
+        }
         connector.connectorName = element.connectorName;
         connector.isAC = element.isAC;
       });

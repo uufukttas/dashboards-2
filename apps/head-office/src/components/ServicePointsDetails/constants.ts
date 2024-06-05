@@ -1,6 +1,6 @@
 const initialChargeUnitDataValue = {
     accessType: 1,
-    brandId: 1,
+    brandId: 3,
     chargePointId: 0,
     code: '',
     connectorCount: 1,

@@ -28,6 +28,9 @@
 .sh-accordion-content.close {
   animation: slideUp 0.5s ease forwards;
 }
+.sh-accordion-content.close * {
+  visibility: hidden;
+}
 
 @keyframes slideDown {
   from {

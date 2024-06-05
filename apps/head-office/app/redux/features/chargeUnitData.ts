@@ -4,7 +4,7 @@ import { IChargeUnitDataStateProps } from '../types';
 const initialState: IChargeUnitDataStateProps = {
     chargeUnitData: {
         code: '',
-        brandId: 1,
+        brandId: 3,
         connectorCount: 1,
         ocppVersion: 1600,
         isFreeUsage: false,
