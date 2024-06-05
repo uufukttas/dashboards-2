@@ -203,7 +203,6 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
     const getInvestorId = async (investorName: string): Promise<number> => {
         const investors = await getChargePointInvestors();
 
-        debugger;
         if (investors.data.length === 0) {
             return 0;
         };
@@ -240,7 +239,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
         const chargeUnitId = event.currentTarget.getAttribute(`data-charge-point-id`);
         const deviceCode = event.currentTarget.getAttribute(`data-charge-point-device-code`);
         const chargeUnitInfo = getChargeUnitInfo(parseInt(chargeUnitId || '0'));
-        const investorId = getInvestorId((chargeUnitInfo.investor));
+        const investorId = await getInvestorId((chargeUnitInfo.investor));
         const { statusId, accessTypeId } = await getGetChargePointFeaturesStatus(
             chargeUnitInfo.hoStatus, chargeUnitInfo.accessType
         );
