@@ -2,7 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from '@projects/alert';
 import { Dialog } from '@projects/dialog';
-import { initialServicePointDataValues, initialServicePointInformationValue } from './constants';
+import {
+  initialServicePointDataValues,
+  initialServicePointInformationValue,
+  servicePointTableFilteredDropdownItems,
+  servicePointTableHeadData
+} from './constants';
 import Pagination from './PaginationComponents/Pagination';
 import ServicePointModalForm from './ServicePointsModalComponents/ServicePointModal';
 import Modal from '../Modal/Modal';
@@ -35,22 +40,14 @@ const ServicePointSection: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const deleteServicePoint = async (deletedId: number): Promise<void> => {
-    try {
       const { data } = await deleteServicePointRequest(deletedId);
 
       handleDeleteServicePointSuccess(data);
-    } catch (error) {
-      console.error(error);
-    }
   };
   const getAllServicePoints = async (): Promise<void> => {
-    try {
-      const response = await getAllServicePointsRequest(currentPage, searchedText);
+    const response = await getAllServicePointsRequest(currentPage, searchedText);
 
-      handleGetServicePointSuccess(response);
-    } catch (error) {
-      console.error(error);
-    }
+    handleGetServicePointSuccess(response);
   };
   const handleCloseModal = (): void => {
     dispatch(setServicePointData(initialServicePointDataValues));
@@ -88,45 +85,10 @@ const ServicePointSection: React.FC = () => {
       <div className={`${BRAND_PREFIX}-service-point-listing-container flex items-center w-full`}>
         <Table
           attributeName="service-point"
-          filteredDropdownItems={[{
-            id: 1,
-            isChecked: false,
-            name: 'Telefon',
-            rid: null,
-            stationFeatureType: 0,
-            stationFeatureValue: 0,
-        }, {
-            id: 2,
-            isChecked: false,
-            name: 'Adres',
-            rid: null,
-            stationFeatureType: 0,
-            stationFeatureValue: 0,
-        }, {
-            id: 3,
-            isChecked: false,
-            name: 'Il',
-            rid: null,
-            stationFeatureType: 0,
-            stationFeatureValue: 0,
-        }, {
-            id: 4,
-            isChecked: false,
-            name: 'Ilce',
-            rid: null,
-            stationFeatureType: 0,
-            stationFeatureValue: 0,
-        }]}
+          filteredDropdownItems={servicePointTableFilteredDropdownItems}
           tableData={servicePointsData}
           tableDataCount={servicePointsCount}
-          tableHeadData={[
-            'Istasyon Adi',
-            'Telefon',
-            'Adres',
-            'Il',
-            'Ilce',
-            'Islemler',
-          ]}
+          tableHeadData={servicePointTableHeadData}
         />
       </div>
       {

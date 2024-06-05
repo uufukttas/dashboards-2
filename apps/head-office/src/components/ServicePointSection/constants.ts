@@ -24,5 +24,47 @@ const initialServicePointInformationValue = {
     phone2: '',
     type: '',
 };
+const servicePointTableFilteredDropdownItems = [{
+    id: 1,
+    isChecked: false,
+    name: 'Telefon',
+    rid: null,
+    stationFeatureType: 0,
+    stationFeatureValue: 0,
+}, {
+    id: 2,
+    isChecked: false,
+    name: 'Adres',
+    rid: null,
+    stationFeatureType: 0,
+    stationFeatureValue: 0,
+}, {
+    id: 3,
+    isChecked: false,
+    name: 'Il',
+    rid: null,
+    stationFeatureType: 0,
+    stationFeatureValue: 0,
+}, {
+    id: 4,
+    isChecked: false,
+    name: 'Ilce',
+    rid: null,
+    stationFeatureType: 0,
+    stationFeatureValue: 0,
+}];
+const servicePointTableHeadData = [
+    'Istasyon Adi',
+    'Telefon',
+    'Adres',
+    'Il',
+    'Ilce',
+    'Islemler',
+];
 
-export { initialServicePointDataValues, initialServicePointInformationValue };
+export {
+    initialServicePointDataValues,
+    initialServicePointInformationValue,
+    servicePointTableFilteredDropdownItems,
+    servicePointTableHeadData
+};
