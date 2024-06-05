@@ -24,6 +24,13 @@ const initialServicePointInformationValue = {
     phone2: '',
     type: '',
 };
+const tablePlaceholderInitialValue = {
+    address: '',
+    cityId: 0,
+    districtId: 0,
+    name: '',
+    phone: '',
+};
 const servicePointTableFilteredDropdownItems = [{
     id: 1,
     isChecked: false,
@@ -66,5 +73,6 @@ export {
     initialServicePointDataValues,
     initialServicePointInformationValue,
     servicePointTableFilteredDropdownItems,
-    servicePointTableHeadData
+    servicePointTableHeadData,
+    tablePlaceholderInitialValue,
 };

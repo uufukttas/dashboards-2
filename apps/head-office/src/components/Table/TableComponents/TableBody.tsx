@@ -3,17 +3,16 @@ import TableRow from './TableRow';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import { ITableBodyPlaceholderProps, ITableBodyProps } from '../types';
 
-const TableBody = ({ attributeName, tableData, tableDataCount }: ITableBodyProps) => {
+const TableBody: React.FC<ITableBodyProps> = ({
+    attributeName,
+    tableData,
+    tableDataCount,
+    tablePlaceholderInitialValue
+}: ITableBodyProps) => {
     const fullTableData: ITableBodyPlaceholderProps[] | [] = tableData && tableData.length > 0
-        ? [...tableData]
-        : [];
-    const placeholder: ITableBodyPlaceholderProps = {
-        address: '',
-        cityId: 0,
-        districtId: 0,
-        name: '',
-        phone: '',
-    };
+    ? [...tableData]
+    : [];
+    const placeholder: ITableBodyPlaceholderProps = tablePlaceholderInitialValue;
     const requiredRows: number = 10;
     const filledTableData: ITableBodyPlaceholderProps[] = Array.from(
         { length: requiredRows },

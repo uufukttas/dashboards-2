@@ -62,6 +62,7 @@ export interface ITableBodyProps {
     attributeName: string;
     tableData: IServicePointInfoProps[] | IUserDataProps[];
     tableDataCount: number;
+    tablePlaceholderInitialValue: ITableBodyPlaceholderProps;
 };
 export interface ITableDataAttributeProps {
     [key: string]: string | number | undefined;
@@ -79,9 +80,13 @@ export interface ITableProps {
     tableData: IServicePointInfoProps[] | IUserDataProps[];
     tableDataCount: number;
     tableHeadData: string[];
+    tablePlaceholderInitialValue: ITableBodyPlaceholderProps;
 };
 export interface ITableRowDeleteProps {
-    tableCellDataId: number | null | undefined; 
+    tableCellDataId: number | null | undefined;
+};
+export interface ITableRowDetailProps {
+    tableCellData: ITableBodyPlaceholderProps;
 };
 export interface ITableRowEditProps {
     attributeName: string;

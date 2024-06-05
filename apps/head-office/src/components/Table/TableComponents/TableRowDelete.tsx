@@ -7,7 +7,7 @@ import { ITableRowDeleteProps } from '../types';
 const TableRowDelete: React.FC<ITableRowDeleteProps> = ({ tableCellDataId }: ITableRowDeleteProps) => {
     const isComponentVisible: boolean = typeof tableCellDataId === 'number';
     const dispatch = useDispatch();
-    const deleteServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>) => {
+    const deleteServicePointInfo = (event: React.MouseEvent<HTMLAnchorElement>): void => {
         dispatch(
             showDialog({
                 actionType: 'delete',
