@@ -1,9 +1,8 @@
 import axios from "axios";
 
-const addChargePointPermission = async (permissionPhoneNumber: {name: string; surname: string; phoneNumber: string}, slug: string) => {
+const addChargePointPermission = async (permissionPhoneNumber: { name: string; surname: string; phoneNumber: string }, slug: string): Promise<{ message: string; }> => {
     try {
-        const response = axios
-        .post(
+        const response = await axios.post(
             process.env.NEXT_PUBLIC_CHARGE_POINT_USER_PERMISSION_URL || '',
             {
                 name: permissionPhoneNumber.name,
@@ -12,14 +11,14 @@ const addChargePointPermission = async (permissionPhoneNumber: {name: string; su
                 stationId: Number(slug),
             },
             { headers: { 'Content-Type': 'application/json' } }
-        )
+        );
 
-        return response;
+        return response.data;
     } catch (error) {
         return {
-            message: 'Error adding charge point permission',
-        }
-    }
+            message: 'Bir hata olustu. Lutfen tekrar deneyiniz.'
+        };
+    };
 };
 
 export { addChargePointPermission };

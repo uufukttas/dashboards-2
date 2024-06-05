@@ -27,6 +27,7 @@ const ServicePointPermissionsModal = ({ slug }: IServicePointPermissionsModalPro
         setIsDisabled(true);
 
         const response = await addChargePointPermission(permissionProperties, slug);
+
         dispatch(
             showAlert({
                 message: response.message,
