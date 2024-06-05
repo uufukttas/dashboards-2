@@ -1,11 +1,11 @@
 // File: TimeSchedule.tsx
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
-import { addWorkingHoursRequest, getWorkingHoursRequest, updateWorkingHoursRequest } from '../../../../app/api/servicePointDetails';
+import { getWorkingHoursRequest } from '../../../../app/api/servicePointDetails';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { IWorkingHoursContentProps, ITimeSlot } from '../types';
-import { Tooltip } from '@projects/tooltip';
 
 const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
     const dispatch = useDispatch();
@@ -57,15 +57,11 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
         );
     };
     const completeRangeSelection = (startSlot: ITimeSlot, endSlot: ITimeSlot) => {
+        const startHour = Math.min(startSlot.hour, endSlot.hour);
+        const endHour = Math.max(startSlot.hour, endSlot.hour);
         const day = startSlot.day;
 
-        // Find the earliest and latest selected hour for the day
-        const selectedSlots = timeSlots.filter(slot => slot.day === day && slot.isSelected);
-        const earliestHour = selectedSlots.length > 0 ? Math.min(...selectedSlots.map(slot => slot.hour)) : startSlot.hour;
-        const latestHour = selectedSlots.length > 0 ? Math.max(...selectedSlots.map(slot => slot.hour)) : endSlot.hour;
-
-        // Update range to cover from earliest to latest hour
-        updateTimeSlotsForRange(day, earliestHour, latestHour, true);
+        updateTimeSlotsForRange(day, startHour, endHour, true);
     };
 
     const getWorkingHours = async () => {
@@ -80,28 +76,47 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
 
     const handleTimeSlotClick = (clickedSlot: ITimeSlot) => {
         if (clickedSlot.isPassive) return;
-
-        if (selectionStart) {
-            if (clickedSlot.day === selectionStart.day) {
-                if (clickedSlot.hour === selectionStart.hour) {
-                    updateTimeSlotSelection(clickedSlot, false);  // Deselect if the same slot is clicked again
-                    setSelectionStart(null);
-                } else {
-                    // Select new range from the earliest to the latest hour including the new selection
-                    const newEndSlot = { ...clickedSlot, day: clickedSlot.day };
-                    completeRangeSelection(selectionStart, newEndSlot);
-                    setSelectionStart(null);  // Reset the selection start
-                }
+    
+        // Check if there's already a selection for this day and clear it if attempting to make a new one
+        if (!selectionStart) {
+            // Start a new selection
+            clearDaySelection(clickedSlot.day);  // Clear any previous selections for the day
+            setSelectionStart(clickedSlot);
+            updateTimeSlotSelection(clickedSlot, true);
+        } else if (selectionStart.day === clickedSlot.day) {
+            if (clickedSlot.hour === selectionStart.hour) {
+                // If clicking the same slot, deselect it
+                updateTimeSlotSelection(clickedSlot, false);
+                setSelectionStart(null);
             } else {
-                // If a different day is selected, optionally clear all selections or handle as needed
-                clearSelection();  // Optionally clear all selections
-                setSelectionStart(clickedSlot);
-                updateTimeSlotSelection(clickedSlot, true);
+                // Clear the previous range and set the new one
+                clearDaySelection(clickedSlot.day);  
+                completeRangeSelection(selectionStart, clickedSlot);
+                setSelectionStart(null);  // Reset selection start
             }
         } else {
+            // If a different day is clicked, reset selections for prior day and start anew
+            clearSelection();
             setSelectionStart(clickedSlot);
             updateTimeSlotSelection(clickedSlot, true);
         }
+    };
+    const clearDaySelection = (day: number) => {
+        setTimeSlots(currentSlots => 
+            currentSlots.map(slot => 
+                slot.day === day ? {...slot, isSelected: false} : slot
+            )
+        );
+    };
+    const sendRequest = async (url: string, data: string) => {
+        const response = await axios
+            .post(
+                url,
+                data,
+                { headers: { 'Content-Type': 'application/json' } }
+            )
+
+        return response;
     };
     const handleSubmit = () => {
         const daysWeek = daysOfWeek.map((_, dayIndex) => {
@@ -181,8 +196,8 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
         }[]) => {
 
         if (createdWorkingHours.length > 0) {
-            const response = await addWorkingHoursRequest(JSON.stringify(createdWorkingHours));
-            
+            const response = await sendRequest('https://sharztestapi.azurewebsites.net/ServicePoint/AddWorkHours', JSON.stringify(createdWorkingHours))
+
             dispatch(
                 showAlert({
                     message: response.data?.message,
@@ -193,7 +208,7 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
         }
 
         if (updatedWorkingHours.length > 0) {
-            const response = await updateWorkingHoursRequest(JSON.stringify(updatedWorkingHours));
+            const response = sendRequest('https://sharztestapi.azurewebsites.net/ServicePoint/UpdateWorkHours', JSON.stringify(updatedWorkingHours))
             console.log('response', response)
         };
 
@@ -249,25 +264,11 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
                                     const slot = timeSlots.find(slot => slot.day === dayIndex && slot.hour === hour);
 
                                     return (
-
                                         <td key={dayIndex}
                                             className={`${sectionPrefix}-time-slot ${slot?.isSelected ? 'selected' : ''} ${slot?.isPassive ? 'passive' : ''}`}
                                             onClick={() => slot && handleTimeSlotClick(slot)}
                                             data-wh-id={slot?.rid}
                                         >
-                                            {
-                                                slot?.isSelected && (
-                                                    <Tooltip
-                                                        className="w-full h-full"
-                                                        key={dayIndex}
-                                                        text='Secimi kaldirmak icin cift tiklayin'
-                                                    >
-                                                        <div className='flex items-center justify-center w-full hidden'>
-                                                            <span className='text-white'>X</span>
-                                                        </div>
-                                                    </Tooltip>
-                                                )
-                                            }
                                         </td>
                                     );
                                 })
@@ -293,7 +294,7 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
                     onClick={() => handleSubmit()}
                 />
             </div>
-        </div >
+        </div>
     );
 };
 
