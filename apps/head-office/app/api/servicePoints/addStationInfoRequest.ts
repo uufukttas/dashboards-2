@@ -3,13 +3,14 @@ import { IFormDataProps } from "./types";
 
 const addStationInfoRequest = async (actionData: IFormDataProps) => {
     try {
-        await axios
-        .post(
+        const response = await axios.post(
             process.env.NEXT_PUBLIC_ADD_STATION_INFO_URL || '',
-          actionData,
-          { headers: { 'Content-Type': 'application/json' } }
+            actionData,
+            { headers: { 'Content-Type': 'application/json' } }
         )
-        .then((response) => response.data)
+            .then((response) => response.data)
+
+        return response;
     } catch (error) {
         console.error(error);
     };
