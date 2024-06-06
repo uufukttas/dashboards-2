@@ -4,7 +4,7 @@ import { ISearchedUserDataResponseProps } from './types';
 const searchUserRequest = async (pageNumber: number, searchedText: string): Promise<ISearchedUserDataResponseProps> => {
     try {
         const response = await axios.post(
-            process.env.NEXT_PUBLIC_GET_SEARCH_USERS || '',
+            `${process.env.NEXT_PUBLIC_BASE_URL}/Auth/SearchUser` || '',
             ({
                 pageNumber,
                 'userCount': 10,

@@ -4,7 +4,7 @@ const getChargeUnitsRequest = async (slug: number) => {
     try {
         const response = await axios
             .post(
-                process.env.NEXT_PUBLIC_GET_STATION_SETTINGS || '',
+                `${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/GetStationSettings` || '',
                 JSON.stringify({
                     stationId: slug,
                     PageNumber: 1,

@@ -3,7 +3,7 @@ import axios from "axios";
 const updateStationSettings = async (data: string, token: string) => {
     try {
         const response = await axios.post(
-            process.env.NEXT_PUBLIC_UPDATE_STATION_SETTINGS || '',
+            `${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/UpdateStationSettings` || '',
             data,
             {
                 headers: {

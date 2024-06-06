@@ -4,7 +4,7 @@ const getChargeUnitFeatureValuesRequest = async (chargePointId: string) => {
     try {
         const featureValues = await axios
             .post(
-                process.env.NEXT_PUBLIC_GET_CHARGE_POINT_STATION_FEATURE || '',
+                `${process.env.NEXT_PUBLIC_BASE_URL}/StationFeature/GetChargePointFeature` || '',
                 { "StationChargePointID": Number(chargePointId) },
                 { headers: { 'Content-Type': 'application/json' } }
             );

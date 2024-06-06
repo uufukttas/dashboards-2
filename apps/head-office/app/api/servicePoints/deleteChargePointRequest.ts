@@ -5,7 +5,7 @@ const deleteChargePointRequest = async (deletedChargeUnitData: IChargeUnitsProps
     try {
         const response = await axios
             .post(
-                process.env.NEXT_PUBLIC_UPDATE_STATION_SETTINGS || '',
+                `${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/UpdateStationSettings` || '',
                 JSON.stringify(deletedChargeUnitData),
                 { headers: { 'Content-Type': 'application/json' } }
             )

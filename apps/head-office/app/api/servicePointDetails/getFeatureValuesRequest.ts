@@ -5,7 +5,7 @@ const getServicePointFeatureValues = async (featureId: number): Promise<IService
     try {
         const response = await axios
             .post(
-                process.env.NEXT_PUBLIC_GET_FEATURE_VALUES || '',
+                `${process.env.NEXT_PUBLIC_BASE_URL}/StationFeature/GetFeatureValues` || '',
                 JSON.stringify({ stationFeatureType: featureId }),
                 { headers: { 'Content-Type': 'application/json' } }
             )

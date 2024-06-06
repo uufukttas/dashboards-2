@@ -3,7 +3,7 @@ import axios from "axios";
 const addStationFeatureRequest = async (data: string) => {
     try {
         const response = await axios.post(
-            process.env.NEXT_PUBLIC_ADD_STATION_FEATURE || '',
+            `${process.env.NEXT_PUBLIC_BASE_URL}/StationFeature/AddStationFeature` || '',
             data,
             {
                 headers: {

@@ -3,7 +3,7 @@ import axios from "axios";
 const getCityRequest = async () => {
     try {
         const response = await axios.get(
-            process.env.NEXT_PUBLIC_CITY_URL || '',
+            `${process.env.NEXT_PUBLIC_BASE_URL}/Values/GetCities` || '',
         );
 
         return response.data.data;

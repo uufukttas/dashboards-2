@@ -4,7 +4,7 @@ import type { IRegisterUserRequestData } from "./types";
 const registerUserRequest = async (userData: IRegisterUserRequestData) => {
     try {
         const response = await axios.post(
-            process.env.NEXT_PUBLIC_REGISTER_USER_URL || '',
+            `${process.env.NEXT_PUBLIC_BASE_URL}/Auth/Register` || '',
             userData,
             { headers: { 'Content-Type': 'application/json', } }
         );

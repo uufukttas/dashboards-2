@@ -4,7 +4,7 @@ const addEnergyPriceRequest = async (data: string) => {
     try {
         const response = axios
             .post(
-                process.env.NEXT_PUBLIC_ADD_ENERGY_PRICE_URL || '',
+                `${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/AddEnergyPrice` || '',
                 data,
                 { headers: { 'Content-Type': 'application/json' } }
             )

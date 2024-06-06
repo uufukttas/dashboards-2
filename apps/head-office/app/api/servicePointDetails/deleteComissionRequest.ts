@@ -4,7 +4,7 @@ const deleteComissionRequest = async (id: number, stationId: number) => {
     try {
         const response = await axios
             .post(
-                process.env.NEXT_PUBLIC_UPDATE_COMISSION_URL || '',
+                `${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/UpdateCommisionRate` || '',
                 ({
                     rid: id,
                     stationId,

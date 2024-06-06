@@ -5,7 +5,7 @@ const deleteServicePointRequest = async (servicePointId: number): Promise<IDelet
     try {
         const response = await axios
             .post(
-                process.env.NEXT_PUBLIC_DELETE_STATION_URL || '',
+                `${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/DeleteStation` || '',
                 ({ 'id': servicePointId })
             )
             .then((response) => response)

@@ -4,7 +4,7 @@ const addWorkingHoursRequest = async (data: string) => {
     try {
         const response = await axios.post(
 
-            process.env.NEXT_PUBLIC_ADD_WORKING_HOURS || '',
+            `${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/AddWorkHours` || '',
             data,
             { headers: { 'Content-Type': 'application/json' } }
         );

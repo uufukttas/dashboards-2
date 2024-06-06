@@ -3,7 +3,7 @@ import { ICompanyRequestProps } from "./types";
 
 const getCompaniesRequest = async (): Promise<ICompanyRequestProps[] | []> => {
     try {
-        const response = await axios.get(process.env.NEXT_PUBLIC_GET_COMPANIES_URL || '');
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/GetCompanies` || '');
 
         if (!response.data.success) {
             return [];

@@ -3,7 +3,7 @@ import axios from "axios";
 const getStationFeaturesRequest = async (stationId: number) => {
     try {
         const response = await axios.post(
-            process.env.NEXT_PUBLIC_GET_STATION_FEATURES || '',
+            `${process.env.NEXT_PUBLIC_BASE_URL}/StationFeature/GetStationFeature` || '',
             { stationId: stationId },
             { headers: { 'Content-Type': 'application/json' } },
         );

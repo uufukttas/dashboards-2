@@ -4,7 +4,7 @@ const deleteServicePointPermissionRequest = async (permissionId: number) => {
     try {
         const response = await axios
             .post(
-                process.env.NEXT_PUBLIC_DELETE_SERVICE_POINT_PERMISSION_URL || '',
+                `${process.env.NEXT_PUBLIC_BASE_URL}/Auth/ChargePointUserDelete` || '',
                 { userId: permissionId },
                 { headers: { "Content-Type": "application/json" } }
             );
