@@ -34,16 +34,15 @@ const ProfileSection: React.FC = () => {
             <form className='flex items-end justify-between w-full'>
                 <div className={`${profilePagePrefix}-password-input-container w-1/3`}>
                     <Label
-                        className={`${profilePagePrefix}-password-label block mb-2 text-heading font-semibold`}
+                        className={`${profilePagePrefix}-password-label block mb-2 text-heading font-semibold px-2`}
                         htmlFor={`${profilePagePrefix}-password-input`}
                         labelText='Yeni Sifre'
                     />
                     <Input
-                        className={`${profilePagePrefix}-password-input w-full p-2 border-2 border-black rounded-lg`}
+                        className={`${profilePagePrefix}-password-input border text-text text-sm rounded-lg block w-full p-2.5 focus:ring-primary focus:border-primary`}
                         id={`${profilePagePrefix}-password-input`}
                         name={`${profilePagePrefix}-password-input`}
                         type='password'
-                        placeholder='Yeni Sifre'
                     />
                 </div>
                 <div className={`${profilePagePrefix}-password-submit-button-container w-1/3`}>
@@ -68,7 +67,7 @@ const ProfileSection: React.FC = () => {
                             <div key={index} className={`${profilePagePrefix}-color-input-container w-full`}>
                                 <div className='flex justify-between items-center w-full'>
                                     <Label
-                                        className={`${profilePagePrefix}-color-label block mb-2 text-heading font-semibold w-1/2`}
+                                        className={`${profilePagePrefix}-color-label block mb-2 text-heading font-normal w-1/2`}
                                         htmlFor={`${profilePagePrefix}-${index}-input`}
                                         labelText={`${colorNames[index]} Renk`}
                                     />
@@ -87,7 +86,7 @@ const ProfileSection: React.FC = () => {
                                     />
                                 </div>
                                 <Label
-                                    className={`${profilePagePrefix}-color-label block mb-2 text-heading`}
+                                    className={`${profilePagePrefix}-color-label block mb-2 text-heading font-extrabold`}
                                     htmlFor={`${profilePagePrefix}-${color}-input`}
                                     labelText={`Renk: ${pageColors[index]}`}
                                 />
