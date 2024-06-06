@@ -204,8 +204,13 @@ export type IServicePointPermissionsStateProps = {
     servicePointPermissions: IPermissionsProps[];
 };
 export interface IUserDataProps {
-    roles: string;
+    roles: string[];
     userId: number;
+    name: string;
+    surname: string;
+    email: string;
+    phoneNumber: string;
+    userName: string;
 };
 export type IUsersProps = {
     userId: number;

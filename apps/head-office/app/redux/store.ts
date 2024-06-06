@@ -28,6 +28,7 @@ import servicePointPermissions from './features/servicePointPermissions';
 import setConnectors from './features/connectorsData';
 import setVisibleModal from './features/setVisibleModal';
 import statusList from './features/statusList';
+import userData from './features/userData';
 import users from './features/users';
 
 export const store: EnhancedStore = configureStore({
@@ -61,6 +62,7 @@ export const store: EnhancedStore = configureStore({
     setConnectors,
     setVisibleModal,
     statusList,
+    userData,
     users,
   },
   devTools: process.env.NODE_ENV !== 'production',
