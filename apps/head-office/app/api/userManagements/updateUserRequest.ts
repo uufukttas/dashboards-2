@@ -5,12 +5,12 @@ const updateUserRequest = async (data: IUpdatedUserData) => {
     try {
         const response = axios
             .post(
-                'https://sharztestapi.azurewebsites.net/Auth/UpdateUser',
+                `${process.env.NEXT_PUBLIC_BASE_URL}/Auth/UpdateUser`,
                 data,
                 { headers: { 'Content-Type': 'application/json', } }
             );
 
-            return response;
+        return response;
     } catch (error) {
         console.log(error);
     };
