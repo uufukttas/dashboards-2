@@ -28,3 +28,12 @@ export interface ISearchedUserDataResponseProps {
     data: IGetUsersManagementUsersProps[] | [];
     success: boolean;
 };
+
+export interface IUpdatedUserData {
+    id: number;
+    name: strin;
+    surname: string;
+    eMail: string
+    phoneNumber: string;
+    roles: string[];
+};
