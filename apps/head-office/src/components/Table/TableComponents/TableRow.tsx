@@ -63,7 +63,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, index = 0, tableRow
                 {
                     attributeName === 'service-point'
                         ? tableRowData.address
-                        : tableRowData?.phone
+                        : tableRowData?.phoneNumber
                 }
             </td>
             <td className="px-4 py-2 text-center">

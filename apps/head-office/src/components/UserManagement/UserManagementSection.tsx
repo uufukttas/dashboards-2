@@ -12,7 +12,8 @@ import { toggleModalVisibility } from '../../../app/redux/features/isModalVisibl
 import { setSearchedText } from '../../../app/redux/features/searchedText';
 import { setUsers } from '../../../app/redux/features/users';
 import { AppDispatch, RootState } from '../../../app/redux/store';
-import { userManagementTableFilteredDropdownItems, userManagementTableHeadData } from './constants';
+import { initialUserManagementDataValues, userManagementTableFilteredDropdownItems, userManagementTableHeadData } from './constants';
+import { setUserData } from 'apps/head-office/app/redux/features/userData';
 
 const UserManagementSection: React.FC = () => {
     const userManagementPrefix: string = `${BRAND_PREFIX}-user-management`;
@@ -68,7 +69,10 @@ const UserManagementSection: React.FC = () => {
                         className={`${userManagementPrefix}-modal-container`}
                         modalHeaderTitle='Kullanici Yonetimi'
                         modalId={`${userManagementPrefix}-modal`}
-                        onClose={() => dispatch(toggleModalVisibility(false))}
+                        onClose={() => {
+                            dispatch(toggleModalVisibility(false));
+                            dispatch(setUserData(initialUserManagementDataValues));
+                        }}
                     >
                         <UserManagementModalPage />
                     </Modal>

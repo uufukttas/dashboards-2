@@ -50,6 +50,7 @@ export interface ITableBodyPlaceholderProps {
     opportunities?: string[] | null | undefined;
     paymentMethods?: string[] | null | undefined;
     phone?: string | null | undefined;
+    phoneNumber?: string;
     type?: string | null | undefined;
     email?: string;
     status?: string;

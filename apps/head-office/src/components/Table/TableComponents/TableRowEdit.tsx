@@ -2,9 +2,11 @@ import React from 'react';
 import { FaPen } from 'react-icons/fa6';
 import { useDispatch } from 'react-redux';
 import { getServicePointDataRequest, getServicePointInformationRequest } from '../../../../app/api/servicePoints';
+import { getUserRequest } from '../../../../app/api/userManagements';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { setServicePointData } from '../../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
+import { setUserData } from '../../../../app/redux/features/userData';
 import { ITableDataAttributeProps, ITableRowEditProps } from '../types';
 
 const TableRowEdit: React.FC<ITableRowEditProps> = ({ attributeName, tableCellData }: ITableRowEditProps) => {
@@ -23,10 +25,11 @@ const TableRowEdit: React.FC<ITableRowEditProps> = ({ attributeName, tableCellDa
         dispatch(setServicePointInformation(servicePointInformation.data[0] || {}));
         dispatch(toggleModalVisibility(true));
     };
-    const getUpdatedUserInfo = (event: React.MouseEvent<HTMLAnchorElement>): void => {
+    const getUpdatedUserInfo = async (event: React.MouseEvent<HTMLAnchorElement>): Promise<void> => {
         const userId = Number(event.currentTarget.getAttribute('data-user-management-id') || '0');
+        const userData = await getUserRequest(userId);
 
-        console.log('userId', userId)
+        dispatch(setUserData(userData));
         dispatch(toggleModalVisibility(true));
     };
 

@@ -28,5 +28,13 @@ const userManagementTableFilteredDropdownItems = [{
     stationFeatureValue: 0,
 }];
 const userManagementTableHeadData = ['Isim/Soyisim', 'Kullanici Adi', 'Telefon', 'Rol', 'Son Giris', 'Aksiyonlar'];
-
-export { userManagementTableFilteredDropdownItems, userManagementTableHeadData };
+const initialUserManagementDataValues = {
+    roles: [],
+    userId: 0,
+    userName: '',
+    email: '',
+    phoneNumber: '',
+    name: '',
+    surname: '',
+};
+export { initialUserManagementDataValues, userManagementTableFilteredDropdownItems, userManagementTableHeadData };

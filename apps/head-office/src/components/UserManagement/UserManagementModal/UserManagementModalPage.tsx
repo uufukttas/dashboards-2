@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { CheckboxInDropdown } from '@projects/checkbox-in-dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
-import { registerUserRequest } from '../../../../app/api/userManagements';
+import { registerUserRequest, updateUserRequest } from '../../../../app/api/userManagements';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from 'apps/head-office/app/redux/store';
@@ -38,19 +38,20 @@ const UserManagementModalPage = () => {
         }]
     );
     const userData = useSelector((state: RootState) => state.userData);
+    const hasUserDataId: boolean = userData.userId > 0;
     const sectionPrefix: string = 'user-management';
-    const formName: string[] = ['userName', 'email', 'phoneNumber', 'roles', 'name', 'surname'];
+    const formName: string[] = ['userName', 'eMail', 'phoneNumber', 'roles', 'name', 'surname'];
     const formProperties = {
         userName: `${sectionPrefix}-${formName[0]}`,
-        email: `${sectionPrefix}-${formName[1]}`,
+        eMail: `${sectionPrefix}-${formName[1]}`,
         phoneNumber: `${sectionPrefix}-${formName[2]}`,
         roles: `${sectionPrefix}-${formName[3]}`,
         name: `${sectionPrefix}-${formName[4]}`,
         surname: `${sectionPrefix}-${formName[5]}`,
-      };
+    };
     const [userFormData, setUserFormData] = useState({
         [`${formProperties.userName}`]: userData.userName || '',
-        [`${formProperties.email}`]: userData.eMail || '',
+        [`${formProperties.eMail}`]: userData.eMail || '',
         [`${formProperties.phoneNumber}`]: userData.phoneNumber || '',
         [`${formProperties.roles}`]: userData.roles || [],
         [`${formProperties.name}`]: userData.name || '',
@@ -58,26 +59,42 @@ const UserManagementModalPage = () => {
     });
 
     const handleFormSubmit = async () => {
-
-        console.log('userFormData', userFormData)
-
-        const response = await registerUserRequest({
-            userName: userFormData[`${sectionPrefix}-userName`],
-            password: 'Welcome123!',
-            newPassword: 'Welcome123!',
-            eMail: userFormData[`${sectionPrefix}-email`],
-            phoneNumber: userFormData[`${sectionPrefix}-phoneNumber`],
-            roles: userFormData[`${sectionPrefix}-roles`].map((role: {
-                id: number;
-                name: string;
-                isChecked: boolean;
-                rid: number | null;
-                stationFeatureType: number;
-                stationFeatureValue: number;
-            }) => role.name),
-            name: userFormData[`${sectionPrefix}-name`],
-            surname: userFormData[`${sectionPrefix}-lastname`],
-        });
+        let response;
+        if (!hasUserDataId) {
+            response = await registerUserRequest({
+                userName: userFormData[`${sectionPrefix}-userName`],
+                password: 'Welcome123!',
+                newPassword: 'Welcome123!',
+                eMail: userFormData[`${sectionPrefix}-eMail`],
+                phoneNumber: userFormData[`${sectionPrefix}-phoneNumber`],
+                roles: userFormData[`${sectionPrefix}-roles`].map((role: {
+                    id: number;
+                    name: string;
+                    isChecked: boolean;
+                    rid: number | null;
+                    stationFeatureType: number;
+                    stationFeatureValue: number;
+                }) => role.name),
+                name: userFormData[`${sectionPrefix}-name`],
+                surname: userFormData[`${sectionPrefix}-surname`],
+            });
+        } else {
+            response = await updateUserRequest({
+                id: userData.userId,
+                name: userFormData[`${sectionPrefix}-name`],
+                surname: userFormData[`${sectionPrefix}-surname`],
+                eMail: userFormData[`${sectionPrefix}-eMail`],
+                phoneNumber: userFormData[`${sectionPrefix}-phoneNumber`],
+                roles: userFormData[`${sectionPrefix}-roles`].map((role: {
+                    id: number;
+                    name: string;
+                    isChecked: boolean;
+                    rid: number | null;
+                    stationFeatureType: number;
+                    stationFeatureValue: number;
+                }) => role.name)
+            });
+        }
 
         dispatch(showAlert({
             message: response.message,
@@ -108,20 +125,21 @@ const UserManagementModalPage = () => {
                         className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary'
                         id={`${sectionPrefix}-userName`}
                         name={`${sectionPrefix}-userName`}
+                        disabled={hasUserDataId}
                         register={register(`${sectionPrefix}-userName`, {
                             required: 'Kullanici Adi zorunlu',
                             onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                                console.log('event.target.name', event.target.name)
                                 setUserFormData({
                                     ...userFormData,
                                     [event.target.name]: event.target.value,
                                 })
-                            }
+                            },
+                            value: userFormData[`${sectionPrefix}-userName`]
                         })}
                         type="text"
                     />
                 </div>
-                <div className='sh-name-lastname-container flex'>
+                <div className='sh-name-surname-container flex'>
                     <div className="sh-name-container w-1/2">
                         <Label
                             className='block mb-2 text-heading mt-2 font-bold'
@@ -139,54 +157,57 @@ const UserManagementModalPage = () => {
                                         ...userFormData,
                                         [event.target.name]: event.target.value,
                                     });
-                                }
+                                },
+                                value: userFormData[`${sectionPrefix}-name`]
                             })}
                             type="text"
                         />
                     </div>
-                    <div className="sh-lastname-container w-1/2">
+                    <div className="sh-surname-container w-1/2">
                         <Label
                             className='block mb-2 text-heading mt-2 font-bold'
-                            htmlFor={`${sectionPrefix}-lastname`}
+                            htmlFor={`${sectionPrefix}-surname`}
                             labelText={`Soy isim`}
                         />
                         <Input
                             className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary ml-2'
-                            id={`${sectionPrefix}-lastname`}
+                            id={`${sectionPrefix}-surname`}
                             name={`${sectionPrefix}-lasntame`}
-                            register={register(`${sectionPrefix}-lastname`, {
+                            register={register(`${sectionPrefix}-surname`, {
                                 required: 'Last Name is required',
                                 onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                                     setUserFormData({
                                         ...userFormData,
                                         [event.target.name]: event.target.value,
                                     });
-                                }
+                                },
+                                value: userFormData[`${sectionPrefix}-surname`]
                             })}
                             type="text"
                         />
                     </div>
                 </div>
-                <div className="sh-email-container">
+                <div className="sh-eMail-container">
                     <Label
                         className='block mb-2 text-heading mt-2 font-bold'
-                        htmlFor={`${sectionPrefix}-email`}
-                        labelText={`Email`}
+                        htmlFor={`${sectionPrefix}-eMail`}
+                        labelText={`eMail`}
                     />
                     <Input
                         className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary'
-                        id={`${sectionPrefix}-email`}
-                        name={`${sectionPrefix}-email`}
-                        register={register(`${sectionPrefix}-email`, {
-                            required: 'Email is required',
+                        id={`${sectionPrefix}-eMail`}
+                        name={`${sectionPrefix}-eMail`}
+                        register={register(`${sectionPrefix}-eMail`, {
+                            required: 'eMail is required',
                             onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                                 setUserFormData({
                                     ...userFormData,
                                     [event.target.name]: event.target.value,
                                 });
-                            }
+                            },
+                            value: userFormData[`${sectionPrefix}-eMail`]
                         })}
-                        type="email"
+                        type="eMail"
                     />
                 </div>
                 <div className='sh-phone-container'>
@@ -206,7 +227,8 @@ const UserManagementModalPage = () => {
                                     ...userFormData,
                                     [event.target.name]: event.target.value,
                                 });
-                            }
+                            },
+                            value: userFormData[`${sectionPrefix}-phoneNumber`]
                         })}
                         type="tel"
                     />
