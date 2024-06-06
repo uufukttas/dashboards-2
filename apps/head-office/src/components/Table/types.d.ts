@@ -66,7 +66,7 @@ export interface ITableBodyProps {
     tablePlaceholderInitialValue?: ITableBodyPlaceholderProps;
 };
 export interface ITableDataAttributeProps {
-    [key: string]: string | number | undefined;
+    [key: string]: string | number | undefined | null;
 };
 export interface ITableHeaderProps {
     attributeName: string;
@@ -84,6 +84,7 @@ export interface ITableProps {
     tablePlaceholderInitialValue?: ITableBodyPlaceholderProps;
 };
 export interface ITableRowDeleteProps {
+    attributeName: string;
     tableCellDataId: number | null | undefined;
 };
 export interface ITableRowDetailProps {
