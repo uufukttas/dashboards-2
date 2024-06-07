@@ -1,16 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BRAND_PREFIX } from '../../constants/constants';
 import Card from '../Card/Card';
 import { FaUser } from 'react-icons/fa6';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { Button } from '@projects/button';
-import { addResourceText } from '../../../app/api/profile/addResourceText';
+import { addResourceText, getColors } from '../../../app/api/profile/';
 
 const ProfileSection: React.FC = () => {
     const profilePagePrefix: string = `${BRAND_PREFIX}-profile`;
     const colorNames = ['Ana', 'Ikincil', 'Alternatif', 'Ikincil Yedek'];
     const [pageColors, setPageColors] = useState(['#000', '#000', '#000', '#000']);
+    const [brandColors, setBrandColors] = useState([]);
+
+    const getBrandColors = async () => {
+        const response = await getColors(colorNames);
+
+        setBrandColors(response.data);
+
+        brandColors.map((color: { resourceKey: string; value: string }, index: number) => {
+            setPageColors(pageColors.map((item, i) => i === index
+                ? color.value
+                : item
+            ));
+        });
+    };
+
+    const setNewColors = () => {
+        setPageColors(brandColors.map((color: { resourceKey: string; value: string }) => color.value));
+    };
 
     const inforCardBody = (
         <div className={`${profilePagePrefix}-info-container flex justify-between items-center`}>
@@ -91,6 +109,7 @@ const ProfileSection: React.FC = () => {
                                         className={`${profilePagePrefix}-color-input border-black rounded-lg w-1/2`}
                                         id={`${profilePagePrefix}-${index}-input`}
                                         name={`${profilePagePrefix}-${color}-input`}
+                                        value={pageColors[index]}
                                         type='color'
                                         placeholder={`${color.charAt(0).toUpperCase() + color.slice(1)}`}
                                         onChange={(e) => {
@@ -126,6 +145,14 @@ const ProfileSection: React.FC = () => {
             <p className={`${profilePagePrefix}-last-login-text text-heading`}>Son Giris: 01.01.2021</p>
         </div>
     );
+
+    useEffect(() => {
+        getBrandColors();
+    }, []);
+
+    useEffect(() => {
+        setNewColors();
+    }, [brandColors]);
 
     return (
         <div className={`${profilePagePrefix}-container flex justify-between items-start flex-col`}>
