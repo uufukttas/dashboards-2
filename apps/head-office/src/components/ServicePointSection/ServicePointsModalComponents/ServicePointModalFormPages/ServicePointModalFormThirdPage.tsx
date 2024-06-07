@@ -37,8 +37,8 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
   const [thirdPageFormData, setThirdPageFormData] = useState<IFormDataProps>({
     [`${formProperties.cityId}`]: servicePointInformation.cityId || 1,
     [`${formProperties.districtId}`]: servicePointInformation.districtId || 1,
-    [`${formProperties['x-coord']}`]: servicePointInformation.lon === 0 ? '' : servicePointInformation.lon,
-    [`${formProperties['y-coord']}`]: servicePointInformation.lat === 0 ? '' : servicePointInformation.lat,
+    [`${formProperties['x-coord']}`]: typeof servicePointInformation.lon === 'undefined' ? '' : servicePointInformation.lon,
+    [`${formProperties['y-coord']}`]: typeof servicePointInformation.lat === 'undefined' ? '' : servicePointInformation.lat,
   });
   const [selectedCity, setSelectedCity] = useState<number>(Number(thirdPageFormData[formProperties.cityId]));
 
@@ -114,7 +114,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
   };
 
   useEffect(() => {
-    setSelectedCity( Number(thirdPageFormData[`${formProperties.cityId}`] ?? 0));
+    setSelectedCity(Number(thirdPageFormData[`${formProperties.cityId}`] ?? 0));
     getDistricts(selectedCity);
     getPaymentMethods();
     getOpportunities();
@@ -187,6 +187,16 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
         </div>
       </div>
       <MapComponent formData={thirdPageFormData} onSelectLocation={handleSelectLocation} />
+      {
+        thirdPageFormData[`${formProperties['x-coord']}`] === '' && thirdPageFormData[`${formProperties['y-coord']}`] === '' &&
+        (
+          <div className={`${formProperties['y-coord']}-error-wrapper mb-4 font-bold text-error`}>
+            <p className={`${formProperties['y-coord']}-error-message text-error`}>
+              {'Harita uzerinden bir Istasyon Noktasi seciniz.'}
+            </p>
+          </div>
+        )
+      }
       <div className={`${sectionPrefix}-buttons-container flex justify-between items-center mt-4`}>
         <Button
           buttonText='Geri'
