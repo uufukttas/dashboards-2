@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
@@ -8,13 +8,14 @@ import { Label } from '@projects/label';
 import { registerUserRequest, updateUserRequest } from '../../../../app/api/userManagements';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
-import { RootState } from '../../../../app/redux/store';
 import { toggleUserListUpdate } from '../../../../app/redux/features/isUserListUpdated';
+import { RootState } from '../../../../app/redux/store';
+import { IUserRoleProps } from '../types';
 
 const UserManagementModalPage = () => {
     const dispatch = useDispatch();
     const { handleSubmit, register } = useForm();
-    const [roles, setRoles] = useState([
+    const [roles, setRoles] = useState<IUserRoleProps[]>([
         {
             id: 1,
             name: 'Admin',
@@ -58,6 +59,15 @@ const UserManagementModalPage = () => {
         [`${formProperties.name}`]: userData.name || '',
         [`${formProperties.surname}`]: userData.surname || '',
     });
+
+    const prepareUserSelectedRoles = (roles: IUserRoleProps[]) => {
+        userData.roles.forEach((role: string) => {
+            const roleIndex = (roles as IUserRoleProps[]).findIndex((item: IUserRoleProps) => item.name === role);
+            roles[roleIndex].isChecked = true;
+        });
+    
+        setRoles(roles);
+    };
 
     const handleFormSubmit = async () => {
         let response;
@@ -109,6 +119,10 @@ const UserManagementModalPage = () => {
         dispatch(toggleModalVisibility(false));
         dispatch(toggleUserListUpdate(true));
     };
+
+    useEffect(() => {
+        prepareUserSelectedRoles(roles);
+    }, []);
 
     return (
         <div className="sh-user-create-modal-form-container relative p-6 bg-white rounded-lg max-h-[650px]">
@@ -274,7 +288,7 @@ const UserManagementModalPage = () => {
                 </div>
             </form>
         </div>
-    )
-}
+    );
+};
 
 export default UserManagementModalPage
