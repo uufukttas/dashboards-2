@@ -6,7 +6,7 @@ import Modal from '../Modal/Modal';
 import Pagination from '../ServicePointSection/PaginationComponents/Pagination';
 import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { deleteUserRequest, getUsersRequest, searchUserRequest } from '../../../app/api/userManagements';
+import { deleteUserRequest, getUsersRequest } from '../../../app/api/userManagements';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { setSearchedText } from '../../../app/redux/features/searchedText';
@@ -38,7 +38,7 @@ const UserManagementSection: React.FC = () => {
         dispatch(toggleUserListUpdate(false));
     };
     const getSearchedUsers = async (): Promise<void> => {
-        const response = await searchUserRequest(currentPage, searchedText);
+        const response = await getUsersRequest(currentPage, searchedText);
 
         dispatch(setUsers({ users: response.data, count: response.count }));
     };
