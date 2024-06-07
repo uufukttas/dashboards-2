@@ -5,6 +5,7 @@ import { FaUser } from 'react-icons/fa6';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { Button } from '@projects/button';
+import { addResourceText } from '../../../app/api/profile/addResourceText';
 
 const ProfileSection: React.FC = () => {
     const profilePagePrefix: string = `${BRAND_PREFIX}-profile`;
@@ -58,9 +59,24 @@ const ProfileSection: React.FC = () => {
         </div>
     );
 
+    const handleColorsSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const colors = pageColors.map((color, index) => {
+            return {
+                resourceKey: colorNames[index],
+                value: color
+            };
+        });
+
+        const response = await addResourceText(colors);
+
+        console.log('response', response)
+    };
+
     const chooseColorsCardBody = (
         <div className={`${profilePagePrefix}-colors-container flex justify-between items-center`}>
-            <form className='flex justify-between w-full flex-col'>
+            <form className='flex justify-between w-full flex-col' onSubmit={handleColorsSubmit}>
                 {
                     pageColors.map((color, index) => {
                         return (
@@ -94,6 +110,13 @@ const ProfileSection: React.FC = () => {
                         );
                     })
                 }
+                <Button
+                    className={`${profilePagePrefix}-color-submit-button w-1/3 p-2 bg-primary text-white rounded-lg`}
+                    id={`${profilePagePrefix}-color-submit-button`}
+                    type='submit'
+                >
+                    Renkleri Kaydet
+                </Button>
             </form>
         </div>
     );
