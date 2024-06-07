@@ -5,7 +5,7 @@ const initialState: IUserDataProps = {
     roles: [],
     userId: 0,
     userName: '',
-    email: '',
+    eMail: '',
     phoneNumber: '',
     name: '',
     surname: '',
@@ -17,7 +17,7 @@ export const userData = createSlice({
     reducers: {
         setUserData: (state, action) => {
             state.userName = action.payload.userName;
-            state.email = action.payload.email;
+            state.eMail = action.payload.eMail;
             state.phoneNumber = action.payload.phoneNumber;
             state.name = action.payload.name;
             state.surname = action.payload.surname;

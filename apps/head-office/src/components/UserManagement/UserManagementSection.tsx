@@ -13,13 +13,15 @@ import { setSearchedText } from '../../../app/redux/features/searchedText';
 import { setUsers } from '../../../app/redux/features/users';
 import { AppDispatch, RootState } from '../../../app/redux/store';
 import { initialUserManagementDataValues, userManagementTableFilteredDropdownItems, userManagementTableHeadData } from './constants';
-import { setUserData } from 'apps/head-office/app/redux/features/userData';
+import { setUserData } from '../../../app/redux/features/userData';
+import { toggleUserListUpdate } from '../../../app/redux/features/isUserListUpdated';
 
 const UserManagementSection: React.FC = () => {
     const userManagementPrefix: string = `${BRAND_PREFIX}-user-management`;
     const dispatch = useDispatch<AppDispatch>();
     const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
+    const isUserListUpdated = useSelector((state: RootState) => state.isUserListUpdated.isUserListUpdated);
     const searchedText = useSelector((state: RootState) => state.searchedText.searchedText);
     const { count, users } = useSelector((state: RootState) => state.users);
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -33,6 +35,7 @@ const UserManagementSection: React.FC = () => {
         const response = await getUsersRequest(currentPage);
 
         dispatch(setUsers({ users: response.data, count: response.count }));
+        dispatch(toggleUserListUpdate(false));
     };
     const getSearchedUsers = async (): Promise<void> => {
         const response = await searchUserRequest(currentPage, searchedText);
@@ -50,7 +53,7 @@ const UserManagementSection: React.FC = () => {
         } else {
             getUsers();
         }
-    }, [currentPage, searchedText]);
+    }, [currentPage, searchedText, isUserListUpdated]);
 
     return (
         <div className={`${userManagementPrefix}-table-container flex justify-between items-center flex-col`}>
@@ -85,6 +88,7 @@ const UserManagementSection: React.FC = () => {
                         handleSuccess={() => {
                             deleteUser(dialogInformation.data);
                             dispatch(hideDialog());
+                            dispatch(toggleUserListUpdate(true));
                         }}
                     />
                 )

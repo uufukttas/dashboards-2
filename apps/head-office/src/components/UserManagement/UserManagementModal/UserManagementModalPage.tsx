@@ -8,7 +8,8 @@ import { Label } from '@projects/label';
 import { registerUserRequest, updateUserRequest } from '../../../../app/api/userManagements';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
-import { RootState } from 'apps/head-office/app/redux/store';
+import { RootState } from '../../../../app/redux/store';
+import { toggleUserListUpdate } from '../../../../app/redux/features/isUserListUpdated';
 
 const UserManagementModalPage = () => {
     const dispatch = useDispatch();
@@ -106,6 +107,7 @@ const UserManagementModalPage = () => {
         }, 5000);
 
         dispatch(toggleModalVisibility(false));
+        dispatch(toggleUserListUpdate(true));
     };
 
     return (
