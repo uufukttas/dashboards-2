@@ -180,6 +180,9 @@ export type IIsServicePointDataUpdatedProps = {
 export type IIsSidebarExpandStateProps = {
     isSidebarExpanded: boolean | null;
 };
+export type IIsUserListUpdatedProps = {
+    isUserListUpdated: boolean;
+};
 export interface IPermissionsStateProps {
     phoneNumber: string;
     userName?: string;
@@ -208,7 +211,7 @@ export interface IUserDataProps {
     userId: number;
     name: string;
     surname: string;
-    email: string;
+    eMail: string;
     phoneNumber: string;
     userName: string;
 };
