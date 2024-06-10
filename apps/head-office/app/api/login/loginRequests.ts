@@ -1,7 +1,7 @@
 import axios from 'axios';
-import type { IResponseInfoProps } from '../types.d';
+import type { ILoginRequestProps, IResponseInfoProps } from '../types';
 
-const loginRequest = async (credentials: string): Promise<IResponseInfoProps> => {
+const loginRequest = async (credentials: ILoginRequestProps): Promise<IResponseInfoProps> => {
     try {
         const response = await axios.post(
             `${process.env.NEXT_PUBLIC_BASE_URL}/Auth/Login` || '',
