@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BRAND_PREFIX } from '../../constants/constants';
 import Card from '../Card/Card';
 import { FaUser } from 'react-icons/fa6';
+import { Image } from '@projects/image';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { Button } from '@projects/button';
@@ -71,6 +72,42 @@ const ProfileSection: React.FC = () => {
                         type='submit'
                     >
                         Sifreyi Degistir
+                    </Button>
+                </div>
+            </form>
+        </div>
+    );
+
+    const companyLogoCardBody = (
+        <div className={`${profilePagePrefix}-company-logo-container flex justify-between items-center`}>
+            <form className='flex items-end justify-between w-full'>
+                <div className={`${profilePagePrefix}-company-logo-input-container w-1/3`}>
+                    <Label
+                        className={`${profilePagePrefix}-company-logo-label block mb-2 text-heading font-semibold px-2`}
+                        htmlFor={`${profilePagePrefix}-company-logo-input`}
+                        labelText='Logo'
+                    />
+                    <div className={`${profilePagePrefix}-company-logo-image-container w-1/2 h-1/2 border-2 border-black`}>
+                        <Image
+                            alt='Company Logo'
+                            className='w-full h-full'
+                            src='https://via.placeholder.com/150'
+                        />
+                    </div>
+                    <Input
+                        className={`${profilePagePrefix}-company-logo-input text-text text-sm rounded-lg block w-full p-2.5`}
+                        id={`${profilePagePrefix}-company-logo-input`}
+                        name={`${profilePagePrefix}-company-logo-input`}
+                        type='file'
+                    />
+                </div>
+                <div className={`${profilePagePrefix}-company-logo-submit-button-container w-1/3`}>
+                    <Button
+                        className={`${profilePagePrefix}-company-logo-submit-button w-full p-2 bg-primary text-white rounded-lg`}
+                        id={`${profilePagePrefix}-company-logo-submit-button`}
+                        type='submit'
+                    >
+                        Logoyu Degistir
                     </Button>
                 </div>
             </form>
@@ -182,7 +219,14 @@ const ProfileSection: React.FC = () => {
                         className={`${profilePagePrefix}-last-login-card`}
                         cardBody={lastLoginCardBody}
                     />
+                    <div className={`${profilePagePrefix}-company-logo-card-container mt-8`}>
+                        <Card
+                            className={`${profilePagePrefix}-company-logo-card`}
+                            cardBody={companyLogoCardBody}
+                        />
+                    </div>
                 </div>
+
             </div>
         </div>
     );
