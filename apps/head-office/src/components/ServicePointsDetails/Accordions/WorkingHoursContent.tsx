@@ -9,7 +9,7 @@ import { IWorkingHoursContentProps, ITimeSlot } from '../types';
 
 const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
     const dispatch = useDispatch();
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const daysOfWeek = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
     const [timeSlots, setTimeSlots] = useState<ITimeSlot[]>(() =>
         Array.from({ length: 7 * 24 }).map((_, index) => ({
             day: Math.floor(index / 24),
@@ -249,7 +249,7 @@ const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
             <table className={`${sectionPrefix}-time-table`}>
                 <thead>
                     <tr>
-                        <th>Time / Day</th>
+                        <th>Saat / Gün</th>
                         {daysOfWeek.map(day => (
                             <th key={day}>{day}</th>
                         ))}

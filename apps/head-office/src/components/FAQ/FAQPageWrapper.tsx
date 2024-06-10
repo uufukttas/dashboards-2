@@ -31,7 +31,7 @@ const FAQ: React.FC = () => {
                         <Loading />
                     )
                     : (
-                        <MainPage headerName='Hosgeldin, '>
+                        <MainPage headerName='Sıkça Sorular Sorular'>
                             <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap`}>
                                 <FAQSection />
                             </div>

@@ -26,7 +26,7 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ attributeName, filteredDropd
             <Label
                 className={`sr-only ${tableHeaderPrefix}-search-button-label`}
                 htmlFor="table-search"
-                labelText={`Search`}
+                labelText={`Ara`}
             />
             <div className={`${tableHeaderPrefix}-search-input-container flex relative w-full mx-2 md:w-1/2 lg:w-1/3`}>
                 <div className={`${tableHeaderPrefix}-search-icon-container absolute inset-y-0 flex items-center pl-5 pointer-events-none justify-end `}>
@@ -36,7 +36,7 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ attributeName, filteredDropd
                     className={`${tableHeaderPrefix}-search-input w-full block p-2 md:mx-2 pl-10 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-primary focus:border-primary`}
                     id={`${tableHeaderPrefix}-search-input`}
                     name="search"
-                    placeholder="Search"
+                    placeholder="Ara"
                     type="text"
                     value={searchedText}
                     onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
