@@ -11,8 +11,8 @@ const LogoSection: React.FC = () => {
 
     return (
         <div className={`${companyLogoPrefix}-container flex justify-between items-center`}>
-            <form className={`${companyLogoPrefix}-form flex items-end justify-between w-full`}>
-                <div className={`${companyLogoPrefix}-input-container w-1/3`}>
+            <form className={`${companyLogoPrefix}-form flexflex-col justify-between w-full`}>
+                <div className={`${companyLogoPrefix}-input-container`}>
                     <Label
                         className={`${companyLogoPrefix}-label block mb-2 text-heading font-semibold px-2`}
                         htmlFor={`${companyLogoPrefix}-input`}
@@ -34,7 +34,7 @@ const LogoSection: React.FC = () => {
                 </div>
                 <div className={`${companyLogoPrefix}-submit-button-container w-1/3`}>
                     <Button
-                        className={`${companyLogoPrefix}-submit-button w-full p-2 bg-primary text-white rounded-lg`}
+                        className={`${companyLogoPrefix}-submit-button w-full p-2 bg-primary text-white rounded-lg my-2`}
                         id={`${companyLogoPrefix}-submit-button`}
                         type='submit'
                     >

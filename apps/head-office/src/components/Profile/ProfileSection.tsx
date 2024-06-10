@@ -19,7 +19,7 @@ const ProfileSection: React.FC = () => {
                 />
             </div>
             <div className={`${profilePagePrefix}-summary-selection-card-container mt-8 flex w-full`}>
-                <div className={`${profilePagePrefix}-left-container flex justify-between items-start flex-col w-1/2 mr-2`}>
+                <div className={`${profilePagePrefix}-left-container flex items-start flex-col w-1/2 mr-2`}>
                     <div className={`${profilePagePrefix}-password-card-container w-full mt-8`}>
                         <Card
                             cardBody={<PasswordSection />}
