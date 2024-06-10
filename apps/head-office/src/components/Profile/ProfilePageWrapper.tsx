@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react';
 import { Montserrat } from 'next/font/google';
 import { useDispatch, useSelector } from 'react-redux';
+import ProfileSection from './ProfileSection';
 import Loading from '../Loading/Loading';
 import MainPage from '../MainPage/MainPage';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { RootState, AppDispatch } from '../../../app/redux/store';
-// import UserManagementSection from '../../../src/components/UserManagement/UserManagementSection';
-import ProfileSection from './ProfileSection';
 
 const montserrat = Montserrat({
     display: 'swap',
