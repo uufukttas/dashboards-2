@@ -40,13 +40,13 @@ const StaticsPage: React.FC = () => {
                 borderColor: 'rgb(255, 99, 132)',
                 data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
                 fill: true,
-                label: 'Dataset 1',
+                label: 'Gelir',
             },
             {
                 backgroundColor: 'rgba(53, 162, 235, 0.5)',
                 borderColor: 'rgb(53, 162, 235)',
                 data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-                label: 'Dataset 2',
+                label: 'Gider',
             },
         ],
         labels,
@@ -57,7 +57,7 @@ const StaticsPage: React.FC = () => {
                 position: 'top' as const,
             },
             title: {
-                display: true,
+                display: false,
                 text: 'Chart.js Line Chart',
             },
         },
@@ -120,14 +120,14 @@ const StaticsPage: React.FC = () => {
             {
                 backgroundColor: 'rgba(255, 99, 132, 0.5)',
                 borderColor: 'rgb(255, 99, 132)',
-                data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-                label: 'Dataset 1',
+                data: labels.map(() => faker.datatype.number({ min: 0, max: 400 })),
+                label: 'AC',
             },
             {
                 backgroundColor: 'rgba(53, 162, 235, 0.5)',
                 borderColor: 'rgb(53, 162, 235)',
-                data: labels.map(() => faker.datatype.number({ min: -1000, max: 1000 })),
-                label: 'Dataset 2',
+                data: labels.map(() => faker.datatype.number({ min: 0, max: 400 })),
+                label: 'DC',
             },
         ],
         labels,
@@ -138,7 +138,7 @@ const StaticsPage: React.FC = () => {
                 position: 'top' as const,
             },
             title: {
-                display: true,
+                display: false,
                 text: 'Chart.js Line Chart',
             },
         },
@@ -153,23 +153,29 @@ const StaticsPage: React.FC = () => {
                     cardHeader={<h3 className='font-bold'>Şarj Üniteleri</h3>}
                     className='w-1/3 flex flex-col items-center m-2'
                 />
-
-                <Card
-                    cardBody={<Line options={lineOptions} data={lineData} style={{ width: "800px" }} />}
-                    cardHeader={<h3 className='font-bold'>Şarj Üniteleri</h3>}
-                    className='w-2/3 flex flex-col items-center m-2 '
-                />
-            </div>
-            <div className={`${chartsPrefix}-row w-full flex justify-between`}>
-                <Card
-                    cardBody={<Line options={areaLineOptions} data={areaLineData} style={{ height: "400px" }} />}
-                    cardHeader={<h3 className='font-bold'>Şarj Üniteleri</h3>}
-                    className='w-2/3 flex flex-col items-center m-2'
-                />
                 <Card
                     cardBody={<Doughnut data={donutData} />}
                     cardHeader={<h3 className='font-bold'>Şarj Üniteleri</h3>}
                     className='w-1/3 m-2 flex flex-col items-center'
+                />
+                <Card
+                    cardBody={<Pie data={pieData} />}
+                    cardHeader={<h3 className='font-bold'>Şarj Üniteleri</h3>}
+                    className='w-1/3 flex flex-col items-center m-2'
+                />
+            </div>
+            <div className={`${chartsPrefix}-row w-full flex justify-between`}>
+                <Card
+                    cardBody={<Line options={lineOptions} data={lineData} style={{ width: "1200px" }} />}
+                    cardHeader={<h3 className='font-bold'>Aylik Getiri</h3>}
+                    className='w-full flex flex-col items-center m-2 '
+                />
+            </div>
+            <div className={`${chartsPrefix}-row w-full flex justify-between`}>
+                <Card
+                    cardBody={<Line options={areaLineOptions} data={areaLineData} style={{ height: "400px", width: "1200px" }} />}
+                    cardHeader={<h3 className='font-bold'>Gelir Gider Karsilastirma</h3>}
+                    className='w-full flex flex-col items-center m-2'
                 />
             </div>
         </div>
