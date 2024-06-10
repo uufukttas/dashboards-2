@@ -43,20 +43,15 @@ interface IServicePointInformationProps {
     freePark: boolean;
     paymentMethods: string[];
 };
-export interface IChargeUnitBrandsProps {
-    id: number;
-    isDeleted: boolean;
-    name: string;
-};
-export interface IStationFeatureListItemsProps {
-    id: number;
-    name: string;
-    rid: null;
-};
 export interface IAlertInformationStateProps {
     isVisible: boolean;
     message: string;
     type: 'success' | 'error' | 'info' | 'warning';
+};
+export interface IChargeUnitBrandsProps {
+    id: number;
+    isDeleted: boolean;
+    name: string;
 };
 export type IChargePointDataStateProps = {
     isChargePointDataUpdated: boolean;
@@ -102,6 +97,12 @@ export type IComissionDataStateProps = {
     TariffSubFractionTypeID: number;
     TariffSubFractionTypeName: string;
 };
+export type IConnectorPropertyStateProps = {
+    chargePointId: number;
+    chargePointModelId: number;
+    connectorId: number;
+    connectorNumber: number;
+};
 export type IConnectorsDataStateProps = {
     RID: number;
     chargingStatus: null;
@@ -131,12 +132,6 @@ export type IConnectorsDataStateProps = {
     stationName: string;
     status: number;
     statusName: string;
-};
-export type IConnectorPropertyStateProps = {
-    chargePointId: number;
-    chargePointModelId: number;
-    connectorId: number;
-    connectorNumber: number;
 };
 export type IDialogInformationStateProps = {
     isVisible: boolean;
@@ -206,6 +201,11 @@ export type IServicePointInformationStateProps = {
 export type IServicePointPermissionsStateProps = {
     servicePointPermissions: IPermissionsProps[];
 };
+export interface IStationFeatureListItemsProps {
+    id: number;
+    name: string;
+    rid: null;
+};
 export interface IUserDataProps {
     roles: string[];
     userId: number;
@@ -214,6 +214,15 @@ export interface IUserDataProps {
     eMail: string;
     phoneNumber: string;
     userName: string;
+};
+export interface IUserProfileInfoProps {
+    userId: string;
+    name: string;
+    surname: string;
+    eMail: string;
+    userName: string;
+    phoneNumber: string;
+    role: string[];
 };
 export type IUsersProps = {
     userId: number;

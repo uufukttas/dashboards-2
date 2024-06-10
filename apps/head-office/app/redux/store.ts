@@ -30,6 +30,7 @@ import setConnectors from './features/connectorsData';
 import setVisibleModal from './features/setVisibleModal';
 import statusList from './features/statusList';
 import userData from './features/userData';
+import userProfileInfo from './features/userProfileInfo';
 import users from './features/users';
 
 export const store: EnhancedStore = configureStore({
@@ -65,6 +66,7 @@ export const store: EnhancedStore = configureStore({
     setVisibleModal,
     statusList,
     userData,
+    userProfileInfo,
     users,
   },
   devTools: process.env.NODE_ENV !== 'production',
