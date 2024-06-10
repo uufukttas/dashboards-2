@@ -31,7 +31,7 @@ const UserManagement: React.FC = () => {
                         <Loading />
                     )
                     : (
-                        <MainPage sectionName='Kullanici Yonetimi'>
+                        <MainPage headerName='Kullanici Yonetimi'>
                             <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap`}>
                                 <UserManagementSection />
                             </div>

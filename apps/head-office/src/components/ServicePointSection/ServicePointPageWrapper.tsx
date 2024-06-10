@@ -30,7 +30,7 @@ const ServicePointPage: React.FC = () => {
                         <Loading />
                     )
                     : (
-                        <MainPage sectionName='Istasyonlar'>
+                        <MainPage headerName='Istasyonlar'>
                             <div className={`${BRAND_PREFIX}-service-points-page-container flex justify-center items-center md:pt-6 flex-wrap`}>
                                 <ServicePointSection />
                             </div>

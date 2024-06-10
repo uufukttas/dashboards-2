@@ -7,15 +7,15 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import type { IMainPageProps } from './types';
 import './MainPage.css';
 
-const MainPage: React.FC<IMainPageProps> = ({ children, sectionName }: IMainPageProps) => {
+const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageProps) => {
   const pagePrefix: string = `${BRAND_PREFIX}-page`;
 
   return (
     <div className={`${pagePrefix}-wrapper w-full flex`}>
       <Sidebar />
       <div className={`${pagePrefix}-container bg-white overflow-x-hidden no-scrollbar`}>
-        <Header className={`h-[80px] flex items-center w-full`} />
-        <Section sectionName={sectionName}>
+        <Header className={`h-[80px] flex items-center w-full`} headerName={headerName} />
+        <Section>
           {children}
         </Section>
       </div>

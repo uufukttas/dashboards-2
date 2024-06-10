@@ -31,7 +31,7 @@ const Campaigns: React.FC = () => {
                         <Loading />
                     )
                     : (
-                        <MainPage sectionName='Hosgeldin, '>
+                        <MainPage headerName='Hosgeldin, '>
                             <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap`}>
                                 <CampaignsSection />
                             </div>
