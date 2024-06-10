@@ -23,8 +23,7 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> =
                     <div className={`${sidebarPrefix}-item-container w-full flex p-4 ${isSidebarExpanded
                         ? 'justify-start'
                         : 'justify-center'
-                        }
-                `}
+                        }`}
                     >
                         <span className={`${sidebarPrefix}-item-icon`}>
                             {item.icon}
@@ -35,8 +34,7 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> =
                                     ? 'block'
                                     : 'hidden'
                                 : 'hidden'
-                                }
-                        `}
+                                }`}
                         >
                             {item.name}
                         </span>

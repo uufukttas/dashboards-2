@@ -13,13 +13,14 @@ import type { ILoginFormDataProps, ILoginRequestDataProps } from '../types';
 
 const CardBody: React.FC = () => {
     const initialLoginFormData: ILoginFormDataProps = { password: '', username: '' };
+    const loginFormInputs: string[] = ['username', 'password'];
     const loginPrefix: string = `${BRAND_PREFIX}-login`;
     const dispatch = useDispatch<AppDispatch>();
     const { formState: { errors }, handleSubmit, register } = useForm();
     const router = useRouter();
     const [loginFormData, setLoginFormData] = useState<ILoginFormDataProps>(initialLoginFormData);
 
-    const fetchLoginData = async (credentials: string): Promise<void> => {
+    const fetchLoginData = async (credentials: ILoginRequestDataProps): Promise<void> => {
         const response = await loginRequest(credentials);
 
         response.status === 200 ? handleLoginSuccess() : handleLoginError(response.data.message);
@@ -37,7 +38,7 @@ const CardBody: React.FC = () => {
             password: loginFormData.password,
         };
 
-        await fetchLoginData(JSON.stringify(userLoginData));
+        await fetchLoginData(userLoginData);
     };
     const handleLoginSuccess = (): void => {
         dispatch(toggleLoadingVisibility(true));
@@ -49,7 +50,7 @@ const CardBody: React.FC = () => {
         <div className={`${loginPrefix}-form-container`}>
             <form className={`${loginPrefix}-form`} onSubmit={handleSubmit(handleLoginSubmit)}>
                 {
-                    ['username', 'password'].map((loginFormInput: string, index: number) => (
+                    loginFormInputs.map((loginFormInput: string, index: number) => (
                         <CardBodyFormElement
                             errors={errors}
                             index={index}

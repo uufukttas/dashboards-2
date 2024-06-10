@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { IAccordionProps } from './types';
+import type { IAccordionProps } from './types';
 import './Accordion.css';
 
 const Accordion: React.FC<IAccordionProps> = ({

@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import { FaAlignJustify, FaUser } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
@@ -7,7 +8,6 @@ import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpa
 import { RootState, AppDispatch } from '../../../app/redux/store';
 import type { IHeaderProps } from './types';
 import './Header.css';
-import Link from 'next/link';
 
 const Header: React.FC<IHeaderProps> = ({ className, headerName }: IHeaderProps) => {
   const headerPrefix: string = `${BRAND_PREFIX}-header`;
@@ -25,7 +25,9 @@ const Header: React.FC<IHeaderProps> = ({ className, headerName }: IHeaderProps)
         >
           <FaAlignJustify />
         </Button>
-        <h2 className={`${headerPrefix}-header-name text-lg font-semibold`}>{headerName}</h2>
+        <div className={`${headerPrefix}-header-name-container h-8 w-0.5 flex items-center justify-evenly`}>
+          <h2 className={`${headerPrefix}-header-name text-lg font-semibold`}>{headerName}</h2>
+        </div>
       </div>
       <div className={`${headerPrefix}-profile-button-container`}>
         <Link

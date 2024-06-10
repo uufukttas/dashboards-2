@@ -84,8 +84,7 @@ const Tabs: React.FC = () => {
               activeTabIndex === index
                 ? 'active'
                 : ''
-              }`
-            }
+              }`}
             id={`${tabPrefix}-item-${index}`}
             type="button"
             onClick={() => dispatch(setActiveTabIndex(index))}
