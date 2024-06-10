@@ -195,7 +195,7 @@ const ProfileSection: React.FC = () => {
         <div className={`${profilePagePrefix}-container flex justify-between items-start flex-col`}>
             <div className={`${profilePagePrefix}-summary-card-container w-full`}>
                 <Card
-                    className={`${profilePagePrefix}-summary-card`}
+                    className={`${profilePagePrefix}-summary-card p-8`}
                     cardBody={inforCardBody}
                 />
             </div>
@@ -203,25 +203,25 @@ const ProfileSection: React.FC = () => {
                 <div className='flex justify-between items-start flex-col w-1/2 mr-2'>
                     <div className={`${profilePagePrefix}-password-card-container w-full mt-8`}>
                         <Card
-                            className={`${profilePagePrefix}-password-card`}
+                            className={`${profilePagePrefix}-password-card p-8`}
                             cardBody={passwordCardBody}
                         />
                     </div>
                     <div className={`${profilePagePrefix}-colors-card-container w-full mt-8`}>
                         <Card
-                            className={`${profilePagePrefix}-colors-card`}
+                            className={`${profilePagePrefix}-colors-card p-8`}
                             cardBody={chooseColorsCardBody}
                         />
                     </div>
                 </div>
                 <div className={`${profilePagePrefix}-last-login-card-container w-1/2 mt-8 ml-2`}>
                     <Card
-                        className={`${profilePagePrefix}-last-login-card`}
+                        className={`${profilePagePrefix}-last-login-card p-8`}
                         cardBody={lastLoginCardBody}
                     />
                     <div className={`${profilePagePrefix}-company-logo-card-container mt-8`}>
                         <Card
-                            className={`${profilePagePrefix}-company-logo-card`}
+                            className={`${profilePagePrefix}-company-logo-card p-8`}
                             cardBody={companyLogoCardBody}
                         />
                     </div>

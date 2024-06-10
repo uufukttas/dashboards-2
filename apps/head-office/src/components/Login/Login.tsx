@@ -11,7 +11,7 @@ const Login: React.FC = () => {
             cardBody={<CardBody />}
             cardFooter={<CardFooter />}
             cardHeader={<CardHeader />}
-            className={`lg:mx-8 ${detectDevice().isDesktop ? 'w-1/4' : (detectDevice().isTablet ? 'w-3/4' : 'w-full')}`}
+            className={`lg:mx-8 p-8 ${detectDevice().isDesktop ? 'w-1/4' : (detectDevice().isTablet ? 'w-3/4' : 'w-full')}`}
         />
     );
 };

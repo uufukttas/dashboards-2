@@ -151,31 +151,31 @@ const StaticsPage: React.FC = () => {
                 <Card
                     cardBody={<Pie data={pieData} />}
                     cardHeader={<h3 className='font-bold'>Şarj Üniteleri</h3>}
-                    className='w-1/3 flex flex-col items-center m-2'
+                    className='w-1/3 flex flex-col items-center m-2 p-8'
                 />
                 <Card
                     cardBody={<Doughnut data={donutData} />}
                     cardHeader={<h3 className='font-bold'>Şarj Üniteleri</h3>}
-                    className='w-1/3 m-2 flex flex-col items-center'
+                    className='w-1/3 m-2 flex flex-col items-center p-8'
                 />
                 <Card
                     cardBody={<Pie data={pieData} />}
                     cardHeader={<h3 className='font-bold'>Şarj Üniteleri</h3>}
-                    className='w-1/3 flex flex-col items-center m-2'
+                    className='w-1/3 flex flex-col items-center m-2 p-8'
                 />
             </div>
             <div className={`${chartsPrefix}-row w-full flex justify-between`}>
                 <Card
                     cardBody={<Line options={lineOptions} data={lineData} style={{ width: "1200px" }} />}
                     cardHeader={<h3 className='font-bold'>Aylik Getiri</h3>}
-                    className='w-full flex flex-col items-center m-2 '
+                    className='w-full flex flex-col items-center m-2 p-8'
                 />
             </div>
             <div className={`${chartsPrefix}-row w-full flex justify-between`}>
                 <Card
                     cardBody={<Line options={areaLineOptions} data={areaLineData} style={{ height: "400px", width: "1200px" }} />}
                     cardHeader={<h3 className='font-bold'>Gelir Gider Karsilastirma</h3>}
-                    className='w-full flex flex-col items-center m-2'
+                    className='w-full flex flex-col items-center m-2 p-8'
                 />
             </div>
         </div>
