@@ -1,6 +1,7 @@
 import axios from "axios";
+import type { IDeleteUserRequestResponseProps } from "../types";
 
-const deleteUserRequest = async (userId: number) => {
+const deleteUserRequest = async (userId: number): Promise<IDeleteUserRequestResponseProps> => {
     try {
         const response = await axios
             .post(
@@ -9,9 +10,12 @@ const deleteUserRequest = async (userId: number) => {
                 { headers: { 'Content-Type': 'application/json', } }
             );
 
-        return response;
+        return response.data;
     } catch (error) {
-        return error
+        return {
+            message: 'Kullanici silinirken bir hata olustu',
+            success: false,
+        };
     };
 };
 

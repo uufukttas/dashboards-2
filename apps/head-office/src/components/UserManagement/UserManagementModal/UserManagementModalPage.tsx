@@ -12,7 +12,7 @@ import { toggleUserListUpdate } from '../../../../app/redux/features/isUserListU
 import { RootState } from '../../../../app/redux/store';
 import { IUserRoleProps } from '../types';
 
-const UserManagementModalPage = () => {
+const UserManagementModalPage: React.FC = () => {
     const dispatch = useDispatch();
     const { handleSubmit, register } = useForm();
     const [roles, setRoles] = useState<IUserRoleProps[]>([
@@ -109,7 +109,7 @@ const UserManagementModalPage = () => {
 
         dispatch(showAlert({
             message: response.message,
-            type: response.success ? 'success' : 'error'
+            type: response.isSuccess ? 'success' : 'error'
         }))
 
         setTimeout(() => {

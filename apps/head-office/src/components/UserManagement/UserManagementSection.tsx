@@ -1,24 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Alert } from '@projects/alert';
 import { Dialog } from '@projects/dialog';
+import {
+    initialUserManagementDataValues,
+    userManagementTableFilteredDropdownItems,
+    userManagementTableHeadData
+} from './constants';
 import UserManagementModalPage from './UserManagementModal/UserManagementModalPage';
 import Modal from '../Modal/Modal';
 import Pagination from '../ServicePointSection/PaginationComponents/Pagination';
 import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { deleteUserRequest, getUsersRequest } from '../../../app/api/userManagements';
+import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
+import { toggleUserListUpdate } from '../../../app/redux/features/isUserListUpdated';
 import { setSearchedText } from '../../../app/redux/features/searchedText';
 import { setUsers } from '../../../app/redux/features/users';
 import { AppDispatch, RootState } from '../../../app/redux/store';
-import { initialUserManagementDataValues, userManagementTableFilteredDropdownItems, userManagementTableHeadData } from './constants';
 import { setUserData } from '../../../app/redux/features/userData';
-import { toggleUserListUpdate } from '../../../app/redux/features/isUserListUpdated';
 
 const UserManagementSection: React.FC = () => {
     const userManagementPrefix: string = `${BRAND_PREFIX}-user-management`;
     const dispatch = useDispatch<AppDispatch>();
+    const alertInformation = useSelector((state: RootState) => state.alertInformation);
     const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
     const isUserListUpdated = useSelector((state: RootState) => state.isUserListUpdated.isUserListUpdated);
@@ -28,31 +35,40 @@ const UserManagementSection: React.FC = () => {
 
     const deleteUser = async (deletedId: number): Promise<void> => {
         const response = await deleteUserRequest(deletedId);
-        console.log('response', response)
-    };
 
+        if (!response.success) {
+            dispatch(
+                showAlert({
+                    message: 'Kullanici silinirken bir hata olustu',
+                    type: 'error',
+                })
+            );
+
+            setTimeout(() => {
+                dispatch(hideAlert());
+            }, 5000);
+
+            return;
+        };
+
+        dispatch(showAlert({ message: response.message, type: 'success' }));
+        setTimeout(() => {
+            dispatch(hideAlert());
+        }, 5000);
+    };
     const getUsers = async (): Promise<void> => {
-        const response = await getUsersRequest(currentPage);
+        const response = await getUsersRequest(currentPage, searchedText);
 
         dispatch(setUsers({ users: response.data, count: response.count }));
         dispatch(toggleUserListUpdate(false));
     };
-    const getSearchedUsers = async (): Promise<void> => {
-        const response = await getUsersRequest(currentPage, searchedText);
-
-        dispatch(setUsers({ users: response.data, count: response.count }));
-    };
 
     useEffect(() => {
         dispatch(setSearchedText(''));
-    }, [])
+    }, []);
 
     useEffect(() => {
-        if (searchedText !== '') {
-            getSearchedUsers();
-        } else {
-            getUsers();
-        }
+        getUsers();
     }, [currentPage, searchedText, isUserListUpdated]);
 
     return (
@@ -66,6 +82,15 @@ const UserManagementSection: React.FC = () => {
                     tableHeadData={userManagementTableHeadData}
                 />
             </div>
+            {
+                alertInformation.isVisible && (
+                    <Alert
+                        alertText={alertInformation.message}
+                        alertType={alertInformation.type}
+                        id={`${BRAND_PREFIX}-user-management-alert`}
+                    />
+                )
+            }
             {
                 isModalVisible && (
                     <Modal

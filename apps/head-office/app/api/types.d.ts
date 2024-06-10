@@ -11,6 +11,10 @@ export interface IConnectorProps {
     stationChargePointID: number;
     epdkSocketNumber: number;
 };
+export interface IDeleteUserRequestResponseProps {
+    message: string;
+    success: boolean;
+};
 export interface ILoginRequestProps {
     [key: string]: string;
 };
