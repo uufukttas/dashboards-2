@@ -35,23 +35,19 @@ const UserManagementSection: React.FC = () => {
 
     const deleteUser = async (deletedId: number): Promise<void> => {
         const response = await deleteUserRequest(deletedId);
+        let type: string = 'success';
+
+        response.message = response.message || 'Kullanici basariyla silindi';
 
         if (!response.success) {
-            dispatch(
-                showAlert({
-                    message: 'Kullanici silinirken bir hata olustu',
-                    type: 'error',
-                })
-            );
-
-            setTimeout(() => {
-                dispatch(hideAlert());
-            }, 5000);
-
-            return;
+            type = 'error';
+            response.message = 'Kullanici silinirken bir hata olustu';
         };
 
-        dispatch(showAlert({ message: response.message, type: 'success' }));
+        dispatch(
+            showAlert({ message: response.message, type: type })
+        );
+
         setTimeout(() => {
             dispatch(hideAlert());
         }, 5000);

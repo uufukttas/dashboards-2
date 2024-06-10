@@ -13,6 +13,26 @@ import { RootState } from '../../../../app/redux/store';
 import { IUserRoleProps } from '../types';
 
 const UserManagementModalPage: React.FC = () => {
+    const userData = useSelector((state: RootState) => state.userData);
+    const hasUserDataId: boolean = userData.userId > 0;
+    const sectionPrefix: string = 'user-management';
+    const formName: string[] = ['userName', 'eMail', 'phoneNumber', 'roles', 'name', 'surname'];
+    const formProperties = {
+        userName: `${sectionPrefix}-${formName[0]}`,
+        eMail: `${sectionPrefix}-${formName[1]}`,
+        phoneNumber: `${sectionPrefix}-${formName[2]}`,
+        roles: `${sectionPrefix}-${formName[3]}`,
+        name: `${sectionPrefix}-${formName[4]}`,
+        surname: `${sectionPrefix}-${formName[5]}`,
+    };
+    const [userFormData, setUserFormData] = useState({
+        [`${formProperties.userName}`]: userData.userName || '',
+        [`${formProperties.eMail}`]: userData.eMail || '',
+        [`${formProperties.phoneNumber}`]: userData.phoneNumber || '',
+        [`${formProperties.roles}`]: userData.roles || [],
+        [`${formProperties.name}`]: userData.name || '',
+        [`${formProperties.surname}`]: userData.surname || '',
+    });
     const dispatch = useDispatch();
     const { handleSubmit, register } = useForm();
     const [roles, setRoles] = useState<IUserRoleProps[]>([
@@ -39,43 +59,23 @@ const UserManagementModalPage: React.FC = () => {
             stationFeatureValue: 0
         }]
     );
-    const userData = useSelector((state: RootState) => state.userData);
-    const hasUserDataId: boolean = userData.userId > 0;
-    const sectionPrefix: string = 'user-management';
-    const formName: string[] = ['userName', 'eMail', 'phoneNumber', 'roles', 'name', 'surname'];
-    const formProperties = {
-        userName: `${sectionPrefix}-${formName[0]}`,
-        eMail: `${sectionPrefix}-${formName[1]}`,
-        phoneNumber: `${sectionPrefix}-${formName[2]}`,
-        roles: `${sectionPrefix}-${formName[3]}`,
-        name: `${sectionPrefix}-${formName[4]}`,
-        surname: `${sectionPrefix}-${formName[5]}`,
-    };
-    const [userFormData, setUserFormData] = useState({
-        [`${formProperties.userName}`]: userData.userName || '',
-        [`${formProperties.eMail}`]: userData.eMail || '',
-        [`${formProperties.phoneNumber}`]: userData.phoneNumber || '',
-        [`${formProperties.roles}`]: userData.roles || [],
-        [`${formProperties.name}`]: userData.name || '',
-        [`${formProperties.surname}`]: userData.surname || '',
-    });
 
-    const prepareUserSelectedRoles = (roles: IUserRoleProps[]) => {
+    const prepareUserSelectedRoles = (roles: IUserRoleProps[]): void => {
         userData.roles.forEach((role: string) => {
             const roleIndex = (roles as IUserRoleProps[]).findIndex((item: IUserRoleProps) => item.name === role);
             roles[roleIndex].isChecked = true;
         });
-    
+
         setRoles(roles);
     };
-
-    const handleFormSubmit = async () => {
+    const handleFormSubmit = async (): Promise<void> => {
         let response;
+
         if (!hasUserDataId) {
             response = await registerUserRequest({
                 userName: userFormData[`${sectionPrefix}-userName`],
-                password: 'Welcome123!',
-                newPassword: 'Welcome123!',
+                password: userData[`${sectionPrefix}-phoneNumber`],
+                newPassword: userData[`${sectionPrefix}-phoneNumber`],
                 eMail: userFormData[`${sectionPrefix}-eMail`],
                 phoneNumber: userFormData[`${sectionPrefix}-phoneNumber`],
                 roles: userFormData[`${sectionPrefix}-roles`].map((role: {
@@ -105,12 +105,14 @@ const UserManagementModalPage: React.FC = () => {
                     stationFeatureValue: number;
                 }) => role.name)
             });
-        }
+        };
 
-        dispatch(showAlert({
-            message: response.message,
-            type: response.isSuccess ? 'success' : 'error'
-        }))
+        dispatch(
+            showAlert({
+                message: response.message,
+                type: response.isSuccess ? 'success' : 'error'
+            })
+        );
 
         setTimeout(() => {
             dispatch(hideAlert());
@@ -291,4 +293,4 @@ const UserManagementModalPage: React.FC = () => {
     );
 };
 
-export default UserManagementModalPage
+export default UserManagementModalPage;
