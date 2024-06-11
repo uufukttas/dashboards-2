@@ -1,22 +1,21 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Card from '../Card/Card';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
-import { RootState } from '../../../app/redux/store';
+import './DashboardSection.css';
 
 const DashboardCards: React.FC = () => {
     const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page-cards`;
     const dispatch = useDispatch();
-    const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
 
     useEffect(() => {
         dispatch(toggleLoadingVisibility(false));
     }, []);
 
     const chargeUnitContent1: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
-            <div className='card-title-container flex items-center justify-center px-4 '>
+        <div className={`flex flex-col text-center justify-center w-full h-1/2 mb-2`}>
+            <div className='card-title-container flex items-center justify-center px-4'>
                 <div className={`text-xl lg:text-base`}>Istasyon Sayisi</div>
             </div>
             <div className='text-4xl flex items-center justify-center'>
@@ -25,7 +24,7 @@ const DashboardCards: React.FC = () => {
         </div>
     );
     const chargeUnitContent7: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
+        <div className={`flex flex-col text-center justify-center w-full h-1/2 mt-2`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
                 <div className={`text-xl lg:text-base`}>Unite Sayisi</div>
             </div>
@@ -112,57 +111,57 @@ const DashboardCards: React.FC = () => {
     );
 
     return (
-        <div className={`${pagePrefix}-container w-full flex justify-center flex-wrap`}>
-            <div className='mx-2 w-[14%] flex-col'>
+        <div className={`${pagePrefix}-container w-full flex justify-between flex-wrap`}>
+            <div className='w-full lg:w-1/6 flex flex-col px-2 my-4'>
                 <Card
                     cardBody={chargeUnitContent1}
-                    className={`w-full mx-8 my-4 flex items-center justify-center h-[92px] p-0 bg-blue-300 rounded-lg shadow-none text-blue-600 md:${isSidebarExpanded ? 'w-full' : 'w-1/3'} lg:mx-2`}
+                    className={`w-full flex items-center justify-center h-1/2 mb-2 bg-blue-300 rounded-lg shadow-none text-blue-600 py-4`}
                 />
                 <Card
                     cardBody={chargeUnitContent7}
-                    className={`w-full mx-8 my-4 flex items-center justify-center h-[92px] p-0 bg-blue-300 rounded-lg shadow-none text-blue-600 md:${isSidebarExpanded ? 'w-full' : 'w-1/3'} lg:mx-2`}
+                    className={`w-full flex items-center justify-center h-1/2 mt-2 bg-blue-300 rounded-lg shadow-none text-blue-600 py-4`}
                 />
             </div>
-            <div className='mx-2 flex w-[15.5%]'>
+            <div className='w-full lg:w-1/6 flex flex-row px-2 my-4'>
                 <Card
                     cardBody={chargeUnitContent2}
-                    className={`w-full mx-8 my-4 flex items-center justify-center h-[200px] p-0 bg-green-300 rounded-lg shadow-none text-green-600 md:${isSidebarExpanded ? 'w-1/4' : 'w-1/3'} lg:mx-2 w-1/4 p-0`}
+                    className={`w-full flex items-center justify-center h-full bg-green-300 rounded-lg shadow-none text-green-600 mx-2 py-4`}
                 />
                 <Card
                     cardBody={chargeUnitContent8}
-                    className={`w-full mx-8 my-4 flex items-center justify-center h-[200px] p-0 bg-green-300 rounded-lg shadow-none text-green-600 md:${isSidebarExpanded ? 'w-1/4' : 'w-1/3'} lg:mx-2 w-1/4 p-0`}
+                    className={`w-full flex items-center justify-center h-full bg-green-300 rounded-lg shadow-none text-green-600 mx-2 py-4`}
                 />
             </div>
-            <div className='mx-2 w-[14%] flex-col'>
+            <div className='w-full lg:w-1/6 flex flex-col px-2 my-4'>
                 <Card
                     cardBody={chargeUnitContent3}
-                    className={`w-full mx-8 my-4 flex items-center justify-center h-[200px] p-0 bg-yellow-300 rounded-lg shadow-none text-yellow-600 md:${isSidebarExpanded ? 'w-full' : 'w-1/3'} lg:mx-2`}
+                    className={`w-full flex items-center justify-center h-full mr-4 bg-yellow-300 rounded-lg shadow-none text-yellow-600 py-4`}
                 />
             </div>
-            <div className='mx-2 w-[14%] flex-col'>
+            <div className='w-full lg:w-1/6 flex flex-col px-2 my-4'>
                 <Card
                     cardBody={chargeUnitContent4}
-                    className={`w-full mx-8 my-4 flex items-center justify-center h-[92px] p-0 bg-blue-300 rounded-lg shadow-none text-blue-600 md:${isSidebarExpanded ? 'w-full' : 'w-1/3'} lg:mx-2`}
+                    className={`w-full flex items-center justify-center h-1/2 mb-2 bg-blue-300 rounded-lg shadow-none text-blue-600 py-4`}
                 />
                 <Card
                     cardBody={chargeUnitContent9}
-                    className={`w-full mx-8 my-4 flex items-center justify-center h-[92px] p-0 bg-blue-300 rounded-lg shadow-none text-blue-600 md:${isSidebarExpanded ? 'w-full' : 'w-1/3'} lg:mx-2`}
+                    className={`w-full flex items-center justify-center h-1/2 mt-2 bg-blue-300 rounded-lg shadow-none text-blue-600 py-4`}
                 />
             </div>
-            <div className='mx-2 w-[14%] flex-col'>
-            <Card
-                cardBody={chargeUnitContent5}
-                className={`w-full mx-8 my-4 flex items-center justify-center h-[200px] p-0 bg-purple-300 rounded-lg shadow-none text-purple-600 md:${isSidebarExpanded ? 'w-full' : 'w-1/3'} lg:mx-2`}
-            />
+            <div className='w-full lg:w-1/6 flex flex-col px-2 my-4'>
+                <Card
+                    cardBody={chargeUnitContent5}
+                    className={`w-full flex items-center justify-center h-full mr-4 bg-purple-300 rounded-lg shadow-none text-purple-600 py-4`}
+                />
             </div>
-            <div className='mx-2 w-[14%] flex-col'>
+            <div className='w-full lg:w-1/6 flex flex-col px-2 my-4'>
                 <Card
                     cardBody={chargeUnitContent6}
-                    className={`w-full mx-8 my-4 flex items-center justify-center h-[92px] p-0 bg-blue-300 rounded-lg shadow-none text-blue-600 md:${isSidebarExpanded ? 'w-full' : 'w-1/3'} lg:mx-2`}
+                    className={`w-full flex items-center justify-center h-1/2 mb-2 bg-blue-300 rounded-lg shadow-none text-blue-600 py-4`}
                 />
                 <Card
                     cardBody={chargeUnitContent10}
-                    className={`w-full mx-8 my-4 flex items-center justify-center h-[92px] p-0 bg-blue-300 rounded-lg shadow-none text-blue-600 md:${isSidebarExpanded ? 'w-full' : 'w-1/3'} lg:mx-2`}
+                    className={`w-full flex items-center justify-center h-1/2 mt-2 bg-blue-300 rounded-lg shadow-none text-blue-600 py-4`}
                 />
             </div>
         </div>

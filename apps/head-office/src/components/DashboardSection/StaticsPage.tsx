@@ -146,36 +146,36 @@ const StaticsPage: React.FC = () => {
     };
 
     return (
-        <div className={`${chartsPrefix} flex justify-between w-full px-20 flex-wrap h-full`}>
-            <div className={`${chartsPrefix}-row w-full flex justify-between`}>
+        <div className={`${chartsPrefix} flex justify-between w-full flex-wrap h-full`}>
+            <div className={`${chartsPrefix}-row w-full flex flex-col xl:flex-row justify-between my-4 w-1/3`}>
                 <Card
                     cardBody={<Pie data={pieData} />}
                     cardHeader={<h3 className='font-bold'>Istasyonlar Durumlari</h3>}
-                    className='w-1/3 flex flex-col items-center m-2 p-8'
+                    className='w-full flex flex-col items-center py-4 mx-2 px-4 mt-4 lg:mt-0 '
                 />
                 <Card
                     cardBody={<Doughnut data={donutData} />}
                     cardHeader={<h3 className='font-bold'>Sarj Unite Durumlari</h3>}
-                    className='w-1/3 m-2 flex flex-col items-center p-8'
+                    className='w-full flex flex-col items-center py-4 mx-2 px-4 mt-4 lg:mt-0 '
                 />
                 <Card
                     cardBody={<Pie data={pieData} />}
                     cardHeader={<h3 className='font-bold'>Bilanco</h3>}
-                    className='w-1/3 flex flex-col items-center m-2 p-8'
+                    className='w-full flex flex-col items-center py-4 mx-2 px-4 mt-4 lg:mt-0 '
                 />
             </div>
-            <div className={`${chartsPrefix}-row w-full flex justify-between`}>
+            <div className={`${chartsPrefix}-row w-full flex justify-between my-4 w-1/3`}>
                 <Card
-                    cardBody={<Line options={lineOptions} data={lineData} style={{ width: "1200px" }} />}
+                    cardBody={<Line className='w-[300px] h-[100px] lg:w-[924px] lg:h-full' options={lineOptions} data={lineData} />}
                     cardHeader={<h3 className='font-bold'>Aylik Getiri</h3>}
-                    className='w-full flex flex-col items-center m-2 p-8'
+                    className='line-chart w-full flex flex-col items-center p-8 h-full'
                 />
             </div>
-            <div className={`${chartsPrefix}-row w-full flex justify-between`}>
+            <div className={`${chartsPrefix}-row w-full flex justify-between my-4 w-1/3`}>
                 <Card
-                    cardBody={<Line options={areaLineOptions} data={areaLineData} style={{ height: "400px", width: "1200px" }} />}
+                    cardBody={<Line className='w-[300px] h-[100px] lg:w-[924px] lg:h-full' options={areaLineOptions} data={areaLineData} />}
                     cardHeader={<h3 className='font-bold'>Gelir Gider Karsilastirma</h3>}
-                    className='w-full flex flex-col items-center m-2 p-8'
+                    className='line-chart w-full flex flex-col items-center p-8 h-full'
                 />
             </div>
         </div>
