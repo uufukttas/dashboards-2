@@ -87,7 +87,7 @@ const StaticsPage: React.FC = () => {
                 label: '# of Votes',
             },
         ],
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: ['Arizali', 'Aktif', 'Planlanmis', 'Uygun', 'Mesgul', 'Bakimda'],
     };
     const pieData = {
         datasets: [
@@ -113,7 +113,7 @@ const StaticsPage: React.FC = () => {
                 label: 'Ünite',
             },
         ],
-        labels: ['Planlanmış', 'Aktif', 'Arızalı'],
+        labels: ['Gelir', 'Masraf', 'Bakim'],
     };
     const lineData = {
         datasets: [
@@ -150,17 +150,17 @@ const StaticsPage: React.FC = () => {
             <div className={`${chartsPrefix}-row w-full flex justify-between`}>
                 <Card
                     cardBody={<Pie data={pieData} />}
-                    cardHeader={<h3 className='font-bold'>Şarj Üniteleri</h3>}
+                    cardHeader={<h3 className='font-bold'>Istasyonlar Durumlari</h3>}
                     className='w-1/3 flex flex-col items-center m-2 p-8'
                 />
                 <Card
                     cardBody={<Doughnut data={donutData} />}
-                    cardHeader={<h3 className='font-bold'>Şarj Üniteleri</h3>}
+                    cardHeader={<h3 className='font-bold'>Sarj Unite Durumlari</h3>}
                     className='w-1/3 m-2 flex flex-col items-center p-8'
                 />
                 <Card
                     cardBody={<Pie data={pieData} />}
-                    cardHeader={<h3 className='font-bold'>Şarj Üniteleri</h3>}
+                    cardHeader={<h3 className='font-bold'>Bilanco</h3>}
                     className='w-1/3 flex flex-col items-center m-2 p-8'
                 />
             </div>

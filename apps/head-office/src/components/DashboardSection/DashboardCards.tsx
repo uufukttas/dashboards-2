@@ -86,7 +86,7 @@ const DashboardCards: React.FC = () => {
             <div className='card-title-container flex items-center justify-center px-4 '>
                 <div className={`text-xl lg:text-base`}>Musteri Sayisi</div>
             </div>
-            <div className='text-4xl flex items-center justify-center'>?
+            <div className='text-4xl flex items-center justify-center'>100000
             </div>
         </div>
     );

@@ -25,7 +25,7 @@ const Header: React.FC<IHeaderProps> = ({ className, headerName }: IHeaderProps)
         >
           <FaAlignJustify />
         </Button>
-        <div className={`${headerPrefix}-header-name-container h-8 w-0.5 flex items-center justify-evenly`}>
+        <div className={`${headerPrefix}-header-name-container h-8 flex items-center justify-evenly`}>
           <h2 className={`${headerPrefix}-header-name text-lg font-semibold`}>{headerName}</h2>
         </div>
       </div>
