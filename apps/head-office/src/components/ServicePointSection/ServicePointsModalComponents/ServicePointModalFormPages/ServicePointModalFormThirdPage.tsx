@@ -34,6 +34,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
     'x-coord': `${sectionPrefix}-${formName[2]}`,
     'y-coord': `${sectionPrefix}-${formName[3]}`,
   };
+  const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
   const [thirdPageFormData, setThirdPageFormData] = useState<IFormDataProps>({
     [`${formProperties.cityId}`]: servicePointInformation.cityId || 1,
     [`${formProperties.districtId}`]: servicePointInformation.districtId || 1,
@@ -101,6 +102,15 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
     setThirdPageFormData(({ ...thirdPageFormData, [`${formProperties.districtId}`]: districtId }));
   };
   const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
+    if (
+      thirdPageFormData[`${formProperties['x-coord']}`] === 0 &&
+      thirdPageFormData[`${formProperties['y-coord']}`] === 0
+    ) {
+      setIsErrorVisible(true);
+
+      return;
+    };
+
     dispatch(
       setServicePointInformation({
         ...servicePointInformation,
@@ -119,6 +129,10 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
     getPaymentMethods();
     getOpportunities();
   }, []);
+
+  useEffect(() => {
+    setIsErrorVisible(false);
+  }, [thirdPageFormData])
 
   return (
     <form
@@ -187,6 +201,14 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
         </div>
       </div>
       <MapComponent formData={thirdPageFormData} onSelectLocation={handleSelectLocation} />
+      {
+        isErrorVisible && (
+          <div className={`coordinates-error-wrapper my-4 font-bold text-error`}>
+            <p className={`coordinates-error-message text-error`}>
+              {'Harita uzerinden lokasyon seciniz.'}
+            </p>
+          </div>
+        )}
       {
         thirdPageFormData[`${formProperties['x-coord']}`] === '' && thirdPageFormData[`${formProperties['y-coord']}`] === '' &&
         (
