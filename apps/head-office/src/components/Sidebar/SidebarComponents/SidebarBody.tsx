@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaGift, FaLocationDot, FaUser, FaQuestion } from 'react-icons/fa6';
+import { LuReceipt } from "react-icons/lu";
 import SidebarBodyItem from './SidebarBodyItem';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import type { ISidebarElementProps } from '../types';
@@ -15,6 +16,11 @@ const SidebarBody: React.FC = () => {
             icon: <FaUser />,
             link: '/users-management',
             name: 'Kullanici Yonetimi',
+        },
+        {
+            icon: <LuReceipt />,
+            link: '/tariffs-management',
+            name: 'Tarifeler',
         },
         {
             icon: <FaGift />,

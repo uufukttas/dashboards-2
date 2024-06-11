@@ -7,7 +7,7 @@ const Section: React.FC<ISectionProps> = ({ children }: ISectionProps) => {
 
   return (
     <section
-      className={`${sectionPrefix}-container flex-wrap w-full px-8 xl:px-20 py-4 bg-white py-4 h-auto min-h-full`}>
+      className={`${sectionPrefix}-container flex-wrap w-full px-8 xl:px-20 py-20 bg-white py-4 h-auto min-h-full`}>
       {children}
     </section>
   );
