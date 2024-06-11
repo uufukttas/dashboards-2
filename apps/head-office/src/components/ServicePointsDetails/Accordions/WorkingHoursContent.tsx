@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
+import { Tooltip } from '@projects/tooltip';
 import { getWorkingHoursRequest } from '../../../../app/api/servicePointDetails';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { IWorkingHoursContentProps, ITimeSlot } from '../types';
@@ -257,11 +258,24 @@ return (
 
                                 return (
                                     <td key={dayIndex}
-                                        className={`${sectionPrefix}-time-slot ${slot?.isSelected ? 'selected' : ''} ${slot?.isPassive ? 'passive' : ''}`}
-                                        onClick={() => slot && handleTimeSlotClick(slot)}
-                                        data-wh-id={slot?.rid}
-                                    >
-                                    </td>
+                                            className={`${sectionPrefix}-time-slot ${slot?.isSelected ? 'selected' : ''} ${slot?.isPassive ? 'passive' : ''}`}
+                                            onClick={() => slot && handleTimeSlotClick(slot)}
+                                            data-wh-id={slot?.rid}
+                                        >
+                                            {
+                                                slot?.isSelected && (
+                                                    <Tooltip
+                                                        className="w-full h-full"
+                                                        key={dayIndex}
+                                                        text='Secimi kaldirmak icin cift tiklayin'
+                                                    >
+                                                        <div className='flex items-center justify-center w-full hidden'>
+                                                            <span className='text-white'>X</span>
+                                                        </div>
+                                                    </Tooltip>
+                                                )
+                                            }
+                                        </td>
                                 );
                             })
                         }
