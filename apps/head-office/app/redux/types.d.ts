@@ -43,6 +43,14 @@ interface IServicePointInformationProps {
     freePark: boolean;
     paymentMethods: string[];
 };
+interface IUserDataRoleProps {
+    id: number;
+    isChecked: boolean;
+    name: string;
+    rid: null,
+    stationFeatureType: number,
+    stationFeatureValue: number,
+};
 export interface IAlertInformationStateProps {
     isVisible: boolean;
     message: string;
@@ -207,7 +215,7 @@ export interface IStationFeatureListItemsProps {
     rid: null;
 };
 export interface IUserDataProps {
-    roles: string[];
+    roles: IUserDataRoleProps[];
     userId: number;
     name: string;
     surname: string;

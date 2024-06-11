@@ -10,31 +10,24 @@ import { hideAlert, showAlert } from '../../../../app/redux/features/alertInform
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { toggleUserListUpdate } from '../../../../app/redux/features/isUserListUpdated';
 import { RootState } from '../../../../app/redux/store';
+import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import { IUserRoleProps } from '../types';
 
 const UserManagementModalPage: React.FC = () => {
     const userData = useSelector((state: RootState) => state.userData);
     const hasUserDataId: boolean = userData.userId > 0;
     const sectionPrefix: string = 'user-management';
-    const formName: string[] = ['userName', 'eMail', 'phoneNumber', 'roles', 'name', 'surname'];
+    const formName: string[] = ['userName', 'name', 'surname', 'eMail', 'phoneNumber', 'roles'];
     const formProperties = {
         userName: `${sectionPrefix}-${formName[0]}`,
-        eMail: `${sectionPrefix}-${formName[1]}`,
-        phoneNumber: `${sectionPrefix}-${formName[2]}`,
-        roles: `${sectionPrefix}-${formName[3]}`,
-        name: `${sectionPrefix}-${formName[4]}`,
-        surname: `${sectionPrefix}-${formName[5]}`,
+        name: `${sectionPrefix}-${formName[1]}`,
+        surname: `${sectionPrefix}-${formName[2]}`,
+        eMail: `${sectionPrefix}-${formName[3]}`,
+        phoneNumber: `${sectionPrefix}-${formName[4]}`,
+        roles: `${sectionPrefix}-${formName[5]}`,
     };
-    const [userFormData, setUserFormData] = useState({
-        [`${formProperties.userName}`]: userData.userName || '',
-        [`${formProperties.eMail}`]: userData.eMail || '',
-        [`${formProperties.phoneNumber}`]: userData.phoneNumber || '',
-        [`${formProperties.roles}`]: userData.roles || [],
-        [`${formProperties.name}`]: userData.name || '',
-        [`${formProperties.surname}`]: userData.surname || '',
-    });
     const dispatch = useDispatch();
-    const { handleSubmit, register } = useForm();
+    const {handleSubmit, register } = useForm();
     const [roles, setRoles] = useState<IUserRoleProps[]>([
         {
             id: 1,
@@ -59,15 +52,15 @@ const UserManagementModalPage: React.FC = () => {
             stationFeatureValue: 0
         }]
     );
+    const [userFormData, setUserFormData] = useState({
+        [`${formProperties.userName}`]: userData.userName || '',
+        [`${formProperties.eMail}`]: userData.eMail || '',
+        [`${formProperties.phoneNumber}`]: userData.phoneNumber || '',
+        [`${formProperties.roles}`]: userData.roles || [],
+        [`${formProperties.name}`]: userData.name || '',
+        [`${formProperties.surname}`]: userData.surname || '',
+    });
 
-    const prepareUserSelectedRoles = (roles: IUserRoleProps[]): void => {
-        userData.roles.forEach((role: string) => {
-            const roleIndex = (roles as IUserRoleProps[]).findIndex((item: IUserRoleProps) => item.name === role);
-            roles[roleIndex].isChecked = true;
-        });
-
-        setRoles(roles);
-    };
     const handleFormSubmit = async (): Promise<void> => {
         let response;
 
@@ -121,18 +114,26 @@ const UserManagementModalPage: React.FC = () => {
         dispatch(toggleModalVisibility(false));
         dispatch(toggleUserListUpdate(true));
     };
+    const prepareUserSelectedRoles = (roles: IUserRoleProps[]): void => {
+        userData.roles.forEach((role: string) => {
+            const roleIndex = roles.findIndex((item: IUserRoleProps) => item.name === role);
+
+            roles[roleIndex].isChecked = true;
+        });
+
+        setRoles(roles);
+    };
 
     useEffect(() => {
         prepareUserSelectedRoles(roles);
     }, []);
 
     return (
-        <div className="sh-user-create-modal-form-container relative p-6 bg-white rounded-lg max-h-[650px]">
+        <div className={`${BRAND_PREFIX}-user-create-modal-form-container relative p-6 bg-white rounded-lg max-h-[650px]`}>
             <form
                 className={`${sectionPrefix}-modal-form block`}
                 onSubmit={handleSubmit(handleFormSubmit)}
             >
-
                 <div className="sh-username-contianer">
                     <Label
                         className='block mb-2 text-heading mt-2 font-bold'
