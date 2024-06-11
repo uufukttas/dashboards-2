@@ -4,6 +4,7 @@ import axios from 'axios';
 import { GoogleMap, LoadScript, Marker, StandaloneSearchBox } from '@react-google-maps/api';
 import { Libraries } from '@react-google-maps/api';
 import { CITIES, DISTRICTS } from '../../constants/constants';
+import { RootState } from '../../../app/redux/store';
 import { IFormDataProps } from './types';
 
 interface Location {

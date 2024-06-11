@@ -36,4 +36,5 @@ export interface IUpdatedUserData {
     eMail: string
     phoneNumber: string;
     roles: string[];
+    userName: string;
 };
