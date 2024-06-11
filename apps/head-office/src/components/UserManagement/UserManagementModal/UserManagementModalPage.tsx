@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
@@ -66,10 +66,10 @@ const UserManagementModalPage: React.FC = () => {
 
         if (!hasUserDataId) {
             response = await registerUserRequest({
-                userName: userFormData[`${sectionPrefix}-userName`],
-                password: userData[`${sectionPrefix}-phoneNumber`],
-                newPassword: userData[`${sectionPrefix}-phoneNumber`],
                 eMail: userFormData[`${sectionPrefix}-eMail`],
+                name: userFormData[`${sectionPrefix}-name`],
+                newPassword: 'Welcome123!',
+                password: 'Welcome123!',
                 phoneNumber: userFormData[`${sectionPrefix}-phoneNumber`],
                 roles: userFormData[`${sectionPrefix}-roles`].map((role: {
                     id: number;
@@ -79,15 +79,14 @@ const UserManagementModalPage: React.FC = () => {
                     stationFeatureType: number;
                     stationFeatureValue: number;
                 }) => role.name),
-                name: userFormData[`${sectionPrefix}-name`],
                 surname: userFormData[`${sectionPrefix}-surname`],
+                userName: userFormData[`${sectionPrefix}-userName`],
             });
         } else {
             response = await updateUserRequest({
+                eMail: userFormData[`${sectionPrefix}-eMail`],
                 id: userData.userId,
                 name: userFormData[`${sectionPrefix}-name`],
-                surname: userFormData[`${sectionPrefix}-surname`],
-                eMail: userFormData[`${sectionPrefix}-eMail`],
                 phoneNumber: userFormData[`${sectionPrefix}-phoneNumber`],
                 roles: userFormData[`${sectionPrefix}-roles`].map((role: {
                     id: number;
@@ -96,7 +95,9 @@ const UserManagementModalPage: React.FC = () => {
                     rid: number | null;
                     stationFeatureType: number;
                     stationFeatureValue: number;
-                }) => role.name)
+                }) => role.name),
+                surname: userFormData[`${sectionPrefix}-surname`],
+                userName: userFormData[`${sectionPrefix}-userName`],
             });
         };
 

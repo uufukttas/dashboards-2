@@ -116,8 +116,8 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
         ...servicePointInformation,
         cityId: thirdPageFormData[`${formProperties.cityId}`],
         districtId: thirdPageFormData[`${formProperties.districtId}`],
-        lon: thirdPageFormData[`${formProperties['x-coord']}`],
-        lat: thirdPageFormData[`${formProperties['y-coord']}`],
+        lon: thirdPageFormData[`${formProperties['y-coord']}`],
+        lat: thirdPageFormData[`${formProperties['x-coord']}`],
       })
     );
     setActivePage(activePage + 1);

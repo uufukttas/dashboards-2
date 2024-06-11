@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { GoogleMap, LoadScript, Marker, StandaloneSearchBox } from '@react-google-maps/api';
 import { Libraries } from '@react-google-maps/api';
@@ -16,8 +17,9 @@ interface MapProps {
 }
 
 const MapComponent: React.FC<MapProps> = ({ formData, onSelectLocation }) => {
-    const [markerPosition, setMarkerPosition] = useState<Location | null>(null);
-    const [mapCenter, setMapCenter] = useState<Location>({ lat: 41.0848993, lng: 28.9765895 });
+    const servicePointInformation = useSelector((state: RootState) => state.servicePointInformation.servicePointInformation);
+    const [markerPosition, setMarkerPosition] = useState<Location>({ lat: servicePointInformation.lat, lng: servicePointInformation.lon });
+    const [mapCenter, setMapCenter] = useState<Location>({ lat: servicePointInformation.lat, lng: servicePointInformation.lon });
     const libraries: Libraries = ["places"];
     const mapRef = useRef<google.maps.Map>(null);
     const searchBoxRef = useRef<google.maps.places.SearchBox>(null);
@@ -67,7 +69,7 @@ const MapComponent: React.FC<MapProps> = ({ formData, onSelectLocation }) => {
                 `https://maps.googleapis.com/maps/api/geocode/json?address=${getAddressName()}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
             ).then(response => {
                 setMapCenter(response.data.results[0].geometry.location);
-            })
+            });
     };
 
     const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -98,7 +100,7 @@ const MapComponent: React.FC<MapProps> = ({ formData, onSelectLocation }) => {
                 <GoogleMap
                     mapContainerStyle={{ width: '584px', height: '300px' }}
                     center={mapCenter}
-                    zoom={10}
+                    zoom={18}
                     onClick={handleMapClick}
                     onLoad={onLoad}
                 >
