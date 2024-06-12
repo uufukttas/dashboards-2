@@ -6,7 +6,7 @@ import { CheckboxInDropdown } from '@projects/checkbox-in-dropdown';
 import { Input } from '@projects/input';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
-import { setSearchedText } from '../../../../app/redux/features/searchedText';
+import { setSearchProperties } from '../../../../app/redux/features/searchProperties';
 import { RootState } from '../../../../app/redux/store';
 import type { IDropdownItemProps, ITableHeaderProps } from '../types';
 
@@ -15,6 +15,17 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ buttonText, filteredDropdown
     const dispatch = useDispatch();
     const searchedText = useSelector((state: RootState) => state.searchedText.searchedText);
     const [filteredData, setFilteredData] = useState<IDropdownItemProps[]>(filteredDropdownItems);
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        const { value } = event.target;
+
+        dispatch(
+            setSearchProperties({
+                searchedText: value,
+                searchedConditions: filteredData.filter((data) => data.isChecked).map((filterName) => filterName.name)
+            })
+        );
+    };
 
     const openModal = (): void => {
         dispatch(toggleModalVisibility(true));
@@ -42,9 +53,7 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ buttonText, filteredDropdown
                     placeholder="Ara"
                     type="text"
                     value={searchedText}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        dispatch(setSearchedText(event.target.value))
-                    }}
+                    onChange={(event) => handleChange(event)}
                 />
             </div>
             <div className={`${tableHeaderPrefix}-add-button-container flex relative w-full mx-2 md:w-1/2 lg:w-1/4`}>

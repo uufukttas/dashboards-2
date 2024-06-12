@@ -71,7 +71,15 @@ export interface IPaginationItemProps {
     pageNumber: number;
     onClick: () => void;
 };
-
+export interface IPayloadProps {
+    address?: string;
+    city?: string;
+    district?: string;
+    name?: string;
+    pageNumber?: number;
+    phoneNumber?: string;
+    userCount?: number;
+};
 export interface IResponseDataProps {
     data: boolean;
     message: string;

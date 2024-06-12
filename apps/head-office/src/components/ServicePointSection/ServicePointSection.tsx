@@ -20,12 +20,12 @@ import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { toggleServicePointDataUpdated } from '../../../app/redux/features/isServicePointDataUpdated';
-import { setSearchedText } from '../../../app/redux/features/searchedText';
+import { setSearchProperties } from '../../../app/redux/features/searchProperties';
 import { setServicePoints } from '../../../app/redux/features/servicePoints';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
 import { RootState, AppDispatch } from '../../../app/redux/store';
-import type { IGetServicePointsProps, IResponseDataProps } from './types';
+import type { IGetServicePointsProps, IPayloadProps, IResponseDataProps } from './types';
 import './ServicePointSection.css';
 
 const ServicePointSection: React.FC = () => {
@@ -37,19 +37,51 @@ const ServicePointSection: React.FC = () => {
   const isServicePointDataUpdated = useSelector((state: RootState) => {
     return state.isServicePointDataUpdated.isServicePointDataUpdated
   });
-  const searchedText = useSelector((state: RootState) => state.searchedText.searchedText);
+  const searchProperties = useSelector((state: RootState) => state.searchedText);
   const servicePointsCount = useSelector((state: RootState) => state.servicePoints.count);
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const servicePointsData = useSelector((state: RootState) => state.servicePoints.servicePoints);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const deleteServicePoint = async (deletedId: number): Promise<void> => {
-      const { data } = await deleteServicePointRequest(deletedId);
+  const createGetServicePointsRequestPayload = (): IPayloadProps => {
+    const payload: IPayloadProps = {};
 
-      handleDeleteServicePointSuccess(data);
+    searchProperties.searchedConditions.map((condition: string) => {
+      switch (condition) {
+        case 'Istasyon Adi':
+          payload['name'] = searchProperties.searchedText;
+          break;
+        case 'Telefon':
+          payload['phoneNumber'] = searchProperties.searchedText;
+          break;
+        case 'Adres':
+          payload['address'] = searchProperties.searchedText;
+          break;
+        case 'Il':
+          payload['city'] = searchProperties.searchedText;
+          break;
+        case 'Ilce':
+          payload['district'] = searchProperties.searchedText;
+          break;
+        default:
+          payload['name'] = searchProperties.searchedText;
+          break;
+      }
+    });
+
+    payload.pageNumber = currentPage;
+    payload.userCount = 10;
+
+    return payload;
+  };
+
+  const deleteServicePoint = async (deletedId: number): Promise<void> => {
+    const { data } = await deleteServicePointRequest(deletedId);
+
+    handleDeleteServicePointSuccess(data);
   };
   const getAllServicePoints = async (): Promise<void> => {
-    const response = await getAllServicePointsRequest(currentPage, searchedText);
+    const response = await getAllServicePointsRequest(createGetServicePointsRequestPayload());
 
     handleGetServicePointSuccess(response);
   };
@@ -77,12 +109,17 @@ const ServicePointSection: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(setSearchedText(''));
+    dispatch(
+      setSearchProperties({
+        searchedConditions: [],
+        searchedText: '',
+      })
+    );
   }, []);
 
   useEffect(() => {
     getAllServicePoints();
-  }, [currentPage, isServicePointDataUpdated, searchedText]);
+  }, [currentPage, isServicePointDataUpdated, searchProperties]);
 
   return (
     <div className={`${BRAND_PREFIX}-service-points-container flex justify-between items-center flex-col`}>

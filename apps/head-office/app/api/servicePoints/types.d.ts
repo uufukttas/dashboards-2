@@ -80,6 +80,15 @@ export interface ICompanyRequestProps {
 export interface IFormDataProps {
     [key: string]: boolean | number | string | string[] | IFeatureProps[];
 };
+export interface IGetAllServicePointPayloadProps {
+    address?: string;
+    city?: string;
+    district?: string;
+    name?: string;
+    pageNumber?: number;
+    phoneNumber?: string;
+    userCount?: number;
+};
 export interface IResellerRequestProps {
     id: number;
     name: string;

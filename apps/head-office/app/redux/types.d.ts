@@ -197,7 +197,8 @@ export interface IPermissionsStateProps {
     userId?: number;
     stationId: number;
 };
-export type ISearchedTextStateProps = {
+export type ISearchPropertiesProps = {
+    searchedConditions: string[];
     searchedText: string;
 };
 export type IServicePointDataStateProps = {

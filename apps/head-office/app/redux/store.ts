@@ -21,7 +21,7 @@ import isServicePointPermissionsUpdated from './features/isServicePointPermissio
 import isSidebarExpand from './features/isSidebarExpand';
 import isUserListUpdated from './features/isUserListUpdated';
 import permissionsData from './features/permissionsData';
-import searchedText from './features/searchedText';
+import searchedText from './features/searchProperties';
 import servicePoints from './features/servicePoints';
 import servicePointData from './features/servicePointData';
 import servicePointInformation from './features/servicePointInformation';
