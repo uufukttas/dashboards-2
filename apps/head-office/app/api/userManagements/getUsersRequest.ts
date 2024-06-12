@@ -1,15 +1,11 @@
 import axios from "axios";
-import type { IGetUsersManagementUsersResponseProps } from "./types";
+import type { IGetUsersManagementUsersResponseProps, IGetUsersRequestPayloadProps } from "./types";
 
-const getUsersRequest = async (currentPage: number, searchedUserName?: string): Promise<IGetUsersManagementUsersResponseProps> => {
+const getUsersRequest = async (payload: IGetUsersRequestPayloadProps): Promise<IGetUsersManagementUsersResponseProps> => {
     try {
         const response = await axios
             .post(`${process.env.NEXT_PUBLIC_BASE_URL}/Auth/Users` || '',
-                ({
-                    'pageNumber': currentPage,
-                    'userCount': 10,
-                    'name': searchedUserName || '',
-                })
+                payload,
             );
 
         return response.data;

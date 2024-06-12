@@ -18,10 +18,11 @@ import { hideAlert, showAlert } from '../../../app/redux/features/alertInformati
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { toggleUserListUpdate } from '../../../app/redux/features/isUserListUpdated';
-import { setSearchedText } from '../../../app/redux/features/searchedText';
+import { setSearchProperties } from '../../../app/redux/features/searchProperties';
 import { setUsers } from '../../../app/redux/features/users';
 import { AppDispatch, RootState } from '../../../app/redux/store';
 import { setUserData } from '../../../app/redux/features/userData';
+import type { IPayloadProps } from './types';
 
 const UserManagementSection: React.FC = () => {
     const userManagementPrefix: string = `${BRAND_PREFIX}-user-management`;
@@ -30,10 +31,39 @@ const UserManagementSection: React.FC = () => {
     const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
     const isUserListUpdated = useSelector((state: RootState) => state.isUserListUpdated.isUserListUpdated);
-    const searchedText = useSelector((state: RootState) => state.searchedText.searchedText);
+    const searchProperties = useSelector((state: RootState) => state.searchedText);
     const { count, users } = useSelector((state: RootState) => state.users);
     const [currentPage, setCurrentPage] = useState<number>(1);
 
+    const createGetUsersRequestPayload = (): IPayloadProps => {
+        const payload: IPayloadProps = {
+        };
+
+        searchProperties.searchedConditions.map((condition: string) => {
+            switch (condition) {
+              case 'Isim/Soyisim':
+                payload['name'] = searchProperties.searchedText;
+                break;
+              case 'Kullanici Adi':
+                payload['userName'] = searchProperties.searchedText;
+                break;
+              case 'Telefon':
+                payload['phoneNumber'] = searchProperties.searchedText;
+                break;
+              case 'Rol':
+                payload['roles'] = searchProperties.searchedText;
+                break;
+              default:
+                payload['name'] = searchProperties.searchedText;
+                break;
+            }
+          });
+      
+          payload.pageNumber = currentPage;
+          payload.userCount = 10;
+
+        return payload;
+    };
     const deleteUser = async (deletedId: number): Promise<void> => {
         const response = await deleteUserRequest(deletedId);
         let type: string = 'success';
@@ -54,19 +84,22 @@ const UserManagementSection: React.FC = () => {
         }, 5000);
     };
     const getUsers = async (): Promise<void> => {
-        const response = await getUsersRequest(currentPage, searchedText);
+        const response = await getUsersRequest(createGetUsersRequestPayload());
 
         dispatch(setUsers({ users: response.data, count: response.count }));
         dispatch(toggleUserListUpdate(false));
     };
 
     useEffect(() => {
-        dispatch(setSearchedText(''));
+        dispatch(setSearchProperties({
+            searchedText: searchProperties.searchedText,
+            searchedConditions: []
+        }));
     }, []);
 
     useEffect(() => {
         getUsers();
-    }, [currentPage, searchedText, isUserListUpdated]);
+    }, [currentPage, searchProperties, isUserListUpdated]);
 
     return (
         <div className={`${userManagementPrefix}-table-container flex justify-between items-center flex-col`}>

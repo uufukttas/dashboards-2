@@ -12,6 +12,14 @@ export interface IGetUsersManagementUsersResponseProps {
     message: string;
     success: boolean;
 };
+export interface IGetUsersRequestPayloadProps {
+    name?: string;
+    phoneNumber?: string;
+    userName?: string;
+    roles?: string;
+    pageNumber?: number;
+    userCount?: number;
+};
 
 export interface IRegisterUserRequestData {
     name: string;

@@ -1,3 +1,11 @@
+export interface IPayloadProps {
+    name?: string;
+    phoneNumber?: string;
+    userName?: string;
+    roles?: string;
+    pageNumber?: number;
+    userCount?: number;
+};
 export interface IRolesStyleProps {
     [key: string]: ITableDataAttributeProps
 };
