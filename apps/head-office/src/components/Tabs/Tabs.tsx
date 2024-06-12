@@ -18,7 +18,7 @@ const Tabs: React.FC = () => {
       title: (
         <>
           <FaLocationDot />
-          {detectDevice().isMobile ? '' : 'Istasyon Bilgisi'}
+          {detectDevice().isMobile ? '' : 'Istasyon Bilgileri'}
         </>
       ),
     },
@@ -55,7 +55,7 @@ const Tabs: React.FC = () => {
         <>
           <FaUserGear />
           {
-            detectDevice().isMobile ? '' : 'Istasyon Yetkisi'
+            detectDevice().isMobile ? '' : 'Istasyon Yetkilileri'
           }
         </>
       ),
@@ -80,7 +80,7 @@ const Tabs: React.FC = () => {
       {
         tabItems.map((item: ITabsItemProps, index: number) => (
           <Button key={index}
-            className={`${tabPrefix}-item px-4 py-0 w-1/6 flex justify-center items-center text-2xl ${
+            className={`${tabPrefix}-item px-0 py-0 w-1/6 flex justify-center items-center text-xs ${
               activeTabIndex === index
                 ? 'active'
                 : ''

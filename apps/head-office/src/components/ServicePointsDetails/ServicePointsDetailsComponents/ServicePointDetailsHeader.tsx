@@ -11,7 +11,7 @@ const ServicePointDetailsHeader: React.FC = () => {
     const servicePointHeader: React.ReactNode = (
         <div className={`${sectionPreifx}-header w-full flex items-center justify-between`}>
             <div className={`${sectionPreifx}-header-left flex`}>
-                <h1 className={`${sectionPreifx}-title text-2xl font-bold text-heading`}>
+                <h1 className={`${sectionPreifx}-title text-2xl font-bold`}>
                     {servicePointData.name}
                 </h1>
             </div>
