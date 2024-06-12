@@ -11,6 +11,7 @@ import { ICitiesProps, IFeatureProps } from '../types';
 const ServicePointModalForm: React.FC = () => {
   const servicePointModalPrefix: string = `${BRAND_PREFIX}-service-point`;
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
+  const isCreateData: boolean = servicePointData.id === 0;
   const [activePage, setActivePage] = useState(1);
   const [cities, setCities] = useState<ICitiesProps[]>([]);
   const [districts, setDistricts] = useState<ICitiesProps[]>([]);
@@ -19,8 +20,8 @@ const ServicePointModalForm: React.FC = () => {
   const [stationId, setStationId] = useState<number>(0);
 
   return (
-    <div className={`${servicePointModalPrefix}-${servicePointData.id > 0 ? 'update' : 'create'}-modal-form-wrapper`}>
-      <div className={`${servicePointModalPrefix}-${servicePointData.id > 0 ? 'update' : 'create'}-modal-form-container relative p-6 bg-white rounded-lg max-h-[650px]`}>
+    <div className={`${servicePointModalPrefix}-${isCreateData ? 'create' : 'update'}-modal-form-wrapper`}>
+      <div className={`${servicePointModalPrefix}-${isCreateData ? 'create' : 'update'}-modal-form-container relative p-6 bg-white rounded-lg max-h-[650px]`}>
         {
           activePage === 1 && (
             <ServicePointModalFormFirstPage
