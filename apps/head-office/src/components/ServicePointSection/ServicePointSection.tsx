@@ -29,11 +29,14 @@ import type { IGetServicePointsProps, IResponseDataProps } from './types';
 import './ServicePointSection.css';
 
 const ServicePointSection: React.FC = () => {
+  const pagePrefix: string = `${BRAND_PREFIX}-service-point`;
   const dispatch = useDispatch<AppDispatch>();
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
-  const isServicePointDataUpdated = useSelector((state: RootState) => state.isServicePointDataUpdated.isServicePointDataUpdated);
+  const isServicePointDataUpdated = useSelector((state: RootState) => {
+    return state.isServicePointDataUpdated.isServicePointDataUpdated
+  });
   const searchedText = useSelector((state: RootState) => state.searchedText.searchedText);
   const servicePointsCount = useSelector((state: RootState) => state.servicePoints.count);
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
@@ -83,9 +86,10 @@ const ServicePointSection: React.FC = () => {
 
   return (
     <div className={`${BRAND_PREFIX}-service-points-container flex justify-between items-center flex-col`}>
-      <div className={`${BRAND_PREFIX}-service-point-listing-container flex items-center w-full`}>
+      <div className={`${pagePrefix}-listing-container flex items-center w-full`}>
         <Table
           attributeName="service-point"
+          buttonText='Istasyon'
           filteredDropdownItems={servicePointTableFilteredDropdownItems}
           tableData={servicePointsData}
           tableDataCount={servicePointsCount}
@@ -96,9 +100,9 @@ const ServicePointSection: React.FC = () => {
       {
         isModalVisible && (
           <Modal
-            className={`${BRAND_PREFIX}-service-point-modal-container`}
+            className={`${pagePrefix}-modal-container`}
             modalHeaderTitle={`Istasyon ${servicePointData.id > 0 ? 'Güncelle' : 'Ekle'}`}
-            modalId={`${BRAND_PREFIX}-service-point-modal`}
+            modalId={`${pagePrefix}-modal`}
             onClose={handleCloseModal}
           >
             <ServicePointModalForm />
@@ -110,7 +114,7 @@ const ServicePointSection: React.FC = () => {
           <Alert
             alertText={alertInformation.message}
             alertType={alertInformation.type}
-            id={`service-point-alert`}
+            id={`${pagePrefix}-alert`}
           />
         )
       }

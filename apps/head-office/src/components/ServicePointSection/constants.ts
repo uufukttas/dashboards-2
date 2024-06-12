@@ -25,6 +25,7 @@ const initialServicePointInformationValue = {
     type: '',
 };
 const tablePlaceholderInitialValue = {
+    id: 1,
     address: '',
     cityId: 0,
     districtId: 0,
