@@ -29,7 +29,7 @@ const TableRowDelete: React.FC<ITableRowDeleteProps> = ({ attributeName, tableCe
 
     return (
         isComponentVisible && (
-            <a className="font-medium text-red-600 cursor-pointer px-4" {...dataAttributes} onClick={(event) => {
+            <a className="font-medium text-red-600 cursor-pointer px-4 hover:scale-125 transition-transform duration-300 ease-in-out" {...dataAttributes} onClick={(event) => {
                 if (attributeName === 'service-point') {
                     deleteServicePointInfo(event)
                 } else {

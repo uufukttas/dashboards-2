@@ -35,7 +35,7 @@ const TableRowEdit: React.FC<ITableRowEditProps> = ({ attributeName, tableCellDa
 
     return (
         isComponentVisible && (
-            <a className="font-medium text-blue-600 cursor-pointer px-4"
+            <a className="font-medium text-blue-600 cursor-pointer px-4 hover:scale-125 transition-transform duration-300 ease-in-out"
                 {...dataAttributes}
                 onClick={(event) => {
                     attributeName.indexOf('service-point') > -1
