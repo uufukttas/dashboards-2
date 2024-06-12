@@ -8,17 +8,19 @@ import './Table.css';
 
 const Table: React.FC<ITableProps> = ({
   attributeName,
+  buttonText,
   filteredDropdownItems,
+  roleStyles,
   tableData,
   tableDataCount,
   tableHeadData,
-  tablePlaceholderInitialValue
+  tablePlaceholderInitialValue,
 }: ITableProps) => {
   const tablePrefix: string = `${BRAND_PREFIX}-table`;
 
   return (
     <div className={`${tablePrefix}-container relative overflow-x-auto shadow-md max-w-[330px] md:max-w-full w-full border-2 border-gray-200`}>
-      <TableHeader attributeName={attributeName} filteredDropdownItems={filteredDropdownItems} />
+      <TableHeader buttonText={buttonText} filteredDropdownItems={filteredDropdownItems} />
       <div className={`${tablePrefix}-content-container border-r-0 border-l-0`}>
         <table className={`${tablePrefix} w-full text-sm text-left rtl:text-right text-gray-500`}>
           <TableHead tableHeadData={tableHeadData} />
@@ -27,6 +29,7 @@ const Table: React.FC<ITableProps> = ({
             tableData={tableData}
             tableDataCount={tableDataCount}
             tablePlaceholderInitialValue={tablePlaceholderInitialValue}
+            roleStyles={roleStyles}
           />
         </table>
       </div>

@@ -5,10 +5,8 @@ import { showDialog } from '../../../../app/redux/features/dialogInformation';
 import { ITableDataAttributeProps, ITableRowDeleteProps } from '../types';
 
 const TableRowDelete: React.FC<ITableRowDeleteProps> = ({ attributeName, tableCellDataId }: ITableRowDeleteProps) => {
-    const isComponentVisible: boolean = typeof tableCellDataId === 'number';
-    const dataAttributes: ITableDataAttributeProps = {
-        [`data-${attributeName}-id`]: tableCellDataId
-    };
+    const isComponentVisible: boolean = tableCellDataId > 0;
+    const dataAttributes: ITableDataAttributeProps = { [`data-${attributeName}-id`]: tableCellDataId };
     const dispatch = useDispatch();
     const deleteServicePointInfo = (event: React.MouseEvent<HTMLAnchorElement>): void => {
         dispatch(
@@ -29,15 +27,19 @@ const TableRowDelete: React.FC<ITableRowDeleteProps> = ({ attributeName, tableCe
 
     return (
         isComponentVisible && (
-            <a className="font-medium text-red-600 cursor-pointer px-4 hover:scale-125 transition-transform duration-300 ease-in-out" {...dataAttributes} onClick={(event) => {
-                if (attributeName === 'service-point') {
-                    deleteServicePointInfo(event)
-                } else {
-                    deleteUserRequest(event)
-                }
-            }}>
+            <a
+                className="font-medium text-red-600 cursor-pointer px-4 hover:scale-125 transition-transform duration-300 ease-in-out"
+                onClick={(event) => {
+                    if (attributeName === 'service-point') {
+                        deleteServicePointInfo(event)
+                    } else {
+                        deleteUserRequest(event)
+                    }
+                }}
+                {...dataAttributes}
+            >
                 <FaTrashCan />
-            </a >
+            </a>
         )
     );
 };

@@ -5,14 +5,15 @@ import { ITableBodyPlaceholderProps, ITableBodyProps } from '../types';
 
 const TableBody: React.FC<ITableBodyProps> = ({
     attributeName,
+    roleStyles,
     tableData,
     tableDataCount,
-    tablePlaceholderInitialValue
+    tablePlaceholderInitialValue,
 }: ITableBodyProps) => {
     const fullTableData: ITableBodyPlaceholderProps[] | [] = tableData && tableData.length > 0
     ? [...tableData]
     : [];
-    const placeholder: ITableBodyPlaceholderProps | undefined = tablePlaceholderInitialValue;
+    const placeholder: ITableBodyPlaceholderProps = tablePlaceholderInitialValue;
     const requiredRows: number = 10;
     const filledTableData: ITableBodyPlaceholderProps[] = Array.from(
         { length: requiredRows },
@@ -26,8 +27,8 @@ const TableBody: React.FC<ITableBodyProps> = ({
                     <TableRow
                         attributeName={attributeName}
                         tableRowData={tableRowData}
-                        index={index}
                         key={tableRowData?.id || index + 1}
+                        roleStyles={roleStyles}
                     />
                 ))
             }

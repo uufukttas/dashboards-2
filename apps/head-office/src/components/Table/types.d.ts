@@ -7,20 +7,18 @@ export interface IDropdownItemProps {
     stationFeatureValue: number;
 };
 export interface IUserDataProps {
+    id: number;
     lastLoginDate: string | null;
     roleNames: string;
     userId: number;
     userName: string;
-    id?: number | null | undefined;
-};
-export interface IRolesStyleProps {
-    [key: string]: ITableDataAttributeProps
 };
 export interface IServicePointInfoProps {
     address: string;
     addressDetail?: string | null | undefined;
     cityId: number;
     districtId: number;
+    email?: string;
     freePark?: string | null | undefined;
     id: number;
     latitude: number;
@@ -30,7 +28,6 @@ export interface IServicePointInfoProps {
     paymentMethods?: string[] | null | undefined;
     phone?: string | null | undefined;
     type?: string | null | undefined;
-    email?: string;
     status?: string;
 };
 export interface ITableActionsProps {
@@ -42,8 +39,10 @@ export interface ITableBodyPlaceholderProps {
     addressDetail?: string | null | undefined;
     cityId?: number;
     districtId?: number;
+    email?: string;
     freePark?: string | null | undefined;
-    id?: number | null;
+    id: number;
+    lastLoginDate?: string | null;
     latitude?: number;
     longitude?: number;
     name?: string;
@@ -51,26 +50,25 @@ export interface ITableBodyPlaceholderProps {
     paymentMethods?: string[] | null | undefined;
     phone?: string | null | undefined;
     phoneNumber?: string;
-    type?: string | null | undefined;
-    email?: string;
-    status?: string;
-    lastLoginDate?: string | null;
     roleNames?: string;
+    status?: string;
+    type?: string | null | undefined;
     userId?: number;
     userName?: string;
     surName?: string;
 };
 export interface ITableBodyProps {
     attributeName: string;
+    roleStyles?: IRolesStyleProps;
     tableData: IServicePointInfoProps[] | IUserDataProps[];
     tableDataCount: number;
-    tablePlaceholderInitialValue?: ITableBodyPlaceholderProps;
+    tablePlaceholderInitialValue: ITableBodyPlaceholderProps;
 };
 export interface ITableDataAttributeProps {
     [key: string]: string | number | undefined | null;
 };
 export interface ITableHeaderProps {
-    attributeName: string;
+    buttonText: string;
     filteredDropdownItems: IDropdownItemProps[];
 };
 export interface ITableHeadProps {
@@ -78,15 +76,17 @@ export interface ITableHeadProps {
 };
 export interface ITableProps {
     attributeName: string;
+    buttonText: string;
     filteredDropdownItems: IDropdownItemProps[];
+    roleStyles?: IRolesStyleProps;
     tableData: IServicePointInfoProps[] | IUserDataProps[];
     tableDataCount: number;
     tableHeadData: string[];
-    tablePlaceholderInitialValue?: ITableBodyPlaceholderProps;
+    tablePlaceholderInitialValue: ITableBodyPlaceholderProps;
 };
 export interface ITableRowDeleteProps {
     attributeName: string;
-    tableCellDataId: number | null | undefined;
+    tableCellDataId: number;
 };
 export interface ITableRowDetailProps {
     tableCellData: ITableBodyPlaceholderProps;
@@ -97,6 +97,6 @@ export interface ITableRowEditProps {
 };
 export interface ITableRowProps {
     attributeName: string;
+    roleStyles?: IRolesStyleProps;
     tableRowData: ITableBodyPlaceholderProps;
-    index?: number;
 };
