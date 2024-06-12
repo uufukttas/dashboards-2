@@ -4,6 +4,7 @@ import { Alert } from '@projects/alert';
 import { Dialog } from '@projects/dialog';
 import {
     initialUserManagementDataValues,
+    roleStyles,
     userManagementTableFilteredDropdownItems,
     userManagementTableHeadData
 } from './constants';
@@ -72,10 +73,13 @@ const UserManagementSection: React.FC = () => {
             <div className={`${userManagementPrefix}-listing-container flex items-center w-full`}>
                 <Table
                     attributeName='user-management'
+                    buttonText='Kullanici'
                     filteredDropdownItems={userManagementTableFilteredDropdownItems}
                     tableData={users}
                     tableDataCount={count}
                     tableHeadData={userManagementTableHeadData}
+                    tablePlaceholderInitialValue={{ id: 1 }}
+                    roleStyles={roleStyles}
                 />
             </div>
             {

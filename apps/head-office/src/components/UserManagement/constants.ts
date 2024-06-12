@@ -1,3 +1,13 @@
+import { IRolesStyleProps } from "./types";
+
+const roleStyles: IRolesStyleProps = {
+    Admin: { backgroundColor: 'bg-red-300', textColor: 'text-red-800', borderColor: 'border-red-300' },
+    Employee: { backgroundColor: 'bg-green-300', textColor: 'text-green-800', borderColor: 'border-green-300' },
+    User: { backgroundColor: 'bg-blue-300', textColor: 'text-blue-800', borderColor: 'border-blue-300' },
+    Manager: { backgroundColor: 'bg-purple-300', textColor: 'text-purple-800', borderColor: 'border-purple-300' },
+    Super: { backgroundColor: 'bg-yellow-300', textColor: 'text-yellow-800', borderColor: 'border-yellow-300' },
+    Default: { backgroundColor: 'bg-gray-300', textColor: 'text-gray-800', borderColor: 'border-gray-300' }
+};
 const userManagementTableFilteredDropdownItems = [{
     id: 1,
     isChecked: false,
@@ -37,4 +47,9 @@ const initialUserManagementDataValues = {
     name: '',
     surname: '',
 };
-export { initialUserManagementDataValues, userManagementTableFilteredDropdownItems, userManagementTableHeadData };
+export {
+    initialUserManagementDataValues,
+    roleStyles,
+    userManagementTableFilteredDropdownItems,
+    userManagementTableHeadData
+};
