@@ -52,7 +52,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                 </div>
             </td>
             <td className="px-4 py-2 text-center">
-                {renderTableCell(attributeName, (tableRowData.phone || ''), tableRowData.userName || '', tableRowData.tariffPrice || 0)}
+                {renderTableCell(attributeName, (tableRowData.phone || ''), tableRowData.userName || '', tableRowData.tariffPrice?.toString() || '0')}
             </td>
             <td className="px-4 py-2 text-center">
                 {renderTableCell(attributeName, tableRowData.address || '', tableRowData.phoneNumber || '', tableRowData.tariffCreatedDate || 'Tarife Tarihi')}
