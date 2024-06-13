@@ -7,12 +7,7 @@ const CardHeader: React.FC = () => {
 
     return (
         <>
-            <div className={`${loginPrefix}-title-container w-full`}>
-                <h2 className={`${loginPrefix}-title text-2xl font-semibold text-heading`}>
-                    {userInfo.name}
-                </h2>
-            </div>
-            <div className={`${loginPrefix}-logo-container`}>
+            <div className={`${loginPrefix}-logo-container w-full flex justify-center items-center`}>
                 <Image
                     alt={`${userInfo.name} logo`}
                     className={`${loginPrefix}-logo`}
