@@ -18,6 +18,7 @@ import isLoadingVisible from './features/isLoadingVisible';
 import isModalVisible from './features/isModalVisible';
 import isServicePointDataUpdated from './features/isServicePointDataUpdated';
 import isServicePointPermissionsUpdated from './features/isServicePointPermissionsUpdated';
+import isTariffListUpdated from './features/isTariffListUpdated';
 import isSidebarExpand from './features/isSidebarExpand';
 import isUserListUpdated from './features/isUserListUpdated';
 import permissionsData from './features/permissionsData';
@@ -32,6 +33,7 @@ import statusList from './features/statusList';
 import userData from './features/userData';
 import userProfileInfo from './features/userProfileInfo';
 import users from './features/users';
+import tariffs from './features/tariffs';
 
 export const store: EnhancedStore = configureStore({
   reducer: {
@@ -55,6 +57,7 @@ export const store: EnhancedStore = configureStore({
     isServicePointDataUpdated,
     isServicePointPermissionsUpdated,
     isSidebarExpand,
+    isTariffListUpdated,
     isUserListUpdated,
     permissionsData,
     searchedText,
@@ -68,6 +71,7 @@ export const store: EnhancedStore = configureStore({
     userData,
     userProfileInfo,
     users,
+    tariffs,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });

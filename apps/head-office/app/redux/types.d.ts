@@ -186,6 +186,9 @@ export type IIsSidebarExpandStateProps = {
 export type IIsUserListUpdatedProps = {
     isUserListUpdated: boolean;
 };
+export type IIsTariffListUpdatedProps = {
+    isTariffListUpdated: boolean;
+};
 export interface IPermissionsStateProps {
     phoneNumber: string;
     userName?: string;
@@ -233,9 +236,22 @@ export interface IUserProfileInfoProps {
     phoneNumber: string;
     role: string[];
 };
-export type IUsersProps = {
+export interface IUsersProps {
     userId: number;
     userName: string;
     roleNames: string;
     lastLoginDate: string | null;
+};
+
+export interface ITarifssDataProps {
+    LocationTypeID: number;
+    LocationTypeName: string;
+    RID: number;
+    StationChargePointID: number;
+    StationChargePointName: string
+    StationConnectorID: number
+    StationConnectorName: string
+    StationID: number
+    StationName: string
+    TariffID: number
 };
