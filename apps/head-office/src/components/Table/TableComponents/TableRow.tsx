@@ -23,11 +23,13 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
     };
 
     const renderTableCell =
-        (condition: string, firstChoose: string, secondChoose: string | React.ReactNode): string | React.ReactNode => {
+        (condition: string, firstChoose: string, secondChoose: string | React.ReactNode, thirdChoose: string): string | React.ReactNode => {
             if (condition === 'service-point') {
                 return firstChoose;
-            } else {
+            } else if (condition === 'user-management') {
                 return secondChoose;
+            } else if (condition === 'tariff-list') {
+                return thirdChoose;
             }
         };
 
@@ -45,38 +47,35 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                         )
                     }
                     <div className={`${BRAND_PREFIX}-item-information-name px-6`}>
-                        {`${`${tableRowData?.name || ''} ${tableRowData?.surName || ''}` || ''}`}
+                        {renderTableCell(attributeName, tableRowData.name || '', `${tableRowData?.name || ''} ${tableRowData?.surName || ''}`, tableRowData.tariffName || 'Tarife Adi')}
                     </div>
                 </div>
             </td>
-            <td className="px-4 py-2 text-center">{
-                renderTableCell(attributeName, (tableRowData.phone || ''), tableRowData.userName || '')
-            }
+            <td className="px-4 py-2 text-center">
+                {renderTableCell(attributeName, (tableRowData.phone || ''), tableRowData.userName || '', tableRowData.tariffPrice || 0)}
             </td>
             <td className="px-4 py-2 text-center">
-                {
-                    renderTableCell(attributeName, tableRowData.address || '', tableRowData.phoneNumber || '')
-                }
+                {renderTableCell(attributeName, tableRowData.address || '', tableRowData.phoneNumber || '', tableRowData.tariffCreatedDate || 'Tarife Tarihi')}
             </td>
             <td className="px-4 py-2 text-center">
                 {
                     renderTableCell(
                         attributeName,
-                        getCity(tableRowData.cityId ?? 1), JSON.parse(tableRowData?.roleNames || '[]')
+                        getCity(tableRowData.cityId ?? 1),
+                        JSON.parse(tableRowData?.roleNames || '[]')
                             .map((role: string, index: number) => {
                                 return (
                                     <Fragment key={index}>
                                         {getRolePills(role)}
                                     </Fragment>
                                 );
-                            })
+                            }),
+                        tableRowData.tariffStartDate || 'Tarife Baslangic Tarihi'
                     )
                 }
             </td>
             <td className="px-4 py-2 text-center">
-                {
-                    renderTableCell(attributeName, getDistricts(tableRowData.districtId ?? 1), tableRowData.lastLoginDate || '')
-                }
+                {renderTableCell(attributeName, getDistricts(tableRowData.districtId ?? 1), tableRowData.lastLoginDate || '', tableRowData.tariffEndDate || 'Tarife Bitis Tarihi')}
             </td>
             <td className="px-4 py-4 text-center">
                 <div className="flex justify-center text-2xl">
