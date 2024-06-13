@@ -47,15 +47,15 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                         )
                     }
                     <div className={`${BRAND_PREFIX}-item-information-name px-6`}>
-                        {renderTableCell(attributeName, tableRowData.name || '', `${tableRowData?.name || ''} ${tableRowData?.surName || ''}`, tableRowData.tariffName || 'Tarife Adi')}
+                        {renderTableCell(attributeName, tableRowData.name || '', `${tableRowData?.name || ''} ${tableRowData?.surName || ''}`, tableRowData.name || 'Tarife Adi')}
                     </div>
                 </div>
             </td>
             <td className="px-4 py-2 text-center">
-                {renderTableCell(attributeName, (tableRowData.phone || ''), tableRowData.userName || '', tableRowData.tariffPrice?.toString() || '0')}
+                {renderTableCell(attributeName, (tableRowData.phone || ''), tableRowData.userName || '', tableRowData.SaleUnitPrice?.toString() || '0')}
             </td>
             <td className="px-4 py-2 text-center">
-                {renderTableCell(attributeName, tableRowData.address || '', tableRowData.phoneNumber || '', tableRowData.tariffCreatedDate || 'Tarife Tarihi')}
+                {renderTableCell(attributeName, tableRowData.address || '', tableRowData.phoneNumber || '', tableRowData.createDate || 'Tarife Tarihi')}
             </td>
             <td className="px-4 py-2 text-center">
                 {
@@ -70,12 +70,12 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                                     </Fragment>
                                 );
                             }),
-                        tableRowData.tariffStartDate || 'Tarife Baslangic Tarihi'
+                        tableRowData.validityBeginDate || 'Tarife Baslangic Tarihi'
                     )
                 }
             </td>
             <td className="px-4 py-2 text-center">
-                {renderTableCell(attributeName, getDistricts(tableRowData.districtId ?? 1), tableRowData.lastLoginDate || '', tableRowData.tariffEndDate || 'Tarife Bitis Tarihi')}
+                {renderTableCell(attributeName, getDistricts(tableRowData.districtId ?? 1), tableRowData.lastLoginDate || '', tableRowData.validityEndDate || 'Tarife Bitis Tarihi')}
             </td>
             <td className="px-4 py-4 text-center">
                 <div className="flex justify-center text-2xl">

@@ -57,10 +57,10 @@ export interface ITableBodyPlaceholderProps {
     userName?: string;
     surName?: string;
     tariffName?: string;
-    tariffPrice? : number;
-    tariffCreatedDate?: string;
-    tariffStartDate?: string;
-    tariffEndDate?: string;
+    SaleUnitPrice? : number;
+    createDate?: string;
+    validityBeginDate?: string;
+    validityEndDate?: string;
 };
 export interface ITableBodyProps {
     attributeName: string;
