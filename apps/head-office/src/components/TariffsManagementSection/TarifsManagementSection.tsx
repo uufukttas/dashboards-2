@@ -13,6 +13,7 @@ import { setTariffs } from '../../../app/redux/features/tariffs';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { toggletariffListUpdated } from '../../../app/redux/features/isTariffListUpdated';
 import { AppDispatch, RootState } from '../../../app/redux/store';
+import TariffsModalComponent from './TariffsManagementModalComponents/TariffsModalComponent';
 
 const TarifssManagementSection: React.FC = () => {
     const tarifssManagementSectionPrefix: string = `${BRAND_PREFIX}-tarifss-management`;
@@ -52,7 +53,7 @@ const TarifssManagementSection: React.FC = () => {
             <div className={`${tarifssManagementSectionPrefix}-listing-container flex items-center w-full`}>
                 <Table
                     attributeName="tariff-list"
-                    buttonText='Istasyon'
+                    buttonText='Tarife'
                     filteredDropdownItems={[]}
                     tableData={tariffListData.tariffs}
                     tableDataCount={tariffListData.count}
@@ -64,12 +65,11 @@ const TarifssManagementSection: React.FC = () => {
                 isModalVisible && (
                     <Modal
                         className={`${tarifssManagementSectionPrefix}-modal-container`}
-                        modalHeaderTitle={`Istasyon ${tariffListData.id > 0 ? 'Güncelle' : 'Ekle'}`}
+                        modalHeaderTitle={`Tarife ${tariffListData.id > 0 ? 'Güncelle' : 'Ekle'}`}
                         modalId={`${tarifssManagementSectionPrefix}-modal`}
                         onClose={handleCloseModal}
                     >
-                        {/* <ServicePointModalForm />*/}
-                        asd
+                        <TariffsModalComponent/>
                     </Modal>
                 )
             }
