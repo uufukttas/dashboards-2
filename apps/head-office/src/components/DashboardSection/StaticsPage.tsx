@@ -151,31 +151,31 @@ const StaticsPage: React.FC = () => {
                 <Card
                     cardBody={<Pie data={pieData} />}
                     cardHeader={<h3 className='font-bold'>Istasyonlar Durumlari</h3>}
-                    className='w-full flex flex-col items-center py-4 mx-2 px-4 mt-4 lg:mt-0 '
+                    className='w-full flex flex-col items-center py-4 mx-2 px-4 mt-4 lg:mt-0 rounded'
                 />
                 <Card
                     cardBody={<Doughnut data={donutData} />}
                     cardHeader={<h3 className='font-bold'>Sarj Unite Durumlari</h3>}
-                    className='w-full flex flex-col items-center py-4 mx-2 px-4 mt-4 lg:mt-0 '
+                    className='w-full flex flex-col items-center py-4 mx-2 px-4 mt-4 lg:mt-0 rounded'
                 />
                 <Card
                     cardBody={<Pie data={pieData} />}
                     cardHeader={<h3 className='font-bold'>Bilanco</h3>}
-                    className='w-full flex flex-col items-center py-4 mx-2 px-4 mt-4 lg:mt-0 '
+                    className='w-full flex flex-col items-center py-4 mx-2 px-4 mt-4 lg:mt-0 rounded'
                 />
             </div>
             <div className={`${chartsPrefix}-row w-full flex justify-between my-4 w-1/3`}>
                 <Card
                     cardBody={<Line className='w-[300px] h-[100px] lg:w-[924px] lg:h-full' options={lineOptions} data={lineData} />}
                     cardHeader={<h3 className='font-bold'>Aylik Getiri</h3>}
-                    className='line-chart w-full flex flex-col items-center p-8 h-full'
+                    className='line-chart w-full flex flex-col items-center p-8 h-full rounded'
                 />
             </div>
             <div className={`${chartsPrefix}-row w-full flex justify-between my-4 w-1/3`}>
                 <Card
                     cardBody={<Line className='w-[300px] h-[100px] lg:w-[924px] lg:h-full' options={areaLineOptions} data={areaLineData} />}
                     cardHeader={<h3 className='font-bold'>Gelir Gider Karsilastirma</h3>}
-                    className='line-chart w-full flex flex-col items-center p-8 h-full'
+                    className='line-chart w-full flex flex-col items-center p-8 h-full rounded'
                 />
             </div>
         </div>
