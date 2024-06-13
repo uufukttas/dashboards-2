@@ -34,6 +34,7 @@ import userData from './features/userData';
 import userProfileInfo from './features/userProfileInfo';
 import users from './features/users';
 import tariffs from './features/tariffs';
+import tariffData from './features/tariffData';
 
 export const store: EnhancedStore = configureStore({
   reducer: {
@@ -72,6 +73,7 @@ export const store: EnhancedStore = configureStore({
     userProfileInfo,
     users,
     tariffs,
+    tariffData,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });

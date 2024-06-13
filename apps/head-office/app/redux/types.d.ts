@@ -227,6 +227,16 @@ export interface IUserDataProps {
     phoneNumber: string;
     userName: string;
 };
+export interface ITariffDataProps {
+    createDate: string
+    id: number
+    isActive: boolean
+    isDeleted: boolean
+    name: string
+    validityEndDate: string
+    validityStartDate: string
+    SaleUnitPrice: number
+}
 export interface IUserProfileInfoProps {
     userId: string;
     name: string;
