@@ -4,7 +4,7 @@ const getAllTariffsRequest = async (stationId: number | null) => {
     try {
         const response = await axios
             .post(
-                `${process.env.NEXT_PUBLIC_BASE_URL}/TariffLocation/GetAllTariffs`,
+                `${process.env.NEXT_PUBLIC_BASE_URL}/Tariff/GetTariffs`,
                 { StationId: stationId },
                 { headers: { 'Content-Type': 'application/json' } }
             );
