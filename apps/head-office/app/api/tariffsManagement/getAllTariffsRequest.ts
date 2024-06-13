@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const getAllTariffsRequest = async (stationId: number | null) => {
+const getAllTariffsRequest = async (currentPage: number) => {
     try {
         const response = await axios
             .post(
                 `${process.env.NEXT_PUBLIC_BASE_URL}/Tariff/GetTariffs`,
-                { StationId: stationId },
+                { pageNumber: currentPage, userCount: 10 },
                 { headers: { 'Content-Type': 'application/json' } }
             );
 
