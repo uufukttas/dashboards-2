@@ -11,21 +11,20 @@ import { toggleModalVisibility } from '../../../../app/redux/features/isModalVis
 import { toggleUserListUpdate } from '../../../../app/redux/features/isUserListUpdated';
 import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
-import { IUserRoleProps } from '../types';
 
 const TariffsModalComponent: React.FC = () => {
-    const [minVal, setMinVal] = useState(0);
-    const [maxVal, setMaxVal] = useState(100);
+    // const [minVal, setMinVal] = useState(0);
+    // const [maxVal, setMaxVal] = useState(100);
 
-    const handleMinChange = (event) => {
-        const value = Math.min(Number(event.target.value), maxVal - 1);
-        setMinVal(value);
-    };
+    // const handleMinChange = (event) => {
+    //     const value = Math.min(Number(event.target.value), maxVal - 1);
+    //     setMinVal(value);
+    // };
 
-    const handleMaxChange = (event) => {
-        const value = Math.max(Number(event.target.value), minVal + 1);
-        setMaxVal(value);
-    };
+    // const handleMaxChange = (event) => {
+    //     const value = Math.max(Number(event.target.value), minVal + 1);
+    //     setMaxVal(value);
+    // };
 
     const tariffData = useSelector((state: RootState) => state.tariffData);
     const hasTariffDataId: boolean = tariffData.id > 0;
@@ -54,12 +53,12 @@ const TariffsModalComponent: React.FC = () => {
         let response;
 
 
-        dispatch(
-            showAlert({
-                message: response.message,
-                type: response.isSuccess ? 'success' : 'error'
-            })
-        );
+        // dispatch(
+        //     showAlert({
+        //         message: response.message,
+        //         type: response.isSuccess ? 'success' : 'error'
+        //     })
+        // );
 
         setTimeout(() => {
             dispatch(hideAlert());
