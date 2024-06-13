@@ -16,7 +16,7 @@ import { AppDispatch, RootState } from '../../../app/redux/store';
 import TariffsModalComponent from './TariffsManagementModalComponents/TariffsModalComponent';
 
 const TarifssManagementSection: React.FC = () => {
-    const tarifssManagementSectionPrefix: string = `${BRAND_PREFIX}-tarifss-management`;
+    const tarifssManagementSectionPrefix: string = `${BRAND_PREFIX}-tariffs-management`;
     const dispatch = useDispatch<AppDispatch>();
     const alertInformation = useSelector((state: RootState) => state.alertInformation);
     const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
@@ -26,7 +26,7 @@ const TarifssManagementSection: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
 
     const getAllTariffs = async () => {
-        const response = await getAllTariffsRequest(null);
+        const response = await getAllTariffsRequest(currentPage);
 
         if (response) {
             console.log('response.data', response.data)
@@ -46,10 +46,10 @@ const TarifssManagementSection: React.FC = () => {
 
     useEffect(() => {
         getAllTariffs();
-    }, []);
+    }, [currentPage]);
 
     return (
-        <div className={`${BRAND_PREFIX}-service-points-container flex justify-between items-center flex-col`}>
+        <div className={`${BRAND_PREFIX}-tariffs-management-container flex justify-between items-center flex-col`}>
             <div className={`${tarifssManagementSectionPrefix}-listing-container flex items-center w-full`}>
                 <Table
                     attributeName="tariff-list"
@@ -95,10 +95,10 @@ const TarifssManagementSection: React.FC = () => {
                 )
             }
             {
-                12 > 10 && (
+                tariffListData.count > 10 && (
                     <Pagination
                         currentPage={currentPage}
-                        totalCounts={29}
+                        totalCounts={tariffListData.count}
                         setCurrentPage={setCurrentPage}
                     />
                 )

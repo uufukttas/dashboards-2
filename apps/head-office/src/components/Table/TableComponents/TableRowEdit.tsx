@@ -11,7 +11,7 @@ import { ITableDataAttributeProps, ITableRowEditProps } from '../types';
 
 const TableRowEdit: React.FC<ITableRowEditProps> = ({ attributeName, tableCellData }: ITableRowEditProps) => {
     const dataAttributes: ITableDataAttributeProps = { [`data-${attributeName}-id`]: tableCellData.id };
-    const isComponentVisible: boolean = tableCellData.id > 0;
+    const isComponentVisible: boolean = tableCellData.id > 0 && attributeName !== 'tariff-list';
     const dispatch = useDispatch();
 
     const getUpdatedServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>): Promise<void> => {
