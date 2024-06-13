@@ -7,6 +7,15 @@ import { ITableDataAttributeProps, ITableRowProps } from '../types';
 
 const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleStyles }: ITableRowProps) => {
     const dataAttributes: ITableDataAttributeProps = { [`data-${attributeName}-id`]: tableRowData.id || 0 };
+    const convertDateFormat = (date: string): string => {
+        const formattedDate = [
+            ('0' + new Date(date).getDate()).slice(-2),
+            ('0' + (new Date(date).getMonth() + 1)).slice(-2),
+            new Date(date).getFullYear()
+        ].join('.');
+
+        return formattedDate.includes('NaN') ? '-' : formattedDate;
+    };
     const getCity = (rid: number): string => (CITIES[rid?.toString()] || '');
     const getDistricts = (districtCode: number): string => (DISTRICTS[districtCode?.toString()] || '');
     const getRolePills = (role: string, index?: number): React.ReactNode => {
@@ -55,7 +64,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                 {renderTableCell(attributeName, (tableRowData.phone || ''), tableRowData.userName || '', tableRowData.SaleUnitPrice?.toString() || '0')}
             </td>
             <td className="px-4 py-2 text-center">
-                {renderTableCell(attributeName, tableRowData.address || '', tableRowData.phoneNumber || '', tableRowData.createDate || 'Tarife Tarihi')}
+                {renderTableCell(attributeName, tableRowData.address || '', tableRowData.phoneNumber || '', convertDateFormat(tableRowData.createDate || '') || 'Tarife Tarihi')}
             </td>
             <td className="px-4 py-2 text-center">
                 {
@@ -70,12 +79,12 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                                     </Fragment>
                                 );
                             }),
-                        tableRowData.validityBeginDate || 'Tarife Baslangic Tarihi'
+                        convertDateFormat(tableRowData.validityBeginDate || '') || new Date().toLocaleDateString()
                     )
                 }
             </td>
             <td className="px-4 py-2 text-center">
-                {renderTableCell(attributeName, getDistricts(tableRowData.districtId ?? 1), tableRowData.lastLoginDate || '', tableRowData.validityEndDate || 'Tarife Bitis Tarihi')}
+                {renderTableCell(attributeName, getDistricts(tableRowData.districtId ?? 1), tableRowData.lastLoginDate || '', convertDateFormat(tableRowData.validityEndDate || '') || '-')}
             </td>
             <td className="px-4 py-4 text-center">
                 <div className="flex justify-center text-2xl">
