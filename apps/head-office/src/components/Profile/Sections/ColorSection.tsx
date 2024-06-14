@@ -50,11 +50,16 @@ const ColorSection: React.FC = () => {
                     pageColors.map((color, index) => {
                         return (
                             <div key={index} className={`${profilePagePrefix}-colors-container w-full`}>
+                                <Label
+                                    className={`${profilePagePrefix}-color-label block mb-2 text-heading font-normal w-1/2`}
+                                    htmlFor={`${profilePagePrefix}-${index}-input`}
+                                    labelText={`${colorNames[index]} Renk`}
+                                />
                                 <div className={`${profilePagePrefix}-color-input-container flex justify-between items-center w-full`}>
                                     <Label
-                                        className={`${profilePagePrefix}-color-label block mb-2 text-heading font-normal w-1/2`}
-                                        htmlFor={`${profilePagePrefix}-${index}-input`}
-                                        labelText={`${colorNames[index]} Renk`}
+                                        className={`${profilePagePrefix}-color-name-label block mb-2 text-heading font-extrabold`}
+                                        htmlFor={`${profilePagePrefix}-${color}-input`}
+                                        labelText={`Renk: ${pageColors[index].value}`}
                                     />
                                     <Input
                                         className={`${profilePagePrefix}-color-input border-black rounded-lg w-1/2`}
@@ -71,11 +76,7 @@ const ColorSection: React.FC = () => {
                                         }}
                                     />
                                 </div>
-                                <Label
-                                    className={`${profilePagePrefix}-color-name-label block mb-2 text-heading font-extrabold`}
-                                    htmlFor={`${profilePagePrefix}-${color}-input`}
-                                    labelText={`Renk: ${pageColors[index].value}`}
-                                />
+
                             </div>
                         );
                     })
