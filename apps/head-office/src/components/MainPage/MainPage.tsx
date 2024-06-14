@@ -1,25 +1,50 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Header from '../Header/Header';
 import Section from '../Section/Section';
 import Sidebar from '../Sidebar/Sidebar';
 import { BRAND_PREFIX } from '../../constants/constants';
+import { getColors } from '../../../app/api/profile';
+import { setConfigs } from '../../../app/redux/features/setConfig';
+import { RootState } from '../../../app/redux/store';
 import type { IMainPageProps } from './types';
 import './MainPage.css';
 
 const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageProps) => {
   const pagePrefix: string = `${BRAND_PREFIX}-page`;
+  const colors = useSelector((state: RootState) => state.configs.colors);
+  const [isVisibleComponent, setIsVisibleComponent] = useState<boolean>(false);
+  const dispatch = useDispatch();
+
+  const fetchConfigurations = async (): Promise<void> => {
+    const colors = await getColors(["Ana", "Ikincil", "Alternatif", "Ikincil Yedek"]);
+
+    dispatch(setConfigs(colors.data));
+    setIsVisibleComponent(true);
+  };
+
+  useEffect(() => {
+    fetchConfigurations();
+  }, [isVisibleComponent]);
 
   return (
-    <div className={`${pagePrefix}-wrapper w-full flex`}>
-      <Sidebar />
-      <div className={`${pagePrefix}-container bg-white overflow-x-hidden no-scrollbar`}>
-        <Header className={`h-[80px] flex items-center w-full`} headerName={headerName} />
-        <Section>
-          {children}
-        </Section>
+    isVisibleComponent && (
+      <div
+        className={`${pagePrefix}-wrapper w-full flex`}
+        style={{ '--color-primary': `${colors[0].value}`, '--color-secondary': `${colors[1].value}` } as React.CSSProperties}
+
+      >
+        <Sidebar />
+        <div className={`${pagePrefix}-container bg-white overflow-x-hidden no-scrollbar`}>
+          <Header className={`h-[80px] flex items-center w-full`} headerName={headerName} />
+          <Section>
+            {children}
+          </Section>
+        </div>
       </div>
-    </div>
+    )
   );
 };
 

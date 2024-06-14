@@ -15,6 +15,7 @@ import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Tabs from '../Tabs/Tabs';
 import { BRAND_PREFIX } from '../../constants/constants';
+import { getColors } from '../../../app/api/profile';
 import {
   deleteComissionRequest,
   deleteEnergyPriceRequest,
@@ -29,6 +30,7 @@ import {
   getEnergyPriceDetails,
   getPermissionRequest,
 } from '../../../app/api/servicePointDetails';
+import { getServicePointDataRequest } from '../../../app/api/servicePoints';
 import { deleteChargePointRequest } from '../../../app/api/servicePoints/deleteChargePointRequest';
 import { setAccessTypeList } from '../../../app/redux/features/accessTypeList';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
@@ -47,8 +49,8 @@ import { toggleEnergyPriceListUpdate } from '../../../app/redux/features/isEnerg
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { toggleServicePointPermissionsUpdated } from '../../../app/redux/features/isServicePointPermissionsUpdated';
 import { setPermissionData } from '../../../app/redux/features/permissionsData';
-import { getServicePointDataRequest } from '../../../app/api/servicePoints';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
+import { setConfigs } from '../../../app/redux/features/setConfig';
 import {
   setAddChargeUnit,
   setAddComission,
@@ -77,6 +79,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const addServicePointImage = useSelector((state: RootState) => state.setVisibleModal.addServicePointImage);
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const chargeUnitList = useSelector((state: RootState) => state.chargeUnitList);
+  const colors = useSelector((state: RootState) => state.configs.colors);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isChargePointDataUpdated = useSelector((state: RootState) => {
     return state.isChargePointDataUpdated.isChargePointDataUpdated
@@ -207,6 +210,11 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     setTimeout(() => {
       dispatch(hideAlert());
     }, 5000);
+  };
+  const fetchConfigurations = async (): Promise<void> => {
+    const colors = await getColors(["Ana", "Ikincil", "Alternatif", "Ikincil Yedek"]);
+  
+    dispatch(setConfigs(colors.data));
   };
   const getBrands = async (): Promise<void | null> => {
     const chargeUnitBrands = await getChargeUnitBrands();
@@ -361,6 +369,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   };
 
   useEffect(() => {
+    fetchConfigurations();
     getBrands();
     getChargeUnits();
     getChargeUnitFeatures();
@@ -413,7 +422,10 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
         <Loading />
       )
       : (
-        <div className={`${BRAND_PREFIX}-service-point-details-page-content-wrapper w-full`}>
+        <div
+          className={`${BRAND_PREFIX}-service-point-details-page-content-wrapper w-full`}
+          style={{ '--color-primary': `${colors && colors[0]?.value}`, '--color-secondary': `${colors && colors[1]?.value}` } as React.CSSProperties}
+        >
           <div className={`${BRAND_PREFIX}-service-point-details-page-content-container w-full`}>
             <ServicePointDetailsHeader />
             <Tabs />
