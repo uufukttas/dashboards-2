@@ -265,3 +265,6 @@ export interface ITarifssDataProps {
     StationName: string
     TariffID: number
 };
+export interface IResourceTextProps {
+    [key: string]: string;
+};

@@ -6,6 +6,7 @@ import chargeUnitBrands from './features/chargeUnitBrands';
 import chargeUnitData from './features/chargeUnitData';
 import chargeUnitInvestors from './features/chargeUnitInvestors';
 import chargeUnitList from './features/chargeUnitList';
+import configs from './features/setConfig';
 import setConnectorProperty from './features/connectorProperty';
 import comissionData from './features/comissionData';
 import dialogInformation from './features/dialogInformation';
@@ -46,6 +47,7 @@ export const store: EnhancedStore = configureStore({
     chargeUnitInvestors,
     chargeUnitList,
     comissionData,
+    configs,
     setConnectorProperty,
     dialogInformation,
     energyPriceDetails,
