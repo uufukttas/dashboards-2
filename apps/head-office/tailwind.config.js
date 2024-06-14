@@ -20,7 +20,7 @@ module.exports = {
     },
     colors: {
       background: '#EEEEEE',
-      primary: '#FCD800',
+      primary: 'var(--color-primary)',
       secondary: '#656567',
       'primary-lighter': '#FCD800CC',
       'secondary-lighter': '#656567CC',
