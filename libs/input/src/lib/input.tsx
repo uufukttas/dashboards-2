@@ -3,6 +3,7 @@ import { UseFormRegisterReturn } from 'react-hook-form';
 interface IInputProps {
   ariaInvalid?: boolean;
   className?: string;
+  dataAttributes?: { [key: string]: string };
   disabled?: boolean;
   id: string;
   name: string;
@@ -18,6 +19,7 @@ interface IInputProps {
 export function Input({
   ariaInvalid,
   className,
+  dataAttributes,
   disabled,
   id,
   name,
@@ -42,6 +44,7 @@ export function Input({
       required={required}
       value={value}
       onChange={onChange}
+      {...dataAttributes}
       {...register}
     />
   );
