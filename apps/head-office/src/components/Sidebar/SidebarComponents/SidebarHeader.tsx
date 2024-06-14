@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { FaRegCircleXmark } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +7,7 @@ import { detectDevice } from '@projects/common';
 import { BRAND_PREFIX, userInfo } from '../../../constants/constants';
 import { toggleSidebarExpanded } from '../../../../app/redux/features/isSidebarExpand';
 import { RootState } from '../../../../app/redux/store';
+import { Image } from '@projects/image';
 
 const SidebarHeader: React.FC = () => {
     const sidebarHeaderPrefix: string = `${BRAND_PREFIX}-sidebar-header`;
