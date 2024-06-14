@@ -35,7 +35,7 @@ const Index: React.FC = () => {
       <div className={
         `${userInfo.name}-head-office w-full flex items-center justify-center bg-[${stylesProps.loginFormPageBackgroundColor}] ${detectDevice().isMobile ? 'h-screen' : ''}`
       }
-        style={{ '--color-primary': `${colors[0].value}`, '--color-secondary': `${colors[1].value}` }}
+        style={{ '--color-primary': `${colors[0].value}`, '--color-secondary': `${colors[1].value}` } as React.CSSProperties}
       >
         < Login />
         <Background

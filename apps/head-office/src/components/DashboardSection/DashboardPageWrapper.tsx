@@ -35,7 +35,7 @@ const DashboardPage: React.FC = () => {
     isVisible &&
     <div
       className={`${montserrat.className} ${BRAND_PREFIX}-dashboards-page-wrapper w-full flex h-screen`}
-      style={{ '--color-primary': `${colors[0].value}`, '--color-secondary': `${colors[1].value}` }}
+      style={{ '--color-primary': `${colors[0].value}`, '--color-secondary': `${colors[1].value}` } as React.CSSProperties}
     >
       {
         isLoading
