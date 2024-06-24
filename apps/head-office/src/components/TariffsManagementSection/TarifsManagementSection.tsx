@@ -3,17 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from '@projects/alert';
 import { Dialog } from '@projects/dialog';
 import { tablePlaceholderInitialValue, tariffsTableHeadData } from './constants';
+import TariffsModalComponent from './TariffsManagementModalComponents/TariffsModalComponent';
 import Modal from '../Modal/Modal';
 import Pagination from '../ServicePointSection/PaginationComponents/Pagination';
 import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { getAllTariffsRequest } from '../../../app/api/tariffsManagement';
+import { deleteTariffRequest, getAllTariffsRequest } from '../../../app/api/tariffsManagement';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { setTariffs } from '../../../app/redux/features/tariffs';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { toggleTariffListUpdated } from '../../../app/redux/features/isTariffListUpdated';
 import { AppDispatch, RootState } from '../../../app/redux/store';
-import TariffsModalComponent from './TariffsManagementModalComponents/TariffsModalComponent';
 
 const TarifssManagementSection: React.FC = () => {
     const tarifssManagementSectionPrefix: string = `${BRAND_PREFIX}-tariffs-management`;
@@ -87,7 +87,7 @@ const TarifssManagementSection: React.FC = () => {
                     <Dialog
                         handleCancel={() => dispatch(hideDialog())}
                         handleSuccess={() => {
-                            // deleteServicePoint(dialogInformation.data);
+                            deleteTariffRequest(dialogInformation.data);
                             dispatch(hideDialog());
                             dispatch(toggleTariffListUpdated(true));
                         }}
