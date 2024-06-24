@@ -53,23 +53,22 @@ const Tabs: React.FC = () => {
     {
       title: (
         <>
-          <FaUserGear />
-          {
-            detectDevice().isMobile ? '' : 'Istasyon Yetkilileri'
-          }
-        </>
-      ),
-    },
-    {
-      title: (
-        <>
           <FaCoins />
           {
             detectDevice().isMobile ? '' : 'Komisyonlar'
           }
         </>
       ),
-    },
+    }, {
+      title: (
+        <>
+          <FaUserGear />
+          {
+            detectDevice().isMobile ? '' : 'Istasyon Yetkilileri'
+          }
+        </>
+      ),
+    }
   ];
   const tabPrefix: string = `${BRAND_PREFIX}-tabs`;
   const dispatch = useDispatch();
@@ -80,8 +79,7 @@ const Tabs: React.FC = () => {
       {
         tabItems.map((item: ITabsItemProps, index: number) => (
           <Button key={index}
-            className={`${tabPrefix}-item px-0 py-0 w-1/6 flex justify-center items-center text-xs ${
-              activeTabIndex === index
+            className={`${tabPrefix}-item px-0 py-0 w-1/6 flex justify-center items-center text-xs ${activeTabIndex === index
                 ? 'active'
                 : ''
               }`}
