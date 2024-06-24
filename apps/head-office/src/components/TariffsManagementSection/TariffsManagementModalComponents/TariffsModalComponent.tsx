@@ -11,25 +11,13 @@ import { toggleModalVisibility } from '../../../../app/redux/features/isModalVis
 import { toggleUserListUpdate } from '../../../../app/redux/features/isUserListUpdated';
 import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
+import { FaCircleInfo } from 'react-icons/fa6';
 
 const TariffsModalComponent: React.FC = () => {
-    // const [minVal, setMinVal] = useState(0);
-    // const [maxVal, setMaxVal] = useState(100);
-
-    // const handleMinChange = (event) => {
-    //     const value = Math.min(Number(event.target.value), maxVal - 1);
-    //     setMinVal(value);
-    // };
-
-    // const handleMaxChange = (event) => {
-    //     const value = Math.max(Number(event.target.value), minVal + 1);
-    //     setMaxVal(value);
-    // };
-
     const tariffData = useSelector((state: RootState) => state.tariffData);
     const hasTariffDataId: boolean = tariffData.id > 0;
-    const sectionPrefix: string = 'tariff-management';
     const formName: string[] = ['name', 'price', 'isActive', 'isDateSelected', 'startDate', 'endDate'];
+    const sectionPrefix: string = `${BRAND_PREFIX}-tariff-management`;
     const formProperties = {
         name: `${sectionPrefix}-${formName[0]}`,
         price: `${sectionPrefix}-${formName[1]}`,
@@ -48,17 +36,9 @@ const TariffsModalComponent: React.FC = () => {
         [`${formProperties.startDate}`]: tariffData.startDate || '',
         [`${formProperties.endDate}`]: tariffData.endDate || '',
     });
-
+    const [isVisibleDateArea, setIsVisibleDateArea] = useState(false);
     const handleFormSubmit = async (): Promise<void> => {
         let response;
-
-
-        // dispatch(
-        //     showAlert({
-        //         message: response.message,
-        //         type: response.isSuccess ? 'success' : 'error'
-        //     })
-        // );
 
         setTimeout(() => {
             dispatch(hideAlert());
@@ -74,7 +54,7 @@ const TariffsModalComponent: React.FC = () => {
                 className={`${sectionPrefix}-modal-form block`}
                 onSubmit={handleSubmit(handleFormSubmit)}
             >
-                <div className="sh-tariff-name-contianer">
+                <div className={`${sectionPrefix}-name-contianer`}>
                     <Label
                         className='block mb-2 text-heading mt-2 font-bold'
                         htmlFor={`${sectionPrefix}-username`}
@@ -97,8 +77,7 @@ const TariffsModalComponent: React.FC = () => {
                         type="text"
                     />
                 </div>
-
-                <div className="sh-price-contianer">
+                <div className={`${sectionPrefix}-price-contianer`}>
                     <Label
                         className='block mb-2 text-heading mt-2 font-bold'
                         htmlFor={`${sectionPrefix}-price`}
@@ -121,57 +100,66 @@ const TariffsModalComponent: React.FC = () => {
                         type="number"
                     />
                 </div>
-                <div className="sh-status-container w-full">
-                    <Label
-                        className='block mb-2 text-heading mt-2 font-bold'
-                        htmlFor={`${sectionPrefix}-eMail`}
-                        labelText={`Hizmet Geliri raporlansin mi?`}
-                    />
-                    <Input
-                        className='border text-text text-sm rounded-lg block p-2.5 focus:ring-primary focus:border-primary mx-8'
-                        id={`${sectionPrefix}-status`}
-                        name={`${sectionPrefix}-status`}
-                        register={register(`${sectionPrefix}-status`, {
-                            required: 'Status is required',
-                            onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                                setTariffFormData({
-                                    ...tariffFormData,
-                                    [event.target.name]: event.target.value,
-                                });
-                            },
-                            value: tariffFormData[`${sectionPrefix}-status`]
-                        })}
-                        type="checkbox"
-                    />
-                    <Label
-                        className='block mb-2 text-heading mt-2 font-bold'
-                        htmlFor={`${sectionPrefix}-eMail`}
-                        labelText={`Birim Enerji Maliyeti raporlansin mi?`}
-                    />
-                    <Input
-                        className='border text-text text-sm rounded-lg block p-2.5 focus:ring-primary focus:border-primary mx-8'
-                        id={`${sectionPrefix}-status`}
-                        name={`${sectionPrefix}-status`}
-                        register={register(`${sectionPrefix}-status`, {
-                            required: 'Status is required',
-                            onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                                setTariffFormData({
-                                    ...tariffFormData,
-                                    [event.target.name]: event.target.value,
-                                });
-                            },
-                            value: tariffFormData[`${sectionPrefix}-status`]
-                        })}
-                        type="checkbox"
-                    />
-                    {
-                        <div className='error text-red'>
-                            <p>Isaretlenmedigi takdirde enerji maliyeti bilgisi raporlama ekraninda gosterilmeyecektir</p>
-                        </div>
-                    }
-                    <div className='sh-time-container w-full items-center'>
+                <div className={`${sectionPrefix}-status-container w-full`}>
+                    <div className={`${sectionPrefix}-service-revenue-container w-full items-center flex`}>
                         <Label
-                            className='block mb-2 text-heading mt-2 font-bold'
+                            className='block mb-2 text-heading mt-2 font-bold w-1/2'
+                            htmlFor={`${sectionPrefix}-eMail`}
+                            labelText={`Hizmet Geliri raporlansin mi?`}
+                        />
+                        <Input
+                            className='border text-text text-sm rounded-lg block p-2.5 focus:ring-primary focus:border-primary mx-8'
+                            id={`${sectionPrefix}-status`}
+                            name={`${sectionPrefix}-status`}
+                            register={register(`${sectionPrefix}-status`, {
+                                required: 'Status is required',
+                                onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                                    setTariffFormData({
+                                        ...tariffFormData,
+                                        [event.target.name]: event.target.value,
+                                    });
+                                },
+                                value: tariffFormData[`${sectionPrefix}-status`]
+                            })}
+                            type="checkbox"
+                        />
+                    </div>
+                    <div className={`${sectionPrefix}-energy-cost-container w-full items-center flex flex-col`}>
+                        <div className='w-full flex'>
+                            <Label
+                                className='block mb-2 text-heading mt-2 font-bold w-1/2'
+                                htmlFor={`${sectionPrefix}-eMail`}
+                                labelText={`Birim Enerji Maliyeti raporlansin mi?`}
+                            />
+                            <Input
+                                className='border text-text text-sm rounded-lg block p-2.5 focus:ring-primary focus:border-primary mx-8'
+                                id={`${sectionPrefix}-status`}
+                                name={`${sectionPrefix}-status`}
+                                register={register(`${sectionPrefix}-status`, {
+                                    required: 'Status is required',
+                                    onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                                        setTariffFormData({
+                                            ...tariffFormData,
+                                            [event.target.name]: event.target.value,
+                                        });
+                                    },
+                                    value: tariffFormData[`${sectionPrefix}-status`]
+                                })}
+                                type="checkbox"
+                            />
+                        </div>
+                        <div>
+                            {
+                                <div className='error text-red flex items-center justify-between '>
+                                    <FaCircleInfo className='w-1/12'/>
+                                    <p className='w-11/12'>Isaretlenmedigi takdirde enerji maliyeti bilgisi raporlama ekraninda gosterilmeyecektir</p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div className={`${sectionPrefix}-time-container w-full items-center flex`}>
+                        <Label
+                            className='block mb-2 text-heading mt-2 font-bold w-1/2'
                             htmlFor={`${sectionPrefix}-time`}
                             labelText={`Tarih ayari var mi?`}
                         />
@@ -182,6 +170,7 @@ const TariffsModalComponent: React.FC = () => {
                             register={register(`${sectionPrefix}-time-selection`, {
                                 required: 'Tarih girisi zorunlu',
                                 onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                                    setIsVisibleDateArea(event.target.checked);
                                     setTariffFormData({
                                         ...tariffFormData,
                                         [event.target.name]: event.target.value,
@@ -193,55 +182,58 @@ const TariffsModalComponent: React.FC = () => {
                         />
                     </div>
                 </div>
-                <div className='sh-date-container flex'>
-                    <div className="sh-start-date-container w-1/2">
-                        <Label
-                            className='block mb-2 text-heading mt-2 font-bold'
-                            htmlFor={`${sectionPrefix}-name`}
-                            labelText={`Baslangic Tarihi`}
-                        />
-                        <Input
-                            className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary mr-2'
-                            id={`${sectionPrefix}-start-date`}
-                            name={`${sectionPrefix}-start-date`}
-                            register={register(`${sectionPrefix}-start-date`, {
-                                required: 'Baslangic Tarihi zorunlu',
-                                onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                                    setTariffFormData({
-                                        ...tariffFormData,
-                                        [event.target.name]: event.target.value,
-                                    });
-                                },
-                                value: tariffFormData[`${sectionPrefix}-start-date`]
-                            })}
-                            type="date"
-                        />
+                {
+                    isVisibleDateArea &&
+                    <div className={`${sectionPrefix}-date-container flex`}>
+                        <div className={`${sectionPrefix}-start-date-container w-1/2`}>
+                            <Label
+                                className='block mb-2 text-heading mt-2 font-bold'
+                                htmlFor={`${sectionPrefix}-name`}
+                                labelText={`Baslangic Tarihi`}
+                            />
+                            <Input
+                                className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary mr-2'
+                                id={`${sectionPrefix}-start-date`}
+                                name={`${sectionPrefix}-start-date`}
+                                register={register(`${sectionPrefix}-start-date`, {
+                                    required: 'Baslangic Tarihi zorunlu',
+                                    onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                                        setTariffFormData({
+                                            ...tariffFormData,
+                                            [event.target.name]: event.target.value,
+                                        });
+                                    },
+                                    value: tariffFormData[`${sectionPrefix}-start-date`]
+                                })}
+                                type="date"
+                            />
+                        </div>
+                        <div className={`${sectionPrefix}-end-date-container w-1/2`}>
+                            <Label
+                                className='block mb-2 text-heading mt-2 font-bold'
+                                htmlFor={`${sectionPrefix}-surname`}
+                                labelText={`Bitis Tarihi`}
+                            />
+                            <Input
+                                className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary ml-2'
+                                id={`${sectionPrefix}-end-date`}
+                                name={`${sectionPrefix}-end-date`}
+                                register={register(`${sectionPrefix}-end-date`, {
+                                    required: 'Bitis Tarihi zorunlu',
+                                    onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                                        setTariffFormData({
+                                            ...tariffFormData,
+                                            [event.target.name]: event.target.value,
+                                        });
+                                    },
+                                    value: tariffFormData[`${sectionPrefix}-end-date`]
+                                })}
+                                type="date"
+                            />
+                        </div>
                     </div>
-                    <div className="sh-end-date-container w-1/2">
-                        <Label
-                            className='block mb-2 text-heading mt-2 font-bold'
-                            htmlFor={`${sectionPrefix}-surname`}
-                            labelText={`Bitis Tarihi`}
-                        />
-                        <Input
-                            className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary ml-2'
-                            id={`${sectionPrefix}-end-date`}
-                            name={`${sectionPrefix}-end-date`}
-                            register={register(`${sectionPrefix}-end-date`, {
-                                required: 'Bitis Tarihi zorunlu',
-                                onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                                    setTariffFormData({
-                                        ...tariffFormData,
-                                        [event.target.name]: event.target.value,
-                                    });
-                                },
-                                value: tariffFormData[`${sectionPrefix}-end-date`]
-                            })}
-                            type="date"
-                        />
-                    </div>
-                </div>
-                <div className='sh-submit-button-container flex justify-end'>
+                }
+                <div className={`${sectionPrefix}-submit-button-container flex justify-end`}>
                     <Button
                         className='bg-primary text-white rounded-md px-4 py-2 mt-4'
                         id={`${sectionPrefix}-submit-button`}
