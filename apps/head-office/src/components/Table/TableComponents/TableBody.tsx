@@ -11,14 +11,13 @@ const TableBody: React.FC<ITableBodyProps> = ({
     tablePlaceholderInitialValue,
 }: ITableBodyProps) => {
     const fullTableData: ITableBodyPlaceholderProps[] | [] = tableData && tableData.length > 0
-    ? [...tableData]
-    : [];
+        ? [...tableData]
+        : [];
     const placeholder: ITableBodyPlaceholderProps = tablePlaceholderInitialValue;
     const requiredRows: number = 10;
-    const filledTableData: ITableBodyPlaceholderProps[] = Array.from(
-        { length: requiredRows },
-        (_, index) => fullTableData[index] || placeholder
-    );
+    const filledTableData: ITableBodyPlaceholderProps[] = Array.from({ length: requiredRows }, (_, index) => {
+        return fullTableData[index] || placeholder
+    });
 
     return (
         <tbody className={`${BRAND_PREFIX}-table-body bg-white divide-y divide-gray-200 text-black`}>
@@ -27,7 +26,7 @@ const TableBody: React.FC<ITableBodyProps> = ({
                     <TableRow
                         attributeName={attributeName}
                         tableRowData={tableRowData}
-                        key={tableRowData?.id || index + 1}
+                        key={tableRowData.id || index}
                         roleStyles={roleStyles}
                     />
                 ))
