@@ -16,6 +16,14 @@ const TableRowDelete: React.FC<ITableRowDeleteProps> = ({ attributeName, tableCe
             })
         );
     };
+    const deleteTariffRequest = (event: React.MouseEvent<HTMLAnchorElement>): void => {
+        dispatch(
+            showDialog({
+                actionType: 'delete',
+                data: parseInt(event.currentTarget.getAttribute('data-tariff-list-id') || '0')
+            })
+        );
+    };
     const deleteUserRequest = (event: React.MouseEvent<HTMLAnchorElement>): void => {
         dispatch(
             showDialog({
@@ -32,8 +40,10 @@ const TableRowDelete: React.FC<ITableRowDeleteProps> = ({ attributeName, tableCe
                 onClick={(event) => {
                     if (attributeName === 'service-point') {
                         deleteServicePointInfo(event)
-                    } else {
+                    } else if (attributeName === 'user-management') {
                         deleteUserRequest(event)
+                    } else if (attributeName === 'tariff-list') {
+                        deleteTariffRequest(event)
                     }
                 }}
                 {...dataAttributes}
