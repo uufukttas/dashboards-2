@@ -111,14 +111,14 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> = 
             accordionTitle: "Enerji Fiyat Ayarlari",
             titleClassName: "font-bold",
         }, {
-            actionButton: addServicePointPermissionButton,
-            accordionContent: <ServicePointPermissions />,
-            accordionTitle: "Istasyon Yetkisi",
-            titleClassName: "font-bold",
-        }, {
             actionButton: addComissionButton,
             accordionContent: <Comissions slug={slug} />,
             accordionTitle: "Komisyonlar",
+            titleClassName: "font-bold",
+        }, {
+            actionButton: addServicePointPermissionButton,
+            accordionContent: <ServicePointPermissions />,
+            accordionTitle: "Istasyon Yetkisi",
             titleClassName: "font-bold",
         },
     ];
