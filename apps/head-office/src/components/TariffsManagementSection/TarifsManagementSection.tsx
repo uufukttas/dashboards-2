@@ -11,7 +11,7 @@ import { getAllTariffsRequest } from '../../../app/api/tariffsManagement';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
 import { setTariffs } from '../../../app/redux/features/tariffs';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
-import { toggletariffListUpdated } from '../../../app/redux/features/isTariffListUpdated';
+import { toggleTariffListUpdated } from '../../../app/redux/features/isTariffListUpdated';
 import { AppDispatch, RootState } from '../../../app/redux/store';
 import TariffsModalComponent from './TariffsManagementModalComponents/TariffsModalComponent';
 
@@ -29,7 +29,6 @@ const TarifssManagementSection: React.FC = () => {
         const response = await getAllTariffsRequest(currentPage);
 
         if (response) {
-            console.log('response.data', response.data)
             dispatch(
                 setTariffs({
                     tariffs: response.data,
@@ -38,6 +37,7 @@ const TarifssManagementSection: React.FC = () => {
             );
         }
 
+        dispatch(toggleTariffListUpdated(false));
     };
 
     const handleCloseModal = (): void => {
@@ -46,7 +46,7 @@ const TarifssManagementSection: React.FC = () => {
 
     useEffect(() => {
         getAllTariffs();
-    }, [currentPage]);
+    }, [currentPage, isTariffListUpdated]);
 
     return (
         <div className={`${BRAND_PREFIX}-tariffs-management-container flex justify-between items-center flex-col`}>
@@ -69,7 +69,7 @@ const TarifssManagementSection: React.FC = () => {
                         modalId={`${tarifssManagementSectionPrefix}-modal`}
                         onClose={handleCloseModal}
                     >
-                        <TariffsModalComponent/>
+                        <TariffsModalComponent />
                     </Modal>
                 )
             }
@@ -89,7 +89,7 @@ const TarifssManagementSection: React.FC = () => {
                         handleSuccess={() => {
                             // deleteServicePoint(dialogInformation.data);
                             dispatch(hideDialog());
-                            dispatch(toggletariffListUpdated(true));
+                            dispatch(toggleTariffListUpdated(true));
                         }}
                     />
                 )
