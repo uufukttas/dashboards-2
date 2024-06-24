@@ -9,11 +9,11 @@ export const isTariffListUpdated = createSlice({
     name: 'isTariffListUpdated',
     initialState,
     reducers: {
-        toggletariffListUpdated: (state, action) => {
+        toggleTariffListUpdated: (state, action) => {
             state.isTariffListUpdated = action.payload;
         },
     },
 });
 
-export const { toggletariffListUpdated } = isTariffListUpdated.actions;
+export const { toggleTariffListUpdated } = isTariffListUpdated.actions;
 export default isTariffListUpdated.reducer as Reducer<IIsTariffListUpdatedProps>;
