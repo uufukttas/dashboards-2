@@ -24,7 +24,7 @@ interface IConnectorStateProps {
   connectorNr: number;
   epdkSocketNumber: number;
   isAC: boolean;
-  modelID: number;
+  modelId: number;
   kw: number;
   RID: number;
 }

@@ -26,7 +26,6 @@ import {
   getChargeUnitBrands,
   getChargeUnitsRequest,
   getComissionDetails,
-  getConnectorPropertiesRequest,
   getEnergyPriceDetails,
   getPermissionRequest,
 } from '../../../app/api/servicePointDetails';
@@ -63,7 +62,6 @@ import { setStatusList } from '../../../app/redux/features/statusList';
 import { RootState } from '../../../app/redux/store';
 import type {
   IChargeUnitsProps,
-  IConnectorProps,
   IModalConfigProps,
   IServicePointsDetailsPageProps,
 } from './types';
@@ -110,7 +108,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     },
     {
       condition: addConnector,
-      headerTitle: 'Konnektör Ekle',
+      headerTitle: 'Soket Tanımla',
       modalId: `${BRAND_PREFIX}-connector-add-modal`,
       content: <ConnectorAddModal />,
       closeAction: () => dispatch(setAddConnector(false)),
@@ -213,7 +211,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   };
   const fetchConfigurations = async (): Promise<void> => {
     const colors = await getColors(["Ana", "Ikincil", "Alternatif", "Ikincil Yedek"]);
-  
+
     dispatch(setConfigs(colors.data));
   };
   const getBrands = async (): Promise<void | null> => {
@@ -260,32 +258,21 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     dispatch(setComissionData(comissionResponse.data));
   };
   const getConnectors = async () => {
-    const promises = chargeUnitList.map(async (chargeUnit: IChargeUnitsProps) => {
-      const connectorResponse = await getChargePointConnetors(chargeUnit.chargePointId);
+    try {
+      const promises = chargeUnitList.map((chargeUnit: IChargeUnitsProps) =>
+        getChargePointConnetors(chargeUnit.chargePointId)
+      );
+      const responses = await Promise.all(promises);
+      const connectorData = responses.map(response => response.data);
+      const updatedConnectorList = [...connectorData];
 
-      return getConnectorProperties(connectorResponse.data);
-    });
+      dispatch(setConnectors(updatedConnectorList));
 
-    await Promise.all(promises).then(data => dispatch(setConnectors([data])));
+    } catch (error) {
+      console.error('Failed to fetch connectors:', error);
+    };
 
     dispatch(toggleConnectorUpdated(false));
-  };
-  const getConnectorProperties = async (connectorData: []) => {
-    const promises = connectorData.map(async (connector: IConnectorProps) => {
-      const connectorPropertiesResponse = await getConnectorPropertiesRequest(connector.stationChargePointID);
-
-      connectorPropertiesResponse.data.forEach((element: IConnectorProps) => {
-        if (connector.RID === element.id) {
-          connector.kw = element.kw;
-        }
-        connector.connectorName = element.connectorName;
-        connector.isAC = element.isAC;
-      });
-
-      return connectorData;
-    });
-
-    return Promise.all(promises);
   };
   const getEnergyPrices = async (): Promise<void | null> => {
     const energyPriceResponse = await getEnergyPriceDetails(slug)

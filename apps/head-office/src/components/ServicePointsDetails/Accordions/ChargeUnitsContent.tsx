@@ -173,9 +173,9 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
     const getChargeUnitStatus = (date: string): boolean => {
         return new Date(date).getTime() > new Date().getTime() - (10 * 10 * 60 * 10 * 10);
     };
-    const getConnectorTypes = async ():Promise<void> => {
+    const getConnectorTypes = async (): Promise<void> => {
         const response = await getConnectorModels(selectedBrand.toString());
-        console.log('response1', response.data)
+
         setConnectorTypes(response.data);
         createConnectorDropdownItems();
     };
@@ -276,68 +276,64 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
         return `${dateArray[0]} ${timeArray[0]}:${timeArray[1]}`;
     };
     const renderConnectors = (chargePointId: number): React.ReactNode | null => {
-        return connectorList.map((chargeUnitConnectors: IConnectorStateProps[][][]) => {
-            return chargeUnitConnectors.map((connectors: IConnectorStateProps[][]) => {
-                return connectors.map((connector: IConnectorStateProps[], idx: number) => {
-                    return connector.map((connectorItem: IConnectorStateProps, connectorIndex: number) => {
-                        if (connectorItem.stationChargePointID === chargePointId && idx + 1 === connectorItem.connectorNr) {
-                            const connectorId = connectorItem.RID;
-                            return (
-                                <div
-                                    className={`${chargeUnitPrefix}-connector-list-item w-full flex flex-row items-baseline justify-between`}
-                                    key={connectorIndex}
+        return connectorList.map((connector: IConnectorStateProps[], connectorIndex: number) => {
+            return connector.map((connectorItem: IConnectorStateProps, idx: number) => {
+                if (connectorItem.stationChargePointID === chargePointId && idx + 1 === connectorItem.connectorNr) {
+                    const connectorId = connectorItem.RID;
+                    return (
+                        <div
+                            className={`${chargeUnitPrefix}-connector-list-item w-full flex flex-row items-baseline justify-between`}
+                            key={connectorIndex}
+                        >
+                            <div className={`${chargeUnitPrefix}-connector-list-item-name-container p-2`}>
+                                <p
+                                    className={`${chargeUnitPrefix}-connector-list-item-name text-lg font-bold text-heading`}
+                                    key={`${connectorIndex}-${idx + 1}`}
                                 >
-                                    <div className={`${chargeUnitPrefix}-connector-list-item-name-container p-2`}>
-                                        <p
-                                            className={`${chargeUnitPrefix}-connector-list-item-name text-lg font-bold text-heading`}
-                                            key={`${connectorIndex}-${connectorIndex + 1}`}
-                                        >
-                                            <span className='font-bold'>{connectorIndex + 1}</span>.
-                                        </p>
-                                    </div>
-                                    <div className={`${chargeUnitPrefix}-connector-list-item-content-container flex w-full justify-evenly p-2`}>
-                                        <p
-                                            className={`${chargeUnitPrefix}-connector-list-item-epdk text-lg text-text p-2`}
-                                        >
-                                            {connectorItem.epdkSocketNumber || 'EPDK Soket Numarası Yok'}
-                                        </p>
-                                        <p
-                                            className={`${chargeUnitPrefix}-connector-list-item-kw text-lg text-text p-2`}
-                                        >
-                                            <ConnectorInfo connectorId={connectorId} />
-                                        </p>
-                                    </div>
-                                    <Button
-                                        className="connector-add-button rounded-md px-2 py-2 mx-4"
-                                        dataAttributes={{
-                                            'data-charge-point-id': connectorItem.stationChargePointID.toString(),
-                                            'data-charge-point-model-id': connectorItem.modelID.toString(),
-                                            'data-connector-nr': connectorItem.connectorNr.toString(),
-                                            'data-connector-id': connectorItem.RID.toString(),
-                                        }}
-                                        id={`${chargeUnitPrefix}-connector-add-button`}
-                                        type={'button'}
-                                        onClick={() => {
-                                            dispatch(setAddChargeUnit(false));
-                                            dispatch(setAddConnector(true));
-                                            dispatch(toggleModalVisibility(true));
-                                            dispatch(setConnectorProperty({
-                                                chargePointModelId: connectorItem.modelID,
-                                                chargePointId: connectorItem.stationChargePointID,
-                                                connectorNumber: connectorItem.connectorNr,
-                                                connectorId: connectorItem.RID,
-                                            }));
-                                        }}
-                                    >
-                                        <FaPlugCirclePlus />
-                                    </Button>
-                                </div>
-                            );
-                        } else {
-                            return null;
-                        }
-                    });
-                });
+                                    <span className='font-bold'>{idx + 1}</span>.
+                                </p>
+                            </div>
+                            <div className={`${chargeUnitPrefix}-connector-list-item-content-container flex w-full text-center p-2`}>
+                                <p
+                                    className={`${chargeUnitPrefix}-connector-list-item-epdk text-lg text-text p-2 w-1/2`}
+                                >
+                                    {connectorItem.epdkSocketNumber || 'EPDK Soket Numarası Yok'}
+                                </p>
+                                <p
+                                    className={`${chargeUnitPrefix}-connector-list-item-kw text-lg text-text p-2 w-1/2`}
+                                >
+                                    <ConnectorInfo connectorId={connectorId} />
+                                </p>
+                            </div>
+                            <Button
+                                className="connector-add-button rounded-md px-2 py-2 mx-4"
+                                dataAttributes={{
+                                    'data-charge-point-id': connectorItem.stationChargePointID.toString(),
+                                    'data-charge-point-model-id': connectorItem.modelId.toString(),
+                                    'data-connector-nr': connectorItem.connectorNr.toString(),
+                                    'data-connector-id': connectorItem.RID.toString(),
+                                }}
+                                id={`${chargeUnitPrefix}-connector-add-button`}
+                                type={'button'}
+                                onClick={() => {
+                                    dispatch(setAddChargeUnit(false));
+                                    dispatch(setAddConnector(true));
+                                    dispatch(toggleModalVisibility(true));
+                                    dispatch(setConnectorProperty({
+                                        chargePointModelId: connectorItem.modelId,
+                                        chargePointId: connectorItem.stationChargePointID,
+                                        connectorNumber: connectorItem.connectorNr,
+                                        connectorId: connectorItem.RID,
+                                    }));
+                                }}
+                            >
+                                <FaPlugCirclePlus />
+                            </Button>
+                        </div>
+                    );
+                } else {
+                    return null;
+                }
             });
         });
     };

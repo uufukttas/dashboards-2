@@ -24,7 +24,7 @@ const ConnectorInfo: React.FC<IConnectorInfoProps> = (props: IConnectorInfoProps
 
     return (
         <>
-            {displayName}
+            {displayName || '-'}
         </>
     );
 };
