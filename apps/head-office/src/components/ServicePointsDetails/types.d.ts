@@ -21,12 +21,18 @@ interface IConnectorProps {
 interface IConnectorStateProps {
   [key: number]: IConnectorProps[][][][];
   stationChargePointID: number;
+  stationConnectorName: string;
+  stationConnectorKW: number;
+  stationConnectorAC: boolean;
   connectorNr: number;
-  epdkSocketNumber: number;
+  epdkSocketNumber: string;
   isAC: boolean;
   modelId: number;
   kw: number;
   RID: number;
+  tariffId: number;
+  tariffName: string;
+  tariffSaleUnitPrice: number;
 }
 interface IConvertedStructure {
   stationID: number;
@@ -177,7 +183,7 @@ export interface IModalConfigProps {
   content: React.ReactNode;
   closeAction: () => void;
 };
-export interface IServicePointDetailsContentProps { 
+export interface IServicePointDetailsContentProps {
   slug: string;
 };
 export interface IServicePointsDetailsProps {

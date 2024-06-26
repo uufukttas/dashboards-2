@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
-import ConnectorInfo from './ConnectorInfo';
+import { Tooltip } from '@projects/tooltip';
 import Accordion from '../../Accordion/Accordion';
 import {
     getChargePointFeatureStatus,
@@ -279,7 +279,6 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
         return connectorList.map((connector: IConnectorStateProps[], connectorIndex: number) => {
             return connector.map((connectorItem: IConnectorStateProps, idx: number) => {
                 if (connectorItem.stationChargePointID === chargePointId && idx + 1 === connectorItem.connectorNr) {
-                    const connectorId = connectorItem.RID;
                     return (
                         <div
                             className={`${chargeUnitPrefix}-connector-list-item w-full flex flex-row items-baseline justify-between`}
@@ -295,14 +294,32 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                             </div>
                             <div className={`${chargeUnitPrefix}-connector-list-item-content-container flex w-full text-center p-2`}>
                                 <p
-                                    className={`${chargeUnitPrefix}-connector-list-item-epdk text-lg text-text p-2 w-1/2`}
+                                    className={`${chargeUnitPrefix}-connector-list-item-epdk text-lg text-text p-2 w-1/3`}
                                 >
-                                    {connectorItem.epdkSocketNumber || 'EPDK Soket Numarası Yok'}
+                                    <Tooltip
+                                        className='tooltip'
+                                        text={connectorItem.epdkSocketNumber || 'EPDK Soket Numarası Yok'}
+                                    >
+                                        {connectorItem.epdkSocketNumber ? connectorItem.epdkSocketNumber : '-'}
+                                    </Tooltip>
                                 </p>
                                 <p
-                                    className={`${chargeUnitPrefix}-connector-list-item-kw text-lg text-text p-2 w-1/2`}
+                                    className={`${chargeUnitPrefix}-connector-list-item-kw text-lg text-text p-2 w-1/3`}
                                 >
-                                    <ConnectorInfo connectorId={connectorId} />
+                                    <Tooltip
+                                        className='tooltip'
+                                        text={'Konnektör Özellikleri'}
+                                    >
+                                        {`${connectorItem.stationConnectorName} - ${connectorItem.stationConnectorKW} - ${connectorItem.stationConnectorAC ? 'AC' : 'DC'}`}
+                                    </Tooltip>
+                                </p>
+                                <p className={`${chargeUnitPrefix}-tariff-info text-lg text-text p-2 w-1/3`}>
+                                    <Tooltip
+                                        className='tooltip'
+                                        text={connectorItem.tariffName || 'Tarife Yok'}
+                                    >
+                                        {connectorItem.tariffSaleUnitPrice ? connectorItem.tariffSaleUnitPrice : '-'}
+                                    </Tooltip>
                                 </p>
                             </div>
                             <Button
