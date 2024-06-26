@@ -21,8 +21,7 @@ td {
 }
 
 tr td:nth-child(1) {
-  text-align: right;
-  padding-right: 20px;
+  text-align: center;
 }
 
 .connector-item {
@@ -34,21 +33,21 @@ tr td:nth-child(1) {
   margin-left: 10px;
 }
 
-
 .working-hours-time-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.working-hours-time-table th, .working-hours-time-table td {
+.working-hours-time-table th,
+.working-hours-time-table td {
   border: 1px solid #ddd;
   text-align: center;
-  padding: 8px;
+  font-size: 12px;
+  height: 15px;
 }
 
 .working-hours-time-table th {
-  background-color: #f4f4f4;
-}
+  background-color: #f2f2f2;}
 
 .working-hours-hour-label {
   font-weight: bold;
@@ -59,11 +58,18 @@ tr td:nth-child(1) {
   height: 30px;
 }
 
-.working-hours-time-slot.selected {
-  background-color: #f98080;
+td.selected {
+  background-color: #fcd800;
 }
 
 .workinh-hours-time-slot.passive {
   background-color: lightgray;
   cursor: not-allowed;
 }
+
+// table {
+
+//   td.selected {
+//     background-color: #fcd800;
+//   }
+// }

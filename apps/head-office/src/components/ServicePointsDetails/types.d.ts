@@ -239,3 +239,38 @@ export interface ITimeSlot {
   isSelectable: boolean;
   isPassive: boolean;
 };
+
+export interface IScheduleItemProps {
+  time: string;
+  days: Array<{ selected: boolean, rid: number | null }>;
+};
+
+export interface IPositionProps {
+  hourIndex: number;
+  dayIndex: number;
+};
+
+export interface ISelectedTimeProps {
+  day: string;
+  startTime: string;
+  endTime: string;
+  rid: number | null;
+};
+export interface ITimeFromAPIProps {
+  ClosingTime: string;
+  DayOfTheWeek: number;
+  IsClosed: boolean;
+  IsDeleted: boolean;
+  OpeningTime: string;
+  RID: number;
+};
+
+export interface IWorkingHoursContentProps {
+  slug: number;
+};
+
+export interface ISelectedTimeByDayProps {
+  endTime: string | null,
+  startTime: string | null,
+  rid: number | null
+};

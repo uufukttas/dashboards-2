@@ -1,307 +1,269 @@
-// File: TimeSchedule.tsx
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import React, { useState, useEffect, MouseEvent } from 'react';
 import { Button } from '@projects/button';
-import { Tooltip } from '@projects/tooltip';
-import { getWorkingHoursRequest } from '../../../../app/api/servicePointDetails';
-import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
-import { IWorkingHoursContentProps, ITimeSlot } from '../types';
+import {
+    addWorkingHoursRequest,
+    getWorkingHoursRequest,
+    updateWorkingHoursRequest
+} from '../../../../app/api/servicePointDetails';
+import {
+    IPositionProps,
+    IScheduleItemProps,
+    ISelectedTimeByDayProps,
+    ISelectedTimeProps,
+    ITimeFromAPIProps,
+    IWorkingHoursContentProps,
+} from '../types';
 
-const WorkingHoursContent = ({ slug }: IWorkingHoursContentProps) => {
-    const dispatch = useDispatch();
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    const [timeSlots, setTimeSlots] = useState<ITimeSlot[]>(() =>
-        Array.from({ length: 7 * 24 }).map((_, index) => ({
-            day: Math.floor(index / 24),
-            hour: index % 24,
-            isSelected: false,
-            isPassive: false,
-            isSelectable: true,
-        }))
-    );
-    const sectionPrefix = 'working-hours';
-    const [isUpdated, setIsUpdated] = useState(false);
-    const [selectionStart, setSelectionStart] = useState<ITimeSlot | null>(null);
+const WorkingHoursContent: React.FC<IWorkingHoursContentProps> = ({ slug }) => {
+    const days = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"];
+    const [dataLoaded, setDataLoaded] = useState<boolean>(false);
+    const [isSelecting, setIsSelecting] = useState<boolean>(false);
+    const [oldData, setOldData] = useState<ITimeFromAPIProps[]>([]);
+    const [startPosition, setStartPosition] = useState<IPositionProps | null>(null);
+    const [schedule, setSchedule] = useState<IScheduleItemProps[]>([]);
 
-    let isReset = false;
+    const fillSelection = (startHourIndex: number, startDayIndex: number, endHourIndex: number, endDayIndex: number): void => {
+        const updatedSchedule = schedule.map((hour, hourIndex) => {
+            const newDays = hour.days.map((day, dayIndex) => {
+                if (
+                    (hourIndex === endHourIndex && hourIndex === startHourIndex) &&
+                    (
+                        dayIndex >= Math.min(startDayIndex, endDayIndex) &&
+                        dayIndex <= Math.max(startDayIndex, endDayIndex)
+                    )
+                ) {
+                    return {
+                        selected: true,
+                        rid: day.rid
+                    };
+                } else if (
+                    (dayIndex === startDayIndex && dayIndex === endDayIndex) &&
+                    (
+                        hourIndex >= Math.min(startHourIndex, endHourIndex) &&
+                        hourIndex <= Math.max(startHourIndex, endHourIndex)
+                    )
+                ) {
+                    return {
+                        selected: true,
+                        rid: day.rid
+                    };
+                }
 
-    const applyDefaultTimes = (response: {
-        RID: number;
-        OpeningTime: string;
-        ClosingTime: string;
-        DayOfTheWeek: number;
-    }[]) => {
-        const newTimeSlots = [...timeSlots]; // Copy the initial state
+                return day;
+            });
 
-        response.forEach(entry => {
-            const rid = entry.RID;
-            const startHour = parseInt(entry.OpeningTime.split(':')[0], 10);
-            const endHour = parseInt(entry.ClosingTime.split(':')[0], 10);
-            const day = entry.DayOfTheWeek;
-
-            for (let hour = startHour; hour <= endHour; hour++) {
-                const index = day * 24 + hour;
-                newTimeSlots[index].isSelected = startHour === endHour ? false : true
-                newTimeSlots[index].rid = rid; // Set the rid for the time slot
-            }
+            return {
+                ...hour,
+                days: newDays
+            };
         });
 
-        setTimeSlots(newTimeSlots); // Update state with the modified time slots
+        setSchedule(updatedSchedule);
     };
-    const clearSelection = () => {
-        setTimeSlots(currentSlots =>
-            currentSlots.map(slot => ({
-                ...slot,
-                isSelected: false
-            }))
-        );
+    const getSelectedTimes = (): ISelectedTimeProps[] => {
+        const selectedTimesByDay: { [key: string]: ISelectedTimeByDayProps } = {};
+
+        days.forEach((day, dayIndex) => {
+            selectedTimesByDay[day] = { startTime: null, endTime: null, rid: null };
+            schedule.forEach((hour) => {
+                const dayData = hour.days[dayIndex];
+
+                if (dayData.selected) {
+                    if (selectedTimesByDay[day].startTime === null) {
+                        selectedTimesByDay[day].startTime = hour.time;
+                        selectedTimesByDay[day].rid = dayData.rid;
+                    }
+
+                    selectedTimesByDay[day].endTime = hour.time;
+                }
+            });
+        });
+
+        const formattedSelectedTimes: ISelectedTimeProps[] = Object.keys(selectedTimesByDay)
+            .filter(day => selectedTimesByDay[day].startTime !== null)
+            .map(day => ({
+                day,
+                startTime: selectedTimesByDay[day].startTime!,
+                endTime: selectedTimesByDay[day].endTime!,
+                rid: selectedTimesByDay[day].rid
+            }));
+
+        return formattedSelectedTimes;
     };
-    const completeRangeSelection = (startSlot: ITimeSlot, endSlot: ITimeSlot) => {
-        const startHour = Math.min(startSlot.hour, endSlot.hour);
-        const endHour = Math.max(startSlot.hour, endSlot.hour);
-        const day = startSlot.day;
+    const getTimes = async (): Promise<void> => {
+        try {
+            const response = await getWorkingHoursRequest(slug.toString());
+            const getTimesByDay: ITimeFromAPIProps[] = response;
+            const updatedSchedule = [...schedule];
 
-        updateTimeSlotsForRange(day, startHour, endHour, true);
+            getTimesByDay.forEach(time => {
+                const dayIndex = time.DayOfTheWeek - 1;
+                const endHourIndex = updatedSchedule.findIndex(item => item.time === time.ClosingTime.slice(0, 5));
+                const startHourIndex = updatedSchedule.findIndex(item => item.time === time.OpeningTime.slice(0, 5));
+
+                if (startHourIndex !== -1 && endHourIndex !== -1) {
+                    for (let i = startHourIndex; i <= endHourIndex; i++) {
+                        updatedSchedule[i].days[dayIndex] = { selected: true, rid: time.RID };
+                    }
+                }
+            });
+
+            setDataLoaded(true);
+            setOldData(getTimesByDay);
+            setSchedule(updatedSchedule);
+        } catch (error) {
+            console.error('Error fetching times:', error);
+        }
     };
+    const handleMouseDown = (hourIndex: number, dayIndex: number, event: MouseEvent<HTMLTableCellElement>): void => {
+        event.preventDefault();
 
-    const getWorkingHours = async () => {
-        const workingHoursResponse = await getWorkingHoursRequest(slug.toString());
+        setIsSelecting(true);
+        setStartPosition({ hourIndex, dayIndex });
+        toggleSelection(hourIndex, dayIndex);
+    };
+    const handleMouseOver = (hourIndex: number, dayIndex: number): void => {
+        if (isSelecting && startPosition) {
+            fillSelection(startPosition.hourIndex, startPosition.dayIndex, hourIndex, dayIndex);
+        }
+    };
+    const handleMouseUp = (): void => {
+        setIsSelecting(false);
+        setStartPosition(null);
+    };
+    const saveTimesToAPI = async (): Promise<void> => {
+        const timesToSend = getSelectedTimes();
+        const updatedDays = timesToSend.map(time => time.day);
+        const closedTimes = oldData
+            .filter(time => !updatedDays.includes(days[time.DayOfTheWeek - 1]) && time.RID !== null)
+            .map(time => ({
+                rid: time.RID,
+                isClosed: true,
+                openingTime: "00:00",
+                closingTime: "00:00",
+                isDeleted: true
+            }));
 
-        if (!workingHoursResponse.success) {
-            console.error('Error getting working hours', workingHoursResponse.error);
+        if (timesToSend.length === 0 && closedTimes.length === 0) {
+            console.log('No times selected.');
+            return;
         }
 
-        applyDefaultTimes(workingHoursResponse)
+        const addTimes = timesToSend.filter(time => time.rid === null).map(time => ({
+            stationID: slug,
+            dayOfTheWeek: days.indexOf(time.day) + 1,
+            openingTime: time.startTime,
+            closingTime: time.endTime,
+            isClosed: false,
+            isDeleted: false
+        }));
 
-        if (workingHoursResponse.length > 0) {
-            setIsUpdated(true);
-        }
-    };
+        const updateTimes = timesToSend.filter(time => time.rid !== null).map(time => ({
+            rid: time.rid!,
+            isClosed: false,
+            openingTime: time.startTime,
+            closingTime: time.endTime,
+            isDeleted: false
+        }));
 
-const handleTimeSlotClick = (clickedSlot: ITimeSlot) => {
-    if (clickedSlot.isPassive) return;
-
-    if (selectionStart) {
-        if (clickedSlot.day === selectionStart.day) {
-            if (clickedSlot.hour === selectionStart.hour) {
-                updateTimeSlotSelection(clickedSlot, false);
-                setSelectionStart(null);
-            } else {
-                completeRangeSelection(selectionStart, clickedSlot);
-                setSelectionStart(null);
+        try {
+            if (addTimes.length > 0) {
+                const addResponse = await addWorkingHoursRequest(JSON.stringify(addTimes));
+                console.log('Add Response:', addResponse.data);
             }
-        } else {
-            clearSelection();
-            setSelectionStart(clickedSlot);
-            updateTimeSlotSelection(clickedSlot, true);
+
+            if (updateTimes.length > 0) {
+                const updateResponse = await updateWorkingHoursRequest(JSON.stringify(updateTimes));
+                console.log('Update Response:', updateResponse.data);
+            }
+
+            if (closedTimes.length > 0) {
+                const closedResponse = await updateWorkingHoursRequest(JSON.stringify(updateTimes));
+                console.log('Closed Response:', closedResponse.data);
+            }
+        } catch (error) {
+            console.error('Error sending data:', error);
         }
-    } else {
-        setSelectionStart(clickedSlot);
-        updateTimeSlotSelection(clickedSlot, true);
-    }
-};
-const sendRequest = async (url: string, data: string) => {
-    const response = await axios
-        .post(
-            url,
-            data,
-            { headers: { 'Content-Type': 'application/json' } }
-        )
-
-    return response;
-};
-const handleSubmit = () => {
-    const daysWeek = daysOfWeek.map((_, dayIndex) => {
-        const dailySelectedSlots = timeSlots.filter(slot => slot.day === dayIndex && slot.isSelected);
-        const firstSelectedSlot = dailySelectedSlots.length > 0 ? dailySelectedSlots[0] : null;
-        const lastSelectedSlot = dailySelectedSlots.length > 0
-            ? dailySelectedSlots[dailySelectedSlots.length - 1]
-            : null;
-
-        return {
-            dayOfTheWeek: dayIndex,
-            isClosed: dailySelectedSlots.length === 24,
-            openingTime: firstSelectedSlot ? `${firstSelectedSlot.hour}:00` : null,
-            closingTime: lastSelectedSlot ? `${lastSelectedSlot.hour}:00` : null,
-            isDeleted: false,
-            rid: firstSelectedSlot?.rid
+    };
+    const toggleSelection = (hourIndex: number, dayIndex: number): void => {
+        const updatedSchedule = [...schedule];
+        updatedSchedule[hourIndex].days[dayIndex] = {
+            selected: !updatedSchedule[hourIndex].days[dayIndex].selected,
+            rid: updatedSchedule[hourIndex].days[dayIndex].rid
         };
-    }).filter(day => day.openingTime !== null && day.closingTime !== null);
 
-    const updatedArr: {
-        dayOfTheWeek: number;
-        isClosed: boolean;
-        openingTime: string | null;
-        closingTime: string | null;
-        isDeleted: boolean;
-        rid: number;
-    }[] = [];
-    const createdArr: {
-        dayOfTheWeek: number;
-        isClosed: boolean;
-        openingTime: string | null;
-        closingTime: string | null;
-        isDeleted: boolean;
-        stationID: number;
-    }[] = [];
-
-    daysWeek.forEach(day => {
-        if (typeof day.rid === 'undefined') {
-            createdArr.push({
-                dayOfTheWeek: day.dayOfTheWeek,
-                isClosed: day.isClosed,
-                openingTime: day.openingTime,
-                closingTime: day.closingTime,
-                isDeleted: day.isDeleted,
-                stationID: slug
-            })
-        } else {
-            updatedArr.push({
-                dayOfTheWeek: day.dayOfTheWeek,
-                isClosed: isReset ? false : day.isClosed,
-                openingTime: isReset ? '' : day.openingTime,
-                closingTime: isReset ? '' : day.closingTime,
-                isDeleted: day.isDeleted,
-                rid: day?.rid
-            })
-        }
-    });
-
-    isReset = false
-    setWorkingHours(createdArr, updatedArr);
-};
-const setWorkingHours = async (
-    createdWorkingHours: {
-        dayOfTheWeek: number;
-        isClosed: boolean;
-        openingTime: string | null;
-        closingTime: string | null;
-        isDeleted: boolean;
-        stationID: number;
-    }[], updatedWorkingHours: {
-        dayOfTheWeek: number;
-        isClosed: boolean;
-        openingTime: string | null;
-        closingTime: string | null;
-        isDeleted: boolean;
-        rid: number;
-    }[]) => {
-
-    if (createdWorkingHours.length > 0) {
-        const response = await sendRequest('https://sharztestapi.azurewebsites.net/ServicePoint/AddWorkHours', JSON.stringify(createdWorkingHours))
-
-        dispatch(
-            showAlert({
-                message: response.data?.message,
-                type: 'success',
-            })
-        );
-        setTimeout(() => dispatch(hideAlert()), 5000);
-    }
-
-    if (updatedWorkingHours.length > 0) {
-        const response = sendRequest('https://sharztestapi.azurewebsites.net/ServicePoint/UpdateWorkHours', JSON.stringify(updatedWorkingHours))
-        console.log('response', response)
+        setSchedule(updatedSchedule);
     };
 
-};
-const resetSelection = () => {
-    setTimeout(() => {
-        clearSelection();
-        handleSubmit();
-    }, 750);
-};
+    useEffect(() => {
+        const initializeSchedule = () => {
+            const hours: string[] = [];
 
-const updateTimeSlotsForRange = (day: number, startHour: number, endHour: number, isSelected: boolean) => {
-    setTimeSlots(currentSlots =>
-        currentSlots.map(slot =>
-            slot.day === day && slot.hour >= startHour && slot.hour <= endHour
-                ? { ...slot, isSelected }
-                : slot
-        )
-    );
-};
-const updateTimeSlotSelection = (slot: ITimeSlot, isSelected: boolean) => {
-    setTimeSlots(currentSlots =>
-        currentSlots.map(currentSlot =>
-            currentSlot.day === slot.day && currentSlot.hour === slot.hour
-                ? { ...currentSlot, isSelected }
-                : currentSlot
-        )
-    );
-};
+            for (let hour = 0; hour < 24; hour++) {
+                for (let min = 0; min < 60; min += 30) {
+                    hours.push(`${hour.toString().padStart(2, '0')}:${min.toString().padStart(2, '0')}`);
+                }
+            }
 
-useEffect(() => {
-    getWorkingHours();
-}, []);
+            const newSchedule: IScheduleItemProps[] = hours.map((time) => ({
+                time,
+                days: new Array(days.length).fill({ selected: false, rid: null }),
+            }));
 
-return (
-    <div className={`${sectionPrefix}-content-container flex flex-col py-4 items-end`}>
-        <h3 className={`${sectionPrefix}-header text-lg font-semibold w-full text-center py-2`}>Kapali olmasini istediginiz saatleri seciniz</h3>
-        <table className={`${sectionPrefix}-time-table`}>
-            <thead>
-                <tr>
-                    <th>Time / Day</th>
-                    {daysOfWeek.map(day => (
-                        <th key={day}>{day}</th>
-                    ))}
-                </tr>
-            </thead>
-            <tbody>
-                {Array.from({ length: 24 }).map((_, hour) => (
-                    <tr key={hour}>
-                        <td className={`${sectionPrefix}-hour-label`}>{hour}:00</td>
-                        {
-                            daysOfWeek.map((_, dayIndex) => {
-                                const slot = timeSlots.find(slot => slot.day === dayIndex && slot.hour === hour);
+            setSchedule(newSchedule);
+        };
 
-                                return (
-                                    <td key={dayIndex}
-                                            className={`${sectionPrefix}-time-slot ${slot?.isSelected ? 'selected' : ''} ${slot?.isPassive ? 'passive' : ''}`}
-                                            onClick={() => slot && handleTimeSlotClick(slot)}
-                                            data-wh-id={slot?.rid}
-                                        >
-                                            {
-                                                slot?.isSelected && (
-                                                    <Tooltip
-                                                        className="w-full h-full"
-                                                        key={dayIndex}
-                                                        text='Secimi kaldirmak icin cift tiklayin'
-                                                    >
-                                                        <div className='flex items-center justify-center w-full hidden'>
-                                                            <span className='text-white'>X</span>
-                                                        </div>
-                                                    </Tooltip>
-                                                )
-                                            }
-                                        </td>
-                                );
-                            })
-                        }
+        initializeSchedule();
+    }, []);
+
+    useEffect(() => {
+        if (schedule.length > 0 && !dataLoaded) {
+            getTimes();
+        }
+
+    }, [schedule, dataLoaded]);
+
+    return (
+        <div>
+            <h1 className='text-center w-full m-4'>Haftalık Çalışma Saatleri Seçimi</h1>
+            <p className='text-center w-full m-4'>Kapalı Çalışma saatlerini seçmek için tıklayıp sürükleyin.</p>
+            <table className='working-hours-time-table'>
+                <thead>
+                    <tr>
+                        <th>Saat / Gün</th>
+                        {days.map((day, index) => <th key={index}>{day}</th>)}
                     </tr>
-                ))}
-            </tbody>
-        </table>
-        <div className='flex items-center w-full justify-end action-container'>
-            <Button buttonText={`Temizle`}
-                className={`${sectionPrefix}-button bg-primary text-white rounded-md px-4 py-2 my-2 w-fit mx-4`}
-                id='working-hours-reset-button'
-                type='button'
-                onClick={() => {
-                    isReset = true;
-                    resetSelection();
-                }}
-            />
-            <Button buttonText={isUpdated ? 'Guncelle' : 'Kaydet'}
-                className={`${sectionPrefix}-button bg-primary text-white rounded-md px-4 py-2 my-2 w-fit`}
-                id={`working-hours-${isUpdated ? 'update' : 'add'}-button`}
-                type='button'
-                onClick={() => handleSubmit()}
-            />
+                </thead>
+                <tbody>
+                    {schedule.map((hour, hourIndex) => (
+                        <tr key={hourIndex}>
+                            <td>{hour.time}</td>
+                            {hour.days.map((day, dayIndex) => (
+                                <td
+                                    key={dayIndex}
+                                    data-wh-id={day.rid}
+                                    className={day.selected ? 'selected' : ''}
+                                    onMouseDown={(e) => handleMouseDown(hourIndex, dayIndex, e)}
+                                    onMouseOver={() => handleMouseOver(hourIndex, dayIndex)}
+                                    onMouseUp={handleMouseUp}
+                                >
+                                    {/* {day.selected ? '  ' : ' '}  Hücrelerdeki içeriği göster */}
+                                </td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+            <Button
+                className={`sh-working-hours-save-button`}
+                id={`sh-working-hours-save-button`}
+                type={'submit'}
+                onClick={saveTimesToAPI}
+            >
+                Veriyi Kaydet
+            </Button>
         </div>
-    </div>
-);
+    );
 };
 
 export default WorkingHoursContent;
