@@ -10,7 +10,7 @@ const roleStyles: IRolesStyleProps = {
 };
 const userManagementTableFilteredDropdownItems = [{
     id: 1,
-    isChecked: false,
+    isChecked: true,
     name: 'Isim/Soyisim',
     rid: null,
     stationFeatureType: 0,

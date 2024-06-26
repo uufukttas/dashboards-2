@@ -61,7 +61,7 @@ tr td:nth-child(1) {
 }
 
 td.selected {
-  background-color: #fcd800;
+  background-color: #f98080;
 }
 
 .workinh-hours-time-slot.passive {
