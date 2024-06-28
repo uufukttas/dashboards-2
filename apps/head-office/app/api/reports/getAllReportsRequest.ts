@@ -1,0 +1,31 @@
+import axios from 'axios';
+import { IGetAllReportsPayloadProps } from './types';
+
+const getAllReportsRequest = async (payload: IGetAllReportsPayloadProps) => {
+    try {
+        const response = await axios
+            .post(
+                `${process.env.NEXT_PUBLIC_BASE_URL}/Report/MainReport` || '',
+                payload
+            )
+            .then((response) => {
+                return {
+                    data: response.data.data,
+                    count: response.data.count,
+                    success: response.status === 200,
+                }
+            });
+
+        return response;
+    } catch (error) {
+        const response = {
+            data: [],
+            count: 0,
+            success: false,
+        };
+
+        return response;
+    };
+};
+
+export { getAllReportsRequest };
