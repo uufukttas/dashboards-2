@@ -31,18 +31,22 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
         );
     };
 
-    const renderTableCell =
-        (condition: string, firstChoose: string, secondChoose: string | React.ReactNode, thirdChoose: string, fourthChoose: string): string | React.ReactNode => {
-            if (condition === 'service-point') {
-                return firstChoose;
-            } else if (condition === 'user-management') {
-                return secondChoose;
-            } else if (condition === 'tariff-list') {
-                return thirdChoose;
-            } else if (condition === 'reports-management') {
-                return fourthChoose;
-            }
-        };
+    const renderTableCell = (
+        condition: string,
+        firstChoose: string,
+        secondChoose: string | React.ReactNode,
+        thirdChoose: string, fourthChoose: string
+    ): string | React.ReactNode => {
+        if (condition === 'service-point') {
+            return firstChoose;
+        } else if (condition === 'user-management') {
+            return secondChoose;
+        } else if (condition === 'tariff-list') {
+            return thirdChoose;
+        } else if (condition === 'reports-management') {
+            return fourthChoose;
+        }
+    };
 
     return (
         <tr className='h-[10%]' key={tableRowData.id} {...dataAttributes}>
@@ -58,15 +62,35 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                         )
                     }
                     <div className={`${BRAND_PREFIX}-item-information-name px-6`}>
-                        {renderTableCell(attributeName, tableRowData.name || '', `${tableRowData?.name || ''} ${tableRowData?.surName || ''}`, tableRowData.name || 'Tarife Adi', tableRowData.trxNo?.toString() || '0')}
+                        {
+                            renderTableCell(
+                                attributeName,
+                                tableRowData.name || '',
+                                `${tableRowData?.name || ''} ${tableRowData?.surName || ''}`,
+                                tableRowData.name || 'Tarife Adi',
+                                tableRowData.TrxId?.toString() || '0')
+                        }
                     </div>
                 </div>
             </td>
             <td className="px-4 py-2 text-center">
-                {renderTableCell(attributeName, (tableRowData.phone || ''), tableRowData.userName || '', tableRowData.saleUnitPrice?.toString() || '0', tableRowData.station?.toString() || 'Deneme Istasyon')}
+                {
+                    renderTableCell(
+                        attributeName,
+                        (tableRowData.phone || ''),
+                        tableRowData.userName || '',
+                        tableRowData.saleUnitPrice?.toString() || '0',
+                        tableRowData.StationName?.toString() || '')
+                }
             </td>
             <td className="px-4 py-2 text-center">
-                {renderTableCell(attributeName, tableRowData.address || '', tableRowData.phoneNumber || '', convertDateFormat(tableRowData.createDate || '') || 'Tarife Tarihi', tableRowData.unitCode?.toString() || '0')}
+                {
+                    renderTableCell(
+                        attributeName,
+                        tableRowData.address || '',
+                        tableRowData.phoneNumber || '',
+                        convertDateFormat(tableRowData.createDate || '') || 'Tarife Tarihi',
+                        tableRowData.StationChargePointCode?.toString() || '0')}
             </td>
             <td className="px-4 py-2 text-center">
                 {
@@ -87,25 +111,31 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                 }
             </td>
             <td className="px-4 py-2 text-center">
-                {renderTableCell(attributeName, getDistricts(tableRowData.districtId ?? 1), tableRowData.lastLoginDate || '', convertDateFormat(tableRowData.validityEndDate || '') || '-', tableRowData.socketType?.toString() || '0')}
+                {renderTableCell(
+                    attributeName,
+                    getDistricts(tableRowData.districtId ?? 1),
+                    tableRowData.lastLoginDate || '',
+                    convertDateFormat(tableRowData.validityEndDate || '') || '-',
+                    tableRowData.StationChargePointConnectorTypeName?.toString() || '0')
+                }
             </td>
             {
                 attributeName === 'reports-management' && (
                     <>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.startTime || '-'}
+                            {tableRowData.StartDate || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
 
-                            {tableRowData.chargeDuration || '-'}
+                            {tableRowData.ChargeProcessElapsedTime || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
 
-                            {tableRowData.endTime || '-'}
+                            {tableRowData.FinishDate || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
 
-                            {tableRowData.unitPrice || '-'}
+                            {tableRowData.UnitPrice || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
 
@@ -113,7 +143,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                         </td>
                         <td className="px-4 py-2 text-center">
 
-                            {tableRowData.batteryPercentage || '-'}
+                            {`${tableRowData.BatteryBeginningPercent} % ${tableRowData.BatteryPercent}` || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
 
@@ -121,11 +151,11 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                         </td>
                         <td className="px-4 py-2 text-center">
 
-                            {tableRowData.totalAmount || '-'}
+                            {tableRowData.TotalAmountWithOutKDV || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
 
-                            {tableRowData.totalAmountWithVAT || '-'}
+                            {tableRowData.TotalAmount || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
 
@@ -137,11 +167,11 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                         </td>
                         <td className="px-4 py-2 text-center">
 
-                            {tableRowData.servicePointCommission || '-'}
+                            {tableRowData.CommissionServicePointPrice || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
 
-                            {tableRowData.resellerCommission || '-'}
+                            {tableRowData.CommissionResellerPrice || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
 

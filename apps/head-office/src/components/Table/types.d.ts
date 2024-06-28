@@ -61,29 +61,46 @@ export interface ITableBodyPlaceholderProps {
     createDate?: string;
     validityBeginDate?: string;
     validityEndDate?: string;
-    RID?: number;
-    trxNo?: number;
-    station?: string;
-    unitCode?: string;
-    socketNo?: string;
-    socketType?: string;
-    startTime?: string;
-    chargeDuration?: string;
-    endTime?: string;
-    unitPrice?: string;
-    kWh?: string;
-    batteryPercentage?: string;
-    priceCalculationTime?: string;
-    totalAmount?: string;
-    totalAmountWithVAT?: string;
-    electricityAmount?: string;
-    servicePrice?: string;
-    servicePointCommission?: string;
-    resellerCommission?: string;
-    bankOrderNo?: number;
-    paidAmount?: string;
-    preChargeAmount?: string;
-    plate?: string;
+    TrxId?: number,
+    StationConnectorID?: number,
+    StationConnectorConnectorNr?: number,
+    StationChargePointCode?: string,
+    MeterStartDate?: string,
+    MeterFinishDate?: string,
+    EnergyUsed?: number,
+    StartDate?: string,
+    FinishDate?: string,
+    ChargeProcessElapsedTime?: number,
+    UnitPrice?: number,
+    PriceENRJ?: number,
+    PriceSRV?: number,
+    CommissionServicePointPrice?: null,
+    CommissionResellerPrice?: null,
+    TotalAmountWithOutKDV?: number,
+    TotalAmount?: number,
+    ChargingStatus?: number,
+    ChargingStatusMessage?: string,
+    StationID?: number,
+    StationName?: string,
+    ResellerCompanyID?: number,
+    CompanyID?: number,
+    StationChargePointConnectorTypeName?: string,
+    ConsumerCompanyID?: number,
+    BatteryPercentDesc?: string,
+    BatteryBeginningPercent?: number,
+    BatteryPercent?: number,
+    EMail?: string,
+    GSMNr?: string,
+    NameSurname?: string
+    socketNo?: number;
+    kWh?: number;
+    priceCalculationTime?: number;
+    electricityAmount?: number;
+    servicePrice?: number;
+    bankOrderNo?: string;
+    paidAmount?: number;
+    preChargeAmount?: number;
+    plate?: number;
     brand?: string;
     model?: string;
 };

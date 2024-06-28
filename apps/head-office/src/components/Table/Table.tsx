@@ -20,7 +20,11 @@ const Table: React.FC<ITableProps> = ({
 
   return (
     <div className={`${tablePrefix}-container relative overflow-x-auto shadow-md max-w-[330px] md:max-w-full w-full border-2 border-gray-200`}>
-      <TableHeader buttonText={buttonText} filteredDropdownItems={filteredDropdownItems} />
+      {
+        attributeName !== 'reports-management' && (
+          <TableHeader buttonText={buttonText} filteredDropdownItems={filteredDropdownItems} />
+        )
+      }
       <div className={`${tablePrefix}-content-container border-r-0 border-l-0`}>
         <table className={`${tablePrefix} w-full text-sm text-left rtl:text-right text-gray-500`}>
           <TableHead tableHeadData={tableHeadData} />
