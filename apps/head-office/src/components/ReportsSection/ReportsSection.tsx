@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { tablePlaceholderInitialValue } from './constant';
 import { BRAND_PREFIX } from '../../constants/constants';
 import Table from '../Table/Table';
-import axios from 'axios';
-import { tablePlaceholderInitialValue } from './constant';
+import { getAllReportsRequest } from '../../../app/api/reports';
+import { setReportsData } from '../../../app/redux/features/getAllReports';
+import { RootState } from '../../../app/redux/store';
 
 const ReportsSection: React.FC = () => {
     const pagePrefix = `${BRAND_PREFIX}-reports-section`;
@@ -32,21 +35,19 @@ const ReportsSection: React.FC = () => {
         'Plaka',
         'Marka',
         'Model',
-    ]
-    const [reports, setReports] = useState([]);
+    ];
+    const dispatch = useDispatch();
+    const reportsData = useSelector((state: RootState) => state.getAllReports.reportsData);
 
-    const getAllChargeData = async () => {
-        const response = await axios.post(
-            'https://sharztestapi.azurewebsites.net/Report/MainReport',
+    const getAllChargeData = async (): Promise<void> => {
+        const response = await getAllReportsRequest(
             {
                 pageNumber: 1,
                 userCount: 10,
-            },
-            { headers: { 'Content-Type': 'application/json' } }
-        )
+            }
+        );
 
-        console.log(response.data);
-        setReports(response.data);
+        dispatch(setReportsData(response.data));
     };
 
     useEffect(() => {
@@ -54,14 +55,14 @@ const ReportsSection: React.FC = () => {
     }, []);
 
     return (
-        <div className={`${BRAND_PREFIX}-service-points-container flex justify-between items-center flex-col`}>
+        <div className={`${BRAND_PREFIX}-reports-center-container flex justify-between items-center flex-col`}>
             <div className={`${pagePrefix}-listing-container flex items-center w-full`}>
                 <Table
                     attributeName="reports-management"
                     buttonText='Istasyon'
                     filteredDropdownItems={[]}
-                    tableData={reports}
-                    tableDataCount={10}
+                    tableData={reportsData}
+                    tableDataCount={reportsData.length}
                     tableHeadData={tableHeadData}
                     tablePlaceholderInitialValue={tablePlaceholderInitialValue}
                 />
