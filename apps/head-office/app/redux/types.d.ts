@@ -200,6 +200,45 @@ export interface IPermissionsStateProps {
     userId?: number;
     stationId: number;
 };
+export interface IReportDataProps {
+    TrxId?: number,
+    StationConnectorID?: number,
+    StationConnectorConnectorNr?: number,
+    StationChargePointCode?: string,
+    MeterStartDate?: string,
+    MeterFinishDate?: string,
+    EnergyUsed?: number,
+    StartDate?: string,
+    FinishDate?: string,
+    ChargeProcessElapsedTime?: number,
+    UnitPrice?: number,
+    PriceENRJ?: number,
+    PriceSRV?: number,
+    CommissionServicePointPrice?: null,
+    CommissionResellerPrice?: null,
+    TotalAmountWithOutKDV?: number,
+    TotalAmount?: number,
+    ChargingStatus?: number,
+    ChargingStatusMessage?: string,
+    StationID?: number,
+    StationName?: string,
+    ResellerCompanyID?: number,
+    CompanyID?: number,
+    StationChargePointConnectorTypeName?: string,
+    ConsumerCompanyID?: number,
+    BatteryPercentDesc?: string,
+    BatteryBeginningPercent?: number,
+    BatteryPercent?: number,
+    EMail?: string,
+    GSMNr?: string,
+    NameSurname?: string
+};
+export interface IReportsDataStateProps {
+    reportsData: IReportDataProps[];
+};
+export interface IResourceTextProps {
+    [key: string]: string;
+};
 export type ISearchPropertiesProps = {
     searchedConditions: string[];
     searchedText: string;
@@ -218,15 +257,6 @@ export interface IStationFeatureListItemsProps {
     name: string;
     rid: null;
 };
-export interface IUserDataProps {
-    roles: IUserDataRoleProps[];
-    userId: number;
-    name: string;
-    surname: string;
-    eMail: string;
-    phoneNumber: string;
-    userName: string;
-};
 export interface ITariffDataProps {
     createDate: string
     id: number
@@ -236,7 +266,16 @@ export interface ITariffDataProps {
     validityEndDate: string
     validityStartDate: string
     SaleUnitPrice: number
-}
+};
+export interface IUserDataProps {
+    roles: IUserDataRoleProps[];
+    userId: number;
+    name: string;
+    surname: string;
+    eMail: string;
+    phoneNumber: string;
+    userName: string;
+};
 export interface IUserProfileInfoProps {
     userId: string;
     name: string;
@@ -251,20 +290,4 @@ export interface IUsersProps {
     userName: string;
     roleNames: string;
     lastLoginDate: string | null;
-};
-
-export interface ITarifssDataProps {
-    LocationTypeID: number;
-    LocationTypeName: string;
-    RID: number;
-    StationChargePointID: number;
-    StationChargePointName: string
-    StationConnectorID: number
-    StationConnectorName: string
-    StationID: number
-    StationName: string
-    TariffID: number
-};
-export interface IResourceTextProps {
-    [key: string]: string;
 };

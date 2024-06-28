@@ -7,10 +7,10 @@ import chargeUnitData from './features/chargeUnitData';
 import chargeUnitInvestors from './features/chargeUnitInvestors';
 import chargeUnitList from './features/chargeUnitList';
 import configs from './features/setConfig';
-import setConnectorProperty from './features/connectorProperty';
 import comissionData from './features/comissionData';
 import dialogInformation from './features/dialogInformation';
 import energyPriceDetails from './features/energyPriceDetails';
+import getAllReports from './features/getAllReports';
 import isChargePointDataUpdated from './features/isChargePointDataUpdated';
 import isComissionListUpdated from './features/isComissionListUpdated';
 import isConnectorUpdated from './features/isConnectorUpdated';
@@ -28,6 +28,7 @@ import servicePoints from './features/servicePoints';
 import servicePointData from './features/servicePointData';
 import servicePointInformation from './features/servicePointInformation';
 import servicePointPermissions from './features/servicePointPermissions';
+import setConnectorProperty from './features/connectorProperty';
 import setConnectors from './features/connectorsData';
 import setVisibleModal from './features/setVisibleModal';
 import statusList from './features/statusList';
@@ -48,9 +49,9 @@ export const store: EnhancedStore = configureStore({
     chargeUnitList,
     comissionData,
     configs,
-    setConnectorProperty,
     dialogInformation,
     energyPriceDetails,
+    getAllReports,
     isChargePointDataUpdated,
     isComissionListUpdated,
     isConnectorUpdated,
@@ -68,6 +69,7 @@ export const store: EnhancedStore = configureStore({
     servicePointData,
     servicePointInformation,
     servicePointPermissions,
+    setConnectorProperty,
     setConnectors,
     setVisibleModal,
     statusList,
