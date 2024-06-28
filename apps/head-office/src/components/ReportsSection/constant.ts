@@ -1,0 +1,32 @@
+const tablePlaceholderInitialValue = {
+    id: 1,
+    trxNo: 1,
+    station: 'test-station',
+    unitCode: '0111',
+    socketNo: '1',
+    socketType: 'CCS/SAE',
+    startTime: '2021-09-01 00:00:00',
+    chargeDuration: '1 dakika',
+    endTime: '2021-09-01 00:01:00',
+    unitPrice: '0.5 TL',
+    kWh: '1.182',
+    batteryPercentage: '10%100',
+    priceCalculationTime: '2021-09-01 00:01:00',
+    totalAmount: '0.5 TL',
+    totalAmountWithVAT: '0.5 TL',
+    electricityAmount: '0.5 TL',
+    servicePrice: '0.5 TL',
+    servicePointCommission: '0.5 TL',
+    resellerCommission: '0.5 TL',
+    userId: 123456,
+    bankOrderNo: 123456,
+    paidAmount: '0.5 TL',
+    preChargeAmount: '0.5 TL',
+    plate: '34 ABC 123',
+    brand: 'BMW',
+    model: 'i3',
+};
+
+export {
+    tablePlaceholderInitialValue,
+};
