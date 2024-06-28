@@ -174,6 +174,15 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                     </>
                 )
             }
+            {
+                attributeName !== 'reports-management' && (
+                    <td className="px-4 py-4 text-center">
+                        <div className="flex justify-center text-2xl">
+                            <TableActions attributeName={attributeName} tableRowData={tableRowData} />
+                        </div>
+                    </td>
+                )
+            }
         </tr>
     );
 };
