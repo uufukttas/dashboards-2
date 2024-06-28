@@ -32,13 +32,15 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
     };
 
     const renderTableCell =
-        (condition: string, firstChoose: string, secondChoose: string | React.ReactNode, thirdChoose: string): string | React.ReactNode => {
+        (condition: string, firstChoose: string, secondChoose: string | React.ReactNode, thirdChoose: string, fourthChoose: string): string | React.ReactNode => {
             if (condition === 'service-point') {
                 return firstChoose;
             } else if (condition === 'user-management') {
                 return secondChoose;
             } else if (condition === 'tariff-list') {
                 return thirdChoose;
+            } else if (condition === 'reports-management') {
+                return fourthChoose;
             }
         };
 
@@ -56,15 +58,15 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                         )
                     }
                     <div className={`${BRAND_PREFIX}-item-information-name px-6`}>
-                        {renderTableCell(attributeName, tableRowData.name || '', `${tableRowData?.name || ''} ${tableRowData?.surName || ''}`, tableRowData.name || 'Tarife Adi')}
+                        {renderTableCell(attributeName, tableRowData.name || '', `${tableRowData?.name || ''} ${tableRowData?.surName || ''}`, tableRowData.name || 'Tarife Adi', tableRowData.trxNo?.toString() || '0')}
                     </div>
                 </div>
             </td>
             <td className="px-4 py-2 text-center">
-                {renderTableCell(attributeName, (tableRowData.phone || ''), tableRowData.userName || '', tableRowData.saleUnitPrice?.toString() || '0')}
+                {renderTableCell(attributeName, (tableRowData.phone || ''), tableRowData.userName || '', tableRowData.saleUnitPrice?.toString() || '0', tableRowData.station?.toString() || 'Deneme Istasyon')}
             </td>
             <td className="px-4 py-2 text-center">
-                {renderTableCell(attributeName, tableRowData.address || '', tableRowData.phoneNumber || '', convertDateFormat(tableRowData.createDate || '') || 'Tarife Tarihi')}
+                {renderTableCell(attributeName, tableRowData.address || '', tableRowData.phoneNumber || '', convertDateFormat(tableRowData.createDate || '') || 'Tarife Tarihi', tableRowData.unitCode?.toString() || '0')}
             </td>
             <td className="px-4 py-2 text-center">
                 {
@@ -79,18 +81,99 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                                     </Fragment>
                                 );
                             }),
-                        convertDateFormat(tableRowData.validityBeginDate || '') || new Date().toLocaleDateString()
+                        convertDateFormat(tableRowData.validityBeginDate || '') || new Date().toLocaleDateString(),
+                        tableRowData.socketNo?.toString() || '0'
                     )
                 }
             </td>
             <td className="px-4 py-2 text-center">
-                {renderTableCell(attributeName, getDistricts(tableRowData.districtId ?? 1), tableRowData.lastLoginDate || '', convertDateFormat(tableRowData.validityEndDate || '') || '-')}
+                {renderTableCell(attributeName, getDistricts(tableRowData.districtId ?? 1), tableRowData.lastLoginDate || '', convertDateFormat(tableRowData.validityEndDate || '') || '-', tableRowData.socketType?.toString() || '0')}
             </td>
-            <td className="px-4 py-4 text-center">
-                <div className="flex justify-center text-2xl">
-                    <TableActions attributeName={attributeName} tableRowData={tableRowData} />
-                </div>
-            </td>
+            {
+                attributeName === 'reports-management' && (
+                    <>
+                        <td className="px-4 py-2 text-center">
+                            {tableRowData.startTime || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.chargeDuration || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.endTime || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.unitPrice || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.kWh || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.batteryPercentage || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.priceCalculationTime || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.totalAmount || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.totalAmountWithVAT || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.electricityAmount || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.servicePrice || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.servicePointCommission || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.resellerCommission || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.userId || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.bankOrderNo || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.paidAmount || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.preChargeAmount || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.plate || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.brand || '-'}
+                        </td>
+                        <td className="px-4 py-2 text-center">
+
+                            {tableRowData.model || '-'}
+                        </td>
+                    </>
+                )
+            }
         </tr>
     );
 };
