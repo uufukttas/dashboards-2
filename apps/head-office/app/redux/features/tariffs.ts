@@ -1,9 +1,9 @@
 import { createSlice, Reducer } from '@reduxjs/toolkit';
-import { ITarifssDataProps } from '../types';
+import { ITariffDataProps } from '../types';
 
 interface TariffState {
     count: number;
-    tariffs: ITarifssDataProps[];
+    tariffs: ITariffDataProps[];
 };
 
 const initialState: TariffState = {
