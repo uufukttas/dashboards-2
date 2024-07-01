@@ -111,12 +111,13 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                 }
             </td>
             <td className="px-4 py-2 text-center">
-                {renderTableCell(
-                    attributeName,
-                    getDistricts(tableRowData.districtId ?? 1),
-                    tableRowData.lastLoginDate || '',
-                    convertDateFormat(tableRowData.validityEndDate || '') || '-',
-                    tableRowData.StationChargePointConnectorTypeName?.toString() || '0')
+                {
+                    renderTableCell(
+                        attributeName,
+                        getDistricts(tableRowData.districtId ?? 1),
+                        tableRowData.lastLoginDate || '',
+                        convertDateFormat(tableRowData.validityEndDate || '') || '-',
+                        tableRowData.StationChargePointConnectorTypeName?.toString() || '0')
                 }
             </td>
             {

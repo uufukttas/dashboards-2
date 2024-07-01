@@ -27,7 +27,7 @@ const Table: React.FC<ITableProps> = ({
       }
       <div className={`${tablePrefix}-content-container border-r-0 border-l-0`}>
         <table className={`${tablePrefix} w-full text-sm text-left rtl:text-right text-gray-500`}>
-          <TableHead tableHeadData={tableHeadData} />
+          <TableHead attributeName={attributeName} tableHeadData={tableHeadData} />
           <TableBody
             attributeName={attributeName}
             tableData={tableData}

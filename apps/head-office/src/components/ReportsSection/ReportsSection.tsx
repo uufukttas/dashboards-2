@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { tablePlaceholderInitialValue } from './constant';
 import { BRAND_PREFIX } from '../../constants/constants';
+import Pagination from '../ServicePointSection/PaginationComponents/Pagination';
 import Table from '../Table/Table';
 import { getAllReportsRequest } from '../../../app/api/reports';
 import { setReportsData } from '../../../app/redux/features/getAllReports';
 import { RootState } from '../../../app/redux/store';
+import './ReportsSection.css';
 
 const ReportsSection: React.FC = () => {
     const pagePrefix = `${BRAND_PREFIX}-reports-section`;
@@ -38,21 +40,32 @@ const ReportsSection: React.FC = () => {
     ];
     const dispatch = useDispatch();
     const reportsData = useSelector((state: RootState) => state.getAllReports.reportsData);
+    const reportsCount = useSelector((state: RootState) => state.getAllReports.reportsCount);
+    const [currentPage, setCurrentPage] = useState<number>(1);
 
     const getAllChargeData = async (): Promise<void> => {
         const response = await getAllReportsRequest(
             {
-                pageNumber: 1,
+                pageNumber: currentPage,
                 userCount: 10,
             }
         );
 
-        dispatch(setReportsData(response.data));
+        dispatch(
+            setReportsData({
+                data: response.data,
+                count: response.count,
+            })
+        );
     };
 
     useEffect(() => {
         getAllChargeData();
     }, []);
+
+    useEffect(() => {
+        getAllChargeData();
+    }, [currentPage]);
 
     return (
         <div className={`${BRAND_PREFIX}-reports-center-container flex justify-between items-center flex-col`}>
@@ -99,16 +112,16 @@ const ReportsSection: React.FC = () => {
                         }}
                     />
                 )
-            }
+            } */}
             {
-                servicePointsCount > 10 && (
+                reportsCount > 10 && (
                     <Pagination
                         currentPage={currentPage}
-                        totalCounts={servicePointsCount}
+                        totalCounts={reportsCount}
                         setCurrentPage={setCurrentPage}
                     />
                 )
-            } */}
+            }
         </div>
     );
 };
