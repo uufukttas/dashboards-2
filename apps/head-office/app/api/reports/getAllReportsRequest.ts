@@ -5,7 +5,7 @@ const getAllReportsRequest = async (payload: IGetAllReportsPayloadProps) => {
     try {
         const response = await axios
             .post(
-                `${process.env.NEXT_PUBLIC_BASE_URL}/Report/MainReport` || '',
+                `${process.env.NEXT_PUBLIC_BASE_URL}/Report/FilterV2` || '',
                 payload
             )
             .then((response) => {
