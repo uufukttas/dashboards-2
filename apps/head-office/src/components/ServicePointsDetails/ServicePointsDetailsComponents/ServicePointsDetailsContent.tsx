@@ -130,6 +130,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
                         index === activeTabIndex &&
                         <Accordion
                             key={index}
+                            accordionClassName="service-point-details-accordion my-4"
                             accordionIcon={accordion.accordionIcon}
                             accordionTitle={accordion.accordionTitle}
                             actionButton={accordion.actionButton}
