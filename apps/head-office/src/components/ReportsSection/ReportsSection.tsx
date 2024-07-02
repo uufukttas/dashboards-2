@@ -8,10 +8,11 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import { getAllReportsRequest } from '../../../app/api/reports';
 import { setReportsData } from '../../../app/redux/features/getAllReports';
 import { RootState } from '../../../app/redux/store';
+import { IFilterItemProps } from '../Filter/types';
 import './ReportsSection.css';
 
 const ReportsSection: React.FC = () => {
-    const filters = [
+    const filters: IFilterItemProps[] = [
         { id: 'trx-no', label: 'TRX No', type: 'number', defaultValue: '' },
         { id: 'station-name', label: 'Istasyon Ismi', type: 'text', defaultValue: '' },
         { id: 'unit-code', label: 'Unit Code', type: 'text', defaultValue: '' },
