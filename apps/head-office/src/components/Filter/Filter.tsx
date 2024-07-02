@@ -11,6 +11,7 @@ import { IFilterProps } from './types';
 import './Filter.css';
 
 const DynamicFilters = ({ className, filters }: IFilterProps) => {
+  const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
   const [filterValues, setFilterValues] = useState<{ [key: string]: string }>(
     filters.reduce((acc, filter) => ({ ...acc, [filter.id]: filter.defaultValue }), {})
   );
@@ -29,33 +30,36 @@ const DynamicFilters = ({ className, filters }: IFilterProps) => {
             contentClassName='filter-content flex flex-col w-full my-4'
             isAccordionOpen={false}
             key={filter.id}>
-            <Tabs tabItems={[
-              {
-                title: (
-                  <Tooltip text="Buyuktur">
-                    <FaGreaterThan />
-                  </Tooltip>
-                ),
-              }, {
-                title: (
-                  <Tooltip text="Kucuktur">
-                    <FaLessThan />
-                  </Tooltip>
-                ),
-              }, {
-                title: (
-                  <Tooltip text='Eşittir'>
-                    <FaEquals />
-                  </Tooltip>
-                ),
-              }, {
-                title: (
-                  <Tooltip text="Icinde">
-                    <TbTilde />
-                  </Tooltip>
-                ),
-              }
-            ]} />
+            <Tabs
+              activeTabIndex={activeTabIndex}
+              setActiveTabIndex={setActiveTabIndex}
+              tabItems={[
+                {
+                  title: (
+                    <Tooltip text="Buyuktur">
+                      <FaGreaterThan />
+                    </Tooltip>
+                  ),
+                }, {
+                  title: (
+                    <Tooltip text="Kucuktur">
+                      <FaLessThan />
+                    </Tooltip>
+                  ),
+                }, {
+                  title: (
+                    <Tooltip text='Eşittir'>
+                      <FaEquals />
+                    </Tooltip>
+                  ),
+                }, {
+                  title: (
+                    <Tooltip text="Icinde">
+                      <TbTilde />
+                    </Tooltip>
+                  ),
+                }
+              ]} />
             <div className='filter-item flex flex-col my-2'>
               <label className='w-1/2 flex items-center justify-start' htmlFor={filter.id}>{filter.label}</label>
               <FilterInput className="w-full" filter={filter} value={filterValues[filter.id]} onChange={handleInputChange} />
