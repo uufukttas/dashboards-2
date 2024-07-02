@@ -25,9 +25,9 @@ const DynamicFilters = ({ className, filters }: IFilterProps) => {
       {
         filters.map(filter => (
           <Accordion
-            accordionClassName='filter-accordion flex flex-col w-full my-2'
+            accordionClassName={`${BRAND_PREFIX}-filter-accordion flex flex-col w-full my-2`}
             accordionTitle={filter.label}
-            contentClassName='filter-content flex flex-col w-full my-4'
+            contentClassName={`${BRAND_PREFIX}-filter-content flex flex-col w-full`}
             isAccordionOpen={false}
             key={filter.id}>
             <Tabs
@@ -60,7 +60,7 @@ const DynamicFilters = ({ className, filters }: IFilterProps) => {
                   ),
                 }
               ]} />
-            <div className='filter-item flex flex-col my-2'>
+            <div className={`${BRAND_PREFIX}-filter-item flex flex-col my-2`}>
               <label className='w-1/2 flex items-center justify-start' htmlFor={filter.id}>{filter.label}</label>
               <FilterInput className="w-full" filter={filter} value={filterValues[filter.id]} onChange={handleInputChange} />
             </div>
