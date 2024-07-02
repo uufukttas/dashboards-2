@@ -1,0 +1,6 @@
+@import "../../constants/variables";
+
+.#{$brand-prefix}-filter-container {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
