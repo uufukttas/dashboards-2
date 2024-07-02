@@ -23,7 +23,6 @@ const ReportsSection: React.FC = () => {
         { id: 'unit-price', label: 'Birim Fiyat', type: 'number', defaultValue: '' },
         { id: 'kwh', label: 'kWh', type: 'number', defaultValue: '' },
         { id: 'battery-percentage', label: 'Batarya Yuzdesi', type: 'number', defaultValue: '' },
-        { id: 'price-calculation-time', label: 'Fiyat Hesaplama Zamani', type: 'date', defaultValue: '' },
         { id: 'total-price', label: 'Toplam Bedel', type: 'number', defaultValue: '' },
         { id: 'total-price-including-vat', label: 'Toplam Bedel (KDV Dahil)', type: 'number', defaultValue: '' },
         { id: 'electricity-price', label: 'Elektrik Bedeli', type: 'number', defaultValue: '' },
