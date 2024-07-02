@@ -9,6 +9,7 @@ import './Table.css';
 const Table: React.FC<ITableProps> = ({
   attributeName,
   buttonText,
+  className,
   filteredDropdownItems,
   roleStyles,
   tableData,
@@ -19,7 +20,7 @@ const Table: React.FC<ITableProps> = ({
   const tablePrefix: string = `${BRAND_PREFIX}-table`;
 
   return (
-    <div className={`${tablePrefix}-container relative overflow-x-auto shadow-md max-w-[330px] md:max-w-full w-full border-2 border-gray-200`}>
+    <div className={`${tablePrefix}-container relative overflow-x-auto shadow-md max-w-[330px] md:max-w-full border-2 border-gray-200 ${className}`}>
       {
         attributeName !== 'reports-management' && (
           <TableHeader buttonText={buttonText} filteredDropdownItems={filteredDropdownItems} />

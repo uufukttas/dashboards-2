@@ -125,6 +125,7 @@ export interface ITableHeadProps {
 export interface ITableProps {
     attributeName: string;
     buttonText: string;
+    className?: string;
     filteredDropdownItems: IDropdownItemProps[];
     roleStyles?: IRolesStyleProps;
     tableData: IServicePointInfoProps[] | IUserDataProps[];
