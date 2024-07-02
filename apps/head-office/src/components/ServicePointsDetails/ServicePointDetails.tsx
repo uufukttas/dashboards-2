@@ -1,6 +1,10 @@
 import React, { useEffect } from 'react';
+import { FaClock, FaCoins, FaLocationDot, FaUserGear } from 'react-icons/fa6';
+import { RiBattery2ChargeFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
+import { SlEnergy } from 'react-icons/sl';
 import { Alert } from '@projects/alert';
+import { detectDevice } from '@projects/common';
 import { Dialog } from '@projects/dialog';
 import { initialChargeUnitDataValue } from './constants';
 import ChargeUnitAddModal from './Modals/ChargeUnitAddModal';
@@ -64,10 +68,68 @@ import type {
   IChargeUnitsProps,
   IModalConfigProps,
   IServicePointsDetailsPageProps,
+  ITabsItemProps,
 } from './types';
 import './ServicePointDetails.css';
 
 const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
+  const tabItems: ITabsItemProps[] = [
+    {
+      title: (
+        <>
+          <FaLocationDot />
+          {detectDevice().isMobile ? '' : 'Istasyon Bilgileri'}
+        </>
+      ),
+    },
+    {
+      title: (
+        <>
+          <RiBattery2ChargeFill />
+          {detectDevice().isMobile ? '' : 'Sarj Üniteleri'}
+        </>
+      ),
+    },
+    {
+      title: (
+        <>
+          <FaClock />
+          {
+            detectDevice().isMobile ? '' : 'Çalışma Saatleri'
+          }
+        </>
+      ),
+    },
+    {
+      title: (
+        <>
+          <SlEnergy />
+          {
+            detectDevice().isMobile ? '' : 'Enerji Fiyat Ayarlari'
+          }
+        </>
+      ),
+    },
+    {
+      title: (
+        <>
+          <FaCoins />
+          {
+            detectDevice().isMobile ? '' : 'Komisyonlar'
+          }
+        </>
+      ),
+    }, {
+      title: (
+        <>
+          <FaUserGear />
+          {
+            detectDevice().isMobile ? '' : 'Istasyon Yetkilileri'
+          }
+        </>
+      ),
+    }
+  ];
   const dispatch = useDispatch();
   const addChargeUnit = useSelector((state: RootState) => state.setVisibleModal.addChargeUnit);
   const addComission = useSelector((state: RootState) => state.setVisibleModal.addComission);
@@ -415,7 +477,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
         >
           <div className={`${BRAND_PREFIX}-service-point-details-page-content-container w-full`}>
             <ServicePointDetailsHeader />
-            <Tabs />
+            <Tabs tabItems={tabItems} />
             <ServicePointsDetailsContent slug={slug} />
           </div>
           {

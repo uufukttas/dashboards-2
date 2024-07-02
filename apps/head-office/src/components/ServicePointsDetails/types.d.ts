@@ -231,6 +231,9 @@ export interface IServicePointDetailsHeaderProps {
   servicePointDetailsName: string;
   servicePointDetailsStatus: boolean;
 };
+export interface ITabsItemProps {
+  title: string | JSX.Element;
+};
 export interface ITimeSlot {
   rid?: number;
   day: number;
