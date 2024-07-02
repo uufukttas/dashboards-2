@@ -4,6 +4,7 @@ import type { IAccordionProps } from './types';
 import './Accordion.css';
 
 const Accordion: React.FC<IAccordionProps> = ({
+  accordionClassName,
   accordionIcon,
   accordionTitle,
   actionButton,
@@ -30,7 +31,7 @@ const Accordion: React.FC<IAccordionProps> = ({
   };
 
   return (
-    <div className={`${accordionPrefix}-content-container border my-4 rounded-lg`}>
+    <div className={`${accordionPrefix}-content-container border my-4 rounded-lg ${accordionClassName}`}>
       <div className={`${accordionPrefix}-header justify-between bg-${backgroundColor}`}>
         <div className={`${accordionPrefix}-left-container flex items-center ${titleClassName}`}>
           <div className={`${accordionPrefix}-title`}>
