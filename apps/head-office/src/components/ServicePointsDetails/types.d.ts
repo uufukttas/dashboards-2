@@ -184,6 +184,7 @@ export interface IModalConfigProps {
   closeAction: () => void;
 };
 export interface IServicePointDetailsContentProps {
+  activeTabIndex: number;
   slug: string;
 };
 export interface IServicePointsDetailsProps {

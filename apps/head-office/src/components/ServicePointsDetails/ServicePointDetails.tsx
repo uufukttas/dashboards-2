@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaClock, FaCoins, FaLocationDot, FaUserGear } from 'react-icons/fa6';
 import { RiBattery2ChargeFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
@@ -152,6 +152,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const isServicePointPermissionsUpdated = useSelector((state: RootState) => {
     return state.isServicePointPermissionsUpdated.isServicePointPermissionsUpdated
   });
+  const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
 
   const modalConfig: IModalConfigProps[] = [
     {
@@ -477,8 +478,11 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
         >
           <div className={`${BRAND_PREFIX}-service-point-details-page-content-container w-full`}>
             <ServicePointDetailsHeader />
-            <Tabs tabItems={tabItems} />
-            <ServicePointsDetailsContent slug={slug} />
+            <Tabs
+              activeTabIndex={activeTabIndex}
+              setActiveTabIndex={setActiveTabIndex}
+              tabItems={tabItems} />
+            <ServicePointsDetailsContent activeTabIndex={activeTabIndex} slug={slug} />
           </div>
           {
             alertInformation.isVisible && (
