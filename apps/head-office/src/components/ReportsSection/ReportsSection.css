@@ -1,0 +1,22 @@
+.sh-accordion-content-container .sh-accordion-header {
+  height: 25px;
+  font-size: 16px;
+}
+.sh-accordion-content-container .sh-accordion-header .sh-accordion-arrow {
+  font-size: 16px;
+}
+.sh-accordion-content-container .sh-accordion-header .sh-accordion-left-container .sh-accordion-title {
+  font-size: 12px;
+}
+.sh-accordion-content-container .sh-accordion-content.open {
+  margin: 16px 0;
+}
+
+.sh-tabs-container {
+  height: 25px;
+}
+
+.sh-filter-item input[type=text] {
+  font-size: 12px;
+  height: 25px;
+}
