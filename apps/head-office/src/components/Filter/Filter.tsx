@@ -33,6 +33,7 @@ const DynamicFilters = ({ className, filters }: IFilterProps) => {
             <Tabs
               activeTabIndex={activeTabIndex}
               setActiveTabIndex={setActiveTabIndex}
+              filters={filters}
               tabItems={[
                 {
                   title: (

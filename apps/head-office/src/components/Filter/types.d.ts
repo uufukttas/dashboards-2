@@ -6,6 +6,7 @@ interface IDropdownItemProps {
 interface IFilterItemProps {
     id: string;
     label: string;
+    operatorId: number;
     type: string;
     defaultValue?: string;
     dropdownItems?: IDropdownItemProps[];
