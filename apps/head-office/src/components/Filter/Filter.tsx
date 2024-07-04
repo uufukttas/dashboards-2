@@ -44,20 +44,20 @@ const DynamicFilters = ({ className, filters, setFilters, onFilterSubmit, isExpa
               tabItems={[
                 {
                   title: (
+                    <Tooltip text="Eşittir">
+                      <FaEquals />
+                    </Tooltip>
+                  ),
+                }, {
+                  title: (
                     <Tooltip text="Buyuktur">
                       <FaGreaterThan />
                     </Tooltip>
                   ),
                 }, {
                   title: (
-                    <Tooltip text="Kucuktur">
+                    <Tooltip text='Kucuktur'>
                       <FaLessThan />
-                    </Tooltip>
-                  ),
-                }, {
-                  title: (
-                    <Tooltip text='Eşittir'>
-                      <FaEquals />
                     </Tooltip>
                   ),
                 }, {
