@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaEquals, FaGreaterThan, FaLessThan } from "react-icons/fa6";
+import { GiHamburgerMenu } from "react-icons/gi";
 import { TbTilde } from "react-icons/tb";
 import { Button } from '@projects/button';
 import { Tooltip } from '@projects/tooltip';
@@ -10,7 +11,7 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import { IFilterProps } from './types';
 import './Filter.css';
 
-const DynamicFilters = ({ className, filters, setFilters, onFilterSubmit }: IFilterProps) => {
+const DynamicFilters = ({ className, filters, setFilters, onFilterSubmit, isExpanded, setIsExpanded }: IFilterProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
 
   const handleInputChange = (id: string, value: string) => {
@@ -24,7 +25,10 @@ const DynamicFilters = ({ className, filters, setFilters, onFilterSubmit }: IFil
   };
 
   return (
-    <div className={`${BRAND_PREFIX}-filter-container flex flex-col border border-gray-200 p-4 radius-md rounded-lg shadow sm:p-5 max-h-[870px] overflow-y-scroll ${className}`}>
+    <div className={`${BRAND_PREFIX}-filter-container flex flex-col border border-gray-200 p-4 radius-md rounded-lg shadow sm:p-5 max-h-[870px] overflow-y-scroll ${className} ${isExpanded ? 'w-1/6' : 'w-1/12'} `}>
+      {/* <div className={`${BRAND_PREFIX}-filter header w-full`}>
+        <GiHamburgerMenu />
+      </div> */}
       {
         filters.map((filter, index) => (
           <Accordion
@@ -65,7 +69,7 @@ const DynamicFilters = ({ className, filters, setFilters, onFilterSubmit }: IFil
                 }
               ]} />
             <div className={`${BRAND_PREFIX}-filter-item flex flex-col my-2`}>
-              <label className='w-1/2 flex items-center justify-start font-normal' htmlFor={filter.id}>{filter.label}</label>
+              <label className='w-full flex items-center justify-start font-normal' htmlFor={filter.id}>{filter.label}</label>
               <FilterInput className="w-full" filter={filter} value={filters[index].id} onChange={handleInputChange} />
             </div>
           </Accordion>

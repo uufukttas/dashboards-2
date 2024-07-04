@@ -21,7 +21,9 @@ export interface IFilterInputProps {
 };
 export interface IFilterProps {
     className?: string;
-    setFilters: (filters: IFilterItemProps[]) => void;
     filters: IFilterItemProps[];
+    isExpanded: boolean;
     onFilterSubmit: () => void;
+    setFilters: (filters: IFilterItemProps[]) => void;
+    setIsExpanded: (isExpanded: boolean) => void;
 };
