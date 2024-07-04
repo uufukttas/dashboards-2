@@ -127,6 +127,7 @@ const ServicePointSection: React.FC = () => {
         <Table
           attributeName="service-point"
           buttonText='Istasyon'
+          className={`w-full`}
           filteredDropdownItems={servicePointTableFilteredDropdownItems}
           tableData={servicePointsData}
           tableDataCount={servicePointsCount}
