@@ -10,20 +10,23 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import { IFilterProps } from './types';
 import './Filter.css';
 
-const DynamicFilters = ({ className, filters }: IFilterProps) => {
+const DynamicFilters = ({ className, filters, setFilters, onFilterSubmit }: IFilterProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
-  const [filterValues, setFilterValues] = useState<{ [key: string]: string }>(
-    filters.reduce((acc, filter) => ({ ...acc, [filter.id]: filter.defaultValue }), {})
-  );
 
   const handleInputChange = (id: string, value: string) => {
-    setFilterValues(prev => ({ ...prev, [id]: value }));
+    filters.map(filter => {
+      if (filter.id === id) {
+        filter.value = value;
+      }
+    })
+
+    setFilters([...filters]);
   };
 
   return (
     <div className={`${BRAND_PREFIX}-filter-container flex flex-col border border-gray-200 p-4 radius-md rounded-lg shadow sm:p-5 max-h-[870px] overflow-y-scroll ${className}`}>
       {
-        filters.map(filter => (
+        filters.map((filter, index) => (
           <Accordion
             accordionClassName={`${BRAND_PREFIX}-filter-accordion flex flex-col w-full my-2`}
             accordionTitle={filter.label}
@@ -63,7 +66,7 @@ const DynamicFilters = ({ className, filters }: IFilterProps) => {
               ]} />
             <div className={`${BRAND_PREFIX}-filter-item flex flex-col my-2`}>
               <label className='w-1/2 flex items-center justify-start' htmlFor={filter.id}>{filter.label}</label>
-              <FilterInput className="w-full" filter={filter} value={filterValues[filter.id]} onChange={handleInputChange} />
+              <FilterInput className="w-full" filter={filter} value={filters[index].id} onChange={handleInputChange} />
             </div>
           </Accordion>
         ))
@@ -74,7 +77,7 @@ const DynamicFilters = ({ className, filters }: IFilterProps) => {
           className='bg-primary text-text text-sm rounded-lg block p-2.5'
           id='filter-button'
           type='submit'
-          onClick={() => console.log(filterValues)}
+          onClick={() => onFilterSubmit()}
         />
       </div>
     </div>

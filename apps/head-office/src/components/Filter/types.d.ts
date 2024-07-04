@@ -10,6 +10,8 @@ interface IFilterItemProps {
     type: string;
     defaultValue?: string;
     dropdownItems?: IDropdownItemProps[];
+    value: string;
+    value2: string;
 };
 export interface IFilterInputProps {
     className?: string;
@@ -19,5 +21,7 @@ export interface IFilterInputProps {
 };
 export interface IFilterProps {
     className?: string;
+    setFilters: (filters: IFilterItemProps[]) => void;
     filters: IFilterItemProps[];
+    onFilterSubmit: () => void;
 };

@@ -12,31 +12,6 @@ import { IFilterItemProps } from '../Filter/types';
 import './ReportsSection.css';
 
 const ReportsSection: React.FC = () => {
-    const filters: IFilterItemProps[] = [
-        { id: 'trx-no', label: 'TRX No', type: 'number', defaultValue: '', operatorId: 0 },
-        { id: 'station-name', label: 'Istasyon Ismi', type: 'text', defaultValue: '', operatorId: 0 },
-        { id: 'unit-code', label: 'Unit Code', type: 'text', defaultValue: '', operatorId: 0 },
-        { id: 'socket-type', label: 'Soket Tipi', type: 'dropdown', dropdownItems: [{ name: 'Secim Yapiniz', rid: 0, id: null }, { name: 'Type2', rid: 1, id: null }, { name: 'CCS/SAE', rid: 2, id: null }], operatorId: 0},
-        { id: 'start-time', label: 'Baslangic Zamani', type: 'date', defaultValue: '', operatorId: 0 },
-        { id: 'charge-time', label: 'Sarj Suresi', type: 'number', defaultValue: '', operatorId: 0 },
-        { id: 'end-time', label: 'Bitis Zamani', type: 'date', defaultValue: '', operatorId: 0 },
-        { id: 'unit-price', label: 'Birim Fiyat', type: 'number', defaultValue: '', operatorId: 0 },
-        { id: 'kwh', label: 'kWh', type: 'number', defaultValue: '', operatorId: 0 },
-        { id: 'battery-percentage', label: 'Batarya Yuzdesi', type: 'number', defaultValue: '', operatorId: 0 },
-        { id: 'total-price', label: 'Toplam Bedel', type: 'number', defaultValue: '', operatorId: 0 },
-        { id: 'total-price-including-vat', label: 'Toplam Bedel (KDV Dahil)', type: 'number', defaultValue: '', operatorId: 0 },
-        { id: 'electricity-price', label: 'Elektrik Bedeli', type: 'number', defaultValue: '', operatorId: 0 },
-        { id: 'service-price', label: 'Hizmet Bedeli', type: 'number', defaultValue: '', operatorId: 0 },
-        { id: 'service-point-commission', label: 'Hizmet Noktasi Komisyonu', type: 'number', defaultValue: '', operatorId: 0 },
-        { id: 'reseller-commission', label: 'Reseller Komisyonu', type: 'number', defaultValue: '', operatorId: 0 },
-        { id: 'user-id', label: 'Kullanici ID', type: 'number', defaultValue: '', operatorId: 0 },
-        { id: 'bank-order-no', label: 'Banka Siparis No', type: 'number', defaultValue: '', operatorId: 0 },
-        { id: 'paid-amount', label: 'Odenene Tutar', type: 'number', defaultValue: '', operatorId: 0 },
-        { id: 'on-prov-amount', label: 'On Prov Tutari', type: 'number', defaultValue: '', operatorId: 0 },
-        { id: 'plate', label: 'Plaka', type: 'text', defaultValue: '', operatorId: 0 },
-        { id: 'brand', label: 'Marka', type: 'text', defaultValue: '', operatorId: 0 },
-        { id: 'model', label: 'Model', type: 'text', defaultValue: '', operatorId: 0 },
-    ];
     const pagePrefix = `${BRAND_PREFIX}-reports-section`;
     const tableHeadData = [
         'TRX No',
@@ -69,6 +44,31 @@ const ReportsSection: React.FC = () => {
     const reportsData = useSelector((state: RootState) => state.getAllReports.reportsData);
     const reportsCount = useSelector((state: RootState) => state.getAllReports.reportsCount);
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [filters, setFilters] = useState<IFilterItemProps[]>([
+        { id: 'TrxId', label: 'TRX No', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'station-name', label: 'Istasyon Ismi', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'unit-code', label: 'Unit Code', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'socket-type', label: 'Soket Tipi', type: 'dropdown', dropdownItems: [{ name: 'Secim Yapiniz', rid: 0, id: null }, { name: 'Type2', rid: 1, id: null }, { name: 'CCS/SAE', rid: 2, id: null }], operatorId: 0, value: '', value2: '' },
+        { id: 'start-time', label: 'Baslangic Zamani', type: 'date', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'charge-time', label: 'Sarj Suresi', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'end-time', label: 'Bitis Zamani', type: 'date', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'unit-price', label: 'Birim Fiyat', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'kwh', label: 'kWh', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'battery-percentage', label: 'Batarya Yuzdesi', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'total-price', label: 'Toplam Bedel', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'total-price-including-vat', label: 'Toplam Bedel (KDV Dahil)', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'electricity-price', label: 'Elektrik Bedeli', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'service-price', label: 'Hizmet Bedeli', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'service-point-commission', label: 'Hizmet Noktasi Komisyonu', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'reseller-commission', label: 'Reseller Komisyonu', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'user-id', label: 'Kullanici ID', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'bank-order-no', label: 'Banka Siparis No', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'paid-amount', label: 'Odenene Tutar', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'on-prov-amount', label: 'On Prov Tutari', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'plate', label: 'Plaka', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'brand', label: 'Marka', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '' },
+        { id: 'model', label: 'Model', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '' },
+    ]);
 
     const getAllChargeData = async (): Promise<void> => {
         const response = await getAllReportsRequest(
@@ -86,6 +86,47 @@ const ReportsSection: React.FC = () => {
         );
     };
 
+    const handleFilterSubmit = async (): Promise<void> => {
+        const payload = {
+            userId: 33,
+            pageNumber: currentPage,
+            userCount: 10,
+            filterAttributes: getFilterPayload(),
+        }
+
+        const response = await getAllReportsRequest(payload);
+
+        console.log('response', response)
+    };
+
+    const getFilterPayload = () => {
+        const filterAttributes = filters.map((filter, index) => {
+            return {
+                "property": filter.id,
+                "operator": findOpeartor(filter.operatorId),
+                "value": filter.value,
+                "value2": filter.value2 || ''
+            }
+        });
+
+        return filterAttributes;
+    };
+
+    const findOpeartor = (operatorId: number) => {
+        switch (operatorId) {
+            case 0:
+                return ">";
+            case 1:
+                return "<";
+            case 2:
+                return "=";
+            case 3:
+                return "~{x}~";
+            default:
+                return "~{x}~";
+        }
+    };
+
     useEffect(() => {
         getAllChargeData();
     }, []);
@@ -97,7 +138,7 @@ const ReportsSection: React.FC = () => {
     return (
         <div className={`${BRAND_PREFIX}-reports-center-container flex justify-between items-center flex-col`}>
             <div className={`${pagePrefix}-listing-container flex items-center w-full`}>
-                <DynamicFilters className={`w-1/4 h-full mx-2`} filters={filters} />
+                <DynamicFilters className={`w-1/4 h-full mx-2`} filters={filters} setFilters={setFilters} onFilterSubmit={handleFilterSubmit} />
                 <Table
                     attributeName="reports-management"
                     buttonText='Istasyon'
