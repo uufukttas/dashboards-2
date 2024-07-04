@@ -13,7 +13,7 @@ const Modal: React.FC<IModalProps> = ({ children, className, modalHeaderTitle, m
       id={modalId}
       tabIndex={-1}
     >
-      <div className={`${modalPrefix}-container relative p-4 bg-white rounded-lg shadow sm:p-5 relative p-4 w-full max-w-2xl sm:h-auto`}>
+      <div className={`${modalPrefix}-container relative p-4 bg-white rounded-lg shadow sm:p-5 relative p-4 w-full max-w-2xl sm:h-auto max-h-[650px] overflow-y-scroll`}>
         <ModalHeader modalHeaderTitle={modalHeaderTitle} onClose={onClose} />
         <ModalBody>
           {children}

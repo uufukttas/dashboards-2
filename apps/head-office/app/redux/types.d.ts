@@ -1,15 +1,17 @@
 interface IChargeUnitDataProps {
-    code: string;
+    accessType: string;
     brandId: number;
+    chargePointId: number;
+    code: string;
     connectorCount: number;
-    ocppVersion: number;
+    investor: number;
     isFreeUsage: boolean;
     isLimitedUsage: boolean;
-    investor: number;
+    isRoaming: boolean;
+    location: string; 
+    ocppVersion: number;
+    serialNumber: string;
     status: string;
-    accessType: string;
-    location: string;
-    chargePointId: number;
 };
 interface IServicePointDataProps {
     isDeleted: boolean;

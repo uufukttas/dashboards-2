@@ -22,18 +22,20 @@ import { RootState } from '../../../../app/redux/store';
 import type { IFormDataProps, IRequestDataProps, IServicePointDetailsModalProps } from '../types';
 
 const ChargeUnitAddModal = ({ slug }: IServicePointDetailsModalProps) => {
-  const formName = ['brands', 'connector-count', 'ocpp-version', 'is-free-usage', 'is-limited-usage', 'investor', 'status', 'access-type', 'location'];
+  const formName = ['brands', 'serial-number', 'connector-count', 'ocpp-version', 'is-free-usage', 'is-limited-usage', 'is-roaming', 'investor', 'status', 'access-type', 'location'];
   const sectionPrefix = 'charge-unit';
   const formProperties = {
     brands: `${sectionPrefix}-${formName[0]}`,
-    'connector-count': `${sectionPrefix}-${formName[1]}`,
-    'ocpp-version': `${sectionPrefix}-${formName[2]}`,
-    'is-free-usage': `${sectionPrefix}-${formName[3]}`,
-    'is-limited-usage': `${sectionPrefix}-${formName[4]}`,
-    investor: `${sectionPrefix}-${formName[5]}`,
-    status: `${sectionPrefix}-${formName[6]}`,
-    'access-type': `${sectionPrefix}-${formName[7]}`,
-    location: `${sectionPrefix}-${formName[8]}`
+    'serial-number': `${sectionPrefix}-${formName[1]}`,
+    'connector-count': `${sectionPrefix}-${formName[2]}`,
+    'ocpp-version': `${sectionPrefix}-${formName[3]}`,
+    'is-free-usage': `${sectionPrefix}-${formName[4]}`,
+    'is-limited-usage': `${sectionPrefix}-${formName[5]}`,
+    'is-roaming': `${sectionPrefix}-${formName[6]}`,
+    investor: `${sectionPrefix}-${formName[7]}`,
+    status: `${sectionPrefix}-${formName[8]}`,
+    'access-type': `${sectionPrefix}-${formName[9]}`,
+    location: `${sectionPrefix}-${formName[10]}`
   };
   const dispatch = useDispatch();
   const { formState: { errors }, handleSubmit, register } = useForm();
@@ -44,10 +46,12 @@ const ChargeUnitAddModal = ({ slug }: IServicePointDetailsModalProps) => {
   const statusList = useSelector((state: RootState) => state.statusList);
   const [chargeUnitFormData, setChargeUnitFormData] = useState<IFormDataProps>({
     [`${formProperties['access-type']}`]: chargeUnitData.accessType || '1',
+    [`${formProperties['serial-number']}`]: chargeUnitData.serialNumber || '0',
     [`${formProperties.brands}`]: chargeUnitData.brandId || 3,
     [`${formProperties['connector-count']}`]: chargeUnitData.connectorCount || 1,
     [`${formProperties['is-free-usage']}`]: chargeUnitData.isFreeUsage || false,
     [`${formProperties['is-limited-usage']}`]: chargeUnitData.isLimitedUsage || false,
+    [`${formProperties['is-roaming']}`]: chargeUnitData.isRoaming || false,
     [`${formProperties.investor}`]: chargeUnitData.investor || 1,
     [`${formProperties.location}`]: chargeUnitData.location || '',
     [`${formProperties['ocpp-version']}`]: chargeUnitData.ocppVersion,
@@ -66,7 +70,8 @@ const ChargeUnitAddModal = ({ slug }: IServicePointDetailsModalProps) => {
         isOnlyDefinedUserCards: chargeUnitFormData[`${formProperties['is-limited-usage']}`],
         ocppVersion: chargeUnitFormData[`${formProperties['ocpp-version']}`],
         ownerType: chargeUnitFormData[`${formProperties.investor}`],
-        sendRoaming: false,
+        sendRoaming: chargeUnitFormData[`${formProperties['is-roaming']}`],
+        serialNumber: chargeUnitFormData[`${formProperties['serial-number']}`],
         stationId: Number(slug),
         stationChargePointModelID: chargeUnitFormData[`${formProperties.brands}`],
       },
@@ -146,7 +151,9 @@ const ChargeUnitAddModal = ({ slug }: IServicePointDetailsModalProps) => {
           investor: chargeUnitFormData[`${formProperties.investor}`],
           isFreeUsage: chargeUnitFormData[`${formProperties['is-free-usage']}`],
           isLimitedUsage: chargeUnitFormData[`${formProperties['is-limited-usage']}`],
+          isRoaming: chargeUnitFormData[`${formProperties['is-roaming']}`],
           ocppVersion: chargeUnitFormData[`${formProperties['ocpp-version']}`],
+          serialNumber: chargeUnitFormData[`${formProperties['serial-number']}`],
           status: chargeUnitFormData[`${formProperties.status}`],
         })
       );
@@ -184,6 +191,47 @@ const ChargeUnitAddModal = ({ slug }: IServicePointDetailsModalProps) => {
             }}
             value={chargeUnitFormData[`${formProperties.brands}`]?.toString()}
           />
+        </div>
+        <div className={`${formProperties['serial-number']}-container`}>
+          <Label
+            className={`${formProperties['serial-number']}-label block mb-2 text-heading font-semibold`}
+            htmlFor={`${formProperties['serial-number']}`}
+            labelText={`Seri Numarası`}
+          >
+            <span className="text-md text-error">*</span>
+          </Label>
+          <Input
+            className={`${formProperties['serial-number']}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
+            id={`${formProperties['serial-number']}`}
+            name={`${formProperties['serial-number']}`}
+            register={
+              register(
+                `${formProperties['serial-number']}`, {
+                required: 'Seri numarası zorunludur.',
+                minLength: {
+                  value: 3,
+                  message: 'En az 3 karakter girmelisiniz.',
+                },
+                value: chargeUnitFormData[`${formProperties['serial-number']}`],
+                onChange: (event) => {
+                  setChargeUnitFormData({
+                    ...chargeUnitFormData,
+                    [event.target.name]: event.target.value,
+                  });
+                }
+              }
+              )
+            }
+            type="text"
+          />
+          {errors[`${formProperties['serial-number']}`] &&
+            errors[`${formProperties['serial-number']}`]?.message && (
+              <div className={`${formProperties['serial-number']}-error-wrapper my-4 font-bold text-error`}>
+                <p className={`${formProperties['serial-number']}-error-message text-error`}>
+                  {errors[`${formProperties['serial-number']}`]?.message?.toString()}
+                </p>
+              </div>
+            )}
         </div>
         {
           chargeUnitData.code === '' &&
@@ -371,7 +419,7 @@ const ChargeUnitAddModal = ({ slug }: IServicePointDetailsModalProps) => {
               </div>
             )}
         </div>
-        <div className={`${formProperties['is-free-usage']}-container inline-flex flex-col w-1/2`}>
+        <div className={`${formProperties['is-free-usage']}-container inline-flex flex-col w-1/3`}>
           <h3
             className={`${formProperties['is-free-usage']}-label block mb-2 text-heading font-semibold`}
             id={`${formProperties['is-free-usage']}`}
@@ -400,7 +448,7 @@ const ChargeUnitAddModal = ({ slug }: IServicePointDetailsModalProps) => {
             </div>
           </div>
         </div>
-        <div className={`${formProperties['is-limited-usage']}-container inline-flex flex-col w-1/2`}>
+        <div className={`${formProperties['is-limited-usage']}-container inline-flex flex-col w-1/3`}>
           <h3
             className={`${formProperties['is-limited-usage']}-label block mb-2 text-heading font-semibold`}
             id={`${formProperties['is-limited-usage']}`}
@@ -419,6 +467,35 @@ const ChargeUnitAddModal = ({ slug }: IServicePointDetailsModalProps) => {
                 className={`${formProperties['is-limited-usage']}-input text-blue-500 text-sm block`}
                 id={`${formProperties['is-limited-usage']}-yes`}
                 name={`${formProperties['is-limited-usage']}`}
+                onChange={(event) => {
+                  setChargeUnitFormData({
+                    ...chargeUnitFormData,
+                    [event.target.name]: event.target.checked,
+                  });
+                }}
+              />
+            </div>
+          </div>
+        </div>
+        <div className={`${formProperties['is-roaming']}-container inline-flex flex-col w-1/3`}>
+          <h3
+            className={`${formProperties['is-roaming']}-label block mb-2 text-heading font-semibold`}
+            id={`${formProperties['is-roaming']}`}
+          >
+            Roaming
+          </h3>
+          <div className={`${formProperties['is-roaming']}-inputs-container flex`}>
+            <div className={`${formProperties['is-roaming']}-option-container flex w-1/2 items-center mb-4`}>
+              <Label
+                className={`${formProperties['is-roaming']}-label block mb-2 text-heading font-semibold block mb-0 pr-4`}
+                htmlFor={`${formProperties['is-roaming']}-yes`}
+                labelText={'Var'}
+              />
+              <Checkbox
+                checked={Boolean(chargeUnitFormData[`${formProperties['is-roaming']}`])}
+                className={`${formProperties['is-roaming']}-input text-blue-500 text-sm block`}
+                id={`${formProperties['is-roaming']}-yes`}
+                name={`${formProperties['is-roaming']}`}
                 onChange={(event) => {
                   setChargeUnitFormData({
                     ...chargeUnitFormData,

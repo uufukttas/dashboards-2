@@ -9,7 +9,9 @@ const initialState: IChargeUnitDataStateProps = {
         ocppVersion: 1600,
         isFreeUsage: false,
         isLimitedUsage: false,
+        isRoaming: false,
         investor: 1,
+        serialNumber: '',
         status: '1',
         accessType: '1',
         location: '',
@@ -28,7 +30,9 @@ export const chargeUnitData = createSlice({
             state.chargeUnitData.ocppVersion = action.payload.ocppVersion;
             state.chargeUnitData.isFreeUsage = action.payload.isFreeUsage;
             state.chargeUnitData.isLimitedUsage = action.payload.isLimitedUsage;
+            state.chargeUnitData.isRoaming = action.payload.isRoaming;
             state.chargeUnitData.investor = action.payload.investor;
+            state.chargeUnitData.serialNumber = action.payload.serialNumber;
             state.chargeUnitData.status = action.payload.status;
             state.chargeUnitData.accessType = action.payload.accessType;
             state.chargeUnitData.location = action.payload.location;
