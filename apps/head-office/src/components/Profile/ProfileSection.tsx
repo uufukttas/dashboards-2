@@ -1,4 +1,5 @@
 import React from 'react';
+import BackgroundSection from './Sections/BackgroundSection';
 import ColorSection from './Sections/ColorSection';
 import InfoSection from './Sections/InfoSection';
 import LoginInfoSection from './Sections/LoginInfoSection';
@@ -30,6 +31,12 @@ const ProfileSection: React.FC = () => {
                         <Card
                             cardBody={<ColorSection />}
                             className={`${profilePagePrefix}-colors-card p-8`}
+                        />
+                    </div>
+                    <div className={`${profilePagePrefix}-background-image-container w-full mt-8`}>
+                        <Card
+                            cardBody={<BackgroundSection />}
+                            className={`${profilePagePrefix}-background-image-card p-8`}
                         />
                     </div>
                 </div>
