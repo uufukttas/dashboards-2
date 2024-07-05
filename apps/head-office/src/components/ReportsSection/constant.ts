@@ -1,6 +1,6 @@
 const tablePlaceholderInitialValue = {
     id: 1,
-    TrxId: 1,
+    trxId: 1,
     StationConnectorID: 1,
     StationConnectorConnectorNr: 1,
     StationChargePointCode: '1',

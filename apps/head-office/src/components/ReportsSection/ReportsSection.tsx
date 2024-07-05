@@ -47,7 +47,7 @@ const ReportsSection: React.FC = () => {
     const reportsCount = useSelector((state: RootState) => state.getAllReports.reportsCount);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [filters, setFilters] = useState<IFilterItemProps[]>([
-        { id: 'TrxId', label: 'TRX No', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false },
+        { id: 'trxId', label: 'TRX No', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false },
         { id: 'StationID', label: 'Istasyon Ismi', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false },
         { id: 'StationChargePointCode', label: 'Unit Code', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false },
         { id: 'socket-type', label: 'Soket Tipi', type: 'dropdown', dropdownItems: [{ name: 'Secim Yapiniz', rid: 0, id: null }, { name: 'Type2', rid: 1, id: null }, { name: 'CCS/SAE', rid: 2, id: null }], operatorId: 0, value: '', value2: '', isHidden: false },
@@ -182,13 +182,12 @@ const ReportsSection: React.FC = () => {
             let row = [], cols = rows[i].querySelectorAll("td, th");
             
             for (let j = 0; j < cols.length; j++) 
-                row.push('"' + cols[j].innerText + '"');
+                row.push('"' + cols[j].innerText + '"'); // Her hücreyi tırnak içine al
             
-            csv.push(row.join(","));
+            csv.push(row.join(";")); // Noktalı virgülle ayır
         }
     
-        // Download CSV
-        downloadCSV(csv.join("\n"), filename);
+        downloadCSV(csv.join("\r\n"), filename); // Windows uyumlu satır sonları
     }
 
     useEffect(() => {

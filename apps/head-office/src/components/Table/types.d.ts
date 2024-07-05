@@ -61,7 +61,7 @@ export interface ITableBodyPlaceholderProps {
     createDate?: string;
     validityBeginDate?: string;
     validityEndDate?: string;
-    TrxId?: number,
+    trxId?: number,
     StationConnectorID?: number,
     StationConnectorConnectorNr?: number,
     StationChargePointCode?: string,

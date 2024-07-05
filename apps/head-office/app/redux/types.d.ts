@@ -203,7 +203,7 @@ export interface IPermissionsStateProps {
     stationId: number;
 };
 export interface IReportDataProps {
-    TrxId?: number,
+    trxId?: number,
     StationConnectorID?: number,
     StationConnectorConnectorNr?: number,
     StationChargePointCode?: string,
