@@ -12,12 +12,14 @@ interface IFilterItemProps {
     dropdownItems?: IDropdownItemProps[];
     value: string;
     value2: string;
+    isHidden: boolean;
 };
 export interface IFilterInputProps {
     className?: string;
     filter: IFilterItemProps;
     value: string;
-    onChange: (id: string, value: string) => void;
+    id?: string;
+    onChange: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> , value: string) => void;
 };
 export interface IFilterProps {
     className?: string;
