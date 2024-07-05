@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '@projects/button';
 import { tablePlaceholderInitialValue } from './constant';
 import DynamicFilters from '../Filter/Filter';
 import Pagination from '../ServicePointSection/PaginationComponents/Pagination';
@@ -128,6 +130,67 @@ const ReportsSection: React.FC = () => {
         }
     };
 
+    const getExportTableData = async (): Promise<void> => {
+        const response = await axios
+            .post(
+                'https://sharztestapi.azurewebsites.net/Report/ExcelExport',
+
+                {
+                    "property": "StationId",
+                    "operator": "{x}",
+                    "value": "38000",
+                    "value2": "43637"
+                },
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+
+            exportTableToCSV(response.data);
+        console.log('response', response)
+    };
+
+    function downloadCSV(csv, filename) {
+        let csvFile;
+        let downloadLink;
+    
+        // CSV file
+        csvFile = new Blob([csv], {type: "text/csv"});
+    
+        // Download link
+        downloadLink = document.createElement("a");
+    
+        // File name
+        downloadLink.download = filename + ".csv";  // Uzantıyı doğru şekilde ekledik
+    
+        // Create a link to the file
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+    
+        // Hide download link
+        downloadLink.style.display = "none";
+    
+        // Add the link to DOM
+        document.body.appendChild(downloadLink);
+    
+        // Click download link
+        downloadLink.click();
+    }
+    
+    function exportTableToCSV(filename) {
+        let csv = [];
+        let rows = document.querySelectorAll("table tr");
+        
+        for (let i = 0; i < rows.length; i++) {
+            let row = [], cols = rows[i].querySelectorAll("td, th");
+            
+            for (let j = 0; j < cols.length; j++) 
+                row.push('"' + cols[j].innerText + '"');
+            
+            csv.push(row.join(","));
+        }
+    
+        // Download CSV
+        downloadCSV(csv.join("\n"), filename);
+    }
+
     useEffect(() => {
         getAllChargeData();
     }, []);
@@ -140,6 +203,13 @@ const ReportsSection: React.FC = () => {
         <div className={`${BRAND_PREFIX}-reports-center-container flex justify-between items-center flex-col`}>
             <div className={`${pagePrefix}-listing-container flex items-center w-full`}>
                 <DynamicFilters className={`h-full mx-2`} filters={filters} setFilters={setFilters} onFilterSubmit={handleFilterSubmit} isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+                <Button
+                    buttonText='Export'
+                    className='w-1/6 mx-2 bg-primary text-white rounded-lg p-2'
+                    id={`${pagePrefix}-export-button`}
+                    type='button'
+                    onClick={getExportTableData}
+                />
                 <Table
                     attributeName="reports-management"
                     buttonText='Istasyon'
