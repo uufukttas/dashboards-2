@@ -48,9 +48,9 @@ const ReportsSection: React.FC = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [filters, setFilters] = useState<IFilterItemProps[]>([
         { id: 'trxId', label: 'TRX No', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false },
-        { id: 'StationID', label: 'Istasyon Ismi', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false },
-        { id: 'StationChargePointCode', label: 'Unit Code', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false },
-        { id: 'socket-type', label: 'Soket Tipi', type: 'dropdown', dropdownItems: [{ name: 'Secim Yapiniz', rid: 0, id: null }, { name: 'Type2', rid: 1, id: null }, { name: 'CCS/SAE', rid: 2, id: null }], operatorId: 0, value: '', value2: '', isHidden: false },
+        { id: 'stationName', label: 'Istasyon Ismi', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false },
+        { id: 'stationChargePointCode', label: 'Unit Code', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false },
+        { id: 'stationChargePointConnectorTypeName', label: 'Soket Tipi', type: 'dropdown', dropdownItems: [{ name: 'Secim Yapiniz', rid: 0, id: null }, { name: 'Type2', rid: 1, id: null }, { name: 'CCS/SAE', rid: 2, id: null }], operatorId: 0, value: '', value2: '', isHidden: false },
         { id: 'StartDate', label: 'Baslangic Zamani', type: 'date', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false },
         { id: 'charge-time', label: 'Sarj Suresi', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false },
         { id: 'FinishDate', label: 'Bitis Zamani', type: 'date', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false },
@@ -148,15 +148,12 @@ const ReportsSection: React.FC = () => {
         console.log('response', response)
     };
 
-    function downloadCSV(csv, filename) {
-        let csvFile;
-        let downloadLink;
-
+    function downloadCSV(csv: string, filename: string): void {
         // CSV file
-        csvFile = new Blob([csv], { type: "text/csv" });
+        const csvFile = new Blob([csv], { type: "text/csv" });
 
         // Download link
-        downloadLink = document.createElement("a");
+        const downloadLink = document.createElement("a");
 
         // File name
         downloadLink.download = "reports.csv";  // Uzantıyı doğru şekilde ekledik
@@ -174,15 +171,15 @@ const ReportsSection: React.FC = () => {
         downloadLink.click();
     }
 
-    function exportTableToCSV(filename) {
-        let csv = [];
-        let rows = document.querySelectorAll("table tr");
+    function exportTableToCSV(filename: string) {
+        const csv = [];
+        const rows = document.querySelectorAll("table tr");
 
         for (let i = 0; i < rows.length; i++) {
-            let row = [], cols = rows[i].querySelectorAll("td, th");
+            const row = [], cols = rows[i].querySelectorAll("td, th");
 
             for (let j = 0; j < cols.length; j++)
-                row.push('"' + cols[j].innerText + '"'); // Her hücreyi tırnak içine al
+                row.push('"' + cols[j].textContent + '"'); // Her hücreyi tırnak içine al
 
             csv.push(row.join(";")); // Noktalı virgülle ayır
         }
