@@ -42,8 +42,8 @@ const FormElement: React.FC<IFormElementProps> = ({
                             required: `${getDisplayName(loginFormInput)} zorunlu bir alandır.`,
                             validate: loginFormInput === loginFormInputs[1]
                                 ? {
-                                    checkLength: (value: string) => value.length >= 8,
-                                    matchPattern: (value: string) => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.*-]).{8,}$/.test(value),
+                                    checkLength: (value: string) => value.length >= 6,
+                                    matchPattern: (value: string) => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.*-]).{6,}$/.test(value),
                                 }
                                 : {},
                             onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
