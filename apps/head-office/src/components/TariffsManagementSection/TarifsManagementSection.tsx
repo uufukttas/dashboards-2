@@ -50,7 +50,7 @@ const TarifssManagementSection: React.FC = () => {
 
     return (
         <div className={`${BRAND_PREFIX}-tariffs-management-container flex justify-between items-center flex-col`}>
-            <div className={`${tarifssManagementSectionPrefix}-listing-container flex items-center w-full`}>
+            <div className={`${tarifssManagementSectionPrefix}-listing-container items-center w-full`}>
                 <Table
                     attributeName="tariff-list"
                     buttonText='Tarife'

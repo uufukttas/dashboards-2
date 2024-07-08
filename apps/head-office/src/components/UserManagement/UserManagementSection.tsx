@@ -103,7 +103,7 @@ const UserManagementSection: React.FC = () => {
 
     return (
         <div className={`${userManagementPrefix}-table-container flex justify-between items-center flex-col`}>
-            <div className={`${userManagementPrefix}-listing-container flex items-center w-full`}>
+            <div className={`${userManagementPrefix}-listing-container items-center w-full`}>
                 <Table
                     attributeName='user-management'
                     buttonText='Kullanici'
