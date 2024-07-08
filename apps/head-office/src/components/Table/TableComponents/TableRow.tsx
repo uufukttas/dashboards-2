@@ -80,7 +80,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                         (tableRowData.phone || ''),
                         tableRowData.userName || '',
                         tableRowData.saleUnitPrice?.toString() || '0',
-                        tableRowData.StationName?.toString() || '')
+                        tableRowData.stationName?.toString() || '')
                 }
             </td>
             <td className="px-4 py-2 text-center">
@@ -90,7 +90,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                         tableRowData.address || '',
                         tableRowData.phoneNumber || '',
                         convertDateFormat(tableRowData.createDate || '') || 'Tarife Tarihi',
-                        tableRowData.StationChargePointCode?.toString() || '0')}
+                        tableRowData.stationChargePointCode?.toString() || '0')}
             </td>
             <td className="px-4 py-2 text-center">
                 {
@@ -106,7 +106,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                                 );
                             }),
                         convertDateFormat(tableRowData.validityBeginDate || '') || new Date().toLocaleDateString(),
-                        tableRowData.socketNo?.toString() || '0'
+                        tableRowData.stationConnectorConnectorNr?.toString() || '0'
                     )
                 }
             </td>
@@ -117,89 +117,64 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                         getDistricts(tableRowData.districtId ?? 1),
                         tableRowData.lastLoginDate || '',
                         convertDateFormat(tableRowData.validityEndDate || '') || '-',
-                        tableRowData.StationChargePointConnectorTypeName?.toString() || '0')
+                        tableRowData.stationChargePointConnectorTypeName?.toString() || '0')
                 }
             </td>
             {
                 attributeName === 'reports-management' && (
                     <>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.StartDate || '-'}
+                            {tableRowData.startDate || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-
-                            {tableRowData.ChargeProcessElapsedTime || '-'}
+                            {tableRowData.chargeProcessElapsedTime || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-
-                            {tableRowData.FinishDate || '-'}
+                            {tableRowData.finishDate || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-
-                            {tableRowData.UnitPrice || '-'}
+                            {tableRowData.unitPrice || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-
                             {tableRowData.kWh || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-
-                            {`${tableRowData.BatteryBeginningPercent} % ${tableRowData.BatteryPercent}` || '-'}
+                            {`${tableRowData.batteryBeginningPercent} % ${tableRowData.batteryPercent}` || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-
-                            {tableRowData.priceCalculationTime || '-'}
+                            {tableRowData.totalAmountWithOutKDV || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-
-                            {tableRowData.TotalAmountWithOutKDV || '-'}
+                            {tableRowData.totalAmount || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-
-                            {tableRowData.TotalAmount || '-'}
-                        </td>
-                        <td className="px-4 py-2 text-center">
-
-                            {tableRowData.electricityAmount || '-'}
-                        </td>
-                        <td className="px-4 py-2 text-center">
-
                             {tableRowData.servicePrice || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-
-                            {tableRowData.CommissionServicePointPrice || '-'}
+                            {tableRowData.commissionServicePointPrice || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-
-                            {tableRowData.CommissionResellerPrice || '-'}
+                            {tableRowData.commissionResellerPrice || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-
                             {tableRowData.userId || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-
                             {tableRowData.bankOrderNo || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-
                             {tableRowData.paidAmount || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-
                             {tableRowData.preChargeAmount || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-
                             {tableRowData.plate || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-
                             {tableRowData.brand || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-
                             {tableRowData.model || '-'}
                         </td>
                     </>
