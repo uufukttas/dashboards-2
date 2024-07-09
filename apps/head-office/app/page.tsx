@@ -21,7 +21,7 @@ const Index: React.FC = () => {
   const [isDetectedDevice, setIsDetectedDevice] = useState<boolean>(false);
 
   const fetchConfigurations = async (): Promise<void> => {
-    const colors = await getColors(["Ana", "Ikincil", "Alternatif", "Ikincil Yedek"]);
+    const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
 
     dispatch(setConfigs(colors.data));
     setIsDetectedDevice(true);
@@ -34,11 +34,11 @@ const Index: React.FC = () => {
   return (
     isDetectedDevice && (
       <div className={
-        `${userInfo.name}-head-office w-full flex items-center justify-center bg-[${stylesProps.loginFormPageBackgroundColor}] ${detectDevice().isMobile ? 'h-screen' : ''}`
+        `${userInfo.name}-head-office w-full flex items-center justify-center ${detectDevice().isMobile ? 'h-screen' : ''}`
       }
         style={{ '--color-primary': `${colors[0].value}`, '--color-secondary': `${colors[1].value}` } as React.CSSProperties}
       >
-        < Login />
+        <Login />
         <Background
           backgroundUrl={stylesProps.loginPageBackgroundImage}
           className={detectDevice().isDesktop ? 'w-3/4' : 'hidden'}
