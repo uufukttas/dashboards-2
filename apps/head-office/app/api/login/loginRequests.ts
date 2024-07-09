@@ -13,14 +13,16 @@ const loginRequest = async (credentials: ILoginRequestProps): Promise<IResponseI
     } catch (error) {
         if (axios.isAxiosError(error)) {
             if (error.response?.status === 400) {
-                return { status: 400, data: { message: 'Hay aksi bir seyler ters gitti...' } };
+                return { status: 400, data: { message: 'Hay aksi bir seyler ters gitti...' }, token: { result: '' } };
             } else if (error.response?.status === 401) {
-                return { status: 401, data: { message: 'Kullanici adi veya sifre hatali.' } };
+                return { status: 401, data: { message: 'Kullanici adi veya sifre hatali.' }, token: { result: '' } };
             }
         }
 
-        return { status: 500, data: { message: 'Sunucu hatasi olustu.' } };
-    };
+        return {
+            status: 500, data: { message: 'Sunucu hatasi olustu.' }, token: { result: '' }
+        }
+    }
 };
 
 export default loginRequest;

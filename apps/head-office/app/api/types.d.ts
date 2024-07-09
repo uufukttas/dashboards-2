@@ -22,7 +22,9 @@ export interface IResponseInfoProps {
     status: number;
     data: IResponseDataProps;
     message?: string;
-    token: string | undefined;
+    token: {
+        result: string;
+    };
 };
 export interface IResponseProps {
     error: {
