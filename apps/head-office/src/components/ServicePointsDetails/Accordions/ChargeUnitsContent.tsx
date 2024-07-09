@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FaPencil, FaPlugCirclePlus, FaTrash } from 'react-icons/fa6';
+import { FaPencil, FaPlugCirclePlus, FaQrcode, FaTrash } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { Tooltip } from '@projects/tooltip';
@@ -322,30 +322,39 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                     </Tooltip>
                                 </p>
                             </div>
-                            <Button
-                                className="connector-add-button rounded-md px-2 py-2 mx-4"
-                                dataAttributes={{
-                                    'data-charge-point-id': connectorItem.stationChargePointID.toString(),
-                                    'data-charge-point-model-id': connectorItem.modelId.toString(),
-                                    'data-connector-nr': connectorItem.connectorNr.toString(),
-                                    'data-connector-id': connectorItem.RID.toString(),
-                                }}
-                                id={`${chargeUnitPrefix}-connector-add-button`}
-                                type={'button'}
-                                onClick={() => {
-                                    dispatch(setAddChargeUnit(false));
-                                    dispatch(setAddConnector(true));
-                                    dispatch(toggleModalVisibility(true));
-                                    dispatch(setConnectorProperty({
-                                        chargePointModelId: connectorItem.modelId,
-                                        chargePointId: connectorItem.stationChargePointID,
-                                        connectorNumber: connectorItem.connectorNr,
-                                        connectorId: connectorItem.RID,
-                                    }));
-                                }}
-                            >
-                                <FaPlugCirclePlus />
-                            </Button>
+                            <div className={`${chargeUnitPrefix}-connector-list-item-actions-container p-2 flex`}>
+                                <Button
+                                    className={`${chargeUnitPrefix}-qr-code-button rounded-md px-2 py-2 mx-4`}
+                                    id={`${chargeUnitPrefix}-qr-code-button`}
+                                    type={'button'}
+                                >
+                                    <FaQrcode />
+                                </Button>
+                                <Button
+                                    className="connector-add-button rounded-md px-2 py-2 mx-4"
+                                    dataAttributes={{
+                                        'data-charge-point-id': connectorItem.stationChargePointID.toString(),
+                                        'data-charge-point-model-id': connectorItem.modelId.toString(),
+                                        'data-connector-nr': connectorItem.connectorNr.toString(),
+                                        'data-connector-id': connectorItem.RID.toString(),
+                                    }}
+                                    id={`${chargeUnitPrefix}-connector-add-button`}
+                                    type={'button'}
+                                    onClick={() => {
+                                        dispatch(setAddChargeUnit(false));
+                                        dispatch(setAddConnector(true));
+                                        dispatch(toggleModalVisibility(true));
+                                        dispatch(setConnectorProperty({
+                                            chargePointModelId: connectorItem.modelId,
+                                            chargePointId: connectorItem.stationChargePointID,
+                                            connectorNumber: connectorItem.connectorNr,
+                                            connectorId: connectorItem.RID,
+                                        }));
+                                    }}
+                                >
+                                    <FaPlugCirclePlus />
+                                </Button>
+                            </div>
                         </div>
                     );
                 } else {
