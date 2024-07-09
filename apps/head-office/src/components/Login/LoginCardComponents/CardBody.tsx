@@ -8,6 +8,7 @@ import { BRAND_PREFIX } from '../../../constants/constants';
 import loginRequest from '../../../../app/api/login/loginRequests';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
+import { setLoginToken } from '../../../../app/redux/features/loginToken';
 import { AppDispatch } from '../../../../app/redux/store';
 import type { ILoginFormDataProps, ILoginRequestDataProps } from '../types';
 
@@ -22,6 +23,8 @@ const CardBody: React.FC = () => {
 
     const fetchLoginData = async (credentials: ILoginRequestDataProps): Promise<void> => {
         const response = await loginRequest(credentials);
+
+        dispatch(setLoginToken(response?.token?.result));
 
         response.status === 200 ? handleLoginSuccess() : handleLoginError(response.data.message);
     };

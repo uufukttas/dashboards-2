@@ -8,7 +8,7 @@ interface IChargeUnitDataProps {
     isFreeUsage: boolean;
     isLimitedUsage: boolean;
     isRoaming: boolean;
-    location: string; 
+    location: string;
     ocppVersion: number;
     serialNumber: string;
     status: string;
@@ -63,13 +63,13 @@ export interface IChargeUnitBrandsProps {
     isDeleted: boolean;
     name: string;
 };
-export type IChargePointDataStateProps = {
+export interface IChargePointDataStateProps {
     isChargePointDataUpdated: boolean;
 };
-export type IChargeUnitDataStateProps = {
+export interface IChargeUnitDataStateProps {
     chargeUnitData: IChargeUnitDataProps;
 };
-export type IChargeUnitListStateProps = {
+export interface IChargeUnitListStateProps {
     accessType: string;
     chargePointId: number;
     connectorNumber: number;
@@ -91,7 +91,7 @@ export type IChargeUnitListStateProps = {
     status: string;
     location: string;
 };
-export type IComissionDataStateProps = {
+export interface IComissionDataStateProps {
     ForInvestor: number;
     ID: number;
     IsActive: boolean;
@@ -107,13 +107,13 @@ export type IComissionDataStateProps = {
     TariffSubFractionTypeID: number;
     TariffSubFractionTypeName: string;
 };
-export type IConnectorPropertyStateProps = {
+export interface IConnectorPropertyStateProps {
     chargePointId: number;
     chargePointModelId: number;
     connectorId: number;
     connectorNumber: number;
 };
-export type IConnectorsDataStateProps = {
+export interface IConnectorsDataStateProps {
     RID: number;
     chargingStatus: null;
     chargingStatusMessage: null;
@@ -143,12 +143,12 @@ export type IConnectorsDataStateProps = {
     status: number;
     statusName: string;
 };
-export type IDialogInformationStateProps = {
+export interface IDialogInformationStateProps {
     isVisible: boolean;
     actionType: string;
     data: number;
 };
-export type IEnergyPriceDetailsStateProps = {
+export interface IEnergyPriceDetailsStateProps {
     createdDate: string,
     id: number,
     isActive: boolean,
@@ -157,39 +157,42 @@ export type IEnergyPriceDetailsStateProps = {
     startDate: string,
     stationId: number
 };
-export type IInvestorsProps = {
+export interface IInvestorsProps {
     id: number;
     name: string;
 };
-export type IIsComissionListUpdatedProps = {
+export interface IIsComissionListUpdatedProps {
     isComissionListUpdated: boolean;
 };
-export type IIsConnectorUpdatedProps = {
+export interface IIsConnectorUpdatedProps {
     isConnectorUpdated: boolean;
 };
-export type IIsEnergyPriceListUpdatedProps = {
+export interface IIsEnergyPriceListUpdatedProps {
     isEnergyPriceListUpdated: boolean;
 };
-export type IIsLoadingStateProps = {
+export interface IIsLoadingStateProps {
     isLoading: boolean;
 };
-export type IIsModalVisibleStateProps = {
+export interface IIsModalVisibleStateProps {
     isModalVisible: boolean;
 };
-export type IIsServicePointPermissionsUpdatedProps = {
+export interface IIsServicePointPermissionsUpdatedProps {
     isServicePointPermissionsUpdated: boolean;
 };
-export type IIsServicePointDataUpdatedProps = {
+export interface IIsServicePointDataUpdatedProps {
     isServicePointDataUpdated: boolean;
 };
-export type IIsSidebarExpandStateProps = {
+export interface IIsSidebarExpandStateProps {
     isSidebarExpanded: boolean | null;
 };
-export type IIsUserListUpdatedProps = {
+export interface IIsUserListUpdatedProps {
     isUserListUpdated: boolean;
 };
-export type IIsTariffListUpdatedProps = {
+export interface IIsTariffListUpdatedProps {
     isTariffListUpdated: boolean;
+};
+export interface ILoginTokenProps {
+    loginToken: string;
 };
 export interface IPermissionsStateProps {
     phoneNumber: string;
@@ -242,17 +245,17 @@ export interface IReportsDataStateProps {
 export interface IResourceTextProps {
     [key: string]: string;
 };
-export type ISearchPropertiesProps = {
+export interface ISearchPropertiesProps {
     searchedConditions: string[];
     searchedText: string;
 };
-export type IServicePointDataStateProps = {
+export interface IServicePointDataStateProps {
     servicePointData: IServicePointDataProps;
 };
-export type IServicePointInformationStateProps = {
+export interface IServicePointInformationStateProps {
     servicePointInformation: IServicePointInformationProps;
 };
-export type IServicePointPermissionsStateProps = {
+export interface IServicePointPermissionsStateProps {
     servicePointPermissions: IPermissionsProps[];
 };
 export interface IStationFeatureListItemsProps {
@@ -286,7 +289,7 @@ export interface IUserProfileInfoProps {
     eMail: string;
     userName: string;
     phoneNumber: string;
-    role: string[];
+    roles: string[];
 };
 export interface IUsersProps {
     userId: number;

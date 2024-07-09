@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import BackgroundSection from './Sections/BackgroundSection';
 import ColorSection from './Sections/ColorSection';
 import InfoSection from './Sections/InfoSection';
@@ -7,9 +8,12 @@ import LogoSection from './Sections/LogoSection';
 import PasswordSection from './Sections/PasswordSection';
 import Card from '../Card/Card';
 import { BRAND_PREFIX } from '../../constants/constants';
+import { RootState } from '../../../app/redux/store';
 
 const ProfileSection: React.FC = () => {
     const profilePagePrefix: string = `${BRAND_PREFIX}-profile`;
+    const userProfileInfo = useSelector((state: RootState) => state.userProfileInfo);
+    console.log('userProfileInfo', userProfileInfo)
 
     return (
         <div className={`${profilePagePrefix}-container flex justify-between items-start flex-col`}>

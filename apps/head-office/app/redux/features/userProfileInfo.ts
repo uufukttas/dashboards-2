@@ -8,7 +8,7 @@ const initialState: IUserProfileInfoProps = {
     eMail: '',
     userName: '',
     phoneNumber: '',
-    role: [],
+    roles: [],
 };
 
 const userProfileInfoSlice = createSlice({
@@ -22,7 +22,7 @@ const userProfileInfoSlice = createSlice({
             state.eMail = action.payload.eMail;
             state.userName = action.payload.userName;
             state.phoneNumber = action.payload.phoneNumber;
-            state.role = action.payload.role;
+            state.roles = action.payload.roles;
         },
     },
 });
