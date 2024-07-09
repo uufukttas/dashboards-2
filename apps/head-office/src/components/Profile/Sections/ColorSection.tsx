@@ -6,7 +6,7 @@ import { getColors, updateColors } from '../../../../app/api/profile';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 
 const ColorSection: React.FC = () => {
-    const colorNames: string[] = ['Ana', 'Ikincil', 'Alternatif', 'Ikincil Yedek'];
+    const colorNames: string[] = ['Primary', 'Secondary', 'Alternate', 'Backup'];
     const profilePagePrefix: string = `${BRAND_PREFIX}-profile`;
     const [pageColors, setPageColors] = useState<{ value: string; resourceKey: string; id: number }[]>([]);
 

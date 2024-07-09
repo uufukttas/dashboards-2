@@ -24,7 +24,7 @@ const Profile: React.FC = () => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
 
     const fetchConfigurations = async () => {
-        const colors = await getColors(["Ana", "Ikincil", "Alternatif", "Ikincil Yedek"]);
+        const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
 
         dispatch(setConfigs(colors.data));
         setIsVisible(true);

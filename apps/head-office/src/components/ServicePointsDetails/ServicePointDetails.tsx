@@ -273,7 +273,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     }, 5000);
   };
   const fetchConfigurations = async (): Promise<void> => {
-    const colors = await getColors(["Ana", "Ikincil", "Alternatif", "Ikincil Yedek"]);
+    const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
 
     dispatch(setConfigs(colors.data));
   };

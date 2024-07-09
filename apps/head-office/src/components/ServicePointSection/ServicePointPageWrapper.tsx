@@ -21,7 +21,7 @@ const ServicePointPage: React.FC = () => {
     const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
 
     const fetchConfigurations = async (): Promise<void> => {
-        const colors = await getColors(["Ana", "Ikincil", "Alternatif", "Ikincil Yedek"]);
+        const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
 
         dispatch(setConfigs(colors.data));
     };

@@ -19,7 +19,7 @@ const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageP
   const dispatch = useDispatch();
 
   const fetchConfigurations = async (): Promise<void> => {
-    const colors = await getColors(["Ana", "Ikincil", "Alternatif", "Ikincil Yedek"]);
+    const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
 
     dispatch(setConfigs(colors.data));
     setIsVisibleComponent(true);
