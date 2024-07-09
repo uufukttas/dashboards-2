@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { FaPencil, FaPlugCirclePlus, FaQrcode, FaTrash } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
@@ -154,7 +155,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                         <div className={`${chargeUnitPrefix}-connector-list-container text-black`}>
                             {
                                 connectorUpdate &&
-                                renderConnectors(chargeUnit.chargePointId)
+                                renderConnectors(chargeUnit)
                             }
                         </div>
                     </div>
@@ -275,10 +276,10 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
 
         return `${dateArray[0]} ${timeArray[0]}:${timeArray[1]}`;
     };
-    const renderConnectors = (chargePointId: number): React.ReactNode | null => {
+    const renderConnectors = (chargeUnit: IChargeUnitsProps): React.ReactNode | null => {
         return connectorList.map((connector: IConnectorStateProps[], connectorIndex: number) => {
             return connector.map((connectorItem: IConnectorStateProps, idx: number) => {
-                if (connectorItem.stationChargePointID === chargePointId && idx + 1 === connectorItem.connectorNr) {
+                if (connectorItem.stationChargePointID === chargeUnit.chargePointId && idx + 1 === connectorItem.connectorNr) {
                     return (
                         <div
                             className={`${chargeUnitPrefix}-connector-list-item w-full flex flex-row items-baseline justify-between`}
@@ -323,13 +324,14 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                 </p>
                             </div>
                             <div className={`${chargeUnitPrefix}-connector-list-item-actions-container p-2 flex`}>
-                                <Button
+                                <Link
                                     className={`${chargeUnitPrefix}-qr-code-button rounded-md px-2 py-2 mx-4`}
+                                    href={`http://192.168.3.75:91/Values/QRCodeCreate?text=${chargeUnit.deviceCode.toString()}&connectorNr=${connectorItem.connectorNr.toString()}`}
                                     id={`${chargeUnitPrefix}-qr-code-button`}
-                                    type={'button'}
+                                    target='_blank'
                                 >
                                     <FaQrcode />
-                                </Button>
+                                </Link>
                                 <Button
                                     className="connector-add-button rounded-md px-2 py-2 mx-4"
                                     dataAttributes={{

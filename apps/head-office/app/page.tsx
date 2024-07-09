@@ -22,6 +22,7 @@ const Index: React.FC = () => {
 
   const fetchConfigurations = async (): Promise<void> => {
     const colors = await getColors(["Ana", "Ikincil", "Alternatif", "Ikincil Yedek"]);
+
     dispatch(setConfigs(colors.data));
     setIsDetectedDevice(true);
   };
