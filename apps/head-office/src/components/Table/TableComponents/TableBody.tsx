@@ -11,12 +11,18 @@ const TableBody: React.FC<ITableBodyProps> = ({
     tablePlaceholderInitialValue,
 }: ITableBodyProps) => {
     const fullTableData: ITableBodyPlaceholderProps[] | [] = tableData && tableData.length > 0
-        ? [...tableData]
+        ? tableData
         : [];
-    const placeholder: ITableBodyPlaceholderProps = tablePlaceholderInitialValue;
     const requiredRows: number = 10;
     const filledTableData: ITableBodyPlaceholderProps[] = Array.from({ length: requiredRows }, (_, index) => {
-        return fullTableData[index] || placeholder
+        return fullTableData[index] || {
+            id: 0,
+            address: '',
+            cityId: 0,
+            districtId: 0,
+            name: '',
+            phone: '',
+        }
     });
 
     return (
