@@ -124,14 +124,29 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                 attributeName === 'reports-management' && (
                     <>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.startDate || '-'}
+                            {
+                                (
+                                    <div className="date-time-container flex flex-col">
+                                        <span>{new Date(tableRowData.startDate || '').toLocaleDateString()}</span>
+                                        <span>{new Date(tableRowData.startDate || '').toLocaleTimeString()}</span>
+                                    </div>
+                                )
+                                || '-'
+                            }
                         </td>
                         <td className="px-4 py-2 text-center">
                             {tableRowData.chargeProcessElapsedTime || '-'}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.finishDate || '-'}
-                        </td>
+                            {
+                                (
+                                    <div className="date-time-container flex flex-col">
+                                        <span>{new Date(tableRowData.finishDate || '').toLocaleDateString()}</span>
+                                        <span>{new Date(tableRowData.finishDate || '').toLocaleTimeString()}</span>
+                                    </div>
+                                )
+                                || '-'
+                            }                        </td>
                         <td className="px-4 py-2 text-center">
                             {tableRowData.unitPrice || '-'}
                         </td>
