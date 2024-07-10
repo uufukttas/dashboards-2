@@ -69,7 +69,7 @@ const DynamicFilters = ({ className, filters, setFilters, onFilterSubmit, isExpa
   };
 
   return (
-    <div className={`${BRAND_PREFIX}-filter-container flex flex-col border border-gray-200 p-4 radius-md rounded-lg shadow sm:p-5 max-h-[870px] overflow-y-scroll ${className} ${isExpanded ? 'w-1/6' : 'w-1/12'} `}>
+    <div className={`${BRAND_PREFIX}-filter-container flex flex-col radius-md rounded-lg shadow max-h-[870px] overflow-y-scroll w-1/6 ${className} ${isExpanded ? 'expanded' : ''}`}>
       <div className={`${BRAND_PREFIX}-filter-accordions-container flex justify-between items-center h-11/12 flex-col overflow-y-scroll`}>
         {
           filters.map((filter, index) => (

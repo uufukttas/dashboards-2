@@ -3,3 +3,16 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+.sh-filter-container.expanded {
+  animation: expand-filter 0.5s ease-in-out;
+  padding: 16px;
+}
+@keyframes expand-filter {
+  0% {
+    height: 0;
+  }
+  100% {
+    height: 100%;
+  }
+}
