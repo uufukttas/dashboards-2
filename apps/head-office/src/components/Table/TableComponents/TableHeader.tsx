@@ -32,7 +32,7 @@ const TableHeader: React.FC<ITableHeaderProps> = ({ buttonText, filteredDropdown
     };
 
     return (
-        <div className={`${tableHeaderPrefix}-actions-container flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 w-full md:flex-row border-t border-gray-300 bg-transparent`}>
+        <div className={`${tableHeaderPrefix}-actions-container flex items-center justify-between flex-column md:flex-row flex-wrap space-y-4 md:space-y-0 py-4 w-full md:flex-row border-t border-gray-300`}>
             <div className={`${tableHeaderPrefix}-search-input-container flex relative w-full mx-2 md:w-1/2 lg:w-1/3`}>
                 {
                     filteredDropdownItems.length > 0 && (

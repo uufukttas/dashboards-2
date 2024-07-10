@@ -38,7 +38,7 @@ const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageP
       >
         <Sidebar />
         <div className={`${pagePrefix}-container bg-white overflow-x-hidden no-scrollbar`}>
-          <Header className={`h-[80px] flex items-center w-full`} headerName={headerName} />
+          <Header className={`h-[80px] flex items-center w-full bg-white`} headerName={headerName} />
           <Section>
             {children}
           </Section>
