@@ -62,7 +62,7 @@ const Pagination: React.FC<IPaginationProps> = ({ currentPage, totalCounts, setC
             if (endPage < totalPages - 1) {
                 pageNumbers.push(
                     <li
-                        className='flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg'
+                        className='flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300'
                         key="ellipsisEnd"
                     >
                         ...
