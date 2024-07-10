@@ -1,4 +1,5 @@
-.sh-filter-container {
+.sh-filter-container,
+.sh-filter-accordions-container {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { FaChevronLeft } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { tablePlaceholderInitialValue } from './constant';
@@ -14,7 +15,7 @@ import { IFilterItemProps } from '../Filter/types';
 import './ReportsSection.css';
 
 const ReportsSection: React.FC = () => {
-    const pagePrefix = `${BRAND_PREFIX}-reports-section`;
+    const pagePrefix = `${BRAND_PREFIX}-reports-center-section`;
     const tableHeadData = [
         'TRX No',
         'Istasyon',
@@ -71,7 +72,7 @@ const ReportsSection: React.FC = () => {
         { id: 'brand', label: 'Marka', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false },
         { id: 'ModelName', label: 'Model', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false },
     ]);
-    const [isExpanded, setIsExpanded] = useState<boolean>(true);
+    const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
     const getAllChargeData = async (): Promise<void> => {
         const response = await getAllReportsRequest(
@@ -198,25 +199,35 @@ const ReportsSection: React.FC = () => {
     return (
         <div className={`${BRAND_PREFIX}-reports-center-container flex justify-between items-center flex-col`}>
             <div className={`${pagePrefix}-listing-container flex items-center w-full`}>
-                <DynamicFilters className={`h-full mx-2`} filters={filters} setFilters={setFilters} onFilterSubmit={handleFilterSubmit} isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
-                <div className='w-5/6 flex flex-col items-end'>
+                <DynamicFilters className={`${pagePrefix} h-full mx-2 w-1/6 ${isExpanded ? 'expanded' : 'hidden'}`} filters={filters} setFilters={setFilters} onFilterSubmit={handleFilterSubmit} isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+                <div className={`${pagePrefix}-table-container ${isExpanded? 'w-5/6' : 'w-full'} flex flex-col items-end relative`}>
                     <Button
-                        buttonText='Export'
-                        className='w-1/6 mx-2 bg-primary text-white rounded-lg p-2'
-                        id={`${pagePrefix}-export-button`}
+                        className={`${pagePrefix}-filter-toggle-button absolute -left-8 inset-y-1/2 shadow-custom border rounded-md text-center bg-secondary h-8 w-8 text-white flex justify-center items-center`}
+                        id='filter-button'
                         type='button'
-                        onClick={getExportTableData}
-                    />
-                    <Table
-                        attributeName="reports-management"
-                        buttonText='Istasyon'
-                        className={`w-full`}
-                        filteredDropdownItems={[]}
-                        tableData={reportsData}
-                        tableDataCount={reportsData.length}
-                        tableHeadData={tableHeadData}
-                        tablePlaceholderInitialValue={tablePlaceholderInitialValue}
-                    />
+                        onClick={() => setIsExpanded(!isExpanded)}
+                    >
+                        <FaChevronLeft />
+                    </Button>
+                    <div className='table-container w-full relative'>
+                        <Button
+                            buttonText='Export'
+                            className='w-1/6 mx-2 bg-primary text-white rounded-lg p-2'
+                            id={`${pagePrefix}-export-button`}
+                            type='button'
+                            onClick={getExportTableData}
+                        />
+                        <Table
+                            attributeName="reports-management"
+                            buttonText='Istasyon'
+                            className={`w-full`}
+                            filteredDropdownItems={[]}
+                            tableData={reportsData}
+                            tableDataCount={reportsData.length}
+                            tableHeadData={tableHeadData}
+                            tablePlaceholderInitialValue={tablePlaceholderInitialValue}
+                        />
+                    </div>
                 </div>
             </div>
             {/* {

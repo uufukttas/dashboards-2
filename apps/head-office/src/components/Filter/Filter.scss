@@ -1,6 +1,7 @@
 @import "../../constants/variables";
 
-.#{$brand-prefix}-filter-container {
+.#{$brand-prefix}-filter-container,
+.#{$brand-prefix}-filter-accordions-container {
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
