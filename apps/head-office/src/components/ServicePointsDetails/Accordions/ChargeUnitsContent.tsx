@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FaPencil, FaPlugCirclePlus, FaQrcode, FaTrash } from 'react-icons/fa6';
+import { TbProgressBolt } from "react-icons/tb";
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { Tooltip } from '@projects/tooltip';
@@ -355,6 +356,15 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                     }}
                                 >
                                     <FaPlugCirclePlus />
+                                </Button>
+                                <Button
+                                    id={`${chargeUnitPrefix}-connector-process-button`}
+                                    type={'button'}
+                                    onClick={() => {
+                                        dispatch(toggleModalVisibility(true));
+                                    }}
+                                >
+                                    <TbProgressBolt />
                                 </Button>
                             </div>
                         </div>
