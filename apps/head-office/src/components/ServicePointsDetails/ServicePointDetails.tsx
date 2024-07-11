@@ -13,6 +13,7 @@ import ConnectorAddModal from './Modals/ConnectorAddModal';
 import EnergyPricesModal from './Modals/EnergyPricesModal';
 import ImageAddModal from './Modals/ImageAddModal';
 import ServicePointPermissionsModal from './Modals/ServicePointPermissionsModal';
+import StationManagementModal from './Modals/StationManagementModal';
 import ServicePointsDetailsContent from './ServicePointsDetailsComponents/ServicePointsDetailsContent';
 import ServicePointDetailsHeader from './ServicePointsDetailsComponents/ServicePointDetailsHeader';
 import Loading from '../Loading/Loading';
@@ -61,6 +62,7 @@ import {
   setAddEnergyPrice,
   setAddPermission,
   setAddServicePointImage,
+  setManageStation,
 } from '../../../app/redux/features/setVisibleModal';
 import { setStatusList } from '../../../app/redux/features/statusList';
 import { RootState } from '../../../app/redux/store';
@@ -152,7 +154,8 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const isServicePointPermissionsUpdated = useSelector((state: RootState) => {
     return state.isServicePointPermissionsUpdated.isServicePointPermissionsUpdated
   });
-  const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
+  const manageStation = useSelector((state: RootState) => state.setVisibleModal.manageStation);
+  const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
 
   const modalConfig: IModalConfigProps[] = [
     {
@@ -196,6 +199,19 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       modalId: `${BRAND_PREFIX}-service-point-comission-modal`,
       content: <ComissionModal slug={Number(slug)} />,
       closeAction: () => dispatch(setAddComission(false)),
+    },
+    {
+      condition: manageStation,
+      headerTitle: 'İstasyon Yönetimi',
+      modalId: `${BRAND_PREFIX}-service-point-management-modal`,
+      content: <StationManagementModal unitCode={manageStation.unitCode} connectorNumber={manageStation.connectorNumber} />,
+      closeAction: () => dispatch(
+        setManageStation({
+          isVisible: manageStation.isVisible,
+          unitCode: manageStation.unitCode,
+          connectorNumber: manageStation.connectorNumber
+        })
+      ),
     }
   ];
 
