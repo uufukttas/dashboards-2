@@ -50,7 +50,7 @@ const Accordion: React.FC<IAccordionProps> = ({
             {actionButton}
           </div>
           <div
-            className={`${accordionPrefix}-arrow ${isOpen ? 'open' : ''} text-2xl cursor-pointer text-white px-2`}
+            className={`${accordionPrefix}-arrow ${isOpen ? 'open' : ''} text-2xl cursor-pointer px-2`}
             onClick={toggleAccordion}
           >
             {renderIcon()}
