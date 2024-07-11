@@ -5,7 +5,20 @@ interface IDropdownProps {
   className?: string;
   disabled?: boolean;
   id: string;
-  items: { id: null; rid: number; plateCode?: number; name: string; }[] | { name: string, id: number; rid: null; }[];
+  items: {
+    id: null;
+    rid: number | string;
+    plateCode?: number;
+    name: string;
+    disabled?: boolean;
+    selected?: boolean;
+  }[] | {
+    name: string,
+    id: number;
+    rid: null;
+    disabled?: boolean;
+    selected?: true
+  }[];
   multiple?: boolean;
   name: string;
   optionClassName?: string;
@@ -59,7 +72,15 @@ export function Dropdown({
     >
       {
         items?.map((item, index) => (
-          <option className={optionClassName} key={index} value={item?.rid ?? item?.id}> {item.name} </option>
+          <option
+            className={optionClassName}
+            disabled={item.disabled}
+            key={index}
+            value={item?.rid ?? item?.id}
+            selected={item.selected}
+          >
+            {item.name}
+          </option>
         ))
       }
     </select>
