@@ -17,7 +17,7 @@ import { setConnectorProperty } from '../../../../app/redux/features/connectorPr
 import { showDialog } from '../../../../app/redux/features/dialogInformation';
 import isConnectorUpdated from '../../../../app/redux/features/isConnectorUpdated';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
-import { setAddChargeUnit, setAddConnector } from '../../../../app/redux/features/setVisibleModal';
+import { setAddChargeUnit, setAddConnector, setManageStation } from '../../../../app/redux/features/setVisibleModal';
 import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type {
@@ -86,7 +86,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
             <div className={`${sectionPrefix}-info flex justify-between w-full`}>
                 <div className={`${sectionPrefix} flex justify-between w-full`}>
                     <div className={`${sectionPrefix}-name-container`}>
-                        <h3 className={`${chargeUnitPrefix}-name text-lg font-bold flex items-center text-[#FFF]`}>
+                        <h3 className={`${chargeUnitPrefix}-name text-lg font-bold flex items-center text-[#000]`}>
                             {
                                 getChargeUnitStatus(chargeUnit.lastHeartBeat)
                                     ? (<div className='bg-green-500 rounded-full h-4 w-4 mr-2'></div>)
@@ -95,12 +95,12 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                             {`${chargeUnit.model}`}
                         </h3>
                         <div className={`${chargeUnitPrefix}-device-code-container`}>
-                            <h3 className={`${chargeUnitPrefix}-device-code text-lg font-bold text-[#FFF]`}>
+                            <h3 className={`${chargeUnitPrefix}-device-code text-lg font-bold text-[#000]`}>
                                 {chargeUnit.deviceCode}
                             </h3>
                         </div>
                         <div className={`${chargeUnitPrefix}-time-container`}>
-                            <h3 className={`${chargeUnitPrefix}-time text-lg text-white`}>
+                            <h3 className={`${chargeUnitPrefix}-time text-lg text-[#000]`}>
                                 {`${prepareTime(chargeUnit.lastHeartBeat)}`}
                             </h3>
                         </div>
@@ -340,6 +340,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                         'data-charge-point-model-id': connectorItem.modelId.toString(),
                                         'data-connector-nr': connectorItem.connectorNr.toString(),
                                         'data-connector-id': connectorItem.RID.toString(),
+                                        'data-device-code': chargeUnit.deviceCode.toString(),
                                     }}
                                     id={`${chargeUnitPrefix}-connector-add-button`}
                                     type={'button'}
@@ -358,9 +359,19 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                     <FaPlugCirclePlus />
                                 </Button>
                                 <Button
+                                    dataAttributes={{
+                                        'data-device-code': chargeUnit.deviceCode.toString(),
+                                    }}
                                     id={`${chargeUnitPrefix}-connector-process-button`}
                                     type={'button'}
-                                    onClick={() => {
+                                    onClick={(event) => {
+                                        dispatch(
+                                            setManageStation({
+                                                isVisible: true,
+                                                unitCode: event.currentTarget.getAttribute('data-device-code') || '',
+                                                connectorNumber: connectorItem.connectorNr,
+                                            })
+                                        );
                                         dispatch(toggleModalVisibility(true));
                                     }}
                                 >
@@ -392,7 +403,8 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                         return (
                             <Accordion
                                 accordionTitle={createAccordionTitle(chargeUnit)}
-                                backgroundColor='secondary text-[#FFF] '
+                                accordionClassName='bg-[#CCCCCC] text-white rounded-md my-4 w-full'
+                                backgroundColor='#777777 text-text'
                                 iconType='plus-minus'
                                 isAccordionOpen={false}
                                 key={index}
