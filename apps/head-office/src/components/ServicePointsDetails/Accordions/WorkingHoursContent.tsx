@@ -255,12 +255,12 @@ const WorkingHoursContent: React.FC<IWorkingHoursContentProps> = ({ slug }) => {
                 </tbody>
             </table>
             <Button
-                className={`sh-working-hours-save-button`}
+                className={`sh-working-hours-save-button bg-primary text-white rounded-md px-4 py-2 my-4 mx-auto justify-end items-end w-full`}
                 id={`sh-working-hours-save-button`}
                 type={'submit'}
                 onClick={saveTimesToAPI}
             >
-                Veriyi Kaydet
+                Kaydet
             </Button>
         </div>
     );
