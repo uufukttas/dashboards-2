@@ -3,22 +3,23 @@ import styles from './tooltip.module.scss';
 
 interface TooltipProps {
   children?: React.ReactNode;
-  className?: string;
+  containerClassName?: string;
   text: string;
+  textClassName?: string;
 };
 
-export function Tooltip({ children, className, text }: TooltipProps) {
+export function Tooltip({ children, containerClassName, text, textClassName }: TooltipProps) {
   const [isVisible, setIsVisible] = useState(false);
 
   return (
     <div
-      className={`${styles.tooltipContainer} ${className}`}
+      className={`${styles.tooltipContainer} ${containerClassName}`}
       onMouseEnter={() => setIsVisible(true)}
       onMouseLeave={() => setIsVisible(false)}
     >
       {children}
       {isVisible && (
-        <div className={styles.tooltip}>
+        <div className={`${styles.tooltip} ${textClassName}`}>
           {text}
         </div>
       )}
