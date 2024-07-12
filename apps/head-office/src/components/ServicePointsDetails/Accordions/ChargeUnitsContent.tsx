@@ -299,7 +299,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                     className={`${chargeUnitPrefix}-connector-list-item-epdk text-lg text-text p-2 w-1/3`}
                                 >
                                     <Tooltip
-                                        className='tooltip'
+                                        containerClassName='tooltip'
                                         text={connectorItem.epdkSocketNumber || 'EPDK Soket Numarası Yok'}
                                     >
                                         {connectorItem.epdkSocketNumber ? connectorItem.epdkSocketNumber : '-'}
@@ -309,7 +309,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                     className={`${chargeUnitPrefix}-connector-list-item-kw text-lg text-text p-2 w-1/3`}
                                 >
                                     <Tooltip
-                                        className='tooltip'
+                                        containerClassName='tooltip'
                                         text={'Konnektör Özellikleri'}
                                     >
                                         {`${connectorItem.stationConnectorName} - ${connectorItem.stationConnectorKW} - ${connectorItem.stationConnectorAC ? 'AC' : 'DC'}`}
@@ -317,7 +317,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                 </p>
                                 <p className={`${chargeUnitPrefix}-tariff-info text-lg text-text p-2 w-1/3`}>
                                     <Tooltip
-                                        className='tooltip'
+                                        containerClassName='tooltip'
                                         text={connectorItem.tariffName || 'Tarife Yok'}
                                     >
                                         {connectorItem.tariffSaleUnitPrice ? connectorItem.tariffSaleUnitPrice : '-'}

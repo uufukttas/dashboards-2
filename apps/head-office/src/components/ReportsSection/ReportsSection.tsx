@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { FaChevronLeft } from 'react-icons/fa6';
+import { FaFilter } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
+import { Tooltip } from '@projects/tooltip';
 import { tablePlaceholderInitialValue } from './constant';
 import DynamicFilters from '../Filter/Filter';
 import Pagination from '../ServicePointSection/PaginationComponents/Pagination';
@@ -199,14 +200,20 @@ const ReportsSection: React.FC = () => {
             <div className={`${pagePrefix}-listing-container flex items-center w-full`}>
                 <DynamicFilters className={`${pagePrefix} h-full mx-2`} filters={filters} setFilters={setFilters} onFilterSubmit={handleFilterSubmit} isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 <div className={`${pagePrefix}-table-container flex flex-col items-end relative ${isExpanded ? 'w-5/6' : 'w-full'}`}>
-                    <Button
-                        className={`${pagePrefix}-filter-toggle-button absolute -left-8 inset-y-1/2 shadow-custom border rounded-md text-center bg-secondary h-8 w-8 text-white flex justify-center items-center`}
-                        id='filter-button'
-                        type='button'
-                        onClick={() => setIsExpanded(!isExpanded)}
+                    <Tooltip
+                        containerClassName={`${pagePrefix}-tooltip absolute -left-4 inset-y-1/2 shadow-custom border rounded-md text-center bg-secondary h-8 w-8 text-white flex justify-center items-center z-10`}
+                        text="Filtrele"
+                        textClassName='left-8'
                     >
-                        <FaChevronLeft />
-                    </Button>
+                        <Button
+                            className={`${pagePrefix}-filter-toggle-button `}
+                            id='filter-button'
+                            type='button'
+                            onClick={() => setIsExpanded(!isExpanded)}
+                        >
+                            <FaFilter />
+                        </Button>
+                    </Tooltip>
                     <div className='table-container w-full relative'>
                         <Button
                             buttonText='Export'
