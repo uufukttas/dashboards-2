@@ -206,7 +206,7 @@ const ReportsSection: React.FC = () => {
                         textClassName='left-8'
                     >
                         <Button
-                            className={`${pagePrefix}-filter-toggle-button `}
+                            className={`${pagePrefix}-filter-toggle-button flex justify-center items-center h-8 w-8`}
                             id='filter-button'
                             type='button'
                             onClick={() => setIsExpanded(!isExpanded)}
