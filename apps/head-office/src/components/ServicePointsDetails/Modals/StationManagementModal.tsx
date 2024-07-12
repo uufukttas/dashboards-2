@@ -241,6 +241,7 @@ const StationManagementModal: React.FC<{ unitCode: string; connectorNumber: numb
                                             { "chargePointId": unitCode, "companyId": 2, "trigger": formData.notificationId },
                                             { headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*" } }
                                         );
+                                        console.log('response', response)
                                     }}
                                 >
                                     <IoMdNotificationsOutline />

@@ -203,11 +203,16 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     {
       condition: manageStation,
       headerTitle: 'İstasyon Yönetimi',
-      modalId: `${BRAND_PREFIX}-service-point-management-modal`,
-      content: <StationManagementModal unitCode={manageStation.unitCode} connectorNumber={manageStation.connectorNumber} />,
+      modalId: `${BRAND_PREFIX}-service-point-station-management-modal`,
+      content: (
+        <StationManagementModal
+          unitCode={manageStation.unitCode}
+          connectorNumber={manageStation.connectorNumber}
+        />
+      ),
       closeAction: () => dispatch(
         setManageStation({
-          isVisible: manageStation.isVisible,
+          isVisible: false,
           unitCode: manageStation.unitCode,
           connectorNumber: manageStation.connectorNumber
         })
@@ -519,7 +524,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
           }
           {
             modalConfig.map((modal) => {
-              if (modal.condition && isModalVisible) {
+              if (((typeof modal.condition !== 'object' && modal.condition) && isModalVisible) || (modal.condition.isVisible) && isModalVisible) {
                 return (
                   <Modal
                     key={modal.modalId}

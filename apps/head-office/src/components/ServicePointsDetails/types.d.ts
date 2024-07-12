@@ -177,7 +177,9 @@ export interface IFeatureValueProps {
   rid: number;
 };
 export interface IModalConfigProps {
-  condition: boolean;
+  condition: boolean | {
+    isVisible: boolean;
+  };
   headerTitle: string;
   modalId: string;
   content: React.ReactNode;

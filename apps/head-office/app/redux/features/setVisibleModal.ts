@@ -22,7 +22,7 @@ const initialState: FeatureState = {
     addPermission: false,
     addServicePointImage: false,
     manageStation: {
-        isVisible: true,
+        isVisible: false,
         unitCode: '',
         connectorNumber: 1,
     },
