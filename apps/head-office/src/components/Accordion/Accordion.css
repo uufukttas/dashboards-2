@@ -16,19 +16,18 @@
 .sh-accordion-content-container .sh-accordion-header.open {
   transform: rotate(180deg);
 }
-
-.sh-accordion-content {
+.sh-accordion-content-container .sh-accordion-content {
   -ms-overflow-style: none;
   scrollbar-width: none;
   transition: max-height 0.3s ease, opacity 0.3s ease;
 }
-.sh-accordion-content.open {
+.sh-accordion-content-container .sh-accordion-content.open {
   animation: slideDown 0.5s ease forwards;
 }
-.sh-accordion-content.close {
+.sh-accordion-content-container .sh-accordion-content.close {
   animation: slideUp 0.5s ease forwards;
 }
-.sh-accordion-content.close * {
+.sh-accordion-content-container .sh-accordion-content.close * {
   visibility: hidden;
 }
 

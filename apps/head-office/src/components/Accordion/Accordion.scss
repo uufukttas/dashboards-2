@@ -18,22 +18,22 @@
       transform: rotate(180deg);
     }
   }
-}
 
-.#{$brand-prefix}-accordion-content {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  transition: max-height 0.3s ease, opacity 0.3s ease;
+  .#{$brand-prefix}-accordion-content {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
 
-  &.open {
-    animation: slideDown 0.5s ease forwards;
-  }
+    &.open {
+      animation: slideDown 0.5s ease forwards;
+    }
 
-  &.close {
-    animation: slideUp 0.5s ease forwards;
+    &.close {
+      animation: slideUp 0.5s ease forwards;
 
-    * {
-      visibility: hidden;
+      * {
+        visibility: hidden;
+      }
     }
   }
 }
