@@ -201,7 +201,7 @@ const ReportsSection: React.FC = () => {
                 <DynamicFilters className={`${pagePrefix} h-full mx-2`} filters={filters} setFilters={setFilters} onFilterSubmit={handleFilterSubmit} isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
                 <div className={`${pagePrefix}-table-container flex flex-col items-end relative ${isExpanded ? 'w-5/6' : 'w-full'}`}>
                     <Tooltip
-                        containerClassName={`${pagePrefix}-tooltip absolute -left-4 inset-y-1/2 shadow-custom border rounded-md text-center bg-secondary h-8 w-8 text-white flex justify-center items-center z-10`}
+                        containerClassName={`${pagePrefix}-tooltip -left-4 inset-y-1/2 shadow-custom border rounded-md text-center bg-secondary h-8 w-8 text-white flex justify-center items-center z-10 !absolute`}
                         text="Filtrele"
                         textClassName='left-8'
                     >
@@ -216,7 +216,7 @@ const ReportsSection: React.FC = () => {
                     </Tooltip>
                     <div className='table-container w-full relative'>
                         <Button
-                            buttonText='Export'
+                            buttonText='Disari Aktar'
                             className='w-1/6 mx-2 bg-primary text-white rounded-lg p-2'
                             id={`${pagePrefix}-export-button`}
                             type='button'
