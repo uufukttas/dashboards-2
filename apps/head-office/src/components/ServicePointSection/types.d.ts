@@ -73,11 +73,11 @@ export interface IPaginationItemProps {
 };
 export interface IPayloadProps {
     address?: string;
-    city?: string;
-    district?: string;
+    cityName?: string;
+    districtName?: string;
     name?: string;
     pageNumber?: number;
-    phoneNumber?: string;
+    phone?: string;
     userCount?: number;
 };
 export interface IResponseDataProps {

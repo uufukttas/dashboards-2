@@ -52,16 +52,16 @@ const ServicePointSection: React.FC = () => {
           payload['name'] = searchProperties.searchedText;
           break;
         case 'Telefon':
-          payload['phoneNumber'] = searchProperties.searchedText;
+          payload['phone'] = searchProperties.searchedText;
           break;
         case 'Adres':
           payload['address'] = searchProperties.searchedText;
           break;
         case 'Il':
-          payload['city'] = searchProperties.searchedText;
+          payload['cityName'] = searchProperties.searchedText;
           break;
         case 'Ilce':
-          payload['district'] = searchProperties.searchedText;
+          payload['districtName'] = searchProperties.searchedText;
           break;
         default:
           payload['name'] = searchProperties.searchedText;
