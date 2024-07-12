@@ -267,6 +267,8 @@ export interface ITariffDataProps {
     createDate: string
     id: number
     isActive: boolean
+    minKW: number
+    maxKW: number
     isDeleted: boolean
     name: string
     validityEndDate: string

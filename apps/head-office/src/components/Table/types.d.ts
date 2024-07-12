@@ -103,6 +103,8 @@ export interface ITableBodyPlaceholderProps {
     plate?: number;
     brand?: string;
     model?: string;
+    minKW?: number;
+    maxKW?: number;
 };
 export interface ITableBodyProps {
     attributeName: string;

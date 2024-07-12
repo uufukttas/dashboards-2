@@ -7,6 +7,8 @@ const initialState: ITariffDataProps = {
     isActive: false,
     isDeleted: false,
     name: '',
+    minKW: 0,
+    maxKW: 0,
     validityEndDate: '',
     validityStartDate: '',
     SaleUnitPrice: 0,

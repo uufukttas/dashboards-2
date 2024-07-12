@@ -89,7 +89,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                         attributeName,
                         tableRowData.address || '',
                         tableRowData.phoneNumber || '',
-                        convertDateFormat(tableRowData.createDate || '') || 'Tarife Tarihi',
+                        `${tableRowData.minKW}kW - ${tableRowData.maxKW}kW` || '',
                         tableRowData.stationChargePointCode?.toString() || '0')}
             </td>
             <td className="px-4 py-2 text-center">
@@ -105,7 +105,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                                     </Fragment>
                                 );
                             }),
-                        convertDateFormat(tableRowData.validityBeginDate || '') || new Date().toLocaleDateString(),
+                        convertDateFormat(tableRowData.createDate || '') || 'Tarife Tarihi',
                         tableRowData.stationConnectorConnectorNr?.toString() || '0'
                     )
                 }
@@ -116,10 +116,24 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                         attributeName,
                         getDistricts(tableRowData.districtId ?? 1),
                         tableRowData.lastLoginDate || '',
-                        convertDateFormat(tableRowData.validityEndDate || '') || '-',
+                        convertDateFormat(tableRowData.validityBeginDate || '') || new Date().toLocaleDateString(),
                         tableRowData.stationChargePointConnectorTypeName?.toString() || '0')
                 }
             </td>
+            {
+                attributeName === 'tariff-list' && (
+                    <td className="px-4 py-2 text-center">
+                        {
+                            renderTableCell(
+                                attributeName,
+                                getDistricts(tableRowData.districtId ?? 1),
+                                tableRowData.lastLoginDate || '',
+                                convertDateFormat(tableRowData.validityEndDate || '') || new Date().toLocaleDateString(),
+                                tableRowData.stationChargePointConnectorTypeName?.toString() || '0')
+                        }
+                    </td>
+                )
+            }
             {
                 attributeName === 'reports-management' && (
                     <>
