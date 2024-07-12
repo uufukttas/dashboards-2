@@ -524,6 +524,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
           }
           {
             modalConfig.map((modal) => {
+              // @ts-ignore
               if (((typeof modal.condition !== 'object' && modal.condition) && isModalVisible) || (modal.condition.isVisible) && isModalVisible) {
                 return (
                   <Modal

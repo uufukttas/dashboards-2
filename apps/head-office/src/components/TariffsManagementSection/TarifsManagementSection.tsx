@@ -22,11 +22,12 @@ const TarifssManagementSection: React.FC = () => {
     const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
     const isTariffListUpdated = useSelector((state: RootState) => state.isTariffListUpdated.isTariffListUpdated);
+    const searchProperties = useSelector((state: RootState) => state.searchedText);
     const tariffListData = useSelector((state: RootState) => state.tariffs);
     const [currentPage, setCurrentPage] = useState(1);
 
-    const getAllTariffs = async () => {
-        const response = await getAllTariffsRequest(currentPage);
+    const getAllTariffs = async (tariffName: string) => {
+        const response = await getAllTariffsRequest(tariffName, currentPage);
 
         if (response) {
             dispatch(
@@ -45,8 +46,8 @@ const TarifssManagementSection: React.FC = () => {
     };
 
     useEffect(() => {
-        getAllTariffs();
-    }, [currentPage, isTariffListUpdated]);
+        getAllTariffs(searchProperties.searchedText);
+    }, [currentPage, isTariffListUpdated, searchProperties]);
 
     return (
         <div className={`${BRAND_PREFIX}-tariffs-management-container flex justify-between items-center flex-col`}>
