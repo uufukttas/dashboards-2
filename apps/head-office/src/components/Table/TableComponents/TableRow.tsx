@@ -67,7 +67,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                                 attributeName,
                                 tableRowData.name || '',
                                 `${tableRowData?.name || ''} ${tableRowData?.surName || ''}`,
-                                tableRowData.name || 'Tarife Adi',
+                                tableRowData.name || '',
                                 tableRowData.trxId?.toString() || '0')
                         }
                     </div>
@@ -79,7 +79,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                         attributeName,
                         (tableRowData.phone || ''),
                         tableRowData.userName || '',
-                        tableRowData.saleUnitPrice?.toString() || '0',
+                        tableRowData.saleUnitPrice?.toString() || '',
                         tableRowData.stationName?.toString() || '')
                 }
             </td>
