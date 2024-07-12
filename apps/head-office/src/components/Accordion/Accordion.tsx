@@ -16,19 +16,9 @@ const Accordion: React.FC<IAccordionProps> = ({
   titleClassName,
 }: IAccordionProps) => {
   const accordionPrefix: string = `${BRAND_PREFIX}-accordion`;
-  const [isOpen, setIsOpen] = useState(isAccordionOpen);
+  const [isOpen, setIsOpen] = useState<boolean>(isAccordionOpen);
 
-  const toggleAccordion = (): void => {
-    setIsOpen(!isOpen);
-  };
-
-  const renderIcon = (): string => {
-    if (iconType === 'plus-minus') {
-      return isOpen ? '-' : '+';
-    } else {
-      return isOpen ? '▲' : '▼';
-    }
-  };
+  const toggleAccordion = (): void => setIsOpen(!isOpen);
 
   return (
     <div className={`${accordionPrefix}-content-container border rounded-lg ${accordionClassName}`}>
@@ -53,7 +43,7 @@ const Accordion: React.FC<IAccordionProps> = ({
             className={`${accordionPrefix}-arrow ${isOpen ? 'open' : ''} text-2xl cursor-pointer px-2`}
             onClick={toggleAccordion}
           >
-            {renderIcon()}
+            {iconType === 'plus-minus' ? (isOpen ? '-' : '+') : (isOpen ? '▲' : '▼')}
           </div>
         </div>
       </div>
