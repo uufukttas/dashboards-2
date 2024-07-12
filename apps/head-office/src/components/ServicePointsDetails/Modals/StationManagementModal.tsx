@@ -14,8 +14,9 @@ const StationManagementModal: React.FC<{ unitCode: string; connectorNumber: numb
     const sectionPrefix = 'station-management';
     const stateManagementFormData = {
         refresh: '',
-        statusId: 1,
-        notificationId: 1
+        statusId: '',
+        notificationId: '',
+        phoneNumber: '',
     };
     const [formData, setFormData] = useState(stateManagementFormData);
 
@@ -156,21 +157,32 @@ const StationManagementModal: React.FC<{ unitCode: string; connectorNumber: numb
                                         name={`${BRAND_PREFIX}-${sectionPrefix}-connector-status`}
                                         items={[
                                             {
-                                                id: 1,
+                                                id: null,
                                                 name: 'Inoperative',
-                                                rid: null
+                                                rid: 'Inoperative',
                                             }, {
-                                                id: 2,
+                                                id: null,
                                                 name: 'Operative',
-                                                rid: null
+                                                rid: 'Operative',
                                             }]
                                         }
+                                        onChange={(e) => {
+                                            setFormData({ ...formData, statusId: e.target.value });
+                                        }}
                                     />
                                     <Button
                                         className={`${BRAND_PREFIX}-${sectionPrefix}-connector-status-button bg-primary text-white text-xl font-semibold rounded-lg p-2.5 mx-4`}
                                         id={`${BRAND_PREFIX}-${sectionPrefix}-connector-status-button`}
                                         type='button'
-                                        onClick={() => { }}
+                                        onClick={() => {
+                                            const response = axios.post(
+                                                'http://192.168.3.75:91/DeviceOperation/ChangeAvailability',
+                                                { "chargePointId": unitCode, "companyId": 2, availability: formData.statusId },
+                                                { headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*" } }
+                                            );
+
+                                            console.log('response', response);
+                                        }}
                                     >
                                         <FaExchangeAlt />
                                     </Button>
@@ -190,37 +202,46 @@ const StationManagementModal: React.FC<{ unitCode: string; connectorNumber: numb
                                     name={`${BRAND_PREFIX}-${sectionPrefix}-connector-charge-notification`}
                                     items={[
                                         {
-                                            id: 1,
+                                            id: null,
                                             name: 'Status Notification',
-                                            rid: null
+                                            rid: 'Status Notification',
                                         }, {
-                                            id: 2,
+                                            id: null,
                                             name: 'Boot Notification',
-                                            rid: null
+                                            rid: 'Boot Notification'
                                         }, {
-                                            id: 3,
+                                            id: null,
                                             name: 'Diagnostics Status Notification',
-                                            rid: null
+                                            rid: 'Diagnostics Status Notification'
                                         }, {
-                                            id: 4,
+                                            id: null,
                                             name: 'Firmware Status Notification',
-                                            rid: null
+                                            rid: 'Firmware Status Notification'
                                         }, {
-                                            id: 5,
+                                            id: null,
                                             name: 'Heartbeat',
-                                            rid: null
+                                            rid: 'Heartbeat'
                                         }, {
-                                            id: 6,
+                                            id: null,
                                             name: 'Meter Values',
-                                            rid: null
+                                            rid: 'Meter Values'
                                         }
                                     ]}
+                                    onChange={(e) => {
+                                        setFormData({ ...formData, notificationId: e.target.value });
+                                    }}
                                 />
                                 <Button
                                     className={`${BRAND_PREFIX}-${sectionPrefix}-connector-charge-notification-button bg-primary text-white text-xl font-semibold rounded-lg p-2.5 mx-4`}
                                     id={`${BRAND_PREFIX}-${sectionPrefix}-connector-charge-notification-button`}
                                     type='button'
-                                    onClick={() => { }}
+                                    onClick={() => {
+                                        const response = axios.post(
+                                            'http://192.168.3.75:91/DeviceOperation/TriggerMessage',
+                                            { "chargePointId": unitCode, "companyId": 2, "trigger": formData.notificationId },
+                                            { headers: { 'Content-Type': 'application/json', "Access-Control-Allow-Origin": "*" } }
+                                        );
+                                    }}
                                 >
                                     <IoMdNotificationsOutline />
                                 </Button>
@@ -241,12 +262,18 @@ const StationManagementModal: React.FC<{ unitCode: string; connectorNumber: numb
                             id={`${BRAND_PREFIX}-${sectionPrefix}-station-user-phone-number`}
                             name={`${BRAND_PREFIX}-${sectionPrefix}-station-user-phone-number`}
                             type='number'
+                            value={formData.phoneNumber}
+                            onChange={(e) => {
+                                setFormData({ ...formData, phoneNumber: e.target.value });
+                            }}
                         />
                         <Button
                             className={`${BRAND_PREFIX}-${sectionPrefix}-station-user-phone-number-button bg-primary text-white text-xl font-semibold rounded-lg p-2.5 mx-4`}
                             id={`${BRAND_PREFIX}-${sectionPrefix}-station-user-phone-number-button`}
                             type='button'
-                            onClick={() => { }}
+                            onClick={() => {
+                                console.log('formData.phoneNumber', formData.phoneNumber)
+                             }}
                         >
                             <FaTelegramPlane />
                         </Button>
