@@ -10,40 +10,42 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import { IFilterProps } from './types';
 import './Filter.css';
 
-const DynamicFilters = ({ className, filters, setFilters, onFilterSubmit, isExpanded, setIsExpanded }: IFilterProps) => {
+const DynamicFilters: React.FC<IFilterProps> = ({
+  className, filters, isExpanded, onFilterSubmit, setFilters
+}: IFilterProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
-  const stringFilter = [
-    {
-      title: (
-        <Tooltip text="Eşittir">
-          <FaEquals />
-        </Tooltip>
-      ),
-    }, {
-      title: (
-        <Tooltip text="Icinde">
-          <TbTilde />
-        </Tooltip>
-      ),
-    }
-  ];
   const decimalFilter = [
     {
       title: (
-        <Tooltip text="Eşittir">
+        <Tooltip text="Eşittir" textClassName={'left-10'} >
           <FaEquals />
         </Tooltip>
       ),
     }, {
       title: (
-        <Tooltip text="Buyuktur">
+        <Tooltip text="Buyuktur" textClassName={'left-10'}>
           <FaGreaterThan />
         </Tooltip>
       ),
     }, {
       title: (
-        <Tooltip text='Kucuktur'>
+        <Tooltip text='Kucuktur' textClassName={'left-10'}>
           <FaLessThan />
+        </Tooltip>
+      ),
+    }, {
+      title: (
+        <Tooltip text="Icinde" textClassName={'left-10'}>
+          <TbTilde />
+        </Tooltip>
+      ),
+    }
+  ];
+  const stringFilter = [
+    {
+      title: (
+        <Tooltip text="Eşittir">
+          <FaEquals />
         </Tooltip>
       ),
     }, {
@@ -69,7 +71,7 @@ const DynamicFilters = ({ className, filters, setFilters, onFilterSubmit, isExpa
   };
 
   return (
-    <div className={`${BRAND_PREFIX}-filter-container flex flex-col radius-md rounded-lg shadow max-h-[870px] overflow-y-scroll w-1/6 ${className} ${isExpanded ? 'expanded' : ''}`}>
+    <div className={`${BRAND_PREFIX}-filter-container flex flex-col radius-md rounded-lg shadow max-h-[910px] overflow-y-scroll w-1/6 ${className} ${isExpanded ? 'expanded' : ''}`}>
       <div className={`${BRAND_PREFIX}-filter-header flex justify-between items-center h-1/12`}>
         <h3 className='text-lg font-bold'>Filtreler</h3>
       </div>
@@ -79,7 +81,7 @@ const DynamicFilters = ({ className, filters, setFilters, onFilterSubmit, isExpa
             <Accordion
               accordionClassName={`${BRAND_PREFIX}-filter-accordion flex flex-col w-full my-2 font-bold`}
               accordionTitle={filter.label}
-              contentClassName={`${BRAND_PREFIX}-filter-content flex flex-col w-full`}
+              contentClassName={`${BRAND_PREFIX}-filter-content flex flex-col w-full md:px-2`}
               isAccordionOpen={false}
               key={filter.id}>
               <Tabs

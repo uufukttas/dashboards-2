@@ -197,8 +197,8 @@ const ReportsSection: React.FC = () => {
 
     return (
         <div className={`${BRAND_PREFIX}-reports-center-container flex justify-between items-center flex-col`}>
-            <div className={`${pagePrefix}-listing-container flex items-center w-full`}>
-                <DynamicFilters className={`${pagePrefix} h-full mx-2`} filters={filters} setFilters={setFilters} onFilterSubmit={handleFilterSubmit} isExpanded={isExpanded} setIsExpanded={setIsExpanded} />
+            <div className={`${pagePrefix}-listing-container flex w-full`}>
+                <DynamicFilters className={`${pagePrefix} h-full mx-2`} filters={filters} setFilters={setFilters} onFilterSubmit={handleFilterSubmit} isExpanded={isExpanded} />
                 <div className={`${pagePrefix}-table-container flex flex-col items-end relative ${isExpanded ? 'w-5/6' : 'w-full'}`}>
                     <Tooltip
                         containerClassName={`${pagePrefix}-tooltip -left-4 inset-y-1/2 shadow-custom border rounded-md text-center bg-secondary h-8 w-8 text-white flex justify-center items-center z-10 !absolute`}

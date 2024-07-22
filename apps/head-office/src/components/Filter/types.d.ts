@@ -27,5 +27,4 @@ export interface IFilterProps {
     isExpanded: boolean;
     onFilterSubmit: () => void;
     setFilters: (filters: IFilterItemProps[]) => void;
-    setIsExpanded: (isExpanded: boolean) => void;
 };
