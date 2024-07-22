@@ -422,7 +422,6 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                 accordionTitle={createAccordionTitle(chargeUnit)}
                                 accordionClassName='bg-[#CCCCCC] text-white rounded-md my-4 w-full'
                                 backgroundColor='#777777 text-text'
-                                iconType='up-down'
                                 isAccordionOpen={false}
                                 key={index}
                                 titleClassName={`w-full flex justify-between items-center`}

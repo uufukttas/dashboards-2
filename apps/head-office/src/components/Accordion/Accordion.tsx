@@ -11,7 +11,6 @@ const Accordion: React.FC<IAccordionProps> = ({
   backgroundColor = "primary",
   children,
   contentClassName = "",
-  iconType = 'up-down',
   isAccordionOpen = true,
   titleClassName,
 }: IAccordionProps) => {
@@ -43,7 +42,7 @@ const Accordion: React.FC<IAccordionProps> = ({
             className={`${accordionPrefix}-arrow ${isOpen ? 'open' : ''} text-2xl cursor-pointer px-2`}
             onClick={toggleAccordion}
           >
-            {iconType === 'plus-minus' ? (isOpen ? '-' : '+') : (isOpen ? '▲' : '▼')}
+            {isOpen ? '▲' : '▼'}
           </div>
         </div>
       </div>
