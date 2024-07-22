@@ -10,7 +10,7 @@ const loginToken = createSlice({
     initialState,
     reducers: {
         setLoginToken: (state, action) => {
-            return action.payload;
+            state.loginToken = action.payload;
         },
     },
 });

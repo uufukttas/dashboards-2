@@ -30,6 +30,7 @@ import servicePointInformation from './features/servicePointInformation';
 import servicePointPermissions from './features/servicePointPermissions';
 import setConnectorProperty from './features/connectorProperty';
 import setConnectors from './features/connectorsData';
+import setLoginToken from './features/loginToken';
 import setVisibleModal from './features/setVisibleModal';
 import statusList from './features/statusList';
 import userData from './features/userData';
@@ -71,6 +72,7 @@ export const store: EnhancedStore = configureStore({
     servicePointPermissions,
     setConnectorProperty,
     setConnectors,
+    setLoginToken,
     setVisibleModal,
     statusList,
     userData,
