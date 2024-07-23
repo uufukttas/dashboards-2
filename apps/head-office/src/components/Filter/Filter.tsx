@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import { FaEquals, FaGreaterThan, FaLessThan } from "react-icons/fa6";
-import { TbTilde } from "react-icons/tb";
 import { Button } from '@projects/button';
-import { Tooltip } from '@projects/tooltip';
 import FilterInput from './FilterInput';
 import Accordion from '../Accordion/Accordion';
 import Tabs from '../Tabs/Tabs';
@@ -14,48 +11,7 @@ const DynamicFilters: React.FC<IFilterProps> = ({
   className, filters, isExpanded, onFilterSubmit, setFilters
 }: IFilterProps) => {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
-  const decimalFilter = [
-    {
-      title: (
-        <Tooltip text="Eşittir" textClassName={'left-10'} >
-          <FaEquals />
-        </Tooltip>
-      ),
-    }, {
-      title: (
-        <Tooltip text="Buyuktur" textClassName={'left-10'}>
-          <FaGreaterThan />
-        </Tooltip>
-      ),
-    }, {
-      title: (
-        <Tooltip text='Kucuktur' textClassName={'left-10'}>
-          <FaLessThan />
-        </Tooltip>
-      ),
-    }, {
-      title: (
-        <Tooltip text="Icinde" textClassName={'left-10'}>
-          <TbTilde />
-        </Tooltip>
-      ),
-    }
-  ];
-  const stringFilter = [
-    {
-      title: (
-        <Tooltip text="Eşittir">
-          <FaEquals />
-        </Tooltip>
-      ),
-    }, {
-      title: (
-        <Tooltip text="Icinde">
-          <TbTilde />
-        </Tooltip>
-      ),
-    }
-  ];
+
   const handleInputChange = (id: string, event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>) => {
     filters.map(filter => {
       if (filter.id === id) {
@@ -84,12 +40,16 @@ const DynamicFilters: React.FC<IFilterProps> = ({
               contentClassName={`${BRAND_PREFIX}-filter-content flex flex-col w-full md:px-2`}
               isAccordionOpen={false}
               key={filter.id}>
-              <Tabs
-                activeTabIndex={activeTabIndex}
-                setActiveTabIndex={setActiveTabIndex}
-                filters={filters}
-                tabItems={filter.type !== 'number' ? stringFilter : decimalFilter}
-              />
+              {
+                filter.operators.length > 0 && (
+                  <Tabs
+                    activeTabIndex={activeTabIndex}
+                    setActiveTabIndex={setActiveTabIndex}
+                    filters={filters}
+                    tabItems={filter.operators}
+                  />
+                )
+              }
               <div className={`${BRAND_PREFIX}-filter-item flex flex-col my-2`}>
                 <label className='w-full flex items-center justify-start font-normal' htmlFor={filter.id}>{filter.label}</label>
                 <FilterInput className="w-full" filter={filter} value={filters[index].id} onChange={(id, event) => handleInputChange(event, id)} />

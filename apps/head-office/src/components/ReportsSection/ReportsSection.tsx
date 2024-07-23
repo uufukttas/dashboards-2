@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { FaFilter } from 'react-icons/fa';
+import { FaEquals, FaGreaterThan, FaLessThan } from 'react-icons/fa6';
+import { TbTilde } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { Tooltip } from '@projects/tooltip';
@@ -47,29 +49,429 @@ const ReportsSection: React.FC = () => {
     const reportsCount = useSelector((state: RootState) => state.getAllReports.reportsCount);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [filters, setFilters] = useState<IFilterItemProps[]>([
-        { id: 'trxId', label: 'TRX No', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Greater', 'Less', 'Inside'] },
-        { id: 'stationName', label: 'Istasyon Ismi', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Inside'] },
-        { id: 'stationChargePointCode', label: 'Unit Code', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Inside'] },
+        {
+            id: 'trxId', label: 'TRX No', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (
+                    <Tooltip text="Eşittir" textClassName={'left-10'} >
+                        <FaEquals />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
+                        <FaGreaterThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
+                        <FaLessThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text="Icinde" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'stationName', label: 'Istasyon Ismi', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (
+                    <Tooltip text="Eşittir" textClassName={'left-10'} >
+                        <FaEquals />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text="Icinde" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'stationChargePointCode', label: 'Unit Code', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Icinde" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
         { id: 'stationChargePointConnectorTypeName', label: 'Soket Tipi', type: 'checkboxInDropdown', dropdownItems: [{ name: 'Secim Yapiniz', rid: 0, id: null }, { name: 'Type2', rid: 1, id: null }, { name: 'CCS/SAE', rid: 2, id: null }], operatorId: 0, value: '', value2: '', isHidden: false, operators: [] },
         { id: 'StartDate', label: 'Baslangic Zamani', type: 'date', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [] },
-        { id: 'charge-time', label: 'Sarj Suresi', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Greater', 'Less', 'Between'] },
+        {
+            id: 'charge-time', label: 'Sarj Suresi', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
+                        <FaGreaterThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
+                        <FaLessThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text="Arasinda" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
         { id: 'FinishDate', label: 'Bitis Zamani', type: 'date', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [] },
-        { id: 'UnitPrice', label: 'Birim Fiyat', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Greater', 'Less', 'Between'] },
-        { id: 'kwh', label: 'kWh', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Greater', 'Less', 'Between'] },
-        { id: 'BatteryPercent', label: 'Batarya Yuzdesi', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Greater', 'Less', 'Between'] },
-        { id: 'TotalAmountWithOutKDV', label: 'Toplam Bedel', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Greater', 'Less', 'Between'] },
-        { id: 'TotalAmount', label: 'Toplam Bedel (KDV Dahil)', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Greater', 'Less', 'Between'] },
-        { id: 'PriceENRJ', label: 'Elektrik Bedeli', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Greater', 'Less', 'Between'] },
-        { id: 'PriceSRV', label: 'Hizmet Bedeli', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Greater', 'Less', 'Between'] },
-        { id: 'CommissionServicePointPrice', label: 'Hizmet Noktasi Komisyonu', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Greater', 'Less', 'Between'] },
-        { id: 'CommissionResellerPrice', label: 'Reseller Komisyonu', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Greater', 'Less', 'Between'] },
-        { id: 'user-id', label: 'Kullanici ID', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Inside'] },
-        { id: 'bank-order-no', label: 'Banka Siparis No', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Inside'] },
-        { id: 'paid-amount', label: 'Odenene Tutar', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Greater', 'Less', 'Between'] },
-        { id: 'on-prov-amount', label: 'On Prov Tutari', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Greater', 'Less', 'Between'] },
-        { id: 'plate', label: 'Plaka', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Inside'] },
-        { id: 'brand', label: 'Marka', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Inside'] },
-        { id: 'ModelName', label: 'Model', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: ['Equal', 'Inside'] },
+        {
+            id: 'UnitPrice', label: 'Birim Fiyat', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
+                        <FaGreaterThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
+                        <FaLessThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text="Arasinda" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'kwh', label: 'kWh', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
+                        <FaGreaterThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
+                        <FaLessThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text="Arasinda" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'BatteryPercent', label: 'Batarya Yuzdesi', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
+                        <FaGreaterThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
+                        <FaLessThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text="Arasinda" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'TotalAmountWithOutKDV', label: 'Toplam Bedel', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
+                        <FaGreaterThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
+                        <FaLessThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text="Arasinda" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'TotalAmount', label: 'Toplam Bedel (KDV Dahil)', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
+                        <FaGreaterThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
+                        <FaLessThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text="Arasinda" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'PriceENRJ', label: 'Elektrik Bedeli', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
+                        <FaGreaterThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
+                        <FaLessThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text="Arasinda" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'PriceSRV', label: 'Hizmet Bedeli', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
+                        <FaGreaterThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
+                        <FaLessThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text="Arasinda" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'CommissionServicePointPrice', label: 'Hizmet Noktasi Komisyonu', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
+                        <FaGreaterThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
+                        <FaLessThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text="Arasinda" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'CommissionResellerPrice', label: 'Reseller Komisyonu', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
+                        <FaGreaterThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
+                        <FaLessThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text="Arasinda" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'user-id', label: 'Kullanici ID', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Icinde" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'bank-order-no', label: 'Banka Siparis No', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Icinde" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'paid-amount', label: 'Odenene Tutar', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
+                        <FaGreaterThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
+                        <FaLessThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text="Arasinda" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'on-prov-amount', label: 'On Prov Tutari', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
+                        <FaGreaterThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
+                        <FaLessThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text="Arasinda" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'plate', label: 'Plaka', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Icinde" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'brand', label: 'Marka', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Icinde" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'ModelName', label: 'Model', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Icinde" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
     ]);
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
 

@@ -13,14 +13,14 @@ interface IFilterItemProps {
     value: string;
     value2: string;
     isHidden: boolean;
-    operators: string[];
+    operators: { title: string | React.JSX.Element }[];
 };
 export interface IFilterInputProps {
     className?: string;
     filter: IFilterItemProps;
     value: string;
     id?: string;
-    onChange: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> , value: string) => void;
+    onChange: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>, value: string) => void;
 };
 export interface IFilterProps {
     className?: string;
