@@ -13,6 +13,7 @@ interface IFilterItemProps {
     value: string;
     value2: string;
     isHidden: boolean;
+    operators: string[];
 };
 export interface IFilterInputProps {
     className?: string;
