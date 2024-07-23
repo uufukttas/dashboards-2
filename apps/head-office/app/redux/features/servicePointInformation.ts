@@ -44,5 +44,4 @@ export const servicePointInformation = createSlice({
 });
 
 export const { setServicePointInformation } = servicePointInformation.actions;
-export default servicePointInformation.reducer as Reducer<IServicePointInformationStateProps
->;
+export default servicePointInformation.reducer as Reducer<IServicePointInformationStateProps>;

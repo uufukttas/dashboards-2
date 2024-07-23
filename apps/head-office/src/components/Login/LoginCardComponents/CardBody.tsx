@@ -26,6 +26,7 @@ const CardBody: React.FC = () => {
 
         dispatch(setLoginToken(response?.token?.result));
 
+        window.localStorage.setItem('token', decodeURIComponent(response.token.result));
         response.status === 200 ? handleLoginSuccess() : handleLoginError(response.data.message);
     };
     const handleLoginError = (message: string): void => {
@@ -34,7 +35,7 @@ const CardBody: React.FC = () => {
         setTimeout(() => dispatch(hideAlert()), 5000);
     };
     const handleLoginSubmit = async (): Promise<void> => {
-        dispatch(toggleLoadingVisibility(true));
+        dispatch(toggleLoadingVisibility(true));  
 
         const userLoginData: ILoginRequestDataProps = {
             userName: loginFormData.username,
