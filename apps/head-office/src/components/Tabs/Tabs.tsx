@@ -13,22 +13,10 @@ const Tabs: React.FC<ITabsProps> = ({ activeTabIndex, setActiveTabIndex, tabItem
   const handleClick = (event: React.MouseEvent<HTMLElement>, index: number) => {
     setActiveIndexId(index);
 
-    const container = event.currentTarget.closest(`.${tabPrefix}-container`);
-    if (!container) return;
-
-    const itemContainer = container.closest('div.sh-filter-container');
-    if (!itemContainer) return;
-
-    const childrenArray = Array.from(itemContainer.children);
-    const parentElement = event.currentTarget.parentElement?.parentElement?.parentElement;
-
-    if (!parentElement) return;
-
-    const childIndex = childrenArray.indexOf(parentElement);
-
-    if (childIndex !== -1 && filters) {
-      filters[childIndex].operatorId = index;
-      console.log('filters[childIndex]', filters[childIndex]);
+    if (Object.values(event?.currentTarget?.parentElement?.parentElement?.children[1]?.children[2]?.classList || []).indexOf('hidden') > -1 && index === 3) {
+      event?.currentTarget?.parentElement?.parentElement?.children[1]?.children[2]?.classList.remove('hidden')
+    } else {
+      event?.currentTarget?.parentElement?.parentElement?.children[1]?.children[2]?.classList.add('hidden')
     }
   };
 

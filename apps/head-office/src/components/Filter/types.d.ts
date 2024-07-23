@@ -5,13 +5,14 @@ interface IDropdownItemProps {
 };
 interface IFilterItemProps {
     id: string;
+    isDoubleValue: boolean;
     label: string;
     operatorId: number;
     type: string;
     defaultValue?: string;
     dropdownItems?: IDropdownItemProps[];
     value: string;
-    value2: string;
+    value2?: string;
     isHidden: boolean;
     operators: { title: string | React.JSX.Element }[];
 };

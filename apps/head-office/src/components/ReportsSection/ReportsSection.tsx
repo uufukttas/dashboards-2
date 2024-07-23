@@ -50,7 +50,7 @@ const ReportsSection: React.FC = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [filters, setFilters] = useState<IFilterItemProps[]>([
         {
-            id: 'trxId', label: 'TRX No', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'trxId', label: 'TRX No', type: 'number', defaultValue: '', operatorId: 0, value: '', isHidden: false, isDoubleValue: false, operators: [{
                 title: (
                     <Tooltip text="Eşittir" textClassName={'left-10'} >
                         <FaEquals />
@@ -77,7 +77,7 @@ const ReportsSection: React.FC = () => {
             }]
         },
         {
-            id: 'stationName', label: 'Istasyon Ismi', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'stationName', label: 'Istasyon Ismi', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, isDoubleValue: false, operators: [{
                 title: (
                     <Tooltip text="Eşittir" textClassName={'left-10'} >
                         <FaEquals />
@@ -92,7 +92,7 @@ const ReportsSection: React.FC = () => {
             }]
         },
         {
-            id: 'stationChargePointCode', label: 'Unit Code', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'stationChargePointCode', label: 'Unit Code', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, isDoubleValue: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
@@ -104,10 +104,10 @@ const ReportsSection: React.FC = () => {
                 )
             }]
         },
-        { id: 'stationChargePointConnectorTypeName', label: 'Soket Tipi', type: 'checkboxInDropdown', dropdownItems: [{ name: 'Secim Yapiniz', rid: 0, id: null }, { name: 'Type2', rid: 1, id: null }, { name: 'CCS/SAE', rid: 2, id: null }], operatorId: 0, value: '', value2: '', isHidden: false, operators: [] },
-        { id: 'StartDate', label: 'Baslangic Zamani', type: 'date', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [] },
+        { id: 'stationChargePointConnectorTypeName', label: 'Soket Tipi', type: 'checkboxInDropdown', isDoubleValue: false, dropdownItems: [{ name: 'Secim Yapiniz', rid: 0, id: null }, { name: 'Type2', rid: 1, id: null }, { name: 'CCS/SAE', rid: 2, id: null }], operatorId: 0, value: '', value2: '', isHidden: false, operators: [] },
+        { id: 'StartDate', label: 'Baslangic Zamani', type: 'date', defaultValue: '', isDoubleValue: true, operatorId: 0, value: '', value2: '', isHidden: false, operators: [] },
         {
-            id: 'charge-time', label: 'Sarj Suresi', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'charge-time', label: 'Sarj Suresi', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
@@ -131,34 +131,9 @@ const ReportsSection: React.FC = () => {
                 )
             }]
         },
-        { id: 'FinishDate', label: 'Bitis Zamani', type: 'date', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [] },
+        { id: 'FinishDate', label: 'Bitis Zamani', type: 'date', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [] },
         {
-            id: 'UnitPrice', label: 'Birim Fiyat', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
-                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
-                    <FaEquals />
-                </Tooltip>)
-            }, {
-                title: (
-                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
-                        <FaGreaterThan />
-                    </Tooltip>
-                )
-            }, {
-                title: (
-                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
-                        <FaLessThan />
-                    </Tooltip>
-                )
-            }, {
-                title: (
-                    <Tooltip text="Arasinda" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'kwh', label: 'kWh', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'UnitPrice', label: 'Birim Fiyat', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
@@ -183,7 +158,7 @@ const ReportsSection: React.FC = () => {
             }]
         },
         {
-            id: 'BatteryPercent', label: 'Batarya Yuzdesi', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'kwh', label: 'kWh', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
@@ -208,7 +183,7 @@ const ReportsSection: React.FC = () => {
             }]
         },
         {
-            id: 'TotalAmountWithOutKDV', label: 'Toplam Bedel', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'BatteryPercent', label: 'Batarya Yuzdesi', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
@@ -233,7 +208,7 @@ const ReportsSection: React.FC = () => {
             }]
         },
         {
-            id: 'TotalAmount', label: 'Toplam Bedel (KDV Dahil)', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'TotalAmountWithOutKDV', label: 'Toplam Bedel', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
@@ -258,7 +233,7 @@ const ReportsSection: React.FC = () => {
             }]
         },
         {
-            id: 'PriceENRJ', label: 'Elektrik Bedeli', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'TotalAmount', label: 'Toplam Bedel (KDV Dahil)', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
@@ -283,7 +258,7 @@ const ReportsSection: React.FC = () => {
             }]
         },
         {
-            id: 'PriceSRV', label: 'Hizmet Bedeli', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'PriceENRJ', label: 'Elektrik Bedeli', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
@@ -308,7 +283,7 @@ const ReportsSection: React.FC = () => {
             }]
         },
         {
-            id: 'CommissionServicePointPrice', label: 'Hizmet Noktasi Komisyonu', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'PriceSRV', label: 'Hizmet Bedeli', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
@@ -333,7 +308,7 @@ const ReportsSection: React.FC = () => {
             }]
         },
         {
-            id: 'CommissionResellerPrice', label: 'Reseller Komisyonu', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'CommissionServicePointPrice', label: 'Hizmet Noktasi Komisyonu', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
@@ -358,20 +333,32 @@ const ReportsSection: React.FC = () => {
             }]
         },
         {
-            id: 'user-id', label: 'Kullanici ID', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'CommissionResellerPrice', label: 'Reseller Komisyonu', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
             }, {
                 title: (
-                    <Tooltip text="Icinde" textClassName={'left-10'}>
+                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
+                        <FaGreaterThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
+                        <FaLessThan />
+                    </Tooltip>
+                )
+            }, {
+                title: (
+                    <Tooltip text="Arasinda" textClassName={'left-10'}>
                         <TbTilde />
                     </Tooltip>
                 )
             }]
         },
         {
-            id: 'bank-order-no', label: 'Banka Siparis No', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'user-id', label: 'Kullanici ID', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, isDoubleValue: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
@@ -384,7 +371,20 @@ const ReportsSection: React.FC = () => {
             }]
         },
         {
-            id: 'paid-amount', label: 'Odenene Tutar', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'bank-order-no', label: 'Banka Siparis No', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: false, isHidden: false, operators: [{
+                title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
+                    <FaEquals />
+                </Tooltip>)
+            }, {
+                title: (
+                    <Tooltip text="Icinde" textClassName={'left-10'}>
+                        <TbTilde />
+                    </Tooltip>
+                )
+            }]
+        },
+        {
+            id: 'paid-amount', label: 'Odenene Tutar', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: false, isHidden: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
@@ -409,7 +409,7 @@ const ReportsSection: React.FC = () => {
             }]
         },
         {
-            id: 'on-prov-amount', label: 'On Prov Tutari', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'on-prov-amount', label: 'On Prov Tutari', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
@@ -434,7 +434,7 @@ const ReportsSection: React.FC = () => {
             }]
         },
         {
-            id: 'plate', label: 'Plaka', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'plate', label: 'Plaka', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: false, isHidden: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
@@ -447,7 +447,7 @@ const ReportsSection: React.FC = () => {
             }]
         },
         {
-            id: 'brand', label: 'Marka', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'brand', label: 'Marka', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: false, isHidden: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
@@ -460,7 +460,7 @@ const ReportsSection: React.FC = () => {
             }]
         },
         {
-            id: 'ModelName', label: 'Model', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isHidden: false, operators: [{
+            id: 'ModelName', label: 'Model', type: 'text', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: false, isHidden: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
