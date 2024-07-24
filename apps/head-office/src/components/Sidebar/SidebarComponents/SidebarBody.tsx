@@ -49,6 +49,7 @@ const SidebarBody: React.FC = () => {
                     sidebarElements.map((item: ISidebarElementProps, index: number) => {
                         return (
                             <Tooltip
+                                containerClassName='w-full'
                                 key={index}
                                 text={item.name}
                                 textClassName='left-14'
