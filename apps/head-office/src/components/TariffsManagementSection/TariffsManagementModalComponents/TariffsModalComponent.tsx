@@ -16,17 +16,19 @@ const TariffsModalComponent: React.FC = () => {
     const tariffData = useSelector((state: RootState) => state.tariffData);
     const hasTariffDataId: boolean = tariffData.id > 0;
     const formName: string[] =
-        ['name', 'min-range', 'max-range', 'price', 'is-active', 'is-date-selected', 'start-date', 'end-date'];
+        ['name', 'min-range', 'max-range', 'price', 'vat', 'service-revenue','energy-cost', 'is-date-selected', 'start-date', 'end-date'];
     const sectionPrefix: string = `${BRAND_PREFIX}-tariff-management`;
     const formProperties = {
         name: `${sectionPrefix}-${formName[0]}`,
         min: `${sectionPrefix}-${formName[1]}`,
         max: `${sectionPrefix}-${formName[2]}`,
         price: `${sectionPrefix}-${formName[3]}`,
-        isActive: `${sectionPrefix}-${formName[4]}`,
-        isDateSelected: `${sectionPrefix}-${formName[5]}`,
-        startDate: `${sectionPrefix}-${formName[6]}`,
-        endDate: `${sectionPrefix}-${formName[7]}`,
+        vat: `${sectionPrefix}-${formName[4]}`,
+        serviceRevenue: `${sectionPrefix}-${formName[5]}`,
+        energyCost: `${sectionPrefix}-${formName[6]}`,
+        isDateSelected: `${sectionPrefix}-${formName[7]}`,
+        startDate: `${sectionPrefix}-${formName[8]}`,
+        endDate: `${sectionPrefix}-${formName[9]}`,
     };
     const dispatch = useDispatch();
     const { handleSubmit, register } = useForm();
@@ -35,7 +37,9 @@ const TariffsModalComponent: React.FC = () => {
         [`${formProperties.min}`]: tariffData.MinEnergy || '',
         [`${formProperties.max}`]: tariffData.MaxEnergy || '',
         [`${formProperties.price}`]: tariffData.SaleUnitPrice || '',
-        [`${formProperties.isActive}`]: tariffData.isActive || true,
+        [`${formProperties.vat}`]: tariffData.vat || '20',
+        [`${formProperties.serviceRevenue}`]: tariffData.serviceRevenue || false,
+        [`${formProperties.energyCost}`]: tariffData.energyCost || true,
         [`${formProperties.isDateSelected}`]: tariffData.isDateSelected || false,
         [`${formProperties.startDate}`]: tariffData.startDate || '',
         [`${formProperties.endDate}`]: tariffData.endDate || '',
@@ -54,7 +58,16 @@ const TariffsModalComponent: React.FC = () => {
             },
             subfraction: [
                 {
-                    tariffSubFractionType: 11
+                    tariffSubFractionType: 11,
+                    subFractionValue: tariffFormData[`${formProperties.serviceRevenue}`] ? 1 : 0
+                },
+                {
+                    tariffSubFractionType: 8,
+                    subFractionValue: tariffFormData[`${formProperties.vat}`]
+                },
+                {
+                    tariffSubFractionType: 1,
+                    subFractionValue: tariffFormData[`${formProperties.energyCost}`] ? 1 : 0
                 }
             ],
         };
@@ -152,28 +165,57 @@ const TariffsModalComponent: React.FC = () => {
                     </div>
 
                 </div>
-                <div className={`${sectionPrefix}-price-contianer`}>
-                    <Label
-                        className='block mb-2 text-heading mt-2 font-bold'
-                        htmlFor={`${sectionPrefix}-price`}
-                        labelText={`Fiyat`}
-                    />
-                    <Input
-                        className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary'
-                        id={`${sectionPrefix}-price`}
-                        name={`${sectionPrefix}-price`}
-                        register={register(`${sectionPrefix}-price`, {
-                            required: 'Fiyat zorunlu',
-                            onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                                setTariffFormData({
-                                    ...tariffFormData,
-                                    [event.target.name]: event.target.value,
-                                });
-                            },
-                            value: tariffFormData[`${sectionPrefix}-price`]
-                        })}
-                        type="text"
-                    />
+                <div className={`${sectionPrefix}-cost-contianer w-full flex`}>
+                    <div className={`${sectionPrefix}-price-container w-1/2`}>
+                        <Label
+                            className='block mb-2 text-heading mt-2 font-bold'
+                            htmlFor={`${sectionPrefix}-price`}
+                            labelText={`Fiyat (KDV Dahil)`}
+                        />
+                        <Input
+                            className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary mr-2'
+                            id={`${sectionPrefix}-price`}
+                            name={`${sectionPrefix}-price`}
+                            register={register(`${sectionPrefix}-price`, {
+                                required: 'Fiyat zorunlu',
+                                onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                                    setTariffFormData({
+                                        ...tariffFormData,
+                                        [event.target.name]: event.target.value,
+                                    });
+                                },
+                                value: tariffFormData[`${sectionPrefix}-price`]
+                            })}
+                            type="text"
+                        />
+                    </div>
+                    <div className={`${sectionPrefix}-vat-container w-1/4`}>
+                        <Label
+                            className='block mb-2 text-heading mt-2 font-bold'
+                            htmlFor={`${sectionPrefix}-vat`}
+                            labelText={`KDV`}
+                        />
+                        <div className={`${sectionPrefix}-vat-price-container flex justify-center items-center`}>
+                            <Input
+                                className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary ml-2'
+                                id={`${sectionPrefix}-vat`}
+                                name={`${sectionPrefix}-vat`}
+                                placeholder='20'
+                                register={register(`${sectionPrefix}-vat`, {
+                                    required: 'KDV zorunlu',
+                                    onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                                        setTariffFormData({
+                                            ...tariffFormData,
+                                            [event.target.name]: event.target.checked,
+                                        });
+                                    },
+                                    value: tariffFormData[`${sectionPrefix}-vat`] || '20'
+                                })}
+                                type="text"
+                            />
+                            <span className='text-text text-xl mb-4 mx-2'>%</span>
+                        </div>
+                    </div>
                 </div>
                 <div className={`${sectionPrefix}-status-container w-full`}>
                     <div className={`${sectionPrefix}-service-revenue-container w-full items-center flex`}>
@@ -184,17 +226,16 @@ const TariffsModalComponent: React.FC = () => {
                         />
                         <Input
                             className='border text-text text-sm rounded-lg block p-2.5 focus:ring-primary focus:border-primary mx-8'
-                            id={`${sectionPrefix}-status`}
-                            name={`${sectionPrefix}-status`}
-                            register={register(`${sectionPrefix}-status`, {
-                                required: 'Status is required',
+                            id={`${sectionPrefix}-service-revenue`}
+                            name={`${sectionPrefix}-service-revenue`}
+                            register={register(`${sectionPrefix}-service-revenue`, {
                                 onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                                     setTariffFormData({
                                         ...tariffFormData,
-                                        [event.target.name]: event.target.value,
+                                        [event.target.name]: event.target.checked,
                                     });
                                 },
-                                value: tariffFormData[`${sectionPrefix}-status`]
+                                value: tariffFormData[`${sectionPrefix}-service-revenue`]
                             })}
                             type="checkbox"
                         />
@@ -203,22 +244,21 @@ const TariffsModalComponent: React.FC = () => {
                         <div className='w-full flex'>
                             <Label
                                 className='block mb-2 text-heading mt-2 font-bold w-1/2'
-                                htmlFor={`${sectionPrefix}-eMail`}
+                                htmlFor={`${sectionPrefix}-energy-cost`}
                                 labelText={`Birim Enerji Maliyeti raporlansin mi?`}
                             />
                             <Input
                                 className='border text-text text-sm rounded-lg block p-2.5 focus:ring-primary focus:border-primary mx-8'
-                                id={`${sectionPrefix}-status`}
-                                name={`${sectionPrefix}-status`}
-                                register={register(`${sectionPrefix}-status`, {
-                                    required: 'Status is required',
+                                id={`${sectionPrefix}-energy-cost`}
+                                name={`${sectionPrefix}-energy-cost`}
+                                register={register(`${sectionPrefix}-energy-cost`, {
                                     onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                                         setTariffFormData({
                                             ...tariffFormData,
                                             [event.target.name]: event.target.value,
                                         });
                                     },
-                                    value: tariffFormData[`${sectionPrefix}-status`]
+                                    value: tariffFormData[`${sectionPrefix}-energy-cost`]
                                 })}
                                 type="checkbox"
                             />
@@ -243,7 +283,6 @@ const TariffsModalComponent: React.FC = () => {
                             id={`${sectionPrefix}-time-selection`}
                             name={`${sectionPrefix}-time-selection`}
                             register={register(`${sectionPrefix}-time-selection`, {
-                                required: 'Tarih girisi zorunlu',
                                 onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                                     setIsVisibleDateArea(event.target.checked);
                                     setTariffFormData({
