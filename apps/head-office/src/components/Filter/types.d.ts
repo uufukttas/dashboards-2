@@ -10,7 +10,7 @@ interface IFilterItemProps {
     id: string;
     isDoubleValue: boolean;
     label: string;
-    operatorId: number;
+    operatorId: string;
     type: string;
     defaultValue?: string;
     dropdownItems?: IDropdownItemProps[];

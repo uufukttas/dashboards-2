@@ -47,8 +47,10 @@ const DynamicFilters: React.FC<IFilterProps> = ({
                   <Tabs
                     activeTabIndex={activeTabIndex}
                     setActiveTabIndex={setActiveTabIndex}
+                    // @ts-ignore
                     filters={filters}
                     tabItems={filter.operators}
+                    // @ts-ignore
                     setFilters={setFilters}
                   />
                 )

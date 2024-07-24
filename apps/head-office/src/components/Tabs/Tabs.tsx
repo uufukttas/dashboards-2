@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@projects/button';
 import { BRAND_PREFIX } from '../../constants/constants';
 import type { ITabsItemProps, ITabsProps } from './types';
@@ -19,11 +19,13 @@ const Tabs: React.FC<ITabsProps> = ({ activeTabIndex, setActiveTabIndex, tabItem
       event?.currentTarget?.parentElement?.parentElement?.children[1]?.children[2]?.classList.add('hidden')
     }
 
-    // filters[Array.from(event.currentTarget.parentElement.parentElement.parentElement.parentElement.children).indexOf(event.currentTarget.parentElement.parentElement.parentElement) || 0].operatorId = index;
+    // @ts-ignore
     setFilters((prevFilter) => {
+      // @ts-ignore
       return prevFilter.map((item: IFilterItemProps) => {
           return {
             ...item,
+            // @ts-ignore
             operatorId: event.target.textContent || event.target.parentElement.textContent,
           };
         
