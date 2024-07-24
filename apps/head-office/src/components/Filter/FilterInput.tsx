@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { CheckboxInDropdown } from '@projects/checkbox-in-dropdown';
 import { Input } from '@projects/input';
-import { IFilterInputProps } from './types';
+import { IDropdownItemProps, IFilterInputProps, IFilterItemProps } from './types';
 
 const FilterInput = ({ className, filter, id, value, setFilters, onChange }: IFilterInputProps) => {
-    const [filteredData, setFilteredData] = useState(filter.dropdownItems || []);
+    const [filteredData, setFilteredData] = useState<IDropdownItemProps[]>(filter.dropdownItems || []);
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         onChange(event, filter.id);
@@ -39,14 +39,17 @@ const FilterInput = ({ className, filter, id, value, setFilters, onChange }: IFi
                             stationFeatureValue: data.stationFeatureValue,
                         }));
                         setFilteredData(updateFilteredData);
+                        // @ts-ignore
                         setFilters((prevFilter) => {
-                            return prevFilter.map((item) => {
+                            console.log('prevFilter', prevFilter)
+                            return prevFilter.map((item: IFilterItemProps) => {
                                 if (item.id === filter.id) {
                                     return {
                                         ...item,
                                         dropdownItems: filteredData,
                                     };
                                 }
+
                                 return item;
                             });
                         })

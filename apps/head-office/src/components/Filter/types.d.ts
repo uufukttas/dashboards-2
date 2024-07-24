@@ -2,7 +2,7 @@ interface IDropdownItemProps {
     id: number | null;
     name: string;
     rid: number | null;
-    isChecked: boolean;
+    isChecked: boolean | undefined;
     stationFeatureType: number;
     stationFeatureValue: number;
 };
