@@ -317,7 +317,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                 >
                                     <Tooltip
                                         containerClassName='tooltip'
-                                        text={connectorItem.epdkSocketNumber || 'EPDK Soket Numarası Yok'}
+                                        text={'EPDK Soket Numarasi'}
                                     >
                                         {connectorItem.epdkSocketNumber ? connectorItem.epdkSocketNumber : '-'}
                                     </Tooltip>
@@ -335,9 +335,9 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                 <p className={`${chargeUnitPrefix}-tariff-info text-lg text-text p-2 w-1/3`}>
                                     <Tooltip
                                         containerClassName='tooltip'
-                                        text={connectorItem.tariffName || 'Tarife Yok'}
+                                        text={'Tarife'}
                                     >
-                                        {connectorItem.tariffSaleUnitPrice ? connectorItem.tariffSaleUnitPrice : '-'}
+                                        {connectorItem.tariffSaleUnitPrice ? `${connectorItem.tariffSaleUnitPrice} TL` : '-'}
                                     </Tooltip>
                                 </p>
                             </div>
