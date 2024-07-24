@@ -90,6 +90,7 @@
 
   .expanded {
     animation: expand-desktop 1s forwards;
+    overflow: hidden !important;
     width: 20%;
     img {
       padding: 0 16px;
