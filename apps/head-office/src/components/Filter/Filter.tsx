@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Button } from '@projects/button';
+import { Toggle } from '@projects/toggle';
 import FilterInput from './FilterInput';
 import Accordion from '../Accordion/Accordion';
 import Tabs from '../Tabs/Tabs';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { IFilterProps } from './types';
+import { IFilterItemProps, IFilterProps } from './types';
 import './Filter.css';
+import { Label } from '@projects/label';
 
 const DynamicFilters: React.FC<IFilterProps> = ({
   className, filters, isExpanded, onFilterSubmit, setFilters
@@ -48,6 +50,36 @@ const DynamicFilters: React.FC<IFilterProps> = ({
                     filters={filters}
                     tabItems={filter.operators}
                   />
+                )
+              }
+              {
+                (filter.id === 'StartDate' || filter.id === 'FinishDate') && (
+                  <div className='flex'>
+                    <Label
+                      className='w-full flex items-center justify-start font-normal'
+                      htmlFor=''
+                      labelText='Iki Tarih Arasi'
+                    />
+                    <Toggle
+                      onToggle={(event) => {
+                        console.log('event', event)
+                        console.log('filter.id', filter.id)
+                        // @ts-ignore
+                        setFilters((prevFilter) => {
+                          return prevFilter.map((item: IFilterItemProps) => {
+                            if (item.id === filter.id) {
+                              return {
+                                ...item,
+                                isHidden: !item.isHidden,
+                              };
+                            }
+
+                            return item;
+                          });
+                        });
+                      }}
+                    />
+                  </div>
                 )
               }
               <div className={`${BRAND_PREFIX}-filter-item flex flex-col my-2`}>

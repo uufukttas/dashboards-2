@@ -41,7 +41,6 @@ const FilterInput = ({ className, filter, id, value, setFilters, onChange }: IFi
                         setFilteredData(updateFilteredData);
                         // @ts-ignore
                         setFilters((prevFilter) => {
-                            console.log('prevFilter', prevFilter)
                             return prevFilter.map((item: IFilterItemProps) => {
                                 if (item.id === filter.id) {
                                     return {
