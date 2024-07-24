@@ -4,7 +4,7 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import type { ITabsItemProps, ITabsProps } from './types';
 import './Tabs.css';
 
-const Tabs: React.FC<ITabsProps> = ({ activeTabIndex, setActiveTabIndex, tabItems, filters }: ITabsProps) => {
+const Tabs: React.FC<ITabsProps> = ({ activeTabIndex, setActiveTabIndex, tabItems, filters, setFilters }: ITabsProps) => {
   const tabPrefix: string = `${BRAND_PREFIX}-tabs`;
   const [activeIndexId, setActiveIndexId] = useState<number>(activeTabIndex);
 
@@ -19,8 +19,18 @@ const Tabs: React.FC<ITabsProps> = ({ activeTabIndex, setActiveTabIndex, tabItem
       event?.currentTarget?.parentElement?.parentElement?.children[1]?.children[2]?.classList.add('hidden')
     }
 
-    filters[Array.from(event.currentTarget.parentElement.parentElement.parentElement.parentElement.children).indexOf(event.currentTarget.parentElement.parentElement.parentElement) || 0].operatorId = index;
+    // filters[Array.from(event.currentTarget.parentElement.parentElement.parentElement.parentElement.children).indexOf(event.currentTarget.parentElement.parentElement.parentElement) || 0].operatorId = index;
+    setFilters((prevFilter) => {
+      return prevFilter.map((item: IFilterItemProps) => {
+          return {
+            ...item,
+            operatorId: event.target.textContent || event.target.parentElement.textContent,
+          };
+        
 
+        return item;
+      });
+    });
   };
 
   return (

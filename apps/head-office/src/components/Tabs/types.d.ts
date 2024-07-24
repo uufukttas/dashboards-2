@@ -6,6 +6,7 @@ export interface ITabsProps {
     filters?: IFilterItemProps[]
     setActiveTabIndex: (index: number) => void;
     tabItems: ITabsItemProps[];
+    setFilters: (filters: IFilterItemProps[]) => void;
 };
 
 interface IFilterItemProps {

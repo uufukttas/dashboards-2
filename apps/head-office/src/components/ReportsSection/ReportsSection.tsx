@@ -521,16 +521,14 @@ const ReportsSection: React.FC = () => {
         return filterAttributes.filter(attribute => attribute !== undefined);
     };
 
-    const findOperator = (operatorId: number) => {
+    const findOperator = (operatorId: string) => {
         switch (operatorId) {
-            case 0:
+            case 'Esittir':
                 return "=";
-            case 1:
+            case 'Buyuktur':
                 return ">";
-            case 2:
+            case 'Kucuktur':
                 return "<";
-            case 3:
-                return "~{x}~";
             default:
                 return "~{x}~";
         }

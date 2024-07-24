@@ -49,6 +49,7 @@ const DynamicFilters: React.FC<IFilterProps> = ({
                     setActiveTabIndex={setActiveTabIndex}
                     filters={filters}
                     tabItems={filter.operators}
+                    setFilters={setFilters}
                   />
                 )
               }
@@ -62,8 +63,6 @@ const DynamicFilters: React.FC<IFilterProps> = ({
                     />
                     <Toggle
                       onToggle={(event) => {
-                        console.log('event', event)
-                        console.log('filter.id', filter.id)
                         // @ts-ignore
                         setFilters((prevFilter) => {
                           return prevFilter.map((item: IFilterItemProps) => {
