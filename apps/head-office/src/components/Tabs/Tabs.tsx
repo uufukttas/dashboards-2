@@ -18,10 +18,10 @@ const Tabs: React.FC<ITabsProps> = ({ activeTabIndex, setActiveTabIndex, tabItem
     } else {
       event?.currentTarget?.parentElement?.parentElement?.children[1]?.children[2]?.classList.add('hidden')
     }
-  };
 
-  useEffect(() => {
-  }, [activeTabIndex])
+    filters[Array.from(event.currentTarget.parentElement.parentElement.parentElement.parentElement.children).indexOf(event.currentTarget.parentElement.parentElement.parentElement) || 0].operatorId = index;
+
+  };
 
   return (
     <nav className={`${tabPrefix}-container flex items-center`}>

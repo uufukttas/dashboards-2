@@ -384,7 +384,7 @@ const ReportsSection: React.FC = () => {
             }]
         },
         {
-            id: 'paid-amount', label: 'Odenene Tutar', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: false, isHidden: false, operators: [{
+            id: 'paid-amount', label: 'Odenen Tutar', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
                 title: (<Tooltip text="Eşittir" textClassName={'left-10'} >
                     <FaEquals />
                 </Tooltip>)
@@ -496,7 +496,7 @@ const ReportsSection: React.FC = () => {
             userId: 33,
             pageNumber: currentPage,
             userCount: 10,
-            filterAttributes: getFilterPayload(),
+            filterAttributes: getFilterPayload().length > 0 ? getFilterPayload() : [],
         }
 
         const response = await getAllReportsRequest(payload);
@@ -506,18 +506,22 @@ const ReportsSection: React.FC = () => {
 
     const getFilterPayload = () => {
         const filterAttributes = filters.map((filter, index) => {
-            return {
-                "property": filter.id,
-                "operator": findOpeartor(filter.operatorId),
-                "value": filter.value,
-                "value2": filter.value2 || ''
+            // Check if `filter.value` is a string and not an empty string
+            if ((typeof filter.value === 'string' || typeof filter.value === 'number') && filter.value.trim() !== '') {
+                return {
+                    "property": filter.id,
+                    "operator": findOperator(filter.operatorId),
+                    "value": filter.value,
+                    "value2": filter.value2 || ''
+                };
             }
         });
-
-        return filterAttributes;
+    
+        // Filter out undefined values from the array
+        return filterAttributes.filter(attribute => attribute !== undefined);
     };
 
-    const findOpeartor = (operatorId: number) => {
+    const findOperator = (operatorId: number) => {
         switch (operatorId) {
             case 0:
                 return "=";
