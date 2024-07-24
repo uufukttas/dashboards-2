@@ -52,10 +52,10 @@ const DynamicFilters: React.FC<IFilterProps> = ({
               }
               <div className={`${BRAND_PREFIX}-filter-item flex flex-col my-2`}>
                 <label className='w-full flex items-center justify-start font-normal' htmlFor={filter.id}>{filter.label}</label>
-                <FilterInput className="w-full" filter={filter} value={filters[index].id} onChange={(id, event) => handleInputChange(event, id)} />
+                <FilterInput className="w-full" filter={filter} value={filters[index].id} setFilters={setFilters} onChange={(id, event) => handleInputChange(event, id)} />
                 {
                   filter.isDoubleValue && (
-                    <FilterInput className={`${!filters[index].isHidden ? 'hidden' : ''}`} filter={filter} value={filters[index].id} id={'2'} onChange={(id, event) => handleInputChange(event, id)} />
+                    <FilterInput className={`${!filters[index].isHidden ? 'hidden' : ''}`} filter={filter} setFilters={setFilters} value={filters[index].id} id={'2'} onChange={(id, event) => handleInputChange(event, id)} />
                   )
                 }
               </div>

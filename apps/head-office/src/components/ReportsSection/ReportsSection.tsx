@@ -104,7 +104,7 @@ const ReportsSection: React.FC = () => {
                 )
             }]
         },
-        { id: 'stationChargePointConnectorTypeName', label: 'Soket Tipi', type: 'checkboxInDropdown', isDoubleValue: false, dropdownItems: [{ name: 'Secim Yapiniz', rid: 0, id: null }, { name: 'Type2', rid: 1, id: null }, { name: 'CCS/SAE', rid: 2, id: null }], operatorId: 0, value: '', value2: '', isHidden: false, operators: [] },
+        { id: 'stationChargePointConnectorTypeName', label: 'Soket Tipi', type: 'checkboxInDropdown', isDoubleValue: false, dropdownItems: [{ name: 'Secim Yapiniz', rid: 0, id: null, stationFeatureType: 0, stationFeatureValue: 0, isChecked: false }, { name: 'Type2', rid: 1, id: null, stationFeatureType: 0, stationFeatureValue: 0, isChecked:false }, { name: 'CCS/SAE', rid: 2, id: null, stationFeatureType: 0, stationFeatureValue: 0, isChecked:false }], operatorId: 0, value: '', value2: '', isHidden: false, operators: [] },
         { id: 'StartDate', label: 'Baslangic Zamani', type: 'date', defaultValue: '', isDoubleValue: true, operatorId: 0, value: '', value2: '', isHidden: false, operators: [] },
         {
             id: 'charge-time', label: 'Sarj Suresi', type: 'number', defaultValue: '', operatorId: 0, value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{

@@ -1,7 +1,10 @@
 interface IDropdownItemProps {
-    id: null;
+    id: number | null;
     name: string;
-    rid: number;
+    rid: number | null;
+    isChecked: boolean;
+    stationFeatureType: number;
+    stationFeatureValue: number;
 };
 interface IFilterItemProps {
     id: string;
@@ -21,6 +24,7 @@ export interface IFilterInputProps {
     filter: IFilterItemProps;
     value: string;
     id?: string;
+    setFilters: (filter: IFilterItemProps[]) => void;
     onChange: (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement>, value: string) => void;
 };
 export interface IFilterProps {
