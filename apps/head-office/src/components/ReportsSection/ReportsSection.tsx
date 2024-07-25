@@ -50,7 +50,7 @@ const ReportsSection: React.FC = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [filters, setFilters] = useState<IFilterItemProps[]>([
         {
-            id: 'trxId', label: 'TRX No', type: 'number', defaultValue: '', operatorId: '0', value: '', isHidden: false, isDoubleValue: false, operators: [{
+            id: 'RID', label: 'TRX No', type: 'number', defaultValue: '', operatorId: '0', value: '', isHidden: false, isDoubleValue: false, operators: [{
                 title: (
                     <Tooltip text="Eşittir" textClassName={'left-10'} >
                         <FaEquals />
@@ -66,12 +66,6 @@ const ReportsSection: React.FC = () => {
                 title: (
                     <Tooltip text='Kucuktur' textClassName={'left-10'}>
                         <FaLessThan />
-                    </Tooltip>
-                )
-            }, {
-                title: (
-                    <Tooltip text="Icinde" textClassName={'left-10'}>
-                        <TbTilde />
                     </Tooltip>
                 )
             }]
@@ -104,7 +98,7 @@ const ReportsSection: React.FC = () => {
                 )
             }]
         },
-        { id: 'stationChargePointConnectorTypeName', label: 'Soket Tipi', type: 'checkboxInDropdown', isDoubleValue: false, dropdownItems: [{ name: 'Secim Yapiniz', rid: 0, id: null, stationFeatureType: 0, stationFeatureValue: 0, isChecked: false }, { name: 'Type2', rid: 1, id: null, stationFeatureType: 0, stationFeatureValue: 0, isChecked:false }, { name: 'CCS/SAE', rid: 2, id: null, stationFeatureType: 0, stationFeatureValue: 0, isChecked:false }], operatorId: '0', value: '', value2: '', isHidden: false, operators: [] },
+        { id: 'stationChargePointConnectorTypeName', label: 'Soket Tipi', type: 'checkboxInDropdown', isDoubleValue: false, dropdownItems: [{ name: 'Secim Yapiniz', rid: 0, id: null, stationFeatureType: 0, stationFeatureValue: 0, isChecked: false }, { name: 'Type2', rid: 1, id: null, stationFeatureType: 0, stationFeatureValue: 0, isChecked: false }, { name: 'CCS/SAE', rid: 2, id: null, stationFeatureType: 0, stationFeatureValue: 0, isChecked: false }], operatorId: '0', value: '', value2: '', isHidden: false, operators: [] },
         { id: 'StartDate', label: 'Baslangic Zamani', type: 'date', defaultValue: '', isDoubleValue: true, operatorId: '0', value: '', value2: '', isHidden: false, operators: [] },
         {
             id: 'charge-time', label: 'Sarj Suresi', type: 'number', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
@@ -501,7 +495,12 @@ const ReportsSection: React.FC = () => {
 
         const response = await getAllReportsRequest(payload);
 
-        console.log('response', response)
+        dispatch(
+            setReportsData({
+                data: response.data,
+                count: response.count,
+            })
+        );
     };
 
     const getFilterPayload = () => {
@@ -516,7 +515,7 @@ const ReportsSection: React.FC = () => {
                 };
             }
         });
-    
+
         // Filter out undefined values from the array
         return filterAttributes.filter(attribute => attribute !== undefined);
     };
@@ -529,6 +528,8 @@ const ReportsSection: React.FC = () => {
                 return ">";
             case 'Kucuktur':
                 return "<";
+            case 'Icinde':
+                return "~|x|~";
             default:
                 return "~{x}~";
         }
@@ -632,7 +633,7 @@ const ReportsSection: React.FC = () => {
                             className={`w-full`}
                             filteredDropdownItems={[]}
                             tableData={reportsData}
-                            tableDataCount={reportsData.length}
+                            tableDataCount={reportsCount}
                             tableHeadData={tableHeadData}
                             tablePlaceholderInitialValue={tablePlaceholderInitialValue}
                         />

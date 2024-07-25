@@ -68,7 +68,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                                 tableRowData.name || '',
                                 `${tableRowData?.name || ''} ${tableRowData?.surName || ''}`,
                                 tableRowData.name || '',
-                                tableRowData.trxId?.toString() || '0')
+                                tableRowData.trxId?.toString() || '')
                         }
                     </div>
                 </div>
@@ -90,7 +90,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                         tableRowData.address || '',
                         tableRowData.phoneNumber || '',
                         `${tableRowData.minKW}kW - ${tableRowData.maxKW}kW` || '',
-                        tableRowData.stationChargePointCode?.toString() || '0')}
+                        tableRowData.stationChargePointCode?.toString() || '')}
             </td>
             <td className="px-4 py-2 text-center">
                 {
@@ -106,7 +106,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                                 );
                             }),
                         convertDateFormat(tableRowData.createDate || '') || 'Tarife Tarihi',
-                        tableRowData.stationConnectorConnectorNr?.toString() || '0'
+                        tableRowData.stationConnectorConnectorNr?.toString() || ''
                     )
                 }
             </td>
@@ -117,7 +117,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                         getDistricts(tableRowData.districtId ?? 1),
                         tableRowData.lastLoginDate || '',
                         convertDateFormat(tableRowData.validityBeginDate || '') || new Date().toLocaleDateString(),
-                        tableRowData.stationChargePointConnectorTypeName?.toString() || '0')
+                        tableRowData.stationChargePointConnectorTypeName?.toString() || '')
                 }
             </td>
             {
@@ -129,7 +129,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                                 getDistricts(tableRowData.districtId ?? 1),
                                 tableRowData.lastLoginDate || '',
                                 convertDateFormat(tableRowData.validityEndDate || '') || new Date().toLocaleDateString(),
-                                tableRowData.stationChargePointConnectorTypeName?.toString() || '0')
+                                tableRowData.stationChargePointConnectorTypeName?.toString() || '')
                         }
                     </td>
                 )
@@ -141,70 +141,70 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                             {
                                 (
                                     <div className="date-time-container flex flex-col">
-                                        <span>{new Date(tableRowData.startDate || '').toLocaleDateString()}</span>
-                                        <span>{new Date(tableRowData.startDate || '').toLocaleTimeString()}</span>
+                                        <span>{tableRowData.startDate ? new Date(tableRowData.startDate).toLocaleDateString() : ''}</span>
+                                        <span>{tableRowData.startDate ? new Date(tableRowData.startDate).toLocaleTimeString() : ''}</span>
                                     </div>
                                 )
                                 || '-'
                             }
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.chargeProcessElapsedTime || '-'}
+                            {tableRowData.chargeProcessElapsedTime}
                         </td>
                         <td className="px-4 py-2 text-center">
                             {
                                 (
                                     <div className="date-time-container flex flex-col">
-                                        <span>{new Date(tableRowData.finishDate || '').toLocaleDateString()}</span>
-                                        <span>{new Date(tableRowData.finishDate || '').toLocaleTimeString()}</span>
+                                        <span>{tableRowData.finishDate ? new Date(tableRowData.finishDate).toLocaleDateString() : ''}</span>
+                                        <span>{tableRowData.finishDate ? new Date(tableRowData.finishDate).toLocaleTimeString() : ''}</span>
                                     </div>
                                 )
                                 || '-'
                             }                        </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.unitPrice || '-'}
+                            {tableRowData.unitPrice}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.kWh || '-'}
+                            {tableRowData.kWh}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {`${tableRowData.batteryBeginningPercent} % ${tableRowData.batteryPercent}` || '-'}
+                            {tableRowData.batteryBeginningPercent && `${tableRowData.batteryBeginningPercent || ''} % ${tableRowData.batteryPercent || ''}`}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.totalAmountWithOutKDV || '-'}
+                            {tableRowData.totalAmountWithOutKDV}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.totalAmount || '-'}
+                            {tableRowData.totalAmount}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.servicePrice || '-'}
+                            {tableRowData.servicePrice}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.commissionServicePointPrice || '-'}
+                            {tableRowData.commissionServicePointPrice}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.commissionResellerPrice || '-'}
+                            {tableRowData.commissionResellerPrice}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.userId || '-'}
+                            {tableRowData.userId}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.bankOrderNo || '-'}
+                            {tableRowData.bankOrderNo}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.paidAmount || '-'}
+                            {tableRowData.paidAmount}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.preChargeAmount || '-'}
+                            {tableRowData.preChargeAmount}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.plate || '-'}
+                            {tableRowData.plate}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.brand || '-'}
+                            {tableRowData.brand}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.model || '-'}
+                            {tableRowData.model}
                         </td>
                     </>
                 )

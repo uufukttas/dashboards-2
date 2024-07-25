@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from '@projects/button';
+import { Label } from '@projects/label';
 import { Toggle } from '@projects/toggle';
 import FilterInput from './FilterInput';
 import Accordion from '../Accordion/Accordion';
@@ -7,7 +8,6 @@ import Tabs from '../Tabs/Tabs';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { IFilterItemProps, IFilterProps } from './types';
 import './Filter.css';
-import { Label } from '@projects/label';
 
 const DynamicFilters: React.FC<IFilterProps> = ({
   className, filters, isExpanded, onFilterSubmit, setFilters
