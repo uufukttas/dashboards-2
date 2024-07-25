@@ -1,41 +1,74 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { FaAlignJustify, FaUser } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
+import { Dropdown } from '@projects/dropdown';
 import { BRAND_PREFIX } from '../../constants/constants';
+import { getLanguageListRequest } from '../../../app/api/login/getLanguageListRequest';
 import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpand';
 import { RootState, AppDispatch } from '../../../app/redux/store';
-import type { IHeaderProps } from './types';
+import type { IDropdownItemProps, IHeaderProps } from './types';
 import './Header.css';
 
 const Header: React.FC<IHeaderProps> = ({ className, headerName }: IHeaderProps) => {
   const headerPrefix: string = `${BRAND_PREFIX}-header`;
   const dispatch = useDispatch<AppDispatch>();
   const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
+  const [languages, setLanguages] = useState([]);
+
+  const getLanguageList = async (): Promise<void> => {
+    const languageList = await getLanguageListRequest();
+
+    setLanguages(
+      languageList.map((language: IDropdownItemProps) => {
+        return ({
+          id: null,
+          rid: language.id,
+          name: language.name,
+        })
+      })
+    );
+  };
+
+  useEffect(() => {
+    getLanguageList();
+  }, []);
 
   return (
     <div className={`${headerPrefix}-container justify-between border-b border-gray-300 bg-background top-0 z-10 sticky ${className}`}>
-      <div className={`${headerPrefix}-sidebar-toggle-button-container flex items-center`}>
-        <Button
-          className={`${headerPrefix}-sidebar-toggle-button bg-background hover:bg-background mx-8 py-2 px-2`}
-          id={`${headerPrefix}-sidebar-toggle-button`}
-          type='button'
-          onClick={() => dispatch(toggleSidebarExpanded(isSidebarExpanded))}
-        >
-          <FaAlignJustify />
-        </Button>
-        <div className={`${headerPrefix}-header-name-container h-8 flex items-center justify-evenly`}>
-          <h1 className={`${headerPrefix}-header-name text-xl font-semibold `}>{headerName}</h1>
+      <div className={`${headerPrefix}-header-left-side flex items-center`}>
+        <div className={`${headerPrefix}-sidebar-toggle-button-container flex items-center`}>
+          <Button
+            className={`${headerPrefix}-sidebar-toggle-button bg-background hover:bg-background mx-8 py-2 px-2`}
+            id={`${headerPrefix}-sidebar-toggle-button`}
+            type='button'
+            onClick={() => dispatch(toggleSidebarExpanded(isSidebarExpanded))}
+          >
+            <FaAlignJustify />
+          </Button>
+          <div className={`${headerPrefix}-header-name-container h-8 flex items-center justify-evenly`}>
+            <h1 className={`${headerPrefix}-header-name text-xl font-semibold `}>{headerName}</h1>
+          </div>
         </div>
       </div>
-      <div className={`${headerPrefix}-profile-button-container`}>
-        <Link
-          className={`${headerPrefix}-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center mx-8 rounded-full px-2 py-2`}
-          href='/profile'
-        >
-          <FaUser />
-        </Link>
+      <div className={`${headerPrefix}-header-right-side flex items-center`}>
+        <div className={`${headerPrefix}-language-container`}>
+          <Dropdown
+            className='border text-text text-sm rounded-lg block w-full p-2.5 focus:ring-primary focus:border-primary'
+            id='languages'
+            items={languages}
+            name='languages'
+          />
+        </div>
+        <div className={`${headerPrefix}-profile-button-container`}>
+          <Link
+            className={`${headerPrefix}-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center mx-8 rounded-full px-2 py-2`}
+            href='/profile'
+          >
+            <FaUser />
+          </Link>
+        </div>
       </div>
     </div>
   );
