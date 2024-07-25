@@ -18,19 +18,16 @@ const Tabs: React.FC<ITabsProps> = ({ activeTabIndex, setActiveTabIndex, tabItem
     } else {
       event?.currentTarget?.parentElement?.parentElement?.children[1]?.children[2]?.classList.add('hidden')
     }
-
+ 
     // @ts-ignore
     setFilters((prevFilter) => {
       // @ts-ignore
       return prevFilter.map((item: IFilterItemProps) => {
-          return {
-            ...item,
-            // @ts-ignore
-            operatorId: event.target.textContent || event.target.parentElement.textContent,
-          };
-        
-
-        return item;
+        return {
+          ...item,
+          // @ts-ignore
+          operatorId: event.currentTarget.getAttribute('data-operator-id'),
+        };
       });
     });
   };
@@ -44,6 +41,7 @@ const Tabs: React.FC<ITabsProps> = ({ activeTabIndex, setActiveTabIndex, tabItem
               ? 'active'
               : ''
               }`}
+            dataAttributes={{ 'data-operator-id': item.id.toString() }}
             id={`${tabPrefix}-item-${index}`}
             type="button"
             onClick={(event) => handleClick(event, index)}

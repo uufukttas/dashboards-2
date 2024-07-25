@@ -17,7 +17,7 @@ interface IFilterItemProps {
     value: string;
     value2?: string;
     isHidden: boolean;
-    operators: { title: string | React.JSX.Element }[];
+    operators: { id: number, title: string | React.JSX.Element }[];
 };
 export interface IFilterInputProps {
     className?: string;
