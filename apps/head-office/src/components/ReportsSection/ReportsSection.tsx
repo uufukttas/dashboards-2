@@ -8,6 +8,7 @@ import { Button } from '@projects/button';
 import { Tooltip } from '@projects/tooltip';
 import { tablePlaceholderInitialValue } from './constant';
 import DynamicFilters from '../Filter/Filter';
+import Loading from '../Loading/Loading';
 import Pagination from '../ServicePointSection/PaginationComponents/Pagination';
 import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
@@ -570,6 +571,7 @@ const ReportsSection: React.FC = () => {
     ]);
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const [isFilterUsed, setIsFilterUsed] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const getAllChargeData = async (): Promise<void> => {
         const response = await getAllReportsRequest(
@@ -585,6 +587,7 @@ const ReportsSection: React.FC = () => {
                 count: response.count,
             })
         );
+        setIsLoading(false);
     };
 
     const handleFilterSubmit = async (): Promise<void> => {
@@ -605,6 +608,7 @@ const ReportsSection: React.FC = () => {
         );
 
         setIsFilterUsed(true);
+        setIsLoading(false);
     };
 
     const getFilterPayload = () => {
@@ -701,6 +705,8 @@ const ReportsSection: React.FC = () => {
     }, []);
 
     useEffect(() => {
+        setIsLoading(true);
+
         if (!isFilterUsed) {
             getAllChargeData();
         } else {
@@ -711,42 +717,51 @@ const ReportsSection: React.FC = () => {
     return (
         <div className={`${BRAND_PREFIX}-reports-center-container flex justify-between items-center flex-col`}>
             <div className={`${pagePrefix}-listing-container flex w-full`}>
-                <DynamicFilters className={`${pagePrefix} h-full mx-2`} filters={filters} setFilters={setFilters} onFilterSubmit={handleFilterSubmit} isExpanded={isExpanded} />
-                <div className={`${pagePrefix}-table-container flex flex-col items-end relative ${isExpanded ? 'w-5/6' : 'w-full'}`}>
-                    <Tooltip
-                        containerClassName={`${pagePrefix}-tooltip -left-4 inset-y-1/2 shadow-custom border rounded-md text-center bg-secondary h-8 w-8 text-white flex justify-center items-center z-10 !absolute`}
-                        text="Filtrele"
-                        textClassName='left-8'
-                    >
-                        <Button
-                            className={`${pagePrefix}-filter-toggle-button flex justify-center items-center h-8 w-8`}
-                            id='filter-button'
-                            type='button'
-                            onClick={() => setIsExpanded(!isExpanded)}
-                        >
-                            <FaFilter />
-                        </Button>
-                    </Tooltip>
-                    <div className='table-container w-full relative'>
-                        <Button
-                            buttonText='Disari Aktar'
-                            className='w-1/6 mx-2 bg-primary text-white rounded-lg p-2'
-                            id={`${pagePrefix}-export-button`}
-                            type='button'
-                            onClick={getExportTableData}
-                        />
-                        <Table
-                            attributeName="reports-management"
-                            buttonText='Istasyon'
-                            className={`w-full`}
-                            filteredDropdownItems={[]}
-                            tableData={reportsData}
-                            tableDataCount={reportsCount}
-                            tableHeadData={tableHeadData}
-                            tablePlaceholderInitialValue={tablePlaceholderInitialValue}
-                        />
-                    </div>
-                </div>
+                {
+                    isLoading ?
+                        (
+                            <Loading />
+                        ) : (
+                            <>
+                                <DynamicFilters className={`${pagePrefix} h-full mx-2`} filters={filters} setFilters={setFilters} onFilterSubmit={handleFilterSubmit} isExpanded={isExpanded} />
+                                <div className={`${pagePrefix}-table-container flex flex-col items-end relative ${isExpanded ? 'w-5/6' : 'w-full'}`}>
+                                    <Tooltip
+                                        containerClassName={`${pagePrefix}-tooltip -left-4 inset-y-1/2 shadow-custom border rounded-md text-center bg-secondary h-8 w-8 text-white flex justify-center items-center z-10 !absolute`}
+                                        text="Filtrele"
+                                        textClassName='left-8'
+                                    >
+                                        <Button
+                                            className={`${pagePrefix}-filter-toggle-button flex justify-center items-center h-8 w-8`}
+                                            id='filter-button'
+                                            type='button'
+                                            onClick={() => setIsExpanded(!isExpanded)}
+                                        >
+                                            <FaFilter />
+                                        </Button>
+                                    </Tooltip>
+                                    <div className='table-container w-full relative'>
+                                        <Button
+                                            buttonText='Disari Aktar'
+                                            className='w-1/6 mx-2 bg-primary text-white rounded-lg p-2'
+                                            id={`${pagePrefix}-export-button`}
+                                            type='button'
+                                            onClick={getExportTableData}
+                                        />
+                                        <Table
+                                            attributeName="reports-management"
+                                            buttonText='Istasyon'
+                                            className={`w-full`}
+                                            filteredDropdownItems={[]}
+                                            tableData={reportsData}
+                                            tableDataCount={reportsCount}
+                                            tableHeadData={tableHeadData}
+                                            tablePlaceholderInitialValue={tablePlaceholderInitialValue}
+                                        />
+                                    </div>
+                                </div>
+                            </>
+                        )
+                }
             </div>
             {/* {
                 isModalVisible && (
