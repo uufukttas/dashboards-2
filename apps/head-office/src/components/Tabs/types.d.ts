@@ -1,5 +1,5 @@
 export interface ITabsItemProps {
-    id: number;
+    id?: number;
     title: string | JSX.Element;
 };
 export interface ITabsProps {

@@ -41,7 +41,7 @@ const Tabs: React.FC<ITabsProps> = ({ activeTabIndex, setActiveTabIndex, tabItem
               ? 'active'
               : ''
               }`}
-            dataAttributes={{ 'data-operator-id': item.id.toString() }}
+            dataAttributes={{ 'data-operator-id': item.id?.toString() || '0' }}
             id={`${tabPrefix}-item-${index}`}
             type="button"
             onClick={(event) => handleClick(event, index)}
