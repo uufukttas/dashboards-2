@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import BackgroundSection from './Sections/BackgroundSection';
 import ColorSection from './Sections/ColorSection';
 import InfoSection from './Sections/InfoSection';
+import LanguageSection from './Sections/LanguageSection';
 import LoginInfoSection from './Sections/LoginInfoSection';
 import LogoSection from './Sections/LogoSection';
 import PasswordSection from './Sections/PasswordSection';
@@ -55,6 +56,12 @@ const ProfileSection: React.FC = () => {
                         <Card
                             cardBody={<LogoSection />}
                             className={`${profilePagePrefix}-company-logo-card p-8`}
+                        />
+                    </div>
+                    <div className={`${profilePagePrefix}-language-container mt-8`}>
+                        <Card
+                            cardBody={<LanguageSection />}
+                            className={`${profilePagePrefix}-language-card p-8`}
                         />
                     </div>
                 </div>
