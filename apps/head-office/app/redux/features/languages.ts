@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, Reducer } from '@reduxjs/toolkit';
 
 // Dil bilgilerini taşıyan bir TypeScript tipi tanımlıyorum.
 interface Language {
@@ -36,4 +36,4 @@ const languageSlice = createSlice({
 
 // Reducer ve actions'ı dışa aktar
 export const { setLanguages, setSelectedLanguage } = languageSlice.actions;
-export default languageSlice.reducer;
+export default languageSlice.reducer as Reducer<LanguageState>;

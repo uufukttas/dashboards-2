@@ -6,9 +6,9 @@ import CardFooter from './LoginCardComponents/CardFooter';
 import CardHeader from './LoginCardComponents/CardHeader';
 import Card from '../Card/Card';
 import { BRAND_PREFIX } from '../../constants/constants';
+import { setSelectedLanguage } from '../../../app/redux/features/languages';
 import { RootState } from '../../../app/redux/store';
 import { IDropdownItemProps } from './types';
-import { setSelectedLanguage } from '../../../app/redux/features/languages';
 
 const Login: React.FC = () => {
     const loginPrefix = `${BRAND_PREFIX}-login`;
