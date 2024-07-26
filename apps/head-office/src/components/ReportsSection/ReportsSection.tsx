@@ -643,62 +643,32 @@ const ReportsSection: React.FC = () => {
         }
     };
 
-    const getExportTableData = async (): Promise<void> => {
-        const response = await axios
-            .post(
-                'https://sharztestapi.azurewebsites.net/Report/ExcelExport',
+    const downloadExcel = async (): Promise<void> => {
+        try {
+            const response = await axios.post('https://sharztestapi.azurewebsites.net/Report/ExcelExport', {
+                "filterAttributes": [
+                    {
+                        "property": "RID",
+                        "operator": "~{x}~",
+                        "value": "28975",
+                        "value2": "29975"
+                    }
+                ]
+            }, {
+                responseType: 'blob', // önemli kısım, blob türünde yanıt bekleniyor
+            });
 
-                {
-                    "property": "StationId",
-                    "operator": "{x}",
-                    "value": "38000",
-                    "value2": "43637"
-                },
-                { headers: { 'Content-Type': 'application/json' } }
-            );
-
-        exportTableToCSV(response.data);
-        console.log('response', response)
-    };
-
-    function downloadCSV(csv: string, filename: string): void {
-        // CSV file
-        const csvFile = new Blob([csv], { type: "text/csv" });
-
-        // Download link
-        const downloadLink = document.createElement("a");
-
-        // File name
-        downloadLink.download = "reports.csv";  // Uzantıyı doğru şekilde ekledik
-
-        // Create a link to the file
-        downloadLink.href = window.URL.createObjectURL(csvFile);
-
-        // Hide download link
-        downloadLink.style.display = "none";
-
-        // Add the link to DOM
-        document.body.appendChild(downloadLink);
-
-        // Click download link
-        downloadLink.click();
-    }
-
-    function exportTableToCSV(filename: string) {
-        const csv = [];
-        const rows = document.querySelectorAll("table tr");
-
-        for (let i = 0; i < rows.length; i++) {
-            const row = [], cols = rows[i].querySelectorAll("td, th");
-
-            for (let j = 0; j < cols.length; j++)
-                row.push('"' + cols[j].textContent + '"'); // Her hücreyi tırnak içine al
-
-            csv.push(row.join(";")); // Noktalı virgülle ayır
+            // URL oluştur ve dosya indirme işlemini başlat
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'report.xlsx'); // İndirilecek dosyanın adı
+            document.body.appendChild(link);
+            link.click();
+        } catch (error) {
+            console.error("Excel dosyası indirilemedi:", error);
         }
-
-        downloadCSV(csv.join("\r\n"), filename); // Windows uyumlu satır sonları
-    }
+    };
 
     useEffect(() => {
         getAllChargeData();
@@ -745,7 +715,7 @@ const ReportsSection: React.FC = () => {
                                             className='w-1/6 mx-2 bg-primary text-white rounded-lg p-2'
                                             id={`${pagePrefix}-export-button`}
                                             type='button'
-                                            onClick={getExportTableData}
+                                            onClick={downloadExcel}
                                         />
                                         <Table
                                             attributeName="reports-management"
