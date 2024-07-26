@@ -6,8 +6,13 @@ interface IResponseDataProps {
 };
 interface IResponseStatusProps {
     status: number;
-    data : IResponseDataProps;
+    data: IResponseDataProps;
     message?: string;
+};
+export interface IDropdownItemProps {
+    id: null;
+    name: string;
+    rid: number;
 };
 export interface IFormElementProps {
     errors: FieldValues;
