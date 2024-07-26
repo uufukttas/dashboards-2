@@ -23,6 +23,11 @@ const SidebarBody: React.FC = () => {
             icon: <IoMdAnalytics />,
             link: '/reports',
             name: 'Rapor Merkezi',
+            subItems: [
+                { icon: <></>, link: '/reports/all-reports', name: 'Tüm Raporlar' },
+                { icon: <></>, link: '/reports/charging-reports', name: 'Şarj Raporları' },
+                { icon: <></>, link: '/reports/service-points-reports', name: 'İstasyon Raporları' }
+            ]
         },
         {
             icon: <LuReceipt />,
