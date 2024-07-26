@@ -13,7 +13,6 @@ import Background from '../src/components/Background/Background';
 import Loading from '../src/components/Loading/Loading';
 import Login from '../src/components/Login/Login';
 import { stylesProps, userInfo } from '../src/constants/constants';
-import { IDropdownItemProps } from '../src/components/Login/types';
 import './page.css';
 
 const Index: React.FC = () => {
@@ -21,7 +20,8 @@ const Index: React.FC = () => {
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const colors = useSelector((state: RootState) => state.configs.colors);
   const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
-  const languages: IDropdownItemProps[] = useSelector((state: RootState) => state.languages.languages);
+  const languages = useSelector((state: RootState) => state.languages.languages);
+
   const [isDetectedDevice, setIsDetectedDevice] = useState<boolean>(false);
 
   const fetchConfigurations = async (): Promise<void> => {
@@ -33,18 +33,14 @@ const Index: React.FC = () => {
   const getLanguageList = async (): Promise<void> => {
     const languageList = await getLanguageListRequest();
 
-    dispatch(
-        setLanguages(
-            languageList.map((language: IDropdownItemProps) => {
-                return ({
-                    id: null,
-                    rid: language.id,
-                    name: language.name,
-                })
-            })
-        )
-    );
-};
+    const updatedLanguages = languageList.map((language: { name: string; rid: number }) => ({
+      id: null,
+      name: language.name,
+      rid: language.rid,
+    }));
+
+    dispatch(setLanguages(updatedLanguages));
+  };
 
   useEffect(() => {
     fetchConfigurations();
@@ -54,7 +50,9 @@ const Index: React.FC = () => {
   return (
     isDetectedDevice && (
       <div className={
-        `${userInfo.name}-head-office w-full flex items-center justify-center ${detectDevice().isMobile ? 'h-screen' : ''}`
+        `${userInfo.name}-head-office w-full flex items-center justify-center ${
+          detectDevice().isMobile ? 'h-screen' : ''
+        }`
       }
         style={{ '--color-primary': `${colors[0].value}`, '--color-secondary': `${colors[1].value}` } as React.CSSProperties}
       >
