@@ -22,6 +22,7 @@ import isServicePointPermissionsUpdated from './features/isServicePointPermissio
 import isTariffListUpdated from './features/isTariffListUpdated';
 import isSidebarExpand from './features/isSidebarExpand';
 import isUserListUpdated from './features/isUserListUpdated';
+import languages from './features/languages';
 import permissionsData from './features/permissionsData';
 import searchedText from './features/searchProperties';
 import servicePoints from './features/servicePoints';
@@ -64,6 +65,7 @@ export const store: EnhancedStore = configureStore({
     isSidebarExpand,
     isTariffListUpdated,
     isUserListUpdated,
+    languages,
     permissionsData,
     searchedText,
     servicePoints,

@@ -191,6 +191,9 @@ export interface IIsUserListUpdatedProps {
 export interface IIsTariffListUpdatedProps {
     isTariffListUpdated: boolean;
 };
+export interface ILanguageStateProps {
+    languages: IDropdownItemProps[];
+};
 export interface ILoginTokenProps {
     loginToken: string;
 };
