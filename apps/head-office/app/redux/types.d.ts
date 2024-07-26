@@ -193,6 +193,7 @@ export interface IIsTariffListUpdatedProps {
 };
 export interface ILanguageStateProps {
     languages: IDropdownItemProps[];
+    selectedLanguage: number;
 };
 export interface ILoginTokenProps {
     loginToken: string;
