@@ -9,7 +9,7 @@ const Card: React.FC<ICardProps> = ({ cardBody, cardFooter, cardHeader, classNam
   const cardPrefix: string = `${BRAND_PREFIX}-card`;
 
   return (
-    <div className={`${cardPrefix}-container shadow-custom ${className} rounded`}>
+    <div className={`${cardPrefix}-container shadow-custom ${className}`}>
       {
         cardHeader && (
           <CardHeader>
