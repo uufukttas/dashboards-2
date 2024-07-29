@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import { Accordion } from '@projects/accordion';
 import { Button } from '@projects/button';
 import { Label } from '@projects/label';
 import { Toggle } from '@projects/toggle';
 import FilterInput from './FilterInput';
-import Accordion from '../Accordion/Accordion';
 import Tabs from '../Tabs/Tabs';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { IFilterItemProps, IFilterProps } from './types';
@@ -39,59 +39,62 @@ const DynamicFilters: React.FC<IFilterProps> = ({
             <Accordion
               accordionClassName={`${BRAND_PREFIX}-filter-accordion flex flex-col w-full my-2 font-bold`}
               accordionTitle={filter.label}
+              BRAND_PREFIX={BRAND_PREFIX}
               contentClassName={`${BRAND_PREFIX}-filter-content flex flex-col w-full md:px-2`}
               isAccordionOpen={false}
               key={filter.id}>
-              {
-                filter.operators.length > 0 && (
-                  <Tabs
-                    activeTabIndex={activeTabIndex}
-                    setActiveTabIndex={setActiveTabIndex}
-                    // @ts-ignore
-                    filters={filters}
-                    tabItems={filter.operators}
-                    // @ts-ignore
-                    setFilters={setFilters}
-                  />
-                )
-              }
-              {
-                (filter.id === 'StartDate' || filter.id === 'FinishDate') && (
-                  <div className='flex'>
-                    <Label
-                      className='w-full flex items-center justify-start font-normal'
-                      htmlFor=''
-                      labelText='Iki Tarih Arasi'
-                    />
-                    <Toggle
-                      onToggle={(event) => {
-                        // @ts-ignore
-                        setFilters((prevFilter) => {
-                          return prevFilter.map((item: IFilterItemProps) => {
-                            if (item.id === filter.id) {
-                              return {
-                                ...item,
-                                isHidden: !item.isHidden,
-                              };
-                            }
-
-                            return item;
-                          });
-                        });
-                      }}
-                    />
-                  </div>
-                )
-              }
-              <div className={`${BRAND_PREFIX}-filter-item flex flex-col my-2`}>
-                <label className='w-full flex items-center justify-start font-normal' htmlFor={filter.id}>{filter.label}</label>
-                <FilterInput className="w-full" filter={filter} value={filters[index].id} setFilters={setFilters} onChange={(id, event) => handleInputChange(event, id)} />
+              <>
                 {
-                  filter.isDoubleValue && (
-                    <FilterInput className={`${!filters[index].isHidden ? 'hidden' : ''}`} filter={filter} setFilters={setFilters} value={filters[index].id} id={'2'} onChange={(id, event) => handleInputChange(event, id)} />
+                  filter.operators.length > 0 && (
+                    <Tabs
+                      activeTabIndex={activeTabIndex}
+                      setActiveTabIndex={setActiveTabIndex}
+                      // @ts-ignore
+                      filters={filters}
+                      tabItems={filter.operators}
+                      // @ts-ignore
+                      setFilters={setFilters}
+                    />
                   )
                 }
-              </div>
+                {
+                  (filter.id === 'StartDate' || filter.id === 'FinishDate') && (
+                    <div className='flex'>
+                      <Label
+                        className='w-full flex items-center justify-start font-normal'
+                        htmlFor=''
+                        labelText='Iki Tarih Arasi'
+                      />
+                      <Toggle
+                        onToggle={(event) => {
+                          // @ts-ignore
+                          setFilters((prevFilter) => {
+                            return prevFilter.map((item: IFilterItemProps) => {
+                              if (item.id === filter.id) {
+                                return {
+                                  ...item,
+                                  isHidden: !item.isHidden,
+                                };
+                              }
+
+                              return item;
+                            });
+                          });
+                        }}
+                      />
+                    </div>
+                  )
+                }
+                <div className={`${BRAND_PREFIX}-filter-item flex flex-col my-2`}>
+                  <label className='w-full flex items-center justify-start font-normal' htmlFor={filter.id}>{filter.label}</label>
+                  <FilterInput className="w-full" filter={filter} value={filters[index].id} setFilters={setFilters} onChange={(id, event) => handleInputChange(event, id)} />
+                  {
+                    filter.isDoubleValue && (
+                      <FilterInput className={`${!filters[index].isHidden ? 'hidden' : ''}`} filter={filter} setFilters={setFilters} value={filters[index].id} id={'2'} onChange={(id, event) => handleInputChange(event, id)} />
+                    )
+                  }
+                </div>
+              </>
             </Accordion>
           ))
         }

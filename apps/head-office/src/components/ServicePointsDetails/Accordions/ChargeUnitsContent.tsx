@@ -3,9 +3,9 @@ import Link from 'next/link';
 import { FaPencil, FaPlugCirclePlus, FaQrcode, FaTrash } from 'react-icons/fa6';
 import { TbProgressBolt } from "react-icons/tb";
 import { useDispatch, useSelector } from 'react-redux';
+import { Accordion } from '@projects/accordion';
 import { Button } from '@projects/button';
 import { Tooltip } from '@projects/tooltip';
-import Accordion from '../../Accordion/Accordion';
 import {
     getChargePointFeatureStatus,
     getChargePointInvestors,
@@ -422,6 +422,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                 accordionTitle={createAccordionTitle(chargeUnit)}
                                 accordionClassName='bg-[#CCCCCC] text-white rounded-md my-4 w-full'
                                 backgroundColor='#777777 text-text'
+                                BRAND_PREFIX={BRAND_PREFIX}
                                 isAccordionOpen={false}
                                 key={index}
                                 titleClassName={`w-full flex justify-between items-center`}
