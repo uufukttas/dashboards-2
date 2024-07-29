@@ -15,7 +15,7 @@ const montserrat = Montserrat({
 });
 
 const Campaigns: React.FC = () => {
-    const pagePrefix: string = `${BRAND_PREFIX}-campaign-page`;
+    const pagePrefix: string = `${BRAND_PREFIX}-campaigns-page`;
     const dispatch = useDispatch<AppDispatch>();
     const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
 
