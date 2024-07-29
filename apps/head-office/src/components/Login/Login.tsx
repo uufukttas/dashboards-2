@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Card } from '@projects/card';
 import { Dropdown } from '@projects/dropdown';
 import CardBody from './LoginCardComponents/CardBody';
 import CardFooter from './LoginCardComponents/CardFooter';
 import CardHeader from './LoginCardComponents/CardHeader';
-import Card from '../Card/Card';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { setSelectedLanguage } from '../../../app/redux/features/languages';
 import { RootState } from '../../../app/redux/store';
@@ -30,10 +30,11 @@ const Login: React.FC = () => {
             </div>
             <div className={`${loginPrefix}-logo-container`}>
                 <Card
+                    BRAND_PREFIX={BRAND_PREFIX}
                     cardBody={<CardBody />}
                     cardFooter={<CardFooter />}
                     cardHeader={<CardHeader />}
-                    className={` p-8 w-full`}
+                    containerClassName={`p-8 w-full`}
                 />
             </div>
             <div className={`${loginPrefix}-footer-container`}>

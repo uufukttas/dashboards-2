@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import Card from '../../Card/Card';
+import { Card } from '@projects/card';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import { RootState } from '../../../../app/redux/store';
 
@@ -21,7 +21,11 @@ const ServicePointDetailsHeader: React.FC = () => {
     );
 
     return (
-        <Card cardBody={servicePointHeader} className='my-5 lg:mx-0 min-h-[96px] p-8' />
+        <Card
+            BRAND_PREFIX={BRAND_PREFIX}
+            cardBody={servicePointHeader}
+            containerClassName='my-5 lg:mx-0 min-h-[96px] p-8'
+        />
     );
 };
 
