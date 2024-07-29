@@ -13,23 +13,25 @@ const Tabs: React.FC<ITabsProps> = ({ activeTabIndex, setActiveTabIndex, tabItem
   const handleClick = (event: React.MouseEvent<HTMLElement>, index: number) => {
     setActiveIndexId(index);
 
-    if (Object.values(event?.currentTarget?.parentElement?.parentElement?.children[1]?.children[2]?.classList || []).indexOf('hidden') > -1 && index === 3) {
-      event?.currentTarget?.parentElement?.parentElement?.children[1]?.children[2]?.classList.remove('hidden')
-    } else {
-      event?.currentTarget?.parentElement?.parentElement?.children[1]?.children[2]?.classList.add('hidden')
-    }
- 
-    // @ts-ignore
-    setFilters((prevFilter) => {
+    if (typeof filters !== 'undefined') {
+      if (Object.values(event?.currentTarget?.parentElement?.parentElement?.children[1]?.children[2]?.classList || []).indexOf('hidden') > -1 && index === 3) {
+        event?.currentTarget?.parentElement?.parentElement?.children[1]?.children[2]?.classList.remove('hidden')
+      } else {
+        event?.currentTarget?.parentElement?.parentElement?.children[1]?.children[2]?.classList.add('hidden')
+      }
+
       // @ts-ignore
-      return prevFilter.map((item: IFilterItemProps) => {
-        return {
-          ...item,
-          // @ts-ignore
-          operatorId: event.currentTarget.getAttribute('data-operator-id'),
-        };
+      setFilters((prevFilter) => {
+        // @ts-ignore
+        return prevFilter.map((item: IFilterItemProps) => {
+          return {
+            ...item,
+            // @ts-ignore
+            operatorId: event.currentTarget.getAttribute('data-operator-id'),
+          };
+        });
       });
-    });
+    }
   };
 
   return (

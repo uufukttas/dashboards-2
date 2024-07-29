@@ -502,7 +502,8 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
             <Tabs
               activeTabIndex={activeTabIndex}
               setActiveTabIndex={setActiveTabIndex}
-              tabItems={tabItems} />
+              tabItems={tabItems}
+            />
             <ServicePointsDetailsContent activeTabIndex={activeTabIndex} slug={slug} />
           </div>
           {
