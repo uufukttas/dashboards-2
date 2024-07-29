@@ -6,7 +6,12 @@ const deleteServicePointPermissionRequest = async (permissionId: number) => {
             .post(
                 `${process.env.NEXT_PUBLIC_BASE_URL}/Auth/ChargePointUserDelete` || '',
                 { userId: permissionId },
-                { headers: { "Content-Type": "application/json" } }
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    }
+                }
             );
 
         return response.data;

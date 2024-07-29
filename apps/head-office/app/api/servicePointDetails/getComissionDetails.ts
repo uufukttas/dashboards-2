@@ -5,7 +5,12 @@ const getComissionDetails = async (servicePointId: string) => {
         const response = await axios.post(
             `${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/SelectCommisionRate` || '',
             { stationId: servicePointId },
-            { headers: { "Content-Type": "application/json" } },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                }
+            },
         );
 
         return response.data;

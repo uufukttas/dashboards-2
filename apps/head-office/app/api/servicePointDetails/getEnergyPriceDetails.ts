@@ -5,7 +5,12 @@ const getEnergyPriceDetails = async (stationId: string) => {
         const response = await axios
             .post(`${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/GetEnergyPrice` || '',
                 ({ stationId }),
-                { headers: { "Content-Type": "application/json" } }
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    }
+                }
             )
 
         return response.data;

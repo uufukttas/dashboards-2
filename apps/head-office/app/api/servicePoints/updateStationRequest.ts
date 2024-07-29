@@ -7,7 +7,12 @@ const updateStationRequest = async (actionData: IFormDataProps) => {
             .post(
                 process.env.NEXT_PUBLIC_UPDATE_STATION_URL || '',
                 actionData,
-                { headers: { 'Content-Type': 'application/json' } }
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    }
+                }
             )
 
         return response.data;

@@ -6,7 +6,8 @@ const getServicePointDataRequest = async (servicePointId: number): Promise<IServ
         const response = await axios
             .post(
                 `${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/GetStationById` || '',
-                ({ 'id': servicePointId })
+                ({ 'id': servicePointId }),
+                { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } }
             )
             .then((response) => response.data)
 

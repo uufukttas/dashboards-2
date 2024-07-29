@@ -6,7 +6,12 @@ const getAllTariffsRequest = async (name: string, currentPage: number) => {
             .post(
                 `${process.env.NEXT_PUBLIC_BASE_URL}/Tariff/GetTariffs`,
                 { pageNumber: currentPage, userCount: 10, name: name },
-                { headers: { 'Content-Type': 'application/json' } }
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    }
+                }
             );
 
         return response.data;

@@ -8,6 +8,7 @@ const addStationFeatureRequest = async (data: string) => {
             {
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
                 },
             },
         );

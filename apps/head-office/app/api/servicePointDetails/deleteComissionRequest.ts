@@ -10,7 +10,12 @@ const deleteComissionRequest = async (id: number, stationId: number) => {
                     stationId,
                     isDelete: 1,
                 }),
-                { headers: { 'Content-Type': 'application/json' } }
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                },
             );
 
         return response.data;

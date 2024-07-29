@@ -6,7 +6,11 @@ const getWorkingHoursRequest = async (servicePointId: string) => {
             .post(
                 `${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/GetWorkHours` || '',
                 JSON.stringify({ "stationID": servicePointId }),
-                { headers: { 'Content-Type': 'application/json' } }
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
             )
 
         return response.data;

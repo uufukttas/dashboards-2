@@ -6,7 +6,8 @@ const deleteServicePointRequest = async (servicePointId: number): Promise<IDelet
         const response = await axios
             .post(
                 `${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/DeleteStation` || '',
-                ({ 'id': servicePointId })
+                ({ 'id': servicePointId }),
+                { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } }
             )
             .then((response) => response)
 

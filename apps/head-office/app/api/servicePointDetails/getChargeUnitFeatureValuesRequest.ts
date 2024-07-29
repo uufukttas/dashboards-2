@@ -6,7 +6,12 @@ const getChargeUnitFeatureValuesRequest = async (chargePointId: string) => {
             .post(
                 `${process.env.NEXT_PUBLIC_BASE_URL}/StationFeature/GetChargePointFeature` || '',
                 { "StationChargePointID": Number(chargePointId) },
-                { headers: { 'Content-Type': 'application/json' } }
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    }
+                }
             );
 
         return featureValues.data;

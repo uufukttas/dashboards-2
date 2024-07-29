@@ -5,7 +5,12 @@ const getChargePointConnetors = async (chargePointId: number) => {
         const response = await axios.post(
             `${process.env.NEXT_PUBLIC_BASE_URL}/StationInfo/GetChargePointConnectorsV2` || '',
             JSON.stringify({ stationChargePointId: chargePointId }),
-            { headers: { 'Content-Type': 'application/json' } }
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                }
+            }
         );
 
         return response.data;

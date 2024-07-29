@@ -6,7 +6,12 @@ const updateColors = async (payloadData: any) => {
             .post(
                 `${process.env.NEXT_PUBLIC_BASE_URL}/ResourceText/UpdateMultiple`,
                 payloadData,
-                { headers: { 'Content-Type': 'application/json' } }
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                },
             );
 
         return response.data;

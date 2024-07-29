@@ -6,7 +6,12 @@ const getUserRequest = async (userId: number) => {
             .post(
                 `${process.env.NEXT_PUBLIC_BASE_URL}/Auth/GetUser`,
                 { userId: userId },
-                { headers: { 'Content-Type': 'application/json' } }
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    }
+                }
             )
         return response.data.data;
     } catch (error) {

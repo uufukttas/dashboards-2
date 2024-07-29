@@ -10,7 +10,12 @@ const getChargeUnitsRequest = async (slug: number) => {
                     PageNumber: 1,
                     PageSize: 10
                 }),
-                { headers: { 'Content-Type': 'application/json' } }
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    }
+                }
             );
 
         return response.data;

@@ -22,7 +22,12 @@ const getSelectedStationFeatures = async (stationId: number): Promise<IServicePo
                         stationId: stationId
                     }
                 ),
-                { headers: { 'Content-Type': 'application/json' } }
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                }
             )
             .then((response) => response.data);
 

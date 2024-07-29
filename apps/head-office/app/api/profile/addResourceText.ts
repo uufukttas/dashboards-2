@@ -6,7 +6,12 @@ const addResourceText = async (resources: { resourceKey: string; value: string }
             .post(
                 `${process.env.NEXT_PUBLIC_BASE_URL}/ResourceText/AddMultiple`,
                 resources,
-                { headers: { 'Content-Type': 'application/json' } }
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                },
             );
 
         return response;

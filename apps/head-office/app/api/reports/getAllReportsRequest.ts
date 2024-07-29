@@ -6,7 +6,13 @@ const getAllReportsRequest = async (payload: IGetAllReportsPayloadProps) => {
         const response = await axios
             .post(
                 `${process.env.NEXT_PUBLIC_BASE_URL}/Report/MainReport` || '',
-                payload
+                payload,
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
+                },
             )
             .then((response) => {
                 return {

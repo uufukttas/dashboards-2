@@ -6,7 +6,12 @@ const registerUserRequest = async (userData: IRegisterUserRequestData) => {
         const response = await axios.post(
             `${process.env.NEXT_PUBLIC_BASE_URL}/Auth/Register` || '',
             userData,
-            { headers: { 'Content-Type': 'application/json', } }
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            }
         );
 
         return response.data;

@@ -6,6 +6,11 @@ const updateConnectorRequest = async (data: IUpdateConnectorRequestProps) => {
         const response = await axios.post(
             `${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/UpdateConnector` || '',
             data,
+            {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            }
         );
 
         return response;

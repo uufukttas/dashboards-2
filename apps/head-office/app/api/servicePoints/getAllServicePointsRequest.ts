@@ -7,7 +7,12 @@ const getAllServicePointsRequest =
             const response = await axios
                 .post(
                     `${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/GetAllPoints` || '',
-                    payload
+                    {
+                        payload,
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                        }
+                    }
                 )
                 .then((response) => {
                     return {

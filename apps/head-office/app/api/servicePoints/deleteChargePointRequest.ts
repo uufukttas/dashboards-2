@@ -7,7 +7,12 @@ const deleteChargePointRequest = async (deletedChargeUnitData: IChargeUnitsProps
             .post(
                 `${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/UpdateStationSettings` || '',
                 JSON.stringify(deletedChargeUnitData),
-                { headers: { 'Content-Type': 'application/json' } }
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    } 
+                }
             )
             .then((response) => response);
 

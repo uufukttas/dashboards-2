@@ -4,8 +4,10 @@ import type { IGetUsersManagementUsersResponseProps, IGetUsersRequestPayloadProp
 const getUsersRequest = async (payload: IGetUsersRequestPayloadProps): Promise<IGetUsersManagementUsersResponseProps> => {
     try {
         const response = await axios
-            .post(`${process.env.NEXT_PUBLIC_BASE_URL}/Auth/Users` || '',
+            .post(
+                `${process.env.NEXT_PUBLIC_BASE_URL}/Auth/Users` || '',
                 payload,
+                { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } }
             );
 
         return response.data;

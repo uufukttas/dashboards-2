@@ -6,7 +6,8 @@ const getServicePointInformationRequest = async (servicePointId: number): Promis
         const response = await axios
         .post(
             `${process.env.NEXT_PUBLIC_BASE_URL}/StationInfo/GetByStationId` || '',
-            ({ 'stationId': servicePointId })
+            ({ 'stationId': servicePointId }),
+            { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } }
         )
         .then((response) => response)
 

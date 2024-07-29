@@ -4,7 +4,8 @@ const getDistrictsRequest = async (plateNumber: number) => {
     try {
         const response = await axios.post(
             `${process.env.NEXT_PUBLIC_BASE_URL}/Values/GetDistricts` || '',
-            { 'plateNumber': plateNumber }
+            { 'plateNumber': plateNumber },
+            { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } }
         );
 
         return response.data.data;

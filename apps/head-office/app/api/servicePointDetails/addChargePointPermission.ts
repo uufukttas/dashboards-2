@@ -10,7 +10,12 @@ const addChargePointPermission = async (permissionPhoneNumber: { name: string; s
                 phoneNumber: permissionPhoneNumber.phoneNumber,
                 stationId: Number(slug),
             },
-            { headers: { 'Content-Type': 'application/json' } }
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            },
         );
 
         return response.data;

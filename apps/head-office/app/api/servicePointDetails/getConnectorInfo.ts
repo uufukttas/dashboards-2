@@ -5,7 +5,12 @@ const getConnectorInfo = async (connectorId: number): Promise<string> => {
         const response = await axios.post(
             `${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/StationConnectorInfo` || '',
             ([{ connectorId: connectorId }]),
-            { headers: { 'Content-Type': 'application/json' } }
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                }
+            }
         );
 
         return response.data.data[0]?.displayName;

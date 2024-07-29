@@ -7,7 +7,12 @@ const deleteUserRequest = async (userId: number): Promise<IDeleteUserRequestResp
             .post(
                 `${process.env.NEXT_PUBLIC_BASE_URL}/Auth/ChargePointUserDelete` || '',
                 JSON.stringify({ "userId": userId }),
-                { headers: { 'Content-Type': 'application/json', } }
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                }
             );
 
         return response.data;

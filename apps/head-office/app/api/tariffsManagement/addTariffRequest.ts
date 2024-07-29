@@ -7,7 +7,12 @@ const addTariffRequest = async (data: IAddTariffRequestProps) => {
             .post(
                 `${process.env.NEXT_PUBLIC_BASE_URL}/Tariff/AddTariff`,
                 data,
-                { headers: { "Content-Type": "application/json" } }
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    }
+                }
             )
 
         return response.data;

@@ -5,7 +5,12 @@ const getPermissionRequest = async (stationId: number) => {
         const response = await axios.post(
             `${process.env.NEXT_PUBLIC_BASE_URL}/auth/ChargePointUsers` || '',
             { stationId },
-            { headers: { 'Content-Type': 'application/json' } }
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                }
+            }
         )
         return response.data;
     } catch (error) {

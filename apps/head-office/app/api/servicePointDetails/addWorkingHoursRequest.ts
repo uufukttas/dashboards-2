@@ -6,7 +6,12 @@ const addWorkingHoursRequest = async (data: string) => {
 
             `${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/AddWorkHours` || '',
             data,
-            { headers: { 'Content-Type': 'application/json' } }
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`
+                }
+            },
         );
         return response.data;
     } catch (error) {
