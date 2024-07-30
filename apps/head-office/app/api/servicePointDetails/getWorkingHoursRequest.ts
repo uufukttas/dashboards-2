@@ -8,7 +8,8 @@ const getWorkingHoursRequest = async (servicePointId: string) => {
                 JSON.stringify({ "stationID": servicePointId }),
                 {
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
                     }
                 }
             )
