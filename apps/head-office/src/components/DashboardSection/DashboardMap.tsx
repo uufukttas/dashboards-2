@@ -4,7 +4,7 @@ import { Libraries } from '@react-google-maps/api'
 import { BRAND_PREFIX } from '../../constants/constants';
 
 const DashboardMap = () => {
-  const dashboardMapPrefix = `${BRAND_PREFIX}-dashboard-map`;
+  const dashboardMapPrefix: string = `${BRAND_PREFIX}-dashboard-map`;
   const libraries: Libraries = ["places"];
   const mapRef = useRef<google.maps.Map>(null);
 

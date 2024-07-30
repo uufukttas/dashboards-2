@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Montserrat } from 'next/font/google';
-import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import DashboardSection from './DashboardSection';
 import Loading from '../Loading/Loading';
@@ -18,17 +17,9 @@ const montserrat = Montserrat({
 
 const DashboardPage: React.FC = () => {
   const dispatch = useDispatch();
-  const router = useRouter();
   const colors = useSelector((state: RootState) => state.configs.colors);
   const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
   const [isVisible, setIsVisible] = useState<boolean>(false);
-
-  const checkToken = () => {
-    const token = window.localStorage.getItem('token');
-    if (!token) {
-      router.push('/');
-    };
-  };
 
   const fetchConfigurations = async () => {
     const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
@@ -37,7 +28,6 @@ const DashboardPage: React.FC = () => {
   };
 
   useEffect(() => {
-    checkToken();
     fetchConfigurations();
   }, []);
 
