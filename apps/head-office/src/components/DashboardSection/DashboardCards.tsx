@@ -233,12 +233,22 @@ const DashboardCards: React.FC = () => {
                     <Card
                         BRAND_PREFIX={BRAND_PREFIX}
                         cardBody={chargeUnitContent11}
-                        containerClassName={`w-full flex items-center justify-center h-full mr-4 shadow-none border border-gray-300 py-4 rounded-md`}
+                        containerClassName={`w-full flex items-center h-full mr-4 shadow-none border border-gray-300 py-4 rounded-md`}
                     />
                     <Card
                         BRAND_PREFIX={BRAND_PREFIX}
                         cardBody={chargeUnitContent11}
-                        containerClassName={`w-full flex items-center justify-center h-full  shadow-none border border-gray-300 py-4 rounded-md`}
+                        containerClassName={`w-full flex items-center h-full mr-4 shadow-none border border-gray-300 py-4 rounded-md`}
+                    />
+                    <Card
+                        BRAND_PREFIX={BRAND_PREFIX}
+                        cardBody={chargeUnitContent11}
+                        containerClassName={`w-full flex items-center h-full mr-4 shadow-none border border-gray-300 py-4 rounded-md`}
+                    />
+                    <Card
+                        BRAND_PREFIX={BRAND_PREFIX}
+                        cardBody={chargeUnitContent11}
+                        containerClassName={`w-full flex items-center h-full shadow-none border border-gray-300 py-4 rounded-md`}
                     />
                 </div>
             </div>
