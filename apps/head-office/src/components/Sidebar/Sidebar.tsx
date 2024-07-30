@@ -28,8 +28,10 @@ const Sidebar: React.FC = () => {
         }`}
       >
         <SidebarHeader />
-        <SidebarBody />
-        <SidebarFooter />
+        <div className={`${sidebarPrefix}-content-container flex h-full flex-col justify-between`}>
+          <SidebarBody />
+          <SidebarFooter />
+        </div>
       </div>
     )
   );
