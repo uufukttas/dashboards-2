@@ -1,0 +1,56 @@
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import DashboardSection from '../../src/components/DashboardSection/DashboardSection';
+import Loading from '../../src/components/Loading/Loading';
+import MainPage from '../../src/components/MainPage/MainPage';
+import { BRAND_PREFIX } from '../../src/constants/constants';
+import { getColors } from '../../app/api/profile';
+import { setConfigs } from '../../app/redux/features/setConfig';
+import { RootState } from '../../app/redux/store';
+
+const DashboardPage: React.FC = () => {
+    const dispatch = useDispatch();
+    const { configs: { colors }, isLoadingVisible: { isLoading } } = useSelector((state: RootState) => state);
+    const [isVisible, setIsVisible] = useState<boolean>(false);
+
+    const fetchConfigurations = async (): Promise<void> => {
+        const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
+
+        dispatch(setConfigs(colors.data));
+        setIsVisible(true);
+    };
+
+    useEffect(() => {
+        fetchConfigurations();
+    }, []);
+
+    return (
+        isVisible && (
+            <div
+                className={`${BRAND_PREFIX}-dashboards-page-wrapper w-full flex h-screen`}
+                style={{
+                    '--color-primary': `${colors[0].value}`,
+                    '--color-secondary': `${colors[1].value}`
+                } as React.CSSProperties}
+            >
+                {
+                    isLoading
+                        ? (
+                            <Loading />
+                        )
+                        : (
+                            <MainPage headerName='Dashboards'>
+                                <div
+                                    className={`${BRAND_PREFIX}-dashboard-page-container flex justify-center items-center flex-wrap`}
+                                >
+                                    <DashboardSection />
+                                </div>
+                            </MainPage>
+                        )
+                }
+            </div>
+        )
+    );
+};
+
+export default DashboardPage;
