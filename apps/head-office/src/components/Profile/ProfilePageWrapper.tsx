@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Montserrat } from 'next/font/google';
 import { useDispatch, useSelector } from 'react-redux';
 import ProfileSection from './ProfileSection';
 import Loading from '../Loading/Loading';
@@ -9,12 +8,6 @@ import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVi
 import { RootState, AppDispatch } from '../../../app/redux/store';
 import { getColors } from '../../../app/api/profile';
 import { setConfigs } from '../../../app/redux/features/setConfig';
-
-const montserrat = Montserrat({
-    display: 'swap',
-    subsets: ['latin'],
-    weight: ['300', '400', '500', '600', '700'],
-});
 
 const Profile: React.FC = () => {
     const pagePrefix: string = `${BRAND_PREFIX}-profile-page`;
@@ -39,7 +32,7 @@ const Profile: React.FC = () => {
         isVisible && (
 
             <div
-                className={`${montserrat.className} ${pagePrefix}-wrapper w-full flex h-screen`}
+                className={`${pagePrefix}-wrapper w-full flex h-screen`}
                 style={{
                     '--color-primary': `${colors[0].value}`,
                     '--color-secondary': `${colors[1].value}`

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { Montserrat } from 'next/font/google';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import Header from '../Header/Header';
@@ -12,6 +13,12 @@ import { setConfigs } from '../../../app/redux/features/setConfig';
 import { RootState } from '../../../app/redux/store';
 import type { IMainPageProps } from './types';
 import './MainPage.css';
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['300', '400', '500', '600', '700'],
+});
 
 const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageProps) => {
   const pagePrefix: string = `${BRAND_PREFIX}-page`;
@@ -45,7 +52,7 @@ const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageP
   return (
     isVisibleComponent && (
       <div
-        className={`${pagePrefix}-wrapper w-full flex`}
+        className={`${montserrat.className} ${pagePrefix}-wrapper w-full flex`}
         style={{ '--color-primary': `${colors[0].value}`, '--color-secondary': `${colors[1].value}` } as React.CSSProperties}
 
       >

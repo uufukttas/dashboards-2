@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Montserrat } from 'next/font/google';
 import { useDispatch, useSelector } from 'react-redux';
 import DashboardSection from './DashboardSection';
 import Loading from '../Loading/Loading';
@@ -8,12 +7,6 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import { getColors } from '../../../app/api/profile';
 import { setConfigs } from '../../../app/redux/features/setConfig';
 import { RootState } from '../../../app/redux/store';
-
-const montserrat = Montserrat({
-  subsets: ['latin'],
-  display: 'swap',
-  weight: ['300', '400', '500', '600', '700'],
-});
 
 const DashboardPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -34,7 +27,7 @@ const DashboardPage: React.FC = () => {
   return (
     isVisible &&
     <div
-      className={`${montserrat.className} ${BRAND_PREFIX}-dashboards-page-wrapper w-full flex h-screen`}
+      className={`${BRAND_PREFIX}-dashboards-page-wrapper w-full flex h-screen`}
       style={{
         '--color-primary': `${colors[0].value}`,
         '--color-secondary': `${colors[1].value}`
