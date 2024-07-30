@@ -14,8 +14,9 @@ const DashboardPage: React.FC = () => {
   const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const fetchConfigurations = async () => {
+  const fetchConfigurations = async (): Promise<void> => {
     const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
+
     dispatch(setConfigs(colors.data));
     setIsVisible(true);
   };
@@ -25,30 +26,31 @@ const DashboardPage: React.FC = () => {
   }, []);
 
   return (
-    isVisible &&
-    <div
-      className={`${BRAND_PREFIX}-dashboards-page-wrapper w-full flex h-screen`}
-      style={{
-        '--color-primary': `${colors[0].value}`,
-        '--color-secondary': `${colors[1].value}`
-      } as React.CSSProperties}
-    >
-      {
-        isLoading
-          ? (
-            <Loading />
-          )
-          : (
-            <MainPage headerName='Dashboards'>
-              <div className={
-                `${BRAND_PREFIX}-dashboard-page-container flex justify-center items-center flex-wrap`
-              }>
-                <DashboardSection />
-              </div>
-            </MainPage>
-          )
-      }
-    </div>
+    isVisible && (
+      <div
+        className={`${BRAND_PREFIX}-dashboards-page-wrapper w-full flex h-screen`}
+        style={{
+          '--color-primary': `${colors[0].value}`,
+          '--color-secondary': `${colors[1].value}`
+        } as React.CSSProperties}
+      >
+        {
+          isLoading
+            ? (
+              <Loading />
+            )
+            : (
+              <MainPage headerName='Dashboards'>
+                <div className={
+                  `${BRAND_PREFIX}-dashboard-page-container flex justify-center items-center flex-wrap`
+                }>
+                  <DashboardSection />
+                </div>
+              </MainPage>
+            )
+        }
+      </div>
+    )
   );
 };
 

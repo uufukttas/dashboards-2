@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Card } from '@projects/card';
+import DashboardMap from './DashboardMap';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import './DashboardSection.css';
@@ -111,7 +112,36 @@ const DashboardCards: React.FC = () => {
     );
 
     return (
-        <div className={`${pagePrefix}-container w-full flex justify-between flex-wrap`}>
+        <div className={`${pagePrefix}-info-container w-full flex justify-between flex-wrap`}>
+            <div className={`${pagePrefix}-row-wrapper flex w-full`}>
+                <div className={`${pagePrefix}-map-row-container flex justify-between flex-wrap w-1/2`}>
+                    <div className='w-full lg:w-1/2 flex flex-col px-2 my-4'>
+                        <Card
+                            BRAND_PREFIX={BRAND_PREFIX}
+                            cardBody={chargeUnitContent1}
+                            containerClassName={`w-full flex items-center justify-center h-1/2 mb-2 shadow border border-gray-300 py-4 rounded-md`}
+                        />
+                        <Card
+                            BRAND_PREFIX={BRAND_PREFIX}
+                            cardBody={chargeUnitContent7}
+                            containerClassName={`w-full flex items-center justify-center h-1/2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
+                        />
+                    </div>
+                    <div className='w-full lg:w-1/2 flex flex-col px-2 my-4'>
+                        <Card
+                            BRAND_PREFIX={BRAND_PREFIX}
+                            cardBody={chargeUnitContent2}
+                            containerClassName={`w-full flex items-center justify-center h-1/2 mb-2 shadow border border-gray-300 py-4 rounded-md`}
+                        />
+                        <Card
+                            BRAND_PREFIX={BRAND_PREFIX}
+                            cardBody={chargeUnitContent8}
+                            containerClassName={`w-full flex items-center justify-center h-1/2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
+                        />
+                    </div>
+                </div>
+                <DashboardMap />
+            </div>
             <div className='w-full lg:w-1/6 flex flex-col px-2 my-4'>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
