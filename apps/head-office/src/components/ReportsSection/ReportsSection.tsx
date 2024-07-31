@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { Tooltip } from '@projects/tooltip';
 import { tablePlaceholderInitialValue } from './constant';
-import DynamicFilters from '../Filter/Filter';
+import Filters from '../Filter/Filter';
 import Loading from '../Loading/Loading';
 import Pagination from '../ServicePointSection/PaginationComponents/Pagination';
 import Table from '../Table/Table';
@@ -693,7 +693,7 @@ const ReportsSection: React.FC = () => {
                             <Loading />
                         ) : (
                             <>
-                                <DynamicFilters className={`${pagePrefix} h-full mx-2`} filters={filters} setFilters={setFilters} onFilterSubmit={handleFilterSubmit} isExpanded={isExpanded} />
+                                <Filters className={`${pagePrefix} h-full mx-2`} filters={filters} setFilters={setFilters} onFilterSubmit={handleFilterSubmit} isExpanded={isExpanded} />
                                 <div className={`${pagePrefix}-table-container flex flex-col items-end relative ${isExpanded ? 'w-5/6' : 'w-full'}`}>
                                     <Tooltip
                                         containerClassName={`${pagePrefix}-tooltip -left-4 inset-y-1/2 shadow-custom border rounded-md text-center bg-secondary h-8 w-8 text-white flex justify-center items-center z-10 !absolute`}
