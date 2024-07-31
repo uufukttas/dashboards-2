@@ -125,13 +125,13 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
         ];
 
         return (
-            <div className="service-point-details-accordion-container">
+            <div className={`service-point-details-accordion-container`}>
                 {
                     accordionConfig.map((accordion, index) => (
                         index === activeTabIndex &&
                         <Accordion
                             key={index}
-                            accordionClassName="service-point-details-accordion my-4 bg-[#777777]"
+                            accordionClassName="service-point-details-accordion my-4 bg-[#777777] border-gray-300"
                             accordionIcon={accordion.accordionIcon}
                             accordionTitle={accordion.accordionTitle}
                             actionButton={accordion.actionButton}
