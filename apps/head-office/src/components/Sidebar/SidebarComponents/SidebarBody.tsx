@@ -2,7 +2,6 @@ import React from 'react';
 import { FaGift, FaLocationDot, FaUser, FaQuestion } from 'react-icons/fa6';
 import { LuReceipt } from "react-icons/lu";
 import { IoMdAnalytics } from "react-icons/io";
-import { Tooltip } from '@projects/tooltip';
 import SidebarBodyItem from './SidebarBodyItem';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import type { ISidebarElementProps } from '../types';
@@ -53,18 +52,12 @@ const SidebarBody: React.FC = () => {
                 {
                     sidebarElements.map((item: ISidebarElementProps, index: number) => {
                         return (
-                            <Tooltip
-                                containerClassName='w-full'
+                            <SidebarBodyItem
+                                index={index}
+                                item={item}
                                 key={index}
-                                text={item.name}
-                                textClassName='left-14'
-                            >
-                                <SidebarBodyItem
-                                    index={index}
-                                    item={item}
-                                    sidebarElementsLength={sidebarElements.length}
-                                />
-                            </Tooltip>
+                                sidebarElementsLength={sidebarElements.length}
+                            />
                         );
                     })
                 }
