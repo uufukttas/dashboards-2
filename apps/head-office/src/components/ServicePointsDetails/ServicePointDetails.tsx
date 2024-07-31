@@ -155,7 +155,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     return state.isServicePointPermissionsUpdated.isServicePointPermissionsUpdated
   });
   const manageStation = useSelector((state: RootState) => state.setVisibleModal.manageStation);
-  const [activeTabIndex, setActiveTabIndex] = useState<number>(1);
+  const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
 
   const modalConfig: IModalConfigProps[] = [
     {
