@@ -1,7 +1,6 @@
 import React from 'react';
 import { FaChargingStation, FaSackDollar } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
-import { Accordion } from '@projects/accordion';
 import { Button } from '@projects/button';
 import ChargeUnitsContent from '../Accordions/ChargeUnitsContent';
 import Comissions from '../Accordions/Comissions/Comissions';
@@ -10,6 +9,7 @@ import LocationInfo from '../Accordions/LocationInfo';
 import ServicePointPermissions from '../Accordions/ServicePointPermissions';
 import WorkingHoursContent from '../Accordions/WorkingHoursContent';
 import { initialChargeUnitDataValue } from '../constants';
+import Accordion from '../../Accordion/Accordion';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import {
@@ -135,7 +135,6 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
                             accordionIcon={accordion.accordionIcon}
                             accordionTitle={accordion.accordionTitle}
                             actionButton={accordion.actionButton}
-                            BRAND_PREFIX={BRAND_PREFIX}
                             titleClassName={accordion.titleClassName}
                         >
                             {accordion.accordionContent}

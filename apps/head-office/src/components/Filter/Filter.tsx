@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Accordion } from '@projects/accordion';
 import { Button } from '@projects/button';
 import { Label } from '@projects/label';
 import { Toggle } from '@projects/toggle';
+import Accordion from '../Accordion/Accordion';
 import FilterInput from './FilterInput';
 import Tabs from '../Tabs/Tabs';
 import { BRAND_PREFIX } from '../../constants/constants';
@@ -39,7 +39,6 @@ const DynamicFilters: React.FC<IFilterProps> = ({
             <Accordion
               accordionClassName={`${BRAND_PREFIX}-filter-accordion flex flex-col w-full my-2 font-bold`}
               accordionTitle={filter.label}
-              BRAND_PREFIX={BRAND_PREFIX}
               contentClassName={`${BRAND_PREFIX}-filter-content flex flex-col w-full md:px-2`}
               isAccordionOpen={false}
               key={filter.id}>
