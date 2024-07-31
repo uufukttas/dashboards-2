@@ -31,22 +31,22 @@ export function Accordion({
   const toggleAccordion = (): void => setIsOpen(!isOpen);
 
   return (
-    <div className={`${accordionPrefix}-content-container border rounded-lg ${accordionClassName}`}>
-      <div className={`${accordionPrefix}-header justify-between bg-${backgroundColor}`}>
+    <div className={`${accordionPrefix}-content-container border ${accordionClassName}`}>
+      <div className={`${accordionPrefix}-header justify-between flex p-2 bg-${backgroundColor}`}>
         <div className={`${accordionPrefix}-left-container flex items-center ${titleClassName}`}>
-          <div className={`${accordionPrefix}-title`}>
+          <div className={`${accordionPrefix}-title w-full`}>
             {accordionTitle}
           </div>
           {
             accordionIcon && (
-              <div className={`${BRAND_PREFIX}-icon-container px-2`}>
+              <div className={`${accordionPrefix}-icon-container px-2`}>
                 {accordionIcon}
               </div>
             )
           }
         </div>
         <div className={`${accordionPrefix}-right-container flex items-center justify-center`}>
-          <div className={`${BRAND_PREFIX}-action-button-container`}>
+          <div className={`${accordionPrefix}-action-button-container`}>
             {actionButton}
           </div>
           <div
