@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import Accordion from './accordion';
+import Accordion from './Accordion';
 
 describe('Accordion', () => {
   it('should render successfully', () => {

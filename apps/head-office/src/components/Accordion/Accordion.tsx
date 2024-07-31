@@ -1,52 +1,41 @@
 import React, { useState } from 'react';
+import { BRAND_PREFIX } from '../../constants/constants';
+import type { IAccordionProps } from './types';
+import './Accordion.css';
 
-export interface AccordionProps {
-  accordionClassName?: string;
-  accordionIcon?: JSX.Element | React.ReactNode;
-  accordionTitle?: string | JSX.Element;
-  actionButton?: JSX.Element | React.ReactNode;
-  backgroundColor?: string;
-  BRAND_PREFIX: string;
-  children: JSX.Element | React.ReactNode;
-  contentClassName?: string;
-  isAccordionOpen?: boolean;
-  titleClassName?: string;
-};
-
-export function Accordion({
+const Accordion: React.FC<IAccordionProps> = ({
   accordionClassName,
   accordionIcon,
   accordionTitle,
   actionButton,
   backgroundColor = "primary",
-  BRAND_PREFIX,
   children,
   contentClassName = "",
   isAccordionOpen = true,
   titleClassName,
-}: AccordionProps): JSX.Element {
+}: IAccordionProps) => {
   const accordionPrefix: string = `${BRAND_PREFIX}-accordion`;
   const [isOpen, setIsOpen] = useState<boolean>(isAccordionOpen);
 
   const toggleAccordion = (): void => setIsOpen(!isOpen);
 
   return (
-    <div className={`${accordionPrefix}-content-container border ${accordionClassName}`}>
-      <div className={`${accordionPrefix}-header justify-between flex p-2 bg-${backgroundColor}`}>
+    <div className={`${accordionPrefix}-content-container border rounded-lg ${accordionClassName}`}>
+      <div className={`${accordionPrefix}-header justify-between bg-${backgroundColor}`}>
         <div className={`${accordionPrefix}-left-container flex items-center ${titleClassName}`}>
-          <div className={`${accordionPrefix}-title w-full`}>
+          <div className={`${accordionPrefix}-title`}>
             {accordionTitle}
           </div>
           {
             accordionIcon && (
-              <div className={`${accordionPrefix}-icon-container px-2`}>
+              <div className={`${BRAND_PREFIX}-icon-container px-2`}>
                 {accordionIcon}
               </div>
             )
           }
         </div>
         <div className={`${accordionPrefix}-right-container flex items-center justify-center`}>
-          <div className={`${accordionPrefix}-action-button-container`}>
+          <div className={`${BRAND_PREFIX}-action-button-container`}>
             {actionButton}
           </div>
           <div
@@ -67,7 +56,6 @@ export function Accordion({
       }
     </div>
   );
-
-}
+};
 
 export default Accordion;
