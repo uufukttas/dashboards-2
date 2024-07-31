@@ -1,5 +1,6 @@
 import React from 'react';
 import { FaGift, FaLocationDot, FaUser, FaQuestion } from 'react-icons/fa6';
+import { PiArrowElbowDownRightBold } from "react-icons/pi";
 import { LuReceipt } from "react-icons/lu";
 import { IoMdAnalytics } from "react-icons/io";
 import SidebarBodyItem from './SidebarBodyItem';
@@ -23,9 +24,21 @@ const SidebarBody: React.FC = () => {
             link: '/reports',
             name: 'Rapor Merkezi',
             subItems: [
-                { icon: <></>, link: '/reports/all-reports', name: 'Tüm Raporlar' },
-                { icon: <></>, link: '/reports/charging-reports', name: 'Şarj Raporları' },
-                { icon: <></>, link: '/reports/service-points-reports', name: 'İstasyon Raporları' }
+                {
+                    icon: <PiArrowElbowDownRightBold />,
+                    link: '/reports/all-reports',
+                    name: 'Tüm Raporlar'
+                },
+                {
+                    icon: <PiArrowElbowDownRightBold />,
+                    link: '/reports/charging-reports',
+                    name: 'Şarj Raporları'
+                },
+                {
+                    icon: <PiArrowElbowDownRightBold />,
+                    link: '/reports/service-points-reports',
+                    name: 'İstasyon Raporları'
+                }
             ]
         },
         {

@@ -4,10 +4,10 @@ import { FaRegCircleXmark } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { detectDevice } from '@projects/common';
+import { Image } from '@projects/image';
 import { BRAND_PREFIX, userInfo } from '../../../constants/constants';
 import { toggleSidebarExpanded } from '../../../../app/redux/features/isSidebarExpand';
 import { RootState } from '../../../../app/redux/store';
-import { Image } from '@projects/image';
 
 const SidebarHeader: React.FC = () => {
     const sidebarHeaderPrefix: string = `${BRAND_PREFIX}-sidebar-header`;
@@ -29,7 +29,7 @@ const SidebarHeader: React.FC = () => {
             </div>
             {
                 detectDevice().isMobile === true && (
-                    <div className={`${sidebarHeaderPrefix}-close-container mx-4`}>
+                    <div className={`${sidebarHeaderPrefix}-close-button-container mx-4`}>
                         <Button
                             className={`${sidebarHeaderPrefix}-close-button`}
                             id={`${sidebarHeaderPrefix}-close-button`}

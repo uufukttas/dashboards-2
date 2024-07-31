@@ -8,11 +8,11 @@ import type { ISidebarBodyItemProps, ISidebarElementProps } from '../types';
 
 const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({ index, item, sidebarElementsLength }: ISidebarBodyItemProps) => {
     const sidebarPrefix: string = `${BRAND_PREFIX}-sidebar`;
-    const isLinkedSidebarItems = typeof item.subItems === 'undefined';
+    const hasSubItems = typeof item.subItems === 'undefined';
     const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
     const [isOpenSubItems, setIsOpenSubItems] = useState(false);
 
-    const renderSubItems = (subItems: ISidebarElementProps[]) => (
+    const renderSubItems = (subItems: ISidebarElementProps[]): JSX.Element => (
         <ul className='ml-2'>
             {
                 subItems.map((subItem, subIndex) => (
@@ -41,7 +41,7 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({ index, item, sidebar
             textClassName='left-14'
         >
             {
-                isLinkedSidebarItems ? (
+                hasSubItems ? (
                     <Link href={item.link}>
                         <li
                             className={`${sidebarPrefix}-list-item cursor-pointer border-gray-300 w-full ${index === sidebarElementsLength - 1 ? '' : 'border-b'}  focus:bg-secondary-lighter focus:text-white`}
