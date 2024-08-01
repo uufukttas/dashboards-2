@@ -645,7 +645,7 @@ const ReportsSection: React.FC = () => {
 
     const downloadExcel = async (): Promise<void> => {
         try {
-            const response = await axios.post('https://sharztestapi.azurewebsites.net/Report/ExcelExport', {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/Report/ExcelExport`, {
                 "filterAttributes": [
                     {
                         "property": "RID",
