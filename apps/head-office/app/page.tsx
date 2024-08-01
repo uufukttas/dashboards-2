@@ -5,9 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from '@projects/alert';
 import { detectDevice } from '@projects/common';
 import { getLanguageListRequest } from './api/login';
-import { getColors } from './api/profile';
 import { setLanguages } from './redux/features/languages';
-import { setConfigs } from './redux/features/setConfig';
 import { RootState } from './redux/store';
 import Background from '../src/components/Background/Background';
 import Loading from '../src/components/Loading/Loading';
@@ -23,12 +21,6 @@ const Index: React.FC = () => {
   const languages = useSelector((state: RootState) => state.languages.languages);
   const [isDetectedDevice, setIsDetectedDevice] = useState<boolean>(false);
 
-  const fetchConfigurations = async (): Promise<void> => {
-    const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
-
-    dispatch(setConfigs(colors.data));
-    setIsDetectedDevice(true);
-  };
   const getLanguageList = async (): Promise<void> => {
     const languageList = await getLanguageListRequest();
 
@@ -42,7 +34,8 @@ const Index: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchConfigurations();
+    setIsDetectedDevice(true);
+
     getLanguageList();
   }, []);
 
