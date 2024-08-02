@@ -8,25 +8,24 @@ import './Table.css';
 
 const Table: React.FC<ITableProps> = ({
   attributeName,
-  buttonText,
   className,
   filteredDropdownItems,
+  hasFilterData,
   roleStyles,
   tableData,
   tableDataCount,
+  tableHeader,
   tableHeadData,
   tablePlaceholderInitialValue,
 }: ITableProps) => {
   const tablePrefix: string = `${BRAND_PREFIX}-table`;
 
   return (
-    <div className={`${tablePrefix}-container relative overflow-x-auto shadow-md max-w-[330px] md:max-w-full border-2 border-gray-200 ${className}`}>
-      {
-        attributeName !== 'reports-management' && (
-          <TableHeader buttonText={buttonText} filteredDropdownItems={filteredDropdownItems} />
-        )
-      }
-      <div className={`${tablePrefix}-content-container border-r-0 border-l-0`}>
+    <div className={`${tablePrefix}-wrapper relative overflow-x-auto shadow-md max-w-[330px] md:max-w-full border-2 border-gray-200 ${className}`}>
+      <TableHeader filteredDropdownItems={filteredDropdownItems} hasFilterData={hasFilterData}>
+        {tableHeader}
+      </TableHeader>
+      <div className={`${tablePrefix}-container border-r-0 border-l-0`}>
         <table className={`${tablePrefix} w-full text-sm text-left rtl:text-right text-gray-500`}>
           <TableHead attributeName={attributeName} tableHeadData={tableHeadData} />
           <TableBody

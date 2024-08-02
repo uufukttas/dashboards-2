@@ -117,8 +117,9 @@ export interface ITableDataAttributeProps {
     [key: string]: string | number | undefined | null;
 };
 export interface ITableHeaderProps {
-    buttonText: string;
+    children: React.ReactNode;
     filteredDropdownItems: IDropdownItemProps[];
+    hasFilterData: boolean;
 };
 export interface ITableHeadProps {
     attributeName: string;
@@ -126,12 +127,13 @@ export interface ITableHeadProps {
 };
 export interface ITableProps {
     attributeName: string;
-    buttonText: string;
     className?: string;
     filteredDropdownItems: IDropdownItemProps[];
+    hasFilterData: boolean;
     roleStyles?: IRolesStyleProps;
     tableData: IServicePointInfoProps[] | IUserDataProps[];
     tableDataCount: number;
+    tableHeader: React.ReactNode;
     tableHeadData: string[];
     tablePlaceholderInitialValue: ITableBodyPlaceholderProps;
 };
