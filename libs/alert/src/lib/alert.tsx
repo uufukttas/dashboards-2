@@ -18,8 +18,7 @@ export function Alert({ alertText, alertType, id }: IAlertProps): JSX.Element {
     <div
       className={`alert-container flex items-center p-4 mb-4 border-t-4 absolute top-5 right-0 z-50 ${
         alertTypes[alertType]
-        }`
-      }
+      }`}
       id={id}
     >
       <FaCircleInfo />
