@@ -1,34 +1,16 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import Loading from '../Loading/Loading';
 import MainPage from '../MainPage/MainPage';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { getColors } from '../../../app/api/profile';
-import { setConfigs } from '../../../app/redux/features/setConfig';
-import { RootState, AppDispatch } from '../../../app/redux/store';
+import { RootState } from '../../../app/redux/store';
 import ServicePointSection from '../../../src/components/ServicePointSection/ServicePointSection';
 
 const ServicePointPage: React.FC = () => {
-    const dispatch = useDispatch<AppDispatch>();
-    const colors = useSelector((state: RootState) => state.configs.colors);
     const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
 
-    const fetchConfigurations = async (): Promise<void> => {
-        const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
-
-        dispatch(setConfigs(colors.data));
-    };
-
-    useEffect(() => {
-        fetchConfigurations();
-    }, []);
-
     return (
-        <div
-            className={`${BRAND_PREFIX}-service-points-page-wrapper w-full flex h-screen`}
-            style={{ '--color-primary': `${colors && colors[0]?.value}`, '--color-secondary': `${colors && colors[1]?.value}` } as React.CSSProperties}
-        >
-
+        <div className={`${BRAND_PREFIX}-service-points-page-wrapper w-full flex h-screen`}>
             {
                 isLoading
                     ? (
