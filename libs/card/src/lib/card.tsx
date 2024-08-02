@@ -1,8 +1,6 @@
 import CardBody from './CardComponents/CardBody';
 import CardFooter from './CardComponents/CardFooter';
 import CardHeader from './CardComponents/CardHeader';
-
-/* eslint-disable-next-line */
 export interface ICardProps {
   BRAND_PREFIX: string;
   cardBody: React.JSX.Element;
