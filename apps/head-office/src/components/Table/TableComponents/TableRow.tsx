@@ -1,12 +1,15 @@
 import React, { Fragment } from 'react';
 import { FaExclamation } from 'react-icons/fa6';
+import { useSelector } from 'react-redux';
 import { Tooltip } from '@projects/tooltip';
 import TableActions from './TableActions';
-import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../constants/constants';
+import { BRAND_PREFIX } from '../../../constants/constants';
+import { RootState } from '../../../../app/redux/store';
 import { ITableDataAttributeProps, ITableRowProps } from '../types';
 
 const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleStyles }: ITableRowProps) => {
     const dataAttributes: ITableDataAttributeProps = { [`data-${attributeName}-id`]: tableRowData.id || 0 };
+    const { cities, districts } = useSelector((state: RootState) => state.cities);
     const convertDateFormat = (date: string): string => {
         const formattedDate = [
             ('0' + new Date(date).getDate()).slice(-2),
@@ -16,8 +19,8 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
 
         return formattedDate.includes('NaN') ? '-' : formattedDate;
     };
-    const getCity = (rid: number): string => (CITIES[rid?.toString()] || '');
-    const getDistricts = (districtCode: number): string => (DISTRICTS[districtCode?.toString()] || '');
+    const getCity = (rid: number): string => (cities[rid?.toString()] || '');
+    const getDistricts = (districtCode: number): string => (districts[districtCode?.toString()] || '');
     const getRolePills = (role: string, index?: number): React.ReactNode => {
         const { backgroundColor, borderColor, textColor } = roleStyles[role] || roleStyles.Default;
 

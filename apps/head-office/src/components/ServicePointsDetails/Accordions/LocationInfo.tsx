@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { initialServicePointDataValue, initialServicePointsDetailsInfoStateValue } from '../constants';
-import { CITIES, DISTRICTS } from '../../../constants/constants';
 import { getSelectedStationFeatures } from '../../../../app/api/servicePointDetails/index';
 import { getServicePointDataRequest, getServicePointInformationRequest } from '../../../../app/api/servicePoints/index';
 import { getServicePointFeatureValues } from '../../../../app/api/servicePointDetails/getFeatureValuesRequest';
 import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
+import { RootState } from '../../../../app/redux/store';
 import type {
     IFeatureValueProps,
     IServiceDetailsContentProps,
@@ -16,6 +16,7 @@ import type {
 const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slug }: IServiceDetailsContentProps) => {
     const sectionPrefix = 'service-point-details';
     const dispatch = useDispatch();
+    const { cities, districts } = useSelector((state: RootState) => state.cities);
     const [features, setFeatures] = useState<{ StationFeatureType: number; StationFeatureValue: string }[]>([]);
     const [opportunitiesFeatureName, setOpportunitiesFeatureName] = useState<string | null[]>();
     const [parkingFeatureValue, setParkingFeatureValue] = useState<string>();
@@ -28,8 +29,8 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
     const getParkingValues = async () => {
         setParkingFeatureValue(features.find((feature) => feature.StationFeatureType === 8)?.StationFeatureValue);
     };
-    const getSelectedCity = (cityId: number) => CITIES[cityId?.toString()];
-    const getSelectedDistrict = (districtId: number) => DISTRICTS[districtId?.toString()];
+    const getSelectedCity = (cityId: number) => cities[cityId?.toString()];
+    const getSelectedDistrict = (districtId: number) => districts[districtId?.toString()];
     const getSelectedOpportunitiesName = async (): Promise<void> => {
         const opportunities = features.filter((feature) => feature.StationFeatureType === 2);
         const opportunitiesFeatureValues = await getServicePointFeatureValues(2);
