@@ -1,38 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import DashboardSection from './DashboardSection';
 import Loading from '../Loading/Loading';
 import MainPage from '../MainPage/MainPage';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { getColors } from '../../../app/api/profile';
-import { setConfigs } from '../../../app/redux/features/setConfig';
 import { RootState } from '../../../app/redux/store';
 
 const DashboardPage: React.FC = () => {
-  const dispatch = useDispatch();
-  const colors = useSelector((state: RootState) => state.configs.colors);
+  const dashboardPrefix: string = `${BRAND_PREFIX}-dashboards`;
   const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
   const [isVisible, setIsVisible] = useState<boolean>(false);
 
-  const fetchConfigurations = async (): Promise<void> => {
-    const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
-
-    dispatch(setConfigs(colors.data));
-    setIsVisible(true);
-  };
-
   useEffect(() => {
-    fetchConfigurations();
+    setIsVisible(true);
   }, []);
 
   return (
     isVisible && (
       <div
-        className={`${BRAND_PREFIX}-dashboards-page-wrapper w-full flex h-screen`}
-        style={{
-          '--color-primary': `${colors[0].value}`,
-          '--color-secondary': `${colors[1].value}`
-        } as React.CSSProperties}
+        className={`${dashboardPrefix}-page-wrapper w-full flex h-screen`}
       >
         {
           isLoading
@@ -42,7 +28,7 @@ const DashboardPage: React.FC = () => {
             : (
               <MainPage headerName='Dashboards'>
                 <div className={
-                  `${BRAND_PREFIX}-dashboard-page-container flex justify-center items-center flex-wrap`
+                  `${dashboardPrefix}-page-container flex justify-center items-center flex-wrap`
                 }>
                   <DashboardSection />
                 </div>
