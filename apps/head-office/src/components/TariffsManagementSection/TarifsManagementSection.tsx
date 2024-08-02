@@ -14,6 +14,8 @@ import { setTariffs } from '../../../app/redux/features/tariffs';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { toggleTariffListUpdated } from '../../../app/redux/features/isTariffListUpdated';
 import { AppDispatch, RootState } from '../../../app/redux/store';
+import { Button } from '@projects/button';
+import { FaPlus } from 'react-icons/fa6';
 
 const TarifssManagementSection: React.FC = () => {
     const tarifssManagementSectionPrefix: string = `${BRAND_PREFIX}-tariffs-management`;
@@ -26,6 +28,25 @@ const TarifssManagementSection: React.FC = () => {
     const tariffListData = useSelector((state: RootState) => state.tariffs);
     const [currentPage, setCurrentPage] = useState(1);
 
+    const addTariffButton = (): React.ReactNode => {
+        return (
+            <Button
+                className={`${BRAND_PREFIX}-table-header-add-button w-full bg-primary rounded-md text-base font-semibold hover:bg-primary-lighter px-2 py-2`}
+                id={`${BRAND_PREFIX}-table-header-add-button`}
+                type="button"
+                onClick={() => toggleModalVisibility(true)}
+            >
+                <span className='flex justify-center items-center'>
+                    {
+                        <>
+                            <FaPlus className="mr-2" />
+                            Tarife Ekle
+                        </>
+                    }
+                </span>
+            </Button>
+        );
+    };
     const getAllTariffs = async (tariffName: string) => {
         const response = await getAllTariffsRequest(tariffName, currentPage);
 
@@ -54,10 +75,11 @@ const TarifssManagementSection: React.FC = () => {
             <div className={`${tarifssManagementSectionPrefix}-listing-container items-center w-full`}>
                 <Table
                     attributeName="tariff-list"
-                    buttonText='Tarife'
+                    hasFilterData={false}
                     filteredDropdownItems={[]}
                     tableData={tariffListData.tariffs}
                     tableDataCount={tariffListData.count}
+                    tableHeader={addTariffButton()}
                     tableHeadData={tariffsTableHeadData}
                     tablePlaceholderInitialValue={tablePlaceholderInitialValue}
                 />
