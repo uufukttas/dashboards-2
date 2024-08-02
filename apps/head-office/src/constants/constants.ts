@@ -23,10 +23,10 @@ export const stylesProps = {
     borderRadius: '6px',
     fontColor: '#000000',
     fontSize: '16px',
-    loginPageBackgroundImage: 'https://m.sharz.net/tr/Content/_new/images/temp/main.jpg',
+    loginPageBackgroundImage: '../../background.jpg',
 };
 
 export const userInfo = {
-    logo: 'https://sharz.net/build/img/logo.svg',
+    logo: '../../logo.svg',
     name: 'sharz',
 };
