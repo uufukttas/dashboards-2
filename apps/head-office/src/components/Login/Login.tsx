@@ -11,7 +11,7 @@ import { RootState } from '../../../app/redux/store';
 import { IDropdownItemProps } from './types';
 
 const Login: React.FC = () => {
-    const loginPrefix = `${BRAND_PREFIX}-login`;
+    const loginPrefix: string = `${BRAND_PREFIX}-login`;
     const dispatch = useDispatch();
     const languages: IDropdownItemProps[] = useSelector((state: RootState) => state.languages.languages);
 
@@ -21,14 +21,14 @@ const Login: React.FC = () => {
         >
             <div className={`${loginPrefix}-language-option-container flex justify-end`}>
                 <Dropdown
-                    className='border text-text text-sm rounded-lg block w-1/2 p-2.5 focus:ring-primary focus:border-primary'
-                    id='languages'
+                    className={`${loginPrefix}-language-dropdown border text-text text-sm rounded-lg block w-1/2 p-2.5 focus:ring-primary focus:border-primary`}
+                    id={`${loginPrefix}-language-dropdown`}
                     items={languages}
-                    name='languages'
+                    name={`${loginPrefix}-language-dropdown`}
                     onChange={(event) => dispatch(setSelectedLanguage(Number(event.target.value)))}
                 />
             </div>
-            <div className={`${loginPrefix}-logo-container`}>
+            <div className={`${loginPrefix}-card-form-container`}>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
                     cardBody={<CardBody />}
