@@ -7,9 +7,9 @@ import type { IFormElementProps } from '../types';
 
 const FormElement: React.FC<IFormElementProps> = ({
     errors,
+    index,
     loginFormData,
     loginFormInput,
-    index,
     register,
     setLoginFormData,
 }: IFormElementProps) => {

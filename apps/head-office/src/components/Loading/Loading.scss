@@ -1,6 +1,6 @@
 @import '../../constants/variables.scss';
 
-.loading-spinner {
+.#{$brand-prefix}-loading-spinner {
   border: 16px solid $borderColor;
   width: 120px;
   height: 120px;

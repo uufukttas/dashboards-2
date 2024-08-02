@@ -5,12 +5,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from '@projects/alert';
 import { detectDevice } from '@projects/common';
 import { getLanguageListRequest } from './api/login';
+import { getColors } from './api/profile';
 import { setLanguages } from './redux/features/languages';
+import { setConfigs } from './redux/features/setConfig';
 import { RootState } from './redux/store';
 import Background from '../src/components/Background/Background';
 import Loading from '../src/components/Loading/Loading';
 import Login from '../src/components/Login/Login';
-import { stylesProps, userInfo } from '../src/constants/constants';
+import { BRAND_PREFIX, stylesProps, userInfo } from '../src/constants/constants';
 import './page.css';
 
 const Index: React.FC = () => {
@@ -20,6 +22,12 @@ const Index: React.FC = () => {
   const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
   const languages = useSelector((state: RootState) => state.languages.languages);
   const [isDetectedDevice, setIsDetectedDevice] = useState<boolean>(false);
+
+  const fetchConfigurations = async (): Promise<void> => {
+    const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
+
+    dispatch(setConfigs(colors.data));
+  };
 
   const getLanguageList = async (): Promise<void> => {
     const languageList = await getLanguageListRequest();
@@ -34,16 +42,19 @@ const Index: React.FC = () => {
   };
 
   useEffect(() => {
-    setIsDetectedDevice(true);
-
+    fetchConfigurations();
     getLanguageList();
+    setIsDetectedDevice(true);
   }, []);
 
   return (
     isDetectedDevice && (
       <div
         className={`${userInfo.name}-head-office w-full flex items-center justify-center ${detectDevice().isMobile ? 'h-screen' : ''}`}
-        style={{ '--color-primary': `${colors[0].value}`, '--color-secondary': `${colors[1].value}` } as React.CSSProperties}
+        style={{
+          '--color-primary': `${colors[0].value || stylesProps.primaryColor}`,
+          '--color-secondary': `${colors[1].value || stylesProps.secondaryColor}`
+        } as React.CSSProperties}
       >
         {
           languages.length > 0 && (
@@ -66,7 +77,7 @@ const Index: React.FC = () => {
             <Alert
               alertText={alertInformation.message}
               alertType={alertInformation.type}
-              id={'sh-login-failed-alert'}
+              id={`${BRAND_PREFIX}-login-failed-alert`}
             />
           )
         }
