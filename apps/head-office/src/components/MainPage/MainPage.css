@@ -1,23 +1,23 @@
-.sh-page-container {
+.sh-main-page-container {
   overflow-y: scroll;
   overflow-x: hidden;
 }
-.sh-page-container.no-scrollbar::-webkit-scrollbar {
+.sh-main-page-container.no-scrollbar::-webkit-scrollbar {
   display: none;
 }
-.sh-page-container.no-scrollbar {
+.sh-main-page-container.no-scrollbar {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
 
 @media screen and (max-width: 767px) {
-  .sh-page-container {
+  .sh-main-page-container {
     width: 100%;
   }
-  .expanded ~ .sh-page-container {
+  .expanded ~ .sh-main-page-container {
     animation: collapse 1s forwards;
   }
-  .collapsed ~ .sh-page-container {
+  .collapsed ~ .sh-main-page-container {
     animation: expand 1s forwards;
   }
   @keyframes collapse {
@@ -38,13 +38,13 @@
   }
 }
 @media screen and (min-width: 768px) and (max-width: 1279px) {
-  .sh-page-container {
+  .sh-main-page-container {
     width: 100%;
   }
-  .expanded ~ .sh-page-container {
+  .expanded ~ .sh-main-page-container {
     animation: collapse 1s forwards;
   }
-  .collapsed ~ .sh-page-container {
+  .collapsed ~ .sh-main-page-container {
     animation: expand 1s forwards;
   }
   @keyframes collapse {
@@ -65,7 +65,7 @@
   }
 }
 @media screen and (min-width: 1280px) {
-  .sh-page-container {
+  .sh-main-page-container {
     width: 100% !important;
   }
 }

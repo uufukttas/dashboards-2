@@ -21,7 +21,7 @@ const montserrat = Montserrat({
 });
 
 const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageProps) => {
-  const pagePrefix: string = `${BRAND_PREFIX}-page`;
+  const pagePrefix: string = `${BRAND_PREFIX}-main-page`;
   const dispatch = useDispatch();
   const router = useRouter();
   const colors = useSelector((state: RootState) => state.configs.colors);
@@ -54,7 +54,6 @@ const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageP
       <div
         className={`${montserrat.className} ${pagePrefix}-wrapper w-full flex`}
         style={{ '--color-primary': `${colors[0].value}`, '--color-secondary': `${colors[1].value}` } as React.CSSProperties}
-
       >
         <Sidebar />
         <div className={`${pagePrefix}-container bg-white overflow-x-hidden no-scrollbar`}>
