@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { FaPlus } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from '@projects/alert';
+import { Button } from '@projects/button';
 import { Dialog } from '@projects/dialog';
 import {
     initialUserManagementDataValues,
@@ -41,26 +43,26 @@ const UserManagementSection: React.FC = () => {
 
         searchProperties.searchedConditions.map((condition: string) => {
             switch (condition) {
-              case 'Isim/Soyisim':
-                payload['name'] = searchProperties.searchedText;
-                break;
-              case 'Kullanici Adi':
-                payload['userName'] = searchProperties.searchedText;
-                break;
-              case 'Telefon':
-                payload['phoneNumber'] = searchProperties.searchedText;
-                break;
-              case 'Rol':
-                payload['roles'] = searchProperties.searchedText;
-                break;
-              default:
-                payload['name'] = searchProperties.searchedText;
-                break;
+                case 'Isim/Soyisim':
+                    payload['name'] = searchProperties.searchedText;
+                    break;
+                case 'Kullanici Adi':
+                    payload['userName'] = searchProperties.searchedText;
+                    break;
+                case 'Telefon':
+                    payload['phoneNumber'] = searchProperties.searchedText;
+                    break;
+                case 'Rol':
+                    payload['roles'] = searchProperties.searchedText;
+                    break;
+                default:
+                    payload['name'] = searchProperties.searchedText;
+                    break;
             }
-          });
-      
-          payload.pageNumber = currentPage;
-          payload.userCount = 10;
+        });
+
+        payload.pageNumber = currentPage;
+        payload.userCount = 10;
 
         return payload;
     };
@@ -89,6 +91,25 @@ const UserManagementSection: React.FC = () => {
         dispatch(setUsers({ users: response.data, count: response.count }));
         dispatch(toggleUserListUpdate(false));
     };
+    const addUserButton = (): React.ReactNode => {
+        return (
+            <Button
+                className={`${BRAND_PREFIX}-table-header-add-button w-full bg-primary rounded-md text-base font-semibold hover:bg-primary-lighter px-2 py-2`}
+                id={`${BRAND_PREFIX}-table-header-add-button`}
+                type="button"
+                onClick={() => toggleModalVisibility(true)}
+            >
+                <span className='flex justify-center items-center'>
+                    {
+                        <>
+                            <FaPlus className="mr-2" />
+                            Kullanici Ekle
+                        </>
+                    }
+                </span>
+            </Button>
+        );
+    };
 
     useEffect(() => {
         dispatch(setSearchProperties({
@@ -106,10 +127,11 @@ const UserManagementSection: React.FC = () => {
             <div className={`${userManagementPrefix}-listing-container items-center w-full`}>
                 <Table
                     attributeName='user-management'
-                    buttonText='Kullanici'
                     filteredDropdownItems={userManagementTableFilteredDropdownItems}
+                    hasFilterData={true}
                     tableData={users}
                     tableDataCount={count}
+                    tableHeader={addUserButton()}
                     tableHeadData={userManagementTableHeadData}
                     tablePlaceholderInitialValue={{ id: 1 }}
                     roleStyles={roleStyles}

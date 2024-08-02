@@ -7,10 +7,11 @@ import { RootState } from '../../../app/redux/store';
 import ServicePointSection from '../../../src/components/ServicePointSection/ServicePointSection';
 
 const ServicePointPage: React.FC = () => {
+    const servicePointPagePrefix: string = `${BRAND_PREFIX}-service-points-page`;
     const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
 
     return (
-        <div className={`${BRAND_PREFIX}-service-points-page-wrapper w-full flex h-screen`}>
+        <div className={`${servicePointPagePrefix}-wrapper w-full flex h-screen`}>
             {
                 isLoading
                     ? (
@@ -18,7 +19,7 @@ const ServicePointPage: React.FC = () => {
                     )
                     : (
                         <MainPage headerName='Istasyonlar'>
-                            <div className={`${BRAND_PREFIX}-service-points-page-container flex justify-center items-center md:pt-6 flex-wrap`}>
+                            <div className={`${servicePointPagePrefix}-container flex justify-center items-center md:pt-6 flex-wrap`}>
                                 <ServicePointSection />
                             </div>
                         </MainPage>

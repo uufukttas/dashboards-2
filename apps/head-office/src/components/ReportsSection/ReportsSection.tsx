@@ -573,6 +573,17 @@ const ReportsSection: React.FC = () => {
     const [isFilterUsed, setIsFilterUsed] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
+    const exportDataButton = (): React.ReactNode => {
+        return (
+            <Button
+                buttonText='Disari Aktar'
+                className='mx-2 bg-primary text-white rounded-lg p-2'
+                id={`${pagePrefix}-export-button`}
+                type='button'
+                onClick={downloadExcel}
+            />
+        );
+    };
     const getAllChargeData = async (): Promise<void> => {
         const response = await getAllReportsRequest(
             {
@@ -589,7 +600,6 @@ const ReportsSection: React.FC = () => {
         );
         setIsLoading(false);
     };
-
     const handleFilterSubmit = async (): Promise<void> => {
         const payload = {
             userId: 33,
@@ -610,7 +620,6 @@ const ReportsSection: React.FC = () => {
         setIsFilterUsed(true);
         setIsLoading(false);
     };
-
     const getFilterPayload = () => {
         const filterAttributes = filters.map((filter, index) => {
             // Check if `filter.value` is a string and not an empty string
@@ -627,7 +636,6 @@ const ReportsSection: React.FC = () => {
         // Filter out undefined values from the array
         return filterAttributes.filter(attribute => attribute !== undefined);
     };
-
     const findOperator = (operatorId: string) => {
         switch (operatorId) {
             case '0':
@@ -642,7 +650,6 @@ const ReportsSection: React.FC = () => {
                 return "~{x}~";
         }
     };
-
     const downloadExcel = async (): Promise<void> => {
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/Report/ExcelExport`, {
@@ -710,20 +717,14 @@ const ReportsSection: React.FC = () => {
                                         </Button>
                                     </Tooltip>
                                     <div className='table-container w-full relative'>
-                                        <Button
-                                            buttonText='Disari Aktar'
-                                            className='w-1/6 mx-2 bg-primary text-white rounded-lg p-2'
-                                            id={`${pagePrefix}-export-button`}
-                                            type='button'
-                                            onClick={downloadExcel}
-                                        />
                                         <Table
                                             attributeName="reports-management"
-                                            buttonText='Istasyon'
                                             className={`w-full`}
                                             filteredDropdownItems={[]}
+                                            hasFilterData={false}
                                             tableData={reportsData}
                                             tableDataCount={reportsCount}
+                                            tableHeader={exportDataButton()}
                                             tableHeadData={tableHeadData}
                                             tablePlaceholderInitialValue={tablePlaceholderInitialValue}
                                         />

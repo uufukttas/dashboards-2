@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import { FaPlus } from 'react-icons/fa6';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from '@projects/alert';
+import { Button } from '@projects/button';
 import { Dialog } from '@projects/dialog';
 import {
   initialServicePointDataValues,
@@ -43,6 +45,25 @@ const ServicePointSection: React.FC = () => {
   const servicePointsData = useSelector((state: RootState) => state.servicePoints.servicePoints);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const addStationButton = (): React.ReactNode => {
+    return (
+      <Button
+        className={`${BRAND_PREFIX}-table-header-add-button w-full bg-primary rounded-md text-base font-semibold hover:bg-primary-lighter px-2 py-2`}
+        id={`${BRAND_PREFIX}-table-header-add-button`}
+        type="button"
+        onClick={() => toggleModalVisibility(true)}
+      >
+        <span className='flex justify-center items-center'>
+          {
+            <>
+              <FaPlus className="mr-2" />
+              Istasyon Ekle
+            </>
+          }
+        </span>
+      </Button>
+    );
+  };
   const createGetServicePointsRequestPayload = (): IPayloadProps => {
     const payload: IPayloadProps = {};
 
@@ -74,7 +95,6 @@ const ServicePointSection: React.FC = () => {
 
     return payload;
   };
-
   const deleteServicePoint = async (deletedId: number): Promise<void> => {
     const { data } = await deleteServicePointRequest(deletedId);
 
@@ -126,11 +146,12 @@ const ServicePointSection: React.FC = () => {
       <div className={`${pagePrefix}-listing-container flex items-center w-full`}>
         <Table
           attributeName="service-point"
-          buttonText='Istasyon'
           className={`w-full`}
           filteredDropdownItems={servicePointTableFilteredDropdownItems}
+          hasFilterData={true}
           tableData={servicePointsData}
           tableDataCount={servicePointsCount}
+          tableHeader={addStationButton()}
           tableHeadData={servicePointTableHeadData}
           tablePlaceholderInitialValue={tablePlaceholderInitialValue}
         />
