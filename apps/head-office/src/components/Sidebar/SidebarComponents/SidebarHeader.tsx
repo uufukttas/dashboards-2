@@ -28,7 +28,7 @@ const SidebarHeader: React.FC = () => {
                 </Link>
             </div>
             {
-                detectDevice().isMobile === true && (
+                detectDevice().isMobile && (
                     <div className={`${sidebarHeaderPrefix}-close-button-container mx-4`}>
                         <Button
                             className={`${sidebarHeaderPrefix}-close-button`}
