@@ -133,7 +133,6 @@ const UserManagementSection: React.FC = () => {
                     tableDataCount={count}
                     tableHeader={addUserButton()}
                     tableHeadData={userManagementTableHeadData}
-                    tablePlaceholderInitialValue={{ id: 1 }}
                     roleStyles={roleStyles}
                 />
             </div>

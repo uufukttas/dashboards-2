@@ -6,7 +6,6 @@ import { TbTilde } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { Tooltip } from '@projects/tooltip';
-import { tablePlaceholderInitialValue } from './constant';
 import Filters from '../Filter/Filter';
 import Loading from '../Loading/Loading';
 import Pagination from '../ServicePointSection/PaginationComponents/Pagination';
@@ -726,7 +725,6 @@ const ReportsSection: React.FC = () => {
                                             tableDataCount={reportsCount}
                                             tableHeader={exportDataButton()}
                                             tableHeadData={tableHeadData}
-                                            tablePlaceholderInitialValue={tablePlaceholderInitialValue}
                                         />
                                     </div>
                                 </div>
