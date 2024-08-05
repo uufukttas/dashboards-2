@@ -17,18 +17,16 @@ import './page.css';
 
 const Index: React.FC = () => {
   const dispatch = useDispatch();
-  const alertInformation = useSelector((state: RootState) => state.alertInformation);
-  const colors = useSelector((state: RootState) => state.configs.colors);
-  const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
-  const languages = useSelector((state: RootState) => state.languages.languages);
+  const { alertInformation, configs: { colors }, isLoadingVisible: { isLoading }, languages: { languages } } =
+    useSelector((state: RootState) => state);
   const [isDetectedDevice, setIsDetectedDevice] = useState<boolean>(false);
 
   const fetchConfigurations = async (): Promise<void> => {
     const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
 
     dispatch(setConfigs(colors.data));
+    setIsDetectedDevice(true);
   };
-
   const getLanguageList = async (): Promise<void> => {
     const languageList = await getLanguageListRequest();
 
@@ -44,7 +42,6 @@ const Index: React.FC = () => {
   useEffect(() => {
     fetchConfigurations();
     getLanguageList();
-    setIsDetectedDevice(true);
   }, []);
 
   return (

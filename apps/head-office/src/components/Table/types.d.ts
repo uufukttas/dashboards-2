@@ -111,7 +111,6 @@ export interface ITableBodyProps {
     roleStyles?: IRolesStyleProps;
     tableData: IServicePointInfoProps[] | IUserDataProps[];
     tableDataCount: number;
-    tablePlaceholderInitialValue: ITableBodyPlaceholderProps;
 };
 export interface ITableDataAttributeProps {
     [key: string]: string | number | undefined | null;
@@ -135,7 +134,6 @@ export interface ITableProps {
     tableDataCount: number;
     tableHeader: React.ReactNode;
     tableHeadData: string[];
-    tablePlaceholderInitialValue: ITableBodyPlaceholderProps;
 };
 export interface ITableRowDeleteProps {
     attributeName: string;

@@ -8,21 +8,13 @@ const TableBody: React.FC<ITableBodyProps> = ({
     roleStyles,
     tableData,
     tableDataCount,
-    tablePlaceholderInitialValue,
 }: ITableBodyProps) => {
     const fullTableData: ITableBodyPlaceholderProps[] | [] = tableData && tableData.length > 0
         ? tableData
         : [];
     const requiredRows: number = 10;
     const filledTableData: ITableBodyPlaceholderProps[] = Array.from({ length: requiredRows }, (_, index) => {
-        return fullTableData[index] || {
-            id: 0,
-            address: '',
-            cityId: 0,
-            districtId: 0,
-            name: '',
-            phone: '',
-        }
+        return fullTableData[index]
     });
 
     return (

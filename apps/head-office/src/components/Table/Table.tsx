@@ -16,7 +16,6 @@ const Table: React.FC<ITableProps> = ({
   tableDataCount,
   tableHeader,
   tableHeadData,
-  tablePlaceholderInitialValue,
 }: ITableProps) => {
   const tablePrefix: string = `${BRAND_PREFIX}-table`;
 
@@ -32,7 +31,6 @@ const Table: React.FC<ITableProps> = ({
             attributeName={attributeName}
             tableData={tableData}
             tableDataCount={tableDataCount}
-            tablePlaceholderInitialValue={tablePlaceholderInitialValue}
             roleStyles={roleStyles}
           />
         </table>
