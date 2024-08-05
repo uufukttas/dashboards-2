@@ -53,7 +53,10 @@ const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageP
     isVisibleComponent && (
       <div
         className={`${montserrat.className} ${pagePrefix}-wrapper w-full flex`}
-        style={{ '--color-primary': `${colors[0].value}`, '--color-secondary': `${colors[1].value}` } as React.CSSProperties}
+        style={{
+          '--color-primary': `${colors[0].value}`,
+          '--color-secondary': `${colors[1].value}`
+        } as React.CSSProperties}
       >
         <Sidebar />
         <div className={`${pagePrefix}-container bg-white overflow-x-hidden no-scrollbar`}>

@@ -24,9 +24,9 @@ const CardBody: React.FC = () => {
     const fetchLoginData = async (credentials: ILoginRequestDataProps): Promise<void> => {
         const response = await loginRequest(credentials);
 
-        dispatch(setLoginToken(response?.token?.result));
+        dispatch(setLoginToken(response.token.result));
 
-        window.localStorage.setItem('token', decodeURIComponent(response.token.result));
+        window.localStorage.setItem('token', encodeURIComponent(response.token.result));
         response.status === 200 ? handleLoginSuccess() : handleLoginError(response.data.message);
     };
     const handleLoginError = (message: string): void => {
