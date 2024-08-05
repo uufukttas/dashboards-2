@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from '@projects/alert';
 import { Dialog } from '@projects/dialog';
-import { tablePlaceholderInitialValue, tariffsTableHeadData } from './constants';
+import { tariffsTableHeadData } from './constants';
 import TariffsModalComponent from './TariffsManagementModalComponents/TariffsModalComponent';
 import Modal from '../Modal/Modal';
 import Pagination from '../ServicePointSection/PaginationComponents/Pagination';
@@ -81,7 +81,6 @@ const TarifssManagementSection: React.FC = () => {
                     tableDataCount={tariffListData.count}
                     tableHeader={addTariffButton()}
                     tableHeadData={tariffsTableHeadData}
-                    tablePlaceholderInitialValue={tablePlaceholderInitialValue}
                 />
             </div>
             {

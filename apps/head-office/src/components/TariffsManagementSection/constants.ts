@@ -1,11 +1,3 @@
-const tablePlaceholderInitialValue = {
-    id: 0,
-    tariffName: '',
-    tariffPrice: 0,
-    tariffCreatedDate: '',
-    tariffStartDate: '',
-    tariffEndDate: '',
-};
 const tariffsTableHeadData = [
     'Tarife Adi',
     'Tarife Fiyati',
@@ -17,4 +9,4 @@ const tariffsTableHeadData = [
 ];
 
 
-export { tablePlaceholderInitialValue, tariffsTableHeadData };
+export { tariffsTableHeadData };

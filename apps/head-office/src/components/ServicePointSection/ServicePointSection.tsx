@@ -9,7 +9,6 @@ import {
   initialServicePointInformationValue,
   servicePointTableFilteredDropdownItems,
   servicePointTableHeadData,
-  tablePlaceholderInitialValue,
 } from './constants';
 import Pagination from './PaginationComponents/Pagination';
 import ServicePointModalForm from './ServicePointsModalComponents/ServicePointModal';
@@ -153,7 +152,6 @@ const ServicePointSection: React.FC = () => {
           tableDataCount={servicePointsCount}
           tableHeader={addStationButton()}
           tableHeadData={servicePointTableHeadData}
-          tablePlaceholderInitialValue={tablePlaceholderInitialValue}
         />
       </div>
       {
