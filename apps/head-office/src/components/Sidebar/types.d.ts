@@ -6,6 +6,6 @@ export interface ISidebarBodyItemProps {
 export interface ISidebarElementProps {
     name: string;
     link: string;
-    icon: JSX.Element;
+    icon: string;
     subItems?: ISidebarElementProps[];
 };

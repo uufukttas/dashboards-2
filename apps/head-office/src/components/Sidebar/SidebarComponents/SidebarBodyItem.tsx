@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import { FaGift, FaLocationDot, FaUser, FaQuestion } from 'react-icons/fa6';
+import { IoMdAnalytics } from "react-icons/io";
+import { PiArrowElbowDownRightBold } from "react-icons/pi";
+import { LuReceipt } from "react-icons/lu";
 import { useSelector } from 'react-redux';
 import { Tooltip } from '@projects/tooltip';
 import { RootState } from '../../../../app/redux/store';
@@ -12,6 +16,26 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({ index, item, sidebar
     const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
     const [isOpenSubItems, setIsOpenSubItems] = useState(false);
 
+    const convertIcon = (icon: string): JSX.Element => {
+        switch (icon) {
+            case 'FaLocationDot':
+                return <FaLocationDot />;
+            case 'FaUser':
+                return <FaUser />;
+            case 'IoMdAnalytics':
+                return <IoMdAnalytics />;
+            case 'LuReceipt':
+                return <LuReceipt />;
+            case 'FaGift':
+                return <FaGift />;
+            case 'FaQuestion':
+                return <FaQuestion />;
+            case 'PiArrowElbowDownRightBold':
+                return <PiArrowElbowDownRightBold />;
+            default:
+                return null;
+        }
+    };
     const renderSubItems = (subItems: ISidebarElementProps[]): JSX.Element => (
         <ul className='ml-2'>
             {
@@ -22,7 +46,7 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({ index, item, sidebar
                         >
                             <div className={`${sidebarPrefix}-item-container w-full flex p-2 pl-8 justify-between text-sm`}>
                                 <div className="flex items-center justify-center">
-                                    <span className={`${sidebarPrefix}-item-icon`}>{subItem.icon}</span>
+                                    <span className={`${sidebarPrefix}-item-icon`}>{convertIcon(subItem.icon)}</span>
                                     {isSidebarExpanded && <span className={`${sidebarPrefix}-item-name pl-4 block`}>{subItem.name}</span>}
                                 </div>
                             </div>
@@ -48,7 +72,7 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({ index, item, sidebar
                         >
                             <div className={`${sidebarPrefix}-item-container w-full flex p-4 justify-between hover:bg-primary hover:text-white`} onClick={() => setIsOpenSubItems(!isOpenSubItems)}>
                                 <div className="flex items-center justify-center">
-                                    <span className={`${sidebarPrefix}-item-icon`}>{item.icon}</span>
+                                    <span className={`${sidebarPrefix}-item-icon`}>{convertIcon(item.icon)}</span>
                                     {isSidebarExpanded && <span className={`${sidebarPrefix}-item-name pl-4 block`}>{item.name}</span>}
                                 </div>
                                 {item.subItems && isSidebarExpanded && <span>▼</span>}  {/* Show an arrow or indicator */}
@@ -62,7 +86,7 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({ index, item, sidebar
                     >
                         <div className={`${sidebarPrefix}-item-container w-full flex p-4 justify-between hover:bg-primary hover:text-white`} onClick={() => setIsOpenSubItems(!isOpenSubItems)}>
                             <div className="flex items-center justify-center">
-                                <span className={`${sidebarPrefix}-item-icon`}>{item.icon}</span>
+                                <span className={`${sidebarPrefix}-item-icon`}>{convertIcon(item.icon)}</span>
                                 {isSidebarExpanded && <span className={`${sidebarPrefix}-item-name pl-4 block`}>{item.name}</span>}
                             </div>
                             {item.subItems && isSidebarExpanded && <span>▼</span>}
