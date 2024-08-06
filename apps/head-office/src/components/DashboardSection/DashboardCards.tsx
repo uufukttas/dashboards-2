@@ -6,6 +6,10 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import './DashboardSection.css';
 
+import { BiSolidEvStation } from "react-icons/bi";
+import { FaBatteryHalf } from 'react-icons/fa6';
+import { HiUserGroup } from "react-icons/hi";
+
 const DashboardCards: React.FC = () => {
     const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page-cards`;
     const dispatch = useDispatch();
@@ -15,22 +19,17 @@ const DashboardCards: React.FC = () => {
     }, []);
 
     const chargeUnitContent1: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-1/2 mb-2`}>
-            <div className='card-title-container flex items-center justify-center px-4'>
-                <div className={`text-xl lg:text-base`}>Istasyon Sayisi</div>
+        <div className={`flex flex text-center justify-between w-full h-1/2`}>
+            <div className='card-info-container flex flex-col items-center justify-center px-4 w-full'>
+                <div className='card-title-container flex items-center justify-start px-4 w-full '>
+                    <div className={`text-xl lg:text-base`}>Istasyon Sayisi</div>
+                </div>
+                <div className='text-4xl flex w-full items-center justify-end'>
+                    117
+                </div>
             </div>
-            <div className='text-4xl flex items-center justify-center'>
-                117
-            </div>
-        </div>
-    );
-    const chargeUnitContent7: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-1/2 mt-2`}>
-            <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Unite Sayisi</div>
-            </div>
-            <div className='text-4xl flex items-center justify-center'>
-                236
+            <div className='card-icon-container flex items-center justify-center text-primary px-1'>
+                <BiSolidEvStation className='text-6xl' />
             </div>
         </div>
     );
@@ -43,7 +42,7 @@ const DashboardCards: React.FC = () => {
             </div>
         </div>
     );
-    const chargeUnitContent8: React.ReactNode = (
+    const chargeUnitContent3: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
                 <div className={`text-xl lg:text-base`}>DC</div>
@@ -52,61 +51,73 @@ const DashboardCards: React.FC = () => {
             </div>
         </div>
     );
-    const chargeUnitContent3: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-full`}>
-            <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Basarili Sarj Islemi</div>
-            </div>
-            <div className='text-4xl flex items-center justify-center'>88%
-            </div>
-        </div>
-    );
     const chargeUnitContent4: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
-            <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Basarisiz Sarj Islemi</div>
+        <div className={`flex flex text-center justify-between w-full h-1/2`}>
+            <div className='card-info-container flex flex-col items-center justify-center px-4 w-full'>
+            <div className='card-title-container flex items-center justify-start px-4 w-full '>
+            <div className={`text-xl lg:text-base`}>Doluluk Orani</div>
+                </div>
+                <div className='text-4xl flex w-full items-center justify-end'>
+                    %49
+                </div>
             </div>
-            <div className='text-4xl flex items-center justify-center'>
-                8%
-            </div>
-        </div>
-    );
-    const chargeUnitContent9: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
-            <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Hatali Sarj Islemi</div>
-            </div>
-            <div className='text-4xl flex items-center justify-center'>
-                4%
+            <div className='card-icon-container flex items-center justify-center text-primary px-1'>
+                <FaBatteryHalf className='text-6xl' />
             </div>
         </div>
     );
     const chargeUnitContent5: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Musteri Sayisi</div>
+                <div className={`text-xl lg:text-base`}>Aktif Istasyon</div>
             </div>
-            <div className='text-4xl flex items-center justify-center'>100000
+            <div className='text-4xl flex items-center justify-center'>
+                %21
             </div>
         </div>
     );
     const chargeUnitContent6: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Toplam Tutar</div>
+                <div className={`text-xl lg:text-base`}>Kapali Istasyon</div>
             </div>
             <div className='text-4xl flex items-center justify-center'>
-                117
+                %27
             </div>
         </div>
     );
-    const chargeUnitContent10: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
+    const chargeUnitContent7: React.ReactNode = (
+        <div className={`flex flex text-center justify-between w-full h-1/2`}>
+            <div className='card-info-container flex flex-col items-center justify-center px-4 w-full'>
+            <div className='card-title-container flex items-center justify-start px-4 w-full '>
+                    <div className={`text-xl lg:text-base`}>Musteri Sayisi</div>
+                </div>
+                <div className='text-4xl flex w-full items-center justify-end'>
+                    63584
+                </div>
+            </div>
+            <div className='card-icon-container flex items-center justify-center text-primary px-1'>
+                <HiUserGroup className='text-6xl' />
+            </div>
+        </div>
+    );
+    const chargeUnitContent8: React.ReactNode = (
+        <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Hizmet Bedeli</div>
+                <div className={`text-xl lg:text-base`}>Aktif Musteri</div>
             </div>
             <div className='text-4xl flex items-center justify-center'>
-                236
+                56001
+            </div>
+        </div>
+    );
+    const chargeUnitContent9: React.ReactNode = (
+        <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
+            <div className='card-title-container flex items-center justify-center px-4 '>
+                <div className={`text-xl lg:text-base`}>Pasif Musteri</div>
+            </div>
+            <div className='text-4xl flex items-center justify-center'>
+                7583
             </div>
         </div>
     );
@@ -136,119 +147,153 @@ const DashboardCards: React.FC = () => {
     return (
         <div className={`${pagePrefix}-info-container w-full flex justify-between flex-wrap`}>
             <div className={`${pagePrefix}-map-row-wrapper flex w-full`}>
-                <div className={`${pagePrefix}-map-row-container flex justify-between flex-wrap w-1/2`}>
+                {/* <div className={`${pagePrefix}-map-row-container flex justify-between flex-wrap w-1/2`}>
                     <div className='w-full lg:w-1/2 flex flex-col px-2 my-4'>
                         <Card
                             BRAND_PREFIX={BRAND_PREFIX}
                             cardBody={chargeUnitContent1}
-                            containerClassName={`w-full flex items-center justify-center h-1/2 mb-2 shadow-none border border-gray-300 py-4 rounded-md`}
+                            containerClassName={`w-full flex items-center justify-center h-1/2 mb-2 shadow border border-gray-300 py-4 rounded-md`}
                         />
                         <Card
                             BRAND_PREFIX={BRAND_PREFIX}
                             cardBody={chargeUnitContent7}
-                            containerClassName={`w-full flex items-center justify-center h-1/2 mt-2 shadow-none border border-gray-300 py-4 rounded-md`}
+                            containerClassName={`w-full flex items-center justify-center h-1/2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
                         />
                     </div>
                     <div className='w-full lg:w-1/2 flex flex-col px-2 my-4'>
                         <Card
                             BRAND_PREFIX={BRAND_PREFIX}
                             cardBody={chargeUnitContent2}
-                            containerClassName={`w-full flex items-center justify-center h-1/2 mb-2 shadow-none border border-gray-300 py-4 rounded-md`}
+                            containerClassName={`w-full flex items-center justify-center h-1/2 mb-2 shadow border border-gray-300 py-4 rounded-md`}
                         />
                         <Card
                             BRAND_PREFIX={BRAND_PREFIX}
                             cardBody={chargeUnitContent8}
-                            containerClassName={`w-full flex items-center justify-center h-1/2 mt-2 shadow-none border border-gray-300 py-4 rounded-md`}
+                            containerClassName={`w-full flex items-center justify-center h-1/2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
                         />
                     </div>
-                </div>
+                </div> */}
                 <DashboardMap />
             </div>
             <div className={`${pagePrefix}-card-row-wrapper flex w-full`}>
-                <div className='w-full lg:w-1/6 flex flex-col px-2 my-4'>
+                <div className='w-full lg:w-1/3 flex flex-col px-2 my-4'>
                     <Card
                         BRAND_PREFIX={BRAND_PREFIX}
                         cardBody={chargeUnitContent1}
-                        containerClassName={`w-full flex items-center justify-center h-1/2 mb-2 shadow-none border border-gray-300 py-4 rounded-md`}
+                        cardBodyClassName='w-full'
+                        containerClassName={`w-full flex items-center justify-between h-1/2 mb-2 shadow border border-gray-300 py-4 rounded-md`}
                     />
-                    <Card
-                        BRAND_PREFIX={BRAND_PREFIX}
-                        cardBody={chargeUnitContent7}
-                        containerClassName={`w-full flex items-center justify-center h-1/2 mt-2 shadow-none border border-gray-300 py-4 rounded-md`}
-                    />
+                    <div className='w-full flex flex-row justify-between'>
+                        <Card
+                            BRAND_PREFIX={BRAND_PREFIX}
+                            cardBody={chargeUnitContent2}
+                            containerClassName={`w-1/2 flex items-center justify-center mr-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
+                        />
+                        <Card
+                            BRAND_PREFIX={BRAND_PREFIX}
+                            cardBody={chargeUnitContent3}
+                            containerClassName={`w-1/2 flex items-center justify-center ml-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
+                        />
+                    </div>
                 </div>
-                <div className='w-full lg:w-1/6 flex flex-col px-2 my-4'>
-                    <Card
-                        BRAND_PREFIX={BRAND_PREFIX}
-                        cardBody={chargeUnitContent2}
-                        containerClassName={`w-full flex items-center justify-center h-1/2 mb-2 shadow-none border border-gray-300 py-4 rounded-md`}
-                    />
-                    <Card
-                        BRAND_PREFIX={BRAND_PREFIX}
-                        cardBody={chargeUnitContent8}
-                        containerClassName={`w-full flex items-center justify-center h-1/2 mt-2 shadow-none border border-gray-300 py-4 rounded-md`}
-                    />
-                </div>
-                <div className='w-full lg:w-1/6 flex flex-col px-2 my-4'>
-                    <Card
-                        BRAND_PREFIX={BRAND_PREFIX}
-                        cardBody={chargeUnitContent3}
-                        containerClassName={`w-full flex items-center justify-center h-full mr-4 shadow-none border border-gray-300 py-4 rounded-md`}
-                    />
-                </div>
-                <div className='w-full lg:w-1/6 flex flex-col px-2 my-4'>
+                <div className='w-full lg:w-1/3 flex flex-col px-2 my-4'>
                     <Card
                         BRAND_PREFIX={BRAND_PREFIX}
                         cardBody={chargeUnitContent4}
-                        containerClassName={`w-full flex items-center justify-center h-1/2 mb-2 shadow-none border border-gray-300 py-4 rounded-md`}
+                        cardBodyClassName='w-full'
+                        containerClassName={`w-full flex items-center justify-center h-1/2 mb-2 shadow border border-gray-300 py-4 rounded-md`}
                     />
+                    <div className='w-full flex flex-row justify-between'>
+                        <Card
+                            BRAND_PREFIX={BRAND_PREFIX}
+                            cardBody={chargeUnitContent5}
+                            containerClassName={`w-1/2 flex items-center justify-center mr-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
+                        />
+                        <Card
+                            BRAND_PREFIX={BRAND_PREFIX}
+                            cardBody={chargeUnitContent6}
+                            containerClassName={`w-1/2 flex items-center justify-center ml-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
+                        />
+                    </div>
+                </div>
+                <div className='w-full lg:w-1/3 flex flex-col px-2 my-4'>
                     <Card
                         BRAND_PREFIX={BRAND_PREFIX}
-                        cardBody={chargeUnitContent9}
-                        containerClassName={`w-full flex items-center justify-center h-1/2 mt-2 shadow-none border border-gray-300 py-4 rounded-md`}
+                        cardBody={chargeUnitContent7}
+                        cardBodyClassName='w-full'
+                        containerClassName={`w-full flex items-center justify-center  h-1/2 mb-2 shadow border border-gray-300 py-4 rounded-md`}
                     />
+                    <div className='w-full flex flex-row justify-between'>
+                        <Card
+                            BRAND_PREFIX={BRAND_PREFIX}
+                            cardBody={chargeUnitContent8}
+                            containerClassName={`w-1/2 flex items-center justify-center mr-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
+                        />
+                        <Card
+                            BRAND_PREFIX={BRAND_PREFIX}
+                            cardBody={chargeUnitContent9}
+                            containerClassName={`w-1/2 flex items-center justify-center ml-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
+                        />
+                    </div>
                 </div>
-                <div className='w-full lg:w-1/6 flex flex-col px-2 my-4'>
+                {/* <div className='w-full lg:w-1/4 flex flex-col px-2 my-4'>
+                    <Card
+                        BRAND_PREFIX={BRAND_PREFIX}
+                        cardBody={chargeUnitContent10}
+                        containerClassName={`w-full flex items-center justify-center h-1/2 mb-2 shadow border border-gray-300 py-4 rounded-md`}
+                    />
+                    <div className='w-full flex flex-row justify-between'>
+                        <Card
+                            BRAND_PREFIX={BRAND_PREFIX}
+                            cardBody={chargeUnitContent12}
+                            containerClassName={`w-1/2 flex items-center justify-center mr-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
+                        />
+                        <Card
+                            BRAND_PREFIX={BRAND_PREFIX}
+                            cardBody={chargeUnitContent12}
+                            containerClassName={`w-1/2 flex items-center justify-center ml-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
+                        />
+                    </div>
+                </div> */}
+                {/* <div className='w-full lg:w-1/6 flex flex-col px-2 my-4'>
                     <Card
                         BRAND_PREFIX={BRAND_PREFIX}
                         cardBody={chargeUnitContent5}
-                        containerClassName={`w-full flex items-center justify-center h-full mr-4 shadow-none border border-gray-300 py-4 rounded-md`}
+                        containerClassName={`w-full flex items-center justify-center h-full mr-4 shadow border border-gray-300 py-4 rounded-md`}
                     />
                 </div>
                 <div className='w-full lg:w-1/6 flex flex-col px-2 my-4'>
                     <Card
                         BRAND_PREFIX={BRAND_PREFIX}
                         cardBody={chargeUnitContent6}
-                        containerClassName={`w-full flex items-center justify-center h-1/2 mb-2 shadow-none border border-gray-300 py-4 rounded-md`}
+                        containerClassName={`w-full flex items-center justify-center h-1/2 mb-2 shadow border border-gray-300 py-4 rounded-md`}
                     />
                     <Card
                         BRAND_PREFIX={BRAND_PREFIX}
                         cardBody={chargeUnitContent10}
-                        containerClassName={`w-full flex items-center justify-center h-1/2 mt-2 shadow-none border border-gray-300 py-4 rounded-md`}
+                        containerClassName={`w-full flex items-center justify-center h-1/2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
                     />
-                </div>
+                </div> */}
             </div>
             <div className={`${pagePrefix}-list-row-wrapper flex w-full`}>
                 <div className='w-full flex flex flex-row px-2 my-4'>
                     <Card
                         BRAND_PREFIX={BRAND_PREFIX}
                         cardBody={chargeUnitContent11}
-                        containerClassName={`w-full flex items-center h-full mr-4 shadow-none border border-gray-300 py-4 rounded-md`}
+                        cardBodyClassName='w-full'
+                        containerClassName={`w-full flex items-center h-full mr-4 shadow border border-gray-300 py-4 rounded-md`}
                     />
                     <Card
                         BRAND_PREFIX={BRAND_PREFIX}
                         cardBody={chargeUnitContent11}
-                        containerClassName={`w-full flex items-center h-full mr-4 shadow-none border border-gray-300 py-4 rounded-md`}
+                        cardBodyClassName='w-full'
+                        containerClassName={`w-full flex items-center h-full mr-4 shadow border border-gray-300 py-4 rounded-md`}
                     />
                     <Card
                         BRAND_PREFIX={BRAND_PREFIX}
                         cardBody={chargeUnitContent11}
-                        containerClassName={`w-full flex items-center h-full mr-4 shadow-none border border-gray-300 py-4 rounded-md`}
-                    />
-                    <Card
-                        BRAND_PREFIX={BRAND_PREFIX}
-                        cardBody={chargeUnitContent11}
-                        containerClassName={`w-full flex items-center h-full shadow-none border border-gray-300 py-4 rounded-md`}
+                        cardBodyClassName='w-full'
+                        containerClassName={`w-full flex items-center h-full shadow border border-gray-300 py-4 rounded-md`}
                     />
                 </div>
             </div>

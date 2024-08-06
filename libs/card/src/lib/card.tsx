@@ -4,13 +4,14 @@ import CardHeader from './CardComponents/CardHeader';
 export interface ICardProps {
   BRAND_PREFIX: string;
   cardBody: React.JSX.Element;
+  cardBodyClassName?: string;
   cardHeader?: React.JSX.Element;
   cardFooter?: React.JSX.Element;
   className?: string;
   containerClassName?: string;
 };
 
-export function Card({ BRAND_PREFIX, cardBody, cardFooter, cardHeader, containerClassName }: ICardProps) {
+export function Card({ BRAND_PREFIX, cardBody, cardBodyClassName, cardFooter, cardHeader, containerClassName }: ICardProps) {
   const cardPrefix: string = `${BRAND_PREFIX}-card`;
 
   return (
@@ -24,7 +25,7 @@ export function Card({ BRAND_PREFIX, cardBody, cardFooter, cardHeader, container
       }
       {
         cardBody && (
-          <CardBody brandPrefix={BRAND_PREFIX}>
+          <CardBody brandPrefix={BRAND_PREFIX} cardBodyClassName={cardBodyClassName}>
             {cardBody}
           </CardBody>
         )
