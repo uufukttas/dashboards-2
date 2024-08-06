@@ -30,7 +30,7 @@ const Filters: React.FC<IFilterProps> = ({
   };
 
   return (
-    <div className={`${filterPrefix}-container flex flex-col radius-md rounded-lg shadow max-h-[910px] overflow-y-scroll w-1/6 ${className} ${isExpanded ? 'expanded' : ''}`}>
+    <div className={`${filterPrefix}-container flex flex-col radius-md rounded-lg shadow max-h-[910px] overflow-y-scroll ${className} ${isExpanded ? 'expanded w-1/6' : 'w-0'}`}>
       <div className={`${filterPrefix}-header-container flex justify-between items-center h-1/12`}>
         <h3 className={`${filterPrefix}-header text-lg font-bold`}>Filtreler</h3>
       </div>
