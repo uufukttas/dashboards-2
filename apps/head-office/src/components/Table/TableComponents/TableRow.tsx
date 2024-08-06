@@ -4,15 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Tooltip } from '@projects/tooltip';
 import TableActions from './TableActions';
 import { BRAND_PREFIX } from '../../../constants/constants';
-import { getDistrictsRequest } from '../../../../app/api/servicePoints';
-import { setDistricts } from '../../../../app/redux/features/setCityInformation';
+import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../../app/redux/store';
 import type { ITableDataAttributeProps, ITableRowProps } from '../types';
 
 const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleStyles }: ITableRowProps) => {
     const dataAttributes: ITableDataAttributeProps = { [`data-${attributeName}-id`]: tableRowData.id || 0 };
     const dispatch = useDispatch();
-    const { cities, districts } = useSelector((state: RootState) => state.setCityInformation);
+    const { cities } = useSelector((state: RootState) => state.setCityInformation);
 
     const convertDateFormat = (date: string): string => {
         const formattedDate = [
@@ -37,6 +36,13 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
             </div>
         );
     };
+    const handleRowClicked = (): void | undefined => {
+        if (attributeName !== 'reports-management') {
+            return;
+        }
+
+        dispatch(toggleModalVisibility(true));
+    };
     const renderTableCell = (
         condition: string,
         firstChoose: string,
@@ -55,7 +61,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
     };
 
     return (
-        <tr className='h-[10%]' key={tableRowData.id} {...dataAttributes}>
+        <tr className='h-[10%] cursor-pointer' key={tableRowData.id} {...dataAttributes} onClick={handleRowClicked}>
             <td className="px-4 py-2 text-center">
                 <div className={`${BRAND_PREFIX}-table-body-item-information-container h-full flex items-center`}>
                     {
@@ -179,40 +185,13 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                             {tableRowData.batteryBeginningPercent && `${tableRowData.batteryBeginningPercent || ''} % ${tableRowData.batteryPercent || ''}`}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.totalAmountWithOutKDV}
-                        </td>
-                        <td className="px-4 py-2 text-center">
                             {tableRowData.totalAmount}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.servicePrice}
+                            {}
                         </td>
                         <td className="px-4 py-2 text-center">
-                            {tableRowData.commissionServicePointPrice}
-                        </td>
-                        <td className="px-4 py-2 text-center">
-                            {tableRowData.commissionResellerPrice}
-                        </td>
-                        <td className="px-4 py-2 text-center">
-                            {tableRowData.userId}
-                        </td>
-                        <td className="px-4 py-2 text-center">
-                            {tableRowData.bankOrderNo}
-                        </td>
-                        <td className="px-4 py-2 text-center">
-                            {tableRowData.paidAmount}
-                        </td>
-                        <td className="px-4 py-2 text-center">
-                            {tableRowData.preChargeAmount}
-                        </td>
-                        <td className="px-4 py-2 text-center">
-                            {tableRowData.plate}
-                        </td>
-                        <td className="px-4 py-2 text-center">
-                            {tableRowData.brand}
-                        </td>
-                        <td className="px-4 py-2 text-center">
-                            {tableRowData.model}
+                            {}
                         </td>
                     </>
                 )

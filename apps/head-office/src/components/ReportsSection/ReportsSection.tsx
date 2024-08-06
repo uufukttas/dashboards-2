@@ -6,13 +6,16 @@ import { TbTilde } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
 import { Tooltip } from '@projects/tooltip';
+import ReportDetailsModal from './ReportDetailsModal';
 import Filters from '../Filter/Filter';
 import Loading from '../Loading/Loading';
+import Modal from '../Modal/Modal';
 import Pagination from '../ServicePointSection/PaginationComponents/Pagination';
 import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { getAllReportsRequest } from '../../../app/api/reports';
 import { setReportsData } from '../../../app/redux/features/getAllReports';
+import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { RootState } from '../../../app/redux/store';
 import { IFilterItemProps } from '../Filter/types';
 import './ReportsSection.css';
@@ -21,8 +24,8 @@ const ReportsSection: React.FC = () => {
     const pagePrefix = `${BRAND_PREFIX}-reports-center-section`;
     const tableHeadData = [
         'TRX No',
-        'Istasyon',
-        'UnitCode',
+        'Istasyon Adi',
+        'Ünite Kodu',
         'Soket No',
         'Soket Tipi',
         'Baslangic Zamani',
@@ -31,20 +34,12 @@ const ReportsSection: React.FC = () => {
         'Birim Fiyat',
         'kWh',
         'Batarya Yuzdesi',
-        'Toplam Bedel',
         'Toplam Bedel (KDV Dahil)',
-        'Hizmet Bedeli',
-        'Hizmet Noktasi Komisyonu',
-        'Reseller Komisyonu',
-        'Kullanici ID',
-        'Banka Siparis No',
-        'Odenen Tutar',
-        'On Prov Tutari',
-        'Plaka',
-        'Marka',
-        'Model',
+        'Şarj Limiti',
+        'Roaming Durumu'
     ];
     const dispatch = useDispatch();
+    const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
     const reportsData = useSelector((state: RootState) => state.getAllReports.reportsData);
     const reportsCount = useSelector((state: RootState) => state.getAllReports.reportsCount);
     const [currentPage, setCurrentPage] = useState<number>(1);
@@ -732,18 +727,19 @@ const ReportsSection: React.FC = () => {
                         )
                 }
             </div>
-            {/* {
+            {
                 isModalVisible && (
                     <Modal
                         className={`${pagePrefix}-modal-container`}
-                        modalHeaderTitle={`Istasyon ${servicePointData.id > 0 ? 'Güncelle' : 'Ekle'}`}
+                        modalHeaderTitle={`Rapor Detayi`}
                         modalId={`${pagePrefix}-modal`}
-                        onClose={handleCloseModal}
+                        onClose={() => dispatch(toggleModalVisibility(false))}
                     >
-                        <ServicePointModalForm />
+                        <ReportDetailsModal />
                     </Modal>
                 )
             }
+            {/*
             {
                 alertInformation.isVisible && (
                     <Alert
