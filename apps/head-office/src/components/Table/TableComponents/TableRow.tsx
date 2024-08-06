@@ -121,6 +121,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                     renderTableCell(
                         attributeName,
                         // getDistricts(tableRowData.districtId ?? 1),
+                        '',
                         tableRowData.lastLoginDate || '',
                         convertDateFormat(tableRowData.validityBeginDate || '') || new Date().toLocaleDateString(),
                         tableRowData.stationChargePointConnectorTypeName?.toString() || '')
@@ -133,6 +134,7 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
                             renderTableCell(
                                 attributeName,
                                 // getDistricts(tableRowData.districtId ?? 1),
+                                '',
                                 tableRowData.lastLoginDate || '',
                                 convertDateFormat(tableRowData.validityEndDate || '') || new Date().toLocaleDateString(),
                                 tableRowData.stationChargePointConnectorTypeName?.toString() || '')
