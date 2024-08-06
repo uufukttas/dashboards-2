@@ -150,38 +150,55 @@ const StaticsPage: React.FC = () => {
             <div className={`${chartsPrefix}-row w-full flex flex-col xl:flex-row justify-between my-4 w-1/3`}>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    cardBody={<Pie data={pieData} />}
-                    cardHeader={<h3 className='font-bold'>Istasyonlar Durumlari</h3>}
-                    containerClassName='w-full flex flex-col items-center py-4 mx-2 px-4 mt-4 lg:mt-0 border border-gray-300 shadow-none'
-                />
+                    containerClassName='w-1/3 flex flex-col items-center py-4 mx-2 px-4 mt-4 lg:mt-0 border border-gray-300 shadow-none'
+                >
+                    <div className={`${chartsPrefix}-content-container w-full flex justify-between my-4 w-1/3 mx-2 flex-col`}>
+                        <div className={`${chartsPrefix}-header-container w-full flex justify-between my-4 w-1/3 mx-2`}>
+                            <h3 className='font-bold'>Istasyonlar Durumlari</h3>
+                        </div>
+                        <Pie data={pieData} />
+                    </div>
+                </Card>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    cardBody={<Doughnut data={donutData} />}
-                    cardHeader={<h3 className='font-bold'>Sarj Unite Durumlari</h3>}
                     containerClassName='w-full flex flex-col items-center py-4 mx-2 px-4 mt-4 lg:mt-0 border border-gray-300 shadow-none'
-                />
+                >
+                    <div className={`${chartsPrefix}-header-container w-full flex justify-between my-4 w-1/3 mx-2`}>
+                        <h3 className='font-bold'>Sarj Unite Durumlari</h3>
+                    </div>
+                    <Doughnut data={donutData} />
+                </Card>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    cardBody={<Pie data={pieData} />}
-                    cardHeader={<h3 className='font-bold'>Bilanco</h3>}
                     containerClassName='w-full flex flex-col items-center py-4 mx-2 px-4 mt-4 lg:mt-0 border border-gray-300 shadow-none'
-                />
+                >
+                    <div className={`${chartsPrefix}-header-container w-full flex justify-between my-4 w-1/3 mx-2`}>
+                        <h3 className='font-bold'>Bilanco</h3>
+                    </div>
+                    <Pie data={pieData} />
+                </Card>
             </div>
             <div className={`${chartsPrefix}-row w-full flex justify-between my-4 w-1/3 mx-2`}>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    cardBody={<Line className='w-[300px] h-[100px] lg:w-[924px] lg:h-full' options={lineOptions} data={lineData} />}
-                    cardHeader={<h3 className='font-bold'>Aylik Getiri</h3>}
                     containerClassName='line-chart w-full flex flex-col items-center p-8 h-full shadow-none border border-gray-300'
-                />
+                >
+                    <div className={`${chartsPrefix}-header-container w-full flex justify-between my-4 w-1/3 mx-2`}>
+                        <h3 className='font-bold'>Aylik Getiri</h3>
+                    </div>
+                    <Line className='w-[300px] h-[100px] lg:w-[924px] lg:h-full' options={lineOptions} data={lineData} />
+                </Card>
             </div>
             <div className={`${chartsPrefix}-row w-full flex justify-between my-4 w-1/3 mx-2`}>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    cardBody={<Line className='w-[300px] h-[100px] lg:w-[924px] lg:h-full' options={areaLineOptions} data={areaLineData} />}
-                    cardHeader={<h3 className='font-bold'>Gelir Gider Karsilastirma</h3>}
                     containerClassName='line-chart w-full flex flex-col items-center p-8 h-full shadow-none border border-gray-300'
-                />
+                >
+                    <div className={`${chartsPrefix}-header-container w-full flex justify-between my-4 w-1/3 mx-2`}>
+                        <h3 className='font-bold'>Gelir Gider Karsilastirmasi</h3>
+                    </div>
+                    <Line className='w-[300px] h-[100px] lg:w-[924px] lg:h-full' options={areaLineOptions} data={areaLineData} />
+                </Card>
             </div>
         </div>
     )

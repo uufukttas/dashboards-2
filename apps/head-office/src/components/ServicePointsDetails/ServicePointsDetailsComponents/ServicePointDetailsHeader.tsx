@@ -23,9 +23,10 @@ const ServicePointDetailsHeader: React.FC = () => {
     return (
         <Card
             BRAND_PREFIX={BRAND_PREFIX}
-            cardBody={servicePointHeader}
             containerClassName='my-5 lg:mx-0 min-h-[96px] p-8'
-        />
+        >
+            {servicePointHeader}
+        </Card>
     );
 };
 

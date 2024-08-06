@@ -31,11 +31,14 @@ const Login: React.FC = () => {
             <div className={`${loginPrefix}-card-form-container`}>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    cardBody={<CardBody />}
-                    cardFooter={<CardFooter />}
-                    cardHeader={<CardHeader />}
                     containerClassName={`p-8 w-full`}
-                />
+                >
+                    <>
+                        <CardHeader />
+                        <CardBody />
+                        <CardFooter />
+                    </>
+                </Card>
             </div>
             <div className={`${loginPrefix}-footer-container`}>
                 <p className={`${loginPrefix}-footer`}></p>
