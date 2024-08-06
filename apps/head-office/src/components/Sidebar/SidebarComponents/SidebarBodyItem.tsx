@@ -36,6 +36,24 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({ index, item, sidebar
                 return <></>;
         }
     };
+    const renderItemContent = (): JSX.Element => (
+        <li
+            className={`${sidebarPrefix}-list-item cursor-pointer border-gray-300 w-full ${index === sidebarElementsLength - 1 ? '' : 'border-b'
+                } focus:bg-secondary-lighter focus:text-white`}
+        >
+            <div
+                className={`${sidebarPrefix}-item-container w-full flex p-4 justify-between hover:bg-primary hover:text-white`}
+                onClick={() => setIsOpenSubItems(!isOpenSubItems)}
+            >
+                <div className="flex items-center justify-center">
+                    <span className={`${sidebarPrefix}-item-icon`}>{convertIcon(item.icon)}</span>
+                    {isSidebarExpanded && <span className={`${sidebarPrefix}-item-name pl-4 block`}>{item.name}</span>}
+                </div>
+                {item.subItems && isSidebarExpanded && <span>▼</span>}
+            </div>
+            {isOpenSubItems && item.subItems && renderSubItems(item.subItems)}
+        </li>
+    );
     const renderSubItems = (subItems: ISidebarElementProps[]): JSX.Element => (
         <ul className='ml-2'>
             {
@@ -58,44 +76,29 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({ index, item, sidebar
     );
 
     return (
-        <Tooltip
-            containerClassName='w-full z-20'
-            key={index}
-            text={item.name}
-            textClassName='left-14'
-        >
+        <>
             {
-                hasSubItems ? (
-                    <Link href={item.link}>
-                        <li
-                            className={`${sidebarPrefix}-list-item cursor-pointer border-gray-300 w-full ${index === sidebarElementsLength - 1 ? '' : 'border-b'}  focus:bg-secondary-lighter focus:text-white`}
-                        >
-                            <div className={`${sidebarPrefix}-item-container w-full flex p-4 justify-between hover:bg-primary hover:text-white`} onClick={() => setIsOpenSubItems(!isOpenSubItems)}>
-                                <div className="flex items-center justify-center">
-                                    <span className={`${sidebarPrefix}-item-icon`}>{convertIcon(item.icon)}</span>
-                                    {isSidebarExpanded && <span className={`${sidebarPrefix}-item-name pl-4 block`}>{item.name}</span>}
-                                </div>
-                                {item.subItems && isSidebarExpanded && <span>▼</span>}  {/* Show an arrow or indicator */}
-                            </div>
-                            {isOpenSubItems && item.subItems && renderSubItems(item.subItems)}
-                        </li>
-                    </Link>
+                isSidebarExpanded ? (
+                    hasSubItems ? (
+                        <Link href={item.link} key={index}>
+                            {renderItemContent()}
+                        </Link>
+                    ) : (
+                        renderItemContent()
+                    )
                 ) : (
-                    <li
-                        className={`${sidebarPrefix}-list-item cursor-pointer border-gray-300 w-full ${index === sidebarElementsLength - 1 ? '' : 'border-b'}  focus:bg-secondary-lighter focus:text-white`}
-                    >
-                        <div className={`${sidebarPrefix}-item-container w-full flex p-4 justify-between hover:bg-primary hover:text-white`} onClick={() => setIsOpenSubItems(!isOpenSubItems)}>
-                            <div className="flex items-center justify-center">
-                                <span className={`${sidebarPrefix}-item-icon`}>{convertIcon(item.icon)}</span>
-                                {isSidebarExpanded && <span className={`${sidebarPrefix}-item-name pl-4 block`}>{item.name}</span>}
-                            </div>
-                            {item.subItems && isSidebarExpanded && <span>▼</span>}
-                        </div>
-                        {isOpenSubItems && item.subItems && renderSubItems(item.subItems)}
-                    </li>
+                    <Tooltip containerClassName="w-full z-20" key={index} text={item.name} textClassName="left-14">
+                        {hasSubItems ? (
+                            <Link href={item.link}>
+                                {renderItemContent()}
+                            </Link>
+                        ) : (
+                            renderItemContent()
+                        )}
+                    </Tooltip>
                 )
             }
-        </Tooltip>
+        </>
     );
 };
 
