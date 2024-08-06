@@ -29,6 +29,7 @@ import servicePoints from './features/servicePoints';
 import servicePointData from './features/servicePointData';
 import servicePointInformation from './features/servicePointInformation';
 import servicePointPermissions from './features/servicePointPermissions';
+import setCityInformation from './features/setCityInformation';
 import setConnectorProperty from './features/connectorProperty';
 import setConnectors from './features/connectorsData';
 import setLoginToken from './features/loginToken';
@@ -72,6 +73,7 @@ export const store: EnhancedStore = configureStore({
     servicePointData,
     servicePointInformation,
     servicePointPermissions,
+    setCityInformation,
     setConnectorProperty,
     setConnectors,
     setLoginToken,

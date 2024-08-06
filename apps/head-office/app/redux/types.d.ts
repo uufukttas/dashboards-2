@@ -91,6 +91,10 @@ export interface IChargeUnitListStateProps {
     status: string;
     location: string;
 };
+export interface ICityInformationProps {
+    cities: IDropdownItemProps[];
+    districts: IDropdownItemProps[];
+};
 export interface IComissionDataStateProps {
     ForInvestor: number;
     ID: number;
