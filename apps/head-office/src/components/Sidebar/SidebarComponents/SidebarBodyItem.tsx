@@ -33,7 +33,7 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({ index, item, sidebar
             case 'PiArrowElbowDownRightBold':
                 return <PiArrowElbowDownRightBold />;
             default:
-                return null;
+                return <></>;
         }
     };
     const renderSubItems = (subItems: ISidebarElementProps[]): JSX.Element => (
