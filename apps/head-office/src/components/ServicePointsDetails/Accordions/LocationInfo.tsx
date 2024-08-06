@@ -4,8 +4,8 @@ import { initialServicePointDataValue, initialServicePointsDetailsInfoStateValue
 import { getSelectedStationFeatures } from '../../../../app/api/servicePointDetails/index';
 import { getServicePointDataRequest, getServicePointInformationRequest } from '../../../../app/api/servicePoints/index';
 import { getServicePointFeatureValues } from '../../../../app/api/servicePointDetails/getFeatureValuesRequest';
-import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
 import { RootState } from '../../../../app/redux/store';
+import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
 import type {
     IFeatureValueProps,
     IServiceDetailsContentProps,
@@ -16,7 +16,7 @@ import type {
 const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slug }: IServiceDetailsContentProps) => {
     const sectionPrefix = 'service-point-details';
     const dispatch = useDispatch();
-    const { cities, districts } = useSelector((state: RootState) => state.cities);
+    const { cities, districts } = useSelector((state: RootState) => state.setCityInformation);
     const [features, setFeatures] = useState<{ StationFeatureType: number; StationFeatureValue: string }[]>([]);
     const [opportunitiesFeatureName, setOpportunitiesFeatureName] = useState<string | null[]>();
     const [parkingFeatureValue, setParkingFeatureValue] = useState<string>();
@@ -29,8 +29,8 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
     const getParkingValues = async () => {
         setParkingFeatureValue(features.find((feature) => feature.StationFeatureType === 8)?.StationFeatureValue);
     };
-    const getSelectedCity = (cityId: number) => cities[cityId?.toString()];
-    const getSelectedDistrict = (districtId: number) => districts[districtId?.toString()];
+    const getSelectedCity = (cityId: number) => cities[cityId - 1]?.name;
+    const getSelectedDistrict = (districtId: number) => districts[districtId]?.name || '';
     const getSelectedOpportunitiesName = async (): Promise<void> => {
         const opportunities = features.filter((feature) => feature.StationFeatureType === 2);
         const opportunitiesFeatureValues = await getServicePointFeatureValues(2);
@@ -97,6 +97,8 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
         getSelectedPaymentsMethodsName();
         getParkingValues();
         getSelectedOpportunitiesName();
+        getSelectedCity(servicePointDetailsInfo.cityId);
+        getSelectedDistrict(servicePointDetailsInfo.districtId);
     }, [features]);
 
     return (

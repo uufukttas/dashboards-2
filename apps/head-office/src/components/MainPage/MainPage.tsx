@@ -9,6 +9,8 @@ import Section from '../Section/Section';
 import Sidebar from '../Sidebar/Sidebar';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { getColors } from '../../../app/api/profile';
+import { getCityRequest, getDistrictsRequest } from '../../../app/api/servicePoints';
+import { setCities, setDistricts } from '../../../app/redux/features/setCityInformation';
 import { setConfigs } from '../../../app/redux/features/setConfig';
 import { RootState } from '../../../app/redux/store';
 import type { IMainPageProps } from './types';
@@ -27,22 +29,34 @@ const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageP
   const colors = useSelector((state: RootState) => state.configs.colors);
   const [isVisibleComponent, setIsVisibleComponent] = useState<boolean>(false);
 
-  const fetchConfigurations = async (): Promise<void> => {
-    const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
-
-    dispatch(setConfigs(colors.data));
-    setIsVisibleComponent(true);
-  };
-
   const checkToken = (): void => {
     const token = window.localStorage.getItem('token');
     if (!token) {
       router.push('/');
     };
   };
+  const fetchConfigurations = async (): Promise<void> => {
+    const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
+
+    dispatch(setConfigs(colors.data));
+    setIsVisibleComponent(true);
+  };
+  const setCitiesData = async (): Promise<void> => {
+    const cities = await getCityRequest();
+
+    console.log(cities);
+    dispatch(setCities(cities));
+  };
+  const setDistritcsData = async (): Promise<void> => {
+    const distritcs = await getDistrictsRequest(1);
+
+    dispatch(setDistricts(distritcs));
+  };
 
   useEffect(() => {
     checkToken();
+    setCitiesData();
+    setDistritcsData();
   }, []);
 
   useEffect(() => {
