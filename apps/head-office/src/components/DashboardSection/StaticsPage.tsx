@@ -147,13 +147,13 @@ const StaticsPage: React.FC = () => {
 
     return (
         <div className={`${chartsPrefix} flex justify-between w-full flex-wrap h-full`}>
-            <div className={`${chartsPrefix}-row w-full flex flex-col xl:flex-row justify-between my-4 w-1/3`}>
+            <div className='w-full flex px-2 my-4'>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    containerClassName='w-1/3 flex flex-col items-center py-4 mx-2 px-4 mt-4 lg:mt-0 border border-gray-300 shadow-none'
+                    containerClassName='w-1/3 flex flex-col items-center border border-gray-300 shadow-none mr-4'
                 >
-                    <div className={`${chartsPrefix}-content-container w-full flex justify-between my-4 w-1/3 mx-2 flex-col`}>
-                        <div className={`${chartsPrefix}-header-container w-full flex justify-between my-4 w-1/3 mx-2`}>
+                    <div className={`${chartsPrefix}-content-container flex justify-between my-4 mx-2 flex-col`}>
+                        <div className={`${chartsPrefix}-header-container w-full flex justify-center my-4 mx-2`}>
                             <h3 className='font-bold'>Istasyonlar Durumlari</h3>
                         </div>
                         <Pie data={pieData} />
@@ -161,21 +161,25 @@ const StaticsPage: React.FC = () => {
                 </Card>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    containerClassName='w-full flex flex-col items-center py-4 mx-2 px-4 mt-4 lg:mt-0 border border-gray-300 shadow-none'
+                    containerClassName='w-1/3 flex flex-col items-center border border-gray-300 shadow-none mr-4'
                 >
-                    <div className={`${chartsPrefix}-header-container w-full flex justify-between my-4 w-1/3 mx-2`}>
-                        <h3 className='font-bold'>Sarj Unite Durumlari</h3>
+                    <div className={`${chartsPrefix}-content-container flex justify-between my-4 mx-2 flex-col`}>
+                        <div className={`${chartsPrefix}-header-container w-full flex justify-center my-4 mx-2`}>
+                            <h3 className='font-bold'>Sarj Unite Durumlari</h3>
+                        </div>
+                        <Doughnut data={donutData} />
                     </div>
-                    <Doughnut data={donutData} />
                 </Card>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    containerClassName='w-full flex flex-col items-center py-4 mx-2 px-4 mt-4 lg:mt-0 border border-gray-300 shadow-none'
+                    containerClassName='w-1/3 flex flex-col items-center border border-gray-300 shadow-none'
                 >
-                    <div className={`${chartsPrefix}-header-container w-full flex justify-between my-4 w-1/3 mx-2`}>
-                        <h3 className='font-bold'>Bilanco</h3>
+                    <div className={`${chartsPrefix}-content-container flex justify-between my-4 mx-2 flex-col`}>
+                        <div className={`${chartsPrefix}-header-container w-full flex justify-center my-4 mx-2`}>
+                            <h3 className='font-bold'>Bilanco</h3>
+                        </div>
+                        <Pie data={pieData} />
                     </div>
-                    <Pie data={pieData} />
                 </Card>
             </div>
             <div className={`${chartsPrefix}-row w-full flex justify-between my-4 w-1/3 mx-2`}>
@@ -201,7 +205,7 @@ const StaticsPage: React.FC = () => {
                 </Card>
             </div>
         </div>
-    )
+    );
 };
 
 export default StaticsPage;

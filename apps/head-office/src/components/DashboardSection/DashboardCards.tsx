@@ -298,7 +298,7 @@ const DashboardCards: React.FC = () => {
                     </Card>
                     <Card
                         BRAND_PREFIX={BRAND_PREFIX}
-                        containerClassName={`w-full flex items-center h-full mr-4 shadow border border-gray-300 py-4 rounded-md`}
+                        containerClassName={`w-full flex items-center h-full shadow border border-gray-300 py-4 rounded-md`}
                     >
                         {chargeUnitContent11}
                     </Card>
