@@ -57,7 +57,7 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({
         </li>
     );
     const renderSubItems = (subItems: ISidebarElementProps[]): JSX.Element => (
-        <ul className='ml-2'>
+        <ul className='ml-2' key={subItems.length}>
             {
                 subItems.map((subItem, subIndex) => (
                     <>
@@ -104,14 +104,14 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({
             {
                 isSidebarExpanded ? (
                     hasSubItems ? (
-                        <Link href={item.link} key={index}>
+                        <Link href={item.link} key={item.name}>
                             {renderItemContent()}
                         </Link>
                     ) : (
                         renderItemContent()
                     )
                 ) : (
-                    <Tooltip containerClassName="w-full z-20" key={index} text={item.name} textClassName="left-14">
+                    <Tooltip containerClassName="w-full z-20" key={item.name} text={item.name} textClassName="left-14">
                         {
                             hasSubItems ? (
                                 <Link href={item.link}>

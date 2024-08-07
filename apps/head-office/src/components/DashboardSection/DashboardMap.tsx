@@ -15,8 +15,12 @@ const DashboardMap: React.FC = () => {
       <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''} libraries={libraries}>
         <GoogleMap
           center={{ lat: 39.92504, lng: 32.83709 }} // Heart of Turkey - Ankara Anitkabir
-          mapContainerStyle={{ width: '1670px', height: '400px' }}
+          mapContainerStyle={{ width: '1100px', height: '400px' }}
           mapTypeId='roadmap'
+          options={{
+            fullscreenControl: false,
+            disableDefaultUI: true,
+          }}
           zoom={6}
           onLoad={onLoad}
         />
