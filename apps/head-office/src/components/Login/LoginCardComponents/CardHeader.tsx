@@ -7,7 +7,7 @@ const CardHeader: React.FC = () => {
 
     return (
         <>
-            <div className={`${loginPrefix}-logo-container w-full flex justify-center items-center`}>
+            <div className={`${loginPrefix}-logo-container flex justify-center items-center w-full`}>
                 <Image
                     alt={`${userInfo.name} logo`}
                     className={`${loginPrefix}-logo`}

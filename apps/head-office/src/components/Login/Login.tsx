@@ -13,17 +13,17 @@ import { IDropdownItemProps } from './types';
 const Login: React.FC = () => {
     const loginPrefix: string = `${BRAND_PREFIX}-login`;
     const dispatch = useDispatch();
-    const languages: IDropdownItemProps[] = useSelector((state: RootState) => state.languages.languages);
+    const languageList: IDropdownItemProps[] = useSelector((state: RootState) => state.languages.languages);
 
     return (
         <div
-            className={`${loginPrefix}-side-container h-screen w-1/4 lg:mx-8 py-4 rounded flex flex-col justify-between`}
+            className={`${loginPrefix}-side-container flex flex-col justify-between w-full xl:w-1/4 mx-8 py-4 h-screen`}
         >
             <div className={`${loginPrefix}-language-option-container flex justify-end`}>
                 <Dropdown
-                    className={`${loginPrefix}-language-dropdown border text-text text-sm rounded-lg block w-1/2 p-2.5 focus:ring-primary focus:border-primary`}
+                    className={`${loginPrefix}-language-dropdown block w-1/2 p-2.5 border rounded-lg text-text text-sm focus:ring-primary focus:border-primary`}
                     id={`${loginPrefix}-language-dropdown`}
-                    items={languages}
+                    items={languageList}
                     name={`${loginPrefix}-language-dropdown`}
                     onChange={(event) => dispatch(setSelectedLanguage(Number(event.target.value)))}
                 />
@@ -31,7 +31,7 @@ const Login: React.FC = () => {
             <div className={`${loginPrefix}-card-form-container`}>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    containerClassName={`p-8 w-full`}
+                    containerClassName={`w-full p-8 `}
                 >
                     <>
                         <CardHeader />

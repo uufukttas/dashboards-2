@@ -26,7 +26,7 @@ const FormElement: React.FC<IFormElementProps> = ({
                 labelText={getDisplayName(loginFormInput)}
             />
             <Input
-                className={`${loginFormIputPrefix}-input mt-1 p-2 w-full border focus:ring-primary focus:border-primary rounded-lg text-text text-sm`}
+                className={`${loginFormIputPrefix}-input w-full mt-1 p-2 border rounded-lg text-text text-sm focus:ring-primary focus:border-primary`}
                 id={loginFormInput}
                 name={loginFormInput}
                 register={
