@@ -322,7 +322,7 @@ const DashboardCards: React.FC = () => {
             </div>
             <div className={`${pagePrefix}-map-row-wrapper flex flex-col md:flex-row w-full`}>
                 <div className={`${pagePrefix}-map-row-container flex justify-between flex-wrap w-full md:flex-row`}>
-                    <div className='w-full flex flex-col md:flex-row xl:flex-col px-2 my-4 items-center justify-center'>
+                    <div className='w-full xxl:w-1/3 flex flex-col md:flex-row xl:flex-col px-2 my-4 items-center justify-center'>
                         <Card
                             BRAND_PREFIX={BRAND_PREFIX}
                             containerClassName={`w-full flex items-center justify-center xl:h-1/3 h-full mb-2 xl:mr-2 shadow border border-gray-300 py-4 rounded-md`}
