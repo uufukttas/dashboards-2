@@ -153,7 +153,7 @@ const StaticsPage: React.FC = () => {
             <div className='w-full flex  flex-col md:flex-row px-2 my-4'>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    containerClassName='w-full md:w-1/3 flex flex-col items-center border border-gray-300 shadow-none'
+                    containerClassName='w-full md:w-1/3 flex flex-col items-center border border-gray-300 shadow mr-4 border rounded-md'
                 >
                     <div className={`${chartsPrefix}-content-container flex justify-between my-4 mx-2 flex-col`}>
                         <div className={`${chartsPrefix}-header-container w-full flex justify-center my-4 mx-2`}>
@@ -164,7 +164,7 @@ const StaticsPage: React.FC = () => {
                 </Card>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    containerClassName='w-full md:w-1/3 flex flex-col items-center border border-gray-300 shadow-none'
+                    containerClassName='w-full md:w-1/3 flex flex-col items-center border border-gray-300 shadow mr-2 border rounded-md'
                 >
                     <div className={`${chartsPrefix}-content-container flex justify-between my-4 mx-2 flex-col`}>
                         <div className={`${chartsPrefix}-header-container w-full flex justify-center my-4 mx-2`}>
@@ -191,7 +191,7 @@ const StaticsPage: React.FC = () => {
                 </Card>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    containerClassName='w-full md:w-1/3 flex flex-col items-center border border-gray-300 shadow-none'
+                    containerClassName='w-full md:w-1/3 flex flex-col items-center border border-gray-300 shadow ml-2 border rounded-md'
                 >
                     <div className={`${chartsPrefix}-content-container flex justify-between my-4 mx-2 flex-col`}>
                         <div className={`${chartsPrefix}-header-container w-full flex justify-center my-4 mx-2`}>
@@ -204,7 +204,7 @@ const StaticsPage: React.FC = () => {
             <div className={`${chartsPrefix}-row w-full flex justify-between my-4 w-1/3 mx-2`}>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    containerClassName='line-chart w-full flex flex-col items-center p-8 h-full shadow-none border border-gray-300'
+                    containerClassName='line-chart w-full flex flex-col items-center p-8 h-full shadow border border-gray-300'
                 >
                     <div className={`${chartsPrefix}-header-container w-full flex justify-between my-4 w-1/3 mx-2`}>
                         <h3 className='font-bold'>Aylik Getiri</h3>
@@ -215,7 +215,7 @@ const StaticsPage: React.FC = () => {
             <div className={`${chartsPrefix}-row w-full flex justify-between my-4 w-1/3 mx-2`}>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    containerClassName='line-chart w-full flex flex-col items-center p-8 h-full shadow-none border border-gray-300'
+                    containerClassName='line-chart w-full flex flex-col items-center p-8 h-full shadow border border-gray-300'
                 >
                     <div className={`${chartsPrefix}-header-container w-full flex justify-between my-4 w-1/3 mx-2`}>
                         <h3 className='font-bold'>Gelir Gider Karsilastirmasi</h3>
