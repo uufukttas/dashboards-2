@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
     ArcElement,
     CategoryScale,
@@ -11,6 +11,8 @@ import {
     Title,
     Tooltip
 } from "chart.js";
+import 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Doughnut, Line, Pie } from "react-chartjs-2";
 import { Card } from '@projects/card';
 // Will remove this library when we have a data from api
@@ -27,6 +29,7 @@ Chart.register(
     PointElement,
     Title,
     Tooltip,
+    ChartDataLabels,
 );
 
 const StaticsPage: React.FC = () => {
@@ -167,7 +170,23 @@ const StaticsPage: React.FC = () => {
                         <div className={`${chartsPrefix}-header-container w-full flex justify-center my-4 mx-2`}>
                             <h3 className='font-bold'>Sarj Unite Durumlari</h3>
                         </div>
-                        <Doughnut data={donutData} />
+                        <Doughnut
+                            data={donutData}
+                            // options={{
+                            //     plugins: {
+                            //         datalabels: {
+                            //             color: '#000',
+                            //             textAlign: 'right',
+                            //             font: {
+                            //                 weight: 'bold'
+                            //             },
+                            //             formatter: (value, context) => {
+                            //                 return value;
+                            //             }
+                            //         }
+                            //     }
+                            // }}
+                        />
                     </div>
                 </Card>
                 <Card
