@@ -5,6 +5,7 @@ import { IoMdAnalytics } from "react-icons/io";
 import { PiArrowElbowDownRightBold } from "react-icons/pi";
 import { LuReceipt } from "react-icons/lu";
 import { useSelector } from 'react-redux';
+import { detectDevice } from '@projects/common';
 import { Tooltip } from '@projects/tooltip';
 import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
@@ -14,7 +15,8 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({
     index, item, sidebarElementsLength
 }: ISidebarBodyItemProps) => {
     const sidebarPrefix: string = `${BRAND_PREFIX}-sidebar`;
-    const hasSubItems = typeof item.subItems === 'undefined';
+    const hasSubItems: boolean = typeof item.subItems === 'undefined';
+    const isDesktop: boolean = detectDevice().isDesktop;
     const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
     const [isOpenSubItems, setIsOpenSubItems] = useState(false);
 
@@ -62,10 +64,9 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({
                 subItems.map((subItem, subIndex) => (
                     <>
                         {
-                            !isSidebarExpanded ? (
+                            isDesktop && isSidebarExpanded ? (
                                 <Tooltip containerClassName="w-full z-20" key={index} text={subItem.name} textClassName="left-14">
-
-                                    <Link href={subItem.link} key={subIndex}>
+                                    <Link href={subItem.link}>
                                         <li
                                             className={`${sidebarPrefix}-list-item cursor-pointer border-gray-300 w-full border-b border-t hover:bg-primary hover:text-white focus:bg-secondary-lighter focus:text-white`}
                                         >
@@ -111,17 +112,11 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({
                         renderItemContent()
                     )
                 ) : (
-                    <Tooltip containerClassName="w-full z-20" key={item.name} text={item.name} textClassName="left-14">
-                        {
-                            hasSubItems ? (
-                                <Link href={item.link}>
-                                    {renderItemContent()}
-                                </Link>
-                            ) : (
-                                renderItemContent()
-                            )
-                        }
-                    </Tooltip>
+                    isDesktop && (
+                        <Tooltip containerClassName="w-full z-20" key={item.name} text={item.name} textClassName="left-14">
+                            {hasSubItems ? <Link href={item.link}>{renderItemContent()}</Link> : renderItemContent()}
+                        </Tooltip>
+                    )
                 )
             }
         </>
