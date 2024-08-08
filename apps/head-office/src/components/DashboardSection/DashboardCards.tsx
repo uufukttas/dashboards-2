@@ -1,18 +1,19 @@
 import React, { useEffect } from 'react';
+import { BiSolidEvStation } from "react-icons/bi";
+import { FaBatteryHalf } from 'react-icons/fa6';
+import { HiUserGroup } from "react-icons/hi";
+import { FaChargingStation } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { Card } from '@projects/card';
+import { detectDevice } from '@projects/common';
+import { Tooltip } from '@projects/tooltip';
 import DashboardMap from './DashboardMap';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import './DashboardSection.css';
 
-import { BiSolidEvStation } from "react-icons/bi";
-import { FaBatteryHalf } from 'react-icons/fa6';
-import { HiUserGroup } from "react-icons/hi";
-import { FaChargingStation } from 'react-icons/fa';
-import { Tooltip } from '@projects/tooltip';
-
 const DashboardCards: React.FC = () => {
+    const isDesktop: boolean = detectDevice().isDesktop;
     const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page-cards`;
     const dispatch = useDispatch();
 
@@ -24,7 +25,7 @@ const DashboardCards: React.FC = () => {
         <div className={`flex flex text-center justify-between w-full h-1/2`}>
             <div className='card-info-container flex flex-col items-center justify-center px-4 w-full'>
                 <div className='card-title-container flex items-center justify-start px-4 w-full '>
-                    <div className={`text-xl lg:text-base`}>Konnektor Sayisi</div>
+                    <div className={`lg:text-md text-md`}>Konnektor Sayisi</div>
                 </div>
                 <div className='text-4xl flex w-full items-center justify-end'>
                     117
@@ -38,7 +39,7 @@ const DashboardCards: React.FC = () => {
     const chargeUnitContent2: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>AC</div>
+                <div className={`lg:text-md text-md`}>AC</div>
             </div>
             <div className='text-4xl flex items-center justify-center'>190
             </div>
@@ -47,7 +48,7 @@ const DashboardCards: React.FC = () => {
     const chargeUnitContent3: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>DC</div>
+                <div className={`lg:text-md text-md`}>DC</div>
             </div>
             <div className='text-4xl flex items-center justify-center'>46
             </div>
@@ -57,7 +58,7 @@ const DashboardCards: React.FC = () => {
         <div className={`flex flex text-center justify-between w-full h-1/2`}>
             <div className='card-info-container flex flex-col items-center justify-center px-4 w-full'>
                 <div className='card-title-container flex items-center justify-start px-4 w-full '>
-                    <div className={`text-xl lg:text-base`}>Sarj Islemleri</div>
+                    <div className={`lg:text-md text-md`}>Sarj Islemleri</div>
                 </div>
                 <div className='text-4xl flex w-full items-center justify-end'>
                     265
@@ -71,7 +72,7 @@ const DashboardCards: React.FC = () => {
     const chargeUnitContent5: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Aktif Musteri</div>
+                <div className={`lg:text-md text-md`}>Aktif Musteri</div>
             </div>
             <div className='text-4xl flex items-center justify-center'>
                 56001
@@ -81,7 +82,7 @@ const DashboardCards: React.FC = () => {
     const chargeUnitContent6: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Pasif Musteri</div>
+                <div className={`lg:text-md text-md`}>Pasif Musteri</div>
             </div>
             <div className='text-4xl flex items-center justify-center'>
                 7583
@@ -92,7 +93,7 @@ const DashboardCards: React.FC = () => {
         <div className={`flex flex text-center justify-between w-full h-1/2`}>
             <div className='card-info-container flex flex-col items-center justify-center px-4 w-full'>
                 <div className='card-title-container flex items-center justify-start px-4 w-full '>
-                    <div className={`text-xl lg:text-base`}>Musteri Sayisi</div>
+                    <div className={`lg:text-md text-md`}>Musteri Sayisi</div>
                 </div>
                 <div className='text-4xl flex w-full items-center justify-end'>
                     63584
@@ -106,7 +107,7 @@ const DashboardCards: React.FC = () => {
     const chargeUnitContent8: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Aktif Musteri</div>
+                <div className={`lg:text-md text-md`}>Aktif Musteri</div>
             </div>
             <div className='text-4xl flex items-center justify-center'>
                 56001
@@ -116,7 +117,7 @@ const DashboardCards: React.FC = () => {
     const chargeUnitContent9: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Pasif Musteri</div>
+                <div className={`lg:text-md text-md`}>Pasif Musteri</div>
             </div>
             <div className='text-4xl flex items-center justify-center'>
                 7583
@@ -148,7 +149,7 @@ const DashboardCards: React.FC = () => {
     const chargeUnitContent12: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Aktiflik Orani</div>
+                <div className={`lg:text-md text-md`}>Aktiflik Orani</div>
             </div>
             <div className='text-4xl flex items-center justify-center'>21%
             </div>
@@ -157,7 +158,7 @@ const DashboardCards: React.FC = () => {
     const chargeUnitContent13: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Aktiflik Orani</div>
+                <div className={`lg:text-md text-md`}>Aktiflik Orani</div>
             </div>
             <div className='text-4xl flex items-center justify-center'>34%
             </div>
@@ -166,7 +167,7 @@ const DashboardCards: React.FC = () => {
     const chargeUnitContent15: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-full`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Son 1 Ayda Aktif Musteri</div>
+                <div className={`lg:text-md text-md`}>Son 1 Ayda Aktif Musteri</div>
             </div>
             <div className='text-4xl flex items-center justify-center'>
                 20357
@@ -176,7 +177,7 @@ const DashboardCards: React.FC = () => {
     const chargeUnitContent16: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Son 1 Haftada Aktif Musteri</div>
+                <div className={`lg:text-md text-md`}>Son 1 Haftada Aktif Musteri</div>
             </div>
             <div className='text-4xl flex items-center justify-center'>
                 14698
@@ -186,7 +187,7 @@ const DashboardCards: React.FC = () => {
     const chargeUnitContent17: React.ReactNode = (
         <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
             <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`text-xl lg:text-base`}>Bugun Yapilan Sarj Islemi</div>
+                <div className={`lg:text-md text-md`}>Bugun Yapilan Sarj Islemi</div>
             </div>
             <div className='text-4xl flex items-center justify-center'>
                 400
@@ -195,7 +196,7 @@ const DashboardCards: React.FC = () => {
     );
     return (
         <div className={`${pagePrefix}-info-container w-full flex justify-between flex-wrap`}>
-            <div className={`${pagePrefix}-card-row-wrapper flex w-full`}>
+            <div className={`${pagePrefix}-card-row-wrapper flex flex-col md:flex-row w-full`}>
                 <div className='w-full lg:w-1/3 flex flex-col px-2 my-4'>
                     <Card
                         BRAND_PREFIX={BRAND_PREFIX}
@@ -203,7 +204,7 @@ const DashboardCards: React.FC = () => {
                     >
                         {chargeUnitContent1}
                     </Card>
-                    <div className='w-full flex flex-row justify-between'>
+                    <div className='w-full flex md:flex-row justify-between'>
                         <Card
                             BRAND_PREFIX={BRAND_PREFIX}
                             containerClassName={`w-1/2 flex items-center justify-center mr-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
@@ -319,33 +320,37 @@ const DashboardCards: React.FC = () => {
                     </div>
                 </div>
             </div>
-            <div className={`${pagePrefix}-map-row-wrapper flex w-full`}>
-                <div className={`${pagePrefix}-map-row-container flex justify-between flex-wrap w-1/3`}>
-                    <div className='w-full flex flex-col px-2 my-4 items-center justify-center'>
+            <div className={`${pagePrefix}-map-row-wrapper flex flex-col md:flex-row w-full`}>
+                <div className={`${pagePrefix}-map-row-container flex justify-between flex-wrap w-full md:flex-row`}>
+                    <div className='w-full flex flex-col md:flex-row xl:flex-col px-2 my-4 items-center justify-center'>
                         <Card
                             BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`w-full flex items-center justify-center h-1/3 mb-2 shadow border border-gray-300 py-4 rounded-md`}
+                            containerClassName={`w-full flex items-center justify-center xl:h-1/3 h-full mb-2 xl:mr-2 shadow border border-gray-300 py-4 rounded-md`}
                         >
                             {chargeUnitContent1}
                         </Card>
                         <Card
                             BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`w-full flex items-center justify-center h-1/3 mb-2 shadow border border-gray-300 py-4 rounded-md`}
+                            containerClassName={`w-full flex items-center justify-center xl:h-1/3 h-full mb-2 xl:mr-2 shadow border border-gray-300 py-4 rounded-md`}
                         >
                             {chargeUnitContent1}
                         </Card>
                         <Card
                             BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`w-full flex items-center justify-center h-1/3 shadow border border-gray-300 py-4 rounded-md`}
+                            containerClassName={`w-full flex items-center justify-center xl:h-1/3 h-full mb-2 shadow border border-gray-300 py-4 rounded-md`}
                         >
                             {chargeUnitContent1}
                         </Card>
                     </div>
                 </div>
-                <DashboardMap />
+                {
+                    isDesktop && (
+                        <DashboardMap />
+                    )
+                }
             </div>
             <div className={`${pagePrefix}-list-row-wrapper flex w-full`}>
-                <div className='w-full flex flex flex-row px-2 my-4'>
+                <div className='w-full flex flex flex-row px-2 my-4 flex-col md:flex-row'>
                     <Card
                         BRAND_PREFIX={BRAND_PREFIX}
                         containerClassName={`w-full flex items-center h-full mr-4 shadow border border-gray-300 py-4 rounded-md`}

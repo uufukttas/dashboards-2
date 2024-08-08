@@ -150,10 +150,10 @@ const StaticsPage: React.FC = () => {
 
     return (
         <div className={`${chartsPrefix} flex justify-between w-full flex-wrap h-full`}>
-            <div className='w-full flex px-2 my-4'>
+            <div className='w-full flex  flex-col md:flex-row px-2 my-4'>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    containerClassName='w-1/3 flex flex-col items-center border border-gray-300 shadow-none mr-4'
+                    containerClassName='w-full md:w-1/3 flex flex-col items-center border border-gray-300 shadow-none'
                 >
                     <div className={`${chartsPrefix}-content-container flex justify-between my-4 mx-2 flex-col`}>
                         <div className={`${chartsPrefix}-header-container w-full flex justify-center my-4 mx-2`}>
@@ -164,7 +164,7 @@ const StaticsPage: React.FC = () => {
                 </Card>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    containerClassName='w-1/3 flex flex-col items-center border border-gray-300 shadow-none mr-4'
+                    containerClassName='w-full md:w-1/3 flex flex-col items-center border border-gray-300 shadow-none'
                 >
                     <div className={`${chartsPrefix}-content-container flex justify-between my-4 mx-2 flex-col`}>
                         <div className={`${chartsPrefix}-header-container w-full flex justify-center my-4 mx-2`}>
@@ -191,7 +191,7 @@ const StaticsPage: React.FC = () => {
                 </Card>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    containerClassName='w-1/3 flex flex-col items-center border border-gray-300 shadow-none'
+                    containerClassName='w-full md:w-1/3 flex flex-col items-center border border-gray-300 shadow-none'
                 >
                     <div className={`${chartsPrefix}-content-container flex justify-between my-4 mx-2 flex-col`}>
                         <div className={`${chartsPrefix}-header-container w-full flex justify-center my-4 mx-2`}>
