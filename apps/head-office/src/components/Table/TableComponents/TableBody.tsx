@@ -14,7 +14,14 @@ const TableBody: React.FC<ITableBodyProps> = ({
         : [];
     const requiredRows: number = 10;
     const filledTableData: ITableBodyPlaceholderProps[] = Array.from({ length: requiredRows }, (_, index) => {
-        return fullTableData[index]
+        return fullTableData[index] || {
+            id: 0,
+            address: '',
+            cityId: 0,
+            districtId: 0,
+            name: '',
+            phone: '',
+        };
     });
 
     return (
