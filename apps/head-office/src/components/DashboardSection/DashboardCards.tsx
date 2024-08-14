@@ -20,11 +20,12 @@ import { FaBatteryHalf } from 'react-icons/fa6';
 import { HiUserGroup } from "react-icons/hi";
 import { useDispatch } from 'react-redux';
 import { Card } from '@projects/card';
+import { dashboardsData } from './dashboardsData'; // It will be deleted after the API integration.
+import DashboardMap from './DashboardMap';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
-import { dashboardsData } from './dashboardsData'; // It will be deleted after the API integration.
+import { IChartData, IDashboardData, ITooltipItem } from './types';
 import './DashboardSection.css';
-import DashboardMap from './DashboardMap';
 
 Chart.register(
     ArcElement,
@@ -40,38 +41,36 @@ Chart.register(
 );
 
 const DashboardCards: React.FC = () => {
+    const lineOptions = {
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            },
+            tooltip: {
+                mode: 'index',
+                intersect: false,
+                callbacks: {
+                    label: (tooltipItem: ITooltipItem) => {
+                        return `${tooltipItem.dataset.label}: ${tooltipItem.parsed.y}`;
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                type: 'category',
+                labels: ['1', '2', '3', '4', '5', '6', '7', '8']
+            }
+        },
+        responsive: true,
+    };
     const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page-cards`;
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(toggleLoadingVisibility(false));
-    }, []);
-
-    const lineData = (response: any[]) => {
-        const acData = response[0].ac.map((point: any) => point[Object.keys(point)[0]]);
-        const dcData = response[1].dc.map((point: any) => point[Object.keys(point)[0]]);
-
-        return {
-            datasets: [
-                {
-                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: acData,
-                    label: 'AC',
-                },
-                {
-                    backgroundColor: 'rgba(53, 162, 235, 0.5)',
-                    borderColor: 'rgb(53, 162, 235)',
-                    data: dcData,
-                    label: 'DC',
-                },
-            ],
-            labels: Object.keys(response[0].ac[0]).map(key => key)
-        };
-    };
-
-    const doughnutData = (response: any[]) => {
+    const doughnutData = (response: IChartData[]) => {
         const labels = response.map(item => Object.keys(item)[0]);
+        // @ts-expect-error will delete
         const data = response.map(item => item[Object.keys(item)[0]]);
 
         return {
@@ -99,38 +98,58 @@ const DashboardCards: React.FC = () => {
             labels: labels,
         };
 
-    }
-
-    const lineOptions = {
-        maintainAspectRatio: false,
-        plugins: {
-            legend: {
-                position: 'bottom'
-            },
-            tooltip: {
-                mode: 'index',
-                intersect: false,
-                callbacks: {
-                    label: function (tooltipItem: any) {
-                        return `${tooltipItem.dataset.label}: ${tooltipItem.parsed.y}`;
-                    }
-                }
-            }
-        },
-        scales: {
-            x: {
-                type: 'category',
-                labels: ['1', '2', '3', '4', '5', '6', '7', '8']
-            }
-        },
-        responsive: true,
     };
+    const getCardIcon = (icon: string): JSX.Element => {
+        switch (icon) {
+            case 'FaChargingStation':
+                return <FaChargingStation className='text-6xl' />;
+            case 'BiSolidEvStation':
+                return <BiSolidEvStation className='text-6xl' />;
+            case 'FaBatteryHalf':
+                return <FaBatteryHalf className='text-6xl' />;
+            case 'HiUserGroup':
+                return <HiUserGroup className='text-6xl' />;
+            default:
+                return <></>;
+        };
+    };
+    const getValue = (data: IDashboardData) => {
+        if (Array.isArray(data.value)) {
+            return renderGraphics(data);
+        } else {
+            return <div className='flex items-center justify-end'>
+                <div className='text-4xl'>{data.value}</div>
+            </div>
+        }
+    };
+    const lineData = (response: IChartData[]) => {
+        const acData = response[0].ac.map((point) => point[Object.keys(point)[0]]);
+        const dcData = response[1].dc.map((point) => point[Object.keys(point)[0]]);
 
-    const renderGraphics = (data: any) => {
+        return {
+            datasets: [
+                {
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: acData,
+                    label: 'AC',
+                },
+                {
+                    backgroundColor: 'rgba(53, 162, 235, 0.5)',
+                    borderColor: 'rgb(53, 162, 235)',
+                    data: dcData,
+                    label: 'DC',
+                },
+            ],
+            labels: Object.keys(response[0].ac[0]).map(key => key)
+        };
+    };
+    const renderGraphics = (data: IDashboardData) => {
         if (data.graphic_type === 'line') {
             return <div className='w-full h-full'>
                 <Line
                     data={lineData(data.value)}
+                    // @ts-expect-error will delete
                     options={lineOptions}
                 />
             </div>
@@ -177,68 +196,62 @@ const DashboardCards: React.FC = () => {
             return <div className='w-full h-full'>
                 <Pie
                     data={doughnutData(data.value)}
+                    options={{
+                        plugins: {
+                            legend: {
+                                position: 'bottom' as const,
+                            },
+                        }
+                    }}
                 />
             </div>
         } else if (data.graphic_type === 'map') {
             return <div className='w-full h-full'>
                 <div className='w-full h-full flex items-center justify-center'>
-                <DashboardMap />
+                    <DashboardMap />
                 </div>
             </div>
         }
     };
 
-    const getValue = (data: number | any[]) => {
-        if (Array.isArray(data.value)) {
-            return renderGraphics(data);
-        } else {
-            return <div className='flex items-center justify-end'>
-                <div className='text-4xl'>{data.value}</div>
-            </div>
-        }
-    };
-
-    const getCardIcon = (icon: string): JSX.Element => {
-        switch (icon) {
-            case 'FaChargingStation':
-                return <FaChargingStation className='text-6xl' />;
-            case 'BiSolidEvStation':
-                return <BiSolidEvStation className='text-6xl' />;
-            case 'FaBatteryHalf':
-                return <FaBatteryHalf className='text-6xl' />;
-            case 'HiUserGroup':
-                return <HiUserGroup className='text-6xl' />;
-            default:
-                return <></>;
-        };
-    };
+    useEffect(() => {
+        dispatch(toggleLoadingVisibility(false));
+    }, []);
 
     return (
         <div className={`${pagePrefix}-info-container w-full flex justify-between flex-wrap`}>
             <div className={`${pagePrefix}-card-row-wrapper flex flex-col md:flex-row w-full`}>
                 <div className='w-full h-full grid' style={{ gridTemplateColumns: 'repeat(12, 1fr)', gap: "1em" }}>
                     {
-                        Object.keys(dashboardsData).map(item => {
+                        Object.keys(dashboardsData).map((item: string) => {
                             return (
                                 <Card
                                     BRAND_PREFIX={BRAND_PREFIX}
                                     containerClassName={`py-4 flex items-center justify-between shadow border border-gray-300 rounded-md`}
                                     key={item}
+                                    // @ts-expect-error will delete
                                     style={{ gridArea: dashboardsData[item].type }}
                                 >
                                     <div className={`w-full h-full flex text-center justify-between`}>
                                         <div className='card-info-container flex flex-col items-center justify-between px-4 w-full'>
                                             <div className='card-title-container flex items-center justify-start px-4 w-full '>
-                                                <div className={`lg:text-md text-md`}>{dashboardsData[item].title}</div>
+                                                <div className={`lg:text-md text-md`}>
+                                                    {
+                                                        // @ts-expect-error will delete
+                                                        dashboardsData[item].title
+                                                    }
+                                                </div>
                                             </div>
                                             <div className='text-4xl flex w-full items-center justify-end'>
                                                 {
+                                                    // @ts-expect-error will delete
                                                     getValue(dashboardsData[item])
                                                 }
                                             </div>
                                         </div>
                                         <div className='card-icon-container flex items-center justify-center text-primary px-1'>
                                             {
+                                                // @ts-expect-error will delete
                                                 getCardIcon(dashboardsData[item].icon_name)
                                             }
                                         </div>

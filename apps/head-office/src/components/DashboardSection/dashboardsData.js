@@ -11,8 +11,8 @@ export const dashboardsData = {
     "last_eight_days_ac_dc_sales": {
         "title": "Son 8 Gun AC DC Satışları", // Son 8 gun AC satislari basligi
         "value": [
-            { "ac": [{ "1": 100 }, { "2": 200 }, { "3": 300 }, { "4": 400 }, { "5": 500 }, { "6": 600 }, { "7": 700 }, { "8": 800 }] },
-            { "dc": [{ "1": 800 }, { "2": 700 }, { "3": 600 }, { "4": 500 }, { "5": 400 }, { "6": 300 }, { "7": 200 }, { "8": 100 }] }
+            { "ac": [{ "1": 100 }, { "2": 300 }, { "3": 200 }, { "4": 250 }, { "5": 150 }, { "6": 220 }, { "7": 400 }, { "8": 250 }] },
+            { "dc": [{ "1": 300 }, { "2": 250 }, { "3": 350 }, { "4": 400 }, { "5": 200 }, { "6": 300 }, { "7": 450 }, { "8": 100 }] }
         ],
         // Son 8 gun AC DC satislari
         "icon_name": "", // AC satislari icin icon adi
@@ -52,11 +52,7 @@ export const dashboardsData = {
             }, {
                 "Sharz Card": 200
             }, {
-                "Apple Pay": 300
-            }, {
-                "Google Pay": 400
-            }, {
-                "Paypal": 500
+                "Fleet / Wallet": 300
             }
         ], // Odeme yontemleri
         "icon_name": "icon_name", // Odeme yontemleri icin icon adi
@@ -66,7 +62,7 @@ export const dashboardsData = {
         "graphic_type": "doughnut",
     },
     "ac_dc_sales_ratio": {
-        "title": "AC/DC Satış Oranı", // AC/DC satis orani basligi
+        "title": "AC/DC Satış Tutarlari", // AC/DC satis orani basligi
         "value": [{
             "AC": 100,
         }, { // AC satis orani
