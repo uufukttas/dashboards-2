@@ -123,26 +123,44 @@ const DashboardCards: React.FC = () => {
         }
     };
     const lineData = (response: IChartData[]) => {
-        const acData = response[0].ac.map((point) => point[Object.keys(point)[0]]);
-        const dcData = response[1].dc.map((point) => point[Object.keys(point)[0]]);
+        let acData, dcData, todayData, lastWeekData, monthData, lastMonthData;
+
+        if (response[0].ac && response[1].dc) {
+            ({ currentData: acData, previousData: dcData } = processData(response, 'ac', 'dc'));
+        } else if (response[0].today && response[1].last_week_today) {
+            ({ currentData: todayData, previousData: lastWeekData } = processData(response, 'today', 'last_week_today'));
+        } else if (response[0].month && response[1].last_month) {
+            ({ currentData: monthData, previousData: lastMonthData } = processData(response, 'month', 'last_month'));
+        }
+
+        const key = (response[0].ac && response[0]?.ac[0]) || (response[0].today && response[0]?.today[0]) || (response[0].month && response[0]?.month[0])
+
 
         return {
             datasets: [
                 {
                     backgroundColor: 'rgba(255, 99, 132, 0.5)',
                     borderColor: 'rgb(255, 99, 132)',
-                    data: acData,
+                    data: monthData || todayData || acData,
                     label: 'AC',
                 },
                 {
                     backgroundColor: 'rgba(53, 162, 235, 0.5)',
                     borderColor: 'rgb(53, 162, 235)',
-                    data: dcData,
+                    data: lastMonthData || lastWeekData || dcData,
                     label: 'DC',
                 },
             ],
-            labels: Object.keys(response[0].ac[0]).map(key => key)
+            labels: Object.keys(key || []).map(key => key)
         };
+    };
+    const processData = (response: IChartData[], currentKey: string, previousKey: string): {
+        currentData: number[],
+        previousData: number[]
+    } => {
+        const currentData = response[0][currentKey].map(point => point[Object.keys(point)[0]]);
+        const previousData = response[1][previousKey].map(point => point[Object.keys(point)[0]]);
+        return { currentData, previousData };
     };
     const renderGraphics = (data: IDashboardData) => {
         if (data.graphic_type === 'line') {
