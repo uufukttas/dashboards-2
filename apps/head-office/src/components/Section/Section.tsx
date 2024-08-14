@@ -6,8 +6,7 @@ const Section: React.FC<ISectionProps> = ({ children }: ISectionProps) => {
   const sectionPrefix: string = `${BRAND_PREFIX}-section`;
 
   return (
-    <section
-      className={`${sectionPrefix}-container flex-wrap w-full px-8 xl:px-20 py-20 bg-white py-4 h-auto min-h-full`}>
+    <section className={`${sectionPrefix}-container w-full h-auto min-h-full px-8 xl:px-20 py-4 flex-wrap bg-white`}>
       {children}
     </section>
   );
