@@ -11,11 +11,11 @@ const DashboardMap: React.FC = () => {
   const onLoad = useCallback((map: google.maps.Map) => { mapRef.current = map }, []);
 
   return (
-    <div className={`${dashboardMapPrefix}-container w-2/3 px-2 my-4`}>
+    <div className={`${dashboardMapPrefix}-container w-full px-2 my-4`}>
       <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''} libraries={libraries}>
         <GoogleMap
           center={{ lat: 39.92504, lng: 32.83709 }} // Heart of Turkey - Ankara Anitkabir
-          mapContainerStyle={{ width: '1100px', height: '400px' }}
+          mapContainerStyle={{ height: '400px' }}
           mapTypeId='roadmap'
           options={{
             fullscreenControl: false,
