@@ -1,19 +1,45 @@
 import React, { useEffect } from 'react';
+import {
+    ArcElement,
+    CategoryScale,
+    Chart,
+    Filler,
+    LinearScale,
+    LineElement,
+    Legend,
+    PointElement,
+    Title,
+    Tooltip
+} from "chart.js";
+import 'chart.js/auto';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Doughnut, Line, Pie } from "react-chartjs-2";
 import { BiSolidEvStation } from "react-icons/bi";
+import { FaChargingStation } from 'react-icons/fa';
 import { FaBatteryHalf } from 'react-icons/fa6';
 import { HiUserGroup } from "react-icons/hi";
-import { FaChargingStation } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { Card } from '@projects/card';
-import { detectDevice } from '@projects/common';
-import { Tooltip } from '@projects/tooltip';
-import DashboardMap from './DashboardMap';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
+import { dashboardsData } from './dashboardsData'; // It will be deleted after the API integration.
 import './DashboardSection.css';
+import DashboardMap from './DashboardMap';
+
+Chart.register(
+    ArcElement,
+    CategoryScale,
+    ChartDataLabels,
+    Filler,
+    LinearScale,
+    LineElement,
+    Legend,
+    PointElement,
+    Title,
+    Tooltip,
+);
 
 const DashboardCards: React.FC = () => {
-    const isDesktop: boolean = detectDevice().isDesktop;
     const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page-cards`;
     const dispatch = useDispatch();
 
@@ -21,357 +47,209 @@ const DashboardCards: React.FC = () => {
         dispatch(toggleLoadingVisibility(false));
     }, []);
 
-    const chargeUnitContent1: React.ReactNode = (
-        <div className={`flex flex text-center justify-between w-full h-1/2`}>
-            <div className='card-info-container flex flex-col items-center justify-center px-4 w-full'>
-                <div className='card-title-container flex items-center justify-start px-4 w-full '>
-                    <div className={`lg:text-md text-md`}>Konnektor Sayisi</div>
-                </div>
-                <div className='text-4xl flex w-full items-center justify-end'>
-                    117
-                </div>
-            </div>
-            <div className='card-icon-container flex items-center justify-center text-primary px-1'>
-                <FaChargingStation className='text-6xl' />
-            </div>
-        </div>
-    );
-    const chargeUnitContent2: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
-            <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`lg:text-md text-md`}>AC</div>
-            </div>
-            <div className='text-4xl flex items-center justify-center'>190
-            </div>
-        </div>
-    );
-    const chargeUnitContent3: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
-            <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`lg:text-md text-md`}>DC</div>
-            </div>
-            <div className='text-4xl flex items-center justify-center'>46
-            </div>
-        </div>
-    );
-    const chargeUnitContent4: React.ReactNode = (
-        <div className={`flex flex text-center justify-between w-full h-1/2`}>
-            <div className='card-info-container flex flex-col items-center justify-center px-4 w-full'>
-                <div className='card-title-container flex items-center justify-start px-4 w-full '>
-                    <div className={`lg:text-md text-md`}>Sarj Islemleri</div>
-                </div>
-                <div className='text-4xl flex w-full items-center justify-end'>
-                    265
-                </div>
-            </div>
-            <div className='card-icon-container flex items-center justify-center text-primary px-1'>
-                <FaBatteryHalf className='text-6xl' />
-            </div>
-        </div>
-    );
-    const chargeUnitContent5: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-full`}>
-            <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`lg:text-md text-md`}>Aktif Musteri</div>
-            </div>
-            <div className='text-4xl flex items-center justify-center'>
-                56001
-            </div>
-        </div>
-    );
-    const chargeUnitContent6: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
-            <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`lg:text-md text-md`}>Pasif Musteri</div>
-            </div>
-            <div className='text-4xl flex items-center justify-center'>
-                7583
-            </div>
-        </div>
-    );
-    const chargeUnitContent7: React.ReactNode = (
-        <div className={`flex flex text-center justify-between w-full h-1/2`}>
-            <div className='card-info-container flex flex-col items-center justify-center px-4 w-full'>
-                <div className='card-title-container flex items-center justify-start px-4 w-full '>
-                    <div className={`lg:text-md text-md`}>Musteri Sayisi</div>
-                </div>
-                <div className='text-4xl flex w-full items-center justify-end'>
-                    63584
-                </div>
-            </div>
-            <div className='card-icon-container flex items-center justify-center text-primary px-1'>
-                <HiUserGroup className='text-6xl' />
-            </div>
-        </div>
-    );
-    const chargeUnitContent8: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-full`}>
-            <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`lg:text-md text-md`}>Aktif Musteri</div>
-            </div>
-            <div className='text-4xl flex items-center justify-center'>
-                56001
-            </div>
-        </div>
-    );
-    const chargeUnitContent9: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
-            <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`lg:text-md text-md`}>Pasif Musteri</div>
-            </div>
-            <div className='text-4xl flex items-center justify-center'>
-                7583
-            </div>
-        </div>
-    );
-    const chargeUnitContent11: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
-            <div className='card-title-container flex items-center justify-start px-4 pb-4'>
-                <div className={`text-2xl lg:text-2xl`}>En cok ziyaret edilen istasyonlar</div>
-            </div>
-            <div className='text-lg flex items-center justify-center w-full'>
-                <ul className='w-full'>
-                    <li className='flex justify-between w-full px-4'>
-                        <span>Istasyon1</span><span>3</span>
-                    </li>
-                    <li className='flex justify-between w-full px-4'>
-                        <span>Istasyon2</span><span>2</span>
-                    </li>
-                    <li className='flex justify-between w-full px-4'>
-                        <span>Istasyon3</span><span>1</span>
+    const lineData = (response: any[]) => {
+        const acData = response[0].ac.map((point: any) => point[Object.keys(point)[0]]);
+        const dcData = response[1].dc.map((point: any) => point[Object.keys(point)[0]]);
 
-                    </li>
+        return {
+            datasets: [
+                {
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: acData,
+                    label: 'AC',
+                },
+                {
+                    backgroundColor: 'rgba(53, 162, 235, 0.5)',
+                    borderColor: 'rgb(53, 162, 235)',
+                    data: dcData,
+                    label: 'DC',
+                },
+            ],
+            labels: Object.keys(response[0].ac[0]).map(key => key)
+        };
+    };
 
-                </ul>
+    const doughnutData = (response: any[]) => {
+        const labels = response.map(item => Object.keys(item)[0]);
+        const data = response.map(item => item[Object.keys(item)[0]]);
+
+        return {
+            datasets: [
+                {
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                    ],
+                    borderWidth: 1,
+                    data: data,
+                    label: '# of Transactions',
+                },
+            ],
+            labels: labels,
+        };
+
+    }
+
+    const lineOptions = {
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            },
+            tooltip: {
+                mode: 'index',
+                intersect: false,
+                callbacks: {
+                    label: function (tooltipItem: any) {
+                        return `${tooltipItem.dataset.label}: ${tooltipItem.parsed.y}`;
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                type: 'category',
+                labels: ['1', '2', '3', '4', '5', '6', '7', '8']
+            }
+        },
+        responsive: true,
+    };
+
+    const renderGraphics = (data: any) => {
+        if (data.graphic_type === 'line') {
+            return <div className='w-full h-full'>
+                <Line
+                    data={lineData(data.value)}
+                    options={lineOptions}
+                />
             </div>
-        </div>
-    );
-    const chargeUnitContent12: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
-            <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`lg:text-md text-md`}>Aktiflik Orani</div>
+        } else if (data.graphic_type === 'doughnut') {
+            return <div className='w-full h-full'>
+                <Doughnut
+                    data={doughnutData(data.value)}
+                    options={{
+                        plugins: {
+                            legend: {
+                                position: 'bottom' as const,
+                            },
+                            title: {
+                                display: false,
+                                text: 'Chart.js Line Chart',
+                            },
+                        }
+                    }}
+                />
             </div>
-            <div className='text-4xl flex items-center justify-center'>21%
+        } else if (data.graphic_type === 'semi_doughnut') {
+            return <div className='w-full h-full'>
+                <Doughnut
+                    data={doughnutData(data.value)}
+                    options={{
+                        plugins: {
+                            legend: {
+                                position: 'bottom' as const,
+                            },
+                            title: {
+                                display: false,
+                                text: 'Chart.js Line Chart',
+                            }
+                        },
+                        rotation: -90,
+                        circumference: 180,
+                        cutout: "50%",
+                        maintainAspectRatio: true,
+                        responsive: true,
+                    }}
+                />
             </div>
-        </div>
-    );
-    const chargeUnitContent13: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
-            <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`lg:text-md text-md`}>Aktiflik Orani</div>
+        } else if (data.graphic_type === 'pie') {
+            return <div className='w-full h-full'>
+                <Pie
+                    data={doughnutData(data.value)}
+                />
             </div>
-            <div className='text-4xl flex items-center justify-center'>34%
+        } else if (data.graphic_type === 'map') {
+            return <div className='w-full h-full'>
+                <div className='w-full h-full flex items-center justify-center'>
+                <DashboardMap />
+                </div>
             </div>
-        </div>
-    );
-    const chargeUnitContent15: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-full`}>
-            <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`lg:text-md text-md`}>Son 1 Ayda Aktif Musteri</div>
+        }
+    };
+
+    const getValue = (data: number | any[]) => {
+        if (Array.isArray(data.value)) {
+            return renderGraphics(data);
+        } else {
+            return <div className='flex items-center justify-end'>
+                <div className='text-4xl'>{data.value}</div>
             </div>
-            <div className='text-4xl flex items-center justify-center'>
-                20357
-            </div>
-        </div>
-    );
-    const chargeUnitContent16: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
-            <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`lg:text-md text-md`}>Son 1 Haftada Aktif Musteri</div>
-            </div>
-            <div className='text-4xl flex items-center justify-center'>
-                14698
-            </div>
-        </div>
-    );
-    const chargeUnitContent17: React.ReactNode = (
-        <div className={`flex flex-col text-center justify-center w-full h-1/2`}>
-            <div className='card-title-container flex items-center justify-center px-4 '>
-                <div className={`lg:text-md text-md`}>Bugun Yapilan Sarj Islemi</div>
-            </div>
-            <div className='text-4xl flex items-center justify-center'>
-                400
-            </div>
-        </div>
-    );
+        }
+    };
+
+    const getCardIcon = (icon: string): JSX.Element => {
+        switch (icon) {
+            case 'FaChargingStation':
+                return <FaChargingStation className='text-6xl' />;
+            case 'BiSolidEvStation':
+                return <BiSolidEvStation className='text-6xl' />;
+            case 'FaBatteryHalf':
+                return <FaBatteryHalf className='text-6xl' />;
+            case 'HiUserGroup':
+                return <HiUserGroup className='text-6xl' />;
+            default:
+                return <></>;
+        };
+    };
+
     return (
         <div className={`${pagePrefix}-info-container w-full flex justify-between flex-wrap`}>
             <div className={`${pagePrefix}-card-row-wrapper flex flex-col md:flex-row w-full`}>
-                <div className='w-full lg:w-1/3 flex flex-col px-2 my-4'>
-                    <Card
-                        BRAND_PREFIX={BRAND_PREFIX}
-                        containerClassName={`w-full flex items-center justify-between h-1/2 mb-2 shadow border border-gray-300 py-4 rounded-md`}
-                    >
-                        {chargeUnitContent1}
-                    </Card>
-                    <div className='w-full flex md:flex-row justify-between'>
-                        <Card
-                            BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`w-1/2 flex items-center justify-center mr-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
-                        >
-                            {chargeUnitContent2}
-                        </Card>
-                        <Card
-                            BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`w-1/2 flex items-center justify-center ml-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
-                        >
-                            {chargeUnitContent3}
-                        </Card>
-                    </div>
-                    <div className='w-full flex flex-row justify-between'>
-                        <Card
-                            BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`w-1/2 flex items-center justify-center mr-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
-                        >
-                            {chargeUnitContent13}
-                        </Card>
-                        <Card
-                            BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`w-1/2 flex items-center justify-center ml-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
-                        >
-                            {chargeUnitContent12}
-                        </Card>
-                    </div>
-                </div>
-                <div className='w-full lg:w-1/3 flex flex-col px-2 my-4'>
-                    <Card
-                        BRAND_PREFIX={BRAND_PREFIX}
-                        containerClassName={`w-full flex items-center justify-center h-1/2 mb-2 shadow border border-gray-300 py-4 rounded-md`}
-                    >
-                        {chargeUnitContent7}
-                    </Card>
-                    <div className='w-full flex flex-row justify-between'>
-                        <Card
-                            BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`w-1/2 flex items-center justify-center mr-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
-                        >
-                            {chargeUnitContent5}
-                        </Card>
-                        <Card
-                            BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`w-1/2 flex items-center justify-center ml-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
-                        >
-                            {chargeUnitContent6}
-                        </Card>
-                    </div>
-                    <div className='w-full flex flex-row justify-between relative'>
-                        <Tooltip
-                            containerClassName='w-full mr-2'
-                            text="Son 1 ayda sarj unitelerinden sarj islemi baslatmis kullanici sayisi"
-                            textClassName='whitespace-normal left-[50%] px-2'
-                        >
-                            <Card
-                                BRAND_PREFIX={BRAND_PREFIX}
-                                containerClassName={`w-full flex items-center justify-center mr-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
-                            >
-                                {chargeUnitContent15}
-                            </Card>
-                        </Tooltip>
-                        <Tooltip
-                            containerClassName='w-full mr-2'
-                            text="Son 1 haftada sarj unitelerinden sarj islemi baslatmis kullanici sayisi"
-                            textClassName='whitespace-normal left-[50%] px-2'
-                        >
-                            <Card
-                                BRAND_PREFIX={BRAND_PREFIX}
-                                containerClassName={`w-full flex items-center justify-center ml-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
-                            >
-                                {chargeUnitContent16}
-                            </Card>
-                        </Tooltip>
-                    </div>
-                </div>
-                <div className='w-full lg:w-1/3 flex flex-col px-2 my-4'>
-                    <Card
-                        BRAND_PREFIX={BRAND_PREFIX}
-                        containerClassName={`w-full flex items-center justify-center  h-1/2 mb-2 shadow border border-gray-300 py-4 rounded-md`}
-                    >
-                        {chargeUnitContent4}
-                    </Card>
-                    <div className='w-full flex flex-row justify-between'>
-                        <Card
-                            BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`w-1/2 flex items-center justify-center mr-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
-                        >{
-                                chargeUnitContent8
-                            }
-                        </Card>
-                        <Card
-                            BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`w-1/2 flex items-center justify-center ml-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
-                        >
-                            {chargeUnitContent9}
-                        </Card>
-                    </div>
-                    <div className='w-full flex flex-row justify-between'>
-                        <Card
-                            BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`w-1/2 flex items-center justify-center mr-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
-                        >{
-                                chargeUnitContent8
-                            }
-                        </Card>
-                        <Card
-                            BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`w-1/2 flex items-center justify-center ml-2 mt-2 shadow border border-gray-300 py-4 rounded-md`}
-                        >
-                            {chargeUnitContent17}
-                        </Card>
-                    </div>
+                <div className='w-full h-full grid' style={{ gridTemplateColumns: 'repeat(12, 1fr)', gap: "1em" }}>
+                    {
+                        Object.keys(dashboardsData).map(item => {
+                            return (
+                                <Card
+                                    BRAND_PREFIX={BRAND_PREFIX}
+                                    containerClassName={`py-4 flex items-center justify-between shadow border border-gray-300 rounded-md`}
+                                    key={item}
+                                    style={{ gridArea: dashboardsData[item].type }}
+                                >
+                                    <div className={`w-full h-full flex text-center justify-between`}>
+                                        <div className='card-info-container flex flex-col items-center justify-between px-4 w-full'>
+                                            <div className='card-title-container flex items-center justify-start px-4 w-full '>
+                                                <div className={`lg:text-md text-md`}>{dashboardsData[item].title}</div>
+                                            </div>
+                                            <div className='text-4xl flex w-full items-center justify-end'>
+                                                {
+                                                    getValue(dashboardsData[item])
+                                                }
+                                            </div>
+                                        </div>
+                                        <div className='card-icon-container flex items-center justify-center text-primary px-1'>
+                                            {
+                                                getCardIcon(dashboardsData[item].icon_name)
+                                            }
+                                        </div>
+                                    </div>
+                                </Card>
+                            )
+                        })
+                    }
                 </div>
             </div>
-            <div className={`${pagePrefix}-map-row-wrapper flex flex-col md:flex-row w-full`}>
-                <div className={`${pagePrefix}-map-row-container flex justify-between flex-wrap w-full md:flex-row`}>
-                    <div className='w-full xxl:w-1/3 flex flex-col md:flex-row xl:flex-col px-2 my-4 items-center justify-center'>
-                        <Card
-                            BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`w-full flex items-center justify-center xl:h-1/3 h-full mb-2 xl:mr-2 shadow border border-gray-300 py-4 rounded-md`}
-                        >
-                            {chargeUnitContent1}
-                        </Card>
-                        <Card
-                            BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`w-full flex items-center justify-center xl:h-1/3 h-full mb-2 xl:mr-2 shadow border border-gray-300 py-4 rounded-md`}
-                        >
-                            {chargeUnitContent1}
-                        </Card>
-                        <Card
-                            BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`w-full flex items-center justify-center xl:h-1/3 h-full mb-2 shadow border border-gray-300 py-4 rounded-md`}
-                        >
-                            {chargeUnitContent1}
-                        </Card>
-                    </div>
-                </div>
-                {
-                    isDesktop && (
-                        <DashboardMap />
-                    )
-                }
-            </div>
-            <div className={`${pagePrefix}-list-row-wrapper flex w-full`}>
-                <div className='w-full flex flex flex-row px-2 my-4 flex-col md:flex-row'>
-                    <Card
-                        BRAND_PREFIX={BRAND_PREFIX}
-                        containerClassName={`w-full flex items-center h-full mr-4 shadow border border-gray-300 py-4 rounded-md`}
-                    >
-                        {chargeUnitContent11}
-                    </Card>
-                    <Card
-                        BRAND_PREFIX={BRAND_PREFIX}
-                        containerClassName={`w-full flex items-center h-full mr-4 shadow border border-gray-300 py-4 rounded-md`}
-                    >
-                        {chargeUnitContent11}
-                    </Card>
-                    <Card
-                        BRAND_PREFIX={BRAND_PREFIX}
-                        containerClassName={`w-full flex items-center h-full shadow border border-gray-300 py-4 rounded-md`}
-                    >
-                        {chargeUnitContent11}
-                    </Card>
-                </div>
-            </div>
-        </div>
+        </div >
     );
 };
 
