@@ -73,6 +73,9 @@ const DashboardCards: React.FC = () => {
     const options = {
         responsive: true,
         plugins: {
+            datalabels: {
+                display: false,
+            },
             legend: {
                 position: 'top',
             },
@@ -151,7 +154,7 @@ const DashboardCards: React.FC = () => {
             return renderGraphics(data);
         } else {
             return <div className='flex items-center justify-end'>
-                <div className='text-4xl'>{data.value}</div>
+                <div className='text-2xl'>{data.value}</div>
             </div>
         }
     };
@@ -320,8 +323,8 @@ const DashboardCards: React.FC = () => {
                 </div>
             </div>
         } else if (data.type === 'line&bar') {
-            return <div className='w-full h-full'>
-                <Bar options={options} data={barLineData(data.value)} />
+            return <div className='w-full h-full h-[400px] flex items-center justify-center'>
+                <Bar options={options} data={barLineData(data.value)} className={`flex justify-center items-center !w-[800px]`} style={{ width: "1150" }} />
             </div>
         } else if (data.type === 'list') {
             return (
@@ -364,17 +367,17 @@ const DashboardCards: React.FC = () => {
                                         // @ts-expect-error will delete
                                         style={{ gridArea: dashboardsData[item].position }}
                                     >
-                                        <div className={`w-full h-full flex text-center justify-between items-center `}>
+                                        <div className={`w-full h-full flex text-center justify-between `}>
                                             <div className='card-info-container flex flex-col items-center justify-start px-4 w-full'>
-                                                <div className='card-title-container flex items-center justify-start w-full '>
-                                                    <div className={`lg:text-xl text-md`}>
+                                                <div className='card-title-container flex items-center justify-start w-full'>
+                                                    <div className={`lg:text-xl font-bold text-md`}>
                                                         {
                                                             // @ts-expect-error will delete
                                                             dashboardsData[item].title
                                                         }
                                                     </div>
                                                 </div>
-                                                <div className='text-4xl flex w-full items-center justify-end'>
+                                                <div className='text-2xl flex w-full items-center justify-end h-full'>
                                                     {
                                                         // @ts-expect-error will delete
                                                         getValue(dashboardsData[item])
@@ -390,7 +393,7 @@ const DashboardCards: React.FC = () => {
                                         </div>
                                         <div className='w-full h-1/6 description-container flex items-end text-xs px-4'>
                                             <div className='w-full flex items-center justify-start'>
-                                                <FaCircleInfo className='mx-2'/>
+                                                <FaCircleInfo className='mx-2' />
                                                 {
                                                     // @ts-expect-error will delete
                                                     dashboardsData[item].description

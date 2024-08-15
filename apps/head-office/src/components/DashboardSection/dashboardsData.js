@@ -15,7 +15,7 @@ export const dashboardsData = {
         ], // Son 8 gunluk AC ve DC satis tutarlari
         "icon_name": "",
         "description": "This is description of this card",
-        "position": "1 / 5 / 1 / 9",
+        "position": "1 / 5 / 3 / 9",
         "type": "line",
     },
     "total_customer_count": {
@@ -23,7 +23,23 @@ export const dashboardsData = {
         "value": 700, // Tum zamanlarin toplam musteri sayisi
         "icon_name": "HiUserGroup",
         "description": "This is description of this card",
-        "position": "1 / 9 / 1 / 13",
+        "position": "1 / 9 / 2 / 13",
+        "type": "",
+    },
+    "other_info1": {
+        "title": "Diger Bilgiler",
+        "value": 100, // Tum zamanlarin AC ve DC islem sayilari ve tutarlari
+        "icon_name": "icon_name",
+        "description": "This is description of this card",
+        "position": "2 / 1 / 2 / 5",
+        "type": "",
+    },
+    "other_info2": {
+        "title": "Diger Bilgiler",
+        "value": 100, // Tum zamanlarin AC ve DC islem sayilari ve tutarlari
+        "icon_name": "icon_name",
+        "description": "This is description of this card",
+        "position": "2 / 9 / 2 / 13",
         "type": "",
     },
     "total_used_kwh": {
@@ -31,7 +47,7 @@ export const dashboardsData = {
         "value": 10000, // Tum zamanlarin toplam kwh tuketimi
         "icon_name": "FaBolt",
         "description": "This is description of this card",
-        "position": "2 / 1 / 2 / 3",
+        "position": "3 / 1 / 3 / 3",
         "type": "",
     },
     "total_charge_process_count": {
@@ -39,7 +55,7 @@ export const dashboardsData = {
         "value": 1000, // Tum zamanlarin toplam islem sayisi
         "icon_name": "",
         "description": "This is description of this card",
-        "position": "2 / 3 / 2 / 5",
+        "position": "3 / 3 / 3 / 5",
         "type": "",
     },
     "payment_method_types": {
@@ -55,7 +71,7 @@ export const dashboardsData = {
         ], // Tum zamanlarin odeme yontemlerine gore islem sayisi
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "2 / 5 / 4 / 7",
+        "position": "3 / 5 / 5 / 7",
         "type": "doughnut",
     },
     "ac_dc_sales": {
@@ -67,7 +83,7 @@ export const dashboardsData = {
         }], // Tum zamanlarin AC ve DC satis tutarlari
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": " 2 / 7 / 4 / 9",
+        "position": " 3 / 7 / 5 / 9",
         "type": "semi_doughnut",
     },
     "last_three_months_active_customer_count": {
@@ -75,7 +91,7 @@ export const dashboardsData = {
         "value": 600, // Son 3 ayin toplam aktif musteri sayisi
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "2 / 9 / 2 / 11",
+        "position": "3 / 9 / 3 / 11",
         "type": "",
     },
     "inactive_customer_count": {
@@ -83,7 +99,7 @@ export const dashboardsData = {
         "value": 100, // Tum zamanlarin toplam pasif musteri sayisi
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "2 / 11 / 2 / 13",
+        "position": "3 / 11 / 3 / 13",
         "type": "",
     },
     "total_cost": {
@@ -91,7 +107,7 @@ export const dashboardsData = {
         "value": 10000, // Tum zamanlarin toplam maliyeti
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "3 / 1 / 3 / 3",
+        "position": "4 / 1 / 4 / 3",
         "type": "",
     },
     "total_earn": {
@@ -99,7 +115,7 @@ export const dashboardsData = {
         "value": 15000, // Tum zamanlarin toplam kazanci
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "3 / 3 / 3 / 5",
+        "position": "4 / 3 / 4 / 5",
         "type": "",
     },
     "last_month_active_customer_count": {
@@ -107,7 +123,7 @@ export const dashboardsData = {
         "value": 100, // Son ayin toplam aktif musteri sayisi
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "3 / 9 / 3 / 11",
+        "position": "4 / 9 / 4 / 11",
         "type": "",
     },
     "last_week_active_customer_count": {
@@ -115,7 +131,7 @@ export const dashboardsData = {
         "value": 50, // Son haftanin toplam aktif musteri sayisi
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "3 / 11 / 3 / 13",
+        "position": "4 / 11 / 4 / 13",
         "type": "",
     },
     "connector": {
@@ -123,7 +139,7 @@ export const dashboardsData = {
         "value": 450, // Toplam konnektor sayisi
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "4 / 1 / 4 / 5",
+        "position": "5 / 1 / 5 / 5",
         "type": "",
     },
     "ac_status": {
@@ -139,7 +155,7 @@ export const dashboardsData = {
         }], // AC Cihazlarin durumlarina gore sayilari
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "5 / 1 / 5 / 3",
+        "position": "6 / 1 / 6 / 3",
         "type": "pie",
     },
     "dc_status": {
@@ -155,7 +171,7 @@ export const dashboardsData = {
         }], // DC Cihazlarin durumlarina gore sayilari
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "5 / 3 / 5 / 5",
+        "position": "6 / 3 / 6 / 5",
         "type": "pie",
     },
     "locations": {
@@ -169,7 +185,7 @@ export const dashboardsData = {
         }], // Kullanicinin sahip oldugu lokasyonlarin koordinatlari
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "4 / 5 / 6 / 13",
+        "position": "5 / 5 / 7 / 13",
         "type": "map",
     },
     "daily_income": {
