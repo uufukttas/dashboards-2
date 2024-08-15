@@ -355,7 +355,7 @@ const DashboardCards: React.FC = () => {
     return (
         <div className={`${pagePrefix}-info-container w-full flex justify-between flex-wrap`}>
             <div className={`${pagePrefix}-card-row-wrapper flex flex-col md:flex-row w-full`}>
-                <div className='w-full h-full grid' style={{ gridTemplateColumns: 'repeat(12, 1fr)', gap: "1em" }}>
+                <div className='w-full h-full grid' style={{ gridTemplateColumns: 'repeat(12, 1fr)', gap: "2em" }}>
                     {
                         Object.keys(dashboardsData).map((item: string) => {
                             return (
@@ -370,7 +370,7 @@ const DashboardCards: React.FC = () => {
                                         <div className={`w-full h-full flex text-center justify-between `}>
                                             <div className='card-info-container flex flex-col items-center justify-start px-4 w-full'>
                                                 <div className='card-title-container flex items-center justify-start w-full'>
-                                                    <div className={`lg:text-xl font-bold text-md`}>
+                                                    <div className={`lg:text-lg font-bold text-md`}>
                                                         {
                                                             // @ts-expect-error will delete
                                                             dashboardsData[item].title

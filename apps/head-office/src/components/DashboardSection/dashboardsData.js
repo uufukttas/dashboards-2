@@ -196,7 +196,7 @@ export const dashboardsData = {
         ], // Gunluk kazanc
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "7 / 1 / 9 / 7",
+        "position": "7 / 1 / 9 / 3",
         "type": "line",
     },
     "daily_kwh_usage": {
@@ -207,7 +207,7 @@ export const dashboardsData = {
         ], // Gunluk kwh tuketimi
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "7 / 7 / 9 / 13",
+        "position": "7 / 3 / 9 / 5",
         "type": "line",
     },
     "monthly_income": {
@@ -218,7 +218,7 @@ export const dashboardsData = {
         ], // Aylik kazanc
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "9 / 1 / 11 / 7",
+        "position": "7 / 5 / 9 / 7",
         "type": "line",
     },
     "monthly_kwh_usage": {
@@ -229,7 +229,7 @@ export const dashboardsData = {
         ], // Aylik kwh tuketimi
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "9 / 7 / 11 / 13",
+        "position": "7 / 7 / 9 / 9",
         "type": "line",
     },
     "yearly_income": {
@@ -240,7 +240,7 @@ export const dashboardsData = {
         ], // Yillik kazanc
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "11 / 1 / 13 / 7",
+        "position": "7 / 9 / 9 / 11",
         "type": "line",
     },
     "yearly_kwh_usage": {
@@ -251,7 +251,7 @@ export const dashboardsData = {
         ], // Yillik kwh tuketimi
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "11 / 7 / 13 / 13",
+        "position": "7 / 11 / 9 / 13",
         "type": "line",
     },
     "monthly_total": {
@@ -273,7 +273,29 @@ export const dashboardsData = {
         ], // Aylik toplam 
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "13 / 1 / 15 / 13",
+        "position": "9 / 1 / 11 / 7",
+        "type": "line&bar",
+    },
+    "monthly_total2": {
+        "title": "Aylık Toplam",
+        "value": [
+            { "08-2023": { "amount": 5190, "charge_count": 4000, "kwh": 90000, "service_fee": 143000 } },
+            { "09-2023": { "amount": 3190, "charge_count": 3000, "kwh": 80000, "service_fee": 150000 } },
+            { "10-2023": { "amount": 3019, "charge_count": 2590, "kwh": 75000, "service_fee": 125000 } },
+            { "11-2023": { "amount": 3590, "charge_count": 3001, "kwh": 83200, "service_fee": 149000 } },
+            { "12-2023": { "amount": 3500, "charge_count": 3250, "kwh": 91000, "service_fee": 139000 } },
+            { "01-2024": { "amount": 3190, "charge_count": 1459, "kwh": 86000, "service_fee": 125999 } },
+            { "02-2024": { "amount": 1900, "charge_count": 3698, "kwh": 79000, "service_fee": 139500 } },
+            { "03-2024": { "amount": 1987, "charge_count": 3200, "kwh": 78500, "service_fee": 189623 } },
+            { "04-2024": { "amount": 3520, "charge_count": 3190, "kwh": 76000, "service_fee": 198533 } },
+            { "05-2024": { "amount": 3654, "charge_count": 4300, "kwh": 71000, "service_fee": 179563 } },
+            { "06-2024": { "amount": 2958, "charge_count": 4125, "kwh": 69500, "service_fee": 179963 } },
+            { "07-2024": { "amount": 3000, "charge_count": 3009, "kwh": 78900, "service_fee": 169000 } },
+            { "08-2024": { "amount": 3100, "charge_count": 3756, "kwh": 85200, "service_fee": 187653 } }
+        ], // Aylik toplam 
+        "icon_name": "icon_name",
+        "description": "This is description of this card",
+        "position": "9 / 7 / 11 / 13",
         "type": "line&bar",
     },
     "most_used_locations": {
@@ -287,7 +309,7 @@ export const dashboardsData = {
         ], // En cok sarj islemi yapilan lokasyonlar
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "15 / 1 / 16 / 5",
+        "position": "11 / 1 / 13 / 5",
         "type": "list",
     },
     "most_charging_users": {
@@ -301,7 +323,7 @@ export const dashboardsData = {
         ], // En cok sarj islemi yapan kullanicilar
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": " 15 / 5 / 16 / 9",
+        "position": " 11 / 5 / 13 / 9",
         "type": "list",
     },
     "most_payment_types": {
@@ -313,7 +335,7 @@ export const dashboardsData = {
         ], // En cok kullanilan odeme yontemleri
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "15 / 9 / 16 / 13",
+        "position": "11 / 9 / 13 / 13",
         "type": "list",
     }
 };
