@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Montserrat } from 'next/font/google';
 import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
+import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 import Section from '../Section/Section';
 import Sidebar from '../Sidebar/Sidebar';
@@ -78,6 +79,7 @@ const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageP
           <Section>
             {children}
           </Section>
+          <Footer className={`h-[80px] flex items-center w-full bg-white mt-8`} />
         </div>
       </div>
     )
