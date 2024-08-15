@@ -13,10 +13,10 @@ import {
 } from "chart.js";
 import 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { Doughnut, Line, Pie } from "react-chartjs-2";
+import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
 import { BiSolidEvStation } from "react-icons/bi";
 import { FaChargingStation } from 'react-icons/fa';
-import { FaBatteryHalf } from 'react-icons/fa6';
+import { FaBatteryHalf, FaCircleInfo } from 'react-icons/fa6';
 import { HiUserGroup } from "react-icons/hi";
 import { useDispatch } from 'react-redux';
 import { Card } from '@projects/card';
@@ -44,6 +44,9 @@ const DashboardCards: React.FC = () => {
     const lineOptions = {
         maintainAspectRatio: false,
         plugins: {
+            datalabels: {
+                display: false,
+            },
             legend: {
                 position: 'bottom'
             },
@@ -67,6 +70,35 @@ const DashboardCards: React.FC = () => {
     };
     const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page-cards`;
     const dispatch = useDispatch();
+
+    const options = {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top',
+            },
+            title: {
+                display: true,
+                text: 'Combined Bar and Line Chart'
+            }
+        },
+        scales: {
+            y: {
+                type: 'linear',
+                display: true,
+                position: 'left',
+            },
+            y1: {
+                type: 'linear',
+                display: true,
+                position: 'right',
+                // Grid çizgilerini çizilmemesi için
+                grid: {
+                    drawOnChartArea: false,
+                },
+            },
+        },
+    };
 
     const doughnutData = (response: IChartData[]) => {
         const labels = response.map(item => Object.keys(item)[0]);
@@ -123,7 +155,7 @@ const DashboardCards: React.FC = () => {
         }
     };
     const lineData = (response: IChartData[]) => {
-        let acData, dcData, todayData, lastWeekData, monthData, lastMonthData;
+        let acData, dcData, todayData, lastWeekData, monthData, lastMonthData, yearData, lastYearData;
 
         if (response[0].ac && response[1].dc) {
             ({ currentData: acData, previousData: dcData } = processData(response, 'ac', 'dc'));
@@ -131,39 +163,94 @@ const DashboardCards: React.FC = () => {
             ({ currentData: todayData, previousData: lastWeekData } = processData(response, 'today', 'last_week_today'));
         } else if (response[0].month && response[1].last_month) {
             ({ currentData: monthData, previousData: lastMonthData } = processData(response, 'month', 'last_month'));
+        } else if (response[0].year && response[1].last_year) {
+            ({ currentData: yearData, previousData: lastYearData } = processData(response, 'year', 'last_year'));
         }
 
-        const key = (response[0].ac && response[0]?.ac[0]) || (response[0].today && response[0]?.today[0]) || (response[0].month && response[0]?.month[0])
-
+        const key = (response[0].ac && response[0]?.ac[0]) || (response[0].today && response[0]?.today[0]) || (response[0].month && response[0]?.month[0]) || (response[0].year && response[0]?.year[0]);
 
         return {
             datasets: [
                 {
                     backgroundColor: 'rgba(255, 99, 132, 0.5)',
                     borderColor: 'rgb(255, 99, 132)',
-                    data: monthData || todayData || acData,
+                    data: yearData || monthData || todayData || acData,
                     label: 'AC',
                 },
                 {
                     backgroundColor: 'rgba(53, 162, 235, 0.5)',
                     borderColor: 'rgb(53, 162, 235)',
-                    data: lastMonthData || lastWeekData || dcData,
+                    data: lastYearData || lastMonthData || lastWeekData || dcData,
                     label: 'DC',
                 },
             ],
             labels: Object.keys(key || []).map(key => key)
         };
     };
-    const processData = (response: IChartData[], currentKey: string, previousKey: string): {
-        currentData: number[],
-        previousData: number[]
-    } => {
+    const processData = (response: IChartData[], currentKey: string, previousKey: string) => {
         const currentData = response[0][currentKey].map(point => point[Object.keys(point)[0]]);
         const previousData = response[1][previousKey].map(point => point[Object.keys(point)[0]]);
         return { currentData, previousData };
     };
+    const barLineData = (data) => {
+        const transformedData = {
+            labels: [],
+            amount: [],
+            charge_count: [],
+            kwh: [],
+            service_fee: []
+        };
+
+        data.forEach(item => {
+            const key = Object.keys(item)[0]; // Tarih değerini al
+            const stats = item[key]; // İlgili istatistikleri al
+            transformedData.labels.push(key);
+            transformedData.amount.push(stats.amount);
+            transformedData.charge_count.push(stats.charge_count);
+            transformedData.kwh.push(stats.kwh);
+            transformedData.service_fee.push(stats.service_fee);
+        });
+
+        return {
+            labels: transformedData.labels,
+            datasets: [
+                {
+                    type: 'bar',
+                    label: 'Bar Dataset 1',
+                    data: transformedData.charge_count,
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    yAxisID: 'y',
+                },
+                {
+                    type: 'line',
+                    label: 'Line Dataset 1',
+                    data: transformedData.kwh,
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    yAxisID: 'y1',
+                },
+                {
+                    type: 'bar',
+                    label: 'Bar Dataset 2',
+                    data: transformedData.amount,
+                    borderColor: 'rgb(255, 159, 64)',
+                    backgroundColor: 'rgba(255, 159, 64, 0.5)',
+                    yAxisID: 'y',
+                },
+                {
+                    type: 'line',
+                    label: 'Line Dataset 2',
+                    data: transformedData.service_fee,
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    yAxisID: 'y1',
+                }
+            ],
+        };
+    };
     const renderGraphics = (data: IDashboardData) => {
-        if (data.graphic_type === 'line') {
+        if (data.type === 'line') {
             return <div className='w-full h-full'>
                 <Line
                     data={lineData(data.value)}
@@ -171,7 +258,7 @@ const DashboardCards: React.FC = () => {
                     options={lineOptions}
                 />
             </div>
-        } else if (data.graphic_type === 'doughnut') {
+        } else if (data.type === 'doughnut') {
             return <div className='w-full h-full'>
                 <Doughnut
                     data={doughnutData(data.value)}
@@ -188,7 +275,7 @@ const DashboardCards: React.FC = () => {
                     }}
                 />
             </div>
-        } else if (data.graphic_type === 'semi_doughnut') {
+        } else if (data.type === 'semi_doughnut') {
             return <div className='w-full h-full'>
                 <Doughnut
                     data={doughnutData(data.value)}
@@ -210,7 +297,7 @@ const DashboardCards: React.FC = () => {
                     }}
                 />
             </div>
-        } else if (data.graphic_type === 'pie') {
+        } else if (data.type === 'pie') {
             return <div className='w-full h-full'>
                 <Pie
                     data={doughnutData(data.value)}
@@ -223,12 +310,37 @@ const DashboardCards: React.FC = () => {
                     }}
                 />
             </div>
-        } else if (data.graphic_type === 'map') {
+        } else if (data.type === 'map') {
             return <div className='w-full h-full'>
                 <div className='w-full h-full flex items-center justify-center'>
-                    <DashboardMap />
+                    <DashboardMap
+                        markerList={data.value}
+                    />
                 </div>
             </div>
+        } else if (data.type === 'line&bar') {
+            return <div className='w-full h-full'>
+                <Bar options={options} data={barLineData(data.value)} />
+            </div>
+        } else if (data.type === 'list') {
+            return (
+                <div className='w-full h-full'>
+                    <ul>
+                        {
+                            data.value.map((item: IChartData) => {
+                                return (
+                                    <li key={Object.keys(item)[0]} className='text-xl'>
+                                        <div className='flex items-start justify-between'>
+                                            <div className='text-md'>{Object.keys(item)[0]}</div>
+                                            <div className='text-md'>{item[Object.keys(item)[0]]}</div>
+                                        </div>
+                                    </li>
+                                )
+                            })
+                        }
+                    </ul>
+                </div>
+            )
         }
     };
 
@@ -243,38 +355,49 @@ const DashboardCards: React.FC = () => {
                     {
                         Object.keys(dashboardsData).map((item: string) => {
                             return (
-                                <Card
-                                    BRAND_PREFIX={BRAND_PREFIX}
-                                    containerClassName={`py-4 flex items-center justify-between shadow border border-gray-300 rounded-md`}
-                                    key={item}
-                                    // @ts-expect-error will delete
-                                    style={{ gridArea: dashboardsData[item].type }}
-                                >
-                                    <div className={`w-full h-full flex text-center justify-between`}>
-                                        <div className='card-info-container flex flex-col items-center justify-between px-4 w-full'>
-                                            <div className='card-title-container flex items-center justify-start px-4 w-full '>
-                                                <div className={`lg:text-md text-md`}>
+                                <>
+                                    <Card
+                                        BRAND_PREFIX={BRAND_PREFIX}
+                                        containerClassName={`py-4 flex flex-col items-center justify-between shadow border border-gray-300 rounded-md`}
+                                        key={item}
+                                        // @ts-expect-error will delete
+                                        style={{ gridArea: dashboardsData[item].position }}
+                                    >
+                                        <div className={`w-full h-full flex text-center justify-between items-center `}>
+                                            <div className='card-info-container flex flex-col items-center justify-start px-4 w-full'>
+                                                <div className='card-title-container flex items-center justify-start w-full '>
+                                                    <div className={`lg:text-xl text-md`}>
+                                                        {
+                                                            // @ts-expect-error will delete
+                                                            dashboardsData[item].title
+                                                        }
+                                                    </div>
+                                                </div>
+                                                <div className='text-4xl flex w-full items-center justify-end'>
                                                     {
                                                         // @ts-expect-error will delete
-                                                        dashboardsData[item].title
+                                                        getValue(dashboardsData[item])
                                                     }
                                                 </div>
                                             </div>
-                                            <div className='text-4xl flex w-full items-center justify-end'>
+                                            <div className='card-icon-container flex items-center justify-center text-primary px-1'>
                                                 {
                                                     // @ts-expect-error will delete
-                                                    getValue(dashboardsData[item])
+                                                    getCardIcon(dashboardsData[item].icon_name)
                                                 }
                                             </div>
                                         </div>
-                                        <div className='card-icon-container flex items-center justify-center text-primary px-1'>
-                                            {
-                                                // @ts-expect-error will delete
-                                                getCardIcon(dashboardsData[item].icon_name)
-                                            }
+                                        <div className='w-full h-1/6 description-container flex items-end text-xs px-4'>
+                                            <div className='w-full flex items-center justify-start'>
+                                                <FaCircleInfo className='mx-2'/>
+                                                {
+                                                    // @ts-expect-error will delete
+                                                    dashboardsData[item].description
+                                                }
+                                            </div>
                                         </div>
-                                    </div>
-                                </Card>
+                                    </Card>
+                                </>
                             )
                         })
                     }

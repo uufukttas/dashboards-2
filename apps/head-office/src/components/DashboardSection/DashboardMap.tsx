@@ -1,9 +1,9 @@
 import React, { useCallback, useRef } from 'react';
-import { GoogleMap, LoadScript } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { Libraries } from '@react-google-maps/api'
 import { BRAND_PREFIX } from '../../constants/constants';
 
-const DashboardMap: React.FC = () => {
+const DashboardMap: React.FC = ({ markerList }) => {
   const dashboardMapPrefix: string = `${BRAND_PREFIX}-dashboard-map`;
   const libraries: Libraries = ["places"];
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -23,7 +23,16 @@ const DashboardMap: React.FC = () => {
           }}
           zoom={6}
           onLoad={onLoad}
-        />
+        >
+          {markerList.map((marker, index) => {
+            return (
+              <Marker
+                key={index}
+                position={{ lat: marker.lat, lng: marker.lng }}
+              />
+            )
+          })}
+        </GoogleMap>
       </LoadScript>
     </div>
   )
