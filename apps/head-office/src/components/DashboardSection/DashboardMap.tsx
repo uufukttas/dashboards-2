@@ -3,6 +3,7 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { Libraries } from '@react-google-maps/api'
 import { BRAND_PREFIX } from '../../constants/constants';
 
+// @ts-expect-error we will look after API integration
 const DashboardMap: React.FC = ({ markerList }) => {
   const dashboardMapPrefix: string = `${BRAND_PREFIX}-dashboard-map`;
   const libraries: Libraries = ["places"];
@@ -24,14 +25,18 @@ const DashboardMap: React.FC = ({ markerList }) => {
           zoom={6}
           onLoad={onLoad}
         >
-          {markerList.map((marker, index) => {
-            return (
-              <Marker
-                key={index}
-                position={{ lat: marker.lat, lng: marker.lng }}
-              />
-            )
-          })}
+
+          {
+            // @ts-expect-error we will look after API integration
+            markerList.map((marker, index) => {
+              return (
+                <Marker
+                  key={index}
+                  position={{ lat: marker.lat, lng: marker.lng }}
+                />
+              )
+            })
+          }
         </GoogleMap>
       </LoadScript>
     </div>

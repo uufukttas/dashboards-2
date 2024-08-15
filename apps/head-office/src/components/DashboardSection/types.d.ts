@@ -4,17 +4,10 @@ interface IDataPoint {
 }
 
 export interface IChartData {
-    ac: IDataPoint[];
-    dc: IDataPoint[];
-    today: IDataPoint[];
-    last_week_today: IDataPoint[];
-    month: IDataPoint[];
-    year: IDataPoint[];
-    last_month: IDataPoint[];
-    last_year: IDataPoint[];
     data: {
         value: number;
     }
+    [key: string]: IDataPoint[];
 }
 
 type ChartType = 'line' | 'doughnut' | 'semi_doughnut' | 'pie' | 'map' | 'list' | 'line&bar';
