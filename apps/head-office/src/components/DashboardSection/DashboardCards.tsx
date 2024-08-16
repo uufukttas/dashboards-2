@@ -28,6 +28,7 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { IChartData, IDashboardData, ITooltipItem } from './types';
 import './DashboardSection.css';
+import { detectDevice } from '@projects/common';
 
 Chart.register(
     ArcElement,
@@ -43,6 +44,9 @@ Chart.register(
 );
 
 const DashboardCards: React.FC = () => {
+    const isDesktop = detectDevice().isDesktop;
+    const isTablet = detectDevice().isTablet;
+    const isMobile = detectDevice().isMobile;
     const lineOptions = {
         maintainAspectRatio: false,
         plugins: {
@@ -101,7 +105,9 @@ const DashboardCards: React.FC = () => {
             },
         },
     };
+
     const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page-cards`;
+
     const dispatch = useDispatch();
 
     const doughnutData = (response: IChartData[]) => {
@@ -365,7 +371,9 @@ const DashboardCards: React.FC = () => {
                                         containerClassName={`py-4 flex flex-col items-center justify-between shadow border border-gray-300 rounded-md`}
                                         key={item}
                                         // @ts-expect-error will delete
-                                        style={{ gridArea: dashboardsData[item].position }}
+                                        style={{
+                                            gridArea: (isDesktop ? dashboardsData[item].position : isTablet ? dashboardsData[item].tablet_layout : dashboardsData[item].mobile_layout),
+                                        }}
                                     >
                                         <div className={`w-full h-full flex text-center justify-between `}>
                                             <div className='card-info-container flex flex-col items-center justify-start px-4 w-full'>
@@ -384,22 +392,30 @@ const DashboardCards: React.FC = () => {
                                                     }
                                                 </div>
                                             </div>
-                                            <div className='card-icon-container flex items-center justify-center text-primary px-1'>
-                                                {
-                                                    // @ts-expect-error will delete
-                                                    getCardIcon(dashboardsData[item].icon_name)
-                                                }
-                                            </div>
+                                            {
+                                                dashboardsData[item].icon_name && (
+                                                    <div className='card-icon-container flex items-center justify-center text-primary px-1'>
+                                                        {
+                                                            // @ts-expect-error will delete
+                                                            getCardIcon(dashboardsData[item].icon_name)
+                                                        }
+                                                    </div>
+                                                )
+                                            }
                                         </div>
-                                        <div className='w-full h-1/6 description-container flex items-end text-xs px-4'>
-                                            <div className='w-full flex items-center justify-start'>
-                                                <FaCircleInfo className='mx-2' />
-                                                {
-                                                    // @ts-expect-error will delete
-                                                    dashboardsData[item].description
-                                                }
-                                            </div>
-                                        </div>
+                                        {
+                                            dashboardsData[item].description && (
+                                                <div className='w-full h-1/6 description-container flex items-end text-xs px-4'>
+                                                    <div className='w-full flex items-center justify-start'>
+                                                        <FaCircleInfo className='mx-2' />
+                                                        {
+                                                            // @ts-expect-error will delete
+                                                            dashboardsData[item].description
+                                                        }
+                                                    </div>
+                                                </div>
+                                            )
+                                        }
                                     </Card>
                                 </>
                             )
