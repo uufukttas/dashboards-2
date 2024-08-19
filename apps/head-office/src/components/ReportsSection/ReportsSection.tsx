@@ -4,6 +4,7 @@ import { FaFilter } from 'react-icons/fa';
 import { FaEquals, FaGreaterThan, FaLessThan } from 'react-icons/fa6';
 import { TbTilde } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
+import useSWR from 'swr';
 import { Button } from '@projects/button';
 import { Tooltip } from '@projects/tooltip';
 import ReportDetailsModal from './ReportDetailsModal';
@@ -567,6 +568,24 @@ const ReportsSection: React.FC = () => {
     const [isFilterUsed, setIsFilterUsed] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
+    const fetchReports = async () => {
+        const response = await getAllReportsRequest({
+            pageNumber: currentPage,
+            userCount: 10,
+        });
+        console.log('response', response)
+        return response;
+    };
+
+    const { data, error, mutate } = useSWR(
+        `${currentPage}`, // key of useSWR hook to cache the data
+        fetchReports, // fetcher function
+        {
+            dedupingInterval: 180000, // 3 dakika boyunca tekrar request yapmaz 3 * 60 * 1000ms
+        }
+    );
+
+
     const exportDataButton = (): React.ReactNode => {
         return (
             <Button
@@ -672,7 +691,7 @@ const ReportsSection: React.FC = () => {
     };
 
     useEffect(() => {
-        getAllChargeData();
+        // getAllChargeData();
     }, []);
 
     useEffect(() => {
