@@ -19,10 +19,8 @@ module.exports = {
       },
     },
     colors: {
-      primary: 'var(--color-primary)',
-      secondary: 'var(--color-secondary)',
-      'primary-lighter': '#FCD800CC',
-      'secondary-lighter': '#656567CC',
+      primary: 'var(--primary-color)',
+      secondary: 'var(--secondary-color)',
       heading: '#1F2937',
       text: '#504E4E',
       error: '#9B1C1C',

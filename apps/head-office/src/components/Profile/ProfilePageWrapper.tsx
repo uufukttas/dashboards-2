@@ -34,8 +34,8 @@ const Profile: React.FC = () => {
             <div
                 className={`${pagePrefix}-wrapper w-full flex h-screen`}
                 style={{
-                    '--color-primary': `${colors[0].value}`,
-                    '--color-secondary': `${colors[1].value}`
+                    '--primary-color': `${colors[0].value}`,
+                    '--secondary-color': `${colors[1].value}`
                 } as React.CSSProperties}
             >
                 {

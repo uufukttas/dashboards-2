@@ -49,8 +49,8 @@ const Index: React.FC = () => {
       <div
         className={`${userInfo.name}-head-office w-full flex items-center justify-center ${detectDevice().isMobile ? 'h-screen' : ''}`}
         style={{
-          '--color-primary': `${colors[0].value || stylesProps.primaryColor}`,
-          '--color-secondary': `${colors[1].value || stylesProps.secondaryColor}`
+          '--primary-color': `${colors[0].value || stylesProps.primaryColor}`,
+          '--secondary-color': `${colors[1].value || stylesProps.secondaryColor}`
         } as React.CSSProperties}
       >
         {

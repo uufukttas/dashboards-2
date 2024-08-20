@@ -8,3 +8,5 @@ $fontColor: #000000; // Default Black Color
 $loginPageBackgroundImage: "https://ho.sharz.net/images/theme/5000/background.jpg"; // Default Background Image
 $loginBackgroundImage: "";
 $loginBackgroundColor: "";
+$primary-color: var(--primary-color, #FCD800); // Primary Color
+$primary-color-lighter: lighten(var(--primary-color), 10%);

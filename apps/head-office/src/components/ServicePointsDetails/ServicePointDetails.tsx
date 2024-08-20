@@ -495,7 +495,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       : (
         <div
           className={`${BRAND_PREFIX}-service-point-details-page-content-wrapper w-full`}
-          style={{ '--color-primary': `${colors && colors[0]?.value}`, '--color-secondary': `${colors && colors[1]?.value}` } as React.CSSProperties}
+          style={{ '--primary-color': `${colors && colors[0]?.value}`, '--secondary-color': `${colors && colors[1]?.value}` } as React.CSSProperties}
         >
           <div className={`${BRAND_PREFIX}-service-point-details-page-content-container w-full`}>
             <ServicePointDetailsHeader />
