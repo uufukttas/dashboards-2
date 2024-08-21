@@ -21,6 +21,7 @@ module.exports = {
     colors: {
       primary: 'var(--primary-color)',
       secondary: 'var(--secondary-color)',
+      'gray-light': 'rgb(245, 248, 250)',
       heading: '#1F2937',
       text: '#504E4E',
       error: '#9B1C1C',
