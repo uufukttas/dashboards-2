@@ -54,7 +54,7 @@ const Header: React.FC<IHeaderProps> = ({ className, headerName }: IHeaderProps)
               </Button>
             )
           }
-          <div className={`${headerPrefix}-header-name-container h-8 flex items-center justify-evenly w-3/4 md:w-full md:justify-start lg:px-20`}>
+          <div className={`${headerPrefix}-header-name-container h-8 flex items-center justify-evenly w-3/4 md:w-full md:justify-start md:px-10 xl:px-20`}>
             <h1 className={`${headerPrefix}-header-name text-md md:text-xl font-semibold py-4`}>{headerName}</h1>
           </div>
         </div>

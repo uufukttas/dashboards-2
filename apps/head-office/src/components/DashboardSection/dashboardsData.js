@@ -20,7 +20,7 @@ export const dashboardsData = {
         "description": "This is description of this card",
         "position": "1 / 5 / 3 / 9",
         "mobile_layout": "2 / 1 / 2 / 12",
-        "tablet_layout": "1 / 5 / 1 / 9",
+        "tablet_layout": "1 / 5 / 3 / 9",
         "type": "line"
     },
     "total_customer_count": {
@@ -30,7 +30,7 @@ export const dashboardsData = {
         "description": "This is description of this card",
         "position": "1 / 9 / 2 / 13",
         "mobile_layout": "3 / 1 / 3 / 12",
-        "tablet_layout": "1 / 9 / 2 / 13",
+        "tablet_layout": "1 / 9 / 2 / 12",
         "type": ""
     },
     "other_info1": {
@@ -50,7 +50,7 @@ export const dashboardsData = {
         "description": "",
         "position": "2 / 9 / 2 / 13",
         "mobile_layout": "5 / 1 / 5 / 12",
-        "tablet_layout": "2 / 9 / 2 / 13",
+        "tablet_layout": "2 / 9 / 2 / 12",
         "type": ""
     },
     "total_used_kwh": {
@@ -70,7 +70,7 @@ export const dashboardsData = {
         "description": "This is description of this card",
         "position": "3 / 3 / 3 / 5",
         "mobile_layout": "7 / 1 / 7 / 12",
-        "tablet_layout": "3 / 3 / 3 / 5",
+        "tablet_layout": "3 / 4 / 3 / 6",
         "type": ""
     },
     "payment_method_types": {
@@ -88,7 +88,7 @@ export const dashboardsData = {
         "description": "This is description of this card",
         "position": "3 / 5 / 5 / 7",
         "mobile_layout": "8 / 1 / 8 / 12",
-        "tablet_layout": "3 / 5 / 5 / 7",
+        "tablet_layout": "3 / 7 / 5 / 9",
         "type": "doughnut"
     },
     "ac_dc_sales": {
@@ -102,7 +102,7 @@ export const dashboardsData = {
         "description": "This is description of this card",
         "position": "3 / 7 / 5 / 9",
         "mobile_layout": "9 / 1 / 9 / 12",
-        "tablet_layout": "3 / 7 / 5 / 9",
+        "tablet_layout": "3 / 10 / 5 / 12",
         "type": "semi_doughnut"
     },
     "last_three_months_active_customer_count": {
@@ -122,7 +122,7 @@ export const dashboardsData = {
         "description": "This is description of this card",
         "position": "3 / 11 / 3 / 13",
         "mobile_layout": "11 / 1 / 11 / 12",
-        "tablet_layout": "3 / 11 / 3 / 13",
+        "tablet_layout": "3 / 11 / 3 / 12",
         "type": ""
     },
     "total_cost": {
@@ -162,7 +162,7 @@ export const dashboardsData = {
         "description": "This is description of this card",
         "position": "4 / 11 / 4 / 13",
         "mobile_layout": "15 / 1 / 15 / 12",
-        "tablet_layout": "4 / 11 / 4 / 13",
+        "tablet_layout": "4 / 11 / 4 / 12",
         "type": ""
     },
     "connector": {
@@ -224,7 +224,7 @@ export const dashboardsData = {
         "description": "This is description of this card",
         "position": "5 / 5 / 7 / 13",
         "mobile_layout": "19 / 1 / 19 / 12",
-        "tablet_layout": "5 / 5 / 7 / 13",
+        "tablet_layout": "5 / 5 / 7 / 12",
         "type": "map"
     },
     "daily_income": {
@@ -302,7 +302,7 @@ export const dashboardsData = {
         "description": "This is description of this card",
         "position": "7 / 11 / 9 / 13",
         "mobile_layout": "25 / 1 / 25 / 12",
-        "tablet_layout": "7 / 11 / 9 / 13",
+        "tablet_layout": "7 / 11 / 9 / 12",
         "type": "line"
     },
     "monthly_total": {
@@ -325,7 +325,7 @@ export const dashboardsData = {
         "icon_name": "icon_name",
         "description": "This is description of this card",
         "position": "9 / 1 / 11 / 7",
-        "mobile_layout": "26 / 1 / 26 / 12",
+        "mobile_layout": "26 / 1 / 28 / 12",
         "tablet_layout": "9 / 1 / 11 / 7",
         "type": "line&bar"
     },
@@ -349,8 +349,8 @@ export const dashboardsData = {
         "icon_name": "icon_name",
         "description": "This is description of this card",
         "position": "9 / 7 / 11 / 13",
-        "mobile_layout": "27 / 1 / 27 / 12",
-        "tablet_layout": "9 / 7 / 11 / 13",
+        "mobile_layout": "28 / 1 / 30 / 12",
+        "tablet_layout": "9 / 7 / 11 / 12",
         "type": "line&bar"
     },
     "most_used_locations": {
@@ -365,7 +365,7 @@ export const dashboardsData = {
         "icon_name": "icon_name",
         "description": "This is description of this card",
         "position": "11 / 1 / 13 / 5",
-        "mobile_layout": "28 / 1 / 28 / 12",
+        "mobile_layout": "30 / 1 / 31 / 12",
         "tablet_layout": "11 / 1 / 13 / 5",
         "type": "list"
     },
@@ -381,7 +381,7 @@ export const dashboardsData = {
         "icon_name": "icon_name",
         "description": "This is description of this card",
         "position": "11 / 5 / 13 / 9",
-        "mobile_layout": "29 / 1 / 29 / 12",
+        "mobile_layout": "31 / 1 / 32 / 12",
         "tablet_layout": "11 / 5 / 13 / 9",
         "type": "list"
     },
@@ -395,8 +395,8 @@ export const dashboardsData = {
         "icon_name": "icon_name",
         "description": "This is description of this card",
         "position": "11 / 9 / 13 / 13",
-        "mobile_layout": "30 / 1 / 30 / 12",
-        "tablet_layout": "11 / 9 / 13 / 13",
+        "mobile_layout": "32 / 1 / 33 / 12",
+        "tablet_layout": "11 / 10 / 13 / 12",
         "type": "list"
     }
 }

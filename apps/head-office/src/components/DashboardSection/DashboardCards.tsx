@@ -81,7 +81,7 @@ const DashboardCards: React.FC = () => {
                 display: false,
             },
             legend: {
-                position: 'top',
+                position: 'bottom',
             },
             title: {
                 display: true,
@@ -330,7 +330,7 @@ const DashboardCards: React.FC = () => {
             </div>
         } else if (data.type === 'line&bar') {
             return <div className='w-full h-full h-[400px] flex items-center justify-center'>
-                <Bar options={options} data={barLineData(data.value)} className={`flex justify-center items-center !w-[800px]`} style={{ width: "1150" }} />
+                <Bar options={options} data={barLineData(data.value)} className={`flex justify-center items-center !w-[800px]`} style={{ width: "1150", height: '450'}} />
             </div>
         } else if (data.type === 'list') {
             return (
