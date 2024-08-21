@@ -269,7 +269,7 @@ const DashboardCards: React.FC = () => {
                 />
             </div>
         } else if (data.type === 'doughnut') {
-            return <div className='w-full h-full'>
+            return <div className='w-full h-full flex justify-center items-center'>
                 <Doughnut
                     data={doughnutData(data.value)}
                     options={{
@@ -286,7 +286,7 @@ const DashboardCards: React.FC = () => {
                 />
             </div>
         } else if (data.type === 'semi_doughnut') {
-            return <div className='w-full h-full'>
+            return <div className='w-full h-full flex justify-center items-center'>
                 <Doughnut
                     data={doughnutData(data.value)}
                     options={{
@@ -308,7 +308,7 @@ const DashboardCards: React.FC = () => {
                 />
             </div>
         } else if (data.type === 'pie') {
-            return <div className='w-full h-full'>
+            return <div className='w-full h-full flex justify-center items-center'>
                 <Pie
                     data={doughnutData(data.value)}
                     options={{
@@ -361,7 +361,7 @@ const DashboardCards: React.FC = () => {
     return (
         <div className={`${pagePrefix}-info-container w-full flex justify-between flex-wrap`}>
             <div className={`${pagePrefix}-card-row-wrapper flex flex-col md:flex-row w-full`}>
-                <div className='w-full h-full grid' style={{ gridTemplateColumns: 'repeat(12, 1fr)', gap: "2em" }}>
+                <div className='w-full h-full grid' style={{ gridTemplateColumns: (isDesktop ?  'repeat(12, 1fr)' : 'repeat(11, 1fr)'), gap: "2em" }}>
                     {
                         Object.keys(dashboardsData).map((item: string) => {
                             return (
@@ -375,7 +375,7 @@ const DashboardCards: React.FC = () => {
                                             gridArea: (isDesktop ? dashboardsData[item].position : isTablet ? dashboardsData[item].tablet_layout : dashboardsData[item].mobile_layout),
                                         }}
                                     >
-                                        <div className={`w-full h-full flex text-center justify-between `}>
+                                        <div className={`card-content w-full h-full flex text-center justify-between`}>
                                             <div className='card-info-container flex flex-col items-center justify-start px-4 w-full'>
                                                 <div className='card-title-container flex items-center justify-start w-full'>
                                                     <div className={`lg:text-lg font-bold text-md`}>
@@ -385,7 +385,7 @@ const DashboardCards: React.FC = () => {
                                                         }
                                                     </div>
                                                 </div>
-                                                <div className='text-2xl flex w-full items-center justify-end h-full'>
+                                                <div className='card-info text-2xl flex w-full items-center justify-end h-full'>
                                                     {
                                                         // @ts-expect-error will delete
                                                         getValue(dashboardsData[item])
