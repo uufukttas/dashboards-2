@@ -8,5 +8,16 @@ $fontColor: #000000; // Default Black Color
 $loginPageBackgroundImage: "https://ho.sharz.net/images/theme/5000/background.jpg"; // Default Background Image
 $loginBackgroundImage: "";
 $loginBackgroundColor: "";
-$primary-color: var(--primary-color, #FCD800); // Primary Color
-$primary-color-lighter: lighten(var(--primary-color), 10%);
+
+$default-primary-color: #FCD800; // Default Primary Color
+$secondary-color: #D3D3D3; // Default Secondary Color
+
+$primary-color: $default-primary-color;
+$primary-color-hover: lighten($primary-color, 10%);
+$primary-button-color: $primary-color;
+$primary-button-color-hover: $primary-color-hover;
+
+$secondary-color: $default-primary-color;
+$secondary-color-hover: lighten($secondary-color, 10%);
+$secondary-button-color: $secondary-color;
+$secondary-button-color-hover: $secondary-color-hover;
