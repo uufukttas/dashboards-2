@@ -5,7 +5,7 @@ import { FaEquals, FaGreaterThan, FaLessThan } from 'react-icons/fa6';
 import { TbTilde } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
 import useSWR from 'swr';
-import { Button } from '@projects/button';
+// import { Button } from '@projects/button';
 import { Tooltip } from '@projects/tooltip';
 import ReportDetailsModal from './ReportDetailsModal';
 import Filters from '../Filter/Filter';
@@ -21,587 +21,311 @@ import { RootState } from '../../../app/redux/store';
 import { IFilterItemProps } from '../Filter/types';
 import './ReportsSection.css';
 
+import { classNames } from 'primereact/utils';
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
+import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
+import { Column, ColumnFilterElementTemplateOptions } from 'primereact/column';
+import { InputText } from 'primereact/inputtext';
+import { IconField } from 'primereact/iconfield';
+import { InputIcon } from 'primereact/inputicon';
+import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
+import { InputNumber, InputNumberChangeEvent } from 'primereact/inputnumber';
+import { Button } from 'primereact/button';
+import { ProgressBar } from 'primereact/progressbar';
+import { Calendar } from 'primereact/calendar';
+import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
+import { Slider, SliderChangeEvent } from 'primereact/slider';
+import { Tag } from 'primereact/tag';
+import { TriStateCheckbox, TriStateCheckboxChangeEvent } from 'primereact/tristatecheckbox';
+
+interface Representative {
+    name: string;
+    image: string;
+}
+interface Country {
+    name: string;
+    code: string;
+}
+interface Customer {
+    id: number;
+    name: string;
+    country: Country;
+    company: string;
+    date: string;
+    status: string;
+    verified: boolean;
+    activity: number;
+    representative: Representative;
+    balance: number;
+}
+const defaultFilters: DataTableFilterMeta = {
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    // name: {
+    //     operator: FilterOperator.AND,
+    //     constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    // },
+    // 'country.name': {
+    //     operator: FilterOperator.AND,
+    //     constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
+    // },
+    // representative: { value: null, matchMode: FilterMatchMode.IN },
+    // date: {
+    //     operator: FilterOperator.AND,
+    //     constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
+    // },
+    // balance: {
+    //     operator: FilterOperator.AND,
+    //     constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
+    // },
+    // status: {
+    //     operator: FilterOperator.OR,
+    //     constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
+    // },
+    // activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
+    // verified: { value: null, matchMode: FilterMatchMode.EQUALS },
+};
+
 const ReportsSection: React.FC = () => {
     const pagePrefix = `${BRAND_PREFIX}-reports-center-section`;
-    const tableHeadData = [
-        'TRX No',
-        'Istasyon Adi',
-        'Ünite Kodu',
-        'Soket No',
-        'Soket Tipi',
-        'Baslangic Zamani',
-        'Sarj Suresi',
-        'Bitis Zamani',
-        'Birim Fiyat',
-        'kWh',
-        'Batarya Yuzdesi',
-        'Toplam Bedel (KDV Dahil)',
-        'Şarj Limiti',
-        'Roaming Durumu'
-    ];
+    const tableHeadData = [{
+        field: 'trxId',
+        header: 'TRX ID',
+    }, {
+        field: 'batteryBeginningPercent',
+        header: 'Battery Beginning Percent',
+    }, {
+        field: 'batteryPercent',
+        header: 'Battery Percent',
+    }, {
+        field: 'batteryPercentDesc',
+        header: 'Battery Percent Desc',
+    }, {
+        field: 'chargeProcessElapsedTime',
+        header: 'Charge Process Elapsed Time',
+    }, {
+        field: 'chargingStatus',
+        header: 'Charging Status',
+    }, {
+        field: 'chargingStatusMessage',
+        header: 'Charging Status Message',
+    }, {
+        field: 'commissionResellerPrice',
+        header: 'Commission Reseller Price',
+    }, {
+        field: 'commissionServicePointPrice',
+        header: 'Commission Service Point Price',
+    }, {
+        field: 'companyID',
+        header: 'Company ID',
+    }, {
+        field: 'consumerCompanyID',
+        header: 'Consumer Company ID',
+    }, {
+        field: 'energyUsed',
+        header: 'Energy Used',
+    }, {
+        field: 'finishDate',
+        header: 'Finish Date',
+    }, {
+        field: 'meterFinishDate',
+        header: 'Meter Finish Date',
+    }, {
+        field: 'meterStartDate',
+        header: 'Meter Start Date',
+    }, {
+        field: 'priceENRJ',
+        header: 'Price ENRJ',
+    }, {
+        field: 'priceSRV',
+        header: 'Price SRV',
+    }, {
+        field: 'resellerCompanyID',
+        header: 'Reseller Company ID',
+    }, {
+        field: 'startDate',
+        header: 'Start Date',
+    }, {
+        field: 'stationChargePointCode',
+        header: 'Station Charge Point Code',
+    }, {
+        field: 'stationChargePointConnectorTypeName',
+        header: 'Station Charge Point Connector Type Name',
+    }, {
+        field: 'stationConnectorConnectorNr',
+        header: 'Station Connector Connector Nr',
+    }, {
+        field: 'stationConnectorID',
+        header: 'Station Connector ID',
+    }, {
+        field: 'stationID',
+        header: 'Station ID',
+    }, {
+        field: 'stationName',
+        header: 'Station Name',
+    }, {
+        field: 'totalAmount',
+        header: 'Total Amount',
+    }, {
+        field: 'totalAmountWithOutKDV',
+        header: 'Total Amount With Out KDV',
+    }, {
+        field: 'unitPrice',
+        header: 'Unit Price',
+    }];
+
     const dispatch = useDispatch();
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
     const reportsData = useSelector((state: RootState) => state.getAllReports.reportsData);
     const reportsCount = useSelector((state: RootState) => state.getAllReports.reportsCount);
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const [filters, setFilters] = useState<IFilterItemProps[]>([
-        {
-            id: 'RID', label: 'TRX No', type: 'number', defaultValue: '', operatorId: '0', value: '', isHidden: false, isDoubleValue: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 1,
-                title: (
-                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
-                        <FaGreaterThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 2,
-                title: (
-                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
-                        <FaLessThan />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'stationName', label: 'Istasyon Ismi', type: 'text', defaultValue: '', operatorId: '0', value: '', value2: '', isHidden: false, isDoubleValue: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 3,
-                title: (
-                    <Tooltip text="Icinde" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'stationChargePointCode', label: 'Unit Code', type: 'text', defaultValue: '', operatorId: '0', value: '', value2: '', isHidden: false, isDoubleValue: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 3,
-                title: (
-                    <Tooltip text="Icinde" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        { id: 'stationChargePointConnectorTypeName', label: 'Soket Tipi', type: 'checkboxInDropdown', isDoubleValue: false, dropdownItems: [{ name: 'Secim Yapiniz', rid: 0, id: null, stationFeatureType: 0, stationFeatureValue: 0, isChecked: false }, { name: 'Type2', rid: 1, id: null, stationFeatureType: 0, stationFeatureValue: 0, isChecked: false }, { name: 'CCS/SAE', rid: 2, id: null, stationFeatureType: 0, stationFeatureValue: 0, isChecked: false }], operatorId: '0', value: '', value2: '', isHidden: false, operators: [] },
-        { id: 'StartDate', label: 'Baslangic Zamani', type: 'date', defaultValue: '', isDoubleValue: true, operatorId: '0', value: '', value2: '', isHidden: false, operators: [] },
-        {
-            id: 'charge-time', label: 'Sarj Suresi', type: 'number', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 1,
-                title: (
-                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
-                        <FaGreaterThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 2,
-                title: (
-                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
-                        <FaLessThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 4,
-                title: (
-                    <Tooltip text="Arasinda" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        { id: 'FinishDate', label: 'Bitis Zamani', type: 'date', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [] },
-        {
-            id: 'UnitPrice', label: 'Birim Fiyat', type: 'number', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 1,
-                title: (
-                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
-                        <FaGreaterThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 2,
-                title: (
-                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
-                        <FaLessThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 4,
-                title: (
-                    <Tooltip text="Arasinda" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'kwh', label: 'kWh', type: 'number', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 1,
-                title: (
-                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
-                        <FaGreaterThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 2,
-                title: (
-                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
-                        <FaLessThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 4,
-                title: (
-                    <Tooltip text="Arasinda" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'BatteryPercent', label: 'Batarya Yuzdesi', type: 'number', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 1,
-                title: (
-                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
-                        <FaGreaterThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 2,
-                title: (
-                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
-                        <FaLessThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 4,
-                title: (
-                    <Tooltip text="Arasinda" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'TotalAmountWithOutKDV', label: 'Toplam Bedel', type: 'number', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 1,
-                title: (
-                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
-                        <FaGreaterThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 2,
-                title: (
-                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
-                        <FaLessThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 4,
-                title: (
-                    <Tooltip text="Arasinda" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'TotalAmount', label: 'Toplam Bedel (KDV Dahil)', type: 'number', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 1,
-                title: (
-                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
-                        <FaGreaterThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 2,
-                title: (
-                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
-                        <FaLessThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 4,
-                title: (
-                    <Tooltip text="Arasinda" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'PriceENRJ', label: 'Elektrik Bedeli', type: 'number', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 1,
-                title: (
-                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
-                        <FaGreaterThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 2,
-                title: (
-                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
-                        <FaLessThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 4,
-                title: (
-                    <Tooltip text="Arasinda" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'PriceSRV', label: 'Hizmet Bedeli', type: 'number', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 1,
-                title: (
-                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
-                        <FaGreaterThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 2,
-                title: (
-                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
-                        <FaLessThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 4,
-                title: (
-                    <Tooltip text="Arasinda" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'CommissionServicePointPrice', label: 'Hizmet Noktasi Komisyonu', type: 'number', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 1,
-                title: (
-                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
-                        <FaGreaterThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 2,
-                title: (
-                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
-                        <FaLessThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 4,
-                title: (
-                    <Tooltip text="Arasinda" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'CommissionResellerPrice', label: 'Reseller Komisyonu', type: 'number', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 1,
-                title: (
-                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
-                        <FaGreaterThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 2,
-                title: (
-                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
-                        <FaLessThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 4,
-                title: (
-                    <Tooltip text="Arasinda" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'user-id', label: 'Kullanici ID', type: 'number', defaultValue: '', operatorId: '0', value: '', value2: '', isHidden: false, isDoubleValue: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 3,
-                title: (
-                    <Tooltip text="Icinde" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'bank-order-no', label: 'Banka Siparis No', type: 'number', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: false, isHidden: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 3,
-                title: (
-                    <Tooltip text="Icinde" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'paid-amount', label: 'Odenen Tutar', type: 'number', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 1,
-                title: (
-                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
-                        <FaGreaterThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 2,
-                title: (
-                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
-                        <FaLessThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 4,
-                title: (
-                    <Tooltip text="Arasinda" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'on-prov-amount', label: 'On Prov Tutari', type: 'number', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: true, isHidden: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 1,
-                title: (
-                    <Tooltip text="Buyuktur" textClassName={'left-10'}>
-                        <FaGreaterThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 2,
-                title: (
-                    <Tooltip text='Kucuktur' textClassName={'left-10'}>
-                        <FaLessThan />
-                    </Tooltip>
-                )
-            }, {
-                id: 4,
-                title: (
-                    <Tooltip text="Arasinda" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'plate', label: 'Plaka', type: 'text', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: false, isHidden: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 3,
-                title: (
-                    <Tooltip text="Icinde" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'brand', label: 'Marka', type: 'text', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: false, isHidden: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 3,
-                title: (
-                    <Tooltip text="Icinde" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-        {
-            id: 'ModelName', label: 'Model', type: 'text', defaultValue: '', operatorId: '0', value: '', value2: '', isDoubleValue: false, isHidden: false, operators: [{
-                id: 0,
-                title: (
-                    <Tooltip text="Eşittir" textClassName={'left-10'} >
-                        <FaEquals />
-                    </Tooltip>
-                )
-            }, {
-                id: 3,
-                title: (
-                    <Tooltip text="Icinde" textClassName={'left-10'}>
-                        <TbTilde />
-                    </Tooltip>
-                )
-            }]
-        },
-    ]);
-    const [isExpanded, setIsExpanded] = useState<boolean>(false);
     const [isFilterUsed, setIsFilterUsed] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const fetchReports = async () => {
-        const response = await getAllReportsRequest({
-            pageNumber: currentPage,
-            userCount: 10,
+    const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters);
+    const [globalFilterValue, setGlobalFilterValue] = useState<string>('');
+
+    const formatDate = (value: Date) => {
+        return value.toLocaleDateString('en-US', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
         });
-        console.log('response', response)
-        return response;
     };
 
-    const { data, error, mutate } = useSWR(
-        `${currentPage}`, // key of useSWR hook to cache the data
-        fetchReports, // fetcher function
-        {
-            dedupingInterval: 180000, // 3 dakika boyunca tekrar request yapmaz 3 * 60 * 1000ms
-        }
-    );
+    const formatCurrency = (value: number) => {
+        return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+    };
 
+    const clearFilter = () => {
+        initFilters();
+    };
 
-    const exportDataButton = (): React.ReactNode => {
+    const onGlobalFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        let _filters = { ...filters };
+
+        // @ts-ignore
+        _filters['global'].value = value;
+
+        setFilters(_filters);
+        setGlobalFilterValue(value);
+    };
+
+    const initFilters = () => {
+        setFilters(defaultFilters);
+        setGlobalFilterValue('');
+    };
+
+    const renderHeader = () => {
         return (
-            <Button
-                buttonText='Disari Aktar'
-                className='mx-2 bg-primary text-white rounded-lg p-2'
-                id={`${pagePrefix}-export-button`}
-                type='button'
-                onClick={downloadExcel}
-            />
+            <div className="flex justify-content-between">
+                <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
+                <IconField iconPosition="left">
+                    <InputIcon className="pi pi-search" />
+                    <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
+                </IconField>
+            </div>
         );
     };
+
+    // @ts-expect-error
+    const filterClearTemplate = (options) => {
+        return <Button type="button" icon="pi pi-times" onClick={options.filterClearCallback} severity="secondary"></Button>;
+    };
+
+    // @ts-expect-error
+    const filterApplyTemplate = (options) => {
+        return <Button type="button" icon="pi pi-check" onClick={options.filterApplyCallback} severity="success"></Button>;
+    };
+
+    const filterFooterTemplate = () => {
+        return <div className="px-3 pt-0 pb-3 text-center">Filter by Country</div>;
+    };
+
+    const dateBodyTemplate = (rowData: Customer) => {
+        return formatDate(new Date(rowData.date));
+    };
+
+    const dateFilterTemplate = (options: ColumnFilterElementTemplateOptions) => {
+        return <Calendar value={options.value} onChange={(e) => options.filterCallback(e.value, options.index)} dateFormat="mm/dd/yy" placeholder="mm/dd/yyyy" mask="99/99/9999" />;
+    };
+
+    const balanceBodyTemplate = (rowData: Customer) => {
+        return formatCurrency(rowData.balance);
+    };
+
+    const balanceFilterTemplate = (options: ColumnFilterElementTemplateOptions) => {
+        return <InputNumber value={options.value} onChange={(e: InputNumberChangeEvent) => options.filterCallback(e.value, options.index)} mode="currency" currency="USD" locale="en-US" />;
+    };
+
+    const activityBodyTemplate = (rowData: Customer) => {
+        return <ProgressBar value={rowData.activity} showValue={false} style={{ height: '6px' }}></ProgressBar>;
+    };
+
+    const activityFilterTemplate = (options: ColumnFilterElementTemplateOptions) => {
+        return (
+            <React.Fragment>
+                <Slider value={options.value} onChange={(e: SliderChangeEvent) => options.filterCallback(e.value)} range className="m-3"></Slider>
+                <div className="flex align-items-center justify-content-between px-2">
+                    <span>{options.value ? options.value[0] : 0}</span>
+                    <span>{options.value ? options.value[1] : 100}</span>
+                </div>
+            </React.Fragment>
+        );
+    };
+
+    const verifiedBodyTemplate = (rowData: Customer) => {
+        return <i className={classNames('pi', { 'text-green-500 pi-check-circle': rowData.verified, 'text-red-500 pi-times-circle': !rowData.verified })}></i>;
+    };
+
+    const verifiedFilterTemplate = (options: ColumnFilterElementTemplateOptions) => {
+        return (
+            <div className="flex align-items-center gap-2">
+                <label htmlFor="verified-filter" className="font-bold">
+                    Verified
+                </label>
+                <TriStateCheckbox id="verified-filter" value={options.value} onChange={(e: TriStateCheckboxChangeEvent) => options.filterCallback(e.value)} />
+            </div>
+        );
+    };
+
+    const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
+    const paginatorRight = <Button type="button" icon="pi pi-download" text />;
+
+    const header = renderHeader();
+
+    // const fetchReports = async () => {
+    //     const response = await getAllReportsRequest({
+    //         pageNumber: currentPage,
+    //         userCount: 10000000,
+    //     });
+    //     console.log('response', response)
+    //     return response;
+    // };
+
+    // const { data, error, mutate } = useSWR(
+    //     `${currentPage}`, // key of useSWR hook to cache the data
+    //     fetchReports, // fetcher function
+    //     {
+    //         dedupingInterval: 180000, // 3 dakika boyunca tekrar request yapmaz 3 * 60 * 1000ms
+    //     }
+    // );
+    // const exportDataButton = (): React.ReactNode => {
+    //     return (
+    //         <Button
+    //             buttonText='Disari Aktar'
+    //             className='mx-2 bg-primary text-white rounded-lg p-2'
+    //             id={`${pagePrefix}-export-button`}
+    //             type='button'
+    //             onClick={downloadExcel}
+    //         />
+    //     );
+    // };
     const getAllChargeData = async (): Promise<void> => {
         const response = await getAllReportsRequest(
             {
                 pageNumber: currentPage,
-                userCount: 10,
+                userCount: 100000000,
             }
         );
 
@@ -613,42 +337,42 @@ const ReportsSection: React.FC = () => {
         );
         setIsLoading(false);
     };
-    const handleFilterSubmit = async (): Promise<void> => {
-        const payload = {
-            userId: 33,
-            pageNumber: currentPage,
-            userCount: 10,
-            filterAttributes: getFilterPayload().length > 0 ? getFilterPayload() : [],
-        }
+    // const handleFilterSubmit = async (): Promise<void> => {
+    //     const payload = {
+    //         userId: 33,
+    //         pageNumber: currentPage,
+    //         userCount: 10,
+    //         filterAttributes: getFilterPayload().length > 0 ? getFilterPayload() : [],
+    //     }
 
-        const response = await getAllReportsRequest(payload);
+    //     const response = await getAllReportsRequest(payload);
 
-        dispatch(
-            setReportsData({
-                data: response.data,
-                count: response.count,
-            })
-        );
+    //     dispatch(
+    //         setReportsData({
+    //             data: response.data,
+    //             count: response.count,
+    //         })
+    //     );
 
-        setIsFilterUsed(true);
-        setIsLoading(false);
-    };
-    const getFilterPayload = () => {
-        const filterAttributes = filters.map((filter, index) => {
-            // Check if `filter.value` is a string and not an empty string
-            if ((typeof filter.value === 'string' || typeof filter.value === 'number') && filter.value.trim() !== '') {
-                return {
-                    "property": filter.id,
-                    "operator": findOperator(filter.operatorId),
-                    "value": filter.value,
-                    "value2": filter.value2 || ''
-                };
-            }
-        });
+    //     setIsFilterUsed(true);
+    //     setIsLoading(false);
+    // };
+    // const getFilterPayload = () => {
+    //     const filterAttributes = filters.map((filter, index) => {
+    //         // Check if `filter.value` is a string and not an empty string
+    //         if ((typeof filter.value === 'string' || typeof filter.value === 'number') && filter.value.trim() !== '') {
+    //             return {
+    //                 "property": filter.id,
+    //                 "operator": findOperator(filter.operatorId),
+    //                 "value": filter.value,
+    //                 "value2": filter.value2 || ''
+    //             };
+    //         }
+    //     });
 
-        // Filter out undefined values from the array
-        return filterAttributes.filter(attribute => attribute !== undefined);
-    };
+    //     // Filter out undefined values from the array
+    //     return filterAttributes.filter(attribute => attribute !== undefined);
+    // };
     const findOperator = (operatorId: string) => {
         switch (operatorId) {
             case '0':
@@ -691,7 +415,8 @@ const ReportsSection: React.FC = () => {
     };
 
     useEffect(() => {
-        // getAllChargeData();
+        getAllChargeData();
+        initFilters();
     }, []);
 
     useEffect(() => {
@@ -700,7 +425,7 @@ const ReportsSection: React.FC = () => {
         if (!isFilterUsed) {
             getAllChargeData();
         } else {
-            handleFilterSubmit();
+            // handleFilterSubmit();
         }
     }, [currentPage]);
 
@@ -713,33 +438,46 @@ const ReportsSection: React.FC = () => {
                             <Loading />
                         ) : (
                             <>
-                                <Filters className={`${pagePrefix} h-full mx-2`} filters={filters} setFilters={setFilters} onFilterSubmit={handleFilterSubmit} isExpanded={isExpanded} />
-                                <div className={`${pagePrefix}-table-container flex flex-col items-end relative ${isExpanded ? 'w-5/6' : 'w-full'}`}>
-                                    <Tooltip
-                                        containerClassName={`${pagePrefix}-tooltip -left-4 inset-y-1/2 shadow-custom border rounded-md text-center bg-secondary h-8 w-8 text-white flex justify-center items-center z-10 !absolute`}
-                                        text="Filtrele"
-                                        textClassName='left-8'
-                                    >
-                                        <Button
-                                            className={`${pagePrefix}-filter-toggle-button flex justify-center items-center h-8 w-8`}
-                                            id='filter-button'
-                                            type='button'
-                                            onClick={() => setIsExpanded(!isExpanded)}
+                                <div className={`${pagePrefix}-table-wrapper flex flex-col items-end relative w-full`}>
+                                    <div className={`${pagePrefix}-table-container w-full h-full relative`}>
+                                        <DataTable
+                                            currentPageReportTemplate="{first} to {last} of {totalRecords}"
+                                            dataKey="id"
+                                            emptyMessage="No customers found." onFilter={(e) => setFilters(e.filters)}
+                                            filters={filters}
+                                            globalFilterFields={['name', 'country.name', 'representative.name', 'balance', 'status']}
+                                            header={header}
+                                            loading={isLoading}
+                                            paginator
+                                            paginatorLeft={paginatorLeft}
+                                            paginatorRight={paginatorRight}
+                                            paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                                            rows={10}
+                                            rowsPerPageOptions={[5, 10, 25, 50]}
+                                            showGridlines
+                                            sortMode='multiple'
+                                            stripedRows
+                                            value={reportsData}
                                         >
-                                            <FaFilter />
-                                        </Button>
-                                    </Tooltip>
-                                    <div className='table-container w-full relative'>
-                                        <Table
-                                            attributeName="reports-management"
-                                            className={`w-full`}
-                                            filteredDropdownItems={[]}
-                                            hasFilterData={false}
-                                            tableData={reportsData}
-                                            tableDataCount={reportsCount}
-                                            tableHeader={exportDataButton()}
-                                            tableHeadData={tableHeadData}
-                                        />
+                                            {
+                                                tableHeadData.map((td, index) => {
+                                                    return (
+                                                        <Column
+                                                            field={td.field}
+                                                            filter
+                                                            filterApply={filterApplyTemplate}
+                                                            filterClear={filterClearTemplate}
+                                                            filterFooter={filterFooterTemplate}
+                                                            filterPlaceholder={`Search by ${td}`}
+                                                            header={td.header}
+                                                            key={index}
+                                                            sortable
+                                                            style={{ minWidth: '310px' }}
+                                                        />
+                                                    )
+                                                })
+                                            }
+                                        </DataTable>
                                     </div>
                                 </div>
                             </>
@@ -781,13 +519,13 @@ const ReportsSection: React.FC = () => {
                 )
             } */}
             {
-                reportsCount > 10 && (
-                    <Pagination
-                        currentPage={currentPage}
-                        totalCounts={reportsCount}
-                        setCurrentPage={setCurrentPage}
-                    />
-                )
+                // reportsCount > 10 && (
+                //     <Pagination
+                //         currentPage={currentPage}
+                //         totalCounts={reportsCount}
+                //         setCurrentPage={setCurrentPage}
+                //     />
+                // )
             }
         </div>
     );
