@@ -12,6 +12,9 @@ const nextConfig = {
     // See: https://github.com/gregberge/svgr
     svgr: false,
   },
+  devIndicators: {
+    buildActivity: false
+  },
   env: {},
   generateStaticParams: async () => {
     return [
