@@ -31,7 +31,7 @@ const servicePointTableFilteredDropdownItems = [{
     rid: null,
     stationFeatureType: 0,
     stationFeatureValue: 0,
-},{
+}, {
     id: 2,
     isChecked: false,
     name: 'Telefon',
@@ -61,12 +61,25 @@ const servicePointTableFilteredDropdownItems = [{
     stationFeatureValue: 0,
 }];
 const servicePointTableHeadData = [
-    'Istasyon Adi',
-    'Telefon',
-    'Adres',
-    'Il',
-    'Ilce',
-    'Islemler',
+    {
+        field: 'name',
+        header: 'Istasyon Adi',
+    }, {
+        field: 'phone',
+        header: 'Telefon',
+    }, {
+        field: 'address',
+        header: 'Adres',
+    }, {
+        field: 'cityId',
+        header: 'Il',
+    }, {
+        field: 'districtId',
+        header: 'Ilce',
+    }, {
+        field: 'actions',
+        header: 'Islemler',
+    }
 ];
 
 export {
