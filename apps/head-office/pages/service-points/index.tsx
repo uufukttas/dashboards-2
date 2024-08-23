@@ -5,6 +5,7 @@ import ServicePointsPageWrapper from '../../src/components/ServicePointSection/S
 import '../../app/global.css';
 import '../../src/styles/style.css';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
+import 'primeicons/primeicons.css';
 
 const ServicePoints: React.FC = () => {
     return (

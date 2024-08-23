@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaCircleInfo, FaPen, FaPlus, FaTrashCan } from 'react-icons/fa6';
+import { PiMicrosoftExcelLogoFill } from "react-icons/pi";
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from '@projects/alert';
 // import { Button } from '@projects/button';
@@ -13,7 +14,6 @@ import {
 import Pagination from './PaginationComponents/Pagination';
 import ServicePointModalForm from './ServicePointsModalComponents/ServicePointModal';
 import Modal from '../Modal/Modal';
-import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { deleteServicePointRequest, getAllServicePointsRequest } from '../../../app/api/servicePoints/index';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
@@ -76,7 +76,7 @@ const ServicePointSection: React.FC = () => {
   // @ts-expect-error
   const onColumnToggle = (event) => {
     let selectedColumns = event.value;
-    
+
     // @ts-expect-error
     let orderedSelectedColumns = servicePointTableHeadData.filter((col) => selectedColumns.some((sCol) => sCol.field === col.field));
 
@@ -118,40 +118,41 @@ const ServicePointSection: React.FC = () => {
           <div className={`${BRAND_PREFIX}-data-table-select-container`}>
             <MultiSelect value={visibleColumns} options={visibleColumns} optionLabel="header" onChange={onColumnToggle} className="w-full sm:w-20rem" display="chip" />
           </div>
-          <div className={`${BRAND_PREFIX}-data-table-export-button-container`}>
-            <Button type="button" icon="pi pi-file-excel" severity="success" rounded onClick={exportExcel} data-pr-tooltip="XLS">
-              <>
-                <Tooltip
-                  className={`${BRAND_PREFIX}-data-table-add-button-tooltip text-base`}
-                  content="Istasyon Ekle"
-                  position="left"
-                  target={`#${BRAND_PREFIX}-table-header-add-button`}
-                />
-                <FaPlus />
-              </>
-            </Button>
-          </div>
-          <div className={`${BRAND_PREFIX}-data-table-add-button-container`}>
-            <Button
-              className={`${BRAND_PREFIX}-table-header-add-button flex justify-end items-center bg-primary rounded text-base font-semibold hover:bg-primary-lighter p-2`}
-              id={`${BRAND_PREFIX}-table-header-add-button`}
-              type="button"
-              onClick={() => toggleModalVisibility(true)}
-            >
-              <span className='flex justify-center items-center'>
-                {
-                  <>
-                    <Tooltip
-                      className={`${BRAND_PREFIX}-data-table-add-button-tooltip text-base`}
-                      content="Istasyon Ekle"
-                      position="left"
-                      target={`#${BRAND_PREFIX}-table-header-add-button`}
-                    />
-                    <FaPlus />
-                  </>
-                }
-              </span>
-            </Button>
+          <div className={`${BRAND_PREFIX}-data-table-action-button-container flex justify-center items-center`}>
+            <div className={`${BRAND_PREFIX}-data-table-export-button-container mx-4`}>
+              <Button
+                className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary rounded text-base font-semibold hover:bg-primary-lighter p-2`}
+                icon="pi pi-file-excel"
+                id={`${BRAND_PREFIX}-table-header-export-button`}
+                rounded
+                type="button"
+                onClick={exportExcel}
+              />
+              <Tooltip
+                className={`${BRAND_PREFIX}-data-table-export-button-tooltip text-base`}
+                content="Disari Aktar"
+                position="bottom"
+                target={`#${BRAND_PREFIX}-table-header-export-button`}
+                style={{ fontSize: '12px', padding: '4px' }}
+              />
+            </div>
+            <div className={`${BRAND_PREFIX}-data-table-add-button-container mx-4`}>
+              <Button
+                className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary rounded text-base font-semibold hover:bg-primary-lighter p-2`}
+                icon="pi pi-plus"
+                id={`${BRAND_PREFIX}-table-header-add-button`}
+                rounded
+                type="button"
+                onClick={() => dispatch(toggleModalVisibility(true))}
+              />
+              <Tooltip
+                className={`${BRAND_PREFIX}-data-table-add-button-tooltip text-base`}
+                content="Istasyon Ekle"
+                position="bottom"
+                target={`#${BRAND_PREFIX}-table-header-add-button`}
+                style={{ fontSize: '12px', padding: '4px' }}
+              />
+            </div>
           </div>
         </div>
       </>
@@ -187,7 +188,7 @@ const ServicePointSection: React.FC = () => {
     });
 
     payload.pageNumber = currentPage;
-    payload.userCount = 10;
+    payload.userCount = 20;
 
     return payload;
   };
@@ -225,12 +226,7 @@ const ServicePointSection: React.FC = () => {
   };
 
   useEffect(() => {
-    dispatch(
-      setSearchProperties({
-        searchedConditions: [],
-        searchedText: '',
-      })
-    );
+    getAllServicePoints();
   }, []);
 
   useEffect(() => {
@@ -238,10 +234,11 @@ const ServicePointSection: React.FC = () => {
   }, [currentPage, isServicePointDataUpdated, searchProperties]);
 
   return (
+    servicePointsCount > 1 &&
     <div className={`${BRAND_PREFIX}-service-points-container flex justify-between items-center flex-col`}>
       <div className={`${pagePrefix}-listing-container flex items-center w-full`}>
         <DataTable
-          className="w-full"
+          className="w-full shadow"
           currentPageReportTemplate="{first} to {last} of {totalRecords}"
           filterDisplay="row"
           filters={filters}
@@ -266,11 +263,13 @@ const ServicePointSection: React.FC = () => {
               if (headerProps.field !== "actions") {
                 return (
                   <Column
-                    className='border border-gray-300'
+                    className='border-none'
                     field={headerProps.field}
                     filter
-                    filterPlaceholder={`Search by ${headerProps.header}`}
+                    filterMenuClassName='border-none shadow-lg'
+                    filterPlaceholder={`${headerProps.header}...`}
                     header={headerProps.header}
+                    headerClassName='border-0'
                     key={index}
                     sortable={true}
                   />
@@ -278,45 +277,34 @@ const ServicePointSection: React.FC = () => {
               } else {
                 return (
                   <Column
-                    body={
-                      <div className={`${BRAND_PREFIX}-data-table-actions-button-container flex justify-start items-center`}>
-                        <a className="font-medium text-blue-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
-                        // {...dataAttributes}
-                        // onClick={(event) => {
-                        //   attributeName.indexOf('service-point') > -1
-                        //     ? getUpdatedServicePointInfo(event)
-                        //     : getUpdatedUserInfo(event)
-                        // }}
-                        >
-                          <FaPen className='text-primary' />
-                        </a>
-                        <a
-                          className="font-medium text-red-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
-                        // onClick={(event) => {
-                        //   if (attributeName === 'service-point') {
-                        //     deleteServicePointInfo(event)
-                        //   } else if (attributeName === 'user-management') {
-                        //     deleteUserRequest(event)
-                        //   } else if (attributeName === 'tariff-list') {
-                        //     deleteTariffRequest(event)
-                        //   }
-                        // }}
-                        // {...dataAttributes}
-                        >
-                          <FaTrashCan />
-                        </a>
-                        <Link
-                          href=""
-                          className='font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"'
-                        // className='px-4 hover:scale-125 transition-transform duration-300 ease-in-out'
-                        // href={`/service-points/service-point/${tableCellData?.id}`
-                        // }
-                        >
-                          <FaCircleInfo className={`text-blue-700`} />
-                        </Link >
-                      </div>
-                    }
-                    className={`border border-gray-300`}
+                    body={(rowData) => {
+                      return (
+                        <div className={`${BRAND_PREFIX}-data-table-actions-button-container flex justify-start items-center`}>
+                          <a
+                            className="font-medium text-blue-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
+                            data-service-point-id={rowData['id']}
+                          >
+                            <FaPen className='text-primary' />
+                          </a>
+                          <a
+                            className="font-medium text-red-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
+                            data-service-point-id={rowData['id']}
+                          >
+                            <FaTrashCan />
+                          </a>
+                          {
+                            (rowData?.address && rowData?.districtId && rowData?.cityId && rowData?.phone) && (
+                              <Link
+                                className='font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"'
+                                href={`/service-points/service-point/${rowData.id}`}
+                              >
+                                <FaCircleInfo className={`text-blue-700`} />
+                              </Link >
+                            )
+                          }
+                        </div>
+                      )
+                    }}
                     field={headerProps.field}
                     frozen
                     header={headerProps.header}
