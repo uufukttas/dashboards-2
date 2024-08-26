@@ -64,21 +64,27 @@ const servicePointTableHeadData = [
     {
         field: 'name',
         header: 'Istasyon Adi',
+        isRemovable: true,
     }, {
         field: 'phone',
         header: 'Telefon',
+        isRemovable: true,
     }, {
         field: 'address',
         header: 'Adres',
+        isRemovable: true,
     }, {
         field: 'cityId',
         header: 'Il',
+        isRemovable: true,
     }, {
         field: 'districtId',
         header: 'Ilce',
+        isRemovable: true,
     }, {
         field: 'actions',
         header: 'Islemler',
+        isRemovable: false,
     }
 ];
 
