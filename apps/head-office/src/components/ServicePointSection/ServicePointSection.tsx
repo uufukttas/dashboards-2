@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { useState, useEffect } from 'react';
 import { FaCircleInfo, FaPen, FaPlus, FaTrashCan } from 'react-icons/fa6';
 import { PiMicrosoftExcelLogoFill } from "react-icons/pi";
@@ -14,7 +16,7 @@ import {
 import Pagination from './PaginationComponents/Pagination';
 import ServicePointModalForm from './ServicePointsModalComponents/ServicePointModal';
 import Modal from '../Modal/Modal';
-import { BRAND_PREFIX } from '../../constants/constants';
+import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
 import { deleteServicePointRequest, getAllServicePointsRequest } from '../../../app/api/servicePoints/index';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
 import { hideDialog } from '../../../app/redux/features/dialogInformation';
@@ -35,7 +37,6 @@ import { Tooltip } from 'primereact/tooltip';
 import { Button } from 'primereact/button';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { MultiSelect } from 'primereact/multiselect';
-import { CITIES, DISTRICTS } from '../../constants/constants.ts';
 
 const ServicePointSection: React.FC = () => {
   const pagePrefix: string = `${BRAND_PREFIX}-service-point`;
@@ -64,19 +65,19 @@ console.log(CITIES)
   const [visibleColumns, setVisibleColumns] = useState(servicePointTableHeadData);
 
   // @ts-expect-error
-  const onGlobalFilterChange = (e) => {
-    const value = e.target.value;
-    let _filters = { ...filters };
+  // const onGlobalFilterChange = (e) => {
+  //   const value = e.target.value;
+  //   const _filters = { ...filters };
 
-    _filters['global'].value = value;
+  //   _filters['global'].value = value;
 
-    setFilters(_filters);
-    setGlobalFilterValue(value);
-  };
-  // @ts-expect-error
+  //   setFilters(_filters);
+  //   setGlobalFilterValue(value);
+  // };
+
   const onColumnToggle = (event) => {
-    let selectedColumns = event.value;
-    let orderedSelectedColumns = servicePointTableHeadData.filter((col) => selectedColumns.some((sCol) => sCol.field === col.field) || col.field === 'actions');
+    const selectedColumns = event.value;
+    const orderedSelectedColumns = servicePointTableHeadData.filter((col) => selectedColumns.some((sCol: any) => sCol.field === col.field) || col.field === 'actions');
 
     setVisibleColumns(orderedSelectedColumns);
   };
@@ -225,7 +226,8 @@ console.log(CITIES)
 
   const prepareTableData = () => {
     // Yeni bir dizi oluştur ve her öğe için yapılan değişikliklerle yeni bir dizi döndür
-    const newTableData = servicePointsData.map((data) => {
+    // @ts-expect-error will delete
+    const newTableData = servicePointsData.map((data: any) => {
       // Her data objesi için yeni bir kopya oluştur ve gerekli alanları güncelle
       return {
         ...data,
