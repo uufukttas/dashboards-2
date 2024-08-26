@@ -35,7 +35,7 @@ import { Tooltip } from 'primereact/tooltip';
 import { Button } from 'primereact/button';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { MultiSelect } from 'primereact/multiselect';
-
+import { CITIES, DISTRICTS } from '../../constants/constants.ts';
 
 const ServicePointSection: React.FC = () => {
   const pagePrefix: string = `${BRAND_PREFIX}-service-point`;
@@ -51,7 +51,7 @@ const ServicePointSection: React.FC = () => {
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const servicePointsData = useSelector((state: RootState) => state.servicePoints.servicePoints);
   const [currentPage, setCurrentPage] = useState(1);
-
+console.log(CITIES)
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     name: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -77,7 +77,7 @@ const ServicePointSection: React.FC = () => {
   const onColumnToggle = (event) => {
     let selectedColumns = event.value;
     let orderedSelectedColumns = servicePointTableHeadData.filter((col) => selectedColumns.some((sCol) => sCol.field === col.field) || col.field === 'actions');
-    
+
     setVisibleColumns(orderedSelectedColumns);
   };
   const exportExcel = () => {
@@ -223,6 +223,20 @@ const ServicePointSection: React.FC = () => {
     dispatch(toggleLoadingVisibility(false));
   };
 
+  const prepareTableData = () => {
+    // Yeni bir dizi oluştur ve her öğe için yapılan değişikliklerle yeni bir dizi döndür
+    const newTableData = servicePointsData.map((data) => {
+      // Her data objesi için yeni bir kopya oluştur ve gerekli alanları güncelle
+      return {
+        ...data,
+        cityId: CITIES[data.cityId?.toString()],  // City ID'yi güncelle
+        districtId: DISTRICTS[data.districtId?.toString() || "0"]  // District ID'yi güncelle, districtId yoksa "0" kullan
+      };
+    });
+  
+    return newTableData; // Güncellenmiş veriyi döndür
+  };
+
   useEffect(() => {
     getAllServicePoints();
   }, []);
@@ -254,7 +268,7 @@ const ServicePointSection: React.FC = () => {
           showGridlines={true}
           sortMode="multiple"
           stripedRows={true}
-          value={servicePointsData}
+          value={prepareTableData()}
         >
           {
             visibleColumns.map((headerProps, index) => {
