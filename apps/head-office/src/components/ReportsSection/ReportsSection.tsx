@@ -25,9 +25,7 @@ import { classNames } from 'primereact/utils';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
 import { Column, ColumnFilterElementTemplateOptions } from 'primereact/column';
-import { InputText } from 'primereact/inputtext';
-import { IconField } from 'primereact/iconfield';
-import { InputIcon } from 'primereact/inputicon';
+
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown';
 import { InputNumber, InputNumberChangeEvent } from 'primereact/inputnumber';
 import { Button } from 'primereact/button';
@@ -37,6 +35,9 @@ import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 import { Slider, SliderChangeEvent } from 'primereact/slider';
 import { Tag } from 'primereact/tag';
 import { TriStateCheckbox, TriStateCheckboxChangeEvent } from 'primereact/tristatecheckbox';
+import { InputText } from 'primereact/inputtext';
+import { IconField } from 'primereact/iconfield';
+import { InputIcon } from 'primereact/inputicon';
 
 interface Representative {
     name: string;
@@ -58,33 +59,19 @@ interface Customer {
     representative: Representative;
     balance: number;
 }
-const defaultFilters: DataTableFilterMeta = {
+const defaultFilters: DataTableFilterMeta = ({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    // name: {
-    //     operator: FilterOperator.AND,
-    //     constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-    // },
-    // 'country.name': {
-    //     operator: FilterOperator.AND,
-    //     constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }],
-    // },
-    // representative: { value: null, matchMode: FilterMatchMode.IN },
-    // date: {
-    //     operator: FilterOperator.AND,
-    //     constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
-    // },
-    // balance: {
-    //     operator: FilterOperator.AND,
-    //     constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
-    // },
-    // status: {
-    //     operator: FilterOperator.OR,
-    //     constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
-    // },
-    // activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
-    // verified: { value: null, matchMode: FilterMatchMode.EQUALS },
-};
-
+    trxId: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    batteryBeginningPercent: { value: null, matchMode: FilterMatchMode.EQUALS },
+    batteryPercent: { value: null, matchMode: FilterMatchMode.EQUALS },
+    chargingStatus: { value: null, matchMode: FilterMatchMode.EQUALS },
+    companyID: { value: null, matchMode: FilterMatchMode.EQUALS },
+    energyUsed: { value: null, matchMode: FilterMatchMode.EQUALS },
+    startDate: { value: null, matchMode: FilterMatchMode.DATE_IS },
+    finishDate: { value: null, matchMode: FilterMatchMode.DATE_IS },
+    stationName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    totalAmount: { value: null, matchMode: FilterMatchMode.EQUALS }
+});
 const ReportsSection: React.FC = () => {
     const pagePrefix = `${BRAND_PREFIX}-reports-center-section`;
     const tableHeadData = [{
@@ -238,8 +225,8 @@ const ReportsSection: React.FC = () => {
         return <Button type="button" icon="pi pi-check" onClick={options.filterApplyCallback} severity="success"></Button>;
     };
 
-    const filterFooterTemplate = () => {
-        return <div className="px-3 pt-0 pb-3 text-center">Filter by Country</div>;
+    const filterFooterTemplate = (filterName: string) => {
+        return <div className="px-3 pt-0 pb-3 text-center">Filter by {filterName}</div>;
     };
 
     const dateBodyTemplate = (rowData: Customer) => {
@@ -325,7 +312,7 @@ const ReportsSection: React.FC = () => {
         const response = await getAllReportsRequest(
             {
                 pageNumber: currentPage,
-                userCount: 100000000,
+                userCount: 100,
             }
         );
 
@@ -336,82 +323,6 @@ const ReportsSection: React.FC = () => {
             })
         );
         setIsLoading(false);
-    };
-    // const handleFilterSubmit = async (): Promise<void> => {
-    //     const payload = {
-    //         userId: 33,
-    //         pageNumber: currentPage,
-    //         userCount: 10,
-    //         filterAttributes: getFilterPayload().length > 0 ? getFilterPayload() : [],
-    //     }
-
-    //     const response = await getAllReportsRequest(payload);
-
-    //     dispatch(
-    //         setReportsData({
-    //             data: response.data,
-    //             count: response.count,
-    //         })
-    //     );
-
-    //     setIsFilterUsed(true);
-    //     setIsLoading(false);
-    // };
-    // const getFilterPayload = () => {
-    //     const filterAttributes = filters.map((filter, index) => {
-    //         // Check if `filter.value` is a string and not an empty string
-    //         if ((typeof filter.value === 'string' || typeof filter.value === 'number') && filter.value.trim() !== '') {
-    //             return {
-    //                 "property": filter.id,
-    //                 "operator": findOperator(filter.operatorId),
-    //                 "value": filter.value,
-    //                 "value2": filter.value2 || ''
-    //             };
-    //         }
-    //     });
-
-    //     // Filter out undefined values from the array
-    //     return filterAttributes.filter(attribute => attribute !== undefined);
-    // };
-    const findOperator = (operatorId: string) => {
-        switch (operatorId) {
-            case '0':
-                return "=";
-            case '1':
-                return ">";
-            case '2':
-                return "<";
-            case '3':
-                return "~|x|~";
-            default:
-                return "~{x}~";
-        }
-    };
-    const downloadExcel = async (): Promise<void> => {
-        try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/Report/ExcelExport`, {
-                "filterAttributes": [
-                    {
-                        "property": "RID",
-                        "operator": "~{x}~",
-                        "value": "28975",
-                        "value2": "29975"
-                    }
-                ]
-            }, {
-                responseType: 'blob', // önemli kısım, blob türünde yanıt bekleniyor
-            });
-
-            // URL oluştur ve dosya indirme işlemini başlat
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'report.xlsx'); // İndirilecek dosyanın adı
-            document.body.appendChild(link);
-            link.click();
-        } catch (error) {
-            console.error("Excel dosyası indirilemedi:", error);
-        }
     };
 
     useEffect(() => {
@@ -445,13 +356,14 @@ const ReportsSection: React.FC = () => {
                                             dataKey="id"
                                             emptyMessage="No customers found." onFilter={(e) => setFilters(e.filters)}
                                             filters={filters}
-                                            globalFilterFields={['name', 'country.name', 'representative.name', 'balance', 'status']}
+                                            globalFilterFields={['trxId', 'stationName', 'companyID', 'resellerCompanyID', 'consumerCompanyID', 'stationChargePointCode', 'stationChargePointConnectorTypeName', 'stationConnectorConnectorNr', 'stationConnectorID', 'chargingStatus', 'chargingStatusMessage', 'energyUsed', 'priceENRJ', 'priceSRV', 'totalAmount', 'totalAmountWithOutKDV', 'unitPrice']}
                                             header={header}
                                             loading={isLoading}
                                             paginator
                                             paginatorLeft={paginatorLeft}
                                             paginatorRight={paginatorRight}
                                             paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                                            removableSort
                                             rows={10}
                                             rowsPerPageOptions={[5, 10, 25, 50]}
                                             showGridlines
@@ -465,10 +377,11 @@ const ReportsSection: React.FC = () => {
                                                         <Column
                                                             field={td.field}
                                                             filter
+                                                            filterField={td.field}
                                                             filterApply={filterApplyTemplate}
                                                             filterClear={filterClearTemplate}
-                                                            filterFooter={filterFooterTemplate}
-                                                            filterPlaceholder={`Search by ${td}`}
+                                                            filterFooter={filterFooterTemplate(td.header)}
+                                                            filterPlaceholder={`Search by ${td.header}`}
                                                             header={td.header}
                                                             key={index}
                                                             sortable
@@ -484,49 +397,6 @@ const ReportsSection: React.FC = () => {
                         )
                 }
             </div>
-            {
-                isModalVisible && (
-                    <Modal
-                        className={`${pagePrefix}-modal-container`}
-                        modalHeaderTitle={`Rapor Detayi`}
-                        modalId={`${pagePrefix}-modal`}
-                        onClose={() => dispatch(toggleModalVisibility(false))}
-                    >
-                        <ReportDetailsModal />
-                    </Modal>
-                )
-            }
-            {/*
-            {
-                alertInformation.isVisible && (
-                    <Alert
-                        alertText={alertInformation.message}
-                        alertType={alertInformation.type}
-                        id={`${pagePrefix}-alert`}
-                    />
-                )
-            }
-            {
-                dialogInformation.isVisible && (
-                    <Dialog
-                        handleCancel={() => dispatch(hideDialog())}
-                        handleSuccess={() => {
-                            deleteServicePoint(dialogInformation.data);
-                            dispatch(hideDialog());
-                            dispatch(toggleServicePointDataUpdated(true));
-                        }}
-                    />
-                )
-            } */}
-            {
-                // reportsCount > 10 && (
-                //     <Pagination
-                //         currentPage={currentPage}
-                //         totalCounts={reportsCount}
-                //         setCurrentPage={setCurrentPage}
-                //     />
-                // )
-            }
         </div>
     );
 };
