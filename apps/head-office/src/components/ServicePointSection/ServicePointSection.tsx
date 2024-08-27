@@ -1,8 +1,5 @@
-// @ts-nocheck
-
 import React, { useState, useEffect } from 'react';
-import { FaCircleInfo, FaPen, FaPlus, FaTrashCan } from 'react-icons/fa6';
-import { PiMicrosoftExcelLogoFill } from "react-icons/pi";
+import { FaCircleInfo, FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useSelector, useDispatch } from 'react-redux';
 import { Alert } from '@projects/alert';
 // import { Button } from '@projects/button';
@@ -10,20 +7,19 @@ import { Dialog } from '@projects/dialog';
 import {
   initialServicePointDataValues,
   initialServicePointInformationValue,
-  servicePointTableFilteredDropdownItems,
   servicePointTableHeadData,
 } from './constants';
+import { getServicePointDataRequest, getServicePointInformationRequest } from '../../../app/api/servicePoints'
 import Pagination from './PaginationComponents/Pagination';
 import ServicePointModalForm from './ServicePointsModalComponents/ServicePointModal';
 import Modal from '../Modal/Modal';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
 import { deleteServicePointRequest, getAllServicePointsRequest } from '../../../app/api/servicePoints/index';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
-import { hideDialog } from '../../../app/redux/features/dialogInformation';
+import { hideDialog, showDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { toggleServicePointDataUpdated } from '../../../app/redux/features/isServicePointDataUpdated';
-import { setSearchProperties } from '../../../app/redux/features/searchProperties';
 import { setServicePoints } from '../../../app/redux/features/servicePoints';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
@@ -35,36 +31,33 @@ import { Column } from 'primereact/column';
 import Link from 'next/link';
 import { Tooltip } from 'primereact/tooltip';
 import { Button } from 'primereact/button';
-import { FilterMatchMode, FilterOperator } from 'primereact/api';
-import { MultiSelect } from 'primereact/multiselect';
+import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
+
+interface ServicePoint {
+  id: number;
+  name: string;
+  cityId: number;
+  districtId: number;
+  address: string;
+  phoneNumber: string;
+}
 
 const ServicePointSection: React.FC = () => {
   const pagePrefix: string = `${BRAND_PREFIX}-service-point`;
+  const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
+  const paginatorRight = <Button type="button" icon="pi pi-download" text />;
   const dispatch = useDispatch<AppDispatch>();
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
-  const isServicePointDataUpdated = useSelector((state: RootState) => {
-    return state.isServicePointDataUpdated.isServicePointDataUpdated
-  });
+  const { isServicePointDataUpdated } = useSelector((state: RootState) => state.isServicePointDataUpdated);
   const searchProperties = useSelector((state: RootState) => state.searchedText);
   const servicePointsCount = useSelector((state: RootState) => state.servicePoints.count);
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const servicePointsData = useSelector((state: RootState) => state.servicePoints.servicePoints);
   const [currentPage, setCurrentPage] = useState(1);
-console.log(CITIES)
-  const [filters, setFilters] = useState({
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    name: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    cityId: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    districtId: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    address: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    phoneNumber: { value: null, matchMode: FilterMatchMode.CONTAINS }
-  });
-  const [globalFilterValue, setGlobalFilterValue] = useState('');
   const [visibleColumns, setVisibleColumns] = useState(servicePointTableHeadData);
 
-  // @ts-expect-error
   // const onGlobalFilterChange = (e) => {
   //   const value = e.target.value;
   //   const _filters = { ...filters };
@@ -75,6 +68,7 @@ console.log(CITIES)
   //   setGlobalFilterValue(value);
   // };
 
+  // @ts-ignore
   const onColumnToggle = (event) => {
     const selectedColumns = event.value;
     const orderedSelectedColumns = servicePointTableHeadData.filter((col) => selectedColumns.some((sCol: any) => sCol.field === col.field) || col.field === 'actions');
@@ -93,14 +87,11 @@ console.log(CITIES)
       saveAsExcelFile(excelBuffer, 'products');
     });
   };
-
-  // @ts-expect-error
-  const saveAsExcelFile = (buffer, fileName) => {
-    // @ts-expect-error
-    fileSaver.then((module) => {
+  const saveAsExcelFile = (buffer: ArrayBuffer, fileName: string) => {
+    import('file-saver').then((module) => {
       if (module && module.default) {
-        let EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-        let EXCEL_EXTENSION = '.xlsx';
+        const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const EXCEL_EXTENSION = '.xlsx';
         const data = new Blob([buffer], {
           type: EXCEL_TYPE
         });
@@ -109,7 +100,23 @@ console.log(CITIES)
       }
     });
   };
+  const getUpdatedServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>): Promise<void> => {
+    const servicePointId: number = Number(event.currentTarget.getAttribute('data-service-point-id') || '0');
+    const servicePointData = await getServicePointDataRequest(servicePointId);
+    const servicePointInformation = await getServicePointInformationRequest(servicePointId);
 
+    dispatch(setServicePointData(servicePointData.data[0] || {}));
+    dispatch(setServicePointInformation(servicePointInformation.data[0] || {}));
+    dispatch(toggleModalVisibility(true));
+  };
+  const deleteServicePointInfo = (event: React.MouseEvent<HTMLAnchorElement>): void => {
+    dispatch(
+      showDialog({
+        actionType: 'delete',
+        data: parseInt(event.currentTarget.getAttribute('data-service-point-id') || '0')
+      })
+    );
+  };
   const dataTableHeader = () => {
     return (
       <>
@@ -157,9 +164,6 @@ console.log(CITIES)
       </>
     )
   };
-  const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
-  const paginatorRight = <Button type="button" icon="pi pi-download" text />;
-
   const createGetServicePointsRequestPayload = (): IPayloadProps => {
     const payload: IPayloadProps = {};
 
@@ -223,20 +227,16 @@ console.log(CITIES)
     dispatch(toggleServicePointDataUpdated(false));
     dispatch(toggleLoadingVisibility(false));
   };
-
   const prepareTableData = () => {
-    // Yeni bir dizi oluştur ve her öğe için yapılan değişikliklerle yeni bir dizi döndür
-    // @ts-expect-error will delete
-    const newTableData = servicePointsData.map((data: any) => {
-      // Her data objesi için yeni bir kopya oluştur ve gerekli alanları güncelle
+    const newTableData = servicePointsData.map((data: ServicePoint) => {
       return {
         ...data,
-        cityId: CITIES[data.cityId?.toString()],  // City ID'yi güncelle
-        districtId: DISTRICTS[data.districtId?.toString() || "0"]  // District ID'yi güncelle, districtId yoksa "0" kullan
+        cityId: CITIES[data.cityId?.toString() as keyof typeof CITIES],
+        districtId: DISTRICTS[data.districtId?.toString() as keyof typeof DISTRICTS || "0"]
       };
     });
-  
-    return newTableData; // Güncellenmiş veriyi döndür
+
+    return newTableData;
   };
 
   useEffect(() => {
@@ -255,7 +255,7 @@ console.log(CITIES)
           className="w-full shadow"
           currentPageReportTemplate="{first} to {last} of {totalRecords}"
           filterDisplay="row"
-          filters={filters}
+          // filters={filters}
           header={dataTableHeader}
           globalFilterFields={['name', 'cityId', 'districtId', 'address', 'phoneNumber']}
           paginator={true}
@@ -297,12 +297,14 @@ console.log(CITIES)
                           <a
                             className="font-medium text-blue-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
                             data-service-point-id={rowData['id']}
+                            onClick={getUpdatedServicePointInfo}
                           >
                             <FaPen className='text-primary' />
                           </a>
                           <a
                             className="font-medium text-red-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
                             data-service-point-id={rowData['id']}
+                            onClick={deleteServicePointInfo}
                           >
                             <FaTrashCan />
                           </a>
@@ -330,7 +332,7 @@ console.log(CITIES)
             })
           }
         </DataTable>
-      </div>
+      </div >
       {
         isModalVisible && (
           <Modal
@@ -364,16 +366,7 @@ console.log(CITIES)
           />
         )
       }
-      {
-        servicePointsCount > 10 && (
-          <Pagination
-            currentPage={currentPage}
-            totalCounts={servicePointsCount}
-            setCurrentPage={setCurrentPage}
-          />
-        )
-      }
-    </div>
+    </div >
   );
 };
 

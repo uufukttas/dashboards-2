@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { GoogleMap, LoadScript, Marker, StandaloneSearchBox } from '@react-google-maps/api';
 import { Libraries } from '@react-google-maps/api';
+import { CITIES, DISTRICTS } from '../../constants/constants';
 import { RootState } from '../../../app/redux/store';
 import { IFormDataProps } from './types';
 
@@ -17,7 +18,7 @@ interface MapProps {
 }
 
 const MapComponent: React.FC<MapProps> = ({ formData, onSelectLocation }) => {
-    const { cities, districts } = useSelector((state: RootState) => state.cities);
+    // const { cities, districts } = useSelector((state: RootState) => state.cities);
     const servicePointInformation = useSelector((state: RootState) => state.servicePointInformation.servicePointInformation);
     const [markerPosition, setMarkerPosition] = useState<Location>({ lat: servicePointInformation.lat, lng: servicePointInformation.lon });
     const [mapCenter, setMapCenter] = useState<Location>({ lat: servicePointInformation.lat, lng: servicePointInformation.lon });
@@ -42,7 +43,7 @@ const MapComponent: React.FC<MapProps> = ({ formData, onSelectLocation }) => {
 
             if (location) {
                 mapRef.current?.setCenter(location);
-                mapRef.current?.setZoom(16);
+                mapRef.current?.setZoom(6);
             }
         }
     };
@@ -61,7 +62,7 @@ const MapComponent: React.FC<MapProps> = ({ formData, onSelectLocation }) => {
         const cityId = formData[`service-point-cityId`];
         const district = formData[`service-point-districtId`];
 
-        return `${cities[cityId.toString()]},${districts[district.toString()]}`;
+        return `${CITIES[cityId.toString() as keyof typeof CITIES]},${DISTRICTS[district.toString() as keyof typeof DISTRICTS]}`;
     };
 
     const changeMapLocation = async () => {
@@ -70,7 +71,7 @@ const MapComponent: React.FC<MapProps> = ({ formData, onSelectLocation }) => {
                 `https://maps.googleapis.com/maps/api/geocode/json?address=${getAddressName()}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
             ).then(response => {
                 setMapCenter(response.data.results[0].geometry.location);
-            });
+            })
     };
 
     const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
