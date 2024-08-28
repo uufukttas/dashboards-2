@@ -96,6 +96,7 @@ const ServicePointSection: React.FC = () => {
           <div className={`${BRAND_PREFIX}-data-table-action-button-container flex justify-center items-center`}>
             <div className={`${BRAND_PREFIX}-data-table-export-button-container mx-4`}>
               <Button
+                className={`${BRAND_PREFIX}-data-table-export-button flex justify-center items-center bg-primary rounded text-base font-semibold hover:bg-primary-lighter p-2`}
                 data-pr-tooltip="XLS"
                 icon="pi pi-file-excel"
                 rounded
