@@ -4,7 +4,10 @@ import { FaGift, FaLocationDot, FaUser, FaQuestion } from 'react-icons/fa6';
 import { IoMdAnalytics } from "react-icons/io";
 import { PiArrowElbowDownRightBold } from "react-icons/pi";
 import { LuReceipt } from "react-icons/lu";
+import { useSelector } from 'react-redux';
 import { detectDevice } from '@projects/common';
+import { Tooltip } from '@projects/tooltip';
+import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type { ISidebarBodyItemProps, ISidebarElementProps } from '../types';
 
@@ -13,7 +16,7 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({
 }: ISidebarBodyItemProps) => {
     const sidebarPrefix: string = `${BRAND_PREFIX}-sidebar`;
     const hasSubItems: boolean = typeof item.subItems === 'undefined';
-    const isDesktop: boolean = detectDevice().isDesktop;
+    const isDesktop: boolean = detectDevice().isDesktop; const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
     const [isOpenSubItems, setIsOpenSubItems] = useState(false);
 
     const convertIcon = (icon: string): JSX.Element => {
@@ -47,9 +50,9 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({
             >
                 <div className="flex items-center justify-center">
                     <span className={`${sidebarPrefix}-item-icon`}>{convertIcon(item.icon)}</span>
-                    {<span className={`${sidebarPrefix}-item-name pl-4 block`}>{item.name}</span>}
+                    {isSidebarExpanded && <span className={`${sidebarPrefix}-item-name pl-4 block`}>{item.name}</span>}
                 </div>
-                {item.subItems && <span>▼</span>}
+                {item.subItems && isSidebarExpanded && <span>▼</span>}
             </div>
             {isOpenSubItems && item.subItems && renderSubItems(item.subItems)}
         </li>
@@ -60,18 +63,35 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({
                 subItems.map((subItem, subIndex) => (
                     <>
                         {
-                            <Link href={subItem.link} key={subIndex}>
-                                <li
-                                    className={`${sidebarPrefix}-list-item cursor-pointer border-gray-300 w-full border-b border-t hover:bg-primary hover:text-white focus:bg-secondary-lighter focus:text-white`}
-                                >
-                                    <div className={`${sidebarPrefix}-item-container w-full flex p-2 pl-8 justify-between text-sm`}>
-                                        <div className="flex items-center justify-center">
-                                            <span className={`${sidebarPrefix}-item-icon`}>{convertIcon(subItem.icon)}</span>
-                                            {<span className={`${sidebarPrefix}-item-name pl-4 block`}>{subItem.name}</span>}
+                            isDesktop && isSidebarExpanded ? (
+                                <Tooltip containerClassName="w-full z-20" key={index} text={subItem.name} textClassName="left-14">
+                                    <Link href={subItem.link}>
+                                        <li
+                                            className={`${sidebarPrefix}-list-item cursor-pointer border-gray-300 w-full border-b border-t hover:bg-primary hover:text-white focus:bg-secondary-lighter focus:text-white`}
+                                        >
+                                            <div className={`${sidebarPrefix}-item-container w-full flex p-2 pl-8 justify-between text-sm`}>
+                                                <div className="flex items-center justify-center">
+                                                    <span className={`${sidebarPrefix}-item-icon`}>{convertIcon(subItem.icon)}</span>
+                                                    {isSidebarExpanded && <span className={`${sidebarPrefix}-item-name pl-4 block`}>{subItem.name}</span>}
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </Link>
+                                </Tooltip>
+                            ) : (
+                                <Link href={subItem.link} key={subIndex}>
+                                    <li
+                                        className={`${sidebarPrefix}-list-item cursor-pointer border-gray-300 w-full border-b border-t hover:bg-primary hover:text-white focus:bg-secondary-lighter focus:text-white`}
+                                    >
+                                        <div className={`${sidebarPrefix}-item-container w-full flex p-2 pl-8 justify-between text-sm`}>
+                                            <div className="flex items-center justify-center">
+                                                <span className={`${sidebarPrefix}-item-icon`}>{convertIcon(subItem.icon)}</span>
+                                                {isSidebarExpanded && <span className={`${sidebarPrefix}-item-name pl-4 block`}>{subItem.name}</span>}
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
-                            </Link>
+                                    </li>
+                                </Link>
+                            )
                         }
                     </>
                 ))
@@ -82,10 +102,23 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({
     return (
         <>
             {
-                isDesktop && (
-                    hasSubItems ? <Link href={item.link}>{renderItemContent()}</Link> : renderItemContent()
+                isSidebarExpanded ? (
+                    hasSubItems ? (
+                        <Link href={item.link} key={item.name}>
+                            {renderItemContent()}
+                        </Link>
+                    ) : (
+                        renderItemContent()
+                    )
+                ) : (
+                    isDesktop && (
+                        <Tooltip containerClassName="w-full z-20" key={item.name} text={item.name} textClassName="left-14">
+                            {hasSubItems ? <Link href={item.link}>{renderItemContent()}</Link> : renderItemContent()}
+                        </Tooltip>
+                    )
                 )
             }
+
         </>
     );
 };

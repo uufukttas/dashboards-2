@@ -69,9 +69,46 @@
   }
   .sh-sidebar-container {
     overflow: hidden;
-    width: 20%;
+    width: 4%;
   }
   .sh-sidebar-container img {
     padding: 0 5px;
+  }
+  .expanded {
+    animation: expand-desktop 1s forwards;
+    overflow: hidden !important;
+    width: 20%;
+  }
+  .expanded img {
+    padding: 0 16px;
+  }
+  .collapsed {
+    animation: collapse-desktop 1s forwards;
+    width: 4%;
+  }
+  .collapsed ul {
+    align-items: center;
+  }
+  @keyframes expand-desktop {
+    0% {
+      width: 4%;
+    }
+    50% {
+      width: 0;
+    }
+    100% {
+      width: 20%;
+    }
+  }
+  @keyframes collapse-desktop {
+    0% {
+      width: 20%;
+    }
+    50% {
+      width: 0;
+    }
+    100% {
+      width: 4%;
+    }
   }
 }
