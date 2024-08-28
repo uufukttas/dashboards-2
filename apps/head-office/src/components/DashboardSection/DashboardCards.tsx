@@ -121,7 +121,7 @@ const DashboardCards: React.FC = () => {
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(254, 245, 229, 0.6)',
                         'rgba(75, 192, 192, 0.2)',
                         'rgba(153, 102, 255, 0.2)',
                     ],
@@ -368,7 +368,7 @@ const DashboardCards: React.FC = () => {
                                 <>
                                     <Card
                                         BRAND_PREFIX={BRAND_PREFIX}
-                                        containerClassName={`py-4 flex flex-col items-center justify-between shadow border border-gray-300 rounded-md`}
+                                        containerClassName={`py-4 flex flex-col items-center justify-between shadow border border-gray-300 rounded-md bg-white`}
                                         key={item}
                                         // @ts-expect-error will delete
                                         style={{
