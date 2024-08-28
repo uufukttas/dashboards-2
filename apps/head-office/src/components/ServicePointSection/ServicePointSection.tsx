@@ -1,20 +1,29 @@
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
+import { Button } from 'primereact/button';
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
+import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
+import { Tooltip } from 'primereact/tooltip';
 import { FaCircleInfo, FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useSelector, useDispatch } from 'react-redux';
+import * as XLSX from 'xlsx';
 import { Alert } from '@projects/alert';
-// import { Button } from '@projects/button';
 import { Dialog } from '@projects/dialog';
 import {
   initialServicePointDataValues,
   initialServicePointInformationValue,
   servicePointTableHeadData,
 } from './constants';
-import { getServicePointDataRequest, getServicePointInformationRequest } from '../../../app/api/servicePoints'
-import Pagination from './PaginationComponents/Pagination';
 import ServicePointModalForm from './ServicePointsModalComponents/ServicePointModal';
 import Modal from '../Modal/Modal';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
-import { deleteServicePointRequest, getAllServicePointsRequest } from '../../../app/api/servicePoints/index';
+import {
+  deleteServicePointRequest,
+  getAllServicePointsRequest,
+  getServicePointDataRequest,
+  getServicePointInformationRequest
+} from '../../../app/api/servicePoints';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
 import { hideDialog, showDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
@@ -24,28 +33,17 @@ import { setServicePoints } from '../../../app/redux/features/servicePoints';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
 import { RootState, AppDispatch } from '../../../app/redux/store';
-import type { IGetServicePointsProps, IPayloadProps, IResponseDataProps } from './types';
+import type {
+  IGetServicePointsProps,
+  IPayloadProps,
+  IResponseDataProps,
+  IServicePoint,
+  IServicePointData
+} from './types';
 import './ServicePointSection.css';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import Link from 'next/link';
-import { Tooltip } from 'primereact/tooltip';
-import { Button } from 'primereact/button';
-import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
-
-interface ServicePoint {
-  id: number;
-  name: string;
-  cityId: number;
-  districtId: number;
-  address: string;
-  phoneNumber: string;
-}
 
 const ServicePointSection: React.FC = () => {
   const pagePrefix: string = `${BRAND_PREFIX}-service-point`;
-  const paginatorLeft = <Button type="button" icon="pi pi-refresh" text />;
-  const paginatorRight = <Button type="button" icon="pi pi-download" text />;
   const dispatch = useDispatch<AppDispatch>();
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
@@ -55,69 +53,40 @@ const ServicePointSection: React.FC = () => {
   const servicePointsCount = useSelector((state: RootState) => state.servicePoints.count);
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const servicePointsData = useSelector((state: RootState) => state.servicePoints.servicePoints);
-  const [currentPage, setCurrentPage] = useState(1);
   const [visibleColumns, setVisibleColumns] = useState(servicePointTableHeadData);
 
-  // const onGlobalFilterChange = (e) => {
-  //   const value = e.target.value;
-  //   const _filters = { ...filters };
+  const createGetServicePointsRequestPayload = (): IPayloadProps => {
+    const payload: IPayloadProps = {};
 
-  //   _filters['global'].value = value;
-
-  //   setFilters(_filters);
-  //   setGlobalFilterValue(value);
-  // };
-
-  // @ts-ignore
-  const onColumnToggle = (event) => {
-    const selectedColumns = event.value;
-    const orderedSelectedColumns = servicePointTableHeadData.filter((col) => selectedColumns.some((sCol: any) => sCol.field === col.field) || col.field === 'actions');
-
-    setVisibleColumns(orderedSelectedColumns);
-  };
-  const exportExcel = () => {
-    import('xlsx').then((xlsx) => {
-      const worksheet = xlsx.utils.json_to_sheet(Array.isArray(servicePointData) ? servicePointData : [servicePointData]);
-      const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
-      const excelBuffer = xlsx.write(workbook, {
-        bookType: 'xlsx',
-        type: 'array'
-      });
-
-      saveAsExcelFile(excelBuffer, 'products');
-    });
-  };
-  const saveAsExcelFile = (buffer: ArrayBuffer, fileName: string) => {
-    import('file-saver').then((module) => {
-      if (module && module.default) {
-        const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-        const EXCEL_EXTENSION = '.xlsx';
-        const data = new Blob([buffer], {
-          type: EXCEL_TYPE
-        });
-
-        module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+    searchProperties.searchedConditions.map((condition: string) => {
+      switch (condition) {
+        case 'Istasyon Adi':
+          payload['name'] = searchProperties.searchedText;
+          break;
+        case 'Telefon':
+          payload['phone'] = searchProperties.searchedText;
+          break;
+        case 'Adres':
+          payload['address'] = searchProperties.searchedText;
+          break;
+        case 'Il':
+          payload['cityName'] = searchProperties.searchedText;
+          break;
+        case 'Ilce':
+          payload['districtName'] = searchProperties.searchedText;
+          break;
+        default:
+          payload['name'] = searchProperties.searchedText;
+          break;
       }
     });
-  };
-  const getUpdatedServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>): Promise<void> => {
-    const servicePointId: number = Number(event.currentTarget.getAttribute('data-service-point-id') || '0');
-    const servicePointData = await getServicePointDataRequest(servicePointId);
-    const servicePointInformation = await getServicePointInformationRequest(servicePointId);
 
-    dispatch(setServicePointData(servicePointData.data[0] || {}));
-    dispatch(setServicePointInformation(servicePointInformation.data[0] || {}));
-    dispatch(toggleModalVisibility(true));
+    payload.pageNumber = 1;
+    payload.userCount = 20;
+
+    return payload;
   };
-  const deleteServicePointInfo = (event: React.MouseEvent<HTMLAnchorElement>): void => {
-    dispatch(
-      showDialog({
-        actionType: 'delete',
-        data: parseInt(event.currentTarget.getAttribute('data-service-point-id') || '0')
-      })
-    );
-  };
-  const dataTableHeader = () => {
+  const dataTableHeader = (): JSX.Element => {
     return (
       <>
         <div className={`${BRAND_PREFIX}-data-table-header-container w-full flex justify-between items-center`}>
@@ -127,10 +96,10 @@ const ServicePointSection: React.FC = () => {
           <div className={`${BRAND_PREFIX}-data-table-action-button-container flex justify-center items-center`}>
             <div className={`${BRAND_PREFIX}-data-table-export-button-container mx-4`}>
               <Button
-                className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary rounded text-base font-semibold hover:bg-primary-lighter p-2`}
+                data-pr-tooltip="XLS"
                 icon="pi pi-file-excel"
-                id={`${BRAND_PREFIX}-table-header-export-button`}
                 rounded
+                severity="success"
                 type="button"
                 onClick={exportExcel}
               />
@@ -164,46 +133,42 @@ const ServicePointSection: React.FC = () => {
       </>
     )
   };
-  const createGetServicePointsRequestPayload = (): IPayloadProps => {
-    const payload: IPayloadProps = {};
-
-    searchProperties.searchedConditions.map((condition: string) => {
-      switch (condition) {
-        case 'Istasyon Adi':
-          payload['name'] = searchProperties.searchedText;
-          break;
-        case 'Telefon':
-          payload['phone'] = searchProperties.searchedText;
-          break;
-        case 'Adres':
-          payload['address'] = searchProperties.searchedText;
-          break;
-        case 'Il':
-          payload['cityName'] = searchProperties.searchedText;
-          break;
-        case 'Ilce':
-          payload['districtName'] = searchProperties.searchedText;
-          break;
-        default:
-          payload['name'] = searchProperties.searchedText;
-          break;
-      }
-    });
-
-    payload.pageNumber = currentPage;
-    payload.userCount = 20;
-
-    return payload;
+  const deleteServicePointInfo = (event: React.MouseEvent<HTMLAnchorElement>): void => {
+    dispatch(
+      showDialog({
+        actionType: 'delete',
+        data: parseInt(event.currentTarget.getAttribute('data-service-point-id') || '0')
+      })
+    );
   };
   const deleteServicePoint = async (deletedId: number): Promise<void> => {
     const { data } = await deleteServicePointRequest(deletedId);
 
     handleDeleteServicePointSuccess(data);
   };
+  const exportExcel = (): void => {
+    const worksheet = XLSX.utils.json_to_sheet(servicePointsData)
+    const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+
+    saveAsExcelFile(excelBuffer, 'service-points');
+  };
   const getAllServicePoints = async (): Promise<void> => {
     const response = await getAllServicePointsRequest(createGetServicePointsRequestPayload());
 
     handleGetServicePointSuccess(response);
+  };
+  const getUpdatedServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>): Promise<void> => {
+    const servicePointId: number = Number(event.currentTarget.getAttribute('data-service-point-id') || '0');
+    const servicePointData = await getServicePointDataRequest(servicePointId);
+    const servicePointInformation = await getServicePointInformationRequest(servicePointId);
+
+    dispatch(setServicePointData(servicePointData.data[0] || {}));
+    dispatch(setServicePointInformation(servicePointInformation.data[0] || {}));
+    dispatch(toggleModalVisibility(true));
   };
   const handleCloseModal = (): void => {
     dispatch(setServicePointData(initialServicePointDataValues));
@@ -227,8 +192,18 @@ const ServicePointSection: React.FC = () => {
     dispatch(toggleServicePointDataUpdated(false));
     dispatch(toggleLoadingVisibility(false));
   };
-  const prepareTableData = () => {
-    const newTableData = servicePointsData.map((data: ServicePoint) => {
+  const onColumnToggle = (event: MultiSelectChangeEvent): void => {
+    const selectedColumns = event.target.value;
+    const orderedSelectedColumns = servicePointTableHeadData
+      .filter((col) => selectedColumns
+        .some((sCol: { field: string; header: string; isRemovable: boolean }) => {
+          return sCol.field === col.field
+        }) || col.field === 'actions');
+
+    setVisibleColumns(orderedSelectedColumns);
+  };
+  const prepareTableData = (): IServicePointData[] => {
+    const newTableData = servicePointsData.map((data: IServicePoint) => {
       return {
         ...data,
         cityId: CITIES[data.cityId?.toString() as keyof typeof CITIES],
@@ -238,6 +213,19 @@ const ServicePointSection: React.FC = () => {
 
     return newTableData;
   };
+  const saveAsExcelFile = (buffer: ArrayBuffer, fileName: string): void => {
+    import('file-saver').then((module) => {
+      if (module && module.default) {
+        const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+        const EXCEL_EXTENSION = '.xlsx';
+        const data = new Blob([buffer], {
+          type: EXCEL_TYPE
+        });
+
+        module.default.saveAs(data, fileName + '_export_' + new Date().getTime() + EXCEL_EXTENSION);
+      }
+    });
+  };
 
   useEffect(() => {
     getAllServicePoints();
@@ -245,7 +233,7 @@ const ServicePointSection: React.FC = () => {
 
   useEffect(() => {
     getAllServicePoints();
-  }, [currentPage, isServicePointDataUpdated, searchProperties]);
+  }, [isServicePointDataUpdated, searchProperties]);
 
   return (
     servicePointsCount > 1 &&
@@ -260,8 +248,6 @@ const ServicePointSection: React.FC = () => {
           globalFilterFields={['name', 'cityId', 'districtId', 'address', 'phoneNumber']}
           paginator={true}
           paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-          paginatorLeft={paginatorLeft}
-          paginatorRight={paginatorRight}
           removableSort
           reorderableColumns
           resizableColumns

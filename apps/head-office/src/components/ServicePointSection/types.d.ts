@@ -85,3 +85,28 @@ export interface IResponseDataProps {
     message: string;
     success: boolean;
 };
+export interface IServicePoint {
+    id: number;
+    name: string;
+    cityId: number;
+    districtId: number;
+    address: string;
+    phoneNumber: string;
+};
+
+export interface IServicePointData {
+    address: string;
+    cityId: string;
+    companyId: number;
+    companyName: string;
+    districtId: string;
+    isActive: boolean;
+    isDeleted: boolean;
+    latitude: number;
+    longitude: number;
+    id: number;
+    name: string;
+    phone: string;
+    resellerCompanyId: number;
+    resellerName: string;
+};
