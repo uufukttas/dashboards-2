@@ -9,7 +9,7 @@ import LocationInfo from '../Accordions/LocationInfo';
 import ServicePointPermissions from '../Accordions/ServicePointPermissions';
 import WorkingHoursContent from '../Accordions/WorkingHoursContent';
 import { initialChargeUnitDataValue } from '../constants';
-import Accordion from '../../Accordion/Accordion';
+// import Accordion from '../../Accordion/Accordion';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import {
@@ -23,6 +23,8 @@ import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import { IAccordionConfigProps, IServicePointDetailsContentProps } from '../types';
 
+import { Accordion, AccordionTab } from 'primereact/accordion';
+
 const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
     ({ activeTabIndex, slug }: IServicePointDetailsContentProps) => {
         const dispatch = useDispatch();
@@ -31,7 +33,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
         const addChargeUnitButton: React.ReactNode = (
             <Button
                 buttonText={` + Sarj Ünitesi`}
-                className={`charge-unit-add-button bg-secondary text-white font-bold rounded-md px-4 py-2 mx-2`}
+                className={`button bg-secondary rounded-md mx-4 font-bold text-white p-4`}
                 id={`add-charge-unit-button`}
                 type="button"
                 onClick={() => {
@@ -44,7 +46,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
         const addEnergyPriceButton: React.ReactNode = (
             <Button
                 buttonText={`+ Enerji Fiyati Ekle`}
-                className="button bg-secondary rounded-md px-4 py-2 mx-4 font-bold text-white"
+                className="button bg-secondary rounded-md mx-4 font-bold text-white p-4"
                 id={`energy-prices-add-button`}
                 type={'button'}
                 onClick={() => {
@@ -56,7 +58,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
         const addImageButton: React.ReactNode = (
             <Button
                 buttonText={`+ Istasyon Resmi Ekle`}
-                className="button bg-secondary rounded-md px-4 py-2 mx-4 font-bold text-white"
+                className="button bg-secondary rounded-md mx-4 font-bold text-white p-4"
                 id={`service-point-image-add-button`}
                 type={'button'}
                 onClick={() => {
@@ -68,7 +70,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
         const addServicePointPermissionButton: React.ReactNode = (
             <Button
                 buttonText={`+ Istasyon Yetkisi Ekle`}
-                className="button bg-secondary rounded-md px-4 py-2 mx-4 font-bold text-white"
+                className="button bg-secondary rounded-md mx-4 font-bold text-white p-4"
                 id={`service-point-permission-add-button`}
                 type={'button'}
                 onClick={() => {
@@ -80,7 +82,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
         const addComissionButton: React.ReactNode = (
             <Button
                 buttonText={`+ Komisyon Ekle`}
-                className="button bg-secondary rounded-md px-4 py-2 mx-4 font-bold text-white"
+                className="button bg-secondary rounded-md mx-4 font-bold text-white p-4"
                 id={`comission-add-button`}
                 type={'button'}
                 onClick={() => {
@@ -127,21 +129,35 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
         return (
             <div className={`${BRAND_PREFIX}-service-point-details-accordion-container`}>
                 {
-                    accordionConfig.map((accordion, index) => (
-                        index === activeTabIndex &&
-                        <Accordion
-                            key={index}
-                            accordionClassName={`${BRAND_PREFIX}-service-point-details-accordion my-4 bg-[#777777] border-gray-300`}
-                            accordionIcon={accordion.accordionIcon}
-                            accordionTitle={accordion.accordionTitle}
-                            actionButton={accordion.actionButton}
-                            titleClassName={accordion.titleClassName}
-                        >
-                            {accordion.accordionContent}
-                        </Accordion>
-                    ))
+                    <Accordion className={`${BRAND_PREFIX}-service-point-details-accordion my-4 bg-primary border-gray-300 rounded-md`}> {
+                        accordionConfig.map((accordion, index) => (
+                            index === activeTabIndex &&
+                            <AccordionTab
+                                className={`${BRAND_PREFIX}-service-point-details-accordion-tab-container bg-primary border-gray-300 rounded-md text-white w-full`}
+                                header={() => {
+                                    return (
+                                        <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-container w-full flex justify-between items-center`}>
+                                            <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-info-container`}>
+                                                {accordion.accordionTitle}
+                                            </div>
+                                            <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-action-container`}>
+                                                {accordion.actionButton}
+                                            </div>
+                                        </div>
+                                    )
+                                }}
+                                headerClassName={`${BRAND_PREFIX}-service-point-details-accordion-header bg-primary border-gray-300 ${accordion.titleClassName} p-4 border rounded-md flex justify-between items-center`}
+                                key={index}
+                            >
+                                <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-info-container`}>
+                                    {accordion.accordionContent}
+                                </div>
+                            </AccordionTab>
+                        ))
+                    }
+                    </Accordion>
                 }
-            </div>
+            </div >
         );
     };
 

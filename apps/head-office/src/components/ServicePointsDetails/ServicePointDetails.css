@@ -68,3 +68,12 @@ td.selected {
   background-color: lightgray;
   cursor: not-allowed;
 }
+
+#pr_id_1_header_1,
+#pr_id_1_header_2,
+#pr_id_1_header_3,
+#pr_id_1_header_4,
+#pr_id_1_header_5,
+#pr_id_1_header_6 {
+  width: 100%;
+}
