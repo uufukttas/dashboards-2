@@ -5,7 +5,7 @@ const getAllTariffsRequest = async (name: string, currentPage: number) => {
         const response = await axios
             .post(
                 `${process.env.NEXT_PUBLIC_BASE_URL}/Tariff/GetTariffs`,
-                { pageNumber: currentPage, userCount: 10, name: name },
+                { pageNumber: currentPage, userCount: 10000, name: name },
                 {
                     headers: {
                         'Content-Type': 'application/json',
