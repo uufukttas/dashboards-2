@@ -1,7 +1,7 @@
 .sh-tabs-container {
   position: relative;
   height: 35px;
-  background-color: #656567;
+  background-color: var(--secondary-color);
   border-radius: 8px;
 }
 .sh-tabs-container button {
@@ -16,16 +16,16 @@
 }
 .sh-tabs-container button:not(:first-child):not(:last-child) {
   border-width: 0 2px 0 2px;
-  border-color: #54565a;
+  border-color: var(--secondary-color);
   border-style: solid;
 }
 .sh-tabs-container button:first-child {
   border-width: 0 2px 0 0;
-  border-color: #54565a;
+  border-color: var(--secondary-color);
 }
 .sh-tabs-container button:last-child {
   border-width: 0 0 0 2px;
-  border-color: #54565a;
+  border-color: var(--secondary-color);
 }
 .sh-tabs-container button.active {
   height: 100%;
@@ -34,7 +34,7 @@
   transition: all 0.5s ease 0s;
   border-radius: 5px;
   background-color: var(--primary-color);
-  color: black;
+  color: var(--primary-font-color);
   border: none;
 }
 @media (min-width: 768px) {
