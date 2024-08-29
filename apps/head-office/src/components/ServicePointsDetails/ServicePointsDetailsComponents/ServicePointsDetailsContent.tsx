@@ -129,33 +129,42 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
         return (
             <div className={`${BRAND_PREFIX}-service-point-details-accordion-container`}>
                 {
-                    <Accordion className={`${BRAND_PREFIX}-service-point-details-accordion my-4 bg-primary border-gray-300 rounded-md`}> {
-                        accordionConfig.map((accordion, index) => (
-                            index === activeTabIndex &&
-                            <AccordionTab
-                                className={`${BRAND_PREFIX}-service-point-details-accordion-tab-container bg-primary border-gray-300 rounded-md text-white w-full`}
-                                header={() => {
-                                    return (
-                                        <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-container w-full flex justify-between items-center`}>
-                                            <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-info-container`}>
-                                                {accordion.accordionTitle}
-                                            </div>
-                                            <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-action-container`}>
-                                                {accordion.actionButton}
-                                            </div>
-                                        </div>
-                                    )
-                                }}
-                                headerClassName={`${BRAND_PREFIX}-service-point-details-accordion-header bg-primary border-gray-300 ${accordion.titleClassName} p-4 border rounded-md flex justify-between items-center`}
-                                key={index}
-                            >
-                                <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-info-container`}>
-                                    {accordion.accordionContent}
-                                </div>
-                            </AccordionTab>
-                        ))
-                    }
-                    </Accordion>
+                    accordionConfig.map((accordion, index) => (
+                        <Accordion
+                            activeIndex={activeTabIndex + 1}
+                            className={`${BRAND_PREFIX}-service-point-details-accordion my-4 bg-primary border-gray-300 rounded-md`}
+                            key={index}
+                        >
+                            {
+                                index === activeTabIndex && (
+                                    <AccordionTab
+                                        className={`${BRAND_PREFIX}-service-point-details-accordion-tab-container bg-primary border-gray-300 rounded-md text-white w-full`}
+                                        header={() => {
+                                            return (
+                                                <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-container w-full flex justify-between items-center`}>
+                                                    <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-info-container`}>
+                                                        {accordion.accordionTitle}
+                                                    </div>
+                                                    <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-action-container`}>
+                                                        {accordion.actionButton}
+                                                    </div>
+                                                </div>
+                                            )
+                                        }}
+                                        headerClassName={`${BRAND_PREFIX}-service-point-details-accordion-header bg-primary border-gray-300 ${accordion.titleClassName} p-4 border rounded-md flex justify-between items-center`}
+                                    >
+                                        {
+                                            index === activeTabIndex && (
+                                                <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-info-container`}>
+                                                    {accordion.accordionContent}
+                                                </div>
+                                            )
+                                        }
+                                    </AccordionTab>
+                                )
+                            }
+                        </Accordion>
+                    ))
                 }
             </div >
         );
