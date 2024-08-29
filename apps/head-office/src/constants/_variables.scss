@@ -13,6 +13,7 @@ $default-primary-color: #FCD800; // Default Primary Color
 $secondary-color: #D3D3D3; // Default Secondary Color
 
 $primary-color: $default-primary-color;
+$primary-font-color: #FFFFFF;
 $primary-color-hover: lighten($primary-color, 10%);
 $primary-button-color: $primary-color;
 $primary-button-color-hover: $primary-color-hover;

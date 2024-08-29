@@ -70,7 +70,9 @@ const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageP
         className={`${montserrat.className} ${pagePrefix}-wrapper w-full flex`}
         style={{
           '--primary-color': `${colors[0].value}`,
-          '--secondary-color': `${colors[1].value}`
+          '--secondary-color': `${colors[1].value}`,
+          // '--primary-font-color': `${colors[2].value}`
+          '--primary-font-color': '#FFFFFF'
         } as React.CSSProperties}
       >
         <Sidebar />
