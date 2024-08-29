@@ -10,7 +10,7 @@ const Comissions: React.FC<IComissionDetailProps> = ({ slug }: IComissionDetailP
     const comissions = useSelector((state: RootState) => state.comissionData);
 
     return (
-            <div className={`${sectionPrefix} items-center py-4 w-full`}>
+            <div className={`${sectionPrefix} items-center py-4 w-full text-black bg-white p-4 rounded-b-md `}>
                 <div className={`${sectionPrefix}-header-container w-full`}>
                     <div className={`${sectionPrefix}-header w-full flex text-center`}>
                         <div className={`${sectionPrefix}-reseller-container flex justify-between md:items-center flex-col md:flex-row w-full`}>

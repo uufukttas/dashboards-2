@@ -14,7 +14,7 @@ const EnergyPricesContent: React.FC = () => {
   return (
     energyPriceDetails && energyPriceDetails.map((energyPriceDetail: IEnergyPriceDetailsProps, idx: number) => {
       return (
-        <div key={idx} className='flex flex-col items-end py-4 text-white'>
+        <div key={idx} className='flex flex-col items-end py-4 text-white bg-white p-4 rounded-b-md'>
           <div className='flex w-full'>
             <div className={`${sectionPrefix}-content py-4 text-text w-full`}>
               <div className={`${sectionPrefix}-info-container flex justify-between`}>

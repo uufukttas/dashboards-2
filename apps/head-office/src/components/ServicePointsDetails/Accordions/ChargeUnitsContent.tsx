@@ -413,7 +413,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
     }, [chargeUnits, isConnectorUpdated]);
 
     return (
-        <div className={`${sectionPrefix}-content py-8`}>
+        <div className={`${sectionPrefix}-content py-8 text-black bg-white p-4 rounded-b-md`}>
             <div className={`${sectionPrefix}-list`}>
                 {
                     chargeUnits.map((chargeUnit, index) => {
