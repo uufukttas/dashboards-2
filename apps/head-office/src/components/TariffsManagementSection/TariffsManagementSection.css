@@ -1,0 +1,10 @@
+.p-datatable .p-column-filter {
+  border-width: 0;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.p-tooltip-text {
+  padding: 8px;
+  font-size: 12px;
+}

@@ -5,17 +5,19 @@ import { Dialog } from '@projects/dialog';
 import { tariffsTableHeadData } from './constants';
 import TariffsModalComponent from './TariffsManagementModalComponents/TariffsModalComponent';
 import Modal from '../Modal/Modal';
-import Pagination from '../ServicePointSection/PaginationComponents/Pagination';
-import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { deleteTariffRequest, getAllTariffsRequest } from '../../../app/api/tariffsManagement';
-import { hideDialog } from '../../../app/redux/features/dialogInformation';
+import { hideDialog, showDialog } from '../../../app/redux/features/dialogInformation';
 import { setTariffs } from '../../../app/redux/features/tariffs';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { toggleTariffListUpdated } from '../../../app/redux/features/isTariffListUpdated';
 import { AppDispatch, RootState } from '../../../app/redux/store';
-import { Button } from '@projects/button';
-import { FaPlus } from 'react-icons/fa6';
+import { FaTrashCan } from 'react-icons/fa6';
+import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
+import { Button } from 'primereact/button';
+import { Tooltip } from 'primereact/tooltip';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
 const TarifssManagementSection: React.FC = () => {
     const tarifssManagementSectionPrefix: string = `${BRAND_PREFIX}-tariffs-management`;
@@ -26,35 +28,46 @@ const TarifssManagementSection: React.FC = () => {
     const isTariffListUpdated = useSelector((state: RootState) => state.isTariffListUpdated.isTariffListUpdated);
     const searchProperties = useSelector((state: RootState) => state.searchedText);
     const tariffListData = useSelector((state: RootState) => state.tariffs);
-    const [currentPage, setCurrentPage] = useState(1);
+    const [visibleColumns, setVisibleColumns] = useState(tariffsTableHeadData);
 
-    const addTariffButton = (): React.ReactNode => {
+    const dataTableHeader = (): JSX.Element => {
         return (
-            <Button
-                className={`${BRAND_PREFIX}-table-header-add-button w-full bg-primary rounded-md text-base font-semibold hover:bg-primary-lighter px-2 py-2`}
-                id={`${BRAND_PREFIX}-table-header-add-button`}
-                type="button"
-                onClick={() => toggleModalVisibility(true)}
-            >
-                <span className='flex justify-center items-center'>
-                    {
-                        <>
-                            <FaPlus className="mr-2" />
-                            Tarife Ekle
-                        </>
-                    }
-                </span>
-            </Button>
-        );
+            <>
+                <div className={`${BRAND_PREFIX}-data-table-header-container w-full flex justify-between items-center`}>
+                    <div className={`${BRAND_PREFIX}-data-table-select-container`}>
+                        <MultiSelect value={visibleColumns} options={tariffsTableHeadData.filter((item) => item.isRemovable)} optionLabel="header" onChange={onColumnToggle} className="w-full sm:w-20rem" display="chip" />
+                    </div>
+                    <div className={`${BRAND_PREFIX}-data-table-action-button-container flex justify-center items-center`}>
+                        <div className={`${BRAND_PREFIX}-data-table-add-button-container mx-4`}>
+                            <Button
+                                className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary rounded text-base font-semibold hover:bg-primary-lighter p-2`}
+                                icon="pi pi-plus"
+                                id={`${BRAND_PREFIX}-table-header-add-button`}
+                                rounded
+                                type="button"
+                                onClick={() => dispatch(toggleModalVisibility(true))}
+                            />
+                            <Tooltip
+                                className={`${BRAND_PREFIX}-data-table-add-button-tooltip text-base`}
+                                content="Kullanici Ekle"
+                                position="bottom"
+                                target={`#${BRAND_PREFIX}-table-header-add-button`}
+                                style={{ fontSize: '12px', padding: '4px' }}
+                            />
+                        </div>
+                    </div>
+                </div>
+            </>
+        )
     };
     const getAllTariffs = async (tariffName: string) => {
-        const response = await getAllTariffsRequest(tariffName, currentPage);
+        const response = await getAllTariffsRequest(tariffName, 1);
 
         if (response) {
             dispatch(
                 setTariffs({
                     tariffs: response.data,
-                    count: response.count,
+                    count: 1000,
                 })
             );
         }
@@ -65,23 +78,100 @@ const TarifssManagementSection: React.FC = () => {
     const handleCloseModal = (): void => {
         dispatch(toggleModalVisibility(false));
     };
+    const onColumnToggle = (event: MultiSelectChangeEvent): void => {
+        const selectedColumns = event.target.value;
+        const orderedSelectedColumns = tariffsTableHeadData
+            .filter((col) => selectedColumns
+                .some((sCol: { field: string; header: string; isRemovable: boolean }) => {
+                    return sCol.field === col.field
+                }) || col.field === 'actions');
+
+        setVisibleColumns(orderedSelectedColumns);
+    };
+    const prepareTableData = () => {
+        const data = tariffListData.tariffs.map((tariff) => {
+            return {
+                ...tariff,
+                kwRange: `${tariff.minKW} - ${tariff.maxKW}`,
+            }
+        });
+
+        return data;
+    };
 
     useEffect(() => {
         getAllTariffs(searchProperties.searchedText);
-    }, [currentPage, isTariffListUpdated, searchProperties]);
+    }, [isTariffListUpdated, searchProperties]);
 
     return (
         <div className={`${BRAND_PREFIX}-tariffs-management-container flex justify-between items-center flex-col`}>
             <div className={`${tarifssManagementSectionPrefix}-listing-container items-center w-full`}>
-                <Table
-                    attributeName="tariff-list"
-                    hasFilterData={false}
-                    filteredDropdownItems={[]}
-                    tableData={tariffListData.tariffs}
-                    tableDataCount={tariffListData.count}
-                    tableHeader={addTariffButton()}
-                    tableHeadData={tariffsTableHeadData}
-                />
+                <DataTable
+                    className="w-full shadow"
+                    currentPageReportTemplate="{first} to {last} of {totalRecords}"
+                    filterDisplay="row"
+                    header={dataTableHeader}
+                    paginator={true}
+                    paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
+                    removableSort
+                    reorderableColumns
+                    resizableColumns
+                    rows={10}
+                    rowsPerPageOptions={[10, 20, 50]}
+                    showGridlines={true}
+                    sortMode="multiple"
+                    stripedRows={true}
+                    value={prepareTableData()}
+                >
+                    {
+                        visibleColumns.map((headerProps, index) => {
+                            if (headerProps.field !== "actions") {
+                                return (
+                                    <Column
+                                        className='border-none'
+                                        field={headerProps.field}
+                                        filter
+                                        filterMenuClassName='border-none shadow-lg'
+                                        filterPlaceholder={`${headerProps.header}...`}
+                                        header={headerProps.header}
+                                        headerClassName='border-0'
+                                        key={index}
+                                        sortable={true}
+                                    />
+                                );
+                            } else {
+                                return (
+                                    <Column
+                                        body={(rowData) => {
+                                            return (
+                                                <div className={`${BRAND_PREFIX}-data-table-actions-button-container flex justify-start items-center`}>
+                                                    <a
+                                                        className="font-medium text-red-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
+                                                        data-user-management-id={rowData['id']}
+                                                        onClick={() => {
+                                                            dispatch(showDialog({
+                                                                actionType: 'delete',
+                                                                data: rowData['id']
+                                                            }))
+                                                        }}
+                                                    >
+                                                        <FaTrashCan />
+                                                    </a>
+                                                </div>
+                                            )
+                                        }}
+                                        field={headerProps.field}
+                                        frozen
+                                        header={headerProps.header}
+                                        headerClassName={`flex justify-start items-center`}
+                                        key={index}
+                                    />
+                                );
+                            }
+                        })
+                    }
+
+                </DataTable>
             </div>
             {
                 isModalVisible && (
@@ -113,15 +203,6 @@ const TarifssManagementSection: React.FC = () => {
                             dispatch(hideDialog());
                             dispatch(toggleTariffListUpdated(true));
                         }}
-                    />
-                )
-            }
-            {
-                tariffListData.count > 10 && (
-                    <Pagination
-                        currentPage={currentPage}
-                        totalCounts={tariffListData.count}
-                        setCurrentPage={setCurrentPage}
                     />
                 )
             }
