@@ -18,6 +18,8 @@ import { Button } from 'primereact/button';
 import { Tooltip } from 'primereact/tooltip';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { ITariffDataProps } from './types';
+import './TariffsManagementSection.css';
 
 const TarifssManagementSection: React.FC = () => {
     const tarifssManagementSectionPrefix: string = `${BRAND_PREFIX}-tariffs-management`;
@@ -40,7 +42,7 @@ const TarifssManagementSection: React.FC = () => {
                     <div className={`${BRAND_PREFIX}-data-table-action-button-container flex justify-center items-center`}>
                         <div className={`${BRAND_PREFIX}-data-table-add-button-container mx-4`}>
                             <Button
-                                className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary rounded text-base font-semibold hover:bg-primary-lighter p-2`}
+                                className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
                                 icon="pi pi-plus"
                                 id={`${BRAND_PREFIX}-table-header-add-button`}
                                 rounded
@@ -49,7 +51,7 @@ const TarifssManagementSection: React.FC = () => {
                             />
                             <Tooltip
                                 className={`${BRAND_PREFIX}-data-table-add-button-tooltip text-base`}
-                                content="Kullanici Ekle"
+                                content="Tarife Ekle"
                                 position="bottom"
                                 target={`#${BRAND_PREFIX}-table-header-add-button`}
                                 style={{ fontSize: '12px', padding: '4px' }}
@@ -89,7 +91,7 @@ const TarifssManagementSection: React.FC = () => {
         setVisibleColumns(orderedSelectedColumns);
     };
     const prepareTableData = () => {
-        const data = tariffListData.tariffs.map((tariff) => {
+        const data = tariffListData.tariffs.map((tariff: ITariffDataProps) => {
             return {
                 ...tariff,
                 kwRange: `${tariff.minKW} - ${tariff.maxKW}`,
@@ -177,7 +179,7 @@ const TarifssManagementSection: React.FC = () => {
                 isModalVisible && (
                     <Modal
                         className={`${tarifssManagementSectionPrefix}-modal-container`}
-                        modalHeaderTitle={`Tarife ${tariffListData.id > 0 ? 'Güncelle' : 'Ekle'}`}
+                        modalHeaderTitle={`Tarife Ekle`}
                         modalId={`${tarifssManagementSectionPrefix}-modal`}
                         onClose={handleCloseModal}
                     >

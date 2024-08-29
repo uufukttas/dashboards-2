@@ -26,6 +26,7 @@ import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { IUserDataProps } from './types';
+import './UserManagementSection.css';
 
 const UserManagementSection: React.FC = () => {
     const userManagementPrefix: string = `${BRAND_PREFIX}-user-management`;
@@ -77,7 +78,7 @@ const UserManagementSection: React.FC = () => {
                     <div className={`${BRAND_PREFIX}-data-table-action-button-container flex justify-center items-center`}>
                         <div className={`${BRAND_PREFIX}-data-table-add-button-container mx-4`}>
                             <Button
-                                className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary rounded text-base font-semibold hover:bg-primary-lighter p-2`}
+                                className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
                                 icon="pi pi-plus"
                                 id={`${BRAND_PREFIX}-table-header-add-button`}
                                 rounded

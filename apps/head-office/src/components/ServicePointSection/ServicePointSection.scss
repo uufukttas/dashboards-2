@@ -1,10 +1,12 @@
-.sh-table-container {
+@import '../../constants/variables';
+
+.#{$brand-prefix}-table-container {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
 @media screen and (max-width: 480px) {
-  .sh-service-points-container {
+  .#{$brand-prefix}-service-points-container {
     min-width: 300px;
   }
 
@@ -14,7 +16,7 @@
 }
 
 @media screen and (min-width: 480px) and (max-width: 768px) {
-  .sh-service-points-container {
+  .#{$brand-prefix}-service-points-container {
     min-width: 100%;
   }
 
@@ -24,7 +26,7 @@
 }
 
 @media screen and (min-width: 768px) {
-  .sh-service-points-container {
+  .#{$brand-prefix}-service-points-container {
     min-width: 100%;
   }
 }
@@ -38,4 +40,9 @@
 .p-tooltip-text {
   padding: 8px;
   font-size: 12px;
+}
+
+.p-multiselect-token {
+  background-color: #{$primary-color};
+  color: #{$primary-font-color};
 }

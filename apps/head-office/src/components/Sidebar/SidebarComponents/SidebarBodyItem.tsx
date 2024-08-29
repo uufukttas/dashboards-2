@@ -45,7 +45,7 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({
                 } focus:bg-secondary-lighter focus:text-white`}
         >
             <div
-                className={`${sidebarPrefix}-item-container w-full flex p-4 justify-between hover:bg-primary hover:text-white`}
+                className={`${sidebarPrefix}-item-container w-full flex p-4 justify-between hover:bg-primary hover:text-primary-font-color`}
                 onClick={() => setIsOpenSubItems(!isOpenSubItems)}
             >
                 <div className="flex items-center justify-center">

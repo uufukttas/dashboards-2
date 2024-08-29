@@ -1,3 +1,5 @@
+@import '../../constants/variables';
+
 .p-datatable .p-column-filter {
   border-width: 0;
   font-size: 12px;
@@ -7,4 +9,9 @@
 .p-tooltip-text {
   padding: 8px;
   font-size: 12px;
+}
+
+.p-multiselect-token {
+  background-color: #{$primary-color};
+  color: #{$primary-font-color};
 }

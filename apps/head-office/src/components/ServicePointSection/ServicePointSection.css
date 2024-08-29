@@ -34,3 +34,8 @@
   padding: 8px;
   font-size: 12px;
 }
+
+.p-multiselect-token {
+  background-color: #FCD800;
+  color: #FFFFFF;
+}
