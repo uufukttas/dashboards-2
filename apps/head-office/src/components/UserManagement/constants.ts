@@ -37,7 +37,33 @@ const userManagementTableFilteredDropdownItems = [{
     stationFeatureType: 0,
     stationFeatureValue: 0,
 }];
-const userManagementTableHeadData = ['Isim/Soyisim', 'Kullanici Adi', 'Telefon', 'Rol', 'Son Giris', 'Aksiyonlar'];
+const userManagementTableHeadData = [
+    {
+        field: 'name',
+        header: 'Isim/Soyisim',
+        isRemovable: true,
+    },
+    {
+        field: 'userName',
+        header: 'Kullanici Adi',
+        isRemovable: true,
+    },
+    {
+        field: 'roleNames',
+        header: 'Rol',
+        isRemovable: true,
+    },
+    {
+        field: 'lastLoginDate',
+        header: 'Son Giris',
+        isRemovable: true,
+    },
+    {
+        field: 'actions',
+        header: 'Aksiyonlar',
+        isRemovable: false,
+    }
+];
 const initialUserManagementDataValues = {
     roles: [],
     userId: 0,
