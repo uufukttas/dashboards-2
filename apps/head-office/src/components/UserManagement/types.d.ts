@@ -10,6 +10,8 @@ export interface IRolesStyleProps {
     [key: string]: ITableDataAttributeProps
 };
 export interface IUserDataProps {
+    name?: string;
+    surName?: string;
     userId: number;
     userName: string;
     roleNames: string;

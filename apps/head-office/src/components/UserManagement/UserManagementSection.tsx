@@ -5,14 +5,10 @@ import { Alert } from '@projects/alert';
 import { Dialog } from '@projects/dialog';
 import {
     initialUserManagementDataValues,
-    roleStyles,
-    userManagementTableFilteredDropdownItems,
     userManagementTableHeadData
 } from './constants';
 import UserManagementModalPage from './UserManagementModal/UserManagementModalPage';
 import Modal from '../Modal/Modal';
-import Pagination from '../ServicePointSection/PaginationComponents/Pagination';
-import Table from '../Table/Table';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { deleteUserRequest, getUserRequest, getUsersRequest } from '../../../app/api/userManagements';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
@@ -29,6 +25,7 @@ import { Tooltip } from 'primereact/tooltip';
 import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { IUserDataProps } from './types';
 
 const UserManagementSection: React.FC = () => {
     const userManagementPrefix: string = `${BRAND_PREFIX}-user-management`;
@@ -38,8 +35,7 @@ const UserManagementSection: React.FC = () => {
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
     const isUserListUpdated = useSelector((state: RootState) => state.isUserListUpdated.isUserListUpdated);
     const searchProperties = useSelector((state: RootState) => state.searchedText);
-    const { count, users } = useSelector((state: RootState) => state.users);
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    const { users } = useSelector((state: RootState) => state.users);
     const [visibleColumns, setVisibleColumns] = useState(userManagementTableHeadData);
 
     const createGetUsersRequestPayload = (): IPayloadProps => {
@@ -66,7 +62,7 @@ const UserManagementSection: React.FC = () => {
             }
         });
 
-        payload.pageNumber = currentPage;
+        payload.pageNumber = 1;
         payload.userCount = 1000;
 
         return payload;
@@ -144,12 +140,12 @@ const UserManagementSection: React.FC = () => {
         setVisibleColumns(orderedSelectedColumns);
     };
     const prepareTableData = () => {
-        const newTableData = users.map((data) => {
+        const newTableData = users.map((data: IUserDataProps) => {
 
             return {
                 ...data,
                 name: data.name + " " + data.surName,
-                roleNames: JSON.parse(data.roleNames).map((role) => role).join(', '),
+                roleNames: JSON.parse(data.roleNames).map((role: string) => role).join(', '),
                 lastLoginDate: data.lastLoginDate ? data.lastLoginDate : 'Henüz Giriş Yapmamış'
             };
         });
@@ -166,7 +162,7 @@ const UserManagementSection: React.FC = () => {
 
     useEffect(() => {
         getUsers();
-    }, [currentPage, searchProperties, isUserListUpdated]);
+    }, [searchProperties, isUserListUpdated]);
 
     return (
         <div className={`${userManagementPrefix}-table-container flex justify-between items-center flex-col`}>
