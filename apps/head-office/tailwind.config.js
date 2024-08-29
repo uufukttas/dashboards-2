@@ -20,6 +20,7 @@ module.exports = {
     },
     colors: {
       primary: 'var(--primary-color)',
+      "primary-font-color": 'var(--primary-font-color)',
       secondary: 'var(--secondary-color)',
       'gray-light': 'rgb(245, 248, 250)',
       heading: '#1F2937',
