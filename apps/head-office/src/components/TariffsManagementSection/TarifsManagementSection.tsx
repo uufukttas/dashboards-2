@@ -94,7 +94,10 @@ const TarifssManagementSection: React.FC = () => {
         const data = tariffListData.tariffs.map((tariff: ITariffDataProps) => {
             return {
                 ...tariff,
+                createDate: new Date(tariff.createDate).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
                 kwRange: `${tariff.minKW} - ${tariff.maxKW}`,
+                validityBeginDate: new Date(tariff.validityBeginDate).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                validityEndDate: new Date(tariff.validityEndDate).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
             }
         });
 
