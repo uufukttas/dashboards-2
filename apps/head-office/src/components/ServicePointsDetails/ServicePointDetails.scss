@@ -1,5 +1,3 @@
-@import '../../constants/variables.scss';
-
 .isPassive input:focus,
 .isPassive input:active {
   background-color: #9b1c1c;
@@ -49,7 +47,8 @@ tr td:nth-child(1) {
 }
 
 .working-hours-time-table th {
-  background-color: #f2f2f2;}
+  background-color: #f2f2f2;
+}
 
 .working-hours-hour-label {
   font-weight: bold;
@@ -69,7 +68,11 @@ td.selected {
   cursor: not-allowed;
 }
 
-.p-accordion-header-link {
+#pr_id_1_header_1,
+#pr_id_2_header_1,
+#pr_id_3_header_1,
+#pr_id_4_header_1,
+#pr_id_5_header_1,
+#pr_id_6_header_1 {
   width: 100%;
-  background-color: var(--primary-color);
 }

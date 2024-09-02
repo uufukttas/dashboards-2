@@ -224,8 +224,8 @@ const WorkingHoursContent: React.FC<IWorkingHoursContentProps> = ({ slug }) => {
     }, [schedule, dataLoaded]);
 
     return (
-        <div className='bg-white'>
-            <h1 className='text-center w-full'>Haftalık Çalışma Saatleri Seçimi</h1>
+        <div>
+            <h1 className='text-center w-full m-4'>Haftalık Çalışma Saatleri Seçimi</h1>
             <p className='text-center w-full m-4'>Kapalı Çalışma saatlerini seçmek için tıklayıp sürükleyin.</p>
             <table className='working-hours-time-table'>
                 <thead>
