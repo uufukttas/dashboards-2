@@ -42,7 +42,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   });
   const [fourthPageFormData, setFourthPageFormData] = useState<IFormDataProps>({
     [`${formProperties.paymentMethods}`]: paymentMethods || [],
-    [`${formProperties.parking}`]: '0',
+    [`${formProperties.parking}`]: servicePointInformation.freePark || 0,
     [`${formProperties.opportunities}`]: opportunities || [],
   });
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
@@ -215,7 +215,6 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     })
       .catch(error => console.error('Error in Promise.all:', error));
   };
-
   const setStationFeatures = async (featuresData: IFeatureProps[]) => {
     const response = await addStationFeatureRequest(JSON.stringify(featuresData));
 

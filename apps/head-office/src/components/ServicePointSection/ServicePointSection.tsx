@@ -82,7 +82,7 @@ const ServicePointSection: React.FC = () => {
     });
 
     payload.pageNumber = 1;
-    payload.userCount = 20;
+    payload.userCount = 100;
 
     return payload;
   };
