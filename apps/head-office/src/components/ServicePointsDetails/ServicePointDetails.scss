@@ -1,3 +1,5 @@
+@import '../../constants/variables.scss';
+
 .isPassive input:focus,
 .isPassive input:active {
   background-color: #9b1c1c;
@@ -67,11 +69,7 @@ td.selected {
   cursor: not-allowed;
 }
 
-#pr_id_1_header_1,
-#pr_id_2_header_1,
-#pr_id_3_header_1,
-#pr_id_4_header_1,
-#pr_id_5_header_1,
-#pr_id_6_header_1 {
+.p-accordion-header-link {
   width: 100%;
+  background-color: var(--primary-color);
 }
