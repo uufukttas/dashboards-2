@@ -81,7 +81,7 @@ const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageP
           <Section>
             {children}
           </Section>
-          <Footer className={`h-[80px] flex items-center w-full bg-white`} />
+          <Footer className={`flex items-center w-full bg-white`} />
         </div>
       </div>
     )

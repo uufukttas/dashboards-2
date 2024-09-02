@@ -36,7 +36,9 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
                 className={`button bg-secondary rounded-md mx-4 font-bold text-white p-4`}
                 id={`add-charge-unit-button`}
                 type="button"
-                onClick={() => {
+                onClick={(event) => {
+                    event.stopPropagation();
+                    event.preventDefault();
                     dispatch(toggleModalVisibility(true));
                     dispatch(setChargeUnitData(initialChargeUnitDataValue));
                     dispatch(setAddChargeUnit(true));
@@ -49,7 +51,9 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
                 className="button bg-secondary rounded-md mx-4 font-bold text-white p-4"
                 id={`energy-prices-add-button`}
                 type={'button'}
-                onClick={() => {
+                onClick={(event) => {
+                    event.stopPropagation();
+                    event.preventDefault();
                     dispatch(setAddEnergyPrice(true));
                     dispatch(toggleModalVisibility(true));
                 }}
@@ -61,7 +65,9 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
                 className="button bg-secondary rounded-md mx-4 font-bold text-white p-4"
                 id={`service-point-image-add-button`}
                 type={'button'}
-                onClick={() => {
+                onClick={(event) => {
+                    event.stopPropagation();
+                    event.preventDefault();
                     dispatch(setAddServicePointImage(true));
                     dispatch(toggleModalVisibility(true));
                 }}
@@ -73,7 +79,9 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
                 className="button bg-secondary rounded-md mx-4 font-bold text-white p-4"
                 id={`service-point-permission-add-button`}
                 type={'button'}
-                onClick={() => {
+                onClick={(event) => {
+                    event.stopPropagation();
+                    event.preventDefault();
                     dispatch(setAddPermission(true));
                     dispatch(toggleModalVisibility(true));
                 }}
@@ -85,7 +93,9 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
                 className="button bg-secondary rounded-md mx-4 font-bold text-white p-4"
                 id={`comission-add-button`}
                 type={'button'}
-                onClick={() => {
+                onClick={(event) => {
+                    event.stopPropagation();
+                    event.preventDefault();
                     dispatch(setAddComission(true));
                     dispatch(toggleModalVisibility(true));
                 }}
@@ -131,14 +141,13 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
                 {
                     accordionConfig.map((accordion, index) => (
                         <Accordion
-                            activeIndex={activeTabIndex + 1}
+                            activeIndex={activeTabIndex}
                             className={`${BRAND_PREFIX}-service-point-details-accordion my-4 bg-primary border-gray-300 rounded-md`}
                             key={index}
                         >
                             {
                                 index === activeTabIndex && (
                                     <AccordionTab
-                                        className={`${BRAND_PREFIX}-service-point-details-accordion-tab-container bg-primary border-gray-300 rounded-md text-white w-full`}
                                         header={() => {
                                             return (
                                                 <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-container w-full flex justify-between items-center`}>
@@ -151,7 +160,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
                                                 </div>
                                             )
                                         }}
-                                        headerClassName={`${BRAND_PREFIX}-service-point-details-accordion-header bg-primary border-gray-300 ${accordion.titleClassName} p-4 border rounded-md flex justify-between items-center`}
+                                        headerClassName={`${BRAND_PREFIX}-service-point-details-accordion-header bg-primary border-gray-300 ${accordion.titleClassName} px-4 border rounded-md flex justify-between items-center`}
                                     >
                                         {
                                             index === activeTabIndex && (
