@@ -9,6 +9,7 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import { setSelectedLanguage } from '../../../app/redux/features/languages';
 import { RootState } from '../../../app/redux/store';
 import { IDropdownItemProps } from './types';
+import './Login.css';
 
 const Login: React.FC = () => {
     const loginPrefix: string = `${BRAND_PREFIX}-login`;
@@ -17,7 +18,7 @@ const Login: React.FC = () => {
 
     return (
         <div
-            className={`${loginPrefix}-side-container flex flex-col justify-between w-full xl:w-1/4 mx-8 py-4 h-screen`}
+            className={`${loginPrefix}-side-container flex flex-col justify-between w-full xl:w-1/4 px-8 py-4 h-screen`}
         >
             <div className={`${loginPrefix}-language-option-container flex justify-end`}>
                 <Dropdown
@@ -31,7 +32,7 @@ const Login: React.FC = () => {
             <div className={`${loginPrefix}-card-form-container`}>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
-                    containerClassName={`w-full p-8 `}
+                    containerClassName={`w-full p-8 bg-white`}
                 >
                     <>
                         <CardHeader />

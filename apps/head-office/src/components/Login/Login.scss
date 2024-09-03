@@ -1,22 +1,26 @@
-@import "../../constants/variables";
+@import '../../constants/variables';
+
+.#{$brand-prefix}-login-side-container {
+  background-image: linear-gradient(315deg, #FFFFFF, #{$primary-color});
+}
 
 .#{$brand-prefix}-background-container {
-    @if loginPageBackgroundImage {
-        background-image: url($loginPageBackgroundImage);
-    } @else {
-        background-color: $loginBackgroundColor;
-    }
+  @if loginPageBackgroundImage {
+    background-image: url($loginPageBackgroundImage);
+  } @else {
+    background-color: $loginBackgroundColor;
+  }
 }
 
 .#{$brand-prefix}-card-container {
-    @if $loginBackgroundImage != "" {
-      background-image: url($loginBackgroundImage);
-    } @else {
-      background-color: $loginBackgroundColor;
-    }
-    color: $fontColor;
+  @if $loginBackgroundImage != '' {
+    background-image: url($loginBackgroundImage);
+  } @else {
+    background-color: $loginBackgroundColor;
+  }
+  color: $fontColor;
 
-    label {
-        color: $fontColor;
-    }
+  label {
+    color: $fontColor;
+  }
 }

@@ -1,3 +1,7 @@
+.sh-login-side-container {
+  background-image: linear-gradient(315deg, #FFFFFF, #FCD800);
+}
+
 .sh-background-container {
   background-image: url("https://ho.sharz.net/images/theme/5000/background.jpg");
 }
