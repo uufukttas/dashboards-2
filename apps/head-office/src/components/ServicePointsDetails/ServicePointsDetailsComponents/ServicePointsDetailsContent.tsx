@@ -150,8 +150,8 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
                                     <AccordionTab
                                         header={() => {
                                             return (
-                                                <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-container w-full flex justify-between items-center`}>
-                                                    <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-info-container`}>
+                                                <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-container w-full flex justify-between items-center text-white`}>
+                                                    <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-info-container text-white`}>
                                                         {accordion.accordionTitle}
                                                     </div>
                                                     <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-action-container`}>
@@ -160,7 +160,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
                                                 </div>
                                             )
                                         }}
-                                        headerClassName={`${BRAND_PREFIX}-service-point-details-accordion-header bg-primary border-gray-300 ${accordion.titleClassName} px-4 border rounded-md flex justify-between items-center`}
+                                        headerClassName={`${BRAND_PREFIX}-service-point-details-accordion-header bg-primary border-gray-300 ${accordion.titleClassName} p-4 border rounded-md flex justify-between items-center`}
                                     >
                                         {
                                             index === activeTabIndex && (
