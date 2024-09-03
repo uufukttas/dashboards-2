@@ -70,7 +70,7 @@ export const stylesProps = {
     borderRadius: '6px',
     fontColor: '#000000',
     fontSize: '16px',
-    loginPageBackgroundImage: '../../background.jpg',
+    loginPageBackgroundImage: '../../background2.jpg',
 };
 export const userInfo = {
     logo: '../../logo.svg',
