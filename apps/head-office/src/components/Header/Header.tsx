@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { FaAlignJustify, FaUser } from 'react-icons/fa6';
+import { FaUser } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@projects/button';
+import { Button } from 'primereact/button';
 import { Dropdown } from '@projects/dropdown';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { getLanguageListRequest } from '../../../app/api/login/getLanguageListRequest';
@@ -40,12 +40,11 @@ const Header: React.FC<IHeaderProps> = ({ className, headerName }: IHeaderProps)
         <div className={`${headerPrefix}-sidebar-toggle-button-container flex items-center`}>
           <Button
             className={`${headerPrefix}-sidebar-toggle-button bg-background hover:bg-background mx-8 py-2 px-2`}
-            id={`${headerPrefix}-sidebar-toggle-button`}
-            type='button'
+            icon="pi pi-align-justify"
             onClick={() => dispatch(toggleSidebarExpanded(isSidebarExpanded))}
-          >
-            <FaAlignJustify />
-          </Button>
+            aria-controls={isSidebarExpanded ? 'sbar' : undefined}
+            aria-expanded={isSidebarExpanded ? true : false}
+          />
           <div className={`${headerPrefix}-header-name-container h-8 flex items-center justify-evenly`}>
             <h1 className={`${headerPrefix}-header-name text-xl font-semibold `}>{headerName}</h1>
           </div>
