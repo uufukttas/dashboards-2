@@ -102,7 +102,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
     }, [features]);
 
     return (
-        <div className={`${sectionPrefix}-content py-8 text-black bg-white p-4 rounded-b-md`}>
+        <div className={`${sectionPrefix}-content text-black bg-white p-4 rounded-b-md`}>
             <div className={`${sectionPrefix}-info-container flex flex-col justify-between`}>
                 {infoItems.map((item, index) => (
                     <div key={index} className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>

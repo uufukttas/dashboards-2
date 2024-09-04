@@ -26,11 +26,11 @@ const EnergyPricesContent: React.FC = () => {
                     <div className='flex items-center w-1/6'>
                       {
                         energyPriceDetail.isActive
-                          ? <div className='bg-green-500 rounded-full h-4 w-4 mx-2'></div>
-                          : <div className='bg-secondary rounded-full h-4 w-4 mx-2'></div>
+                          ? <div className='bg-green-500 rounded-full h-4 !w-4 mx-2'></div>
+                          : <div className='bg-secondary rounded-full h-4 !w-4 mx-2'></div>
                       }
                       <p className='justif'>
-                        {energyPriceDetail.price} birim
+                        {energyPriceDetail.price}
                       </p>
                     </div>
                   </div>

@@ -33,7 +33,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
         const addChargeUnitButton: React.ReactNode = (
             <Button
                 buttonText={` + Sarj Ünitesi`}
-                className={`button bg-secondary rounded-md mx-4 font-bold text-white p-4`}
+                className={`button bg-secondary rounded-md mx-4 font-bold text-white p-3`}
                 id={`add-charge-unit-button`}
                 type="button"
                 onClick={(event) => {
@@ -48,7 +48,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
         const addEnergyPriceButton: React.ReactNode = (
             <Button
                 buttonText={`+ Enerji Fiyati Ekle`}
-                className="button bg-secondary rounded-md mx-4 font-bold text-white p-4"
+                className="button bg-secondary rounded-md mx-4 font-bold text-white p-3"
                 id={`energy-prices-add-button`}
                 type={'button'}
                 onClick={(event) => {
@@ -62,7 +62,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
         const addImageButton: React.ReactNode = (
             <Button
                 buttonText={`+ Istasyon Resmi Ekle`}
-                className="button bg-secondary rounded-md mx-4 font-bold text-white p-4"
+                className="button bg-secondary rounded-md mx-4 font-bold text-white p-3"
                 id={`service-point-image-add-button`}
                 type={'button'}
                 onClick={(event) => {
@@ -76,7 +76,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
         const addServicePointPermissionButton: React.ReactNode = (
             <Button
                 buttonText={`+ Istasyon Yetkisi Ekle`}
-                className="button bg-secondary rounded-md mx-4 font-bold text-white p-4"
+                className="button bg-secondary rounded-md mx-4 font-bold text-white p-3"
                 id={`service-point-permission-add-button`}
                 type={'button'}
                 onClick={(event) => {
@@ -90,7 +90,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
         const addComissionButton: React.ReactNode = (
             <Button
                 buttonText={`+ Komisyon Ekle`}
-                className="button bg-secondary rounded-md mx-4 font-bold text-white p-4"
+                className="button bg-secondary rounded-md mx-4 font-bold text-white p-3"
                 id={`comission-add-button`}
                 type={'button'}
                 onClick={(event) => {
@@ -150,7 +150,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
                                     <AccordionTab
                                         header={() => {
                                             return (
-                                                <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-container w-full flex justify-between items-center text-white`}>
+                                                <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-container w-full flex justify-between items-center text-white h-12`}>
                                                     <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-info-container text-white`}>
                                                         {accordion.accordionTitle}
                                                     </div>
@@ -160,7 +160,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
                                                 </div>
                                             )
                                         }}
-                                        headerClassName={`${BRAND_PREFIX}-service-point-details-accordion-header bg-primary border-gray-300 ${accordion.titleClassName} p-4 border rounded-md flex justify-between items-center`}
+                                        headerClassName={`${BRAND_PREFIX}-service-point-details-accordion-header bg-primary border-gray-300 ${accordion.titleClassName} border rounded-md flex justify-between items-center`}
                                     >
                                         {
                                             index === activeTabIndex && (

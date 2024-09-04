@@ -72,6 +72,10 @@ td.selected {
 
 .p-accordion-header-link {
   width: 100%;
-  background-color: var(--primary-color);
-  color: var(--primary-font-color);
+  background-color: #{$primary-color};
+  color: #{$primary-font-color};
+}
+
+.p-accordion-content {
+  padding: 0;
 }

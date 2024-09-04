@@ -90,8 +90,8 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                             <h3 className={`${chargeUnitPrefix}-name text-lg font-bold flex items-center text-[#000] w-1/3`}>
                                 {
                                     getChargeUnitStatus(chargeUnit.lastHeartBeat)
-                                        ? (<div className='bg-green-500 rounded-full h-4 w-4 mr-2'></div>)
-                                        : (<div className='bg-red-500 rounded-full h-4 w-4 mr-2'></div>)
+                                        ? (<div className='bg-green-500 rounded-full h-4 !w-4 mr-2'></div>)
+                                        : (<div className='bg-red-500 rounded-full h-4 !w-4 mr-2'></div>)
                                 }
                                 {`${chargeUnit.model}`}
                             </h3>
@@ -413,7 +413,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
     }, [chargeUnits, isConnectorUpdated]);
 
     return (
-        <div className={`${sectionPrefix}-content py-8 text-black bg-white p-4 rounded-b-md`}>
+        <div className={`${sectionPrefix}-content text-black bg-white p-4 rounded-b-md`}>
             <div className={`${sectionPrefix}-list`}>
                 {
                     chargeUnits.map((chargeUnit, index) => {
