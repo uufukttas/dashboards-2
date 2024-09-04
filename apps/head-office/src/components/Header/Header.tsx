@@ -35,11 +35,11 @@ const Header: React.FC<IHeaderProps> = ({ className, headerName }: IHeaderProps)
   }, []);
 
   return (
-    <div className={`${headerPrefix}-container justify-between border-b border-gray-300 bg-background top-0 z-10 sticky ${className}`}>
+    <div className={`${headerPrefix}-container justify-between border-b border-gray-300 bg-background px-20 py-4 top-0 z-10 sticky ${className}`}>
       <div className={`${headerPrefix}-header-left-side flex items-center`}>
         <div className={`${headerPrefix}-sidebar-toggle-button-container flex items-center`}>
           <Button
-            className={`${headerPrefix}-sidebar-toggle-button bg-background hover:bg-background mx-8 py-2 px-2`}
+            className={`${headerPrefix}-sidebar-toggle-button bg-background hover:bg-background px-1 flex justify-start items-center`}
             icon="pi pi-align-justify"
             onClick={() => dispatch(toggleSidebarExpanded(isSidebarExpanded))}
             aria-controls={isSidebarExpanded ? 'sbar' : undefined}
@@ -51,7 +51,7 @@ const Header: React.FC<IHeaderProps> = ({ className, headerName }: IHeaderProps)
         </div>
       </div>
       <div className={`${headerPrefix}-header-right-side flex items-center`}>
-        <div className={`${headerPrefix}-language-container`}>
+        <div className={`${headerPrefix}-language-container mx-4`}>
           <Dropdown
             className='border text-text text-sm rounded-lg block w-full p-2.5 focus:ring-primary focus:border-primary'
             id='languages'
@@ -61,7 +61,7 @@ const Header: React.FC<IHeaderProps> = ({ className, headerName }: IHeaderProps)
         </div>
         <div className={`${headerPrefix}-profile-button-container`}>
           <Link
-            className={`${headerPrefix}-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center mx-8 rounded-full px-2 py-2`}
+            className={`${headerPrefix}-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center rounded-full px-2 py-2`}
             href='/profile'
           >
             <FaUser />
