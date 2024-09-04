@@ -55,14 +55,14 @@ const SidebarComponent: React.FC = () => {
                 <div className="overflow-y-auto">
                   <ul className="list-none p-3 m-0 overflow-hidden">
                     <li>
-                      <a
+                      <Link
                         className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
-                        href="/"
+                        href="/dashboards"
                       >
                         <i className="pi pi-home mr-2"></i>
                         <span className="font-medium">Dashboard</span>
                         <Ripple />
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <Link
