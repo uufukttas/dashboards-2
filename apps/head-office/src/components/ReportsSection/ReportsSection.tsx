@@ -21,6 +21,8 @@ import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 import { Slider, SliderChangeEvent } from 'primereact/slider';
 import { TriStateCheckbox, TriStateCheckboxChangeEvent } from 'primereact/tristatecheckbox';
 import { Tooltip } from 'primereact/tooltip';
+import Modal from '../Modal/Modal';
+import ReportDetailsModal from './ReportDetailsModal';
 // interface Representative {
 //     name: string;
 //     image: string;
@@ -177,6 +179,7 @@ const ReportsSection: React.FC = () => {
     const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters);
     // const [globalFilterValue, setGlobalFilterValue] = useState<string>('');
     const [visibleColumns, setVisibleColumns] = useState(tableHeadData);
+    const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
 
     // const formatDate = (value: Date) => {
     //     return value.toLocaleDateString('en-US', {
@@ -402,6 +405,9 @@ const ReportsSection: React.FC = () => {
         );
         setIsLoading(false);
     };
+    const handleCloseModal = (): void => {
+        dispatch(toggleModalVisibility(false));
+    };
 
     useEffect(() => {
         getAllChargeData();
@@ -441,6 +447,9 @@ const ReportsSection: React.FC = () => {
                                             sortMode='multiple'
                                             stripedRows
                                             value={reportsData}
+                                            onRowClick={(event) => {
+                                                dispatch(toggleModalVisibility(true))
+                                            }}
                                         >
                                             {
                                                 tableHeadData.map((td, index) => {
@@ -468,6 +477,18 @@ const ReportsSection: React.FC = () => {
                         )
                 }
             </div>
+            {
+                isModalVisible && (
+                    <Modal
+                        className={`${pagePrefix}-modal-container`}
+                        modalHeaderTitle={`Rapor Detay`}
+                        modalId={`${pagePrefix}-modal`}
+                        onClose={handleCloseModal}
+                    >
+                        <ReportDetailsModal />
+                    </Modal>
+                )
+            }
         </div>
     );
 };

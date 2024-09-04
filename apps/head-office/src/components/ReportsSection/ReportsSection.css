@@ -20,3 +20,8 @@
   font-size: 12px;
   height: 25px;
 }
+
+.p-multiselect-token {
+  background-color: #0075bf;
+  color: white;
+}
