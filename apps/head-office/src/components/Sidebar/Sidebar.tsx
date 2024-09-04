@@ -11,6 +11,7 @@ import './Sidebar.css';
 import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpand';
 import { userInfo } from '../../constants/constants';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const SidebarComponent: React.FC = () => {
   const sidebarPrefix: string = `${BRAND_PREFIX}-sidebar`;
@@ -54,25 +55,34 @@ const SidebarComponent: React.FC = () => {
                 <div className="overflow-y-auto">
                   <ul className="list-none p-3 m-0 overflow-hidden">
                     <li>
-                      <a className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <a
+                        className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
+                        href="/"
+                      >
                         <i className="pi pi-home mr-2"></i>
                         <span className="font-medium">Dashboard</span>
                         <Ripple />
                       </a>
                     </li>
                     <li>
-                      <a className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <Link
+                        className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
+                        href="/service-points"
+                      >
                         <i className="pi pi-map-marker mr-2"></i>
                         <span className="font-medium">Istasyonlar</span>
                         <Ripple />
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <Link
+                        className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
+                        href="/users-management"
+                      >
                         <i className="pi pi-users mr-2"></i>
                         <span className="font-medium">Kullanici Yonetimi</span>
                         <Ripple />
-                      </a>
+                      </Link>
                     </li>
                     <li>
                       <StyleClass
@@ -95,11 +105,14 @@ const SidebarComponent: React.FC = () => {
                       </StyleClass>
                       <ul className="list-none py-0 pl-3 pr-0 m-0 hidden overflow-y-hidden transition-all transition-duration-400 transition-ease-in-out">
                         <li>
-                          <a className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                          <Link
+                            className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
+                            href="/reports/all-reports"
+                          >
                             <i className="pi pi-chart-line mr-2"></i>
                             <span className="font-medium">Tum Islemler</span>
                             <Ripple />
-                          </a>
+                          </Link>
                         </li>
                         <li>
                           <a className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
@@ -109,34 +122,44 @@ const SidebarComponent: React.FC = () => {
                           </a>
                         </li>
                         <li>
-                          <a className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                          <Link
+                            className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
+                            href="/reports/charging-reports"
+                          >
                             <i className="pi pi-chart-line mr-2"></i>
                             <span className="font-medium">Sarj Islemleri</span>
                             <Ripple />
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </li>
                     <li>
-                      <a className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
-                        <i className="pi pi-tags mr-2"></i>
-                        <span className="font-medium">Kampanyalar</span>
-                        <Ripple />
-                      </a>
-                    </li>
-                    <li>
-                      <a className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <Link className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
+                        href="/tariffs-management"
+                      >
                         <i className="pi pi-wallet mr-2"></i>
                         <span className="font-medium">Tarifeler</span>
                         <Ripple />
-                      </a>
+                      </Link>
                     </li>
                     <li>
-                      <a className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <Link
+                        className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
+                        href="/campaigns"
+                      >
+                        <i className="pi pi-tags mr-2"></i>
+                        <span className="font-medium">Kampanyalar</span>
+                        <Ripple />
+                      </Link>
+                    </li>
+                    <li>
+                      <Link className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
+                        href="/faq"
+                      >
                         <i className="pi pi-question-circle mr-2"></i>
                         <span className="font-medium">FAQ</span>
                         <Ripple />
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
@@ -144,7 +167,7 @@ const SidebarComponent: React.FC = () => {
                   <hr className="mb-3 mx-3 border-top-1 border-none surface-border" />
                   <a v-ripple className="m-3 flex align-items-center cursor-pointer p-3 gap-2 border-round text-700 hover:surface-100 transition-duration-150 transition-colors p-ripple">
                     <span>
-                      Copyright © 2024 
+                      Copyright © 2024
                     </span>
                     <Image src="/evslogo.jpg" alt='logo' width={20} height={20} />
                   </a>
