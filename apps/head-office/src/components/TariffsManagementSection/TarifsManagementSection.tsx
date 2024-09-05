@@ -16,10 +16,11 @@ import { FaTrashCan } from 'react-icons/fa6';
 import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 import { Button } from 'primereact/button';
 import { Tooltip } from 'primereact/tooltip';
-import { DataTable } from 'primereact/datatable';
+import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { ITariffDataProps } from './types';
 import './TariffsManagementSection.css';
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
 const TarifssManagementSection: React.FC = () => {
     const tarifssManagementSectionPrefix: string = `${BRAND_PREFIX}-tariffs-management`;
@@ -31,6 +32,19 @@ const TarifssManagementSection: React.FC = () => {
     const searchProperties = useSelector((state: RootState) => state.searchedText);
     const tariffListData = useSelector((state: RootState) => state.tariffs);
     const [visibleColumns, setVisibleColumns] = useState(tariffsTableHeadData);
+
+    const defaultFilters: DataTableFilterMeta = {
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS},
+        name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+        saleUnitPrice: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+        validityBeginDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
+        validityEndDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
+        kwRange: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+        createDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
+    }
+
+    const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters);
+
 
     const dataTableHeader = (): JSX.Element => {
         return (
@@ -104,8 +118,14 @@ const TarifssManagementSection: React.FC = () => {
         return data;
     };
 
+    
+    const initFilters = () => {
+        setFilters(defaultFilters);
+    };
+
     useEffect(() => {
         getAllTariffs(searchProperties.searchedText);
+        initFilters();
     }, [isTariffListUpdated, searchProperties]);
 
     return (
@@ -114,7 +134,8 @@ const TarifssManagementSection: React.FC = () => {
                 <DataTable
                     className="w-full shadow"
                     currentPageReportTemplate="{first} to {last} of {totalRecords}"
-                    filterDisplay="row"
+                    filterDisplay="menu"
+                    filters={filters}
                     header={dataTableHeader}
                     paginator={true}
                     paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
