@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
-import { DataTable } from 'primereact/datatable';
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
+import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
 import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 import { Tooltip } from 'primereact/tooltip';
 import { FaCircleInfo, FaPen, FaTrashCan } from 'react-icons/fa6';
@@ -54,6 +55,34 @@ const ServicePointSection: React.FC = () => {
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const servicePointsData = useSelector((state: RootState) => state.servicePoints.servicePoints);
   const [visibleColumns, setVisibleColumns] = useState(servicePointTableHeadData);
+  const [globalFilterValue, setGlobalFilterValue] = useState<string>('');
+
+  const defaultFilters: DataTableFilterMeta = {
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    name: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
+    },
+    cityId: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }]
+    },
+    districtId: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }]
+    },
+    address: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }]
+    },
+    phoneNumber: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }]
+    }
+  };
+  const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters);
+
+
 
   const createGetServicePointsRequestPayload = (): IPayloadProps => {
     const payload: IPayloadProps = {};
@@ -227,6 +256,20 @@ const ServicePointSection: React.FC = () => {
       }
     });
   };
+  const onGlobalFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    let _filters = { ...filters };
+
+    // @ts-ignore
+    _filters['global'].value = value;
+
+    setFilters(_filters);
+    setGlobalFilterValue(value);
+  };
+  const initFilters = () => {
+    setFilters(defaultFilters);
+    setGlobalFilterValue('');
+};
 
   useEffect(() => {
     getAllServicePoints();
@@ -243,8 +286,8 @@ const ServicePointSection: React.FC = () => {
         <DataTable
           className="w-full shadow"
           currentPageReportTemplate="{first} to {last} of {totalRecords}"
-          filterDisplay="row"
-          // filters={filters}
+          filterDisplay="menu"
+          filters={filters}
           header={dataTableHeader}
           globalFilterFields={['name', 'cityId', 'districtId', 'address', 'phoneNumber']}
           paginator={true}
