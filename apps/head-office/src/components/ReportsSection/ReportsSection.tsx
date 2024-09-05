@@ -9,7 +9,7 @@ import { RootState } from '../../../app/redux/store';
 import './ReportsSection.css';
 
 import { classNames } from 'primereact/utils';
-import { FilterMatchMode } from 'primereact/api';
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
 import { Column, ColumnFilterElementTemplateOptions } from 'primereact/column';
 
@@ -45,16 +45,34 @@ import ReportDetailsModal from './ReportDetailsModal';
 // }
 const defaultFilters: DataTableFilterMeta = ({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    trxId: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    batteryBeginningPercent: { value: null, matchMode: FilterMatchMode.EQUALS },
-    batteryPercent: { value: null, matchMode: FilterMatchMode.EQUALS },
-    chargingStatus: { value: null, matchMode: FilterMatchMode.EQUALS },
-    companyID: { value: null, matchMode: FilterMatchMode.EQUALS },
-    energyUsed: { value: null, matchMode: FilterMatchMode.EQUALS },
-    startDate: { value: null, matchMode: FilterMatchMode.DATE_IS },
-    finishDate: { value: null, matchMode: FilterMatchMode.DATE_IS },
-    stationName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    totalAmount: { value: null, matchMode: FilterMatchMode.EQUALS }
+    trxId: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+    batteryBeginningPercent: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    batteryPercent: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    batteryPercentDesc: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    chargeProcessElapsedTime: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    chargingStatus: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    chargingStatusMessage: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    commissionResellerPrice: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    commissionServicePointPrice: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    companyID: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    consumerCompanyID: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    energyUsed: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },    
+    finishDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
+    meterFinishDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
+    meterStartDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
+    priceENRJ: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    priceSRV: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    resellerCompanyID: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    startDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
+    stationChargePointCode: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    stationChargePointConnectorTypeName: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    stationConnectorConnectorNr: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    stationConnectorID: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    stationID: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    stationName: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    totalAmount: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    totalAmountWithOutKDV: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    unitPrice: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
 });
 const ReportsSection: React.FC = () => {
     const pagePrefix = `${BRAND_PREFIX}-reports-center-section`;
@@ -429,7 +447,7 @@ const ReportsSection: React.FC = () => {
                                             currentPageReportTemplate="{first} to {last} of {totalRecords}"
                                             dataKey="id"
                                             emptyMessage="No customers found." onFilter={(e) => setFilters(e.filters)}
-                                            filterDisplay="row"
+                                            filterDisplay="menu"
                                             filters={filters}
                                             globalFilterFields={['trxId', 'stationName', 'companyID', 'resellerCompanyID', 'consumerCompanyID', 'stationChargePointCode', 'stationChargePointConnectorTypeName', 'stationConnectorConnectorNr', 'stationConnectorID', 'chargingStatus', 'chargingStatusMessage', 'energyUsed', 'priceENRJ', 'priceSRV', 'totalAmount', 'totalAmountWithOutKDV', 'unitPrice']}
                                             header={header}
