@@ -23,10 +23,11 @@ import type { IPayloadProps } from './types';
 import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 import { Tooltip } from 'primereact/tooltip';
 import { Button } from 'primereact/button';
-import { DataTable } from 'primereact/datatable';
+import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { IUserDataProps } from './types';
 import './UserManagementSection.css';
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
 const UserManagementSection: React.FC = () => {
     const userManagementPrefix: string = `${BRAND_PREFIX}-user-management`;
@@ -38,6 +39,29 @@ const UserManagementSection: React.FC = () => {
     const searchProperties = useSelector((state: RootState) => state.searchedText);
     const { users } = useSelector((state: RootState) => state.users);
     const [visibleColumns, setVisibleColumns] = useState(userManagementTableHeadData);
+
+    const defaultFilters: DataTableFilterMeta = {
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        name: {
+            operator: FilterOperator.AND,
+            constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
+        },
+        userName: {
+            operator: FilterOperator.AND,
+            constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
+        },
+        phoneNumber: {
+            operator: FilterOperator.AND,
+            constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
+        },
+        roles: {
+            operator: FilterOperator.AND,
+            constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
+        }
+    };
+    const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters);
+    const [globalFilterValue, setGlobalFilterValue] = useState<string>('');
+
 
     const createGetUsersRequestPayload = (): IPayloadProps => {
         const payload: IPayloadProps = {
@@ -154,11 +178,17 @@ const UserManagementSection: React.FC = () => {
         return newTableData;
     };
 
+    const initFilters = () => {
+        setFilters(defaultFilters);
+        setGlobalFilterValue('');
+    };
+
     useEffect(() => {
         dispatch(setSearchProperties({
             searchedText: searchProperties.searchedText,
             searchedConditions: []
         }));
+        initFilters();
     }, []);
 
     useEffect(() => {
@@ -171,7 +201,8 @@ const UserManagementSection: React.FC = () => {
                 <DataTable
                     className="w-full shadow"
                     currentPageReportTemplate="{first} to {last} of {totalRecords}"
-                    filterDisplay="row"
+                    filters={filters}
+                    filterDisplay="menu"
                     header={dataTableHeader}
                     // globalFilterFields={['name', 'cityId', 'districtId', 'address', 'phoneNumber']}
                     paginator={true}
