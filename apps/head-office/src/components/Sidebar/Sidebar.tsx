@@ -12,12 +12,19 @@ import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpa
 import { userInfo } from '../../constants/constants';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 const SidebarComponent: React.FC = () => {
   const sidebarPrefix: string = `${BRAND_PREFIX}-sidebar`;
   const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
   const btnRef2 = useRef(null);
   const dispatch = useDispatch();
+  const router = useRouter();
+
+const handleRedirect = () => {
+  console.log('Redirecting to /dashboards');
+  router.push('/dashboards');
+};
 
   return (
     <div className="card flex justify-center">
@@ -54,15 +61,9 @@ const SidebarComponent: React.FC = () => {
                 </div>
                 <div className="overflow-y-auto">
                   <ul className="list-none p-3 m-0 overflow-hidden">
-                    <li>
-                      <Link
-                        className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
-                        href="/dashboards"
-                      >
-                        <i className="pi pi-home mr-2"></i>
-                        <span className="font-medium">Dashboard</span>
-                        <Ripple />
-                      </Link>
+                    <li onClick={handleRedirect} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <i className="pi pi-home mr-2"></i>
+                      <span className="font-medium">Dashboard</span>
                     </li>
                     <li>
                       <Link
