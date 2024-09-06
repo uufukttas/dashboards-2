@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Alert } from '@projects/alert';
 import { detectDevice } from '@projects/common';
@@ -15,8 +15,13 @@ import Login from '../src/components/Login/Login';
 import { BRAND_PREFIX, stylesProps, userInfo } from '../src/constants/constants';
 import './page.css';
 
+import 'primereact/resources/primereact.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import { Toast } from 'primereact/toast';
+
 const Index: React.FC = () => {
   const dispatch = useDispatch();
+  const toastRef = useRef(null); // toastRef isminde güncellenmiş bir useRef
   const { alertInformation, configs: { colors }, isLoadingVisible: { isLoading }, languages: { languages } } =
     useSelector((state: RootState) => state);
   const [isDetectedDevice, setIsDetectedDevice] = useState<boolean>(false);
@@ -43,6 +48,12 @@ const Index: React.FC = () => {
     fetchConfigurations();
     getLanguageList();
   }, []);
+
+  useEffect(() => {
+    if (alertInformation.isVisible && toastRef.current) {
+      toastRef.current.show({ severity: 'info', summary: 'Info', detail: 'Message Content' });
+    }
+  }, [alertInformation.isVisible]);
 
   return (
     isDetectedDevice && (
@@ -71,11 +82,7 @@ const Index: React.FC = () => {
         }
         {
           alertInformation.isVisible && (
-            <Alert
-              alertText={alertInformation.message}
-              alertType={alertInformation.type}
-              id={`${BRAND_PREFIX}-login-failed-alert`}
-            />
+            <Toast ref={toastRef} />
           )
         }
       </div>
