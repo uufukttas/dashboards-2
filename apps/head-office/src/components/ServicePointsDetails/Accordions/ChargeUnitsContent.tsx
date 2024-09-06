@@ -20,6 +20,7 @@ import { toggleModalVisibility } from '../../../../app/redux/features/isModalVis
 import { setAddChargeUnit, setAddConnector, setManageStation } from '../../../../app/redux/features/setVisibleModal';
 import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
+import { Button as PrimeButton } from 'primereact/button';
 import type {
     IChargeUnitsContentProps,
     IChargeUnitsProps,
@@ -30,6 +31,8 @@ import type {
     IConnectorStateProps,
     IConnectorModel,
 } from '../types';
+import { Card } from '@projects/card';
+
 
 const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, slug }: IChargeUnitsContentProps) => {
     const chargeUnitPrefix: string = `${BRAND_PREFIX}-charge-unit`;
@@ -39,6 +42,8 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
     const [connectorTypes, setConnectorTypes] = useState<IConnectorModel[]>([]);
     const [selectedBrand, setSelectedBrand] = useState(1);
     const [connectorUpdate, setConnectorUpdate] = useState(false);
+    const [showDetails, setShowDetails] = useState(false);
+
 
     const buildChargeUnitRequestBody = (
         accessTypeId: number,
@@ -86,7 +91,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
             <div className={`${sectionPrefix}-info flex justify-between w-full`}>
                 <div className={`${sectionPrefix} flex justify-between w-full`}>
                     <div className={`${sectionPrefix}-name-container w-full`}>
-                        <div className={`${chargeUnitPrefix}-row-container w-full flex items-center justify-between`}>
+                        <div className={`${chargeUnitPrefix}-row-container w-full flex items-center justify-between flex-col`}>
                             <h3 className={`${chargeUnitPrefix}-name text-lg font-bold flex items-center text-[#000] w-1/3`}>
                                 {
                                     getChargeUnitStatus(chargeUnit.lastHeartBeat)
@@ -106,23 +111,23 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                 </h3>
                             </div>
                         </div>
-                        <div className={`${chargeUnitPrefix}-row-container w-full flex items-center justify-between`}>
+                        <div className={`${chargeUnitPrefix}-row-container w-full flex items-center justify-between flex-col`}>
                             <h3 className={`${chargeUnitPrefix}-name text-lg flex items-center text-[#000] w-1/3`}>
                                 {`Other Info`}
                             </h3>
                             <div className={`${chargeUnitPrefix}-device-code-container w-1/3`}>
                                 <h3 className={`${chargeUnitPrefix}-device-code text-lg text-[#000]`}>
-                                {`Other Info`}
+                                    {`Other Info`}
                                 </h3>
                             </div>
                             <div className={`${chargeUnitPrefix}-time-container w-1/3`}>
                                 <h3 className={`${chargeUnitPrefix}-time text-lg text-[#000]`}>
-                                {`Other Info`}
+                                    {`Other Info`}
                                 </h3>
                             </div>
                         </div>
                     </div>
-                    <div className={`${sectionPrefix}-actions-container mx-2 flex items-center justify-center`}>
+                    <div className={`${sectionPrefix}-actions-container mx-2 flex items-center justify-center hidden`}>
                         <div className={`${chargeUnitPrefix}-actions flex`}>
                             <Button
                                 buttonText={``}
@@ -414,20 +419,101 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
 
     return (
         <div className={`${sectionPrefix}-content text-black bg-white p-4 rounded-b-md`}>
-            <div className={`${sectionPrefix}-list`}>
+            <div className={`${sectionPrefix}-list flex flex-wrap w-full justify-between`}>
                 {
                     chargeUnits.map((chargeUnit, index) => {
                         return (
-                            <Accordion
-                                accordionTitle={createAccordionTitle(chargeUnit)}
-                                accordionClassName='bg-[#CCCCCC] text-white rounded-md my-4 w-full'
-                                backgroundColor='#777777 text-text'
-                                isAccordionOpen={false}
-                                key={index}
-                                titleClassName={`w-full flex justify-between items-center`}
-                            >
-                                {createConnectors(chargeUnit)}
-                            </Accordion>
+                            // <Accordion
+                            //     accordionTitle={createAccordionTitle(chargeUnit)}
+                            //     accordionClassName='bg-[#CCCCCC] text-white rounded-md my-4 flex flex-wrap w-1/3'
+                            //     backgroundColor='#777777 text-text'
+                            //     isAccordionOpen={false}
+                            //     key={index}
+                            //     titleClassName={`w-full flex justify-between items-center`}
+                            // >
+                            //     {createConnectors(chargeUnit)}
+                            // </Accordion>
+                            <Card BRAND_PREFIX={BRAND_PREFIX} key={index} containerClassName='w-[33%] h-[250px] p-2 my-4 flex justify-center items-center'>
+                                <div className='card-content w-full h-full'>
+                                    <div className={`${sectionPrefix}-info flex justify-between w-full h-full`}>
+                                        <div className={`${sectionPrefix} flex justify-between w-full `}>
+                                            <div className={`${sectionPrefix}-name-container w-full flex flex-col items-between justify-evenly ${showDetails ? 'hidden' : ''}`}>
+                                                <div className={`${chargeUnitPrefix}-row-container w-full flex items-center justify-between`}>
+                                                    <h3 className={`${chargeUnitPrefix}-name text-lg font-bold flex items-center text-[#000] w-1/3`}>
+                                                        {
+                                                            getChargeUnitStatus(chargeUnit.lastHeartBeat)
+                                                                ? (<div className='bg-green-500 rounded-full h-4 !w-4 mr-2'></div>)
+                                                                : (<div className='bg-red-500 rounded-full h-4 !w-4 mr-2'></div>)
+                                                        }
+                                                        {`${chargeUnit.model}`}
+                                                    </h3>
+                                                    <div className={`${chargeUnitPrefix}-device-code-container w-1/3`}>
+                                                        <h3 className={`${chargeUnitPrefix}-device-code text-lg text-[#000]`}>
+                                                            {chargeUnit.deviceCode}
+                                                        </h3>
+                                                    </div>
+                                                    <div className={`${chargeUnitPrefix}-time-container w-1/3`}>
+                                                        <h3 className={`${chargeUnitPrefix}-time text-base text-[#000]`}>
+                                                            {`${prepareTime(chargeUnit.lastHeartBeat)}`}
+                                                        </h3>
+                                                    </div>
+                                                </div>
+                                                <div className={`${chargeUnitPrefix}-row-container w-full flex items-center justify-between`}>
+                                                    <h3 className={`${chargeUnitPrefix}-name text-lg flex items-center text-[#000] w-1/3`}>
+                                                        {`Other Info`}
+                                                    </h3>
+                                                    <div className={`${chargeUnitPrefix}-device-code-container w-1/3`}>
+                                                        <h3 className={`${chargeUnitPrefix}-device-code text-lg text-[#000]`}>
+                                                            {`Other Info`}
+                                                        </h3>
+                                                    </div>
+                                                    <div className={`${chargeUnitPrefix}-time-container w-1/3`}>
+                                                        <PrimeButton className='bg-primary text-white rounded-md px-4 py-2 mx-2' onClick={() => setShowDetails(!showDetails)}>
+                                                            <i className="pi pi-arrow-right" style={{ fontSize: '1rem' }}></i>
+                                                        </PrimeButton>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className={`${sectionPrefix}-actions-container mx-2 flex items-center justify-center hidden ${showDetails ? '' : ''}`}>
+                                                <div className={`${chargeUnitPrefix}-actions flex`}>
+                                                    <Button
+                                                        buttonText={``}
+                                                        className={`${chargeUnitPrefix}-edit-button bg-primary text-white rounded-md px-4 py-2 mx-2`}
+                                                        dataAttributes={{
+                                                            'data-charge-point-id': chargeUnit.chargePointId.toString(),
+                                                            'data-charge-point-device-code': chargeUnit.deviceCode.toString(),
+                                                        }}
+                                                        id={`${chargeUnitPrefix}-edit-button`}
+                                                        type={'button'}
+                                                        onClick={handleUpdate}
+                                                    >
+                                                        <FaPencil />
+                                                    </Button>
+                                                    <Button
+                                                        buttonText={''}
+                                                        className={`${chargeUnitPrefix}-delete-button bg-secondary text-white rounded-md px-4 py-2`}
+                                                        dataAttributes={{
+                                                            'data-charge-point-id': chargeUnit.chargePointId.toString(),
+                                                            'data-charge-point-device-code': chargeUnit.deviceCode.toString(),
+                                                        }}
+                                                        id={`${chargeUnitPrefix}-delete-button`}
+                                                        type={'button'}
+                                                        onClick={(event) => handleDelete(event)}
+                                                    >
+                                                        <FaTrash />
+                                                    </Button>
+                                                </div>
+                                            </div>
+
+                                            {showDetails && (
+                                                <div className="transition-height duration-500 ease-in-out overflow-hidden w-[700px]">
+                                                    <p className="text-sm mt-2">{'asd'}</p>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </Card>
                         );
                     })
                 }
