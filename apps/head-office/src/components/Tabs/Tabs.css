@@ -16,7 +16,7 @@
 }
 .sh-tabs-container button:not(:first-child):not(:last-child) {
   border-width: 0 2px 0 2px;
-  border-color: var(--secondary-color);
+  border-color: var(--primary-color);
   border-style: solid;
 }
 .sh-tabs-container button:first-child {
