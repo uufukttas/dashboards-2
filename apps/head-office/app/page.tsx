@@ -51,7 +51,8 @@ const Index: React.FC = () => {
 
   useEffect(() => {
     if (alertInformation.isVisible && toastRef.current) {
-      toastRef.current.show({ severity: 'info', summary: 'Info', detail: 'Message Content' });
+      // @ts-ignore
+      toastRef.current.show({ severity: `${alertInformation.type}`, summary: `${alertInformation.message}` });
     }
   }, [alertInformation.isVisible]);
 
