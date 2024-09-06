@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FaClock, FaCoins, FaLocationDot, FaUserGear } from 'react-icons/fa6';
 import { RiBattery2ChargeFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
@@ -73,6 +73,7 @@ import type {
   ITabsItemProps,
 } from './types';
 import './ServicePointDetails.css';
+import { Toast } from 'primereact/toast';
 
 const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
   const tabItems: ITabsItemProps[] = [
@@ -133,6 +134,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     }
   ];
   const dispatch = useDispatch();
+  const toastRef = useRef(null); // toastRef isminde güncellenmiş bir useRef
   const addChargeUnit = useSelector((state: RootState) => state.setVisibleModal.addChargeUnit);
   const addComission = useSelector((state: RootState) => state.setVisibleModal.addComission);
   const addConnector = useSelector((state: RootState) => state.setVisibleModal.addConnector);
@@ -487,6 +489,14 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     dispatch(toggleComissionListUpdate(false));
   }, [isComissionsListUpdated]);
 
+
+  useEffect(() => {
+    if (alertInformation.isVisible && toastRef.current) {
+      // @ts-ignore
+      toastRef.current.show({ severity: `${alertInformation.type}`, summary: `${alertInformation.message}` });
+    }
+  }, [alertInformation.isVisible]);
+
   return (
     isLoadingVisible
       ? (
@@ -508,11 +518,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
           </div>
           {
             alertInformation.isVisible && (
-              <Alert
-                alertText={alertInformation.message}
-                alertType={alertInformation.type}
-                id={`${BRAND_PREFIX}-service-point-details-alert`}
-              />
+              <Toast ref={toastRef} />
             )
           }
           {
