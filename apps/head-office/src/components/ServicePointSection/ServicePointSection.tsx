@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
@@ -42,10 +42,14 @@ import type {
   IServicePointData
 } from './types';
 import './ServicePointSection.css';
+import 'primereact/resources/primereact.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import { Toast } from 'primereact/toast';
 
 const ServicePointSection: React.FC = () => {
   const pagePrefix: string = `${BRAND_PREFIX}-service-point`;
   const dispatch = useDispatch<AppDispatch>();
+  const toastRef = useRef(null); // toastRef isminde güncellenmiş bir useRef
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
@@ -279,6 +283,14 @@ const ServicePointSection: React.FC = () => {
     getAllServicePoints();
   }, [isServicePointDataUpdated, searchProperties]);
 
+  
+  useEffect(() => {
+    if (alertInformation.isVisible && toastRef.current) {
+      // @ts-ignore
+      toastRef.current.show({ severity: `${alertInformation.type}`, summary: `${alertInformation.message}` });
+    }
+  }, [alertInformation.isVisible]);
+
   return (
     servicePointsCount > 1 &&
     <div className={`${BRAND_PREFIX}-service-points-container flex justify-between items-center flex-col`}>
@@ -377,11 +389,7 @@ const ServicePointSection: React.FC = () => {
       }
       {
         alertInformation.isVisible && (
-          <Alert
-            alertText={alertInformation.message}
-            alertType={alertInformation.type}
-            id={`${pagePrefix}-alert`}
-          />
+          <Toast ref={toastRef} />
         )
       }
       {
