@@ -273,23 +273,23 @@ const ServicePointSection: React.FC = () => {
   const initFilters = () => {
     setFilters(defaultFilters);
     setGlobalFilterValue('');
-};
-
-  useEffect(() => {
-    getAllServicePoints();
-  }, []);
+  };
 
   useEffect(() => {
     getAllServicePoints();
   }, [isServicePointDataUpdated, searchProperties]);
 
-  
   useEffect(() => {
     if (alertInformation.isVisible && toastRef.current) {
       // @ts-ignore
       toastRef.current.show({ severity: `${alertInformation.type}`, summary: `${alertInformation.message}` });
     }
   }, [alertInformation.isVisible]);
+
+  useEffect(() => {
+    // dispatch(toggleLoadingVisibility(true));
+    getAllServicePoints();
+  }, []);
 
   return (
     servicePointsCount > 1 &&
@@ -366,7 +366,7 @@ const ServicePointSection: React.FC = () => {
                     field={headerProps.field}
                     frozen
                     header={headerProps.header}
-                    headerClassName={`flex justify-start items-center`}
+                    headerClassName={``}
                     key={index}
                   />
                 );
