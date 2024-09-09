@@ -7,6 +7,7 @@ import { BRAND_PREFIX } from '../../../../src/constants/constants';
 
 const ColorSection: React.FC = () => {
     const colorNames: string[] = ['Primary', 'Secondary', 'Alternate', 'Backup'];
+
     const profilePagePrefix: string = `${BRAND_PREFIX}-profile`;
     const [pageColors, setPageColors] = useState<{ value: string; resourceKey: string; id: number }[]>([]);
 
@@ -41,7 +42,7 @@ const ColorSection: React.FC = () => {
     }, []);
 
     return (
-        <div className={`${profilePagePrefix}-colors-form-container flex justify-between items-center`}>
+        <div className={`${profilePagePrefix}-colors-form-container flex justify-between items-center h-full`}>
             <form
                 className={`${profilePagePrefix}-colors-form flex justify-between w-full flex-col`}
                 onSubmit={handleColorsSubmit}

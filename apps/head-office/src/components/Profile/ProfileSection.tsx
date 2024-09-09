@@ -18,7 +18,7 @@ const ProfileSection: React.FC = () => {
 
     return (
         <div className={`${profilePagePrefix}-container flex justify-between items-start flex-col`}>
-            <div className={`${profilePagePrefix}-summary-info-card-container w-full`}>
+            <div className={`${profilePagePrefix}-summary-info-card-container w-full mb-8`}>
                 <Card
                     BRAND_PREFIX={BRAND_PREFIX}
                     containerClassName={`${profilePagePrefix}-summary-card p-8`}
@@ -26,43 +26,9 @@ const ProfileSection: React.FC = () => {
                     <InfoSection />
                 </Card>
             </div>
-            <div className={`${profilePagePrefix}-summary-selection-card-container mt-8 flex w-full`}>
-                <div className={`${profilePagePrefix}-left-container flex items-start flex-col w-1/2 mr-2`}>
-                    <div className={`${profilePagePrefix}-password-card-container w-full mt-8`}>
-                        <Card
-                            BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`${profilePagePrefix}-password-card p-8`}
-                        >
-                            <PasswordSection />
-                        </Card>
-                    </div>
-                    <div className={`${profilePagePrefix}-colors-card-container w-full mt-8`}>
-                        <Card
-                            BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`${profilePagePrefix}-colors-card p-8`}
-                        >
-                            <ColorSection />
-                        </Card>
-                    </div>
-                    <div className={`${profilePagePrefix}-background-image-container w-full mt-8`}>
-                        <Card
-                            BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`${profilePagePrefix}-background-image-card p-8`}
-                        >
-                            <BackgroundSection />
-                        </Card>
-                    </div>
-                </div>
-                <div className={`${profilePagePrefix}-right-container w-1/2 mt-8 ml-2`}>
-                    <div className={`${profilePagePrefix}-password-card-container w-full`}>
-                        <Card
-                            BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`${profilePagePrefix}-last-login-card p-8`}
-                        >
-                            <LoginInfoSection />
-                        </Card>
-                    </div>
-                    <div className={`${profilePagePrefix}-company-logo-card-container mt-8`}>
+            <div className={`${profilePagePrefix}-summary-selection-card-container flex flex-col w-full`}>
+                <div className={`${profilePagePrefix}-row-container flex flex-row w-full mb-4`}>
+                    <div className={`${profilePagePrefix}-company-logo-card-container w-1/3`}>
                         <Card
                             BRAND_PREFIX={BRAND_PREFIX}
                             containerClassName={`${profilePagePrefix}-company-logo-card p-8`}
@@ -70,13 +36,41 @@ const ProfileSection: React.FC = () => {
                             <LogoSection />
                         </Card>
                     </div>
-                    <div className={`${profilePagePrefix}-language-container mt-8`}>
+                    <div className={`${profilePagePrefix}-colors-card-container w-2/3`}>
                         <Card
                             BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`${profilePagePrefix}-language-card p-8`}
+                            containerClassName={`${profilePagePrefix}-colors-card p-8 ml-4 h-full`}
                         >
-                            <LanguageSection />
+                            <ColorSection />
                         </Card>
+                    </div>
+                </div>
+                <div className={`${profilePagePrefix}-row-container flex flex-row w-full mb-4`}>
+                    <div className={`${profilePagePrefix}-background-image-container w-1/3`}>
+                        <Card
+                            BRAND_PREFIX={BRAND_PREFIX}
+                            containerClassName={`${profilePagePrefix}-background-image-card p-8`}
+                        >
+                            <BackgroundSection />
+                        </Card>
+                    </div>
+                    <div className={`${profilePagePrefix}-info-container flex flex-col w-2/3`}>
+                        <div className={`${profilePagePrefix}-password-card-container w-full h-1/2`}>
+                            <Card
+                                BRAND_PREFIX={BRAND_PREFIX}
+                                containerClassName={`${profilePagePrefix}-password-card p-8 ml-4 mb-4`}
+                            >
+                                <PasswordSection />
+                            </Card>
+                        </div>
+                        <div className={`${profilePagePrefix}-last-login-card-container w-full h-1/2`}>
+                            <Card
+                                BRAND_PREFIX={BRAND_PREFIX}
+                                containerClassName={`${profilePagePrefix}-last-login-card p-8 ml-4 mb-4`}
+                            >
+                                <LoginInfoSection />
+                            </Card>
+                        </div>
                     </div>
                 </div>
             </div>

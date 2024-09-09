@@ -26,9 +26,9 @@ const BackgroundSection: React.FC = () => {
                     <Image
                         alt='Background Image'
                         className='w-full h-full'
-                        height={400}
+                        height={200}
                         src={'https://placehold.co/600x400'}
-                        width={600}
+                        width={300}
                     />
                     <Input
                         className={`${backgroundImagePrefix}-input text-text text-sm rounded-lg block w-full p-2.5`}

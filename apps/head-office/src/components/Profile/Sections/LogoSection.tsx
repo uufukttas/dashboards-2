@@ -11,7 +11,7 @@ const LogoSection: React.FC = () => {
 
     return (
         <div className={`${companyLogoPrefix}-container flex justify-between items-center`}>
-            <form className={`${companyLogoPrefix}-form flexflex-col justify-between w-full`}>
+            <form className={`${companyLogoPrefix}-form flex flex-col justify-between w-full`}>
                 <div className={`${companyLogoPrefix}-input-container`}>
                     <Label
                         className={`${companyLogoPrefix}-label block mb-2 text-heading font-semibold px-2`}
@@ -21,18 +21,18 @@ const LogoSection: React.FC = () => {
                     <Image
                         alt='Company Logo'
                         className='w-full h-full'
-                        height={400}
-                        src={'https://placehold.co/600x400'}
-                        width={600}
+                        height={200}
+                        src={'https://placehold.co/300x200'}
+                        width={300}
                     />
                     <Input
-                        className={`${companyLogoPrefix}-input text-text text-sm rounded-lg block w-full p-2.5`}
+                        className={`${companyLogoPrefix}-input text-text text-sm rounded-lg block w-full p-2.5 flex flex-col`}
                         id={`${companyLogoPrefix}-input`}
                         name={`${companyLogoPrefix}-input`}
                         type='file'
                     />
                 </div>
-                <div className={`${companyLogoPrefix}-submit-button-container w-1/3`}>
+                <div className={`${companyLogoPrefix}-submit-button-container`}>
                     <Button
                         className={`${companyLogoPrefix}-submit-button w-full p-2 bg-primary text-white rounded-lg my-2`}
                         id={`${companyLogoPrefix}-submit-button`}
