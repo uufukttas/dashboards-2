@@ -21,10 +21,9 @@ const SidebarComponent: React.FC = () => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-const handleRedirect = () => {
-  console.log('Redirecting to /dashboards');
-  router.push('/dashboards');
-};
+  const handleRedirect = (route: string) => {
+    router.push(`/${route}`);
+  };
 
   return (
     <div className="card flex justify-center">
@@ -61,29 +60,17 @@ const handleRedirect = () => {
                 </div>
                 <div className="overflow-y-auto">
                   <ul className="list-none p-3 m-0 overflow-hidden">
-                    <li onClick={handleRedirect} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                    <li onClick={() => handleRedirect('/dashboards')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
                       <i className="pi pi-home mr-2"></i>
                       <span className="font-medium">Dashboard</span>
                     </li>
-                    <li>
-                      <Link
-                        className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
-                        href="/service-points"
-                      >
-                        <i className="pi pi-map-marker mr-2"></i>
-                        <span className="font-medium">Istasyonlar</span>
-                        <Ripple />
-                      </Link>
+                    <li onClick={() => handleRedirect('/service-points')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <i className="pi pi-map-marker mr-2"></i>
+                      <span className="font-medium">Istasyonlar</span>
                     </li>
-                    <li>
-                      <Link
-                        className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
-                        href="/users-management"
-                      >
-                        <i className="pi pi-users mr-2"></i>
-                        <span className="font-medium">Kullanici Yonetimi</span>
-                        <Ripple />
-                      </Link>
+                    <li onClick={() => handleRedirect('/users-management')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <i className="pi pi-users mr-2"></i>
+                      <span className="font-medium">Kullanici Yonetimi</span>
                     </li>
                     <li>
                       <StyleClass
@@ -105,62 +92,31 @@ const handleRedirect = () => {
                         </a>
                       </StyleClass>
                       <ul className="list-none py-0 pl-3 pr-0 m-0 hidden overflow-y-hidden transition-all transition-duration-400 transition-ease-in-out">
-                        <li>
-                          <Link
-                            className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
-                            href="/reports/all-reports"
-                          >
-                            <i className="pi pi-chart-line mr-2"></i>
-                            <span className="font-medium">Tum Islemler</span>
-                            <Ripple />
-                          </Link>
+                        <li onClick={() => handleRedirect('/reports/all-reports')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                          <i className="pi pi-chart-line mr-2"></i>
+                          <span className="font-medium">Tum Islemler</span>
                         </li>
-                        <li>
-                          <a className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
-                            <i className="pi pi-chart-line mr-2"></i>
-                            <span className="font-medium">Kullanici Islemleri</span>
-                            <Ripple />
-                          </a>
+                        <li onClick={() => handleRedirect('/reports/user-reports')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                          <i className="pi pi-chart-line mr-2"></i>
+                          <span className="font-medium">Kullanici Islemleri</span>
                         </li>
-                        <li>
-                          <Link
-                            className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
-                            href="/reports/charging-reports"
-                          >
-                            <i className="pi pi-chart-line mr-2"></i>
-                            <span className="font-medium">Sarj Islemleri</span>
-                            <Ripple />
-                          </Link>
+                        <li onClick={() => handleRedirect('/reports/charging-reports')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                          <i className="pi pi-chart-line mr-2"></i>
+                          <span className="font-medium">Sarj Islemleri</span>
                         </li>
                       </ul>
                     </li>
-                    <li>
-                      <Link className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
-                        href="/tariffs-management"
-                      >
-                        <i className="pi pi-wallet mr-2"></i>
-                        <span className="font-medium">Tarifeler</span>
-                        <Ripple />
-                      </Link>
+                    <li onClick={() => handleRedirect('/tariffs-management')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <i className="pi pi-wallet mr-2"></i>
+                      <span className="font-medium">Tarifeler</span>
                     </li>
-                    <li>
-                      <Link
-                        className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
-                        href="/campaigns"
-                      >
-                        <i className="pi pi-tags mr-2"></i>
-                        <span className="font-medium">Kampanyalar</span>
-                        <Ripple />
-                      </Link>
+                    <li onClick={() => handleRedirect('/campaigns')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <i className="pi pi-tags mr-2"></i>
+                      <span className="font-medium">Kampanyalar</span>
                     </li>
-                    <li>
-                      <Link className="p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full"
-                        href="/faq"
-                      >
-                        <i className="pi pi-question-circle mr-2"></i>
-                        <span className="font-medium">FAQ</span>
-                        <Ripple />
-                      </Link>
+                    <li onClick={() => handleRedirect('/faq')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <i className="pi pi-question-circle mr-2"></i>
+                      <span className="font-medium">FAQ</span>
                     </li>
                   </ul>
                 </div>
