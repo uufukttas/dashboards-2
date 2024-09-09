@@ -287,7 +287,10 @@ const ServicePointSection: React.FC = () => {
   }, [alertInformation.isVisible]);
 
   useEffect(() => {
-    // dispatch(toggleLoadingVisibility(true));
+    if (servicePointsCount === 0) {
+      dispatch(toggleLoadingVisibility(true));
+    }
+
     getAllServicePoints();
   }, []);
 

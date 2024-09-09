@@ -9,6 +9,7 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import { deleteTariffRequest, getAllTariffsRequest } from '../../../app/api/tariffsManagement';
 import { hideDialog, showDialog } from '../../../app/redux/features/dialogInformation';
 import { setTariffs } from '../../../app/redux/features/tariffs';
+import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { toggleTariffListUpdated } from '../../../app/redux/features/isTariffListUpdated';
 import { AppDispatch, RootState } from '../../../app/redux/store';
@@ -32,7 +33,6 @@ const TarifssManagementSection: React.FC = () => {
     const searchProperties = useSelector((state: RootState) => state.searchedText);
     const tariffListData = useSelector((state: RootState) => state.tariffs);
     const [visibleColumns, setVisibleColumns] = useState(tariffsTableHeadData);
-
     const defaultFilters: DataTableFilterMeta = {
         global: { value: null, matchMode: FilterMatchMode.CONTAINS},
         name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
@@ -41,10 +41,8 @@ const TarifssManagementSection: React.FC = () => {
         validityEndDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
         kwRange: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
         createDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
-    }
-
+    };
     const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters);
-
 
     const dataTableHeader = (): JSX.Element => {
         return (
@@ -89,8 +87,8 @@ const TarifssManagementSection: React.FC = () => {
         }
 
         dispatch(toggleTariffListUpdated(false));
+        dispatch(toggleLoadingVisibility(false));
     };
-
     const handleCloseModal = (): void => {
         dispatch(toggleModalVisibility(false));
     };
@@ -117,13 +115,15 @@ const TarifssManagementSection: React.FC = () => {
 
         return data;
     };
-
-    
     const initFilters = () => {
         setFilters(defaultFilters);
     };
 
     useEffect(() => {
+        if (tariffListData.tariffs.length === 0) {
+            dispatch(toggleLoadingVisibility(true));
+        }
+
         getAllTariffs(searchProperties.searchedText);
         initFilters();
     }, [isTariffListUpdated, searchProperties]);

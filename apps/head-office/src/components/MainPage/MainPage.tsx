@@ -48,7 +48,6 @@ const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageP
   const setCitiesData = async (): Promise<void> => {
     const cities = await getCityRequest();
 
-    console.log(cities);
     dispatch(setCities(cities));
   };
   const setDistritcsData = async (): Promise<void> => {

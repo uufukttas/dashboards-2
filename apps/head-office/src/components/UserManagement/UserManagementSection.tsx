@@ -13,6 +13,7 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import { deleteUserRequest, getUserRequest, getUsersRequest } from '../../../app/api/userManagements';
 import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
 import { hideDialog, showDialog } from '../../../app/redux/features/dialogInformation';
+import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { toggleUserListUpdate } from '../../../app/redux/features/isUserListUpdated';
 import { setSearchProperties } from '../../../app/redux/features/searchProperties';
@@ -153,6 +154,7 @@ const UserManagementSection: React.FC = () => {
 
         dispatch(setUsers({ users: response.data, count: response.count }));
         dispatch(toggleUserListUpdate(false));
+        dispatch(toggleLoadingVisibility(false));
     };
     const onColumnToggle = (event: MultiSelectChangeEvent): void => {
         const selectedColumns = event.target.value;
@@ -188,6 +190,11 @@ const UserManagementSection: React.FC = () => {
             searchedText: searchProperties.searchedText,
             searchedConditions: []
         }));
+
+        if (users.length === 0) {
+            dispatch(toggleLoadingVisibility(true));
+        }
+
         initFilters();
     }, []);
 

@@ -5,6 +5,7 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import { getAllReportsRequest } from '../../../app/api/reports';
 import { setReportsData } from '../../../app/redux/features/getAllReports';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
+import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { RootState } from '../../../app/redux/store';
 import './ReportsSection.css';
 
@@ -56,7 +57,7 @@ const defaultFilters: DataTableFilterMeta = ({
     commissionServicePointPrice: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
     companyID: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
     consumerCompanyID: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-    energyUsed: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },    
+    energyUsed: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
     finishDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
     meterFinishDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
     meterStartDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
@@ -316,11 +317,11 @@ const ReportsSection: React.FC = () => {
         );
     };
 
-    const filterClearTemplate = (options: {filterClearCallback: () => void}) => {
+    const filterClearTemplate = (options: { filterClearCallback: () => void }) => {
         return <Button type="button" icon="pi pi-times" onClick={options.filterClearCallback} severity="secondary"></Button>;
     };
 
-    const filterApplyTemplate = (options: {filterApplyCallback: () => void}) => {
+    const filterApplyTemplate = (options: { filterApplyCallback: () => void }) => {
         return <Button type="button" icon="pi pi-check" onClick={options.filterApplyCallback} severity="success"></Button>;
     };
 
@@ -422,12 +423,17 @@ const ReportsSection: React.FC = () => {
             })
         );
         setIsLoading(false);
+        dispatch(toggleLoadingVisibility(false));
     };
     const handleCloseModal = (): void => {
         dispatch(toggleModalVisibility(false));
     };
 
     useEffect(() => {
+        if (reportsData.length === 0) {
+            dispatch(toggleLoadingVisibility(true));
+        }
+
         getAllChargeData();
         initFilters();
     }, []);
