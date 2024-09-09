@@ -13,7 +13,6 @@
         font-size: 12px;
       }
     }
-    
   }
 
   .#{$brand-prefix}-accordion-content {
@@ -32,8 +31,19 @@
   height: 25px;
 }
 
-
 .p-multiselect-token {
   background-color: $primary-color;
   color: white;
+}
+
+.p-multiselect-label-container {
+  display: none;
+}
+
+.p-multiselect-trigger {
+  width: 48px;
+  height: 48px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  color: var(--primary-font-color);
 }

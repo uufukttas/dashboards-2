@@ -25,3 +25,15 @@
   background-color: #0075bf;
   color: white;
 }
+
+.p-multiselect-label-container {
+  display: none;
+}
+
+.p-multiselect-trigger {
+  width: 48px;
+  height: 48px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  color: var(--primary-font-color);
+}

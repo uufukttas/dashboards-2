@@ -124,7 +124,7 @@ const ServicePointSection: React.FC = () => {
       <>
         <div className={`${BRAND_PREFIX}-data-table-header-container w-full flex justify-between items-center`}>
           <div className={`${BRAND_PREFIX}-data-table-select-container`}>
-            <MultiSelect value={visibleColumns} options={servicePointTableHeadData.filter((item) => item.isRemovable)} optionLabel="header" onChange={onColumnToggle} className="w-full sm:w-20rem" display="chip" />
+            <MultiSelect value={visibleColumns} options={servicePointTableHeadData.filter((item) => item.isRemovable)} optionLabel="header" onChange={onColumnToggle} className="w-full sm:w-20rem" placeholder="Sütunları Seç" />
           </div>
           <div className={`${BRAND_PREFIX}-data-table-action-button-container flex justify-center items-center`}>
             <div className={`${BRAND_PREFIX}-data-table-export-button-container mx-4`}>
