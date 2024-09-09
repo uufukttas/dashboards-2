@@ -37,7 +37,7 @@ const BackgroundSection: React.FC = () => {
                         type='file'
                     />
                 </div>
-                <div className={`${backgroundImagePrefix}-submit-button-container w-1/3`}>
+                <div className={`${backgroundImagePrefix}-submit-button-container w-full`}>
                     <Button
                         className={`${backgroundImagePrefix}-submit-button w-full p-2 bg-primary text-white rounded-lg my-2`}
                         id={`${backgroundImagePrefix}-submit-button`}
