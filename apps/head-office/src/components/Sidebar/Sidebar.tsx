@@ -19,11 +19,6 @@ const SidebarComponent: React.FC = () => {
   const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
   const btnRef2 = useRef(null);
   const dispatch = useDispatch();
-  const router = useRouter();
-
-  const handleRedirect = (route: string) => {
-    router.push(`/${route}`);
-  };
 
   return (
     <div className="card flex justify-center">
@@ -60,17 +55,23 @@ const SidebarComponent: React.FC = () => {
                 </div>
                 <div className="overflow-y-auto">
                   <ul className="list-none p-3 m-0 overflow-hidden">
-                    <li onClick={() => handleRedirect('/dashboards')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
-                      <i className="pi pi-home mr-2"></i>
-                      <span className="font-medium">Dashboard</span>
+                    <li className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <a href='/dashboards'>
+                        <i className="pi pi-home mr-2"></i>
+                        <span className="font-medium">Dashboard</span>
+                      </a>
                     </li>
-                    <li onClick={() => handleRedirect('/service-points')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
-                      <i className="pi pi-map-marker mr-2"></i>
-                      <span className="font-medium">Istasyonlar</span>
+                    <li className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <a href="/service-points">
+                        <i className="pi pi-map-marker mr-2"></i>
+                        <span className="font-medium">Istasyonlar</span>
+                      </a>
                     </li>
-                    <li onClick={() => handleRedirect('/users-management')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
-                      <i className="pi pi-users mr-2"></i>
-                      <span className="font-medium">Kullanici Yonetimi</span>
+                    <li className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <a href='/users-management'>
+                        <i className="pi pi-users mr-2"></i>
+                        <span className="font-medium">Kullanici Yonetimi</span>
+                      </a>
                     </li>
                     <li>
                       <StyleClass
@@ -92,31 +93,43 @@ const SidebarComponent: React.FC = () => {
                         </a>
                       </StyleClass>
                       <ul className="list-none py-0 pl-3 pr-0 m-0 hidden overflow-y-hidden transition-all transition-duration-400 transition-ease-in-out">
-                        <li onClick={() => handleRedirect('/reports/all-reports')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
-                          <i className="pi pi-chart-line mr-2"></i>
-                          <span className="font-medium">Tum Islemler</span>
+                        <li className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                          <a href="/reports/all-reports">
+                            <i className="pi pi-chart-line mr-2"></i>
+                            <span className="font-medium">Tum Islemler</span>
+                          </a>
                         </li>
-                        <li onClick={() => handleRedirect('/reports/user-reports')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
-                          <i className="pi pi-chart-line mr-2"></i>
-                          <span className="font-medium">Kullanici Islemleri</span>
+                        <li className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                          <a href="/reports/users-reports">
+                            <i className="pi pi-chart-line mr-2"></i>
+                            <span className="font-medium">Kullanici Islemleri</span>
+                          </a>
                         </li>
-                        <li onClick={() => handleRedirect('/reports/charging-reports')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
-                          <i className="pi pi-chart-line mr-2"></i>
-                          <span className="font-medium">Sarj Islemleri</span>
+                        <li className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                          <a href="/reports/charge-reports">
+                            <i className="pi pi-chart-line mr-2"></i>
+                            <span className="font-medium">Sarj Islemleri</span>
+                          </a>
                         </li>
                       </ul>
                     </li>
-                    <li onClick={() => handleRedirect('/tariffs-management')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
-                      <i className="pi pi-wallet mr-2"></i>
-                      <span className="font-medium">Tarifeler</span>
+                    <li className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <a href="/tariffs-management">
+                        <i className="pi pi-wallet mr-2"></i>
+                        <span className="font-medium">Tarifeler</span>
+                      </a>
                     </li>
-                    <li onClick={() => handleRedirect('/campaigns')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
-                      <i className="pi pi-tags mr-2"></i>
-                      <span className="font-medium">Kampanyalar</span>
+                    <li className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <a href="/campaigns">
+                        <i className="pi pi-tags mr-2"></i>
+                        <span className="font-medium">Kampanyalar</span>
+                      </a>
                     </li>
-                    <li onClick={() => handleRedirect('/faq')} className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
-                      <i className="pi pi-question-circle mr-2"></i>
-                      <span className="font-medium">FAQ</span>
+                    <li className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <a href="/faq">
+                        <i className="pi pi-question-circle mr-2"></i>
+                        <span className="font-medium">FAQ</span>
+                      </a>
                     </li>
                   </ul>
                 </div>

@@ -74,6 +74,9 @@
   .sh-sidebar-container img {
     padding: 0 5px;
   }
+  .sh-sidebar-container li.active {
+    background-color: var(#FCD800);
+  }
   .expanded {
     animation: expand-desktop 1s forwards;
     overflow: hidden !important;

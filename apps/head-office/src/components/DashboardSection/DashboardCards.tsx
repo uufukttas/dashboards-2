@@ -1,6 +1,6 @@
 // @ts-nocheck we will look after then API integration
 
-import React, { useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import {
     ArcElement,
     CategoryScale,
@@ -363,9 +363,9 @@ const DashboardCards: React.FC = () => {
             <div className={`${pagePrefix}-card-row-wrapper flex flex-col md:flex-row w-full`}>
                 <div className='w-full h-full grid' style={{ gridTemplateColumns: (isDesktop ?  'repeat(12, 1fr)' : 'repeat(11, 1fr)'), gap: "2em" }}>
                     {
-                        Object.keys(dashboardsData).map((item: string) => {
+                        Object.keys(dashboardsData).map((item: string, index: number) => {
                             return (
-                                <>
+                                <Fragment key={index}>
                                     <Card
                                         BRAND_PREFIX={BRAND_PREFIX}
                                         containerClassName={`py-4 flex flex-col items-center justify-between shadow border border-gray-300 rounded-md bg-white`}
@@ -417,7 +417,7 @@ const DashboardCards: React.FC = () => {
                                             )
                                         }
                                     </Card>
-                                </>
+                                </Fragment>
                             )
                         })
                     }
