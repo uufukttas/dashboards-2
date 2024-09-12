@@ -358,12 +358,13 @@ const ServicePointSection: React.FC = () => {
                           </a>
                           {
                             (rowData?.address && rowData?.districtId && rowData?.cityId && rowData?.phone) && (
-                              <Link
+                              <a
                                 className='font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"'
                                 href={`/service-points/service-point/${rowData.id}`}
+                                onClick={() => dispatch(toggleLoadingVisibility(true))}
                               >
                                 <FaCircleInfo className={`text-blue-700`} />
-                              </Link >
+                              </a >
                             )
                           }
                         </div>
