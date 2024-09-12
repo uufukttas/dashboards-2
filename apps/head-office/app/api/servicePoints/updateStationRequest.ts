@@ -5,7 +5,7 @@ const updateStationRequest = async (actionData: IFormDataProps) => {
     try {
         const response = await axios
             .post(
-                process.env.NEXT_PUBLIC_UPDATE_STATION_URL || '',
+                `${process.env.NEXT_PUBLIC_BASE_URL}/ServicePoint/UpdateStation` || '',
                 actionData,
                 {
                     headers: {

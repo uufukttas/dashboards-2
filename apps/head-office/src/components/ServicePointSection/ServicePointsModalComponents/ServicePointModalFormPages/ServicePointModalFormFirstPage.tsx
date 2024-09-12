@@ -75,7 +75,6 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
       setStationId(response.data[0].id);
     }
 
-
     dispatch(
       setServicePointData({
         ...servicePointData,
