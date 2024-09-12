@@ -58,6 +58,7 @@ const ServicePointSection: React.FC = () => {
   const servicePointsCount = useSelector((state: RootState) => state.servicePoints.count);
   const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
   const servicePointsData = useSelector((state: RootState) => state.servicePoints.servicePoints);
+  const [isUpdatedServicePointData, setIsUpdatedServicePointData] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState(servicePointTableHeadData);
   const [globalFilterValue, setGlobalFilterValue] = useState<string>('');
 
@@ -85,8 +86,6 @@ const ServicePointSection: React.FC = () => {
     }
   };
   const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters);
-
-
 
   const createGetServicePointsRequestPayload = (): IPayloadProps => {
     const payload: IPayloadProps = {};
@@ -196,6 +195,8 @@ const ServicePointSection: React.FC = () => {
     handleGetServicePointSuccess(response);
   };
   const getUpdatedServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>): Promise<void> => {
+    setIsUpdatedServicePointData(true);
+
     const servicePointId: number = Number(event.currentTarget.getAttribute('data-service-point-id') || '0');
     const servicePointData = await getServicePointDataRequest(servicePointId);
     const servicePointInformation = await getServicePointInformationRequest(servicePointId);
@@ -208,6 +209,8 @@ const ServicePointSection: React.FC = () => {
     dispatch(setServicePointData(initialServicePointDataValues));
     dispatch(setServicePointInformation(initialServicePointInformationValue));
     dispatch(toggleModalVisibility(false));
+
+    setIsUpdatedServicePointData(false);
   };
   const handleDeleteServicePointSuccess = (data: IResponseDataProps): void => {
     dispatch(
@@ -382,7 +385,7 @@ const ServicePointSection: React.FC = () => {
         isModalVisible && (
           <Modal
             className={`${pagePrefix}-modal-container`}
-            modalHeaderTitle={`Istasyon ${servicePointData.id > 0 ? 'Güncelle' : 'Ekle'}`}
+            modalHeaderTitle={`Istasyon ${isUpdatedServicePointData ? 'Güncelle' : 'Ekle'}`}
             modalId={`${pagePrefix}-modal`}
             onClose={handleCloseModal}
           >
