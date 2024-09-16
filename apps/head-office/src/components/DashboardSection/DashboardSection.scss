@@ -1,6 +1,6 @@
 @import '../../constants/variables.scss';
 
-.#{$brand-prefix}-dashboard-page-container {
+.#{$brand-prefix}-dashboards-page-container {
   .#{$brand-prefix}-card-container {
     &:hover {
       box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);

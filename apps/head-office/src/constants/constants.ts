@@ -63,10 +63,10 @@ export const sidebarItems = [
     },
 ]
 export const stylesProps = {
-    // primaryColor: '#FFCE0B',
-    // secondaryColor: '#54565A',
-    primaryColor: '#0075bf',
-    secondaryColor: '#9acd66',
+    primaryColor: '#FFCE0B',
+    secondaryColor: '#54565A',
+    // primaryColor: '#0075bf',
+    // secondaryColor: '#9acd66',
     borderColor: '#000000',
     borderFocusColor: '#FFCE0B',
     borderRadius: '6px',

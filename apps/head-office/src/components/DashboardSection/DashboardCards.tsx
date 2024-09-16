@@ -19,7 +19,11 @@ import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
 import { BiSolidEvStation } from "react-icons/bi";
 import { FaChargingStation } from 'react-icons/fa';
 import { FaBatteryHalf, FaCircleInfo } from 'react-icons/fa6';
+import { GiElectricalSocket } from "react-icons/gi";
 import { HiUserGroup } from "react-icons/hi";
+import { IoIosFlash } from "react-icons/io";
+import { MdOutlineCurrencyLira } from "react-icons/md";
+import { PiWaveSineBold } from "react-icons/pi";
 import { useDispatch } from 'react-redux';
 import { Card } from '@projects/card';
 import { dashboardsData } from './dashboardsData'; // It will be deleted after the API integration.
@@ -46,7 +50,6 @@ Chart.register(
 const DashboardCards: React.FC = () => {
     const isDesktop = detectDevice().isDesktop;
     const isTablet = detectDevice().isTablet;
-    const isMobile = detectDevice().isMobile;
     const lineOptions = {
         maintainAspectRatio: false,
         plugins: {
@@ -151,6 +154,14 @@ const DashboardCards: React.FC = () => {
                 return <FaBatteryHalf className='text-6xl' />;
             case 'HiUserGroup':
                 return <HiUserGroup className='text-6xl' />;
+            case 'MdOutlineCurrenyLira':
+                return <MdOutlineCurrencyLira className='text-6xl' />;
+            case 'GiElectricalSocket':
+                return <GiElectricalSocket className='text-6xl rounded-full' />;
+            case 'IoIosFlash':
+                return <IoIosFlash className='text-6xl' />;
+            case 'PiWaveSineBold':
+                return <PiWaveSineBold className='text-6xl' />;
             default:
                 return <></>;
         };
@@ -330,7 +341,7 @@ const DashboardCards: React.FC = () => {
             </div>
         } else if (data.type === 'line&bar') {
             return <div className='w-full h-full h-[400px] flex items-center justify-center'>
-                <Bar options={options} data={barLineData(data.value)} className={`flex justify-center items-center !w-[800px]`} style={{ width: "1150", height: '450'}} />
+                <Bar options={options} data={barLineData(data.value)} className={`flex justify-center items-center !w-[800px]`} style={{ width: "1150", height: '450' }} />
             </div>
         } else if (data.type === 'list') {
             return (
@@ -361,7 +372,7 @@ const DashboardCards: React.FC = () => {
     return (
         <div className={`${pagePrefix}-info-container w-full flex justify-between flex-wrap`}>
             <div className={`${pagePrefix}-card-row-wrapper flex flex-col md:flex-row w-full`}>
-                <div className='w-full h-full grid' style={{ gridTemplateColumns: (isDesktop ?  'repeat(12, 1fr)' : 'repeat(11, 1fr)'), gap: "2em" }}>
+                <div className='w-full h-full grid' style={{ gridTemplateColumns: (isDesktop ? 'repeat(12, 1fr)' : 'repeat(11, 1fr)'), gap: "2em" }}>
                     {
                         Object.keys(dashboardsData).map((item: string, index: number) => {
                             return (
