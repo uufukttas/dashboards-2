@@ -25,6 +25,10 @@ const DashboardMap: React.FC<DashboardMapProps> = ({ markerList }) => {
   const handleMarkerClick = useCallback((marker: MarkerInfo) => {
     setSelectedMarker(marker);
     fetchAddress(marker.lat, marker.lng);
+    if (mapRef.current) {
+      mapRef.current.panTo({ lat: marker.lat, lng: marker.lng });
+      mapRef.current.setZoom(14);
+    }
   }, []);
 
   const fetchAddress = async (lat: number, lng: number) => {
@@ -71,9 +75,11 @@ const DashboardMap: React.FC<DashboardMapProps> = ({ markerList }) => {
                   setAddress(null);
                 }}
               >
-                <div>
-                  <h2>Location Information</h2>
-                  <p>{address || 'Loading address...'}</p>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <div style={{ marginRight: '8px' }}>
+                    <p style={{ margin: 0 }}>{address || 'Loading address...'}</p>
+                  </div>
+                  <button onClick={() => setSelectedMarker(null)} style={{ marginLeft: 'auto', fontSize: '20px', fontWeight: "bolder" }}>X</button>
                 </div>
               </InfoWindow>
             )
