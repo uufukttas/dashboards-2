@@ -2,12 +2,9 @@
   overflow-y: scroll;
   overflow-x: hidden;
 }
-.sh-main-page-container.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
 .sh-main-page-container.no-scrollbar {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  overflow-y: scroll;
+  scrollbar-width: thin;
 }
 
 @media screen and (max-width: 767px) {
