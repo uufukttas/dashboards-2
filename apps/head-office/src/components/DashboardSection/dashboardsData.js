@@ -74,51 +74,5 @@ export const dashboardsData = {
         "mobile_layout": "19 / 1 / 19 / 12",
         "tablet_layout": "5 / 5 / 7 / 12",
         "type": "map"
-    },
-    "most_used_locations": {
-        "title": "En Çok Kullanılan Lokasyonlar",
-        "value": [
-            { "Location 1": 25 },
-            { "Location 2": 20 },
-            { "Location 3": 15 },
-            { "Location 4": 10 },
-            { "Location 5": 5 }
-        ],
-        "icon_name": "icon_name",
-        "description": "This is description of this card",
-        "position": "6 / 1 / 8 / 5",
-        "mobile_layout": "30 / 1 / 31 / 12",
-        "tablet_layout": "11 / 1 / 13 / 5",
-        "type": "list"
-    },
-    "most_charging_users": {
-        "title": "En Çok Sarj Yapan Kullanıcılar",
-        "value": [
-            { "User 1": 25 },
-            { "User 2": 20 },
-            { "User 3": 15 },
-            { "User 4": 10 },
-            { "User 5": 5 }
-        ],
-        "icon_name": "icon_name",
-        "description": "This is description of this card",
-        "position": "6 / 5 / 8 / 9",
-        "mobile_layout": "31 / 1 / 32 / 12",
-        "tablet_layout": "11 / 5 / 13 / 9",
-        "type": "list"
-    },
-    "most_payment_types": {
-        "title": "Ödeme Yöntemleri",
-        "value": [
-            { "Kredi Kartı": 25 },
-            { "Sharz Card": 20 },
-            { "Fleet / Wallet": 15 }
-        ],
-        "icon_name": "icon_name",
-        "description": "This is description of this card",
-        "position": "6 / 9 / 8 / 13",
-        "mobile_layout": "32 / 1 / 33 / 12",
-        "tablet_layout": "11 / 10 / 13 / 12",
-        "type": "list"
-    },
+    }
 }

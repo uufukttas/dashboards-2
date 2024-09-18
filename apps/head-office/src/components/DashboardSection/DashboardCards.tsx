@@ -1,5 +1,4 @@
 // @ts-nocheck we will look after then API integration
-
 import React, { Fragment, useEffect } from 'react';
 import {
     ArcElement,
@@ -19,11 +18,7 @@ import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
 import { BiSolidEvStation } from "react-icons/bi";
 import { FaChargingStation } from 'react-icons/fa';
 import { FaBatteryHalf, FaCircleInfo } from 'react-icons/fa6';
-import { GiElectricalSocket } from "react-icons/gi";
 import { HiUserGroup } from "react-icons/hi";
-import { IoIosFlash } from "react-icons/io";
-import { MdOutlineCurrencyLira } from "react-icons/md";
-import { PiWaveSineBold } from "react-icons/pi";
 import { useDispatch } from 'react-redux';
 import { Card } from '@projects/card';
 import { dashboardsData } from './dashboardsData'; // It will be deleted after the API integration.
@@ -33,7 +28,6 @@ import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVi
 import { IChartData, IDashboardData, ITooltipItem } from './types';
 import './DashboardSection.css';
 import { detectDevice } from '@projects/common';
-
 Chart.register(
     ArcElement,
     CategoryScale,
@@ -46,10 +40,10 @@ Chart.register(
     Title,
     Tooltip,
 );
-
 const DashboardCards: React.FC = () => {
     const isDesktop = detectDevice().isDesktop;
     const isTablet = detectDevice().isTablet;
+    const isMobile = detectDevice().isMobile;
     const lineOptions = {
         maintainAspectRatio: false,
         plugins: {
@@ -108,16 +102,12 @@ const DashboardCards: React.FC = () => {
             },
         },
     };
-
     const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page-cards`;
-
     const dispatch = useDispatch();
-
     const doughnutData = (response: IChartData[]) => {
         const labels = response.map(item => Object.keys(item)[0]);
         // @ts-expect-error will delete
         const data = response.map(item => item[Object.keys(item)[0]]);
-
         return {
             datasets: [
                 {
@@ -142,7 +132,6 @@ const DashboardCards: React.FC = () => {
             ],
             labels: labels,
         };
-
     };
     const getCardIcon = (icon: string): JSX.Element => {
         switch (icon) {
@@ -154,14 +143,6 @@ const DashboardCards: React.FC = () => {
                 return <FaBatteryHalf className='text-6xl' />;
             case 'HiUserGroup':
                 return <HiUserGroup className='text-6xl' />;
-            case 'MdOutlineCurrenyLira':
-                return <MdOutlineCurrencyLira className='text-6xl' />;
-            case 'GiElectricalSocket':
-                return <GiElectricalSocket className='text-6xl rounded-full' />;
-            case 'IoIosFlash':
-                return <IoIosFlash className='text-6xl' />;
-            case 'PiWaveSineBold':
-                return <PiWaveSineBold className='text-6xl' />;
             default:
                 return <></>;
         };
@@ -177,7 +158,6 @@ const DashboardCards: React.FC = () => {
     };
     const lineData = (response: IChartData[]) => {
         let acData, dcData, todayData, lastWeekData, monthData, lastMonthData, yearData, lastYearData;
-
         if (response[0].ac && response[1].dc) {
             ({ currentData: acData, previousData: dcData } = processData(response, 'ac', 'dc'));
         } else if (response[0].today && response[1].last_week_today) {
@@ -187,9 +167,7 @@ const DashboardCards: React.FC = () => {
         } else if (response[0].year && response[1].last_year) {
             ({ currentData: yearData, previousData: lastYearData } = processData(response, 'year', 'last_year'));
         }
-
         const key = (response[0].ac && response[0]?.ac[0]) || (response[0].today && response[0]?.today[0]) || (response[0].month && response[0]?.month[0]) || (response[0].year && response[0]?.year[0]);
-
         return {
             datasets: [
                 {
@@ -221,7 +199,6 @@ const DashboardCards: React.FC = () => {
             kwh: [],
             service_fee: []
         };
-
         data.forEach((item) => {
             const key = Object.keys(item)[0];
             const stats = item[key];
@@ -231,7 +208,6 @@ const DashboardCards: React.FC = () => {
             transformedData.kwh.push(stats.kwh);
             transformedData.service_fee.push(stats.service_fee);
         });
-
         return {
             labels: transformedData.labels,
             datasets: [
@@ -364,11 +340,9 @@ const DashboardCards: React.FC = () => {
             )
         }
     };
-
     useEffect(() => {
         dispatch(toggleLoadingVisibility(false));
     }, []);
-
     return (
         <div className={`${pagePrefix}-info-container w-full flex justify-between flex-wrap`}>
             <div className={`${pagePrefix}-card-row-wrapper flex flex-col md:flex-row w-full`}>

@@ -1,13 +1,16 @@
 @import '../../constants/variables.scss';
 
-.#{$brand-prefix}-dashboards-page-container {
-  .#{$brand-prefix}-card-container {
-    &:hover {
-      box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+.#{$brand-prefix}-section-container {
+  min-height: auto !important;
+
+  .#{$brand-prefix}-dashboards-page-container {
+    .#{$brand-prefix}-card-container {
+      &:hover {
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+      }
     }
   }
 }
-
 .gm-style-iw.gm-style-iw-c {
   padding: 4px !important;
 }
