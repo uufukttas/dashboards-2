@@ -151,7 +151,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
                                         header={() => {
                                             return (
                                                 <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-container w-full flex justify-between items-center text-white h-12`}>
-                                                    <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-info-container text-white`}>
+                                                    <div className={`${BRAND_PREFIX}-service-point-details-accordion-info-container text-white`}>
                                                         {accordion.accordionTitle}
                                                     </div>
                                                     <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-action-container`}>
@@ -164,7 +164,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> =
                                     >
                                         {
                                             index === activeTabIndex && (
-                                                <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-info-container`}>
+                                                <div className={`${BRAND_PREFIX}-service-point-details-accordion-info-container`}>
                                                     {accordion.accordionContent}
                                                 </div>
                                             )
