@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
 import { Libraries } from '@react-google-maps/api';
 import { BRAND_PREFIX } from '../../constants/constants';
@@ -19,6 +19,7 @@ const DashboardMap: React.FC<DashboardMapProps> = ({ markerList }) => {
 
   const [selectedMarker, setSelectedMarker] = useState<MarkerInfo | null>(null);
   const [address, setAddress] = useState<string | null>(null);
+  const [customIcon, setCustomIcon] = useState<any>(null);
 
   const onLoad = useCallback((map: google.maps.Map) => { mapRef.current = map }, []);
 
@@ -43,23 +44,35 @@ const DashboardMap: React.FC<DashboardMapProps> = ({ markerList }) => {
     }
   };
 
+  useEffect(() => {
+    if (window.google) {
+      setCustomIcon({
+        url: '/ac.png',
+        scaledSize: new window.google.maps.Size(38, 38),
+        origin: new window.google.maps.Point(0, 0),
+        anchor: new window.google.maps.Point(19, 38)
+      });
+    }
+  }, [window.google]);
+
   return (
     <div className={`${dashboardMapPrefix}-container w-full px-2 my-4`}>
       <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''} libraries={libraries}>
         <GoogleMap
-          center={{ lat: 39.92504, lng: 32.83709 }} // Heart of Turkey - Ankara Anitkabir
-          mapContainerStyle={{ height: '400px' }}
+          center={{ lat: 39.92504, lng: 30.83709 }} // Heart of Turkey - Ankara Anitkabir
+          mapContainerStyle={{ height: '635px' }}
           mapTypeId='roadmap'
           options={{
             fullscreenControl: false,
             disableDefaultUI: true,
           }}
-          zoom={6}
+          zoom={7}
           onLoad={onLoad}
         >
           {
-            markerList.map((marker, index) => (
+            customIcon && markerList.map((marker, index) => (
               <Marker
+                icon={customIcon}
                 key={index}
                 position={{ lat: marker.lat, lng: marker.lng }}
                 onClick={() => handleMarkerClick(marker)}

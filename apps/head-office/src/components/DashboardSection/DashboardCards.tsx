@@ -18,7 +18,10 @@ import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
 import { BiSolidEvStation } from "react-icons/bi";
 import { FaChargingStation } from 'react-icons/fa';
 import { FaBatteryHalf, FaCircleInfo } from 'react-icons/fa6';
+import { GiElectricalSocket } from "react-icons/gi";
 import { HiUserGroup } from "react-icons/hi";
+import { IoIosFlash } from "react-icons/io";
+import { PiWaveSineBold } from "react-icons/pi";
 import { useDispatch } from 'react-redux';
 import { Card } from '@projects/card';
 import { dashboardsData } from './dashboardsData'; // It will be deleted after the API integration.
@@ -143,6 +146,12 @@ const DashboardCards: React.FC = () => {
                 return <FaBatteryHalf className='text-6xl' />;
             case 'HiUserGroup':
                 return <HiUserGroup className='text-6xl' />;
+            case 'GiElectricalSocket':
+                return <GiElectricalSocket className='text-8xl rounded' />;
+            case 'IoIosFlash':
+                return <IoIosFlash className='text-8xl' />;
+            case 'PiWaveSineBold':
+                return <PiWaveSineBold className='text-8xl' />;
             default:
                 return <></>;
         };
@@ -151,8 +160,12 @@ const DashboardCards: React.FC = () => {
         if (Array.isArray(data.value)) {
             return renderGraphics(data);
         } else {
-            return <div className='flex items-center justify-end'>
-                <div className='text-2xl'>{data.value}</div>
+            const mainData = data.value.split('/')[0];
+            const wholeData = data.value.split('/')[1];
+
+            return <div className='flex items-end justify-end'>
+                <div className='text-4xl'>{mainData}/</div>
+                <div className='text-2xl'>{wholeData}</div>
             </div>
         }
     };
