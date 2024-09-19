@@ -1,10 +1,10 @@
 export const secondDashboardsData = {
     "total_charge_process_amount": {
         "title": "Toplam Sarj Islem Tutari",
-        "value": 10000,
+        "value": "10000 / 11012",
         "icon_name": "FaChargingStation",
         "description": "This is description of this card",
-        "position": "1 / 1 / 1 / 5",
+        "position": "1 / 1 / 3 / 5",
         "mobile_layout": "1 / 1 / 1 / 12",
         "tablet_layout": "1 / 1 / 1 / 5",
         "type": "",
@@ -25,37 +25,17 @@ export const secondDashboardsData = {
     },
     "total_customer_count": {
         "title": "Musteri Sayisi",
-        "value": 700,
+        "value": "700/765",
         "icon_name": "HiUserGroup",
         "description": "This is description of this card",
-        "position": "1 / 9 / 2 / 13",
+        "position": "1 / 9 / 3 / 13",
         "mobile_layout": "3 / 1 / 3 / 12",
         "tablet_layout": "1 / 9 / 2 / 12",
         "type": ""
     },
-    "other_info1": {
-        "title": "Diger Bilgiler",
-        "value": 100,
-        "icon_name": "icon_name",
-        "description": "",
-        "position": "2 / 1 / 2 / 5",
-        "mobile_layout": "4 / 1 / 4 / 12",
-        "tablet_layout": "2 / 1 / 2 / 5",
-        "type": ""
-    },
-    "other_info2": {
-        "title": "Diger Bilgiler",
-        "value": 100,
-        "icon_name": "icon_name",
-        "description": "",
-        "position": "2 / 9 / 2 / 13",
-        "mobile_layout": "5 / 1 / 5 / 12",
-        "tablet_layout": "2 / 9 / 2 / 12",
-        "type": ""
-    },
     "total_used_kwh": {
         "title": "Toplam Kwh Tuketimi",
-        "value": 10000,
+        "value": "10000",
         "icon_name": "FaBolt",
         "description": "",
         "position": "3 / 1 / 3 / 3",
@@ -65,7 +45,7 @@ export const secondDashboardsData = {
     },
     "total_charge_process_count": {
         "title": "Toplam Sarj Islem Sayisi",
-        "value": 1000,
+        "value": "1000/1100",
         "icon_name": "",
         "description": "This is description of this card",
         "position": "3 / 3 / 3 / 5",
@@ -94,9 +74,9 @@ export const secondDashboardsData = {
     "ac_dc_sales": {
         "title": "AC/DC Satış Tutarlari",
         "value": [{
-            "AC": 100
+            "AC": "100"
         }, {
-            "DC": 200
+            "DC": "200"
         }],
         "icon_name": "icon_name",
         "description": "This is description of this card",
@@ -107,7 +87,7 @@ export const secondDashboardsData = {
     },
     "last_three_months_active_customer_count": {
         "title": "Aktif Musteri Sayisi",
-        "value": 600,
+        "value": "600/736",
         "icon_name": "icon_name",
         "description": "This is description of this card",
         "position": "3 / 9 / 3 / 11",
@@ -117,7 +97,7 @@ export const secondDashboardsData = {
     },
     "inactive_customer_count": {
         "title": "Pasif Musteri Sayisi",
-        "value": 100,
+        "value": "136",
         "icon_name": "icon_name",
         "description": "This is description of this card",
         "position": "3 / 11 / 3 / 13",
@@ -127,7 +107,7 @@ export const secondDashboardsData = {
     },
     "total_cost": {
         "title": "Toplam Maliyet",
-        "value": 10000,
+        "value": "10000/15563",
         "icon_name": "icon_name",
         "description": "This is description of this card",
         "position": "4 / 1 / 4 / 3",
@@ -137,7 +117,7 @@ export const secondDashboardsData = {
     },
     "total_earn": {
         "title": "Toplam Kazanc",
-        "value": 15000,
+        "value": "15000/20000",
         "icon_name": "icon_name",
         "description": "This is description of this card",
         "position": "4 / 3 / 4 / 5",
@@ -147,7 +127,7 @@ export const secondDashboardsData = {
     },
     "last_month_active_customer_count": {
         "title": "Son Ay Aktif Musteri Sayisi",
-        "value": 100,
+        "value": "100/123",
         "icon_name": "icon_name",
         "description": "This is description of this card",
         "position": "4 / 9 / 4 / 11",
@@ -157,75 +137,13 @@ export const secondDashboardsData = {
     },
     "last_week_active_customer_count": {
         "title": "Son Hafta Aktif Musteri Sayisi",
-        "value": 50,
+        "value": "50/68",
         "icon_name": "icon_name",
         "description": "This is description of this card",
         "position": "4 / 11 / 4 / 13",
         "mobile_layout": "15 / 1 / 15 / 12",
         "tablet_layout": "4 / 11 / 4 / 12",
         "type": ""
-    },
-    "connector": {
-        "title": "Konnektor",
-        "value": 450,
-        "icon_name": "icon_name",
-        "description": "This is description of this card",
-        "position": "5 / 1 / 5 / 5",
-        "mobile_layout": "16 / 1 / 16 / 12",
-        "tablet_layout": "5 / 1 / 5 / 5",
-        "type": ""
-    },
-    "ac_status": {
-        "title": "AC Durumu",
-        "value": [{
-            "available": 10
-        }, {
-            "busy": 20
-        }, {
-            "fault": 5
-        }, {
-            "maintenance": 5
-        }],
-        "icon_name": "icon_name",
-        "description": "This is description of this card",
-        "position": "6 / 1 / 6 / 3",
-        "mobile_layout": "17 / 1 / 17 / 12",
-        "tablet_layout": "6 / 1 / 6 / 3",
-        "type": "pie"
-    },
-    "dc_status": {
-        "title": "DC Durumu",
-        "value": [{
-            "available": 10
-        }, {
-            "busy": 20
-        }, {
-            "fault": 5
-        }, {
-            "maintenance": 5
-        }],
-        "icon_name": "icon_name",
-        "description": "This is description of this card",
-        "position": "6 / 3 / 6 / 5",
-        "mobile_layout": "18 / 1 / 18 / 12",
-        "tablet_layout": "6 / 3 / 6 / 5",
-        "type": "pie"
-    },
-    "locations": {
-        "title": "Lokasyonlar",
-        "value": [{
-            lat: 39.92504,
-            lng: 32.83709
-        }, {
-            lat: 37.92504,
-            lng: 27.83709
-        }],
-        "icon_name": "icon_name",
-        "description": "This is description of this card",
-        "position": "5 / 5 / 7 / 13",
-        "mobile_layout": "19 / 1 / 19 / 12",
-        "tablet_layout": "5 / 5 / 7 / 12",
-        "type": "map"
     },
     "daily_income": {
         "title": "Günlük Islem Tutarı",
@@ -235,9 +153,9 @@ export const secondDashboardsData = {
         ],
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "7 / 1 / 9 / 3",
+        "position": "5 / 1 / 7 / 3",
         "mobile_layout": "20 / 1 / 20 / 12",
-        "tablet_layout": "7 / 1 / 9 / 3",
+        "tablet_layout": "5 / 1 / 7 / 3",
         "type": "line"
     },
     "daily_kwh_usage": {
@@ -248,9 +166,9 @@ export const secondDashboardsData = {
         ],
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "7 / 3 / 9 / 5",
+        "position": "5 / 3 / 7 / 5",
         "mobile_layout": "21 / 1 / 21 / 12",
-        "tablet_layout": "7 / 3 / 9 / 5",
+        "tablet_layout": "5 / 3 / 7 / 5",
         "type": "line"
     },
     "monthly_income": {
@@ -261,9 +179,9 @@ export const secondDashboardsData = {
         ],
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "7 / 5 / 9 / 7",
+        "position": "5 / 5 / 7 / 7",
         "mobile_layout": "22 / 1 / 22 / 12",
-        "tablet_layout": "7 / 5 / 9 / 7",
+        "tablet_layout": "5 / 5 / 7 / 7",
         "type": "line"
     },
     "monthly_kwh_usage": {
@@ -274,9 +192,9 @@ export const secondDashboardsData = {
         ],
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "7 / 7 / 9 / 9",
+        "position": "5 / 7 / 7 / 9",
         "mobile_layout": "23 / 1 / 23 / 12",
-        "tablet_layout": "7 / 7 / 9 / 9",
+        "tablet_layout": "5 / 7 / 7 / 9",
         "type": "line"
     },
     "yearly_income": {
@@ -287,9 +205,9 @@ export const secondDashboardsData = {
         ],
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "7 / 9 / 9 / 11",
+        "position": "5 / 9 / 7 / 11",
         "mobile_layout": "24 / 1 / 24 / 12",
-        "tablet_layout": "7 / 9 / 9 / 11",
+        "tablet_layout": "5 / 9 / 7 / 11",
         "type": "line"
     },
     "yearly_kwh_usage": {
@@ -300,9 +218,9 @@ export const secondDashboardsData = {
         ],
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "7 / 11 / 9 / 13",
+        "position": "5 / 11 / 7 / 13",
         "mobile_layout": "25 / 1 / 25 / 12",
-        "tablet_layout": "7 / 11 / 9 / 12",
+        "tablet_layout": "5 / 11 / 7 / 12",
         "type": "line"
     },
     "monthly_total": {
@@ -324,9 +242,9 @@ export const secondDashboardsData = {
         ],
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "9 / 1 / 11 / 7",
+        "position": "7 / 1 / 9 / 7",
         "mobile_layout": "26 / 1 / 28 / 12",
-        "tablet_layout": "9 / 1 / 11 / 7",
+        "tablet_layout": "7 / 1 / 9 / 7",
         "type": "line&bar"
     },
     "monthly_total2": {
@@ -348,9 +266,9 @@ export const secondDashboardsData = {
         ],
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "9 / 7 / 11 / 13",
+        "position": "7 / 7 / 9 / 13",
         "mobile_layout": "28 / 1 / 30 / 12",
-        "tablet_layout": "9 / 7 / 11 / 12",
+        "tablet_layout": "7 / 7 / 9 / 12",
         "type": "line&bar"
     },
     "most_used_locations": {
@@ -364,9 +282,9 @@ export const secondDashboardsData = {
         ],
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "11 / 1 / 13 / 5",
+        "position": "9 / 1 / 11 / 5",
         "mobile_layout": "30 / 1 / 31 / 12",
-        "tablet_layout": "11 / 1 / 13 / 5",
+        "tablet_layout": "9 / 1 / 11 / 5",
         "type": "list"
     },
     "most_charging_users": {
@@ -380,9 +298,9 @@ export const secondDashboardsData = {
         ],
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "11 / 5 / 13 / 9",
+        "position": "9 / 5 / 11 / 9",
         "mobile_layout": "31 / 1 / 32 / 12",
-        "tablet_layout": "11 / 5 / 13 / 9",
+        "tablet_layout": "9 / 5 / 11 / 9",
         "type": "list"
     },
     "most_payment_types": {
@@ -394,9 +312,9 @@ export const secondDashboardsData = {
         ],
         "icon_name": "icon_name",
         "description": "This is description of this card",
-        "position": "11 / 9 / 13 / 13",
+        "position": "9 / 9 / 11 / 13",
         "mobile_layout": "32 / 1 / 33 / 12",
-        "tablet_layout": "11 / 10 / 13 / 12",
+        "tablet_layout": "9 / 10 / 11 / 12",
         "type": "list"
     }
 }

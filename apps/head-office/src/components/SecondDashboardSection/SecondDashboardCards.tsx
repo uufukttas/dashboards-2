@@ -151,8 +151,12 @@ const SecondDashboardCards: React.FC = () => {
         if (Array.isArray(data.value)) {
             return renderGraphics(data);
         } else {
-            return <div className='flex items-center justify-end'>
-                <div className='text-2xl'>{data.value}</div>
+            const mainData = data.value.split('/')[0];
+            const wholeData = data.value.split('/')[1];
+
+            return <div className='flex items-end justify-end'>
+                <div className='text-4xl'>{mainData}/</div>
+                <div className='text-2xl'>{wholeData}</div>
             </div>
         }
     };
