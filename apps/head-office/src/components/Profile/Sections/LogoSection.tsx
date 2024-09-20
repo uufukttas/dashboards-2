@@ -22,7 +22,7 @@ const LogoSection: React.FC = () => {
                         alt='Company Logo'
                         className='w-full h-full'
                         height={200}
-                        src={'https://placehold.co/300x200'}
+                        src={'/logo.svg'}
                         width={300}
                     />
                     <Input

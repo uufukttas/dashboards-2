@@ -11,8 +11,8 @@ const InfoSection: React.FC = () => {
                 <h2 className={`${profilePagePrefix}-name font-bold`}>John Doe</h2>
             </div>
             <div className={`${profilePagePrefix}-background-image-container text-black w-1/3 text-center flex justify-center items-center`}>
-                <div className={`${profilePagePrefix}-background-image h-1/6 rounded-full border-2 border-black`}>
-                    <FaUser className='text-6xl p-2' />
+                <div className={`${profilePagePrefix}-background-image h-1/6 rounded-full border-2 `}>
+                    <img src="/avatar.jpg" className='w-[200px] rounded-full' />
                 </div>
             </div>
             <div className={`${profilePagePrefix}-personal-info-container text-black w-1/3 text-right`}>
