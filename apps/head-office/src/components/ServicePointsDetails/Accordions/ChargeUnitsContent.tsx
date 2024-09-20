@@ -32,6 +32,7 @@ import type {
     IConnectorModel,
 } from '../types';
 import { Card } from '@projects/card';
+import { Tag } from 'primereact/tag';
 
 
 const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, slug }: IChargeUnitsContentProps) => {
@@ -119,7 +120,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
 
         return location.data[2].stationChargePointFeatureTypeValue;
     };
-    const getChargeUnitStatus = (date: string): boolean => {
+    const getChargeUnitActiveTime = (date: string): boolean => {
         return new Date(date).getTime() > new Date().getTime() - (10 * 10 * 60 * 10 * 10);
     };
     const getConnectorTypes = async (): Promise<void> => {
@@ -323,9 +324,34 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
             });
         });
     };
-
     const setConnectorProperties = (chargeUnits: IChargeUnitsProps[]): void => {
         console.log('chargeUnits', chargeUnits)
+    };
+    const getHOStatus = (status: string) => {
+        switch (status) {
+            case 'Kullanılabilir':
+                return 'success';
+            case 'Passive':
+                return 'danger';
+            case 'Bakimda':
+                return 'warning';
+            case 'Planlanmis':
+                return 'info';
+        }
+    };
+    const getBrandLogo = (brand: string) => {
+        if (brand === 'Sinexcel') {
+            return '/sinexcel.png';
+        } else if (brand === 'ABB') {
+            return '/abb.svg';
+        }
+    };
+    const getDeviceImage = (brand: string) => {
+        if (brand === 'Sinexcel') {
+            return '/sinexcelDC.png';
+        } else if (brand === 'ABB') {
+            return '/abbDC.jpg';
+        }
     };
 
     useEffect(() => {
@@ -346,52 +372,243 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                         return (
                             connector.map((connectorItem, idx) => {
                                 return (
-                                    <Card
-                                        BRAND_PREFIX={BRAND_PREFIX}
-                                        containerClassName={`${BRAND_PREFIX}-charge-unit-card-container text-text font-bold flex flex-col rounded-md w-1/4 m-4 h-[250px]`}
-                                        key={index}
-                                    >
-                                        <div className={`${BRAND_PREFIX}-charge-unit-card-header flex justify-evenly items-center p-4`}>
-                                            {
-                                                getChargeUnitStatus(connector.lastHeartBeat)
-                                                    ? (<div className='bg-green-500 rounded-full h-4 w-4'></div>)
-                                                    : (<div className='bg-red-500 rounded-full h-4 w-4'></div>)
-                                            }
-                                            {
-                                                <div className='flex flex-col justify-between h-full'>
-                                                    {chargeUnits[index].model}
+                                    <>
+                                        {
+                                            <div className='flex justify-center items-center w-[45%] shadow rounded-md flex flex-col mx-2 my-4'>
+                                                <div className='header w-full'>
+                                                    <div className='flex justify-between items-center w-full p-4'>
+                                                        {
+                                                            <div className={`${BRAND_PREFIX}-charge-unit-card-brand-logo-container flex justify-center items-center`}>
+                                                                <img src={`${getBrandLogo(chargeUnits[index].model)}`} alt={`${chargeUnits[index].model}`} width={"80px"} />
+                                                            </div>
+                                                        }
+                                                        {
+                                                            <div className={`${BRAND_PREFIX}-charge-unit-device-code flex justify-between items-center`}>
+                                                                {chargeUnits[index].deviceCode}
+                                                            </div>
+                                                        }
+                                                        {
+                                                            <Tag severity={getHOStatus(chargeUnits[index].hoStatus)} value={chargeUnits[index].hoStatus}></Tag>
+                                                        }
+                                                    </div>
                                                 </div>
-                                            }
-                                            {
-                                                <div className={`${BRAND_PREFIX}-charge-unit-card-actions flex justify-between items-center`}>
-                                                    {chargeUnits[index].deviceCode}
-                                                </div>
-                                            }
-                                        </div>
-                                        <hr className="text-text w-full" />
-                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content flex flex-col justify-between p-4`}>
-                                            <div className={`${BRAND_PREFIX}-charge-unit-card-content-row flex flex-col justify-start items-start w-full`}>
-                                                <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text`}>
-                                                    Konnektor Numarasi: {connectorItem.connectorNr}
-                                                </div>
-                                                <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text`}>
-                                                    EPDK Socket Numarasi: {connectorItem.epdkSocketNumber}
-                                                </div>
-                                                <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text`}>
-                                                    Konnektor Tipi: {connectorItem.stationConnectorAC ? 'AC' : 'DC'}
-                                                </div>
-                                                <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text`}>
-                                                    Konnektor KW: {connectorItem.stationConnectorKW}
-                                                </div>
-                                                <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text`}>
-                                                    Konnektor Ismi: {connectorItem.stationConnectorName}
-                                                </div>
-                                                <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text`}>
-                                                    Tarife: {connectorItem.tariffName}
+                                                <hr className="text-text w-full" />
+                                                <div className='content w-full flex flex-col'>
+                                                    <div className='content-unit-info border-r-1 w-full m-4 flex '>
+                                                        <div className='charge-unit-info w-2/3'>
+                                                            <h2 className='font-bold'> Ünite Bilgileri</h2>
+                                                            <div className={`${BRAND_PREFIX}-charge-unit-card-content-row flex flex-col justify-start items-start w-full px-4`}>
+                                                                <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                        Marka:
+                                                                    </div>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                        Sinexcel
+                                                                    </div>
+                                                                </div>
+                                                                <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                        Model:
+                                                                    </div>
+
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                            SEC 240
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                            Seri Numarasi:
+                                                                        </div>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                            ZSX2552362
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                            EPDK Ünite Numarası:
+                                                                        </div>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                            ŞRJ/5827
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                        Eklenme Tarihi:
+                                                                    </div>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                        26/07/2023
+                                                                    </div>
+                                                                </div>
+                                                                <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                            Ünite Yatırımcısı:
+                                                                        </div>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                            Operatör
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                            Son İletişim Zamanı:
+                                                                        </div>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                            20.09.2024 10:4
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className='charge-unit-image w-1/3'>
+                                                            <img src="https://en.sinexcel.com/evcharger/240w/pic3-1.png?v=1.0" />
+                                                        </div>
+                                                    </div>
+                                                    <div className='connector-list flex w-full w-1/2'>
+                                                        <Card
+                                                            BRAND_PREFIX={BRAND_PREFIX}
+                                                            containerClassName={`${BRAND_PREFIX}-charge-unit-card-container text-text font-bold flex flex-col rounded-md w-1/2 m-4 border border-gray-200 shadow-none`}
+                                                            key={index}
+                                                        >
+                                                            <div className={`${BRAND_PREFIX}-charge-unit-card-content flex justify-between p-4`}>
+                                                                <div className={`${BRAND_PREFIX}-charge-unit-card-content-row flex flex-col justify-start items-start w-full`}>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                            Konnektor Numarasi:
+                                                                        </div>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                            {connectorItem.connectorNr}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                            EPDK Socket Numarasi:
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                            {connectorItem.epdkSocketNumber}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                            <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                                Konnektor Tipi:
+                                                                            </div>
+                                                                            <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                                {connectorItem.stationConnectorAC ? 'AC' : 'DC'}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                            <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                                Konnektor KW:
+                                                                            </div>
+                                                                            <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                                {connectorItem.stationConnectorKW}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                            Konnektor Ismi:
+                                                                        </div>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                            {connectorItem.stationConnectorName}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                            <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                                Tarife:
+                                                                            </div>
+                                                                            <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                                {connectorItem.tariffName}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </Card>
+                                                        <Card
+                                                            BRAND_PREFIX={BRAND_PREFIX}
+                                                            containerClassName={`${BRAND_PREFIX}-charge-unit-card-container text-text font-bold flex flex-col rounded-md w-1/2 m-4 shadow-none border border-gray-200`}
+                                                            key={index}
+                                                        >
+                                                            <div className={`${BRAND_PREFIX}-charge-unit-card-content flex justify-between p-4`}>
+                                                                <div className={`${BRAND_PREFIX}-charge-unit-card-content-row flex flex-col justify-start items-start w-full`}>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                            Konnektor Numarasi:
+                                                                        </div>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                            2
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                            EPDK Socket Numarasi:
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                            {connectorItem.epdkSocketNumber}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                            <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                                Konnektor Tipi:
+                                                                            </div>
+                                                                            <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                                {connectorItem.stationConnectorAC ? 'AC' : 'DC'}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                            <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                                Konnektor KW:
+                                                                            </div>
+                                                                            <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                                {connectorItem.stationConnectorKW}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                            Konnektor Ismi:
+                                                                        </div>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bolder`}>
+                                                                            {connectorItem.stationConnectorName}
+                                                                        </div>
+                                                                    </div>
+                                                                    <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                        <div className={`${BRAND_PREFIX}-charge-unit-card-content-item text-text flex`}>
+                                                                            <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-label text-text font-medium`}>
+                                                                                Tarife:
+                                                                            </div>
+                                                                            <div className={`${BRAND_PREFIX}-charge-unit-card-content-item-value text-text font-bold`}>
+                                                                                {connectorItem.tariffName}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </Card>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </Card>
+                                        }
+                                    </>
                                 )
                             })
                         )

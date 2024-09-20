@@ -508,7 +508,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
           style={{ '--primary-color': `${colors && colors[0]?.value}`, '--secondary-color': `${colors && colors[1]?.value}` } as React.CSSProperties}
         >
           <div className={`${BRAND_PREFIX}-service-point-details-page-content-container w-full`}>
-            <ServicePointDetailsHeader />
             <Tabs
               activeTabIndex={activeTabIndex}
               setActiveTabIndex={setActiveTabIndex}
