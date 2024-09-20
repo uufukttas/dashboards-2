@@ -61,10 +61,10 @@ const Header: React.FC<IHeaderProps> = ({ className, headerName }: IHeaderProps)
         </div>
         <div className={`${headerPrefix}-profile-button-container`}>
           <Link
-            className={`${headerPrefix}-profile-button bg-white hover:bg-white border border-[#eceece] flex items-center rounded-full px-2 py-2`}
+            className={`${headerPrefix}-profile-button bg-white hover:bg-white  flex items-center rounded-full px-2 py-2`}
             href='/profile'
           >
-            <FaUser />
+            <img src="/avatar.jpg" className='w-[50px] rounded-full' />
           </Link>
         </div>
       </div>
