@@ -368,8 +368,10 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
         <div className={`${sectionPrefix}-content p-4 rounded-b-md`}>
             <div className={`${sectionPrefix}-list flex flex-wrap w-full justify-between`}>
                 {
+                    // @ts-ignore
                     connectorList.map((connector, index) => {
                         return (
+                            // @ts-ignore
                             connector.map((connectorItem, idx) => {
                                 return (
                                     <>
