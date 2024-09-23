@@ -104,6 +104,8 @@ export interface IChargeUnitsProps {
   stationId: number;
   status: string;
   location: string;
+  serialNumber: string;
+  createdDate: string;
 };
 export interface IComissionDetailProps {
   slug: string;
