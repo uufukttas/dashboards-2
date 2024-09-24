@@ -1,127 +1,73 @@
-import React, { useState } from 'react';
-import Link from 'next/link';
-import { FaGift, FaLocationDot, FaUser, FaQuestion, FaChargingStation } from 'react-icons/fa6';
-import { IoMdAnalytics } from "react-icons/io";
-import { PiArrowElbowDownRightBold } from "react-icons/pi";
-import { LuReceipt } from "react-icons/lu";
-import { useSelector } from 'react-redux';
-import { detectDevice } from '@projects/common';
-import { Tooltip } from '@projects/tooltip';
-import { RootState } from '../../../../app/redux/store';
+import React, { useRef } from 'react';
+import { Button } from 'primereact/button';
+import { StyleClass } from 'primereact/styleclass';
+import { useRouter } from 'next/router';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
-import type { ISidebarBodyItemProps, ISidebarElementProps } from '../types';
+import { ISidebarItemComponentProps } from '../types';
+import { BiSolidEvStation } from 'react-icons/bi';
 
-const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({
-    index, item, sidebarElementsLength
-}: ISidebarBodyItemProps) => {
+const SidebarBodyItem: React.FC<ISidebarItemComponentProps> = ({ item }) => {
     const sidebarPrefix: string = `${BRAND_PREFIX}-sidebar`;
-    const hasSubItems: boolean = typeof item.subItems === 'undefined';
-    const isDesktop: boolean = detectDevice().isDesktop; const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
-    const [isOpenSubItems, setIsOpenSubItems] = useState(false);
+    const expandMenuButton = useRef(null);
+    const router = useRouter();
 
-    const convertIcon = (icon: string): JSX.Element => {
-        switch (icon) {
-            case 'FaLocationDot':
-                return <FaLocationDot />;
-            case 'FaUser':
-                return <FaUser />;
-            case 'IoMdAnalytics':
-                return <IoMdAnalytics />;
-            case 'LuReceipt':
-                return <LuReceipt />;
-            case 'FaChargingStation ':
-                return <FaChargingStation />;
-            case 'FaGift':
-                return <FaGift />;
-            case 'FaQuestion':
-                return <FaQuestion />;
-            case 'PiArrowElbowDownRightBold':
-                return <PiArrowElbowDownRightBold />;
-            default:
-                return <></>;
-        }
-    };
-    const renderItemContent = (): JSX.Element => (
-        <li
-            className={`${sidebarPrefix}-list-item cursor-pointer border-gray-300 w-full ${index === sidebarElementsLength - 1 ? '' : 'border-b'
-                } focus:bg-secondary-lighter focus:text-white`}
-        >
-            <div
-                className={`${sidebarPrefix}-item-container w-full flex p-4 justify-between hover:bg-primary hover:text-primary-font-color`}
-                onClick={() => setIsOpenSubItems(!isOpenSubItems)}
-            >
-                <div className="flex items-center justify-center">
-                    <span className={`${sidebarPrefix}-item-icon`}>{convertIcon(item.icon)}</span>
-                    {isSidebarExpanded && <span className={`${sidebarPrefix}-item-name pl-4 block`}>{item.name}</span>}
-                </div>
-                {item.subItems && isSidebarExpanded && <span>▼</span>}
-            </div>
-            {isOpenSubItems && item.subItems && renderSubItems(item.subItems)}
-        </li>
-    );
-    const renderSubItems = (subItems: ISidebarElementProps[]): JSX.Element => (
-        <ul className='ml-2' key={subItems.length}>
-            {
-                subItems.map((subItem, subIndex) => (
-                    <>
-                        {
-                            isDesktop && isSidebarExpanded ? (
-                                <Tooltip containerClassName="w-full z-20" key={index} text={subItem.name} textClassName="left-14">
-                                    <Link href={subItem.link}>
-                                        <li
-                                            className={`${sidebarPrefix}-list-item cursor-pointer border-gray-300 w-full border-b border-t hover:bg-primary hover:text-white focus:bg-secondary-lighter focus:text-white`}
-                                        >
-                                            <div className={`${sidebarPrefix}-item-container w-full flex p-2 pl-8 justify-between text-sm`}>
-                                                <div className="flex items-center justify-center">
-                                                    <span className={`${sidebarPrefix}-item-icon`}>{convertIcon(subItem.icon)}</span>
-                                                    {isSidebarExpanded && <span className={`${sidebarPrefix}-item-name pl-4 block`}>{subItem.name}</span>}
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </Link>
-                                </Tooltip>
-                            ) : (
-                                <Link href={subItem.link} key={subIndex}>
-                                    <li
-                                        className={`${sidebarPrefix}-list-item cursor-pointer border-gray-300 w-full border-b border-t hover:bg-primary hover:text-white focus:bg-secondary-lighter focus:text-white`}
-                                    >
-                                        <div className={`${sidebarPrefix}-item-container w-full flex p-2 pl-8 justify-between text-sm`}>
-                                            <div className="flex items-center justify-center">
-                                                <span className={`${sidebarPrefix}-item-icon`}>{convertIcon(subItem.icon)}</span>
-                                                {isSidebarExpanded && <span className={`${sidebarPrefix}-item-name pl-4 block`}>{subItem.name}</span>}
-                                            </div>
-                                        </div>
-                                    </li>
-                                </Link>
-                            )
-                        }
-                    </>
-                ))
-            }
-        </ul>
-    );
+    if (item.subItems) {
+        return (
+            <li>
+                <StyleClass
+                    nodeRef={expandMenuButton}
+                    enterActiveClassName="slidedown"
+                    enterClassName="hidden"
+                    leaveActiveClassName="slideup"
+                    leaveToClassName="hidden"
+                    selector="@next"
+                >
+                    <Button
+                        className={`${sidebarPrefix}-content-list-container-list-item cursor-pointer p-ripple flex align-items-center p-3 border-round text-700 hover:surface-100 transition-duration-150 w-full`}
+                        ref={expandMenuButton}
+                    >
+                        <i className={item.icon.toString() + " mr-2"}></i>
+                        <span className="font-medium">{item.label}</span>
+                        <i className="pi pi-chevron-down ml-auto mr-1"></i>
+                    </Button>
+                </StyleClass>
+                <ul
+                    className={`${sidebarPrefix}-sublist-item-container list-none py-0 pl-3 pr-0 m-0 hidden overflow-y-hidden transition-all transition-duration-400`}
+                >
+                    {
+                        item.subItems.map((subItem, subIndex) => (
+                            <li
+                                className={`${sidebarPrefix}-sublist-item-container-item cursor-pointer p-ripple flex align-items-center p-3 border-round text-700 hover:surface-100 w-full`}
+                                key={subIndex}
+                            >
+                                <Button onClick={() => router.push(subItem.path)}>
+                                    <i className={subItem.icon.toString() + " mr-2"}></i>
+                                    <span className="font-medium">{subItem.label}</span>
+                                </Button>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </li>
+        );
+    }
 
     return (
-        <>
-            {
-                isSidebarExpanded ? (
-                    hasSubItems ? (
-                        <Link href={item.link} key={item.name}>
-                            {renderItemContent()}
-                        </Link>
-                    ) : (
-                        renderItemContent()
-                    )
-                ) : (
-                    isDesktop && (
-                        <Tooltip containerClassName="w-full z-20" key={item.name} text={item.name} textClassName="left-14">
-                            {hasSubItems ? <Link href={item.link}>{renderItemContent()}</Link> : renderItemContent()}
-                        </Tooltip>
-                    )
-                )
-            }
-
-        </>
+        <li
+            className={`${sidebarPrefix}-content-list-container-list-item cursor-pointer p-ripple flex align-items-center p-3 border-round text-700 hover:surface-100 w-full`}
+        >
+            <Button onClick={() => router.push(item.path)}>
+                {
+                    item.icon === 'BiSolidEvStation'
+                        ? (
+                            <BiSolidEvStation className="mr-2" />
+                        ) : (
+                            <i className={item.icon + " mr-2"}></i>
+                        )
+                }
+                <span className="font-medium">{item.label}</span>
+            </Button>
+        </li>
     );
 };
 

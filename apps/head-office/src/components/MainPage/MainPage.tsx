@@ -15,10 +15,10 @@ import { setCities, setDistricts } from '../../../app/redux/features/setCityInfo
 import { setConfigs } from '../../../app/redux/features/setConfig';
 import { RootState } from '../../../app/redux/store';
 import type { IMainPageProps } from './types';
-import './MainPage.css';
 import 'primeicons/primeicons.css';
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import './MainPage.css';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -58,13 +58,10 @@ const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageP
 
   useEffect(() => {
     checkToken();
+    fetchConfigurations();
     setCitiesData();
     setDistritcsData();
   }, []);
-
-  useEffect(() => {
-    fetchConfigurations();
-  }, [isVisibleComponent]);
 
   return (
     isVisibleComponent && (
@@ -73,7 +70,6 @@ const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageP
         style={{
           '--primary-color': `${colors[0].value}`,
           '--secondary-color': `${colors[1].value}`,
-          // '--primary-font-color': `${colors[2].value}`
           '--primary-font-color': '#FFFFFF'
         } as React.CSSProperties}
       >

@@ -1,46 +1,27 @@
 import React from 'react';
-import Link from 'next/link';
-import { FaRegCircleXmark } from 'react-icons/fa6';
-import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@projects/button';
-import { detectDevice } from '@projects/common';
-import { Image } from '@projects/image';
+import Image from 'next/image';
+import { Button } from 'primereact/button';
 import { BRAND_PREFIX, userInfo } from '../../../constants/constants';
-import { toggleSidebarExpanded } from '../../../../app/redux/features/isSidebarExpand';
-import { RootState } from '../../../../app/redux/store';
 
-const SidebarHeader: React.FC = () => {
+const SidebarHeader: React.FC<{ hide: (event: React.MouseEvent<HTMLButtonElement>) => void }> = ({ hide }) => {
     const sidebarHeaderPrefix: string = `${BRAND_PREFIX}-sidebar-header`;
-    const dispatch = useDispatch();
-    const isSidebarExpanded = useSelector((state: RootState) => state.isSidebarExpand.isSidebarExpanded);
 
     return (
-        <div className={`${sidebarHeaderPrefix}-container flex items-center justify-between h-[80px]`}>
-            <div className={`${sidebarHeaderPrefix}-logo-container relative`}>
-                <Link href="/dashboards">
-                    <Image
-                        alt={userInfo.name}
-                        className={`${sidebarHeaderPrefix}-logo`}
-                        height={100}
-                        src={userInfo.logo}
-                        width={100}
-                    />
-                </Link>
-            </div>
-            {
-                detectDevice().isMobile && (
-                    <div className={`${sidebarHeaderPrefix}-close-button-container mx-4`}>
-                        <Button
-                            className={`${sidebarHeaderPrefix}-close-button`}
-                            id={`${sidebarHeaderPrefix}-close-button`}
-                            type="button"
-                            onClick={() => dispatch(toggleSidebarExpanded(isSidebarExpanded))}
-                        >
-                            <FaRegCircleXmark />
-                        </Button>
-                    </div>
-                )
-            }
+        <div className={`${sidebarHeaderPrefix}-sidebar-header-container flex items-center justify-between px-4 pt-3`}>
+            <span className={`${sidebarHeaderPrefix}-sidebar-logo-container inline-flex align-items-center gap-2`}>
+                <Image alt='logo' height={100} src={userInfo.logo} width={100} />
+            </span>
+            <span className={`${sidebarHeaderPrefix}-sidebar-close-button-container`}>
+                <Button
+                    className={`${sidebarHeaderPrefix}-sidebar-close-button h-2rem w-2rem`}
+                    icon="pi pi-times"
+                    outlined
+                    rounded
+                    type="button"
+                    onClick={(e) => hide(e)}
+                >
+                </Button>
+            </span>
         </div>
     );
 };

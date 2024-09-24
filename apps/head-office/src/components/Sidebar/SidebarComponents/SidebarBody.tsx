@@ -1,23 +1,19 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import { BiSolidEvStation } from 'react-icons/bi';
 import SidebarBodyItem from './SidebarBodyItem';
 import { BRAND_PREFIX, sidebarItems } from '../../../constants/constants';
-import type { ISidebarElementProps } from '../types';
+import { ISidebarElementProps } from '../types';
 
 const SidebarBody: React.FC = () => {
     const sidebarPrefix: string = `${BRAND_PREFIX}-sidebar`;
 
     return (
-        <div className={`${sidebarPrefix}-body-container flex items-center justify-center flex-col`}>
-            <ul className={`${sidebarPrefix}-list-container w-full flex flex-col`}>
+        <div className={`${sidebarPrefix}-sidebar-content-container overflow-y-auto`}>
+            <ul className={`${sidebarPrefix}-content-list-container list-none p-3 m-0`}>
                 {
-                    sidebarItems.map((item: ISidebarElementProps, index: number) => {
+                    sidebarItems.map((item, index) => {
                         return (
-                            <SidebarBodyItem
-                                index={index}
-                                item={item}
-                                key={index}
-                                sidebarElementsLength={sidebarItems.length}
-                            />
+                            <SidebarBodyItem item={item} key={index} />
                         );
                     })
                 }

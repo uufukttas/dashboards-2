@@ -14,59 +14,26 @@ export const metaData = {
     'og:locale': 'en_US',
 };
 export const sidebarItems = [
+    { label: 'Dashboard', icon: 'pi pi-home', path: '/dashboards' },
+    { label: 'Istasyonlar', icon: 'pi pi-map-marker', path: '/service-points' },
+    { label: 'Kullanici Yonetimi', icon: 'pi pi-user', path: '/users-management' },
     {
-        icon: 'FaLocationDot',
-        link: '/service-points',
-        name: 'Istasyonlar',
-    },
-    {
-        icon: 'FaUser',
-        link: '/users-management',
-        name: 'Kullanici Yonetimi',
-    },
-    {
-        icon: 'IoMdAnalytics',
-        link: '/reports',
-        name: 'Rapor Merkezi',
+        label: 'Rapor Merkezi',
+        icon: 'pi pi-chart-line',
+        path: '#',
         subItems: [
-            {
-                icon: 'PiArrowElbowDownRightBold',
-                link: '/reports/all-reports',
-                name: 'Tüm Raporlar'
-            },
-            {
-                icon: 'PiArrowElbowDownRightBold',
-                link: '/reports/charging-reports',
-                name: 'Şarj Raporları'
-            },
-            {
-                icon: 'PiArrowElbowDownRightBold',
-                link: '/reports/service-points-reports',
-                name: 'İstasyon Raporları'
-            }
+            { label: 'Tum Islemler', icon: 'pi pi-chart-line', path: '/reports/all-reports' },
+            { label: 'Kullanici Islemleri', icon: 'pi pi-chart-line', path: '/reports/users-reports' },
+            { label: 'Sarj Raporlari', icon: 'pi pi-chart-line', path: '/reports/charge-reports' }
         ]
     },
+    { label: 'Tarifeler', icon: 'pi pi-wallet', path: '/tariffs-management' },
+    { label: 'Kampanyalar', icon: 'pi pi-tags', path: '/campaigns' },
     {
-        icon: 'LuReceipt',
-        link: '/tariffs-management',
-        name: 'Tarifeler',
+        label: 'Cihazlar', icon: 'BiSolidEvStation', path: '/devices'
     },
-    {
-        icon: 'FaGift',
-        link: '/campaigns',
-        name: 'Kampanyalar',
-    },
-    {
-        icon: 'FaChargingStation ',
-        link: '/devices',
-        name: 'Cihazlar',
-    },
-    {
-        icon: 'FaQuestion',
-        link: '/faq',
-        name: 'FAQ',
-    },
-]
+    { label: 'FAQ', icon: 'pi pi-question-circle', path: '/faq' },
+];
 export const stylesProps = {
     primaryColor: '#FFCE0B',
     secondaryColor: '#54565A',
