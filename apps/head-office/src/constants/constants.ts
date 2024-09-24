@@ -70,6 +70,7 @@ export const sidebarItems = [
 export const stylesProps = {
     primaryColor: '#FFCE0B',
     secondaryColor: '#54565A',
+    opaqueColor: '#54565A',
     // primaryColor: '#0075bf',
     // secondaryColor: '#9acd66',
     borderColor: '#000000',
