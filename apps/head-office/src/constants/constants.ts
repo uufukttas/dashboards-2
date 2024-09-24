@@ -57,6 +57,11 @@ export const sidebarItems = [
         name: 'Kampanyalar',
     },
     {
+        icon: 'FaChargingStation ',
+        link: '/devices',
+        name: 'Cihazlar',
+    },
+    {
         icon: 'FaQuestion',
         link: '/faq',
         name: 'FAQ',

@@ -13,6 +13,7 @@ import { userInfo } from '../../constants/constants';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { BsEvStation } from "react-icons/bs";
 
 const SidebarComponent: React.FC = () => {
   const sidebarPrefix: string = `${BRAND_PREFIX}-sidebar`;
@@ -123,6 +124,12 @@ const SidebarComponent: React.FC = () => {
                       <a href="/campaigns">
                         <i className="pi pi-tags mr-2"></i>
                         <span className="font-medium">Kampanyalar</span>
+                      </a>
+                    </li>
+                    <li className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">
+                      <a href="/devices" className='flex items-center '>
+                        <BsEvStation className='mr-2' />
+                        <span className="font-medium">Cihazlar</span>
                       </a>
                     </li>
                     <li className="cursor-pointer p-ripple flex align-items-center cursor-pointer p-3 border-round text-700 hover:surface-100 transition-duration-150 transition-colors w-full">

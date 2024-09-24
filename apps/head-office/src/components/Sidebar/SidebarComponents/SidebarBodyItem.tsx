@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { FaGift, FaLocationDot, FaUser, FaQuestion } from 'react-icons/fa6';
+import { FaGift, FaLocationDot, FaUser, FaQuestion, FaChargingStation } from 'react-icons/fa6';
 import { IoMdAnalytics } from "react-icons/io";
 import { PiArrowElbowDownRightBold } from "react-icons/pi";
 import { LuReceipt } from "react-icons/lu";
@@ -29,6 +29,8 @@ const SidebarBodyItem: React.FC<ISidebarBodyItemProps> = ({
                 return <IoMdAnalytics />;
             case 'LuReceipt':
                 return <LuReceipt />;
+            case 'FaChargingStation ':
+                return <FaChargingStation />;
             case 'FaGift':
                 return <FaGift />;
             case 'FaQuestion':
