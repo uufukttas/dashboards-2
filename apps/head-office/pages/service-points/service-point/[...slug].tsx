@@ -19,7 +19,7 @@ const ServicePointInfoPage: React.FC = () => {
         <title>{`Service Point Details ${router.query.slug ? `- ${router.query.slug}` : ''} | Sharz.net`}</title>
       </Head>
       <Provider store={store}>
-        <div className={`${BRAND_PREFIX}-service-point-details-page-wrapper w-full h-screen flex`}>
+        <div className={`${BRAND_PREFIX}-service-point-details-page-wrapper w-full flex`}>
           <MainPage headerName={`Istasyon: ${slug}`}>
             <div
               className={`${BRAND_PREFIX}-service-point-details-page-container flex justify-center items-center flex-wrap w-full`}
