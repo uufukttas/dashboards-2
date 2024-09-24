@@ -30,15 +30,10 @@ const Login: React.FC = () => {
                 />
             </div>
             <div className={`${loginPrefix}-card-form-container`}>
-                <Card
-                    BRAND_PREFIX={BRAND_PREFIX}
-                    containerClassName={`w-full p-8 bg-white`}
-                >
-                    <>
-                        <CardHeader />
-                        <CardBody />
-                        <CardFooter />
-                    </>
+                <Card BRAND_PREFIX={BRAND_PREFIX} containerClassName={`w-full p-8 bg-white`}>
+                    <CardHeader />
+                    <CardBody />
+                    <CardFooter />
                 </Card>
             </div>
             <div className={`${loginPrefix}-footer-container`}>

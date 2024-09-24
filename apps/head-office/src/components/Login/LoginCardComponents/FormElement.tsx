@@ -31,7 +31,8 @@ const FormElement: React.FC<IFormElementProps> = ({
                 name={loginFormInput}
                 register={
                     register(
-                        loginFormInput, {
+                        loginFormInput,
+                        {
                             pattern: {
                                 message: `Geçersiz ${getDisplayName(loginFormInput)}.`,
                                 // TODO: Add pattern for username email if it need // /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/

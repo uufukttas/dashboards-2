@@ -35,7 +35,7 @@ const CardBody: React.FC = () => {
         setTimeout(() => dispatch(hideAlert()), 5000);
     };
     const handleLoginSubmit = async (): Promise<void> => {
-        dispatch(toggleLoadingVisibility(true));  
+        dispatch(toggleLoadingVisibility(true));
 
         const userLoginData: ILoginRequestDataProps = {
             userName: loginFormData.username,
