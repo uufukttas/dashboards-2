@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '@projects/button';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
-import { getColors, updateColors } from '../../../../app/api/profile';
+import { getColorsRequest, updateColors } from '../../../../app/api/profile';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 
 const ColorSection: React.FC = () => {
@@ -12,7 +12,7 @@ const ColorSection: React.FC = () => {
     const [pageColors, setPageColors] = useState<{ value: string; resourceKey: string; id: number }[]>([]);
 
     const getBrandColors = async (): Promise<void> => {
-        const response = await getColors(colorNames);
+        const response = await getColorsRequest(colorNames);
 
         response.data.map((color: { value: string; resourceKey: string; id: number }) => {
             setPageColors((prev) => [...prev, { value: color.value, resourceKey: color.resourceKey, id: color.id }]);

@@ -56,7 +56,7 @@ interface IUserDataRoleProps {
 export interface IAlertInformationStateProps {
     isVisible: boolean;
     message: string;
-    type: 'success' | 'error' | 'info' | 'warning';
+    type: "success" | "info" | "warn" | "error" | "secondary" | "contrast" | undefined,
 };
 export interface IChargeUnitBrandsProps {
     id: number;

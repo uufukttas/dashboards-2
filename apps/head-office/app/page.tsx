@@ -1,33 +1,38 @@
 'use client';
 
 import React, { Fragment, useEffect, useRef, useState } from 'react';
+import { Toast } from 'primereact/toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { Alert } from '@projects/alert';
 import { detectDevice } from '@projects/common';
 import { getLanguageListRequest } from './api/login';
-import { getColors } from './api/profile';
+import { getColorsRequest } from './api/profile';
 import { setLanguages } from './redux/features/languages';
 import { setConfigs } from './redux/features/setConfig';
 import { RootState } from './redux/store';
 import Background from '../src/components/Background/Background';
 import Loading from '../src/components/Loading/Loading';
 import Login from '../src/components/Login/Login';
-import { BRAND_PREFIX, stylesProps, userInfo } from '../src/constants/constants';
-import './page.css';
-
+import { stylesProps, userInfo } from '../src/constants/constants';
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
-import { Toast } from 'primereact/toast';
+import './page.css';
+
+interface ILanguageProps {
+  name: string;
+  rid: number;
+};
 
 const Index: React.FC = () => {
   const dispatch = useDispatch();
-  const toastRef = useRef(null); // toastRef isminde güncellenmiş bir useRef
-  const { alertInformation, configs: { colors }, isLoadingVisible: { isLoading }, languages: { languages } } =
-    useSelector((state: RootState) => state);
+  const toastRef = useRef<Toast>(null);
+  const alertInformation = useSelector((state: RootState) => state.alertInformation);
+  const colors = useSelector((state: RootState) => state.configs.colors);
+  const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
+  const languages = useSelector((state: RootState) => state.languages.languages);
   const [isDetectedDevice, setIsDetectedDevice] = useState<boolean>(false);
 
-  const fetchConfigurations = async (): Promise<void> => {
-    const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
+  const fetchColors = async (): Promise<void> => {
+    const colors = await getColorsRequest(["Primary", "Secondary", "Alternate", "Backup"]);
 
     dispatch(setConfigs(colors.data));
     setIsDetectedDevice(true);
@@ -35,7 +40,7 @@ const Index: React.FC = () => {
   const getLanguageList = async (): Promise<void> => {
     const languageList = await getLanguageListRequest();
 
-    const updatedLanguages = languageList.map((language: { name: string; rid: number }) => ({
+    const updatedLanguages = languageList.map((language: ILanguageProps) => ({
       id: null,
       name: language.name,
       rid: language.rid,
@@ -45,15 +50,18 @@ const Index: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchConfigurations();
+    fetchColors();
     getLanguageList();
   }, []);
 
   useEffect(() => {
-    if (alertInformation.isVisible && toastRef.current) {
-      // @ts-ignore
-      toastRef.current.show({ severity: `${alertInformation.type}`, summary: `${alertInformation.message}` });
-    }
+    if (!alertInformation.isVisible) return;
+
+    toastRef?.current?.show({
+      severity: alertInformation.type,
+      summary: `${alertInformation.message}`
+    });
+
   }, [alertInformation.isVisible]);
 
   return (

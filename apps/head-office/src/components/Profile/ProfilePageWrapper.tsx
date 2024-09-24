@@ -6,7 +6,7 @@ import MainPage from '../MainPage/MainPage';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { RootState, AppDispatch } from '../../../app/redux/store';
-import { getColors } from '../../../app/api/profile';
+import { getColorsRequest } from '../../../app/api/profile';
 import { setConfigs } from '../../../app/redux/features/setConfig';
 
 const Profile: React.FC = () => {
@@ -17,7 +17,7 @@ const Profile: React.FC = () => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
 
     const fetchConfigurations = async () => {
-        const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
+        const colors = await getColorsRequest(["Primary", "Secondary", "Alternate", "Backup"]);
 
         dispatch(setConfigs(colors.data));
         setIsVisible(true);

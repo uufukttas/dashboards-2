@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const getColors = async (keyList: string[]) => {
+const getColorsRequest = async (keyList: string[]) => {
     try {
         const response = await axios
             .post(
@@ -20,4 +20,4 @@ const getColors = async (keyList: string[]) => {
     };
 };
 
-export { getColors };
+export { getColorsRequest };

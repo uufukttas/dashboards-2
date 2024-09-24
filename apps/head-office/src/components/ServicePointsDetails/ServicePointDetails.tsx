@@ -20,7 +20,7 @@ import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Tabs from '../Tabs/Tabs';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { getColors } from '../../../app/api/profile';
+import { getColorsRequest } from '../../../app/api/profile';
 import {
   deleteComissionRequest,
   deleteEnergyPriceRequest,
@@ -296,7 +296,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     }, 5000);
   };
   const fetchConfigurations = async (): Promise<void> => {
-    const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
+    const colors = await getColorsRequest(["Primary", "Secondary", "Alternate", "Backup"]);
 
     dispatch(setConfigs(colors.data));
   };

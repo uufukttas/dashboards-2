@@ -9,7 +9,7 @@ import Header from '../Header/Header';
 import Section from '../Section/Section';
 import Sidebar from '../Sidebar/Sidebar';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { getColors } from '../../../app/api/profile';
+import { getColorsRequest } from '../../../app/api/profile';
 import { getCityRequest, getDistrictsRequest } from '../../../app/api/servicePoints';
 import { setCities, setDistricts } from '../../../app/redux/features/setCityInformation';
 import { setConfigs } from '../../../app/redux/features/setConfig';
@@ -40,7 +40,7 @@ const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageP
     };
   };
   const fetchConfigurations = async (): Promise<void> => {
-    const colors = await getColors(["Primary", "Secondary", "Alternate", "Backup"]);
+    const colors = await getColorsRequest(["Primary", "Secondary", "Alternate", "Backup"]);
 
     dispatch(setConfigs(colors.data));
     setIsVisibleComponent(true);
