@@ -1,4 +1,4 @@
-import { BRAND_PREFIX } from '../../constants/constants';
+import { BRAND_PREFIX, stylesProps } from '../../constants/constants';
 import './Loading.css';
 
 const Loading: React.FC = () => {
@@ -6,7 +6,7 @@ const Loading: React.FC = () => {
 
   return (
     <div
-      className={`${loadingSpinner}-container flex items-center justify-center absolute top-0 left-0 w-full h-screen opacity-70 bg-[#54565A] z-20`}
+      className={`${loadingSpinner}-container flex items-center justify-center absolute top-0 left-0 w-full h-screen opacity-70 bg-[${stylesProps.opaqueColor}] z-20`}
     >
       <div className={`${loadingSpinner}`}></div>
     </div>
