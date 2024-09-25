@@ -1,6 +1,9 @@
+'use client';
+
 import React from 'react';
 import Head from 'next/head';
-import ProviderComponent from './ProviderComponent';
+import { Provider } from 'react-redux';
+import { store } from '../../app/redux/store';
 import FAQPageWrapper from '../../src/components/FAQ/FAQPageWrapper';
 import '../../app/global.css';
 import '../../src/styles/style.css';
@@ -11,9 +14,10 @@ const FAQ: React.FC = () => {
             <Head>
                 <title>FAQ Page | Sharz.net</title>
             </Head>
-            <ProviderComponent>
+            <Provider store={store}>
                 <FAQPageWrapper />
-            </ProviderComponent >
+            </Provider>
+
         </>
     );
 };
