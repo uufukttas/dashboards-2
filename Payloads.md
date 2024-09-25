@@ -1,0 +1,165 @@
+# Payloads
+
+- ## /Language/LanguagesList
+
+```json
+    "data": [{
+        "abbreviation": "TR-tr",
+        "flag_url": "https://xxxxxxxxx.jpg",
+        "id": 1,
+        "name": "Türkçe",
+        "rid": 10,
+    }],
+    "message": "",
+    "status": 200,
+```
+
+- ## /ResourceText/GetByKeyList
+
+```json
+    "data": [{
+            "id": 76,
+            "resourceKey": "Primary",
+            "value": "#fcd800"
+        }],
+    "message": "",
+    "status": 200,
+```
+
+- ## /Auth/Login
+
+```json
+    "data": [{
+        "userInformation": {
+            "id": 123,
+            "name": "John",
+            "lastName": "Doe",
+            "roles": ["Guest", "StationUser"],
+
+        },
+        "token": "abcdefghijklmnoprstuvyz",
+    }],
+    "message": "",
+    "status": 200,
+```
+
+- ## /Dashboards/API
+
+```json
+  "data": [{
+    "connector": {
+        "title": "Toplam Konnektor",
+        "value": "450/483",
+        "icon_name": "GiElectricalSocket",
+        "description": "This is description of this card",
+        "position": "1 / 9 / 7 / 13",
+        "mobile_layout": "16 / 1 / 16 / 12",
+        "tablet_layout": "5 / 1 / 5 / 5",
+        "type": ""
+    },
+    "ac_status": {
+        "title": "AC Sayisi",
+        "value": "350/371",
+        "icon_name": "IoIosFlash",
+        "description": "This is description of this card",
+        "position": "7 / 9 / 14 / 13",
+        "mobile_layout": "17 / 1 / 17 / 12",
+        "tablet_layout": "6 / 1 / 6 / 3",
+        "type": ""
+    },
+    "dc_status": {
+        "title": "DC Sayisi",
+        "value": "100/112",
+        "icon_name": "PiWaveSineBold",
+        "description": "This is description of this card",
+        "position": "14 / 9 / 21 / 13",
+        "mobile_layout": "18 / 1 / 18 / 12",
+        "tablet_layout": "6 / 3 / 6 / 5",
+        "type": ""
+    },
+    "locations": {
+        "title": "Lokasyonlar",
+        "value": [
+            { "lat": 41.0082, "lng": 28.9784 },
+            { "lat": 41.0151, "lng": 28.9760 },
+            { "lat": 41.0178, "lng": 29.0064 },
+            { "lat": 41.0283, "lng": 28.9985 },
+            { "lat": 41.0208, "lng": 28.9642 },
+            { "lat": 41.0350, "lng": 28.9860 },
+            { "lat": 41.0227, "lng": 29.0094 },
+            { "lat": 41.0333, "lng": 29.0303 },
+            { "lat": 41.0377, "lng": 28.9785 },
+            { "lat": 41.0404, "lng": 29.0110 },
+            { "lat": 41.0489, "lng": 28.9972 },
+            { "lat": 41.0530, "lng": 28.9755 },
+            { "lat": 41.0602, "lng": 29.0311 },
+            { "lat": 41.0678, "lng": 29.0105 },
+            { "lat": 41.0720, "lng": 28.9850 },
+            { "lat": 41.0753, "lng": 29.0218 },
+            { "lat": 41.0810, "lng": 29.0035 },
+            { "lat": 41.0865, "lng": 28.9803 },
+            { "lat": 41.0932, "lng": 28.9904 },
+            { "lat": 41.0985, "lng": 29.0089 },
+            { "lat": 41.1040, "lng": 28.9780 },
+            { "lat": 41.1102, "lng": 29.0010 },
+            { "lat": 41.1165, "lng": 29.0230 },
+            { "lat": 41.1228, "lng": 28.9967 },
+            { "lat": 41.1300, "lng": 29.0200 },
+            { "lat": 41.1354, "lng": 28.9792 },
+            { "lat": 41.1407, "lng": 29.0058 },
+            { "lat": 41.1480, "lng": 28.9911 },
+            { "lat": 41.1545, "lng": 29.0140 },
+            { "lat": 41.1600, "lng": 28.9783 },
+            { "lat": 39.9334, "lng": 32.8597 },
+            { "lat": 39.9208, "lng": 32.8541 },
+            { "lat": 39.9366, "lng": 32.8372 },
+            { "lat": 39.9075, "lng": 32.8258 },
+            { "lat": 39.9405, "lng": 32.8236 },
+            { "lat": 39.9255, "lng": 32.8660 },
+            { "lat": 39.9293, "lng": 32.8383 },
+            { "lat": 39.9139, "lng": 32.8522 },
+            { "lat": 39.9456, "lng": 32.8304 },
+            { "lat": 39.9182, "lng": 32.8604 },
+            { "lat": 38.4192, "lng": 27.1287 },
+            { "lat": 38.4237, "lng": 27.1428 },
+            { "lat": 38.4199, "lng": 27.1381 },
+            { "lat": 38.4086, "lng": 27.1267 },
+            { "lat": 38.4292, "lng": 27.1325 },
+            { "lat": 38.4155, "lng": 27.1246 },
+            { "lat": 38.4210, "lng": 27.1340 },
+            { "lat": 38.4178, "lng": 27.1432 },
+            { "lat": 40.1826, "lng": 29.0669 },
+            { "lat": 40.1932, "lng": 29.0647 },
+            { "lat": 40.2010, "lng": 29.0500 },
+            { "lat": 40.2089, "lng": 29.0367 }
+        ],
+        "icon_name": "icon_name",
+        "description": "This is description of this card",
+        "position": "1 / 1 / 21 / 9",
+        "mobile_layout": "19 / 1 / 19 / 12",
+        "tablet_layout": "5 / 5 / 7 / 12",
+        "type": "map"
+    }}],
+    "message": '',
+    "status": 200,
+```
+
+- ## /ServicePoint/GetAllPoints
+
+```json
+    "data": [{
+        "service-points": [{
+            "name": "Test",
+            "id": 123,
+            "phone": "05553692514",
+            "address": "Erseven Sokak",
+            "city": "Istanbul",
+            "district": "Kagithane",
+            // "cityId": 34,
+            // "districtId": 200,
+        }],
+        "count": 1
+    }],
+    "message": "",
+    "status": 200,
+```
