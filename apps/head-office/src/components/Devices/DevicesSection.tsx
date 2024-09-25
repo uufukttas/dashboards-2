@@ -1,18 +1,18 @@
 import React, { useRef, useState } from 'react';
-import { DataTable } from 'primereact/datatable';
-import { BRAND_PREFIX } from '../../constants/constants';
-import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 import { Button } from 'primereact/button';
-import { Tooltip } from 'primereact/tooltip';
-import { useDispatch, useSelector } from 'react-redux';
-import isModalVisible, { toggleModalVisibility } from 'apps/head-office/app/redux/features/isModalVisible';
 import { Column } from 'primereact/column';
-import { hideDialog, showDialog } from 'apps/head-office/app/redux/features/dialogInformation';
-import { FaTrashCan } from 'react-icons/fa6';
-import { RootState } from 'apps/head-office/app/redux/store';
+import { DataTable } from 'primereact/datatable';
+import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 import { Toast } from 'primereact/toast';
+import { Tooltip } from 'primereact/tooltip';
+import { FaTrashCan } from 'react-icons/fa6';
+import { useDispatch, useSelector } from 'react-redux';
 import { Dialog } from '@projects/dialog';
 import Modal from '../Modal/Modal';
+import { BRAND_PREFIX } from '../../constants/constants';
+import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
+import { hideDialog, showDialog } from '../../../app/redux/features/dialogInformation';
+import { RootState } from '../../../app/redux/store';
 
 const DevicesSection: React.FC = () => {
     const deviceManagementPrefix = `${BRAND_PREFIX}-device-management`;
@@ -99,7 +99,7 @@ const DevicesSection: React.FC = () => {
         )
     };
     const prepareTableData = () => {
-        const data = deviceListData.map((device: ITariffDataProps) => {
+        const data = deviceListData.map((device) => {
             return {
                 ...device,
                 image: <img alt={device.model} src={device.image} />,
