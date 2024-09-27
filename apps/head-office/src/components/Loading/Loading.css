@@ -1,4 +1,7 @@
-.sh-loading-spinner {
+.sh-loading-spinner-container {
+  background-color: #54565a;
+}
+.sh-loading-spinner-container .sh-loading-spinner {
   border: 16px solid #d3d3d3;
   width: 120px;
   height: 120px;

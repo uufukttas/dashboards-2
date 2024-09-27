@@ -1,12 +1,16 @@
 @import '../../constants/variables.scss';
 
-.#{$brand-prefix}-loading-spinner {
-  border: 16px solid $borderColor;
-  width: 120px;
-  height: 120px;
-  border-top: 16px solid $spinnerColor;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+.#{$brand-prefix}-loading-spinner-container {
+  background-color: $opaque;
+
+  .#{$brand-prefix}-loading-spinner {
+    border: 16px solid $borderColor;
+    width: 120px;
+    height: 120px;
+    border-top: 16px solid $spinnerColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
 }
 
 @keyframes spin {
