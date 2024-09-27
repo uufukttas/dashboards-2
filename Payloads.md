@@ -194,7 +194,7 @@
         "tablet_layout": "5 / 5 / 7 / 12",
         "type": "map"
     }}],
-    "message": '',
+    "message": "",
     "status": 200,
   ```
 
@@ -415,7 +415,7 @@
         "id": 65870
     }],
     "message": "Istasyon bilgileri basarili bir sekilde guncellendi",
-    "status: 200
+    "status": 200
   ```
 
 - <h2 id="servicepoint-apdatecommisionrate">/ServicePoint/UpdateCommisionRate</h2>
