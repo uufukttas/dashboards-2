@@ -1,18 +1,13 @@
 @import '../../constants/variables';
 
 .#{$brand-prefix}-main-page-container {
-  overflow-y: scroll;
-  overflow-x: hidden;
-
-  // &.no-scrollbar::-webkit-scrollbar {
-  //   display: none;
-  // }
+  &.no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 
   &.no-scrollbar {
-    // -ms-overflow-style: none; /* IE and Edge */
-    // scrollbar-width: none; /* Firefox */
-    overflow-y: scroll;
-    scrollbar-width: thin;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
 }
 

@@ -56,50 +56,52 @@ const DashboardMap: React.FC<DashboardMapProps> = ({ markerList }) => {
   }, [window.google]);
 
   return (
-    <div className={`${dashboardMapPrefix}-container w-full px-2 my-4`}>
-      <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''} libraries={libraries}>
-        <GoogleMap
-          center={{ lat: 39.92504, lng: 30.83709 }} // Heart of Turkey - Ankara Anitkabir
-          mapContainerStyle={{ height: '635px' }}
-          mapTypeId='roadmap'
-          options={{
-            fullscreenControl: false,
-            disableDefaultUI: true,
-          }}
-          zoom={7}
-          onLoad={onLoad}
-        >
-          {
-            customIcon && markerList.map((marker, index) => (
-              <Marker
-                icon={customIcon}
-                key={index}
-                position={{ lat: marker.lat, lng: marker.lng }}
-                onClick={() => handleMarkerClick(marker)}
-              />
-            ))
-          }
-          {
-            selectedMarker && (
-              <InfoWindow
-                position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
-                onCloseClick={() => {
-                  setSelectedMarker(null);
-                  setAddress(null);
-                }}
-              >
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                  <div style={{ marginRight: '8px' }}>
-                    <p style={{ margin: 0 }}>{address || 'Loading address...'}</p>
+    markerList.length > 0 && (
+      <div className={`${dashboardMapPrefix}-container w-full px-2 my-4`}>
+        <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''} libraries={libraries}>
+          <GoogleMap
+            center={{ lat: 39.92504, lng: 30.83709 }} // Heart of Turkey - Ankara Anitkabir
+            mapContainerStyle={{ height: '635px' }}
+            mapTypeId='roadmap'
+            options={{
+              fullscreenControl: false,
+              disableDefaultUI: true,
+            }}
+            zoom={7}
+            onLoad={onLoad}
+          >
+            {
+              markerList.map((marker, index) => (
+                <Marker
+                  icon={customIcon}
+                  key={index}
+                  position={{ lat: marker.lat, lng: marker.lng }}
+                  onClick={() => handleMarkerClick(marker)}
+                />
+              ))
+            }
+            {
+              selectedMarker && (
+                <InfoWindow
+                  position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
+                  onCloseClick={() => {
+                    setSelectedMarker(null);
+                    setAddress(null);
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <div style={{ marginRight: '8px' }}>
+                      <p style={{ margin: 0 }}>{address || 'Loading address...'}</p>
+                    </div>
+                    <button onClick={() => setSelectedMarker(null)} style={{ marginLeft: 'auto', fontSize: '20px', fontWeight: "bolder" }}>X</button>
                   </div>
-                  <button onClick={() => setSelectedMarker(null)} style={{ marginLeft: 'auto', fontSize: '20px', fontWeight: "bolder" }}>X</button>
-                </div>
-              </InfoWindow>
-            )
-          }
-        </GoogleMap>
-      </LoadScript>
-    </div>
+                </InfoWindow>
+              )
+            }
+          </GoogleMap>
+        </LoadScript>
+      </div>
+    )
   );
 }
 

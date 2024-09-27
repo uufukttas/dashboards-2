@@ -12,7 +12,7 @@ export const dashboardsData = {
     "ac_status": {
         "title": "AC Sayisi",
         "value": "350/371",
-        "icon_name": "IoIosFlash",
+        "icon_name": "PiWaveSineBold",
         "description": "This is description of this card",
         "position": "7 / 9 / 14 / 13",
         "mobile_layout": "17 / 1 / 17 / 12",
@@ -22,7 +22,7 @@ export const dashboardsData = {
     "dc_status": {
         "title": "DC Sayisi",
         "value": "100/112",
-        "icon_name": "PiWaveSineBold",
+        "icon_name": "IoIosFlash",
         "description": "This is description of this card",
         "position": "14 / 9 / 21 / 13",
         "mobile_layout": "18 / 1 / 18 / 12",
@@ -32,7 +32,15 @@ export const dashboardsData = {
     "locations": {
         "title": "Lokasyonlar",
         "value": [
-            { "lat": 41.0082, "lng": 28.9784 },
+            {
+                "lat": 41.0082,
+                "lng": 28.9784,
+                "name": "Istanbul",
+                "isAC": true,
+                "icon_url": "",
+                "status": "active"
+
+            },
             { "lat": 41.0151, "lng": 28.9760 },
             { "lat": 41.0178, "lng": 29.0064 },
             { "lat": 41.0283, "lng": 28.9985 },
