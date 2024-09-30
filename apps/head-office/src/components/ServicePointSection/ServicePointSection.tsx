@@ -272,8 +272,9 @@ const ServicePointSection: React.FC = () => {
   };
   const onGlobalFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    let _filters = { ...filters };
+    const _filters = { ...filters };
 
+    // @ts-ignore
     _filters['global'].value = value;
 
     setFilters(_filters);
