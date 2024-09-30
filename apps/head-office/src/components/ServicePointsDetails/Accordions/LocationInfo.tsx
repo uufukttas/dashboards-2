@@ -12,11 +12,11 @@ import type {
     IServicePointsDetailsInfoProps,
     IServicePointsDetailsProps
 } from '../types';
+import { CITIES, DISTRICTS } from '../../../constants/constants'
 
 const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slug }: IServiceDetailsContentProps) => {
     const sectionPrefix = 'service-point-details';
     const dispatch = useDispatch();
-    const { cities, districts } = useSelector((state: RootState) => state.setCityInformation);
     const [features, setFeatures] = useState<{ StationFeatureType: number; StationFeatureValue: string }[]>([]);
     const [opportunitiesFeatureName, setOpportunitiesFeatureName] = useState<string | null[]>();
     const [parkingFeatureValue, setParkingFeatureValue] = useState<string>();
@@ -29,8 +29,8 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
     const getParkingValues = async () => {
         setParkingFeatureValue(features.find((feature) => feature.StationFeatureType === 8)?.StationFeatureValue);
     };
-    const getSelectedCity = (cityId: number) => cities[cityId - 1]?.name;
-    const getSelectedDistrict = (districtId: number) => districts[districtId]?.name || '';
+    const getSelectedCity = (cityId: number) => CITIES[cityId as unknown as keyof typeof CITIES];
+    const getSelectedDistrict = (districtId: number) => DISTRICTS[districtId as unknown as keyof typeof DISTRICTS];
     const getSelectedOpportunitiesName = async (): Promise<void> => {
         const opportunities = features.filter((feature) => feature.StationFeatureType === 2);
         const opportunitiesFeatureValues = await getServicePointFeatureValues(2);
@@ -104,16 +104,18 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({ slu
     return (
         <div className={`${sectionPrefix}-content text-black bg-white p-4 rounded-b-md`}>
             <div className={`${sectionPrefix}-info-container flex flex-col justify-between`}>
-                {infoItems.map((item, index) => (
-                    <div key={index} className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
-                        <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold`}>
-                            {item.label}
-                        </p>
-                        <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>
-                            {item.value}
-                        </p>
-                    </div>
-                ))}
+                {
+                    infoItems.map((item, index) => (
+                        <div key={index} className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
+                            <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold`}>
+                                {item.label}
+                            </p>
+                            <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>
+                                {item.value}
+                            </p>
+                        </div>
+                    ))
+                }
             </div>
         </div>
     );
