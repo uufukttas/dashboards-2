@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
+import { MarkerClusterer } from '@googlemaps/markerclusterer';
 import { Libraries } from '@react-google-maps/api';
 import { BRAND_PREFIX } from '../../constants/constants';
 
@@ -20,8 +21,23 @@ const DashboardMap: React.FC<DashboardMapProps> = ({ markerList }) => {
   const [selectedMarker, setSelectedMarker] = useState<MarkerInfo | null>(null);
   const [address, setAddress] = useState<string | null>(null);
   const [customIcon, setCustomIcon] = useState<any>(null);
+  const markerRefs = useRef<google.maps.Marker[]>([]);
 
-  const onLoad = useCallback((map: google.maps.Map) => { mapRef.current = map }, []);
+  const onLoad = useCallback((map: google.maps.Map) => {
+    mapRef.current = map;
+
+    // Initialize the MarkerClusterer
+    if (markerList.length > 0) {
+      const markers = markerList.map((marker) => {
+        return new google.maps.Marker({
+          position: { lat: marker.lat, lng: marker.lng },
+          icon: customIcon,
+        });
+      });
+
+      new MarkerClusterer({ map, markers });
+    }
+  }, [markerList, customIcon]);
 
   const handleMarkerClick = useCallback((marker: MarkerInfo) => {
     setSelectedMarker(marker);
@@ -50,7 +66,7 @@ const DashboardMap: React.FC<DashboardMapProps> = ({ markerList }) => {
         url: '/ac.png',
         scaledSize: new window.google.maps.Size(38, 38),
         origin: new window.google.maps.Point(0, 0),
-        anchor: new window.google.maps.Point(19, 38)
+        anchor: new window.google.maps.Point(19, 38),
       });
     }
   }, [window.google]);
@@ -70,16 +86,6 @@ const DashboardMap: React.FC<DashboardMapProps> = ({ markerList }) => {
             zoom={7}
             onLoad={onLoad}
           >
-            {
-              markerList.map((marker, index) => (
-                <Marker
-                  icon={customIcon}
-                  key={index}
-                  position={{ lat: marker.lat, lng: marker.lng }}
-                  onClick={() => handleMarkerClick(marker)}
-                />
-              ))
-            }
             {
               selectedMarker && (
                 <InfoWindow
