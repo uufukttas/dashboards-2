@@ -41,10 +41,12 @@ import type {
   IServicePoint,
   IServicePointData
 } from './types';
+import { Toast } from 'primereact/toast';
+import { InputText } from 'primereact/inputtext';
+import { IconField } from 'primereact/iconfield';
 import './ServicePointSection.css';
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
-import { Toast } from 'primereact/toast';
 
 const ServicePointSection: React.FC = () => {
   const pagePrefix: string = `${BRAND_PREFIX}-service-point`;
@@ -120,50 +122,55 @@ const ServicePointSection: React.FC = () => {
   };
   const dataTableHeader = (): JSX.Element => {
     return (
-      <>
-        <div className={`${BRAND_PREFIX}-data-table-header-container w-full flex justify-between items-center`}>
-          <div className={`${BRAND_PREFIX}-data-table-select-container`}>
+      <div className={`${BRAND_PREFIX}-data-table-header-container w-full flex justify-between items-center`}>
+        <div className={`${BRAND_PREFIX}-data-table-header-filter-container flex justify-start items-center`}>
+          <div className={`${BRAND_PREFIX}-data-table-select-container mx-4`}>
             <MultiSelect value={visibleColumns} options={servicePointTableHeadData.filter((item) => item.isRemovable)} optionLabel="header" onChange={onColumnToggle} className="w-full sm:w-20rem" placeholder="Sütunları Seç" />
           </div>
-          <div className={`${BRAND_PREFIX}-data-table-action-button-container flex justify-center items-center`}>
-            <div className={`${BRAND_PREFIX}-data-table-export-button-container mx-4`}>
-              <Button
-                className={`${BRAND_PREFIX}-data-table-export-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
-                data-pr-tooltip="XLS"
-                icon="pi pi-file-excel"
-                rounded
-                severity="success"
-                type="button"
-                onClick={exportExcel}
-              />
-              <Tooltip
-                className={`${BRAND_PREFIX}-data-table-export-button-tooltip text-base`}
-                content="Disari Aktar"
-                position="bottom"
-                target={`#${BRAND_PREFIX}-table-header-export-button`}
-                style={{ fontSize: '12px', padding: '4px' }}
-              />
-            </div>
-            <div className={`${BRAND_PREFIX}-data-table-add-button-container mx-4`}>
-              <Button
-                className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
-                icon="pi pi-plus"
-                id={`${BRAND_PREFIX}-table-header-add-button`}
-                rounded
-                type="button"
-                onClick={() => dispatch(toggleModalVisibility(true))}
-              />
-              <Tooltip
-                className={`${BRAND_PREFIX}-data-table-add-button-tooltip text-base`}
-                content="Istasyon Ekle"
-                position="bottom"
-                target={`#${BRAND_PREFIX}-table-header-add-button`}
-                style={{ fontSize: '12px', padding: '4px' }}
-              />
-            </div>
+          <div className="flex justify-content-end">
+            <IconField iconPosition="left" >
+              <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Ara..." className='p-2.5 border border-gray-200 rounded-md' />
+            </IconField>
           </div>
         </div>
-      </>
+        <div className={`${BRAND_PREFIX}-data-table-action-button-container flex justify-center items-center`}>
+          <div className={`${BRAND_PREFIX}-data-table-export-button-container mx-4`}>
+            <Button
+              className={`${BRAND_PREFIX}-data-table-export-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
+              data-pr-tooltip="XLS"
+              icon="pi pi-file-excel"
+              rounded
+              severity="success"
+              type="button"
+              onClick={exportExcel}
+            />
+            <Tooltip
+              className={`${BRAND_PREFIX}-data-table-export-button-tooltip text-base`}
+              content="Disari Aktar"
+              position="bottom"
+              target={`#${BRAND_PREFIX}-table-header-export-button`}
+              style={{ fontSize: '12px', padding: '4px' }}
+            />
+          </div>
+          <div className={`${BRAND_PREFIX}-data-table-add-button-container mx-4`}>
+            <Button
+              className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
+              icon="pi pi-plus"
+              id={`${BRAND_PREFIX}-table-header-add-button`}
+              rounded
+              type="button"
+              onClick={() => dispatch(toggleModalVisibility(true))}
+            />
+            <Tooltip
+              className={`${BRAND_PREFIX}-data-table-add-button-tooltip text-base`}
+              content="Istasyon Ekle"
+              position="bottom"
+              target={`#${BRAND_PREFIX}-table-header-add-button`}
+              style={{ fontSize: '12px', padding: '4px' }}
+            />
+          </div>
+        </div>
+      </div>
     )
   };
   const deleteServicePointInfo = (event: React.MouseEvent<HTMLAnchorElement>): void => {
@@ -267,7 +274,6 @@ const ServicePointSection: React.FC = () => {
     const value = e.target.value;
     let _filters = { ...filters };
 
-    // @ts-ignore
     _filters['global'].value = value;
 
     setFilters(_filters);
