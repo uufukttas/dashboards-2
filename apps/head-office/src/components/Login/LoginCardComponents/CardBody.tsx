@@ -45,7 +45,7 @@ const CardBody: React.FC = () => {
         await fetchLoginData(userLoginData);
     };
     const handleLoginSuccess = (): void => {
-        dispatch(toggleLoadingVisibility(true));
+        dispatch(toggleLoadingVisibility(false));
 
         router.push('/dashboards');
     };

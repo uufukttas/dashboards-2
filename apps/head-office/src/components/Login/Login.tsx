@@ -22,15 +22,15 @@ const Login: React.FC = () => {
         >
             <div className={`${loginPrefix}-language-option-container flex justify-end`}>
                 <Dropdown
-                    className={`${loginPrefix}-language-dropdown block w-1/2 p-2.5 border rounded-lg text-text text-sm focus:ring-primary focus:border-primary`}
+                    className={`${loginPrefix}-language-dropdown block w-1/2 md:w-1/4 p-2.5 border rounded-lg text-text text-sm focus:ring-primary focus:border-primary`}
                     id={`${loginPrefix}-language-dropdown`}
                     items={languageList}
                     name={`${loginPrefix}-language-dropdown`}
                     onChange={(event) => dispatch(setSelectedLanguage(Number(event.target.value)))}
                 />
             </div>
-            <div className={`${loginPrefix}-card-form-container`}>
-                <Card BRAND_PREFIX={BRAND_PREFIX} containerClassName={`w-full p-8 bg-white`}>
+            <div className={`${loginPrefix}-card-form-container flex justify-center`}>
+                <Card BRAND_PREFIX={BRAND_PREFIX} containerClassName={`w-full md:w-1/2 lg:w-full p-8 bg-white`}>
                     <CardHeader />
                     <CardBody />
                     <CardFooter />
