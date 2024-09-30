@@ -18,7 +18,6 @@ interface MapProps {
 }
 
 const MapComponent: React.FC<MapProps> = ({ formData, onSelectLocation }) => {
-    // const { cities, districts } = useSelector((state: RootState) => state.cities);
     const servicePointInformation = useSelector((state: RootState) => state.servicePointInformation.servicePointInformation);
     const [markerPosition, setMarkerPosition] = useState<Location>({ lat: servicePointInformation.lat, lng: servicePointInformation.lon });
     const [mapCenter, setMapCenter] = useState<Location>({ lat: servicePointInformation.lat, lng: servicePointInformation.lon });
@@ -30,12 +29,10 @@ const MapComponent: React.FC<MapProps> = ({ formData, onSelectLocation }) => {
         // @ts-ignore
         mapRef.current = map;
     }, []);
-
     const onSearchBoxLoad = useCallback(function callback(searchBox: google.maps.places.SearchBox) {
         // @ts-ignore
         searchBoxRef.current = searchBox;
     }, []);
-
     const onPlacesChanged = () => {
         const places = searchBoxRef.current?.getPlaces();
         if (places && places.length > 0) {
@@ -47,7 +44,6 @@ const MapComponent: React.FC<MapProps> = ({ formData, onSelectLocation }) => {
             }
         }
     };
-
     const handleMapClick = (event: google.maps.MapMouseEvent) => {
         const lat = event.latLng?.lat();
         const lng = event.latLng?.lng();
@@ -64,7 +60,6 @@ const MapComponent: React.FC<MapProps> = ({ formData, onSelectLocation }) => {
 
         return `${CITIES[cityId.toString() as keyof typeof CITIES]},${DISTRICTS[district.toString() as keyof typeof DISTRICTS]}`;
     };
-
     const changeMapLocation = async () => {
         await axios
             .get(
@@ -73,13 +68,16 @@ const MapComponent: React.FC<MapProps> = ({ formData, onSelectLocation }) => {
                 setMapCenter(response.data.results[0].geometry.location);
             })
     };
-
     const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
             event.preventDefault();
             onPlacesChanged();
         };
     };
+
+    useEffect(() => {
+        changeMapLocation();
+    }, []);
 
     useEffect(() => {
         changeMapLocation();

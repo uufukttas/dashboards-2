@@ -38,8 +38,8 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
   const [thirdPageFormData, setThirdPageFormData] = useState<IFormDataProps>({
     [`${formProperties.cityId}`]: servicePointInformation.cityId || 1,
     [`${formProperties.districtId}`]: servicePointInformation.districtId || 1,
-    [`${formProperties['x-coord']}`]: typeof servicePointInformation.lon === 'undefined' ? '' : servicePointInformation.lon,
-    [`${formProperties['y-coord']}`]: typeof servicePointInformation.lat === 'undefined' ? '' : servicePointInformation.lat,
+    [`${formProperties['x-coord']}`]: typeof servicePointInformation.lat === 'undefined' ? '' : servicePointInformation.lat,
+    [`${formProperties['y-coord']}`]: typeof servicePointInformation.lon === 'undefined' ? '' : servicePointInformation.lon,
   });
   const [selectedCity, setSelectedCity] = useState<number>(Number(thirdPageFormData[formProperties.cityId]));
 
@@ -47,14 +47,13 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
     const { lat, lng } = location;
     setThirdPageFormData(({ ...thirdPageFormData, [`${formProperties['x-coord']}`]: lat, [`${formProperties['y-coord']}`]: lng }));
   };
-
   const getDistricts = async (selectedCity: number) => {
     const response = await getDistrictsRequest(selectedCity);
 
     setDistricts(response);
     setThirdPageFormData(({
       ...thirdPageFormData,
-      [`${formProperties.districtId}`]: response[0].rid,
+      [`${formProperties.districtId}`]: thirdPageFormData[`${formProperties.districtId}`] || response[0].rid,
       [`${formProperties.cityId}`]: selectedCity
     }));
   };
@@ -124,7 +123,6 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
   };
 
   useEffect(() => {
-    setSelectedCity(Number(thirdPageFormData[`${formProperties.cityId}`] ?? 0));
     getDistricts(selectedCity);
     getPaymentMethods();
     getOpportunities();
