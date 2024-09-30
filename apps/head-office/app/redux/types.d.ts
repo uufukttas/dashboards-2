@@ -42,7 +42,7 @@ interface IServicePointInformationProps {
     cityId: number;
     districtId: number;
     opportunities: string[];
-    freePark: boolean;
+    freeParkCount: string;
     paymentMethods: string[];
 };
 interface IUserDataRoleProps {

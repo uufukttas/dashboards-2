@@ -15,7 +15,7 @@ const initialState: IServicePointInformationStateProps = {
         cityId: 0,
         districtId: 0,
         opportunities: [],
-        freePark: false,
+        freeParkCount: '',
         paymentMethods: [],
     },
 };
@@ -29,7 +29,7 @@ export const servicePointInformation = createSlice({
             state.servicePointInformation.addressDetail = action.payload.addressDetail;
             state.servicePointInformation.cityId = action.payload.cityId;
             state.servicePointInformation.districtId = action.payload.districtId;
-            state.servicePointInformation.freePark = action.payload.freePark;
+            state.servicePointInformation.freeParkCount = action.payload.freeParkCount;
             state.servicePointInformation.id = action.payload.id;
             state.servicePointInformation.lat = action.payload.lat;
             state.servicePointInformation.lon = action.payload.lon;

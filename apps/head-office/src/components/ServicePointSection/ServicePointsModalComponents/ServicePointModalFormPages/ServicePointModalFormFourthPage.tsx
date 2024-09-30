@@ -28,11 +28,11 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   setPaymentMethods,
   setOpportunities,
 }: IModalFourthPageInputsProps) => {
-  const formName = ['payment-methods', 'parking', 'opportunities'];
+  const formName = ['payment-methods', 'free-park-count', 'opportunities'];
   const sectionPrefix = 'service-point';
   const formProperties = {
     paymentMethods: `${sectionPrefix}-${formName[0]}`,
-    parking: `${sectionPrefix}-${formName[1]}`,
+    freeParkCount: `${sectionPrefix}-${formName[1]}`,
     opportunities: `${sectionPrefix}-${formName[2]}`,
   };
   const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   });
   const [fourthPageFormData, setFourthPageFormData] = useState<IFormDataProps>({
     [`${formProperties.paymentMethods}`]: paymentMethods || [],
-    [`${formProperties.parking}`]: servicePointInformation.freePark || 0,
+    [`${formProperties.freeParkCount}`]: servicePointInformation.freeParkCount || 0,
     [`${formProperties.opportunities}`]: opportunities || [],
   });
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
@@ -63,10 +63,10 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
       {
         id: 0,
         rid: 0,
-        name: fourthPageFormData[`${formProperties.parking}`].toString(),
+        name: `${formProperties.freeParkCount}`,
         stationId: stationId,
         stationFeatureType: 8,
-        stationFeatureValue: Number(fourthPageFormData[`${formProperties.parking}`]),
+        stationFeatureValue: Number(fourthPageFormData[`${formProperties.freeParkCount}`]),
         isDeleted: false
       }
     ]
@@ -177,12 +177,11 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   const getStationParkingFeatures = async () => {
     const response = await getStationFeaturesRequest(stationId);
     const parkingCount = response
-      .filter((feature: IFeatureProps) => feature.stationFeatureType === 8)
-      .map((parking: IFeatureProps) => parking.stationFeatureValue)[0] || '0';
+      .filter((feature: IFeatureProps) => feature.stationFeatureType === 8)[0].stationFeatureValue;
 
     setFourthPageFormData({
       ...fourthPageFormData,
-      [`${formProperties.parking}`]: parkingCount,
+      [`${formProperties.freeParkCount}`]: parkingCount,
     });
   };
   const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
@@ -191,7 +190,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
       setServicePointInformation({
         ...servicePointInformation,
         paymentMethods: fourthPageFormData[`${formProperties.paymentMethods}`],
-        parking: fourthPageFormData[`${formProperties.parking}`],
+        freeParkCount: fourthPageFormData[`${formProperties.freeParkCount}`],
         opportunities: fourthPageFormData[`${formProperties.opportunities}`],
       })
     );
@@ -202,12 +201,12 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
       createPaymentMethodsConfigData(),
       createOpportunitiesConfigData(),
       createParkingConfigData()
-    ]).then(([filteredPaymentMethods, filteredOpportunities, parkingCount]) => {
+    ]).then(([filteredPaymentMethods, filteredOpportunities, freeParkCount]) => {
       if (filteredPaymentMethods && filteredOpportunities) {
         setStationFeatures([
           ...filteredPaymentMethods,
           ...filteredOpportunities,
-          ...parkingCount
+          ...freeParkCount
         ]);
       } else {
         console.error('One of the arrays is empty or undefined');
@@ -230,7 +229,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     dispatch(setServicePointInformation({
       ...servicePointInformation,
       paymentMethods: fourthPageFormData[`${formProperties.paymentMethods}`],
-      parking: fourthPageFormData[`${formProperties.parking}`],
+      freeParkCount: fourthPageFormData[`${formProperties.freeParkCount}`],
       opportunities: fourthPageFormData[`${formProperties.opportunities}`],
     }));
   }, [opportunities]);
@@ -265,16 +264,16 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
             }}
           />
         </div>
-        <div className={`${formProperties.parking}-container`}>
+        <div className={`${formProperties.freeParkCount}-container`}>
           <Label
-            className={`${formProperties.parking}-block mb-2 text-heading font-semibold`}
-            htmlFor={`${formProperties.parking}`}
+            className={`${formProperties.freeParkCount}-block mb-2 text-heading font-semibold`}
+            htmlFor={`${formProperties.freeParkCount}`}
             labelText={`Ucretsiz arac park sayisi`} />
           <Input
-            className={`${formProperties.parking}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
-            id={`${formProperties.parking}`}
-            name={`${formProperties.parking}`}
-            value={fourthPageFormData[`${formProperties.parking}`]?.toString() || ''}
+            className={`${formProperties.freeParkCount}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
+            id={`${formProperties.freeParkCount}`}
+            name={`${formProperties.freeParkCount}`}
+            value={fourthPageFormData[`${formProperties.freeParkCount}`]?.toString() || ''}
             type='number'
             onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
               setFourthPageFormData({
