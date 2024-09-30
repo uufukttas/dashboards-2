@@ -6,6 +6,7 @@
   "private": true,
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
+    "@googlemaps/markerclusterer": "^2.5.3",
     "@netlify/blobs": "^7.3.0",
     "@nx/next": "17.2.8",
     "@nx/webpack": "^17.3.2",
