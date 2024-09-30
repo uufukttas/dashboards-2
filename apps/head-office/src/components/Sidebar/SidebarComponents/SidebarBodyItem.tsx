@@ -5,9 +5,12 @@ import { useRouter } from 'next/navigation';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import { ISidebarItemComponentProps } from '../types';
 import { BiSolidEvStation } from 'react-icons/bi';
+import { useDispatch } from 'react-redux';
+import { toggleLoadingVisibility } from 'apps/head-office/app/redux/features/isLoadingVisible';
 
 const SidebarBodyItem: React.FC<ISidebarItemComponentProps> = ({ item }) => {
     const sidebarPrefix: string = `${BRAND_PREFIX}-sidebar`;
+    const dispatct = useDispatch();
     const expandMenuButton = useRef(null);
     const router = useRouter();
 
@@ -40,7 +43,10 @@ const SidebarBodyItem: React.FC<ISidebarItemComponentProps> = ({ item }) => {
                                 className={`${sidebarPrefix}-sublist-item-container-item cursor-pointer p-ripple flex align-items-center p-3 border-round text-700 hover:surface-100 w-full`}
                                 key={subIndex}
                             >
-                                <Button onClick={() => router.push(subItem.path)}>
+                                <Button onClick={() => {
+                                    dispatct(toggleLoadingVisibility(true));
+                                    router.push(subItem.path)
+                                }}>
                                     <i className={subItem.icon.toString() + " mr-2"}></i>
                                     <span className="font-medium">{subItem.label}</span>
                                 </Button>
@@ -56,7 +62,10 @@ const SidebarBodyItem: React.FC<ISidebarItemComponentProps> = ({ item }) => {
         <li
             className={`${sidebarPrefix}-content-list-container-list-item cursor-pointer p-ripple flex align-items-center p-3 border-round text-700 hover:surface-100 w-full`}
         >
-            <Button onClick={() => router.push(item.path)}>
+            <Button onClick={() => {
+                dispatct(toggleLoadingVisibility(true));
+                router.push(item.path)
+            }}>
                 {
                     item.icon === 'BiSolidEvStation'
                         ? (
