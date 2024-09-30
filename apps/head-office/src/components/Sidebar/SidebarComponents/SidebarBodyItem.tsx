@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { Button } from 'primereact/button';
 import { StyleClass } from 'primereact/styleclass';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import { ISidebarItemComponentProps } from '../types';
 import { BiSolidEvStation } from 'react-icons/bi';
