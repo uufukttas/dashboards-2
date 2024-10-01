@@ -1,52 +1,40 @@
 import React, { useCallback, useRef, useState, useEffect } from 'react';
-import { GoogleMap, LoadScript, Marker, InfoWindow } from '@react-google-maps/api';
-import { MarkerClusterer } from '@googlemaps/markerclusterer';
-import { Libraries } from '@react-google-maps/api';
+import { GoogleMap, Marker, InfoWindow, useLoadScript, Libraries } from '@react-google-maps/api';
+import axios from 'axios';
 import { BRAND_PREFIX } from '../../constants/constants';
 
 interface MarkerInfo {
   lat: number;
-  lng: number;
+  lon: number;
 }
 
 interface DashboardMapProps {
   markerList: MarkerInfo[];
-}
+};
 
-const DashboardMap: React.FC<DashboardMapProps> = ({ markerList }) => {
+const DashboardMap: React.FC<DashboardMapProps> = () => {
   const dashboardMapPrefix: string = `${BRAND_PREFIX}-dashboard-map`;
   const libraries: Libraries = ["places"];
   const mapRef = useRef<google.maps.Map | null>(null);
-
   const [selectedMarker, setSelectedMarker] = useState<MarkerInfo | null>(null);
   const [address, setAddress] = useState<string | null>(null);
-  const [customIcon, setCustomIcon] = useState<any>(null);
-  const markerRefs = useRef<google.maps.Marker[]>([]);
+  const [markerList, setMarkerList] = useState<MarkerInfo[]>([]);
 
-  const onLoad = useCallback((map: google.maps.Map) => {
-    mapRef.current = map;
+  const { isLoaded, loadError } = useLoadScript({
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
+    libraries,
+  });
 
-    // Initialize the MarkerClusterer
-    if (markerList.length > 0) {
-      const markers = markerList.map((marker) => {
-        return new google.maps.Marker({
-          position: { lat: marker.lat, lng: marker.lng },
-          icon: customIcon,
-        });
-      });
+  const onLoad = useCallback((map: google.maps.Map) => (mapRef.current = map), []);
 
-      new MarkerClusterer({ map, markers });
-    }
-  }, [markerList, customIcon]);
-
-  const handleMarkerClick = useCallback((marker: MarkerInfo) => {
-    setSelectedMarker(marker);
-    fetchAddress(marker.lat, marker.lng);
-    if (mapRef.current) {
-      mapRef.current.panTo({ lat: marker.lat, lng: marker.lng });
-      mapRef.current.setZoom(14);
-    }
-  }, []);
+  // const handleMarkerClick = useCallback((marker: MarkerInfo) => {
+  //   setSelectedMarker(marker);
+  //   fetchAddress(marker.lat, marker.lon);
+  //   if (mapRef.current) {
+  //     mapRef.current.panTo({ lat: marker.lat, lng: marker.lon });
+  //     mapRef.current.setZoom(14);
+  //   }
+  // }, []);
 
   const fetchAddress = async (lat: number, lng: number) => {
     const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
@@ -60,55 +48,87 @@ const DashboardMap: React.FC<DashboardMapProps> = ({ markerList }) => {
     }
   };
 
-  useEffect(() => {
-    if (window.google) {
-      setCustomIcon({
-        url: '/ac.png',
-        scaledSize: new window.google.maps.Size(38, 38),
-        origin: new window.google.maps.Point(0, 0),
-        anchor: new window.google.maps.Point(19, 38),
-      });
+  const getMarkerList = async () => {
+    await axios.post('http://192.168.3.75:85/api/App/stations').then((response) => {
+      setMarkerList(response.data.result);
+    });
+  };
+
+  // `window.google`'ın yüklenmesini kontrol ederek `TypeError` hatasını önlüyoruz
+  const setMarkerIcon = (iconType: string) => {
+    if (!isLoaded || !window.google || !window.google.maps) return undefined;
+
+    // Dinamik olarak özel ikon URL'si belirleme
+    const baseIconUrl = `https://maps.google.com/mapfiles/ms/icons/`;
+    let iconUrl = `${baseIconUrl}${iconType}-dot.png`;
+
+    // İkon URL'sini belirli bir şarta göre değiştirme (örneğin kendi sunucunuzdaki ikon)
+    if (iconType === '00') {
+      iconUrl = `http://192.168.3.75:85${markerList.mapPinIcons[0].url}`;
+    } else if (iconType === '01') {
+      iconUrl = `http://192.168.3.75:85${markerList.mapPinIcons[1].url}`;
     }
-  }, [window.google]);
+    // İkon özelliklerini döndürme
+    return {
+      url: iconUrl,
+      scaledSize: new window.google.maps.Size(40, 40),
+    };
+  };
+
+  useEffect(() => {
+    getMarkerList();
+  }, []);
+
+
+  if (loadError) return <div>Error loading map</div>;
+  if (!isLoaded) return <div>Loading...</div>;
 
   return (
-    markerList.length > 0 && (
+    markerList.stations?.length > 0 && (
       <div className={`${dashboardMapPrefix}-container w-full px-2 my-4`}>
-        <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''} libraries={libraries}>
-          <GoogleMap
-            center={{ lat: 39.92504, lng: 30.83709 }} // Heart of Turkey - Ankara Anitkabir
-            mapContainerStyle={{ height: '635px' }}
-            mapTypeId='roadmap'
-            options={{
-              fullscreenControl: false,
-              disableDefaultUI: true,
-            }}
-            zoom={7}
-            onLoad={onLoad}
-          >
-            {
-              selectedMarker && (
-                <InfoWindow
-                  position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
-                  onCloseClick={() => {
-                    setSelectedMarker(null);
-                    setAddress(null);
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <div style={{ marginRight: '8px' }}>
-                      <p style={{ margin: 0 }}>{address || 'Loading address...'}</p>
-                    </div>
-                    <button onClick={() => setSelectedMarker(null)} style={{ marginLeft: 'auto', fontSize: '20px', fontWeight: "bolder" }}>X</button>
+        <GoogleMap
+          center={{ lat: 39.92504, lng: 30.83709 }} // Heart of Turkey - Ankara Anitkabir
+          mapContainerStyle={{ height: '635px' }}
+          mapTypeId="roadmap"
+          options={{
+            fullscreenControl: false,
+            disableDefaultUI: true,
+          }}
+          zoom={7}
+          onLoad={onLoad}
+        >
+          {markerList.stations.map((marker, index) => (
+            <Marker
+              key={index}
+              position={{ lat: marker.lat, lng: marker.lon }}
+              // onClick={() => handleMarkerClick(marker)}
+              icon={setMarkerIcon(marker.mapPinIconCode)} // Özel ikon tipi burada belirleniyor
+            />
+          ))}
+          {
+            selectedMarker && (
+              <InfoWindow
+                position={{ lat: selectedMarker.lat, lng: selectedMarker.lon }}
+                onCloseClick={() => {
+                  setSelectedMarker(null);
+                  setAddress(null);
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <div style={{ marginRight: '8px' }}>
+                    <p style={{ margin: 0 }}>{address || 'Loading address...'}</p>
                   </div>
-                </InfoWindow>
-              )
-            }
-          </GoogleMap>
-        </LoadScript>
+                  <button onClick={() => setSelectedMarker(null)} style={{ marginLeft: 'auto', fontSize: '20px', fontWeight: 'bolder' }}>
+                    X
+                  </button>
+                </div>
+              </InfoWindow>
+            )
+          }
+        </GoogleMap>
       </div>
     )
   );
-}
+};
 
 export default DashboardMap;

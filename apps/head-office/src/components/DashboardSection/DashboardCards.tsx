@@ -323,9 +323,7 @@ const DashboardCards: React.FC = () => {
         } else if (data.type === 'map') {
             return <div className='w-full h-full'>
                 <div className='w-full h-full flex items-center justify-center'>
-                    <DashboardMap
-                        markerList={data.value}
-                    />
+                    <DashboardMap />
                 </div>
             </div>
         } else if (data.type === 'line&bar') {
