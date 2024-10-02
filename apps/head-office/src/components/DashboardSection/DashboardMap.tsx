@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { GoogleMap, Marker, InfoWindow, useLoadScript, Libraries } from '@react-google-maps/api';
 import axios from 'axios';
 import { IoCloseCircle } from "react-icons/io5";
@@ -69,6 +69,11 @@ const DashboardMap: React.FC<DashboardMapProps> = () => {
       });
     };
   };
+  const getMarkerList = async () => {
+    await axios.post('http://192.168.3.75:85/api/App/stations').then((response) => {
+      setMarkerList(response.data.result);
+    });
+  };
 
   const setMarkerIcon = (iconType: string) => {
     if (!isLoaded || !window.google || !window.google.maps || !markerList) return undefined;
@@ -88,6 +93,10 @@ const DashboardMap: React.FC<DashboardMapProps> = () => {
       scaledSize: new window.google.maps.Size(40, 40),
     };
   };
+
+  useEffect(() => {
+    getMarkerList();
+  }, []);
 
   if (loadError) return <div>Error loading map</div>;
   if (!isLoaded || !markerList) return <div>Loading...</div>;
