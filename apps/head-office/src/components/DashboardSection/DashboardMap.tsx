@@ -77,8 +77,10 @@ const DashboardMap: React.FC<DashboardMapProps> = () => {
     let iconUrl = `${baseIconUrl}${iconType}-dot.png`;
 
     if (iconType === '00') {
+      // @ts-ignore
       iconUrl = `http://192.168.3.75:85${markerList.mapPinIcons[0].url}`;
     } else if (iconType === '01') {
+      // @ts-ignore
       iconUrl = `http://192.168.3.75:85${markerList.mapPinIcons[1].url}`;
     }
     return {
@@ -91,6 +93,7 @@ const DashboardMap: React.FC<DashboardMapProps> = () => {
   if (!isLoaded || !markerList) return <div>Loading...</div>;
 
   return (
+    // @ts-ignore
     markerList?.stations?.length > 0 && (
       <div className={`${dashboardMapPrefix}-container w-full px-2 my-4`}>
         <GoogleMap
@@ -105,6 +108,7 @@ const DashboardMap: React.FC<DashboardMapProps> = () => {
           onLoad={onLoad}
         >
           {
+            // @ts-ignore
             markerList.stations.map((marker, index) => (
               <Marker
                 key={index}
