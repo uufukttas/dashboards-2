@@ -24,6 +24,9 @@ interface MarkerInfo {
 interface DashboardMapProps {
 };
 
+const CACHE_KEY = 'dashboardMapCache';
+const CACHE_EXPIRATION = 5 * 60 * 1000; // 5 dakika (300,000 ms)
+
 const DashboardMap: React.FC<DashboardMapProps> = () => {
   const dashboardMapPrefix: string = `${BRAND_PREFIX}-dashboard-map`;
   const libraries: Libraries = ["places"];
@@ -33,7 +36,7 @@ const DashboardMap: React.FC<DashboardMapProps> = () => {
     address: "",
     name: ""
   });
-  const [markerList, setMarkerList] = useState<MarkerInfo[]>([]);
+  const [markerList, setMarkerList] = useState<MarkerInfo | null>(null);
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
@@ -69,9 +72,25 @@ const DashboardMap: React.FC<DashboardMapProps> = () => {
       });
     };
   };
+
+  // LocalStorage'dan cache verisini kontrol et ve veriyi güncelle
   const getMarkerList = async () => {
+    const cachedData = localStorage.getItem(CACHE_KEY);
+    if (cachedData) {
+      const { data, timestamp } = JSON.parse(cachedData);
+      // 5 dakika kontrolü
+      if (Date.now() - timestamp < CACHE_EXPIRATION) {
+        setMarkerList(data);
+        return;
+      }
+    }
+
+    // Cache süresi dolduysa veya cache yoksa yeni veri çek
     await axios.post('http://192.168.3.75:85/api/App/stations').then((response) => {
-      setMarkerList(response.data.result);
+      const result = response.data.result;
+      setMarkerList(result);
+      // LocalStorage'a yeni veriyi kaydet
+      localStorage.setItem(CACHE_KEY, JSON.stringify({ data: result, timestamp: Date.now() }));
     });
   };
 
@@ -82,10 +101,8 @@ const DashboardMap: React.FC<DashboardMapProps> = () => {
     let iconUrl = `${baseIconUrl}${iconType}-dot.png`;
 
     if (iconType === '00') {
-      // @ts-ignore
       iconUrl = `http://192.168.3.75:85${markerList.mapPinIcons[0].url}`;
     } else if (iconType === '01') {
-      // @ts-ignore
       iconUrl = `http://192.168.3.75:85${markerList.mapPinIcons[1].url}`;
     }
     return {
