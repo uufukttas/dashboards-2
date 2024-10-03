@@ -65,7 +65,7 @@ const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageP
         } as React.CSSProperties}
       >
         <Sidebar />
-        <div className={`${pagePrefix}-container bg-white overflow-x-hidden no-scrollbar`}>
+        <div className={`${pagePrefix}-container bg-white`}>
           <Header className={`h-[80px] flex items-center w-full bg-white`} headerName={headerName} />
           <Section>
             {children}

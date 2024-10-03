@@ -2,4 +2,14 @@
 
 .#{$brand-prefix}-section-container {
   height: calc(100vh - 120px);
+  overflow-y: scroll;
+
+  &.no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  &.no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }

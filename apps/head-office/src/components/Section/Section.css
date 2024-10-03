@@ -1,3 +1,11 @@
 .sh-section-container {
   height: calc(100vh - 120px);
+  overflow-y: scroll;
+}
+.sh-section-container.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.sh-section-container.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }

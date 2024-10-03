@@ -1,8 +1,3 @@
-.sh-table-container {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
 @media screen and (max-width: 480px) {
   .sh-service-points-container {
     min-width: 300px;

@@ -1,10 +1,5 @@
 @import '../../constants/variables';
 
-.#{$brand-prefix}-table-container {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
 @media screen and (max-width: 480px) {
   .#{$brand-prefix}-service-points-container {
     min-width: 300px;
