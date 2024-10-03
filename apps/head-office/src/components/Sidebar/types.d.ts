@@ -9,6 +9,9 @@ export interface ISidebarElementProps {
     path: string;
     subItems?: ISidebarElementProps[];
 };
+export interface ISidebarHeaderProps {
+    hide: (event: React.MouseEvent<HTMLButtonElement>) => void;
+}
 export interface ISidebarItemComponentProps {
     item: ISidebarElementProps;
 };

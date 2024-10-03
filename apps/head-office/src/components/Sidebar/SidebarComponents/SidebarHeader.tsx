@@ -2,8 +2,9 @@ import React from 'react';
 import Image from 'next/image';
 import { Button } from 'primereact/button';
 import { BRAND_PREFIX, userInfo } from '../../../constants/constants';
+import { ISidebarHeaderProps } from '../types';
 
-const SidebarHeader: React.FC<{ hide: (event: React.MouseEvent<HTMLButtonElement>) => void }> = ({ hide }) => {
+const SidebarHeader: React.FC<ISidebarHeaderProps> = ({ hide }) => {
     const sidebarHeaderPrefix: string = `${BRAND_PREFIX}-sidebar-header`;
 
     return (
@@ -18,7 +19,7 @@ const SidebarHeader: React.FC<{ hide: (event: React.MouseEvent<HTMLButtonElement
                     outlined
                     rounded
                     type="button"
-                    onClick={(e) => hide(e)}
+                    onClick={(event) => hide(event)}
                 >
                 </Button>
             </span>

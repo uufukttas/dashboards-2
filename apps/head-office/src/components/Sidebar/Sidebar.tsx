@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Sidebar } from 'primereact/sidebar';
 import { useDispatch, useSelector } from 'react-redux';
 import SidebarBody from './SidebarComponents/SidebarBody';
