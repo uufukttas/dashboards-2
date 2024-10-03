@@ -37,7 +37,7 @@ const DashboardMap: React.FC<DashboardMapProps> = () => {
     name: ""
   });
   const [markerList, setMarkerList] = useState<MarkerInfo | null>(null);
-  const [selectedLocations, setSelectedLocations] = useState<{lat: 39.92503, lon: 32.83707}>({lat: 39.92503, lon: 32.83707});
+  const [selectedLocations, setSelectedLocations] = useState<{lat: number, lon: number }>({ lat: 39.92503, lon: 32.83707 });
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
     libraries,
@@ -141,7 +141,7 @@ const DashboardMap: React.FC<DashboardMapProps> = () => {
                 position={{ lat: marker.lat, lng: marker.lon }}
                 onClick={() => {
                   handleMarkerClick(marker)
-                  setSelectedLocations({lat: marker.lat, lon: marker.lon });
+                  setSelectedLocations({ lat: marker.lat, lon: marker.lon });
                 }}
                 icon={setMarkerIcon(marker.mapPinIconCode)} // Özel ikon tipi burada belirleniyor
               />
