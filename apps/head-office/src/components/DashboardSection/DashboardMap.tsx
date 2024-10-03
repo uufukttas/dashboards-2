@@ -37,7 +37,7 @@ const DashboardMap: React.FC<DashboardMapProps> = () => {
     name: ""
   });
   const [markerList, setMarkerList] = useState<MarkerInfo | null>(null);
-
+  const [selectedLocations, setSelectedLocations] = useState<{lat: 39.92503, lon: 32.83707}>({lat: 39.92503, lon: 32.83707});
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
     libraries,
@@ -123,7 +123,7 @@ const DashboardMap: React.FC<DashboardMapProps> = () => {
     markerList?.stations?.length > 0 && (
       <div className={`${dashboardMapPrefix}-container w-full px-2 my-4`}>
         <GoogleMap
-          center={{ lat: 39.92504, lng: 30.83709 }} // Heart of Turkey - Ankara Anitkabir
+          center={{ lat: selectedLocations.lat, lng: selectedLocations.lon }} // Heart of Turkey - Ankara Anitkabir
           mapContainerStyle={{ height: '635px' }}
           mapTypeId="roadmap"
           options={{
@@ -139,7 +139,10 @@ const DashboardMap: React.FC<DashboardMapProps> = () => {
               <Marker
                 key={index}
                 position={{ lat: marker.lat, lng: marker.lon }}
-                onClick={() => handleMarkerClick(marker)}
+                onClick={() => {
+                  handleMarkerClick(marker)
+                  setSelectedLocations({lat: marker.lat, lon: marker.lon });
+                }}
                 icon={setMarkerIcon(marker.mapPinIconCode)} // Özel ikon tipi burada belirleniyor
               />
             ))
@@ -150,6 +153,7 @@ const DashboardMap: React.FC<DashboardMapProps> = () => {
                 position={{ lat: selectedMarker.lat, lng: selectedMarker.lon }}
                 onCloseClick={() => {
                   setSelectedMarker(null);
+                  setSelectedLocations({ lat: selectedMarker.lat, lon: selectedMarker.lon });
                   setAddress({
                     address: "",
                     name: ""
