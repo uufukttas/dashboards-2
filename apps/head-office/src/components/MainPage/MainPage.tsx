@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react';
 import { Montserrat } from 'next/font/google';
-import { useRouter } from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
@@ -29,16 +28,9 @@ const montserrat = Montserrat({
 const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageProps) => {
   const pagePrefix: string = `${BRAND_PREFIX}-main-page`;
   const dispatch = useDispatch();
-  // const router = useRouter();
   const colors = useSelector((state: RootState) => state.configs.colors);
   const [isVisibleComponent, setIsVisibleComponent] = useState<boolean>(false);
 
-  // const checkToken = (): void => {
-  //   const token = window.localStorage.getItem('token');
-  //   if (!token) {
-  //     router.push('/');
-  //   };
-  // };
   const fetchConfigurations = async (): Promise<void> => {
     const colors = await getColorsRequest(["Primary", "Secondary", "Alternate", "Backup"]);
 
@@ -57,7 +49,6 @@ const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageP
   };
 
   useEffect(() => {
-    // checkToken();
     fetchConfigurations();
     setCitiesData();
     setDistritcsData();
