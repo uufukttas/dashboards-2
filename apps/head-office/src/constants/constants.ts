@@ -50,6 +50,7 @@ export const stylesProps = {
 export const userInfo = {
     logo: '../../logo.svg',
     name: 'sharz',
+    profileImage: '/avatar.jpg',
 };
 
 // it will be deleted after the implementation of the API
