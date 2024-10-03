@@ -29,7 +29,6 @@ export interface IModalFirstPageInputsProps {
     setActivePage: React.Dispatch<React.SetStateAction<number>>;
     setStationId: React.Dispatch<React.SetStateAction<number>>;
 };
-
 export interface IModalFourthPageInputsProps {
     activePage: number;
     paymentMethods: IFeatureProps[];
@@ -39,7 +38,6 @@ export interface IModalFourthPageInputsProps {
     setPaymentMethods: React.Dispatch<React.SetStateAction<IFeatureProps[]>>;
     setOpportunities: React.Dispatch<React.SetStateAction<IFeatureProps[]>>;
 };
-
 export interface IModalSecondPageInputsProps {
     activePage: number;
     cities: { rid: number; plateCode: number; name: string; }[];
@@ -47,7 +45,6 @@ export interface IModalSecondPageInputsProps {
     setCities: React.Dispatch<React.SetStateAction<{ rid: number; plateCode: number; name: string; id: null }[]>>;
     setDistricts: React.Dispatch<React.SetStateAction<{ rid: number; name: string; plateCode: number; id: null }[]>>;
 };
-
 export interface IModalThirdPageInputsProps {
     activePage: number;
     cities: { rid: number; plateCode: number; name: string; id: null; }[];
@@ -57,13 +54,11 @@ export interface IModalThirdPageInputsProps {
     setPaymentMethods: React.Dispatch<React.SetStateAction<IFeatureProps[]>>;
     setOpportunities: React.Dispatch<React.SetStateAction<IFeatureProps[]>>;
 };
-
 export interface IPaginationProps {
     currentPage: number;
     totalCounts: number;
     setCurrentPage: (currentPage: number) => void;
 };
-
 export interface IPaginationItemProps {
     children: React.ReactNode;
     isActive: boolean;
@@ -85,6 +80,19 @@ export interface IResponseDataProps {
     message: string;
     success: boolean;
 };
+export interface IRowDataProps {
+    address: string;
+    cityId: string;
+    districtId: string;
+    id: number;
+    name: string;
+    phone: string;
+};
+export interface ISelectedColumnProps {
+    field: string;
+    header: string;
+    isRemovable: boolean;
+};
 export interface IServicePoint {
     id: number;
     name: string;
@@ -93,7 +101,6 @@ export interface IServicePoint {
     address: string;
     phoneNumber: string;
 };
-
 export interface IServicePointData {
     address: string;
     cityId: string;

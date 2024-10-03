@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
+import { InputText } from 'primereact/inputtext';
 import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
+import { Toast } from 'primereact/toast';
 import { Tooltip } from 'primereact/tooltip';
 import { FaCircleInfo, FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useSelector, useDispatch } from 'react-redux';
 import * as XLSX from 'xlsx';
-import { Alert } from '@projects/alert';
 import { Dialog } from '@projects/dialog';
 import {
   initialServicePointDataValues,
@@ -38,37 +38,20 @@ import type {
   IGetServicePointsProps,
   IPayloadProps,
   IResponseDataProps,
+  IRowDataProps,
+  ISelectedColumnProps,
   IServicePoint,
   IServicePointData
 } from './types';
-import { Toast } from 'primereact/toast';
-import { InputText } from 'primereact/inputtext';
-import { IconField } from 'primereact/iconfield';
 import './ServicePointSection.css';
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 
 const ServicePointSection: React.FC = () => {
-  const pagePrefix: string = `${BRAND_PREFIX}-service-point`;
-  const dispatch = useDispatch<AppDispatch>();
-  const toastRef = useRef(null); // toastRef isminde güncellenmiş bir useRef
-  const alertInformation = useSelector((state: RootState) => state.alertInformation);
-  const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
-  const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
-  const { isServicePointDataUpdated } = useSelector((state: RootState) => state.isServicePointDataUpdated);
-  const searchProperties = useSelector((state: RootState) => state.searchedText);
-  const servicePointsCount = useSelector((state: RootState) => state.servicePoints.count);
-  const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
-  const servicePointsData = useSelector((state: RootState) => state.servicePoints.servicePoints);
-  const [isUpdatedServicePointData, setIsUpdatedServicePointData] = useState(false);
-  const [visibleColumns, setVisibleColumns] = useState(servicePointTableHeadData);
-  const [globalFilterValue, setGlobalFilterValue] = useState<string>('');
-
   const defaultFilters: DataTableFilterMeta = {
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    name: {
+    address: {
       operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
+      constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }]
     },
     cityId: {
       operator: FilterOperator.AND,
@@ -78,17 +61,65 @@ const ServicePointSection: React.FC = () => {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }]
     },
-    address: {
+    global: {
+      value: null,
+      matchMode: FilterMatchMode.CONTAINS
+    },
+    name: {
       operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }]
+      constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }]
     },
     phoneNumber: {
       operator: FilterOperator.AND,
       constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }]
     }
   };
+  const pagePrefix: string = `${BRAND_PREFIX}-service-point`;
+  const dispatch = useDispatch<AppDispatch>();
+  const toastRef = useRef(null);
+  const alertInformation = useSelector((state: RootState) => state.alertInformation);
+  const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
+  const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
+  const { isServicePointDataUpdated } = useSelector((state: RootState) => state.isServicePointDataUpdated);
+  const searchProperties = useSelector((state: RootState) => state.searchedText);
+  const servicePointsCount = useSelector((state: RootState) => state.servicePoints.count);
+  const servicePointsData = useSelector((state: RootState) => state.servicePoints.servicePoints);
+  const [isUpdatedServicePointData, setIsUpdatedServicePointData] = useState(false);
+  const [visibleColumns, setVisibleColumns] = useState(servicePointTableHeadData);
+  const [globalFilterValue, setGlobalFilterValue] = useState<string>('');
   const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters);
 
+  const actionsButtonsContainer = (rowData: IRowDataProps): React.JSX.Element => {
+    return (
+      <div className={`${pagePrefix}-data-table-actions-button-container flex justify-start items-center`}>
+        <a
+          className="font-medium text-yellow-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
+          data-service-point-id={rowData['id']}
+          onClick={getUpdatedServicePointInfo}
+        >
+          <FaPen className='text-primary text-2xl' />
+        </a>
+        <a
+          className="font-medium text-red-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
+          data-service-point-id={rowData['id']}
+          onClick={deleteServicePointInfo}
+        >
+          <FaTrashCan className='text-2xl' />
+        </a>
+        {
+          (rowData?.address && rowData?.districtId && rowData?.cityId && rowData?.phone) && (
+            <a
+              className='font-medium text-blue-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out'
+              href={`/service-points/service-point/${rowData.id}`}
+              onClick={() => dispatch(toggleLoadingVisibility(true))}
+            >
+              <FaCircleInfo className='text-2xl' />
+            </a>
+          )
+        }
+      </div>
+    )
+  };
   const createGetServicePointsRequestPayload = (): IPayloadProps => {
     const payload: IPayloadProps = {};
 
@@ -121,52 +152,70 @@ const ServicePointSection: React.FC = () => {
     return payload;
   };
   const dataTableHeader = (): JSX.Element => {
+    const tablePrefix: string = `${pagePrefix}-data-table`;
+
     return (
-      <div className={`${BRAND_PREFIX}-data-table-header-container w-full flex justify-between items-center`}>
-        <div className={`${BRAND_PREFIX}-data-table-header-filter-container flex justify-start items-center`}>
-          <div className={`${BRAND_PREFIX}-data-table-select-container mx-4`}>
-            <MultiSelect value={visibleColumns} options={servicePointTableHeadData.filter((item) => item.isRemovable)} optionLabel="header" onChange={onColumnToggle} className="w-full sm:w-20rem" placeholder="Sütunları Seç" />
+      <div className={`${tablePrefix}-header-container w-full flex justify-between items-center`}>
+        <div className={`${tablePrefix}-header-filter-container flex justify-start items-center`}>
+          <div className={`${tablePrefix}-select-container mx-4`}>
+            <MultiSelect
+              className={`${tablePrefix}-header-column-name-selection w-full sm:w-20rem`}
+              placeholder="Sütunları Seç"
+              optionLabel="header"
+              options={servicePointTableHeadData.filter((item) => item.isRemovable)}
+              value={visibleColumns}
+              onChange={onColumnToggle}
+            />
           </div>
-          <div className="flex justify-content-end">
-            <IconField iconPosition="left" >
-              <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Ara..." className='p-2.5 border border-gray-200 rounded-md' />
-            </IconField>
+          <div className={`${tablePrefix}-global-filter-input-container flex justify-content-end`}>
+            <InputText
+              className={`${tablePrefix}-global-filter-input p-2.5 border border-gray-200 rounded-md`}
+              placeholder="Ara..."
+              value={globalFilterValue}
+              onChange={onGlobalFilterChange}
+            />
           </div>
         </div>
-        <div className={`${BRAND_PREFIX}-data-table-action-button-container flex justify-center items-center`}>
-          <div className={`${BRAND_PREFIX}-data-table-export-button-container mx-4`}>
+        <div className={`${tablePrefix}-header-action-buttons-container flex justify-center items-center`}>
+          <div className={`${tablePrefix}-export-button-container mx-4`}>
             <Button
-              className={`${BRAND_PREFIX}-data-table-export-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
-              data-pr-tooltip="XLS"
+              className={`${tablePrefix}-export-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
               icon="pi pi-file-excel"
+              id={`${tablePrefix}-export-button`}
               rounded
               severity="success"
               type="button"
               onClick={exportExcel}
             />
             <Tooltip
-              className={`${BRAND_PREFIX}-data-table-export-button-tooltip text-base`}
+              className={`${tablePrefix}-export-button-tooltip text-base`}
               content="Disari Aktar"
               position="bottom"
-              target={`#${BRAND_PREFIX}-table-header-export-button`}
-              style={{ fontSize: '12px', padding: '4px' }}
+              target={`#${tablePrefix}-export-button`}
+              style={{
+                fontSize: '12px',
+                padding: '4px'
+              }}
             />
           </div>
-          <div className={`${BRAND_PREFIX}-data-table-add-button-container mx-4`}>
+          <div className={`${tablePrefix}-add-button-container mx-4`}>
             <Button
-              className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
+              className={`${tablePrefix}-add-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
               icon="pi pi-plus"
-              id={`${BRAND_PREFIX}-table-header-add-button`}
+              id={`${tablePrefix}-add-button`}
               rounded
               type="button"
               onClick={() => dispatch(toggleModalVisibility(true))}
             />
             <Tooltip
-              className={`${BRAND_PREFIX}-data-table-add-button-tooltip text-base`}
+              className={`${tablePrefix}-add-button-tooltip text-base`}
               content="Istasyon Ekle"
               position="bottom"
-              target={`#${BRAND_PREFIX}-table-header-add-button`}
-              style={{ fontSize: '12px', padding: '4px' }}
+              target={`#${tablePrefix}-add-button`}
+              style={{
+                fontSize: '12px',
+                padding: '4px'
+              }}
             />
           </div>
         </div>
@@ -188,7 +237,12 @@ const ServicePointSection: React.FC = () => {
   };
   const exportExcel = (): void => {
     const worksheet = XLSX.utils.json_to_sheet(servicePointsData)
-    const workbook = { Sheets: { data: worksheet }, SheetNames: ['data'] };
+    const workbook = {
+      Sheets: {
+        data: worksheet
+      },
+      SheetNames: ['data']
+    };
     const excelBuffer = XLSX.write(workbook, {
       bookType: 'xlsx',
       type: 'array'
@@ -238,11 +292,12 @@ const ServicePointSection: React.FC = () => {
   };
   const onColumnToggle = (event: MultiSelectChangeEvent): void => {
     const selectedColumns = event.target.value;
-    const orderedSelectedColumns = servicePointTableHeadData
-      .filter((col) => selectedColumns
-        .some((sCol: { field: string; header: string; isRemovable: boolean }) => {
-          return sCol.field === col.field
-        }) || col.field === 'actions');
+    const orderedSelectedColumns =
+      servicePointTableHeadData
+        .filter((col) => selectedColumns
+          .some((sCol: ISelectedColumnProps) => {
+            return sCol.field === col.field
+          }) || col.field === 'actions');
 
     setVisibleColumns(orderedSelectedColumns);
   };
@@ -302,6 +357,7 @@ const ServicePointSection: React.FC = () => {
     }
 
     getAllServicePoints();
+    initFilters();
   }, []);
 
   return (
@@ -309,7 +365,7 @@ const ServicePointSection: React.FC = () => {
     <div className={`${BRAND_PREFIX}-service-points-container flex justify-between items-center flex-col`}>
       <div className={`${pagePrefix}-listing-container flex items-center w-full`}>
         <DataTable
-          className="w-full shadow"
+          className={`${pagePrefix}-table w-full shadow`}
           currentPageReportTemplate="{first} to {last} of {totalRecords}"
           filterDisplay="menu"
           filters={filters}
@@ -332,7 +388,7 @@ const ServicePointSection: React.FC = () => {
               if (headerProps.field !== "actions") {
                 return (
                   <Column
-                    className='border-none'
+                    className={`${pagePrefix}-table-data border-none`}
                     field={headerProps.field}
                     filter
                     filterMenuClassName='border-none shadow-lg'
@@ -346,37 +402,7 @@ const ServicePointSection: React.FC = () => {
               } else {
                 return (
                   <Column
-                    body={(rowData) => {
-                      return (
-                        <div className={`${BRAND_PREFIX}-data-table-actions-button-container flex justify-start items-center`}>
-                          <a
-                            className="font-medium text-blue-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
-                            data-service-point-id={rowData['id']}
-                            onClick={getUpdatedServicePointInfo}
-                          >
-                            <FaPen className='text-primary' />
-                          </a>
-                          <a
-                            className="font-medium text-red-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
-                            data-service-point-id={rowData['id']}
-                            onClick={deleteServicePointInfo}
-                          >
-                            <FaTrashCan />
-                          </a>
-                          {
-                            (rowData?.address && rowData?.districtId && rowData?.cityId && rowData?.phone) && (
-                              <a
-                                className='font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"'
-                                href={`/service-points/service-point/${rowData.id}`}
-                                onClick={() => dispatch(toggleLoadingVisibility(true))}
-                              >
-                                <FaCircleInfo className={`text-blue-700`} />
-                              </a >
-                            )
-                          }
-                        </div>
-                      )
-                    }}
+                    body={(rowData) => actionsButtonsContainer(rowData)}
                     field={headerProps.field}
                     frozen
                     header={headerProps.header}
@@ -418,7 +444,7 @@ const ServicePointSection: React.FC = () => {
           />
         )
       }
-    </div >
+    </div>
   );
 };
 
