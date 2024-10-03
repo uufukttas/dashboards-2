@@ -7,6 +7,7 @@
 
 .gm-style-iw.gm-style-iw-c {
   padding: 4px !important;
+  max-width: 250px !important;
 }
 
 .gm-ui-hover-effect {

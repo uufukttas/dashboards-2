@@ -160,9 +160,10 @@ const DashboardMap: React.FC<DashboardMapProps> = () => {
                   });
                 }}
               >
-                <div className={`${dashboardMapPrefix}-information-window-container flex items-start justify-center`}>
+                <div className={`${dashboardMapPrefix}-information-window-container flex items-start justify-center p-2`}>
                   <div className={`${dashboardMapPrefix}-information-window-content-container mr-2`}>
-                    <p>{address.name}</p>
+                    <p className={`${dashboardMapPrefix}-information-window-header font-bold`}>{address.name}</p>
+                    < hr />
                     <p style={{ margin: 0 }}>{address.address}</p>
                   </div>
                   <button onClick={() => setSelectedMarker(null)}>
