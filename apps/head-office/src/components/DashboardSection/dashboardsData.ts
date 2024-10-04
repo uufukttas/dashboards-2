@@ -1,5 +1,7 @@
-export const dashboardsData = {
-    "connector": {
+import { IDashboardsDataProps } from './types';
+
+export const dashboardsData: IDashboardsDataProps = {
+    connector: {
         "title": "Toplam Konnektor",
         "value": "450/483",
         "icon_name": "GiElectricalSocket",
@@ -29,7 +31,7 @@ export const dashboardsData = {
         "tablet_layout": "6 / 3 / 6 / 5",
         "type": ""
     },
-    "locations": {
+    locations: {
         "title": "Lokasyonlar",
         "value": [
             {
@@ -39,7 +41,6 @@ export const dashboardsData = {
                 "isAC": true,
                 "icon_url": "",
                 "status": "active"
-
             },
             { "lat": 41.0151, "lng": 28.9760 },
             { "lat": 41.0178, "lng": 29.0064 },

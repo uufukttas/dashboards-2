@@ -29,4 +29,24 @@ export interface ITooltipItem {
 
 export interface IChartItem {
     [key: string]: IDataPoint[];
-}
+};
+export interface IDashboardsDataProps {
+    [key: string]: {
+        title: string;
+        value: string | IDashboardDataValueProps[];
+        icon_name: string;
+        description: string;
+        position: string;
+        mobile_layout: string;
+        tablet_layout: string;
+        type: string;
+    };
+};
+export interface IDashboardDataValueProps {
+    lat: number;
+    lng: number;
+    name?: string;
+    isAC?: boolean;
+    icon_url?: string;
+    status?: string;
+};
