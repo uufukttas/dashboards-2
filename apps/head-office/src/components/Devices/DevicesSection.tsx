@@ -13,6 +13,9 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { hideDialog, showDialog } from '../../../app/redux/features/dialogInformation';
 import { RootState } from '../../../app/redux/store';
+import { Dropdown } from 'primereact/dropdown';
+import { Label } from '@projects/label';
+import { Input } from '@projects/input';
 
 const DevicesSection: React.FC = () => {
     const deviceManagementPrefix = `${BRAND_PREFIX}-device-management`;
@@ -67,6 +70,7 @@ const DevicesSection: React.FC = () => {
     const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
     const toastRef = useRef<Toast>(null);
     const [visibleColumns, setVisibleColumns] = useState(tableHeaderData);
+    const [selectedModel, setSelectedModel] = useState(null);
 
     const dataTableHeader = (): JSX.Element => {
         return (
@@ -198,7 +202,48 @@ const DevicesSection: React.FC = () => {
                         modalId={`${deviceManagementPrefix}-modal`}
                         onClose={() => dispatch(toggleModalVisibility(false))}
                     >
-                        <></>
+                        <>
+                            <div className={`${deviceManagementPrefix}-name-input-container w-full flex justify-between items-center my-4`}>
+                                <Label
+                                    className={`${deviceManagementPrefix}-name-input-label`}
+                                    htmlFor="Cihaz Adı"
+                                    labelText="Cihaz Adı"
+                                />
+                                <Input
+                                    className={`${deviceManagementPrefix}-name-input rounded-md`}
+                                    id={`${deviceManagementPrefix}-name-input`}
+                                    name="Cihaz Adı"
+                                    placeholder="Cihaz Adı"
+                                    type='text'
+                                />
+                            </div>
+                            <div className={`${deviceManagementPrefix}-model-input-container w-full flex justify-between items-center my-4`}>
+                                <Label
+                                    className={`${deviceManagementPrefix}-model-input-label`}
+                                    htmlFor="Cihaz Modeli"
+                                    labelText="Cihaz Modeli"
+                                />
+                                <Dropdown
+                                    className={`${deviceManagementPrefix}-model-input rounded-md`}
+                                    id={`${deviceManagementPrefix}-model-input`}
+                                    name="Cihaz Modeli"
+                                    options={[
+                                        { value: 'New York', code: 'NY' },
+                                        { value: 'Rome', code: 'RM' },
+                                        { value: 'London', code: 'LDN' },
+                                        { value: 'Istanbul', code: 'IST' },
+                                        { value: 'Paris', code: 'PRS' }
+                                    ]}
+                                    placeholder="Select a Model"
+                                    value={selectedModel}
+                                    onChange={(event) => {
+                                        debugger;
+                                        setSelectedModel(event.value)
+                                    }
+                                    }
+                                />
+                            </div>
+                        </>
                     </Modal>
                 )
             }
