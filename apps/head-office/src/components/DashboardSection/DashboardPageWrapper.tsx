@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import DashboardSection from './DashboardSection';
 import Loading from '../Loading/Loading';
-import MainPage from '../MainPage/MainPage';
+import MainComponent from '../MainComponent/MainComponent';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { RootState } from '../../../app/redux/store';
 
@@ -18,13 +18,13 @@ const DashboardPage: React.FC = () => {
             <Loading />
           )
           : (
-            <MainPage headerName='Kontrol Paneli'>
+            <MainComponent headerName='Kontrol Paneli'>
               <div className={
                 `${dashboardPrefix}-page-container flex justify-center items-center flex-wrap`
               }>
                 <DashboardSection />
               </div>
-            </MainPage>
+            </MainComponent>
           )
       }
     </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import Loading from '../Loading/Loading';
-import MainPage from '../MainPage/MainPage';
+import MainComponent from '../MainComponent/MainComponent';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { RootState } from '../../../app/redux/store';
 import ServicePointSection from '../../../src/components/ServicePointSection/ServicePointSection';
@@ -18,11 +18,11 @@ const ServicePointPage: React.FC = () => {
                         <Loading />
                     )
                     : (
-                        <MainPage headerName='Istasyonlar'>
+                        <MainComponent headerName='Istasyonlar'>
                             <div className={`${servicePointPagePrefix}-container flex justify-center items-center md:pt-6 flex-wrap`}>
                                 <ServicePointSection />
                             </div>
-                        </MainPage>
+                        </MainComponent>
                     )
             }
         </div>

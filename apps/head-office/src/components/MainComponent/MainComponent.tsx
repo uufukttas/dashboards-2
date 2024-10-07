@@ -17,7 +17,7 @@ import type { IMainPageProps } from './types';
 import 'primeicons/primeicons.css';
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
-import './MainPage.css';
+import './MainComponent.css';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -25,7 +25,7 @@ const montserrat = Montserrat({
   weight: ['300', '400', '500', '600', '700'],
 });
 
-const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageProps) => {
+const MainComponent: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageProps) => {
   const pagePrefix: string = `${BRAND_PREFIX}-main-page`;
   const dispatch = useDispatch();
   const colors = useSelector((state: RootState) => state.configs.colors);
@@ -77,4 +77,4 @@ const MainPage: React.FC<IMainPageProps> = ({ children, headerName }: IMainPageP
   );
 };
 
-export default MainPage;
+export default MainComponent;

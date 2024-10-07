@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Provider } from 'react-redux';
 import { store } from '../../../app/redux/store';
-import MainPage from '../../../src/components/MainPage/MainPage';
+import MainComponent from '../../../src/components/MainComponent/MainComponent';
 import ServicePointDetails from '../../../src/components/ServicePointsDetails/ServicePointDetails';
 import { BRAND_PREFIX } from '../../../src/constants/constants';
 import '../../../app/global.css';
@@ -20,7 +20,7 @@ const ServicePointInfoPage: React.FC = () => {
       </Head>
       <Provider store={store}>
         <div className={`${BRAND_PREFIX}-service-point-details-page-wrapper w-full flex`}>
-          <MainPage headerName={`Istasyon: ${slug}`}>
+          <MainComponent headerName={`Istasyon: ${slug}`}>
             <div
               className={`${BRAND_PREFIX}-service-point-details-page-container flex justify-center items-center flex-wrap w-full`}
             >
@@ -30,7 +30,7 @@ const ServicePointInfoPage: React.FC = () => {
                 )
               }
             </div>
-          </MainPage>
+          </MainComponent>
         </div>
       </Provider>
     </>

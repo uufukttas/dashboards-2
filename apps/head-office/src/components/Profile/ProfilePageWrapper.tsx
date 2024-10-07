@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ProfileSection from './ProfileSection';
 import Loading from '../Loading/Loading';
-import MainPage from '../MainPage/MainPage';
+import MainComponent from '../MainComponent/MainComponent';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { RootState, AppDispatch } from '../../../app/redux/store';
@@ -44,11 +44,11 @@ const Profile: React.FC = () => {
                             <Loading />
                         )
                         : (
-                            <MainPage headerName='Hosgeldin, '>
+                            <MainComponent headerName='Hosgeldin, '>
                                 <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap`}>
                                     <ProfileSection />
                                 </div>
-                            </MainPage>
+                            </MainComponent>
                         )
                 }
             </div>
