@@ -18,7 +18,7 @@ const Login: React.FC = () => {
 
     return (
         <div
-            className={`${loginPrefix}-side-container flex flex-col justify-between w-full xl:w-1/4 px-8 py-4 h-screen`}
+            className={`${loginPrefix}-side-container flex flex-col justify-between w-full px-8 py-4 h-screen`}
         >
             <div className={`${loginPrefix}-language-option-container flex justify-end`}>
                 <Dropdown
