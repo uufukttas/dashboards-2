@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { FaPencil, FaPlugCirclePlus, FaQrcode, FaTrash } from 'react-icons/fa6';
 import { TbProgressBolt } from "react-icons/tb";
@@ -34,6 +34,7 @@ import type {
 import { Card } from '@projects/card';
 import { Tag } from 'primereact/tag';
 import Image from 'next/image';
+import { TieredMenu } from 'primereact/tieredmenu';
 
 
 const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, slug }: IChargeUnitsContentProps) => {
@@ -41,11 +42,33 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
     const sectionPrefix: string = `${BRAND_PREFIX}-charge-units`;
     const connectorPrefix: string = `${BRAND_PREFIX}-connector-item`;
     const dispatch = useDispatch();
+    const menu = useRef(null);
     const connectorList = useSelector((state: RootState) => state.setConnectors.connectors);
     const [connectorTypes, setConnectorTypes] = useState<IConnectorModel[]>([]);
     const [selectedBrand, setSelectedBrand] = useState(1);
     const [connectorUpdate, setConnectorUpdate] = useState(false);
 
+    const items = [
+        {
+            attributes: {
+                'data-charge-point-id': '1',
+                'data-charge-point-device-code': '1',
+            },
+            label: 'Edit',
+            icon: 'pi pi-pencil',
+            command: (event) => {
+                console.log('event.originalEvent.target', event.originalEvent.target)
+            }
+        },
+        {
+            label: 'Delete',
+            icon: 'pi pi-trash',
+        },
+        {
+            label: 'Konfigurasyon',
+            icon: 'pi pi-cog',
+        }
+    ]
     const buildChargeUnitRequestBody = (
         accessTypeId: number,
         chargePoint: IChargeUnitsProps,
@@ -245,11 +268,14 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                 {
                     connectorList.map((connector: IConnectorStateProps[], index: number) => {
                         return (
-                            <div className={`${connectorPrefix}-container flex justify-center items-center w-[45%] shadow rounded-md flex flex-col mx-2 my-4`} key={index}>
+                            <div
+                                className={`${connectorPrefix}-container flex justify-center items-center w-[45%] shadow rounded-md flex flex-col mx-2 my-4`}
+                                key={index}
+                            >
                                 <div className={`${connectorPrefix}-header-container w-full`}>
                                     <div className={`${connectorPrefix}-header flex justify-between items-center w-full p-4`}>
                                         {
-                                            <div className={`${connectorPrefix}-brand-logo-container flex justify-center items-center w-1/3`}>
+                                            <div className={`${connectorPrefix}-brand-logo-container flex justify-start items-center w-1/3`}>
                                                 <Image
                                                     alt={`${chargeUnits[index].model}`}
                                                     height={80}
@@ -264,13 +290,34 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                             </div>
                                         }
                                         {
-                                            <div className={`${connectorPrefix}-status-tag-container flex items-center justify-end w-1/3 relative`}>
-                                                <Tag
-                                                    className={`${connectorPrefix}-status-tag`}
-                                                    severity={getHOStatus(chargeUnits[index].hoStatus)}
-                                                    value={chargeUnits[index].hoStatus || 'Planlanmis'}
-                                                >
-                                                </Tag>
+                                            <div className={`${connectorPrefix}-info-container flex justify-end items-center w-1/3`}>
+                                                <div className={`${connectorPrefix}-status-tag-container flex items-center justify-end relative`}>
+                                                    <Tag
+                                                        className={`${connectorPrefix}-status-tag`}
+                                                        severity={getHOStatus(chargeUnits[index].hoStatus)}
+                                                        value={chargeUnits[index].hoStatus || 'Planlanmis'}
+                                                    >
+                                                    </Tag>
+                                                </div>
+                                                <div className={`${connectorPrefix}-menu-container flex justify-end items-center`}>
+                                                    <TieredMenu
+                                                        model={items}
+                                                        popup
+                                                        ref={menu}
+                                                    />
+                                                    <PrimeButton
+                                                        label={
+                                                            <div className={`${connectorPrefix}-menu-icon-container flex x-2`}>
+                                                                <svg width="15" height="18" xmlns="http://www.w3.org/2000/svg">
+                                                                    <circle cx="5" cy="3" r="3" fill="#aaa" />
+                                                                    <circle cx="5" cy="9" r="3" fill="#aaa" />
+                                                                    <circle cx="5" cy="15" r="3" fill="#aaa" />
+                                                                </svg>
+                                                            </div>
+                                                        }
+                                                        onClick={(e) => menu.current.toggle(e)}
+                                                    />
+                                                </div>
                                             </div>
                                         }
                                     </div>
