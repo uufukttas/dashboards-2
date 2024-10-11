@@ -3,7 +3,6 @@
 import React, { Fragment, useEffect, useRef } from 'react';
 import { Toast } from 'primereact/toast';
 import { useDispatch, useSelector } from 'react-redux';
-import { detectDevice } from '@projects/common';
 import { setLanguages } from '../redux/features/languages';
 import { RootState } from '../redux/store';
 import Background from '../../src/components/Background/Background';
@@ -42,7 +41,6 @@ const MainClient: React.FC<{ languageList: ILanguageProps[] }> =
                         </div>
                         <Background
                             backgroundUrl={stylesProps.loginPageBackgroundImage}
-                            className={detectDevice().isDesktop ? 'w-3/4' : 'hidden'}
                         />
                     </Fragment>
                 }
