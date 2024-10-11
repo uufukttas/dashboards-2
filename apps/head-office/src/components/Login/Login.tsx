@@ -22,7 +22,7 @@ const Login: React.FC = () => {
         >
             <div className={`${loginPrefix}-language-option-container flex justify-end`}>
                 <Dropdown
-                    className={`${loginPrefix}-language-dropdown block w-1/2 md:w-1/4 p-2.5 border rounded-lg text-text text-sm focus:ring-primary focus:border-primary`}
+                    className={`${loginPrefix}-language-dropdown block w-1/2 p-2.5 border rounded-lg text-text text-sm focus:ring-primary focus:border-primary`}
                     id={`${loginPrefix}-language-dropdown`}
                     items={languageList}
                     name={`${loginPrefix}-language-dropdown`}
