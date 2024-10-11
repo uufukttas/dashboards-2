@@ -4,12 +4,12 @@ export const detectDevice = () => {
     isMobile: false,
     isTablet: false,
   };
-  const userAgent = navigator.userAgent;
+  const userAgent = typeof navigator !== 'undefined' ? navigator.userAgent : '';
 
   deviceType.isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
   deviceType.isTablet = /iPad|Android|Tablet/i.test(userAgent);
 
-  const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  const screenWidth = typeof window !== 'undefined' ? (window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth) : 0;
   const mobileWidth = 767;
   const tabletWidth = 1024;
 
