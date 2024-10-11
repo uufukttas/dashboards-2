@@ -12,7 +12,7 @@ import { BRAND_PREFIX, stylesProps } from '../../src/constants/constants';
 import { ILanguageProps } from './types';
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
-import '../page.css';
+import './MainClient.css';
 
 const MainClient: React.FC<{ languageList: ILanguageProps[] }> =
     ({ languageList }: { languageList: ILanguageProps[] }) => {
@@ -36,7 +36,7 @@ const MainClient: React.FC<{ languageList: ILanguageProps[] }> =
             <>
                 {
                     <Fragment>
-                        <div className={`${BRAND_PREFIX}-main-client-component-container flex w-1/4 flex-col`}>
+                        <div className={`${BRAND_PREFIX}-main-client-component-container flex flex-col`}>
                             <Login />
                         </div>
                         <Background
@@ -51,7 +51,7 @@ const MainClient: React.FC<{ languageList: ILanguageProps[] }> =
                 }
                 {
                     alertInformation.isVisible && (
-                        <Toast ref={toastRef} />
+                        <Toast position={'top-right'} ref={toastRef} />
                     )
                 }
             </>

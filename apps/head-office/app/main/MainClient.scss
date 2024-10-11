@@ -1,0 +1,16 @@
+@import '../../src/constants/variables.scss';
+
+@media only screen and (max-width: 1280px) {
+  .#{$brand-prefix}-main-client-component-container {
+    width: 100%;
+  }
+  .p-toast-top-right {
+    right: 0 !important;
+  }
+}
+
+@media only screen and (min-width: 1281px) {
+  .#{$brand-prefix}-main-client-component-container {
+    width: 25%;
+  }
+}

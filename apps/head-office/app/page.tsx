@@ -5,6 +5,7 @@ import { getColorsRequest } from '../app/api/profile';
 import { stylesProps, userInfo } from '../src/constants/constants';
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import './page.css';
 
 interface ILanguageProps {
   id: null;
