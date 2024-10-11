@@ -2,14 +2,14 @@
   background-size: cover;
 }
 
-@media screen and (min-width: 480px) {
-  .sh-background-container {
-    display: hidden;
-  }
-}
-@media screen and (min-width: 992px) {
+@media screen and (min-width: 1280px) {
   .sh-background-container {
     display: block;
     width: 75%;
+  }
+}
+@media screen and (min-width: 1281px) {
+  .sh-background-container {
+    display: hidden;
   }
 }
