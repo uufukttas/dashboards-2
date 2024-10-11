@@ -56,9 +56,9 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
             },
             label: 'Edit',
             icon: 'pi pi-pencil',
-            command: (event) => {
-                console.log('event.originalEvent.target', event.originalEvent.target)
-            }
+            // command: (event) => {
+            //     console.log('event.originalEvent.target', event.originalEvent.target)
+            // }
         },
         {
             label: 'Delete',
@@ -306,7 +306,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                                         ref={menu}
                                                     />
                                                     <PrimeButton
-                                                        label={
+                                                        icon={
                                                             <div className={`${connectorPrefix}-menu-icon-container flex x-2`}>
                                                                 <svg width="15" height="18" xmlns="http://www.w3.org/2000/svg">
                                                                     <circle cx="5" cy="3" r="3" fill="#aaa" />
@@ -315,7 +315,8 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                                                 </svg>
                                                             </div>
                                                         }
-                                                        onClick={(e) => menu.current.toggle(e)}
+                                                        // @ts-ignore
+                                                        onClick={(e) => menu?.current?.toggle(e)}
                                                     />
                                                 </div>
                                             </div>
