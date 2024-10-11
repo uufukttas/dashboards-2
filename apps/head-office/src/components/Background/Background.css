@@ -1,3 +1,15 @@
 .sh-background-container {
   background-size: cover;
 }
+
+@media screen and (min-width: 480px) {
+  .sh-background-container {
+    display: hidden;
+  }
+}
+@media screen and (min-width: 992px) {
+  .sh-background-container {
+    display: block;
+    width: 75%;
+  }
+}

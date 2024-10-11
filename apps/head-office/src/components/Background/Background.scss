@@ -1,5 +1,18 @@
-@import "../../constants/variables.scss";
+@import '../../constants/variables.scss';
 
 .#{$brand-prefix}-background-container {
   background-size: cover;
+}
+
+@media screen and (min-width: 480px) {
+  .#{$brand-prefix}-background-container {
+    display: hidden;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .#{$brand-prefix}-background-container {
+    display: block;
+    width: 75%;
+  }
 }
