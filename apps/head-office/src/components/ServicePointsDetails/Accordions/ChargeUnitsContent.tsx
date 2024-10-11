@@ -50,15 +50,11 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
 
     const items = [
         {
-            attributes: {
-                'data-charge-point-id': '1',
-                'data-charge-point-device-code': '1',
-            },
             label: 'Edit',
             icon: 'pi pi-pencil',
-            // command: (event) => {
-            //     console.log('event.originalEvent.target', event.originalEvent.target)
-            // }
+            command: (event) => {
+                console.log('event.originalEvent.target', event.originalEvent.target)
+            }
         },
         {
             label: 'Delete',
@@ -253,6 +249,14 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
         }
     };
 
+    const createConfMenu = (item) => {
+        return (
+            <div data-charge-unit-id={item.chargePointId} data-charge-point-device-code={item.deviceCode}>
+                {item.label}
+            </div>
+        )
+    }
+
     useEffect(() => {
         setConnectorUpdate(true);
         setConnectorProperties(chargeUnits);
@@ -304,6 +308,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                                         model={items}
                                                         popup
                                                         ref={menu}
+                                                        itemTemplate={createConfMenu(items[0])}
                                                     />
                                                     <PrimeButton
                                                         icon={
