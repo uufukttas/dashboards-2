@@ -52,9 +52,9 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
         {
             label: 'Edit',
             icon: 'pi pi-pencil',
-            command: (event) => {
-                console.log('event.originalEvent.target', event.originalEvent.target)
-            }
+            // command: (event) => {
+            //     console.log('event.originalEvent.target', event.originalEvent.target)
+            // }
         },
         {
             label: 'Delete',
@@ -249,6 +249,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
         }
     };
 
+    // @ts-ignore
     const createConfMenu = (item) => {
         return (
             <div data-charge-unit-id={item.chargePointId} data-charge-point-device-code={item.deviceCode}>
@@ -308,7 +309,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                                         model={items}
                                                         popup
                                                         ref={menu}
-                                                        itemTemplate={createConfMenu(items[0])}
+                                                    // itemTemplate={createConfMenu(items[0])}
                                                     />
                                                     <PrimeButton
                                                         icon={
