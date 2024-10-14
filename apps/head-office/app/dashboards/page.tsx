@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: 'Dashboards | Sharz.net',
 };
 
-const DashboardsPage: React.FC = async () => {
+const DashboardsPage = async () => {
   const { description, result, success } = await getMapStationsList();
 
   return (
