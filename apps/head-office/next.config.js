@@ -10,9 +10,6 @@ const nextConfig = {
   devIndicators: {
     buildActivity: false
   },
-  experimental: {
-    staticPageGenerationTimeout: 60,
-  },
   env: {},
   generateStaticParams: async () => {
     return [

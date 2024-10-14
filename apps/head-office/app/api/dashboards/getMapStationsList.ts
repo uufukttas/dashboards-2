@@ -2,17 +2,19 @@ import axios from 'axios';
 
 const getMapStationsList = async () => {
     try {
-        const mapStationsList = await axios.post(
-            `http://192.168.3.75:85/api/App/stations`
+        const response = await axios.post(
+            `${process.env.NEXT_PUBLIC_MAP_URL}/api/App/stations`
         );
 
-        if (mapStationsList.data.success) {
-            return mapStationsList.data;
+        if (response.data.success) {
+            return response.data;
+        } else {
+            return { description: 'No data found', result: [], success: false };
         }
-
     } catch (error) {
-        return [];
-    };
+        console.error('Error fetching map stations:', error);
+        return { description: 'Error fetching data', result: [], success: false };
+    }
 };
 
 export { getMapStationsList };
