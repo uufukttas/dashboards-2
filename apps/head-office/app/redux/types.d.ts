@@ -13,6 +13,31 @@ interface IChargeUnitDataProps {
     serialNumber: string;
     status: string;
 };
+interface IDashboardDataMapIconProps {
+    code: string;
+    urL: string;
+};
+interface IDashboardDataCompanyProps {
+    id: number;
+    imageUrl: string;
+    name: string;
+};
+interface IDashboardDataResultProps {
+    companies: IDashboardDataCompanyProps[];
+    filterPowers: number[];
+    mapiIcons: IDashboardDataMapIconProps[];
+    stations: IDashboardDataStationProps[];
+};
+interface IDashboardDataStationProps {
+    companyId: number;
+    filter: number;
+    id: number;
+    lat: number;
+    lon: number;
+    mapPinIconCode: string
+    name: string
+    powers: number[];
+};
 interface IServicePointDataProps {
     isDeleted: boolean;
     address: string;
@@ -146,6 +171,11 @@ export interface IConnectorsDataStateProps {
     stationName: string;
     status: number;
     statusName: string;
+};
+export interface IDashboardDataProps {
+    description: string | null;
+    result: IDashboardDataResultProps[];
+    success: boolean;
 };
 export interface IDialogInformationStateProps {
     isVisible: boolean;
