@@ -7,6 +7,7 @@ interface FeatureState {
     addEnergyPrice: boolean;
     addPermission: boolean;
     addServicePointImage: boolean;
+    configureStation: boolean;
     manageStation: {
         isVisible: boolean;
         unitCode?: string;
@@ -21,6 +22,7 @@ const initialState: FeatureState = {
     addEnergyPrice: false,
     addPermission: false,
     addServicePointImage: false,
+    configureStation: false,
     manageStation: {
         isVisible: false,
         unitCode: '',
@@ -50,6 +52,9 @@ const featureSlice = createSlice({
         setAddServicePointImage(state, action: PayloadAction<boolean>) {
             state.addServicePointImage = action.payload;
         },
+        setConfigureStation(state, action: PayloadAction<boolean>) {
+            state.configureStation = action.payload;
+        },
         setManageStation(state, action: PayloadAction<{ isVisible: boolean; unitCode: string; connectorNumber: number }>) {
             state.manageStation.isVisible = action.payload.isVisible;
             state.manageStation.unitCode = action.payload.unitCode;
@@ -65,6 +70,7 @@ export const {
     setAddEnergyPrice,
     setAddPermission,
     setAddServicePointImage,
+    setConfigureStation,
     setManageStation,
 } = featureSlice.actions;
 

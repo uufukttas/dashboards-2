@@ -3,19 +3,18 @@ import { FaClock, FaCoins, FaLocationDot, FaUserGear } from 'react-icons/fa6';
 import { RiBattery2ChargeFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { SlEnergy } from 'react-icons/sl';
-import { Alert } from '@projects/alert';
 import { detectDevice } from '@projects/common';
 import { Dialog } from '@projects/dialog';
 import { initialChargeUnitDataValue } from './constants';
 import ChargeUnitAddModal from './Modals/ChargeUnitAddModal';
 import ComissionModal from './Modals/ComissionModal';
+import ConfigurationModal from './Modals/ConfigurationModal';
 import ConnectorAddModal from './Modals/ConnectorAddModal';
 import EnergyPricesModal from './Modals/EnergyPricesModal';
 import ImageAddModal from './Modals/ImageAddModal';
 import ServicePointPermissionsModal from './Modals/ServicePointPermissionsModal';
 import StationManagementModal from './Modals/StationManagementModal';
 import ServicePointsDetailsContent from './ServicePointsDetailsComponents/ServicePointsDetailsContent';
-import ServicePointDetailsHeader from './ServicePointsDetailsComponents/ServicePointDetailsHeader';
 import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Tabs from '../Tabs/Tabs';
@@ -62,6 +61,7 @@ import {
   setAddEnergyPrice,
   setAddPermission,
   setAddServicePointImage,
+  setConfigureStation,
   setManageStation,
 } from '../../../app/redux/features/setVisibleModal';
 import { setStatusList } from '../../../app/redux/features/statusList';
@@ -81,7 +81,9 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       title: (
         <>
           <FaLocationDot />
-          {detectDevice().isMobile ? '' : 'Istasyon Bilgileri'}
+          {
+            detectDevice().isMobile ? '' : 'Istasyon Bilgileri'
+          }
         </>
       ),
     },
@@ -89,7 +91,9 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       title: (
         <>
           <RiBattery2ChargeFill />
-          {detectDevice().isMobile ? '' : 'Sarj Üniteleri'}
+          {
+            detectDevice().isMobile ? '' : 'Sarj Üniteleri'
+          }
         </>
       ),
     },
@@ -144,6 +148,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const chargeUnitList = useSelector((state: RootState) => state.chargeUnitList);
   const colors = useSelector((state: RootState) => state.configs.colors);
+  const configureStation = useSelector((state: RootState) => state.setVisibleModal.configureStation);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isChargePointDataUpdated = useSelector((state: RootState) => {
     return state.isChargePointDataUpdated.isChargePointDataUpdated
@@ -219,6 +224,13 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
           connectorNumber: manageStation.connectorNumber
         })
       ),
+    },
+    {
+      condition: configureStation,
+      headerTitle: 'Istasyon Konfigurasyon Ayarlari',
+      modalId: `${BRAND_PREFIX}-service-point-configuration-modal`,
+      content: <ConfigurationModal />,
+      closeAction: () => dispatch(setConfigureStation(false)),
     }
   ];
 

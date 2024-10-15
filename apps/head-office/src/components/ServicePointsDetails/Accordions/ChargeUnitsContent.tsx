@@ -1,23 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { FaPencil, FaPlugCirclePlus, FaQrcode, FaTrash } from 'react-icons/fa6';
+import { FaPlugCirclePlus, FaQrcode } from 'react-icons/fa6';
 import { TbProgressBolt } from "react-icons/tb";
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
-import { Tooltip } from '@projects/tooltip';
-import Accordion from '../../Accordion/Accordion';
-import {
-    getChargePointFeatureStatus,
-    getChargePointInvestors,
-    getChargeUnitFeatureValuesRequest,
-    getConnectorModels
-} from '../../../../app/api/servicePointDetails';
-import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
+// import {
+//     getChargePointFeatureStatus,
+//     getChargePointInvestors,
+//     getChargeUnitFeatureValuesRequest,
+//     getConnectorModels
+// } from '../../../../app/api/servicePointDetails';
+// import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { setConnectorProperty } from '../../../../app/redux/features/connectorProperty';
-import { showDialog } from '../../../../app/redux/features/dialogInformation';
+// import { showDialog } from '../../../../app/redux/features/dialogInformation';
 import isConnectorUpdated from '../../../../app/redux/features/isConnectorUpdated';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
-import { setAddChargeUnit, setAddConnector, setManageStation } from '../../../../app/redux/features/setVisibleModal';
+import { setAddChargeUnit, setAddConnector, setConfigureStation, setManageStation } from '../../../../app/redux/features/setVisibleModal';
 import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import { Button as PrimeButton } from 'primereact/button';
@@ -25,9 +23,9 @@ import type {
     IChargeUnitsContentProps,
     IChargeUnitsProps,
     IFeatureTypeListProps,
-    IInvestorsProps,
-    IGetChargePointStationFeatureData,
-    IGetChargePointStationFeatureResponse,
+    // IInvestorsProps,
+    // IGetChargePointStationFeatureData,
+    // IGetChargePointStationFeatureResponse,
     IConnectorStateProps,
     IConnectorModel,
 } from '../types';
@@ -35,7 +33,7 @@ import { Card } from '@projects/card';
 import { Tag } from 'primereact/tag';
 import Image from 'next/image';
 import { TieredMenu } from 'primereact/tieredmenu';
-
+import { MenuItem, MenuItemCommandEvent } from 'primereact/menuitem';
 
 const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, slug }: IChargeUnitsContentProps) => {
     const chargeUnitPrefix: string = `${BRAND_PREFIX}-charge-unit`;
@@ -45,16 +43,13 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
     const menu = useRef(null);
     const connectorList = useSelector((state: RootState) => state.setConnectors.connectors);
     const [connectorTypes, setConnectorTypes] = useState<IConnectorModel[]>([]);
-    const [selectedBrand, setSelectedBrand] = useState(1);
-    const [connectorUpdate, setConnectorUpdate] = useState(false);
+    // const [selectedBrand, setSelectedBrand] = useState(1);
+    // const [connectorUpdate, setConnectorUpdate] = useState(false);
 
-    const items = [
+    const items: MenuItem[] = [
         {
             label: 'Edit',
             icon: 'pi pi-pencil',
-            // command: (event) => {
-            //     console.log('event.originalEvent.target', event.originalEvent.target)
-            // }
         },
         {
             label: 'Delete',
@@ -63,49 +58,57 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
         {
             label: 'Konfigurasyon',
             icon: 'pi pi-cog',
+            command: (event: MenuItemCommandEvent) => {
+                dispatch(toggleModalVisibility(true));
+                dispatch(setConfigureStation(true));
+            }
+        },
+        {
+            label: 'Loglar',
+            icon: 'pi pi-list',
         }
-    ]
-    const buildChargeUnitRequestBody = (
-        accessTypeId: number,
-        chargePoint: IChargeUnitsProps,
-        features: IGetChargePointStationFeatureData[],
-        investorId: number,
-        statusId: number,
-    ) => {
-        return ({
-            chargePoint: {
-                code: chargePoint.deviceCode.toString(),
-                ExternalOCPPAdress: null,
-                InternalOCPPAdress: null,
-                isFreePoint: chargePoint.isFreePoint,
-                isOnlyDefinedUserCards: chargePoint.limitedUsage,
-                ocppVersion: chargePoint.ocppVersion,
-                ownerType: investorId,
-                isActive: false,
-                isDeleted: true,
-                sendRoaming: false,
-                stationId: Number(slug),
-                stationChargePointModelID: chargePoint.modelId,
-            },
-            chargePointFeatures: [
-                {
-                    stationChargePointFeatureType: 1,
-                    stationChargePointFeatureTypeValue: statusId.toString(),
-                    ...(features.length > 0 && { id: features[0].id }),
-                },
-                {
-                    stationChargePointFeatureType: 2,
-                    stationChargePointFeatureTypeValue: accessTypeId.toString(),
-                    ...(features.length > 0 && { id: features[1].id }),
-                }, {
-                    stationChargePointFeatureType: 3,
-                    stationChargePointFeatureTypeValue: (chargePoint.location || '').toString(),
-                    ...(features.length > 0 && { id: features[2].id }),
-                }
-            ],
-            connectorCount: chargePoint.connectorNumber,
-        });
-    };
+    ];
+    // const buildChargeUnitRequestBody = (
+    //     accessTypeId: number,
+    //     chargePoint: IChargeUnitsProps,
+    //     features: IGetChargePointStationFeatureData[],
+    //     investorId: number,
+    //     statusId: number,
+    // ) => {
+    //     return ({
+    //         chargePoint: {
+    //             code: chargePoint.deviceCode.toString(),
+    //             ExternalOCPPAdress: null,
+    //             InternalOCPPAdress: null,
+    //             isFreePoint: chargePoint.isFreePoint,
+    //             isOnlyDefinedUserCards: chargePoint.limitedUsage,
+    //             ocppVersion: chargePoint.ocppVersion,
+    //             ownerType: investorId,
+    //             isActive: false,
+    //             isDeleted: true,
+    //             sendRoaming: false,
+    //             stationId: Number(slug),
+    //             stationChargePointModelID: chargePoint.modelId,
+    //         },
+    //         chargePointFeatures: [
+    //             {
+    //                 stationChargePointFeatureType: 1,
+    //                 stationChargePointFeatureTypeValue: statusId.toString(),
+    //                 ...(features.length > 0 && { id: features[0].id }),
+    //             },
+    //             {
+    //                 stationChargePointFeatureType: 2,
+    //                 stationChargePointFeatureTypeValue: accessTypeId.toString(),
+    //                 ...(features.length > 0 && { id: features[1].id }),
+    //             }, {
+    //                 stationChargePointFeatureType: 3,
+    //                 stationChargePointFeatureTypeValue: (chargePoint.location || '').toString(),
+    //                 ...(features.length > 0 && { id: features[2].id }),
+    //             }
+    //         ],
+    //         connectorCount: chargePoint.connectorNumber,
+    //     });
+    // };
     const createConnectorDropdownItems = (): IFeatureTypeListProps[] => {
         return connectorTypes.map((connectorType: IConnectorModel) => {
             return {
@@ -115,106 +118,106 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
             };
         });
     };
-    const getChargeUnitInfo = (chargeUnitId: number): IChargeUnitsProps => {
-        return chargeUnits.filter(chargeUnit => chargeUnit.chargePointId === chargeUnitId)[0];
-    };
-    const getChargeUnitLocation = async (chargePointId: string) => {
-        const location = await getChargeUnitFeatureValuesRequest(chargePointId);
+    // const getChargeUnitInfo = (chargeUnitId: number): IChargeUnitsProps => {
+    //     return chargeUnits.filter(chargeUnit => chargeUnit.chargePointId === chargeUnitId)[0];
+    // };
+    // const getChargeUnitLocation = async (chargePointId: string) => {
+    //     const location = await getChargeUnitFeatureValuesRequest(chargePointId);
 
-        return location.data[2].stationChargePointFeatureTypeValue;
-    };
+    //     return location.data[2].stationChargePointFeatureTypeValue;
+    // };
     const getConnectorTypes = async (): Promise<void> => {
-        const response = await getConnectorModels(selectedBrand.toString());
+        // const response = await getConnectorModels(selectedBrand.toString());
 
-        setConnectorTypes(response.data);
+        // setConnectorTypes(response.data);
         createConnectorDropdownItems();
     };
-    const getStationFeaturesId = async (chargePointId: string): Promise<IGetChargePointStationFeatureResponse> => {
-        const data = await getChargeUnitFeatureValuesRequest(chargePointId);
+    // const getStationFeaturesId = async (chargePointId: string): Promise<IGetChargePointStationFeatureResponse> => {
+    //     const data = await getChargeUnitFeatureValuesRequest(chargePointId);
 
-        return data;
-    };
-    const getGetChargePointFeaturesStatus =
-        async (status: string, accessType: string): Promise<{ accessTypeId: number; statusId: number }> => {
-            const data = await getChargePointFeatureStatus();
+    //     return data;
+    // };
+    // const getGetChargePointFeaturesStatus =
+    //     async (status: string, accessType: string): Promise<{ accessTypeId: number; statusId: number }> => {
+    //         const data = await getChargePointFeatureStatus();
 
-            const statusIds = data.data.statusList.filter((statusItem: IFeatureTypeListProps) => {
-                return statusItem.name.toLowerCase() === status.toLowerCase();
-            });
-            const accessTypeIds = data.data.accessTypeList.filter((accessTypeListItem: IFeatureTypeListProps) => {
-                return accessTypeListItem.name.toLowerCase() === accessType.toLowerCase();
-            });
+    //         const statusIds = data.data.statusList.filter((statusItem: IFeatureTypeListProps) => {
+    //             return statusItem.name.toLowerCase() === status.toLowerCase();
+    //         });
+    //         const accessTypeIds = data.data.accessTypeList.filter((accessTypeListItem: IFeatureTypeListProps) => {
+    //             return accessTypeListItem.name.toLowerCase() === accessType.toLowerCase();
+    //         });
 
-            const statusId = statusIds.length > 0 ? statusIds[0].id : 0;
-            const accessTypeId = accessTypeIds.length > 0 ? accessTypeIds[0].id : 0;
+    //         const statusId = statusIds.length > 0 ? statusIds[0].id : 0;
+    //         const accessTypeId = accessTypeIds.length > 0 ? accessTypeIds[0].id : 0;
 
-            return { statusId, accessTypeId };
-        };
-    const getInvestorId = async (investorName: string): Promise<number> => {
-        const investors = await getChargePointInvestors();
+    //         return { statusId, accessTypeId };
+    //     };
+    // const getInvestorId = async (investorName: string): Promise<number> => {
+    //     const investors = await getChargePointInvestors();
 
-        if (investors.data.length === 0) {
-            return 0;
-        };
+    //     if (investors.data.length === 0) {
+    //         return 0;
+    //     };
 
-        const selectedInvestor: IInvestorsProps[] = investors.data.filter((investor: IInvestorsProps) => {
-            if (investor.name.toLowerCase() === investorName.toLowerCase()) {
-                return investor.id;
-            };
-        });
+    //     const selectedInvestor: IInvestorsProps[] = investors.data.filter((investor: IInvestorsProps) => {
+    //         if (investor.name.toLowerCase() === investorName.toLowerCase()) {
+    //             return investor.id;
+    //         };
+    //     });
 
-        return selectedInvestor[0].id;
-    };
-    const handleDelete = async (event: React.MouseEvent) => {
-        const chargePointId: string = event.currentTarget.getAttribute(`data-charge-point-id`) || '0';
-        const featuresData: IGetChargePointStationFeatureResponse = await getStationFeaturesId(chargePointId);
-        const features: IGetChargePointStationFeatureData[] = featuresData.data;
-        const deletedChargeUnit: IChargeUnitsProps =
-            chargeUnits.filter(chargeUnit => chargeUnit.chargePointId === Number(chargePointId))[0];
-        const investorId: number = await getInvestorId((deletedChargeUnit.investor));
-        const { statusId, accessTypeId }: { accessTypeId: number, statusId: number, } =
-            await getGetChargePointFeaturesStatus(deletedChargeUnit.hoStatus, deletedChargeUnit.accessType);
+    //     return selectedInvestor[0].id;
+    // };
+    // const handleDelete = async (event: React.MouseEvent) => {
+    //     const chargePointId: string = event.currentTarget.getAttribute(`data-charge-point-id`) || '0';
+    //     const featuresData: IGetChargePointStationFeatureResponse = await getStationFeaturesId(chargePointId);
+    //     const features: IGetChargePointStationFeatureData[] = featuresData.data;
+    //     const deletedChargeUnit: IChargeUnitsProps =
+    //         chargeUnits.filter(chargeUnit => chargeUnit.chargePointId === Number(chargePointId))[0];
+    //     const investorId: number = await getInvestorId((deletedChargeUnit.investor));
+    //     const { statusId, accessTypeId }: { accessTypeId: number, statusId: number, } =
+    //         await getGetChargePointFeaturesStatus(deletedChargeUnit.hoStatus, deletedChargeUnit.accessType);
 
-        const getRequestBody =
-            buildChargeUnitRequestBody(accessTypeId, deletedChargeUnit, features, investorId, statusId);
+    //     const getRequestBody =
+    //         buildChargeUnitRequestBody(accessTypeId, deletedChargeUnit, features, investorId, statusId);
 
-        dispatch(
-            showDialog({
-                actionType: 'deleteChargePoint',
-                data: getRequestBody,
-            })
-        );
-    };
-    const handleUpdate = async (event: React.MouseEvent): Promise<void> => {
-        const chargeUnitId = event.currentTarget.getAttribute(`data-charge-point-id`);
-        const deviceCode = event.currentTarget.getAttribute(`data-charge-point-device-code`);
-        const chargeUnitInfo = getChargeUnitInfo(parseInt(chargeUnitId || '0'));
-        const investorId = await getInvestorId((chargeUnitInfo.investor));
-        const { statusId, accessTypeId } = await getGetChargePointFeaturesStatus(
-            chargeUnitInfo.hoStatus, chargeUnitInfo.accessType
-        );
-        const location = await getChargeUnitLocation(chargeUnitId || '0');
+    //     dispatch(
+    //         showDialog({
+    //             actionType: 'deleteChargePoint',
+    //             data: getRequestBody,
+    //         })
+    //     );
+    // };
+    // const handleUpdate = async (event: React.MouseEvent): Promise<void> => {
+    //     const chargeUnitId = event.currentTarget.getAttribute(`data-charge-point-id`);
+    //     const deviceCode = event.currentTarget.getAttribute(`data-charge-point-device-code`);
+    //     const chargeUnitInfo = getChargeUnitInfo(parseInt(chargeUnitId || '0'));
+    //     const investorId = await getInvestorId((chargeUnitInfo.investor));
+    //     const { statusId, accessTypeId } = await getGetChargePointFeaturesStatus(
+    //         chargeUnitInfo.hoStatus, chargeUnitInfo.accessType
+    //     );
+    //     const location = await getChargeUnitLocation(chargeUnitId || '0');
 
-        dispatch(setAddChargeUnit(true));
-        dispatch(
-            setChargeUnitData({
-                accessType: accessTypeId,
-                code: deviceCode,
-                brandId: chargeUnitInfo.modelId,
-                chargePointId: parseInt(chargeUnitId || '0'),
-                connectorCount: chargeUnitInfo.connectorNumber,
-                investor: investorId,
-                isFreeUsage: chargeUnitInfo.isFreePoint,
-                isLimitedUsage: chargeUnitInfo.limitedUsage,
-                location: location,
-                ocppVersion: chargeUnitInfo.ocppVersion,
-                status: statusId,
-            })
-        );
-        setSelectedBrand(parseInt(chargeUnitId || '0'));
-        dispatch(toggleModalVisibility(true));
-        setConnectorUpdate(true);
-    };
+    //     dispatch(setAddChargeUnit(true));
+    //     dispatch(
+    //         setChargeUnitData({
+    //             accessType: accessTypeId,
+    //             code: deviceCode,
+    //             brandId: chargeUnitInfo.modelId,
+    //             chargePointId: parseInt(chargeUnitId || '0'),
+    //             connectorCount: chargeUnitInfo.connectorNumber,
+    //             investor: investorId,
+    //             isFreeUsage: chargeUnitInfo.isFreePoint,
+    //             isLimitedUsage: chargeUnitInfo.limitedUsage,
+    //             location: location,
+    //             ocppVersion: chargeUnitInfo.ocppVersion,
+    //             status: statusId,
+    //         })
+    //     );
+    //     setSelectedBrand(parseInt(chargeUnitId || '0'));
+    //     dispatch(toggleModalVisibility(true));
+    //     setConnectorUpdate(true);
+    // };
     const prepareTime = (date: string | null): string => {
         if (date === null) {
             return `1990/01/01 00:00`;
@@ -250,16 +253,25 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
     };
 
     // @ts-ignore
-    const createConfMenu = (item) => {
-        return (
-            <div data-charge-unit-id={item.chargePointId} data-charge-point-device-code={item.deviceCode}>
-                {item.label}
+    // const createConfMenu = (item) => {
+    //     return (
+    //         <div data-charge-unit-id={item.chargePointId} data-charge-point-device-code={item.deviceCode}>
+    //             {item.label}
+    //         </div>
+    //     )
+    // };
+
+    const renderMenuItems = (items: MenuItem[]) => {
+        return items.map((item) => (
+            <div className="custom-menu-item" key={item.label}>
+                <i className={item.icon}></i>
+                <span>{item.label}</span>
             </div>
-        )
-    }
+        ));
+    };
 
     useEffect(() => {
-        setConnectorUpdate(true);
+        // setConnectorUpdate(true);
         setConnectorProperties(chargeUnits);
     }, []);
 
@@ -309,8 +321,9 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                                         model={items}
                                                         popup
                                                         ref={menu}
-                                                    // itemTemplate={createConfMenu(items[0])}
-                                                    />
+                                                    >
+                                                        {renderMenuItems(items)}
+                                                    </TieredMenu>
                                                     <PrimeButton
                                                         icon={
                                                             <div className={`${connectorPrefix}-menu-icon-container flex x-2`}>
