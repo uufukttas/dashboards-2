@@ -29,6 +29,7 @@ export const sidebarItems = [
     },
     { label: 'Tarifeler', icon: 'pi pi-wallet', path: '/tariffs-management' },
     { label: 'Kampanyalar', icon: 'pi pi-tags', path: '/campaigns' },
+    { label: 'Bildirim Merkezi', icon: 'pi pi-bell', path: '/notifications' },
     {
         label: 'Cihazlar', icon: 'BiSolidEvStation', path: '/devices'
     },
