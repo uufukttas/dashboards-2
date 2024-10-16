@@ -12,6 +12,39 @@ const NotificationsList = ({ className }: { className: string }) => {
     }, {
         title: 'Notification 3',
         description: 'Description 3'
+    }, {
+        title: 'Notification 3',
+        description: 'Description 3'
+    }, {
+        title: 'Notification 3',
+        description: 'Description 3'
+    }, {
+        title: 'Notification 3',
+        description: 'Description 3'
+    }, {
+        title: 'Notification 3',
+        description: 'Description 3'
+    }, {
+        title: 'Notification 3',
+        description: 'Description 3'
+    }, {
+        title: 'Notification 3',
+        description: 'Description 3'
+    }, {
+        title: 'Notification 3',
+        description: 'Description 3'
+    }, {
+        title: 'Notification 3',
+        description: 'Description 3'
+    }, {
+        title: 'Notification 3',
+        description: 'Description 3'
+    }, {
+        title: 'Notification 3',
+        description: 'Description 3'
+    }, {
+        title: 'Notification 3',
+        description: 'Description 3'
     }];
 
     return (
@@ -21,7 +54,7 @@ const NotificationsList = ({ className }: { className: string }) => {
                     return (
                         <Card
                             BRAND_PREFIX={BRAND_PREFIX}
-                            containerClassName={`rounded-md`}
+                            containerClassName={`rounded-md bg-white`}
                             key={index}
                         >
                             <div key={index} className='flex flex-col p-2 m-2'>
