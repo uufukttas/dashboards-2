@@ -1,0 +1,1 @@
+export { getMapLocationsRequest } from './getMapLocationsRequest';
