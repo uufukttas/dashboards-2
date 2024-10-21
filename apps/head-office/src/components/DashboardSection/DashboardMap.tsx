@@ -3,6 +3,8 @@ import { GoogleMap, Marker, InfoWindow, useLoadScript, Libraries } from '@react-
 import axios from 'axios';
 import { IoCloseCircle } from "react-icons/io5";
 import { BRAND_PREFIX } from '../../constants/constants';
+import { getMapLocationsRequest } from '../../../app/api/dashboards';
+
 interface MapPinIcon {
   url: string;
 };
@@ -83,6 +85,10 @@ const DashboardMap: React.FC<DashboardMapProps> = () => {
         return;
       }
     }
+
+    const response = await getMapLocationsRequest();
+
+    console.log('response12', response)
 
     // Cache süresi dolduysa veya cache yoksa yeni veri çek
     await axios.post('http://192.168.3.75:85/api/App/stations').then((response) => {
