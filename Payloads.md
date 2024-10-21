@@ -49,6 +49,7 @@
 - [Tariff GetTariffs](#tariff-gettariffs)
 - [Tariff AddTariff](#tariff-addtariff)
 - [Report MainReport](#report-mainreport)
+- [Dashboard Map Locations] (#map-stations)
 
 - <h2 id="languages-list">/Language/LanguagesList</h2>
   GET
@@ -823,6 +824,28 @@
     "data": [{
     "reportData": [], //report tablosundaki datalar -> sadelestirilmesi soz konusu en son durumda donen datayi konusabiliriz.
     "count": 110
+    }],
+    "message": "",
+    "status": 200
+  ```
+
+- <h2 id="map-stations"> http://192.168.3.75:85/api/App/stations</h2>
+    POST - { }
+
+  ```json
+    "data": [{
+      "result": [{
+          "mapPinIcons":  {
+            "url": "htpps://icon.com"
+          },
+          "stations": {
+            "id": 12345,
+            "name": "Ozcanlar kofte",
+            "mapPinIconCode": "00",
+            "lat": 26.658,
+            "lon": 42.2651,
+          },
+        }]
     }],
     "message": "",
     "status": 200
