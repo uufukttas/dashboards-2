@@ -26,7 +26,7 @@ const DashboardPage: React.FC = () => {
                     : (
                         <MainComponent headerName='Kontrol Paneli'>
                             <div className={
-                                `${dashboardPrefix}-page-container flex justify-center items-center flex-wrap`
+                                `${dashboardPrefix}-page-container flex justify-center items-center flex-wrap w-full`
                             }>
                                 <DashboardSection />
                             </div>

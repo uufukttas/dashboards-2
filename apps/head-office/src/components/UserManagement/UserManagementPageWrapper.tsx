@@ -25,7 +25,7 @@ const UserManagement: React.FC = () => {
                     )
                     : (
                         <MainComponent headerName='Kullanici Yonetimi'>
-                            <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap`}>
+                            <div className={`${pagePrefix}-container w-full justify-center items-center md:pt-6 flex-wrap`}>
                                 <UserManagementSection />
                             </div>
                         </MainComponent>
