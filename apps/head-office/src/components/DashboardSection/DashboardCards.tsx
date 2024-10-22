@@ -79,7 +79,7 @@ const DashboardCards: React.FC<{ dashboardComponentInfo: IDashboardCardComponent
                     }}
                 >
                     {
-                        (dashboardComponentInfo).map((item: IDashboardCardComponentProps) => {
+                        Array.isArray(dashboardComponentInfo) && dashboardComponentInfo.map((item: IDashboardCardComponentProps) => {
                             return (
                                 <Card
                                     BRAND_PREFIX={BRAND_PREFIX}
