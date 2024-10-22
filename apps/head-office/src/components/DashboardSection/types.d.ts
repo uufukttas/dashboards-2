@@ -12,6 +12,21 @@ export interface IChartData {
 
 type ChartType = 'line' | 'doughnut' | 'semi_doughnut' | 'pie' | 'map' | 'list' | 'line&bar';
 
+export interface IDashboardCardComponentInfoProps {
+    data: IDashboardCardComponentProps[];
+};
+
+export interface IDashboardCardComponentProps {
+    title: string;
+    value: string;
+    icon_name: string;
+    description: string;
+    position: string;
+    mobile_layout: string;
+    tablet_layout: string;
+    type: string;
+};
+
 export interface IDashboardData {
     type: ChartType;
     value: IChartData[];

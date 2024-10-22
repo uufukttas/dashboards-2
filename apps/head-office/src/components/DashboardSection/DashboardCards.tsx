@@ -10,10 +10,10 @@ import { dashboardsData } from './dashboardsData';
 import DashboardMap from './DashboardMap';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
-import { IDashboardDataValueProps } from './types';
+import { IDashboardCardComponentInfoProps, IDashboardCardComponentProps, IDashboardDataValueProps } from './types';
 import './DashboardSection.css';
 
-const DashboardCards: React.FC = () => {
+const DashboardCards: React.FC<{ dashboardComponentInfo: IDashboardCardComponentInfoProps }> = ({ dashboardComponentInfo }: { dashboardComponentInfo: IDashboardCardComponentInfoProps }) => {
     const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page-cards`;
     const itemPrefix: string = `${pagePrefix}-item`;
     const isDesktop = detectDevice().isDesktop;
@@ -79,19 +79,19 @@ const DashboardCards: React.FC = () => {
                     }}
                 >
                     {
-                        Object.keys(dashboardsData).map((item: string) => {
+                        (dashboardComponentInfo).map((item: IDashboardCardComponentProps) => {
                             return (
                                 <Card
                                     BRAND_PREFIX={BRAND_PREFIX}
                                     containerClassName={`${itemPrefix} py-4 flex flex-col items-center justify-between shadow border border-gray-300 rounded-md bg-white`}
-                                    key={item}
+                                    key={item.position}
                                     style={{
                                         gridArea: (
                                             isDesktop
-                                                ? dashboardsData[item].position
+                                                ? item.position
                                                 : isTablet
-                                                    ? dashboardsData[item].tablet_layout
-                                                    : dashboardsData[item].mobile_layout
+                                                    ? item.tablet_layout
+                                                    : item.mobile_layout
                                         ),
                                     }}
                                 >
@@ -103,42 +103,42 @@ const DashboardCards: React.FC = () => {
                                                 className={`${itemPrefix}-content-title-container flex items-center justify-start w-full`}>
                                                 <div
                                                     className={`${itemPrefix}-content-title lg:text-lg font-bold text-md`}>
-                                                    {
-                                                        dashboardsData[item].title
-                                                    }
+                                                    {/* {
+                                                        dashboardsData[item].widgetcode
+                                                    } */}
                                                 </div>
                                             </div>
                                             <div
                                                 className={`${itemPrefix}-content-value text-2xl flex w-full items-center justify-end h-full`}>
                                                 {
-                                                    getCardValue(dashboardsData[item].value)
+                                                    // getCardValue(dashboardsData[item].value)
                                                 }
                                             </div>
                                         </div>
                                         {
-                                            dashboardsData[item].icon_name && (
-                                                <div
-                                                    className={`${itemPrefix}-content-icon-container flex items-center justify-center text-primary px-1`}>
-                                                    {
-                                                        getCardIcon(dashboardsData[item].icon_name)
-                                                    }
-                                                </div>
-                                            )
+                                            // dashboardsData[item]?.icon_name && (
+                                            //     <div
+                                            //         className={`${itemPrefix}-content-icon-container flex items-center justify-center text-primary px-1`}>
+                                            //         {
+                                            //             getCardIcon(dashboardsData[item]?.icon_name)
+                                            //         }
+                                            //     </div>
+                                            // )
                                         }
                                     </div>
                                     {
-                                        dashboardsData[item].description && (
-                                            <div
-                                                className={`${itemPrefix}-content-description-container w-full h-1/6 flex items-end text-xs px-4`}>
-                                                <div
-                                                    className={`${itemPrefix}-content-description w-full flex items-center justify-start`}>
-                                                    <FaCircleInfo className='mx-2' />
-                                                    {
-                                                        dashboardsData[item].description
-                                                    }
-                                                </div>
-                                            </div>
-                                        )
+                                        // dashboardsData[item]?.description && (
+                                        //     <div
+                                        //         className={`${itemPrefix}-content-description-container w-full h-1/6 flex items-end text-xs px-4`}>
+                                        //         <div
+                                        //             className={`${itemPrefix}-content-description w-full flex items-center justify-start`}>
+                                        //             <FaCircleInfo className='mx-2' />
+                                        //             {
+                                        //                 dashboardsData[item]?.description
+                                        //             }
+                                        //         </div>
+                                        //     </div>
+                                        // )
                                     }
                                 </Card>
                             )
