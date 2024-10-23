@@ -11,6 +11,9 @@ const nextConfig = {
     buildActivity: false
   },
   env: {},
+  images: {
+    unoptimized: true,
+  },
   generateStaticParams: async () => {
     return [
       {
