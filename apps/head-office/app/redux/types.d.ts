@@ -13,6 +13,19 @@ interface IChargeUnitDataProps {
     serialNumber: string;
     status: string;
 };
+interface IComponentInfoProps {
+    iconName: string;
+    mobileLayout: string;
+    pageCode: string;
+    pageId: number;
+    pageName: string;
+    position: string;
+    tabletLayout: string;
+    widgetCode: string;
+    widgetDescription: string;
+    widgetId: number;
+    widgetType: string;
+};
 interface IServicePointDataProps {
     isDeleted: boolean;
     address: string;
@@ -146,6 +159,9 @@ export interface IConnectorsDataStateProps {
     stationName: string;
     status: number;
     statusName: string;
+};
+export interface IDashboardComponentInfoProps {
+    componentInfo: IComponentInfoProps[];
 };
 export interface IDialogInformationStateProps {
     isVisible: boolean;

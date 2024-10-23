@@ -8,6 +8,7 @@ import chargeUnitInvestors from './features/chargeUnitInvestors';
 import chargeUnitList from './features/chargeUnitList';
 import configs from './features/setConfig';
 import comissionData from './features/comissionData';
+import dashboardComponentInfo from './features/dashboardComponentInfo';
 import dialogInformation from './features/dialogInformation';
 import energyPriceDetails from './features/energyPriceDetails';
 import getAllReports from './features/getAllReports';
@@ -52,6 +53,7 @@ export const store: EnhancedStore = configureStore({
     chargeUnitList,
     comissionData,
     configs,
+    dashboardComponentInfo,
     dialogInformation,
     energyPriceDetails,
     getAllReports,
