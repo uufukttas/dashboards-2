@@ -4,15 +4,24 @@ import DashboardSection from './DashboardSection';
 import Loading from '../Loading/Loading';
 import MainComponent from '../MainComponent/MainComponent';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { RootState } from '../../../app/redux/store';
+import { getDashboardComponentInfoRequest } from '../../../app/api/dashboards';
+import { setDashboardComponentInfo } from '../../../app/redux/features/dashboardComponentInfo';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
+import { RootState } from '../../../app/redux/store';
 
 const DashboardPage: React.FC = () => {
     const dashboardPrefix: string = `${BRAND_PREFIX}-dashboards`;
     const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
     const dispatch = useDispatch();
 
+    const getDashboardComponentInfo = async (): Promise<void> => {
+        const dashboardComponentInfo = await getDashboardComponentInfoRequest('maindashboard');
+
+        dispatch(setDashboardComponentInfo(dashboardComponentInfo.data));
+    };
+
     useEffect(() => {
+        getDashboardComponentInfo();
         dispatch(toggleLoadingVisibility(false));
     }, []);
 

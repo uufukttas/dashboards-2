@@ -3,21 +3,22 @@ import { FaCircleInfo } from 'react-icons/fa6';
 import { GiElectricalSocket } from "react-icons/gi";
 import { IoIosFlash } from "react-icons/io";
 import { PiWaveSineBold } from "react-icons/pi";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Card } from '@projects/card';
 import { detectDevice } from '@projects/common';
-import { dashboardsData } from './dashboardsData';
 import DashboardMap from './DashboardMap';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
-import { IDashboardCardComponentInfoProps, IDashboardCardComponentProps, IDashboardDataValueProps } from './types';
+import { RootState } from '../../../app/redux/store';
 import './DashboardSection.css';
+import { IDashboardCardComponentProps, IDashboardDataValueProps } from './types';
 
-const DashboardCards: React.FC<{ dashboardComponentInfo: IDashboardCardComponentInfoProps }> = ({ dashboardComponentInfo }: { dashboardComponentInfo: IDashboardCardComponentInfoProps }) => {
+const DashboardCards: React.FC = () => {
     const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page-cards`;
     const itemPrefix: string = `${pagePrefix}-item`;
     const isDesktop = detectDevice().isDesktop;
     const isTablet = detectDevice().isTablet;
+    const dashboardComponentInfo = useSelector((state: RootState) => state.dashboardComponentInfo.componentInfo);
     const dispatch = useDispatch();
 
     const getCardIcon = (icon: string): JSX.Element => {
@@ -79,7 +80,7 @@ const DashboardCards: React.FC<{ dashboardComponentInfo: IDashboardCardComponent
                     }}
                 >
                     {
-                        Array.isArray(dashboardComponentInfo) && dashboardComponentInfo.map((item: IDashboardCardComponentProps) => {
+                        dashboardComponentInfo.map((item: IDashboardCardComponentProps) => {
                             return (
                                 <Card
                                     BRAND_PREFIX={BRAND_PREFIX}
