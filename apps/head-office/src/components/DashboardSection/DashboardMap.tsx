@@ -28,6 +28,9 @@ const CACHE_KEY = 'dashboardMapCache';
 const CACHE_EXPIRATION = 5 * 60 * 1000; // 5 dakika (300,000 ms)
 
 const DashboardMap: React.FC = (mapItems) => {
+  console.log('DashboardMap')
+  console.log('mapItems', mapItems)
+
   const dashboardMapPrefix: string = `${BRAND_PREFIX}-dashboard-map`;
   const libraries: Libraries = ["places"];
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -36,7 +39,6 @@ const DashboardMap: React.FC = (mapItems) => {
     address: "",
     name: ""
   });
-  const [markerList, setMarkerList] = useState<MarkerInfo | null>(null);
   const [selectedLocations, setSelectedLocations] = useState<{ lat: number, lon: number }>({ lat: 39.92503, lon: 32.83707 });
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
@@ -73,58 +75,29 @@ const DashboardMap: React.FC = (mapItems) => {
     };
   };
 
-  // LocalStorage'dan cache verisini kontrol et ve veriyi güncelle
-  const getMarkerList = async () => {
-    const cachedData = localStorage.getItem(CACHE_KEY);
-
-    if (cachedData) {
-      const { data, timestamp } = JSON.parse(cachedData);
-      // 5 dakika kontrolü
-      if (Date.now() - timestamp < CACHE_EXPIRATION) {
-        setMarkerList(data);
-        return;
-      }
-    }
-
-    const response = await getMapLocationsRequest();
-
-    console.log('response12', response)
-
-    // Cache süresi dolduysa veya cache yoksa yeni veri çek
-    await axios.post('http://192.168.3.75:85/api/App/stations').then((response) => {
-      const result = response.data.result;
-      setMarkerList(result);
-      // LocalStorage'a yeni veriyi kaydet
-      localStorage.setItem(CACHE_KEY, JSON.stringify({ data: result, timestamp: Date.now() }));
-    });
-  };
-
   const setMarkerIcon = (iconType: string) => {
-    if (!isLoaded || !window.google || !window.google.maps || !markerList) return undefined;
+    if (!isLoaded || !window.google || !window.google.maps || !mapItems) return undefined;
     const baseIconUrl = `https://maps.google.com/mapfiles/ms/icons/`;
     let iconUrl = `${baseIconUrl}${iconType}-dot.png`;
 
-    if (iconType === '00') {
-      iconUrl = `http://192.168.3.75:85${markerList.mapPinIcons[0].url}`;
-    } else if (iconType === '01') {
-      iconUrl = `http://192.168.3.75:85${markerList.mapPinIcons[1].url}`;
-    }
+    // if (iconType === '00') {
+    //   iconUrl = `http://192.168.3.75:85${markerList.mapPinIcons[0].url}`;
+    // } else if (iconType === '01') {
+    //   iconUrl = `http://192.168.3.75:85${markerList.mapPinIcons[1].url}`;
+    // }
     return {
       url: iconUrl,
       scaledSize: new window.google.maps.Size(40, 40),
     };
   };
 
-  useEffect(() => {
-    getMarkerList();
-  }, []);
 
   if (loadError) return <div>Error loading map</div>;
-  if (!isLoaded || !markerList) return <div>Loading...</div>;
+  if (!isLoaded || !mapItems) return <div>Loading...</div>;
 
   return (
     // @ts-ignore
-    markerList?.stations?.length > 0 && (
+    mapItems.mapItems.length > 0 && (
       <div className={`${dashboardMapPrefix}-container w-full px-2 my-4`}>
         <GoogleMap
           center={{ lat: selectedLocations.lat, lng: selectedLocations.lon }} // Heart of Turkey - Ankara Anitkabir
@@ -139,15 +112,15 @@ const DashboardMap: React.FC = (mapItems) => {
         >
           {
             // @ts-ignore
-            markerList.stations.map((marker, index) => (
+            mapItems.mapItems.map((marker, index) => (
               <Marker
                 key={index}
-                position={{ lat: marker.lat, lng: marker.lon }}
+                position={{ lat: Number(marker.latitude), lng: Number(marker.longitude) }}
                 onClick={() => {
                   handleMarkerClick(marker)
-                  setSelectedLocations({ lat: marker.lat, lon: marker.lon });
+                  setSelectedLocations({ lat: marker.latitude, lon: marker.longitude });
                 }}
-                icon={setMarkerIcon(marker.mapPinIconCode)} // Özel ikon tipi burada belirleniyor
+              // icon={setMarkerIcon(marker.mapPinIconCode)} // Özel ikon tipi burada belirleniyor
               />
             ))
           }

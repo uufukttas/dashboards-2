@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BRAND_PREFIX } from '../../constants/constants';
 import { Card } from '@projects/card';
 import { detectDevice } from '@projects/common';
@@ -32,7 +32,6 @@ const DashboardCardContent = ({ widget }) => {
             dateFilterStartAt: new Date().toISOString(),
             dateFilterEndAt: new Date().toISOString(),
         };
-        getComponentContentValue(widgetContentParams)
 
         if (componentValue.dashboardMapItemDataSummaries) {
             return (
@@ -95,6 +94,26 @@ const DashboardCardContent = ({ widget }) => {
                     : widget.mobile_layout
         )
     };
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const widgetContentParams = {
+                pageCode: widget.pageCode,
+                reportCode: widget.widgetCode,
+                reportType: widget.widgetType,
+                dateFilterStartAt: new Date().toISOString(),
+                dateFilterEndAt: new Date().toISOString(),
+            };
+            await getComponentContentValue(widgetContentParams);
+        };
+
+        if (widget.pageCode) {
+            fetchData();
+        }
+    }, [widget.pageCode]);
+
+    console.log('DashboardCardsContent')
 
     return (
         <Card
