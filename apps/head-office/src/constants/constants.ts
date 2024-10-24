@@ -1,4 +1,9 @@
 export const BRAND_PREFIX = 'sh';
+export const dashboardTypes = {
+    1: 'maindashboard',
+    2: 'helperdashboard',
+    3: 'callcenterdashboard',
+};
 export const metaData = {
     author: 'Sharz.net',
     description: 'Sharz.net is Turkey\'s leading electric vehicle charging station platform, offering comprehensive management solutions for EV charging stations. Manage service points, tariffs, and user access with our advanced dashboard. Experience seamless integration and real-time monitoring to enhance the efficiency and accessibility of EV charging across the country.',

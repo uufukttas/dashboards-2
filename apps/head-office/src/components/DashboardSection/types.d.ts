@@ -92,3 +92,8 @@ export interface IWidgetDataProps {
     widgetId: number;
     widgetType: string;
 };
+
+export interface IDashboardComponentInfoResponseProps {
+    data: IDashboardCardComponentProps[];
+    success: boolean;
+}

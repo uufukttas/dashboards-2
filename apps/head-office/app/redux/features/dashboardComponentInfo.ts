@@ -5,7 +5,7 @@ const initialState: IDashboardComponentInfoProps = {
     componentInfo: [{
         iconName: '',
         mobileLayout: '',
-        pageCode: '',
+        pageCode: 'maindashboard',
         pageId: 0,
         pageName: '',
         position: '',

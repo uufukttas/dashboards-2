@@ -7,7 +7,7 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import { IWidgetContentParamsProps, IWidgetDataProps } from './types';
 
 const DashboardCardContent = ({ widget }: { widget: IWidgetDataProps }) => {
-    const itemPrefix: string = `${BRAND_PREFIX}-dashboard-page-cards-item`;
+    const itemPrefix: string = `${BRAND_PREFIX}-dashboard-page-card-item`;
     const dashboardCardContentPrefix: string = `${itemPrefix}-content`;
     const isDesktop: boolean = detectDevice().isDesktop;
     const isTablet: boolean = detectDevice().isTablet;
@@ -103,7 +103,6 @@ const DashboardCardContent = ({ widget }: { widget: IWidgetDataProps }) => {
         )
     };
 
-
     useEffect(() => {
         const fetchData = async () => {
             const widgetContentParams = {
@@ -121,8 +120,6 @@ const DashboardCardContent = ({ widget }: { widget: IWidgetDataProps }) => {
         }
     }, [widget.pageCode]);
 
-    console.log('DashboardCardsContent')
-
     return (
         <Card
             BRAND_PREFIX={BRAND_PREFIX}
@@ -136,4 +133,4 @@ const DashboardCardContent = ({ widget }: { widget: IWidgetDataProps }) => {
     );
 };
 
-export default DashboardCardContent
+export default DashboardCardContent;
