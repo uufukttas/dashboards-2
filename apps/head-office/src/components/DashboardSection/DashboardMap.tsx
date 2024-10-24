@@ -27,7 +27,7 @@ interface DashboardMapProps {
 const CACHE_KEY = 'dashboardMapCache';
 const CACHE_EXPIRATION = 5 * 60 * 1000; // 5 dakika (300,000 ms)
 
-const DashboardMap: React.FC<DashboardMapProps> = () => {
+const DashboardMap: React.FC = (mapItems) => {
   const dashboardMapPrefix: string = `${BRAND_PREFIX}-dashboard-map`;
   const libraries: Libraries = ["places"];
   const mapRef = useRef<google.maps.Map | null>(null);
