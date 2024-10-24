@@ -1,21 +1,17 @@
+type ChartType = 'line' | 'doughnut' | 'semi_doughnut' | 'pie' | 'map' | 'list' | 'line&bar';
 interface IDataPoint {
     [key: string]: number | string;
     value: number;
-}
-
+};
 export interface IChartData {
     data: {
         value: number;
     }
     [key: string]: IDataPoint[];
-}
-
-type ChartType = 'line' | 'doughnut' | 'semi_doughnut' | 'pie' | 'map' | 'list' | 'line&bar';
-
+};
 export interface IDashboardCardComponentInfoProps {
     data: IDashboardCardComponentProps[];
 };
-
 export interface IDashboardCardComponentProps {
     title: string;
     value: string;
@@ -26,12 +22,10 @@ export interface IDashboardCardComponentProps {
     tablet_layout: string;
     type: string;
 };
-
 export interface IDashboardData {
     type: ChartType;
     value: IChartData[];
-}
-
+};
 export interface ITooltipItem {
     dataset: {
         label: string;
@@ -39,9 +33,7 @@ export interface ITooltipItem {
     parsed: {
         y: number;
     };
-}
-
-
+};
 export interface IChartItem {
     [key: string]: IDataPoint[];
 };
@@ -64,4 +56,39 @@ export interface IDashboardDataValueProps {
     isAC?: boolean;
     icon_url?: string;
     status?: string;
+};
+export interface IDashboardMapItemDataSummaryProps {
+    mapItems: IDashboardDataValueProps[];
+};
+export interface IMapItemsProps {
+    iconUrl: string;
+    isAC: boolean;
+    latitude: string;
+    longitude: string;
+    name: string;
+    status: string;
+}
+export interface IWidgetContentParamsProps {
+    pageCode: string;
+    reportCode: string;
+    reportType: string;
+    dateFilterStartAt: string;
+    dateFilterEndAt: string;
+};
+
+export interface IWidgetDataProps {
+    activeData: number;
+    iconName: string;
+    dashboardMapItemDataSummaries?: IDashboardMapItemDataSummaryProps;
+    mobile_layout: string
+    pageCode: string;
+    pageId: number;
+    pageName: string;
+    position: string;
+    tablet_layout: string;
+    totalData: number;
+    widgetCode: string;
+    widgetDescription: string;
+    widgetId: number;
+    widgetType: string;
 };

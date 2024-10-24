@@ -1,40 +1,48 @@
 import React, { useEffect, useState } from 'react'
-import { BRAND_PREFIX } from '../../constants/constants';
+import axios from 'axios';
 import { Card } from '@projects/card';
 import { detectDevice } from '@projects/common';
-import axios from 'axios';
 import DashboardMap from './DashboardMap';
+import { BRAND_PREFIX } from '../../constants/constants';
+import { IWidgetContentParamsProps, IWidgetDataProps } from './types';
 
-const DashboardCardContent = ({ widget }) => {
+const DashboardCardContent = ({ widget }: { widget: IWidgetDataProps }) => {
     const itemPrefix: string = `${BRAND_PREFIX}-dashboard-page-cards-item`;
     const dashboardCardContentPrefix: string = `${itemPrefix}-content`;
     const isDesktop: boolean = detectDevice().isDesktop;
     const isTablet: boolean = detectDevice().isTablet;
-    const [componentValue, setComponentValue] = useState({});
+    const initialWidgetValue: IWidgetDataProps = {
+        activeData: 0,
+        iconName: '',
+        mobile_layout: '',
+        pageCode: '',
+        pageId: 0,
+        pageName: '',
+        position: '',
+        tablet_layout: '',
+        totalData: 0,
+        widgetCode: '',
+        widgetDescription: '',
+        widgetId: 0,
+        widgetType: '',
+    }
+    const [componentValue, setComponentValue] = useState<IWidgetDataProps>(initialWidgetValue);
 
-    const getComponentContentValue = async (widgetContentParams) => {
+    const getComponentContentValue = async (widgetContentParams: IWidgetContentParamsProps) => {
         const response = await axios.post(
             `${process.env.NEXT_PUBLIC_BASE_URL}/Dashboard/GetDashboardItemData`,
             widgetContentParams,
             { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
         );
 
-        // return response.data.data;
         setComponentValue(response.data.data);
     };
-    const renderComponentContent = (widget) => {
+    const renderComponentContent = (widget: IWidgetDataProps) => {
         if (widget.pageCode === '') return;
-
-        const widgetContentParams = {
-            pageCode: widget.pageCode,
-            reportCode: widget.widgetCode,
-            reportType: widget.widgetType,
-            dateFilterStartAt: new Date().toISOString(),
-            dateFilterEndAt: new Date().toISOString(),
-        };
 
         if (componentValue.dashboardMapItemDataSummaries) {
             return (
+                // @ts-expect-error
                 <DashboardMap mapItems={componentValue.dashboardMapItemDataSummaries} />
             )
         } else {
