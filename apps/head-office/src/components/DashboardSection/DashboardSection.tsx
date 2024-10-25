@@ -23,9 +23,8 @@ const DashboardSection: React.FC = () => {
             {
                 dashboardComponentInfo.map((dashboardComponentItem: IDashboardCardComponentProps, index: number) => {
                     return (
-                        // @ts-expect-error
-                        <DashboardCardContent widget={dashboardComponentItem} key={index} />
-                    )
+                        <DashboardCardContent key={index} widget={dashboardComponentItem} />
+                    );
                 })
             }
         </div>

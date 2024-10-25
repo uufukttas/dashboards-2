@@ -9,18 +9,38 @@ export interface IChartData {
     }
     [key: string]: IDataPoint[];
 };
+export interface IComponentValueProps {
+    dashboardMapItemDataSummaries?: {
+        iconUrl: string;
+        isAC: boolean;
+        latitude: string;
+        longitude: string;
+        name: string;
+        status: string;
+    }[];
+    dashboardWidgetType?: string;
+    widgetDescription?: string;
+    activeData?: number;
+    dashboardWidgetType?: string;
+    iconName?: string;
+    totalData?: number;
+    widgetDescription?: string
+};
 export interface IDashboardCardComponentInfoProps {
     data: IDashboardCardComponentProps[];
 };
 export interface IDashboardCardComponentProps {
-    title: string;
-    value: string;
-    icon_name: string;
-    description: string;
+    iconName: string;
+    mobileLayout: string;
+    pageCode: string;
+    pageId: number;
+    pageName: string;
     position: string;
-    mobile_layout: string;
-    tablet_layout: string;
-    type: string;
+    tabletLayout: string;
+    widgetCode: string;
+    widgetDescription: string;
+    widgetId: number;
+    widgetType: string;
 };
 export interface IDashboardData {
     type: ChartType;
@@ -77,20 +97,14 @@ export interface IWidgetContentParamsProps {
 };
 
 export interface IWidgetDataProps {
-    activeData: number;
-    iconName: string;
-    dashboardMapItemDataSummaries?: IDashboardMapItemDataSummaryProps;
-    mobile_layout: string
-    pageCode: string;
-    pageId: number;
-    pageName: string;
+    title: string;
+    value: string;
+    icon_name: string;
+    description: string;
     position: string;
+    mobile_layout: string;
     tablet_layout: string;
-    totalData: number;
-    widgetCode: string;
-    widgetDescription: string;
-    widgetId: number;
-    widgetType: string;
+    type: string;
 };
 
 export interface IDashboardComponentInfoResponseProps {

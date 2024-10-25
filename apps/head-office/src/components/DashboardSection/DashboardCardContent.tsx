@@ -1,32 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Card } from '@projects/card';
 import { detectDevice } from '@projects/common';
 import DashboardMap from './DashboardMap';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { IWidgetContentParamsProps, IWidgetDataProps } from './types';
+import { IDashboardCardComponentProps, IWidgetContentParamsProps, IComponentValueProps } from './types';
 
-const DashboardCardContent = ({ widget }: { widget: IWidgetDataProps }) => {
+const DashboardCardContent = ({ widget }: { widget: IDashboardCardComponentProps }) => {
     const itemPrefix: string = `${BRAND_PREFIX}-dashboard-page-card-item`;
     const dashboardCardContentPrefix: string = `${itemPrefix}-content`;
     const isDesktop: boolean = detectDevice().isDesktop;
     const isTablet: boolean = detectDevice().isTablet;
-    const initialWidgetValue: IWidgetDataProps = {
-        activeData: 0,
-        iconName: '',
-        mobile_layout: '',
-        pageCode: '',
-        pageId: 0,
-        pageName: '',
-        position: '',
-        tablet_layout: '',
-        totalData: 0,
-        widgetCode: '',
-        widgetDescription: '',
-        widgetId: 0,
-        widgetType: '',
-    }
-    const [componentValue, setComponentValue] = useState<IWidgetDataProps>(initialWidgetValue);
+    const initialComponentValue: IComponentValueProps = {
+        dashboardMapItemDataSummaries: [],
+        dashboardWidgetType: '',
+        widgetDescription: "",
+    };
+    const [componentValue, setComponentValue] = useState<IComponentValueProps>(initialComponentValue);
 
     const getComponentContentValue = async (widgetContentParams: IWidgetContentParamsProps) => {
         const response = await axios.post(
@@ -34,10 +24,9 @@ const DashboardCardContent = ({ widget }: { widget: IWidgetDataProps }) => {
             widgetContentParams,
             { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
         );
-
         setComponentValue(response.data.data);
     };
-    const renderComponentContent = (widget: IWidgetDataProps) => {
+    const renderComponentContent = (widget: IDashboardCardComponentProps) => {
         if (widget.pageCode === '') return;
 
         if (componentValue.dashboardMapItemDataSummaries) {
@@ -98,8 +87,8 @@ const DashboardCardContent = ({ widget }: { widget: IWidgetDataProps }) => {
             isDesktop
                 ? widget.position
                 : isTablet
-                    ? widget.tablet_layout
-                    : widget.mobile_layout
+                    ? widget.tabletLayout
+                    : widget.mobileLayout
         )
     };
 
@@ -115,7 +104,7 @@ const DashboardCardContent = ({ widget }: { widget: IWidgetDataProps }) => {
             await getComponentContentValue(widgetContentParams);
         };
 
-        if (widget.pageCode) {
+        if (widget.widgetCode) {
             fetchData();
         }
     }, [widget.pageCode]);
