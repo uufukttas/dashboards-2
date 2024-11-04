@@ -1,0 +1,43 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildDirectory: 'dist/apps/head-office/.next'
+  packageDirectory: 'apps/head-office'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+
+- script: npm install -g nx
+  displayName: 'Install Nx CLI'
+
+- script: npm ci
+  displayName: 'Install dependencies'
+
+- script: nx build head-office
+  displayName: 'Build head-office app'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(buildDirectory)'
+    artifactName: 'next-build'
+  displayName: 'Publish Build Artifacts'
+
+- task: CopyFiles@2
+  inputs:
+    contents: '$(packageDirectory)/**/*'
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+  displayName: 'Copy files to artifact staging directory'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'head-office-package'
+    publishLocation: 'pipeline'
+  displayName: 'Publish Pipeline Artifact'
