@@ -4,7 +4,13 @@ import Filter from './Filter';
 
 describe('Filter', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Filter />);
+    const { baseElement } = render(<Filter
+      className={``}
+      filters={[]}
+      isExpanded
+      onFilterSubmit={() => {}}
+      setFilters={() => {}}
+    />);
     expect(baseElement).toBeTruthy();
   });
 });

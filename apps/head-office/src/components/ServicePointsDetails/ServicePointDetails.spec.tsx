@@ -4,7 +4,7 @@ import ServicePointDetails from './ServicePointDetails';
 
 describe('ServicePointDetails', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<ServicePointDetails />);
+    const { baseElement } = render(<ServicePointDetails slug={``}/>);
     expect(baseElement).toBeTruthy();
   });
 });

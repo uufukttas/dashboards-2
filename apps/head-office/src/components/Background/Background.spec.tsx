@@ -4,7 +4,10 @@ import Background from './Background';
 
 describe('Background', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Background />);
+    const { baseElement } = render(<Background
+      backgroundUrl={`https://example.com`}
+      className={``}
+    />);
     expect(baseElement).toBeTruthy();
   });
 });

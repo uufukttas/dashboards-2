@@ -1,6 +1,8 @@
 interface IDataPoint {
     [key: string]: number | string;
     value: number;
+    amount: number;
+    charge_count: number;
 }
 
 export interface IChartData {
@@ -15,6 +17,8 @@ type ChartType = 'line' | 'doughnut' | 'semi_doughnut' | 'pie' | 'map' | 'list' 
 export interface IDashboardData {
     type: ChartType;
     value: IChartData[];
+    chartType: string;
+    listItemData: IDataPoint[];
 }
 
 export interface ITooltipItem {

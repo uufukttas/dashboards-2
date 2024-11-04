@@ -323,3 +323,21 @@ export interface IUsersProps {
     roleNames: string;
     lastLoginDate: string | null;
 };
+
+interface IComponentInfoProps {
+    iconName: string,
+    mobileLayout: string,
+    pageCode: string,
+    pageId: number,
+    pageName: string,
+    position: string,
+    tabletLayout: string,
+    widgetCode: string,
+    widgetDescription: string,
+    widgetId: number,
+    widgetType: string,
+};
+
+export interface ISecondDashboardComponentInfoProps {
+    componentInfo: IComponentInfoProps[]
+}

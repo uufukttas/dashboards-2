@@ -17,7 +17,7 @@ import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
 import { BRAND_PREFIX } from 'apps/head-office/src/constants/constants';
 import { detectDevice } from '@projects/common';
 import { useDispatch } from 'react-redux';
-import { IChartData, IDashboardData } from '../types';
+import { IChartData, IDashboardData, IDataPoint, ISecondDashboardCardComponentProps } from '../types';
 import { FaBatteryHalf, FaChargingStation, FaCircleInfo } from 'react-icons/fa6';
 import { BiSolidEvStation } from 'react-icons/bi';
 import { HiUserGroup } from 'react-icons/hi';
@@ -35,7 +35,7 @@ Chart.register(
     Title,
     Tooltip,
 );
-const ChartComponent = ({ widget, componentValue }) => {
+const ChartComponent = ({ widget, componentValue }: { widget: any, componentValue: any }) => {
     const isDesktop = detectDevice().isDesktop;
     const isTablet = detectDevice().isTablet;
     const isMobile = detectDevice().isMobile;
@@ -52,7 +52,7 @@ const ChartComponent = ({ widget, componentValue }) => {
                 mode: 'index',
                 intersect: false,
                 callbacks: {
-                    label: (tooltipItem: ITooltipItem) => {
+                    label: (tooltipItem: any) => {
                         return `${tooltipItem.dataset.label}: ${tooltipItem.parsed.y}`;
                     }
                 }
@@ -99,9 +99,9 @@ const ChartComponent = ({ widget, componentValue }) => {
     };
     const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page-cards`;
     const dispatch = useDispatch();
-    const doughnutData = (response: IChartData[]) => {
-        const labels = response.map(item => item.name);
-        const data = response.map(item => item.data);
+    const doughnutData = (response: any) => {
+        const labels = response.map((item: {name: string, data: any}) => item.name);
+        const data = response.map((item: {name: string, data: any}) => item.data);
         return {
             datasets: [
                 {
@@ -142,8 +142,6 @@ const ChartComponent = ({ widget, componentValue }) => {
         };
     };
     const getValue = (data: IDashboardData) => {
-        console.log('data', data)
-
         if (!data?.chartType) return <></>;
 
         switch (data.chartType) {
@@ -153,7 +151,7 @@ const ChartComponent = ({ widget, componentValue }) => {
                     return (
                         <Line
                             data={response}
-                            options={lineOptions}
+                        // options={lineOptions}
                         />
                     )
                 }
@@ -183,7 +181,7 @@ const ChartComponent = ({ widget, componentValue }) => {
 
         };
     }
-    const lineData = (response) => {
+    const lineData = (response: any) => {
         debugger;
         let acData, dcData, todayData, lastWeekData, monthData, lastMonthData, yearData, lastYearData;
         if (response[0]?.type === 'ac' || response[1]?.type === 'dc') {
@@ -210,27 +208,33 @@ const ChartComponent = ({ widget, componentValue }) => {
             labels: Object.keys(key || []).map(key => key)
         };
     };
-    const processData = (response: IChartData[], currentKey: string, previousKey: string) => {
+    const processData = (response: any, currentKey: string, previousKey: string) => {
         let currentData, previousData;
 
         if (Array.isArray(response[0])) {
-            currentData = response[0][0].data.map(item => item.kwh ? item.kwh : item.amount)
-            previousData = response[0][0].data.map(item => item.kwh ? item.kwh : item.amount)
+            currentData = response[0][0].data.map((item: any) => item.kwh ? item.kwh : item.amount)
+            previousData = response[0][0].data.map((item: any) => item.kwh ? item.kwh : item.amount)
         } else {
-            currentData = Object.keys(response[0].data).map(point => response[0].data[point]);
-            previousData = Object.keys(response[1].data).map(point => response[1].data[point]);
+            currentData = Object.keys(response[0].data).map((point: any) => response[0].data[point]);
+            previousData = Object.keys(response[1].data).map((point: any) => response[1].data[point]);
         }
         return { currentData, previousData };
     };
     const barLineData = (data: IChartData[]) => {
-        const transformedData = {
+        const transformedData: {
+            labels: string[],
+            amount: number[],
+            charge_count: number[],
+            kwh: number[],
+            service_fee: number[]
+        } = {
             labels: [],
             amount: [],
             charge_count: [],
             kwh: [],
             service_fee: []
         };
-        data.forEach((item) => {
+        data.forEach((item: any) => {
             const key = Object.keys(item)[0];
             const stats = item[key];
             transformedData.labels.push(key);
@@ -338,17 +342,9 @@ const ChartComponent = ({ widget, componentValue }) => {
                     }}
                 />
             </div>
-        } else if (data.type === 'map') {
-            return <div className='w-full h-full'>
-                <div className='w-full h-full flex items-center justify-center'>
-                    <DashboardMap
-                        markerList={data.value}
-                    />
-                </div>
-            </div>
         } else if (data.type === 'line&bar') {
             return <div className='w-full h-full h-[400px] flex items-center justify-center'>
-                <Bar options={options} data={barLineData(data.value)} className={`flex justify-center items-center !w-[800px]`} style={{ width: "1150", height: '450' }} />
+                {/* <Bar data={barLineData(data.value)} className={`flex justify-center items-center !w-[800px]`} style={{ width: "1150", height: '450' }} /> */}
             </div>
         } else if (data.type === 'list') {
             return (
@@ -360,7 +356,7 @@ const ChartComponent = ({ widget, componentValue }) => {
                                     <li key={Object.keys(item)[0]} className='text-xl'>
                                         <div className='flex items-start justify-between'>
                                             <div className='text-md'>{Object.keys(item)[0]}</div>
-                                            <div className='text-md'>{item[Object.keys(item)[0]]}</div>
+                                            <div className='text-md'>{[Object.keys(item)[0]]}</div>
                                         </div>
                                     </li>
                                 )
@@ -385,14 +381,12 @@ const ChartComponent = ({ widget, componentValue }) => {
                                 <div className='card-title-container flex items-center justify-start w-full'>
                                     <div className={`lg:text-lg font-bold text-md`}>
                                         {
-                                            // @ts-expect-error will delete
                                             componentValue?.widgetTitle
                                         }
                                     </div>
                                 </div>
                                 <div className='card-info text-2xl flex w-full items-center justify-end h-full'>
                                     {
-                                        // @ts-expect-error will delete
                                         getValue(componentValue)
                                     }
                                 </div>
@@ -401,7 +395,6 @@ const ChartComponent = ({ widget, componentValue }) => {
                                 componentValue?.icon_name && (
                                     <div className='card-icon-container flex items-center justify-center text-primary px-1'>
                                         {
-                                            // @ts-expect-error will delete
                                             getCardIcon(componentValue?.icon_name)
                                         }
                                     </div>
@@ -414,7 +407,6 @@ const ChartComponent = ({ widget, componentValue }) => {
                                     <div className='w-full flex items-center justify-start'>
                                         <FaCircleInfo className='mx-2' />
                                         {
-                                            // @ts-expect-error will delete
                                             componentValue?.widgetDescription
                                         }
                                     </div>

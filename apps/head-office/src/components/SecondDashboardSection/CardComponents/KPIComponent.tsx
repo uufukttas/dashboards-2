@@ -1,7 +1,7 @@
 import { BRAND_PREFIX } from 'apps/head-office/src/constants/constants';
 import React from 'react'
 
-const KPIComponent = ({ componentValue }) => {
+const KPIComponent = ({ componentValue }: {componentValue: any}) => {
     const itemPrefix: string = `${BRAND_PREFIX}-dashboard-page-card-item`;
     const dashboardCardContentPrefix: string = `${itemPrefix}-content`;
 

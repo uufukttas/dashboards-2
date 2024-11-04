@@ -23,7 +23,10 @@ const SecondDashboardSection: React.FC = () => {
             {
                 secondDashboardComponentInfo.map((dashboardComponentItem: ISecondDashboardCardComponentProps, index: number) => {
                     return (
-                        <SecondDashboardCardContent key={index} widget={dashboardComponentItem} />
+                        <SecondDashboardCardContent
+                            key={index}
+                            widget={dashboardComponentItem}
+                        />
                     );
                 })
             }

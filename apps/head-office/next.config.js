@@ -14,14 +14,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  generateStaticParams: async () => {
-    return [
-      {
-        params: {},
-        path: '/'
-      },
-    ];
-  },
+  output: "standalone",
 };
 
 const plugins = [withNx];

@@ -1,10 +1,9 @@
 import { render } from '@testing-library/react';
-
-import Header from './Footer';
+import Footer from './Footer';
 
 describe('Header', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Footer />);
+    const { baseElement } = render(<Footer className={``} />);
     expect(baseElement).toBeTruthy();
   });
 });

@@ -45,7 +45,7 @@ Chart.register(
     Tooltip,
 );
 
-const SecondDashboardCards: React.FC = ({ widget }) => {
+const SecondDashboardCards: React.FC<{widget:any}> = ({ widget }: {widget: any}) => {
     const pagePrefix: string = `${BRAND_PREFIX}-second-dashboard-page-cards`;
     const itemPrefix: string = `${BRAND_PREFIX}-second-dashboard-page-card-item`;
     const dashboardCardContentPrefix: string = `${itemPrefix}-content`;
@@ -91,8 +91,7 @@ const SecondDashboardCards: React.FC = ({ widget }) => {
         )
     };
 
-    const getCardComponentContent = (): React.ReactElement => {
-
+    const getCardComponentContent = () => {
         switch (widget.widgetType) {
             case 'chart':
                 return (
