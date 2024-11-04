@@ -13,8 +13,7 @@ const nextConfig = {
   env: {},
   images: {
     unoptimized: true,
-  },
-  output: "standalone",
+  }
 };
 
 const plugins = [withNx];
