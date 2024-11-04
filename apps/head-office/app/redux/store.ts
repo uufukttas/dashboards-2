@@ -26,6 +26,7 @@ import isUserListUpdated from './features/isUserListUpdated';
 import languages from './features/languages';
 import permissionsData from './features/permissionsData';
 import searchedText from './features/searchProperties';
+import secondDashboardComponentInfo from './features/secondDashboardComponentInfo';
 import servicePoints from './features/servicePoints';
 import servicePointData from './features/servicePointData';
 import servicePointInformation from './features/servicePointInformation';
@@ -71,6 +72,7 @@ export const store: EnhancedStore = configureStore({
     languages,
     permissionsData,
     searchedText,
+    secondDashboardComponentInfo,
     servicePoints,
     servicePointData,
     servicePointInformation,

@@ -30,3 +30,26 @@ export interface ITooltipItem {
 export interface IChartItem {
     [key: string]: IDataPoint[];
 }
+
+export interface IDashboardComponentInfoResponseProps {
+    data: IDashboardCardComponentProps[];
+    success: boolean;
+}
+
+export interface ISecondDashboardCardComponentProps {
+    iconName: string;
+    mobileLayout: string;
+    pageCode: string;
+    pageId: number;
+    pageName: string;
+    position: string;
+    tabletLayout: string;
+    widgetCode: string;
+    widgetDescription: string;
+    widgetId: number;
+    widgetType: string;
+};
+
+export interface ISecondDashboardComponentInfoProps {
+    componentInfo: IComponentInfoProps[];
+};

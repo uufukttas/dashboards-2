@@ -1,4 +1,3 @@
-// @ts-nocheck we will look after then API integration
 import React, { Fragment, useEffect } from 'react';
 import {
     ArcElement,
@@ -15,19 +14,15 @@ import {
 import 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
-import { BiSolidEvStation } from "react-icons/bi";
-import { FaChargingStation } from 'react-icons/fa';
-import { FaBatteryHalf, FaCircleInfo } from 'react-icons/fa6';
-import { HiUserGroup } from "react-icons/hi";
-import { useDispatch } from 'react-redux';
-import { Card } from '@projects/card';
-import { secondDashboardsData } from './secondDashboardsData'; // It will be deleted after the API integration.
-import DashboardMap from './SecondDashboardMap';
-import { BRAND_PREFIX } from '../../constants/constants';
-import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
-import { IChartData, IDashboardData, ITooltipItem } from './types';
-import './SecondDashboardSection.css';
+import { BRAND_PREFIX } from 'apps/head-office/src/constants/constants';
 import { detectDevice } from '@projects/common';
+import { useDispatch } from 'react-redux';
+import { IChartData, IDashboardData } from '../types';
+import { FaBatteryHalf, FaChargingStation, FaCircleInfo } from 'react-icons/fa6';
+import { BiSolidEvStation } from 'react-icons/bi';
+import { HiUserGroup } from 'react-icons/hi';
+import { toggleLoadingVisibility } from 'apps/head-office/app/redux/features/isLoadingVisible';
+import { Card } from '@projects/card';
 Chart.register(
     ArcElement,
     CategoryScale,
@@ -40,7 +35,7 @@ Chart.register(
     Title,
     Tooltip,
 );
-const SecondDashboardCards: React.FC = () => {
+const ChartComponent = ({ widget, componentValue }) => {
     const isDesktop = detectDevice().isDesktop;
     const isTablet = detectDevice().isTablet;
     const isMobile = detectDevice().isMobile;
@@ -105,9 +100,8 @@ const SecondDashboardCards: React.FC = () => {
     const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page-cards`;
     const dispatch = useDispatch();
     const doughnutData = (response: IChartData[]) => {
-        const labels = response.map(item => Object.keys(item)[0]);
-        // @ts-expect-error will delete
-        const data = response.map(item => item[Object.keys(item)[0]]);
+        const labels = response.map(item => item.name);
+        const data = response.map(item => item.data);
         return {
             datasets: [
                 {
@@ -148,28 +142,54 @@ const SecondDashboardCards: React.FC = () => {
         };
     };
     const getValue = (data: IDashboardData) => {
-        if (Array.isArray(data.value)) {
-            return renderGraphics(data);
-        } else {
-            const mainData = data.value.split('/')[0];
-            const wholeData = data.value.split('/')[1];
+        console.log('data', data)
 
-            return <div className='flex items-end justify-end'>
-                <div className='text-4xl'>{mainData}/</div>
-                <div className='text-2xl'>{wholeData}</div>
-            </div>
-        }
-    };
-    const lineData = (response: IChartData[]) => {
+        if (!data?.chartType) return <></>;
+
+        switch (data.chartType) {
+            case 'line':
+                {
+                    const response = lineData(data?.listItemData);
+                    return (
+                        <Line
+                            data={response}
+                            options={lineOptions}
+                        />
+                    )
+                }
+            case 'donut':
+                {
+                    const response = doughnutData(data?.listItemData);
+                    return (
+                        <Doughnut
+                            data={response}
+                            options={{
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom',
+                                    },
+                                    title: {
+                                        display: false,
+                                        text: 'Chart.js Line Chart',
+                                    },
+                                },
+                            }}
+                            style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                        />
+                    )
+                }
+            case 'semi_doughnut':
+            case 'pie':
+
+        };
+    }
+    const lineData = (response) => {
+        debugger;
         let acData, dcData, todayData, lastWeekData, monthData, lastMonthData, yearData, lastYearData;
-        if (response[0].ac && response[1].dc) {
+        if (response[0]?.type === 'ac' || response[1]?.type === 'dc') {
             ({ currentData: acData, previousData: dcData } = processData(response, 'ac', 'dc'));
-        } else if (response[0].today && response[1].last_week_today) {
+        } else if (response[0][0].type === 'ac' || response[0][1].type === 'dc') {
             ({ currentData: todayData, previousData: lastWeekData } = processData(response, 'today', 'last_week_today'));
-        } else if (response[0].month && response[1].last_month) {
-            ({ currentData: monthData, previousData: lastMonthData } = processData(response, 'month', 'last_month'));
-        } else if (response[0].year && response[1].last_year) {
-            ({ currentData: yearData, previousData: lastYearData } = processData(response, 'year', 'last_year'));
         }
         const key = (response[0].ac && response[0]?.ac[0]) || (response[0].today && response[0]?.today[0]) || (response[0].month && response[0]?.month[0]) || (response[0].year && response[0]?.year[0]);
         return {
@@ -191,8 +211,15 @@ const SecondDashboardCards: React.FC = () => {
         };
     };
     const processData = (response: IChartData[], currentKey: string, previousKey: string) => {
-        const currentData = response[0][currentKey].map(point => point[Object.keys(point)[0]]);
-        const previousData = response[1][previousKey].map(point => point[Object.keys(point)[0]]);
+        let currentData, previousData;
+
+        if (Array.isArray(response[0])) {
+            currentData = response[0][0].data.map(item => item.kwh ? item.kwh : item.amount)
+            previousData = response[0][0].data.map(item => item.kwh ? item.kwh : item.amount)
+        } else {
+            currentData = Object.keys(response[0].data).map(point => response[0].data[point]);
+            previousData = Object.keys(response[1].data).map(point => response[1].data[point]);
+        }
         return { currentData, previousData };
     };
     const barLineData = (data: IChartData[]) => {
@@ -344,76 +371,62 @@ const SecondDashboardCards: React.FC = () => {
             )
         }
     };
+
     useEffect(() => {
         dispatch(toggleLoadingVisibility(false));
     }, []);
     return (
         <div className={`${pagePrefix}-info-container w-full flex justify-between flex-wrap`}>
             <div className={`${pagePrefix}-card-row-wrapper flex flex-col md:flex-row w-full`}>
-                <div className='w-full h-full grid' style={{ gridTemplateColumns: (isDesktop ? 'repeat(12, 1fr)' : 'repeat(11, 1fr)'), gap: "2em" }}>
-                    {
-                        Object.keys(secondDashboardsData).map((item: string, index: number) => {
-                            return (
-                                <Fragment key={index}>
-                                    <Card
-                                        BRAND_PREFIX={BRAND_PREFIX}
-                                        containerClassName={`py-4 flex flex-col items-center justify-between shadow border border-gray-300 rounded-md bg-white`}
-                                        key={item}
-                                        // @ts-expect-error will delete
-                                        style={{
-                                            gridArea: (isDesktop ? secondDashboardsData[item].position : isTablet ? secondDashboardsData[item].tablet_layout : secondDashboardsData[item].mobile_layout),
-                                        }}
-                                    >
-                                        <div className={`card-content w-full h-full flex text-center justify-between`}>
-                                            <div className='card-info-container flex flex-col items-center justify-start px-4 w-full'>
-                                                <div className='card-title-container flex items-center justify-start w-full'>
-                                                    <div className={`lg:text-lg font-bold text-md`}>
-                                                        {
-                                                            // @ts-expect-error will delete
-                                                            secondDashboardsData[item].title
-                                                        }
-                                                    </div>
-                                                </div>
-                                                <div className='card-info text-2xl flex w-full items-center justify-end h-full'>
-                                                    {
-                                                        // @ts-expect-error will delete
-                                                        getValue(secondDashboardsData[item])
-                                                    }
-                                                </div>
-                                            </div>
-                                            {
-                                                secondDashboardsData[item].icon_name && (
-                                                    <div className='card-icon-container flex items-center justify-center text-primary px-1'>
-                                                        {
-                                                            // @ts-expect-error will delete
-                                                            getCardIcon(secondDashboardsData[item].icon_name)
-                                                        }
-                                                    </div>
-                                                )
-                                            }
-                                        </div>
+                <div className='w-full h-full grid'>
+                    <Fragment>
+                        <div className={`card-content w-full h-full flex text-center justify-between`}>
+                            <div className='card-info-container flex flex-col items-center justify-start px-4 w-full'>
+                                <div className='card-title-container flex items-center justify-start w-full'>
+                                    <div className={`lg:text-lg font-bold text-md`}>
                                         {
-                                            secondDashboardsData[item].description && (
-                                                <div className='w-full h-1/6 description-container flex items-end text-xs px-4'>
-                                                    <div className='w-full flex items-center justify-start'>
-                                                        <FaCircleInfo className='mx-2' />
-                                                        {
-                                                            // @ts-expect-error will delete
-                                                            secondDashboardsData[item].description
-                                                        }
-                                                    </div>
-                                                </div>
-                                            )
+                                            // @ts-expect-error will delete
+                                            componentValue?.widgetTitle
                                         }
-                                    </Card>
-                                </Fragment>
+                                    </div>
+                                </div>
+                                <div className='card-info text-2xl flex w-full items-center justify-end h-full'>
+                                    {
+                                        // @ts-expect-error will delete
+                                        getValue(componentValue)
+                                    }
+                                </div>
+                            </div>
+                            {
+                                componentValue?.icon_name && (
+                                    <div className='card-icon-container flex items-center justify-center text-primary px-1'>
+                                        {
+                                            // @ts-expect-error will delete
+                                            getCardIcon(componentValue?.icon_name)
+                                        }
+                                    </div>
+                                )
+                            }
+                        </div>
+                        {
+                            componentValue?.widgetDescription && (
+                                <div className='w-full h-1/6 description-container flex items-end text-xs px-4'>
+                                    <div className='w-full flex items-center justify-start'>
+                                        <FaCircleInfo className='mx-2' />
+                                        {
+                                            // @ts-expect-error will delete
+                                            componentValue?.widgetDescription
+                                        }
+                                    </div>
+                                </div>
                             )
-                        })
-                    }
+                        }
+                    </Fragment>
                 </div>
             </div>
         </div >
     );
+
 };
 
-export default SecondDashboardCards;
+export default ChartComponent
