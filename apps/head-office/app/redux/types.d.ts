@@ -338,6 +338,6 @@ interface IComponentInfoProps {
     widgetType: string,
 };
 
-export interface IHelperDashboardComponentInfoProps {
+export interface ISecondDashboardComponentInfoProps {
     componentInfo: IComponentInfoProps[]
 }

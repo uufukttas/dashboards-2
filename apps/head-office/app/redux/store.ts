@@ -12,7 +12,6 @@ import dashboardComponentInfo from './features/dashboardComponentInfo';
 import dialogInformation from './features/dialogInformation';
 import energyPriceDetails from './features/energyPriceDetails';
 import getAllReports from './features/getAllReports';
-import helperDashboardComponentInfo from './features/helperDashboardComponentInfo';
 import isChargePointDataUpdated from './features/isChargePointDataUpdated';
 import isComissionListUpdated from './features/isComissionListUpdated';
 import isConnectorUpdated from './features/isConnectorUpdated';
@@ -27,6 +26,7 @@ import isUserListUpdated from './features/isUserListUpdated';
 import languages from './features/languages';
 import permissionsData from './features/permissionsData';
 import searchedText from './features/searchProperties';
+import secondDashboardComponentInfo from './features/secondDashboardComponentInfo';
 import servicePoints from './features/servicePoints';
 import servicePointData from './features/servicePointData';
 import servicePointInformation from './features/servicePointInformation';
@@ -58,7 +58,6 @@ export const store: EnhancedStore = configureStore({
     dialogInformation,
     energyPriceDetails,
     getAllReports,
-    helperDashboardComponentInfo,
     isChargePointDataUpdated,
     isComissionListUpdated,
     isConnectorUpdated,
@@ -73,6 +72,7 @@ export const store: EnhancedStore = configureStore({
     languages,
     permissionsData,
     searchedText,
+    secondDashboardComponentInfo,
     servicePoints,
     servicePointData,
     servicePointInformation,

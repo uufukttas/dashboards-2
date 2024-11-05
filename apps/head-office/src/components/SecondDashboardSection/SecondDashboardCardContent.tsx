@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
     ArcElement,
     CategoryScale,
@@ -14,16 +13,24 @@ import {
 } from "chart.js";
 import 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
+import { BiSolidEvStation } from "react-icons/bi";
+import { FaChargingStation } from 'react-icons/fa';
+import { FaBatteryHalf, FaCircleInfo } from 'react-icons/fa6';
+import { HiUserGroup } from "react-icons/hi";
 import { useDispatch } from 'react-redux';
 import { Card } from '@projects/card';
+import { secondDashboardsData } from './secondDashboardsData'; // It will be deleted after the API integration.
+import DashboardMap from './SecondDashboardMap';
+import { BRAND_PREFIX } from '../../constants/constants';
+import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
+import { IChartData, IDashboardData, ISecondDashboardCardComponentProps, ITooltipItem } from './types';
+import './SecondDashboardSection.css';
 import { detectDevice } from '@projects/common';
+import axios from 'axios';
 import KPIComponent from './CardComponents/KPIComponent';
 import ListComponent from './CardComponents/ListComponent';
 import ChartComponent from './CardComponents/ChartComponent';
-import { BRAND_PREFIX } from '../../constants/constants';
-import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
-import './HelperDashboardSection.css';
-import { IHelperDashboardCardComponentProps } from './types';
 
 Chart.register(
     ArcElement,
@@ -38,12 +45,51 @@ Chart.register(
     Tooltip,
 );
 
-const HelperDashboardCards: React.FC<{ widget: IHelperDashboardCardComponentProps }> = ({ widget }: { widget: IHelperDashboardCardComponentProps }) => {
-    const itemPrefix: string = `${BRAND_PREFIX}-helper-dashboard-page-card-item`;
+const SecondDashboardCards: React.FC<{widget:any}> = ({ widget }: {widget: any}) => {
+    const pagePrefix: string = `${BRAND_PREFIX}-second-dashboard-page-cards`;
+    const itemPrefix: string = `${BRAND_PREFIX}-second-dashboard-page-card-item`;
+    const dashboardCardContentPrefix: string = `${itemPrefix}-content`;
     const isDesktop = detectDevice().isDesktop;
     const isTablet = detectDevice().isTablet;
     const dispatch = useDispatch();
     const [componentValue, setComponentValue] = useState();
+    const lineOptions = {
+        maintainAspectRatio: false,
+        plugins: {
+            datalabels: {
+                display: false,
+            },
+            legend: {
+                position: 'bottom'
+            },
+            tooltip: {
+                mode: 'index',
+                intersect: false,
+                callbacks: {
+                    label: (tooltipItem: ITooltipItem) => {
+                        return `${tooltipItem.dataset.label}: ${tooltipItem.parsed.y}`;
+                    }
+                }
+            }
+        },
+        scales: {
+            x: {
+                type: 'category',
+                labels: ['1', '2', '3', '4', '5', '6', '7', '8']
+            }
+        },
+        responsive: true,
+    };
+
+    const setComponentPosition = (): string => {
+        return (
+            isDesktop
+                ? widget.position
+                : isTablet
+                    ? widget.tabletLayout
+                    : widget.mobileLayout
+        )
+    };
 
     const getCardComponentContent = () => {
         switch (widget.widgetType) {
@@ -53,6 +99,7 @@ const HelperDashboardCards: React.FC<{ widget: IHelperDashboardCardComponentProp
                         widget={widget}
                         componentValue={componentValue}
                     />
+
                 );
             case 'kpi':
                 return (
@@ -64,15 +111,7 @@ const HelperDashboardCards: React.FC<{ widget: IHelperDashboardCardComponentProp
                 );
         };
     };
-    const setComponentPosition = (): string => {
-        return (
-            isDesktop
-                ? widget.position
-                : isTablet
-                    ? widget.tabletLayout
-                    : widget.mobileLayout
-        )
-    };
+
     const getComponentValue = async () => {
         if (!widget.widgetCode) return;
 
@@ -119,4 +158,4 @@ const HelperDashboardCards: React.FC<{ widget: IHelperDashboardCardComponentProp
     );
 };
 
-export default HelperDashboardCards;
+export default SecondDashboardCards;

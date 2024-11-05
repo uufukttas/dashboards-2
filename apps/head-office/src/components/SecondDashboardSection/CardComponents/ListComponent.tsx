@@ -9,7 +9,7 @@ const ListComponent = ({componentValue}: {componentValue: any}) => {
                         <li key={Object.keys(item)[0]} className='text-xl'>
                             <div className='flex items-start justify-between'>
                                 <div className='text-md'>{Object.keys(item)[0]}</div>
-                                <div className='text-md'>{item[Object.keys(item)[0]]}</div>
+                                <div className='text-md'>{[Object.keys(item)[0]]}</div>
                             </div>
                         </li>
                     )
