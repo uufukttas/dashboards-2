@@ -13,11 +13,11 @@ import {
 } from "chart.js";
 import 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
+import { Doughnut, Line, Pie } from "react-chartjs-2";
 import { BRAND_PREFIX } from '../../../constants/constants';
 import { detectDevice } from '@projects/common';
 import { useDispatch } from 'react-redux';
-import { IChartData, IDashboardData, IDataPoint, ISecondDashboardCardComponentProps } from '../types';
+import { IChartData, IDashboardData } from '../types';
 import { FaBatteryHalf, FaChargingStation, FaCircleInfo } from 'react-icons/fa6';
 import { BiSolidEvStation } from 'react-icons/bi';
 import { HiUserGroup } from 'react-icons/hi';

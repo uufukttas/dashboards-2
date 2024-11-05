@@ -30,7 +30,8 @@
     "../../dist/apps/head-office/.next/types/**/*.ts",
     "next-env.d.ts",
     ".next/types/**/*.ts",
-    "../../gulpfile.js"
+    "../../gulpfile.js",
+    "dist/apps/head-office/.next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

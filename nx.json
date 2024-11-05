@@ -12,6 +12,13 @@
         "envFile": "/apps/head-office/.env.production"
       }
     },
+    "export": {
+        "cache": false,
+        "dependsOn": ["build"],
+        "options": {
+            "envFile": "/apps/head-office/.env.production"
+        }
+    },
     "lint": {
       "cache": true,
       "inputs": [

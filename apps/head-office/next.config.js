@@ -8,15 +8,16 @@ const nextConfig = {
     svgr: false,
   },
   devIndicators: {
-    buildActivity: false
+    buildActivity: false,
   },
   env: {},
   images: {
     unoptimized: true,
-  }
+  },
+  output: 'export',
+  trailingSlash: true,
 };
 
 const plugins = [withNx];
 
 module.exports = composePlugins(...plugins)(nextConfig);
-
