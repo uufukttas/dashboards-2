@@ -6,10 +6,10 @@
   "targets": {
     "build": {
       "executor": "@nx/next:build",
-      "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
+      "outputs": ["{workspaceRoot}/dist/apps/head-office"],
       "options": {
-        "outputPath": "dist/apps/head-office"
+        "outputPath": "dist/apps/head-office/.next"
       },
       "configurations": {
         "development": {
