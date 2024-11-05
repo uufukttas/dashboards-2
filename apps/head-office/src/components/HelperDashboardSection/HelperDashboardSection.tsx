@@ -1,16 +1,16 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { detectDevice } from '@projects/common';
-import SecondDashboardCardContent from './SecondDashboardCardContent';
+import HelperDashboardCards from './HelperDashboardCardContent';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { RootState } from '../../../app/redux/store';
-import { ISecondDashboardCardComponentProps } from './types';
-import './SecondDashboardSection.css';
+import { IHelperDashboardCardComponentProps } from './types';
+import './HelperDashboardSection.css';
 
-const SecondDashboardSection: React.FC = () => {
-    const pagePrefix: string = `${BRAND_PREFIX}-second-dashboard-page-cards`;
+const HelperDashboardSection: React.FC = () => {
+    const pagePrefix: string = `${BRAND_PREFIX}-helper-dashboard-page-cards`;
     const isDesktop: boolean = detectDevice().isDesktop;
-    const secondDashboardComponentInfo = useSelector((state: RootState) => state.secondDashboardComponentInfo.componentInfo);
+    const helperDashboardComponentInfo = useSelector((state: RootState) => state.helperDashboardComponentInfo.componentInfo);
 
     return (
         <div
@@ -21,9 +21,9 @@ const SecondDashboardSection: React.FC = () => {
             }}
         >
             {
-                secondDashboardComponentInfo.map((dashboardComponentItem: ISecondDashboardCardComponentProps, index: number) => {
+                helperDashboardComponentInfo.map((dashboardComponentItem: IHelperDashboardCardComponentProps, index: number) => {
                     return (
-                        <SecondDashboardCardContent
+                        <HelperDashboardCards
                             key={index}
                             widget={dashboardComponentItem}
                         />
@@ -34,4 +34,4 @@ const SecondDashboardSection: React.FC = () => {
     );
 };
 
-export default SecondDashboardSection;
+export default HelperDashboardSection;

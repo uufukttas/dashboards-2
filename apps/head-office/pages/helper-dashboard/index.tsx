@@ -2,21 +2,21 @@ import React from 'react';
 import Head from 'next/head';
 import { Provider } from 'react-redux';
 import { store } from '../../app/redux/store';
-import SecondDashboardWrapper from '../../src/components/SecondDashboardSection/SecondDashboardPageWrapper';
+import HelperDashboardPageWrapper from '../../src/components/HelperDashboardSection/HelperDashboardPageWrapper';
 import '../../app/global.css';
 import '../../src/styles/style.css';
 
-const SecondDashboardsPage: React.FC = () => {
+const HelperDashboardPage: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Second Dashboards | Sharz.net</title>
+        <title>Helper Dashboard | Sharz.net</title>
       </Head>
       <Provider store={store}>
-        <SecondDashboardWrapper />
+        <HelperDashboardPageWrapper />
       </Provider>
     </>
   );
 };
 
-export default SecondDashboardsPage;
+export default HelperDashboardPage;
