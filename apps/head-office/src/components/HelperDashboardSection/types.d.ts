@@ -40,7 +40,7 @@ export interface IDashboardComponentInfoResponseProps {
     success: boolean;
 }
 
-export interface ISecondDashboardCardComponentProps {
+export interface IHelperDashboardCardComponentProps {
     iconName: string;
     mobileLayout: string;
     pageCode: string;

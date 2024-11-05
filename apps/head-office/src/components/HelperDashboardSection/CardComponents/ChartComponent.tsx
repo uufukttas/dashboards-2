@@ -14,15 +14,15 @@ import {
 import 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Bar, Doughnut, Line, Pie } from "react-chartjs-2";
-import { BRAND_PREFIX } from 'apps/head-office/src/constants/constants';
+import { BRAND_PREFIX } from '../../../constants/constants';
 import { detectDevice } from '@projects/common';
 import { useDispatch } from 'react-redux';
 import { IChartData, IDashboardData, IDataPoint, ISecondDashboardCardComponentProps } from '../types';
 import { FaBatteryHalf, FaChargingStation, FaCircleInfo } from 'react-icons/fa6';
 import { BiSolidEvStation } from 'react-icons/bi';
 import { HiUserGroup } from 'react-icons/hi';
-import { toggleLoadingVisibility } from 'apps/head-office/app/redux/features/isLoadingVisible';
-import { Card } from '@projects/card';
+import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
+
 Chart.register(
     ArcElement,
     CategoryScale,
@@ -100,8 +100,8 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
     const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page-cards`;
     const dispatch = useDispatch();
     const doughnutData = (response: any) => {
-        const labels = response.map((item: {name: string, data: any}) => item.name);
-        const data = response.map((item: {name: string, data: any}) => item.data);
+        const labels = response.map((item: { name: string, data: any }) => item.name);
+        const data = response.map((item: { name: string, data: any }) => item.data);
         return {
             datasets: [
                 {
@@ -151,7 +151,33 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
                     return (
                         <Line
                             data={response}
-                        // options={lineOptions}
+                            options={{
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    datalabels: {
+                                        display: false,
+                                    },
+                                    legend: {
+                                        position: 'bottom'
+                                    },
+                                    tooltip: {
+                                        mode: 'index',
+                                        intersect: false,
+                                        callbacks: {
+                                            label: (tooltipItem: any) => {
+                                                return `${tooltipItem.dataset.label}: ${tooltipItem.parsed.y}`;
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    x: {
+                                        type: 'category',
+                                        labels: ['1', '2', '3', '4', '5', '6', '7', '8']
+                                    }
+                                },
+                                responsive: true,
+                            }}
                         />
                     )
                 }
@@ -182,12 +208,11 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
         };
     }
     const lineData = (response: any) => {
-        debugger;
         let acData, dcData, todayData, lastWeekData, monthData, lastMonthData, yearData, lastYearData;
         if (response[0]?.type === 'ac' || response[1]?.type === 'dc') {
-            ({ currentData: acData, previousData: dcData } = processData(response, 'ac', 'dc'));
+            ({ acData: acData, dcData: dcData } = processData(response, 'ac', 'dc'));
         } else if (response[0][0].type === 'ac' || response[0][1].type === 'dc') {
-            ({ currentData: todayData, previousData: lastWeekData } = processData(response, 'today', 'last_week_today'));
+            ({ acData: todayData, dcData: lastWeekData } = processData(response, 'today', 'last_week_today'));
         }
         const key = (response[0].ac && response[0]?.ac[0]) || (response[0].today && response[0]?.today[0]) || (response[0].month && response[0]?.month[0]) || (response[0].year && response[0]?.year[0]);
         return {
@@ -209,16 +234,20 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
         };
     };
     const processData = (response: any, currentKey: string, previousKey: string) => {
-        let currentData, previousData;
+        let acData, dcData;
 
         if (Array.isArray(response[0])) {
-            currentData = response[0][0].data.map((item: any) => item.kwh ? item.kwh : item.amount)
-            previousData = response[0][0].data.map((item: any) => item.kwh ? item.kwh : item.amount)
+            acData = response[0][0].data.map((item: any) => item.kwh ? item.kwh : item.amount)
+            dcData = response[0][1].data.map((item: any) => item.kwh ? item.kwh : item.amount)
         } else {
-            currentData = Object.keys(response[0].data).map((point: any) => response[0].data[point]);
-            previousData = Object.keys(response[1].data).map((point: any) => response[1].data[point]);
+            if (acData && dcData) {
+                acData = Object.keys(response[0]?.data).map((point: any) => response[0]?.data[point]);
+                dcData = Object.keys(response[1]?.data).map((point: any) => response[1]?.data[point]);
+            } else {
+                acData = Object.keys(response[0]?.data).map((point: any) => response[0]?.data[point]);
+            }
         }
-        return { currentData, previousData };
+        return { acData, dcData };
     };
     const barLineData = (data: IChartData[]) => {
         const transformedData: {
