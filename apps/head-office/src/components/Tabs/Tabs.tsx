@@ -8,11 +8,11 @@ const Tabs: React.FC<ITabsProps> = ({ activeTabIndex, setActiveTabIndex, tabItem
   const tabPrefix: string = `${BRAND_PREFIX}-tabs`;
 
   return (
-    <nav className={`${tabPrefix}-container flex items-center`}>
+    <nav className={`${tabPrefix}-container flex items-center  `}>
       {
         tabItems.map((item: ITabsItemProps, index: number) => (
           <Button key={index}
-            className={`${tabPrefix}-item px-0 py-0 w-1/${tabItems.length} flex justify-center items-center text-xs ${activeTabIndex === index
+            className={`${tabPrefix}-item px-0 py-0 w-1/${tabItems.length} flex justify-center items-center rounded-none text-xs ${activeTabIndex === index
               ? 'active'
               : ''
               }`}

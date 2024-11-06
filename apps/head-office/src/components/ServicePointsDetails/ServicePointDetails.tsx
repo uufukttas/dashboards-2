@@ -36,7 +36,10 @@ import {
 import { getServicePointDataRequest } from '../../../app/api/servicePoints';
 import { deleteChargePointRequest } from '../../../app/api/servicePoints/deleteChargePointRequest';
 import { setAccessTypeList } from '../../../app/redux/features/accessTypeList';
-import { hideAlert, showAlert } from '../../../app/redux/features/alertInformation';
+import {
+  hideAlert,
+  showAlert,
+} from '../../../app/redux/features/alertInformation';
 import { setChargeUnitBrands } from '../../../app/redux/features/chargeUnitBrands';
 import { setChargeUnitData } from '../../../app/redux/features/chargeUnitData';
 import { setChargeUnitInvestors } from '../../../app/redux/features/chargeUnitInvestors';
@@ -63,6 +66,7 @@ import {
   setAddServicePointImage,
   setConfigureStation,
   setManageStation,
+  setStationImages,
 } from '../../../app/redux/features/setVisibleModal';
 import { setStatusList } from '../../../app/redux/features/statusList';
 import { RootState } from '../../../app/redux/store';
@@ -74,16 +78,17 @@ import type {
 } from './types';
 import './ServicePointDetails.css';
 import { Toast } from 'primereact/toast';
+import StationImagesModal from './Modals/StationImagesModal';
 
-const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }: IServicePointsDetailsPageProps) => {
+const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({
+  slug,
+}: IServicePointsDetailsPageProps) => {
   const tabItems: ITabsItemProps[] = [
     {
       title: (
         <>
           <FaLocationDot />
-          {
-            detectDevice().isMobile ? '' : 'Istasyon Bilgileri'
-          }
+          {detectDevice().isMobile ? '' : 'Istasyon Bilgileri'}
         </>
       ),
     },
@@ -91,9 +96,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       title: (
         <>
           <RiBattery2ChargeFill />
-          {
-            detectDevice().isMobile ? '' : 'Sarj Üniteleri'
-          }
+          {detectDevice().isMobile ? '' : 'Sarj Üniteleri'}
         </>
       ),
     },
@@ -101,9 +104,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       title: (
         <>
           <FaClock />
-          {
-            detectDevice().isMobile ? '' : 'Çalışma Saatleri'
-          }
+          {detectDevice().isMobile ? '' : 'Çalışma Saatleri'}
         </>
       ),
     },
@@ -111,9 +112,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       title: (
         <>
           <SlEnergy />
-          {
-            detectDevice().isMobile ? '' : 'Enerji Fiyat Ayarlari'
-          }
+          {detectDevice().isMobile ? '' : 'Enerji Fiyat Ayarlari'}
         </>
       ),
     },
@@ -121,47 +120,81 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       title: (
         <>
           <FaCoins />
-          {
-            detectDevice().isMobile ? '' : 'Komisyonlar'
-          }
+          {detectDevice().isMobile ? '' : 'Komisyonlar'}
         </>
       ),
-    }, {
+    },
+    {
       title: (
         <>
           <FaUserGear />
-          {
-            detectDevice().isMobile ? '' : 'Istasyon Yetkilileri'
-          }
+          {detectDevice().isMobile ? '' : 'Istasyon Yetkilileri'}
         </>
       ),
-    }
+    },
   ];
   const dispatch = useDispatch();
   const toastRef = useRef(null); // toastRef isminde güncellenmiş bir useRef
-  const addChargeUnit = useSelector((state: RootState) => state.setVisibleModal.addChargeUnit);
-  const addComission = useSelector((state: RootState) => state.setVisibleModal.addComission);
-  const addConnector = useSelector((state: RootState) => state.setVisibleModal.addConnector);
-  const addEnergyPrice = useSelector((state: RootState) => state.setVisibleModal.addEnergyPrice);
-  const addPermission = useSelector((state: RootState) => state.setVisibleModal.addPermission);
-  const addServicePointImage = useSelector((state: RootState) => state.setVisibleModal.addServicePointImage);
-  const alertInformation = useSelector((state: RootState) => state.alertInformation);
-  const chargeUnitList = useSelector((state: RootState) => state.chargeUnitList);
+  const addChargeUnit = useSelector(
+    (state: RootState) => state.setVisibleModal.addChargeUnit
+  );
+  const addComission = useSelector(
+    (state: RootState) => state.setVisibleModal.addComission
+  );
+  const addConnector = useSelector(
+    (state: RootState) => state.setVisibleModal.addConnector
+  );
+  const addEnergyPrice = useSelector(
+    (state: RootState) => state.setVisibleModal.addEnergyPrice
+  );
+  const addPermission = useSelector(
+    (state: RootState) => state.setVisibleModal.addPermission
+  );
+  const addServicePointImage = useSelector(
+    (state: RootState) => state.setVisibleModal.addServicePointImage
+  );
+  const alertInformation = useSelector(
+    (state: RootState) => state.alertInformation
+  );
+  const chargeUnitList = useSelector(
+    (state: RootState) => state.chargeUnitList
+  );
   const colors = useSelector((state: RootState) => state.configs.colors);
-  const configureStation = useSelector((state: RootState) => state.setVisibleModal.configureStation);
-  const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
+  const configureStation = useSelector(
+    (state: RootState) => state.setVisibleModal.configureStation
+  );
+  const dialogInformation = useSelector(
+    (state: RootState) => state.dialogInformation
+  );
   const isChargePointDataUpdated = useSelector((state: RootState) => {
-    return state.isChargePointDataUpdated.isChargePointDataUpdated
+    return state.isChargePointDataUpdated.isChargePointDataUpdated;
   });
-  const isComissionsListUpdated = useSelector((state: RootState) => state.isComissionListUpdated.isComissionListUpdated);
-  const isConnectorUpdated = useSelector((state: RootState) => state.isConnectorUpdated.isConnectorUpdated);
-  const isEnergyPriceListUpdated = useSelector((state: RootState) => state.isEnergyPriceListUpdated.isEnergyPriceListUpdated);
-  const isLoadingVisible = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
-  const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
+  const isComissionsListUpdated = useSelector(
+    (state: RootState) => state.isComissionListUpdated.isComissionListUpdated
+  );
+  const isConnectorUpdated = useSelector(
+    (state: RootState) => state.isConnectorUpdated.isConnectorUpdated
+  );
+  const isEnergyPriceListUpdated = useSelector(
+    (state: RootState) =>
+      state.isEnergyPriceListUpdated.isEnergyPriceListUpdated
+  );
+  const isLoadingVisible = useSelector(
+    (state: RootState) => state.isLoadingVisible.isLoading
+  );
+  const isModalVisible = useSelector(
+    (state: RootState) => state.isModalVisible.isModalVisible
+  );
   const isServicePointPermissionsUpdated = useSelector((state: RootState) => {
-    return state.isServicePointPermissionsUpdated.isServicePointPermissionsUpdated
+    return state.isServicePointPermissionsUpdated
+      .isServicePointPermissionsUpdated;
   });
-  const manageStation = useSelector((state: RootState) => state.setVisibleModal.manageStation);
+  const manageStation = useSelector(
+    (state: RootState) => state.setVisibleModal.manageStation
+  );
+  const stationImages = useSelector(
+    (state: RootState) => state.setVisibleModal.stationImages
+  );
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
 
   const modalConfig: IModalConfigProps[] = [
@@ -177,7 +210,9 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       headerTitle: 'Şarj Ünitesi Ekle',
       modalId: `${BRAND_PREFIX}-charge-points-add-modal`,
       content: <ChargeUnitAddModal slug={slug} />,
-      closeAction: () => dispatch(setChargeUnitData(initialChargeUnitDataValue)) && dispatch(setAddChargeUnit(false)),
+      closeAction: () =>
+        dispatch(setChargeUnitData(initialChargeUnitDataValue)) &&
+        dispatch(setAddChargeUnit(false)),
     },
     {
       condition: addConnector,
@@ -217,13 +252,14 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
           connectorNumber={manageStation.connectorNumber}
         />
       ),
-      closeAction: () => dispatch(
-        setManageStation({
-          isVisible: false,
-          unitCode: manageStation.unitCode,
-          connectorNumber: manageStation.connectorNumber
-        })
-      ),
+      closeAction: () =>
+        dispatch(
+          setManageStation({
+            isVisible: false,
+            unitCode: manageStation.unitCode,
+            connectorNumber: manageStation.connectorNumber,
+          })
+        ),
     },
     {
       condition: configureStation,
@@ -231,10 +267,20 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       modalId: `${BRAND_PREFIX}-service-point-configuration-modal`,
       content: <ConfigurationModal />,
       closeAction: () => dispatch(setConfigureStation(false)),
-    }
+    },
+    {
+      condition: stationImages,
+      headerTitle: 'İstasyon Görselleri',
+      modalId: `${BRAND_PREFIX}-station-images`,
+      content: <StationImagesModal stationId={slug} />,
+      closeAction: () => dispatch(setStationImages(false)),
+      containerClassName: 'max-w-auto max-w-6xl min-w-6xl',
+    },
   ];
 
-  const deleteChargePoint = async (deletedChargeUnitData: IChargeUnitsProps[]): Promise<void> => {
+  const deleteChargePoint = async (
+    deletedChargeUnitData: IChargeUnitsProps[]
+  ): Promise<void> => {
     try {
       const data = await deleteChargePointRequest(deletedChargeUnitData);
 
@@ -244,26 +290,29 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
         dispatch(
           showAlert({
             type: 'success',
-            message: data.message
+            message: data.message,
           })
         );
       } else {
-        dispatch(showAlert({
-          type: 'error',
-          message: data.message
-        })
+        dispatch(
+          showAlert({
+            type: 'error',
+            message: data.message,
+          })
         );
         dispatch(hideDialog());
       }
     } catch (error) {
       console.log(error);
-    };
+    }
 
     setTimeout(() => {
       dispatch(hideAlert());
     }, 5000);
   };
-  const deleteEnergyPrices = async (deletedEnergyPriceId: number): Promise<void | null> => {
+  const deleteEnergyPrices = async (
+    deletedEnergyPriceId: number
+  ): Promise<void | null> => {
     const response = await deleteEnergyPriceRequest(deletedEnergyPriceId);
 
     if (!response.success) {
@@ -277,7 +326,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     dispatch(
       showAlert({
         type: 'success',
-        message: response.message
+        message: response.message,
       })
     );
 
@@ -285,8 +334,12 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       dispatch(hideAlert());
     }, 5000);
   };
-  const deleteServicePointPermission = async (deletedPermissionId: number): Promise<void | null> => {
-    const response = await deleteServicePointPermissionRequest(deletedPermissionId);
+  const deleteServicePointPermission = async (
+    deletedPermissionId: number
+  ): Promise<void | null> => {
+    const response = await deleteServicePointPermissionRequest(
+      deletedPermissionId
+    );
 
     if (!response.success) {
       console.error('Error deleting service point permission', response.error);
@@ -299,7 +352,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     dispatch(
       showAlert({
         type: 'success',
-        message: response.message
+        message: response.message,
       })
     );
 
@@ -308,7 +361,12 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     }, 5000);
   };
   const fetchConfigurations = async (): Promise<void> => {
-    const colors = await getColorsRequest(["Primary", "Secondary", "Alternate", "Backup"]);
+    const colors = await getColorsRequest([
+      'Primary',
+      'Secondary',
+      'Alternate',
+      'Backup',
+    ]);
 
     dispatch(setConfigs(colors.data));
   };
@@ -338,7 +396,10 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     const featureResponse = await getChargePointFeatureStatus();
 
     if (!featureResponse.success) {
-      console.error('Error getting charge point features', featureResponse.error);
+      console.error(
+        'Error getting charge point features',
+        featureResponse.error
+      );
 
       return;
     }
@@ -361,19 +422,18 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
         getChargePointConnetors(chargeUnit.chargePointId)
       );
       const responses = await Promise.all(promises);
-      const connectorData = responses.map(response => response.data);
+      const connectorData = responses.map((response) => response.data);
       const updatedConnectorList = [...connectorData];
 
       dispatch(setConnectors(updatedConnectorList));
-
     } catch (error) {
       console.error('Failed to fetch connectors:', error);
-    };
+    }
 
     dispatch(toggleConnectorUpdated(false));
   };
   const getEnergyPrices = async (): Promise<void | null> => {
-    const energyPriceResponse = await getEnergyPriceDetails(slug)
+    const energyPriceResponse = await getEnergyPriceDetails(slug);
 
     if (!energyPriceResponse.success) {
       console.error('Error getting energy prices', energyPriceResponse.error);
@@ -386,7 +446,10 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     const investorResponse = await getChargePointInvestors();
 
     if (!investorResponse.success) {
-      console.error('Error getting charge point investors', investorResponse.error);
+      console.error(
+        'Error getting charge point investors',
+        investorResponse.error
+      );
     }
 
     dispatch(setChargeUnitInvestors(investorResponse.data));
@@ -395,25 +458,38 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     const permissionResponse = await getPermissionRequest(Number(slug));
 
     if (!permissionResponse.success) {
-      console.error('Error getting service point permissions', permissionResponse.error);
+      console.error(
+        'Error getting service point permissions',
+        permissionResponse.error
+      );
     }
 
-    dispatch(setPermissionData(permissionResponse.data))
+    dispatch(setPermissionData(permissionResponse.data));
     dispatch(toggleServicePointPermissionsUpdated(false));
   };
-  const getServicePointsDetails = async (slug: string): Promise<void | null> => {
+  const getServicePointsDetails = async (
+    slug: string
+  ): Promise<void | null> => {
     const stationResponse = await getServicePointDataRequest(Number(slug));
 
     if (!stationResponse.success) {
-      console.error('Error getting service point details', stationResponse.error);
+      console.error(
+        'Error getting service point details',
+        stationResponse.error
+      );
 
       return;
     }
 
     dispatch(setServicePointData(stationResponse.data[0]));
   };
-  const deleteServicePointComission = async (dialogData: number): Promise<void | null> => {
-    const comissionResponse = await deleteComissionRequest(dialogData, Number(slug));
+  const deleteServicePointComission = async (
+    dialogData: number
+  ): Promise<void | null> => {
+    const comissionResponse = await deleteComissionRequest(
+      dialogData,
+      Number(slug)
+    );
 
     if (!comissionResponse.success) {
       console.error('Error deleting comission', comissionResponse.error);
@@ -425,7 +501,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     dispatch(
       showAlert({
         type: 'success',
-        message: 'Komisyon başarıyla silindi.'
+        message: 'Komisyon başarıyla silindi.',
       })
     );
 
@@ -440,7 +516,9 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
       deleteChargePoint(dialogInformation.data);
     } else if (dialogInformation.actionType === 'deleteEnergyPrice') {
       deleteEnergyPrices(dialogInformation.data);
-    } else if (dialogInformation.actionType === 'deleteServicePointPermission') {
+    } else if (
+      dialogInformation.actionType === 'deleteServicePointPermission'
+    ) {
       deleteServicePointPermission(dialogInformation.data);
     } else if (dialogInformation.actionType === 'deleteServicePointComission') {
       deleteServicePointComission(dialogInformation.data);
@@ -491,7 +569,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
 
   useEffect(() => {
     getConnectors();
-  }, [isConnectorUpdated])
+  }, [isConnectorUpdated]);
 
   useEffect(() => {
     if (isComissionsListUpdated) {
@@ -501,67 +579,74 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({ slug }
     dispatch(toggleComissionListUpdate(false));
   }, [isComissionsListUpdated]);
 
-
   useEffect(() => {
     if (alertInformation.isVisible && toastRef.current) {
       // @ts-ignore
-      toastRef.current.show({ severity: `${alertInformation.type}`, summary: `${alertInformation.message}` });
+      toastRef.current.show({
+        severity: `${alertInformation.type}`,
+        summary: `${alertInformation.message}`,
+      });
     }
   }, [alertInformation.isVisible]);
 
-  return (
-    isLoadingVisible
-      ? (
-        <Loading />
-      )
-      : (
-        <div
-          className={`${BRAND_PREFIX}-service-point-details-page-content-wrapper w-full`}
-          style={{ '--primary-color': `${colors && colors[0]?.value}`, '--secondary-color': `${colors && colors[1]?.value}` } as React.CSSProperties}
-        >
-          <div className={`${BRAND_PREFIX}-service-point-details-page-content-container w-full`}>
-            <Tabs
-              activeTabIndex={activeTabIndex}
-              setActiveTabIndex={setActiveTabIndex}
-              tabItems={tabItems}
-            />
-            <ServicePointsDetailsContent activeTabIndex={activeTabIndex} slug={slug} />
-          </div>
-          {
-            alertInformation.isVisible && (
-              <Toast ref={toastRef} />
-            )
-          }
-          {
-            dialogInformation.isVisible && (
-              <Dialog
-                handleCancel={() => dispatch(hideDialog())}
-                handleSuccess={() => handleDialogSuccess()}
-              />
-            )
-          }
-          {
-            modalConfig.map((modal) => {
-              // @ts-ignore
-              if (((typeof modal.condition !== 'object' && modal.condition) && isModalVisible) || (modal.condition.isVisible) && isModalVisible) {
-                return (
-                  <Modal
-                    key={modal.modalId}
-                    modalHeaderTitle={modal.headerTitle}
-                    modalId={modal.modalId}
-                    onClose={() => {
-                      dispatch(toggleModalVisibility(false))
-                      modal.closeAction();
-                    }}
-                  >
-                    {modal.content}
-                  </Modal>
-                );
-              }
-            })
-          }
-        </div>
-      )
+  return isLoadingVisible ? (
+    <Loading />
+  ) : (
+    <div
+      className={`${BRAND_PREFIX}-service-point-details-page-content-wrapper w-full`}
+      style={
+        {
+          '--primary-color': `${colors && colors[0]?.value}`,
+          '--secondary-color': `${colors && colors[1]?.value}`,
+        } as React.CSSProperties
+      }
+    >
+      <div
+        className={`${BRAND_PREFIX}-service-point-details-page-content-container w-full`}
+      >
+        <Tabs
+          activeTabIndex={activeTabIndex}
+          setActiveTabIndex={setActiveTabIndex}
+          tabItems={tabItems}
+        />
+        <ServicePointsDetailsContent
+          activeTabIndex={activeTabIndex}
+          slug={slug}
+        />
+      </div>
+      {alertInformation.isVisible && <Toast ref={toastRef} />}
+      {dialogInformation.isVisible && (
+        <Dialog
+          handleCancel={() => dispatch(hideDialog())}
+          handleSuccess={() => handleDialogSuccess()}
+        />
+      )}
+      {modalConfig.map((modal) => {
+        // @ts-ignore
+        if (
+          (typeof modal.condition !== 'object' &&
+            modal.condition &&
+            isModalVisible) ||
+          (modal.condition.isVisible && isModalVisible)
+        ) {
+          return (
+            <Modal
+              key={modal.modalId}
+              modalHeaderTitle={modal.headerTitle}
+              modalId={modal.modalId}
+              onClose={() => {
+                dispatch(toggleModalVisibility(false));
+                modal.closeAction();
+              }}
+              modalContainerClassName={modal.containerClassName}
+              className={modal.className}
+            >
+              {modal.content}
+            </Modal>
+          );
+        }
+      })}
+    </div>
   );
 };
 
