@@ -39,6 +39,11 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
     const isDesktop = detectDevice().isDesktop;
     const isTablet = detectDevice().isTablet;
     const isMobile = detectDevice().isMobile;
+
+    const getLabels = (count) => {
+        return Array.from({ length: count }, (_, index) => (index + 1).toString());
+    };
+
     const lineOptions = {
         maintainAspectRatio: false,
         plugins: {
@@ -61,7 +66,21 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
         scales: {
             x: {
                 type: 'category',
-                labels: ['1', '2', '3', '4', '5', '6', '7', '8']
+                labels: getLabels((() => {
+                    switch (widget.widgetCode) {
+                        case 'yearly_earning':
+                        case 'yearly_kwh_consumption':
+                        case 'annual_total':
+                            return 12;
+                        case 'monthly_kwh_consumption':
+                        case 'monthly_earning':
+                            return 5;
+                        case 'last_8_day_ac_dc_sales':
+                            return 8
+                        default:
+                            return 0;
+                    }
+                })()),
             }
         },
         responsive: true,
@@ -141,6 +160,55 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
                 return <></>;
         };
     };
+    const ACDCPrepareData = (data) => {
+        // İlk adımda verileri tamamlıyoruz
+        const completedData = data.map(item => {
+            const completedItem = { ...item.data };
+
+            // 1'den 8'e kadar olan anahtarları kontrol ediyoruz ve eksik olanlara 0 ekliyoruz
+            for (let i = 1; i <= 8; i++) {
+                if (completedItem[i] === undefined) {
+                    completedItem[i] = 0;
+                }
+            }
+
+            return {
+                ...item,
+                data: completedItem
+            };
+        });
+
+        // 'ac' ve 'dc' türlerini kontrol ediyoruz
+        const acItem = completedData.find(item => item.type === 'ac');
+        const dcItem = completedData.find(item => item.type === 'dc');
+
+        const result = [];
+
+        // 'ac' tipi varsa, onu ekliyoruz
+        if (acItem) {
+            result.push(acItem);
+        } else {
+            // 'ac' tipi yoksa, varsayılan bir obje modelinde ekliyoruz
+            result.push({
+                type: 'ac',
+                data: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 }
+            });
+        }
+
+        // 'dc' tipi varsa, onu ekliyoruz
+        if (dcItem) {
+            result.push(dcItem);
+        } else {
+            // 'dc' tipi yoksa, varsayılan bir obje modelinde ekliyoruz
+            result.push({
+                type: 'dc',
+                data: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 }
+            });
+        }
+
+        return result;
+    };
+
     const getValue = (data: IDashboardData) => {
         if (!data?.chartType) return <></>;
 
@@ -151,33 +219,7 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
                     return (
                         <Line
                             data={response}
-                            options={{
-                                maintainAspectRatio: false,
-                                plugins: {
-                                    datalabels: {
-                                        display: false,
-                                    },
-                                    legend: {
-                                        position: 'bottom'
-                                    },
-                                    tooltip: {
-                                        mode: 'index',
-                                        intersect: false,
-                                        callbacks: {
-                                            label: (tooltipItem: any) => {
-                                                return `${tooltipItem.dataset.label}: ${tooltipItem.parsed.y}`;
-                                            }
-                                        }
-                                    }
-                                },
-                                scales: {
-                                    x: {
-                                        type: 'category',
-                                        labels: ['1', '2', '3', '4', '5', '6', '7', '8']
-                                    }
-                                },
-                                responsive: true,
-                            }}
+                            options={lineOptions}
                         />
                     )
                 }
@@ -206,9 +248,62 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
             case 'pie':
 
         };
-    }
+    };
+
+    const PrepareMonthlyEanrningData = (data) => {
+        const completedData = data.map(item => {
+            const completedItem = { ...item.data };
+
+            // 1'den 8'e kadar olan anahtarları kontrol ediyoruz ve eksik olanlara 0 ekliyoruz
+            for (let i = 1; i <= 5; i++) {
+                // if (completedItem[0][i] === undefined || completedItem[1][i] === undefined) {
+                completedItem[i] = 0;
+                // }
+            }
+
+            return {
+                ...item,
+                data: completedItem
+            };
+        });
+
+        // 'ac' ve 'dc' türlerini kontrol ediyoruz
+        const acItem = completedData.find(item => item.type === 'ac');
+        const dcItem = completedData.find(item => item.type === 'dc');
+
+        const result = [];
+
+        // 'ac' tipi varsa, onu ekliyoruz
+        if (acItem) {
+            result.push(acItem);
+        } else {
+            // 'ac' tipi yoksa, varsayılan bir obje modelinde ekliyoruz
+            result.push({
+                type: 'ac',
+                data: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+            });
+        }
+
+        // 'dc' tipi varsa, onu ekliyoruz
+        if (dcItem) {
+            result.push(dcItem);
+        } else {
+            // 'dc' tipi yoksa, varsayılan bir obje modelinde ekliyoruz
+            result.push({
+                type: 'dc',
+                data: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+            });
+        }
+
+        return result;
+    };
+
     const lineData = (response: any) => {
+
+        widget.widgetCode === 'last_8_day_ac_dc_sales' && (response = ACDCPrepareData(response));
+        widget.widgetCode === 'monthly_earning' && (response = PrepareMonthlyEanrningData(response))
         let acData, dcData, todayData, lastWeekData, monthData, lastMonthData, yearData, lastYearData;
+        console.log('response', response)
         if (response[0]?.type === 'ac' || response[1]?.type === 'dc') {
             ({ acData: acData, dcData: dcData } = processData(response, 'ac', 'dc'));
         } else if (response[0][0].type === 'ac' || response[0][1].type === 'dc') {
@@ -234,17 +329,15 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
         };
     };
     const processData = (response: any, currentKey: string, previousKey: string) => {
-        let acData, dcData;
+        let acData = response[0], dcData = response[1];
 
         if (Array.isArray(response[0])) {
             acData = response[0][0].data.map((item: any) => item.kwh ? item.kwh : item.amount)
             dcData = response[0][1].data.map((item: any) => item.kwh ? item.kwh : item.amount)
         } else {
             if (acData && dcData) {
-                acData = Object.keys(response[0]?.data).map((point: any) => response[0]?.data[point]);
-                dcData = Object.keys(response[1]?.data).map((point: any) => response[1]?.data[point]);
-            } else {
-                acData = Object.keys(response[0]?.data).map((point: any) => response[0]?.data[point]);
+                acData = Object.keys(response[0].data).map((point) => response[0]?.data[point]);
+                dcData = Object.keys(response[1].data).map((point) => response[1]?.data[point]);
             }
         }
         return { acData, dcData };
@@ -400,6 +493,7 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
     useEffect(() => {
         dispatch(toggleLoadingVisibility(false));
     }, []);
+
     return (
         <div className={`${pagePrefix}-info-container w-full flex justify-between flex-wrap`}>
             <div className={`${pagePrefix}-card-row-wrapper flex flex-col md:flex-row w-full`}>

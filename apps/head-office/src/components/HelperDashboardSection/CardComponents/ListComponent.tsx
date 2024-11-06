@@ -1,15 +1,22 @@
 import React from 'react'
+import { FaCircleInfo } from 'react-icons/fa6'
 
-const ListComponent = ({componentValue}: {componentValue: any}) => {
+const ListComponent = ({ componentValue }: { componentValue: any }) => {
     return (
         <div className='w-full h-full'>
             {
                 componentValue?.listItemData.map((item: any) => {
                     return (
-                        <li key={Object.keys(item)[0]} className='text-xl'>
-                            <div className='flex items-start justify-between'>
-                                <div className='text-md'>{Object.keys(item)[0]}</div>
-                                <div className='text-md'>{item[Object.keys(item)[0]]}</div>
+                        item.name && item.data &&
+                        <li key={Object.keys(item)[0]} className='text-xl flex w-full justify-center items-center list-none'>
+                            <div className='w-full h-1/6 description-container flex items-end text-xs px-4'>
+                                <div className='w-full flex items-center justify-start'>
+                                    <FaCircleInfo className='mx-2' />
+                                    <div className='w-full flex items-center justify-between text-lg'>
+                                        <p>{item.name && item.data && item.name}</p>
+                                        <p>{item.name && item.data && item.data}</p>
+                                    </div>
+                                </div>
                             </div>
                         </li>
                     )
