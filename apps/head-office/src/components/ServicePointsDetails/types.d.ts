@@ -186,6 +186,8 @@ export interface IModalConfigProps {
   modalId: string;
   content: React.ReactNode;
   closeAction: () => void;
+  className?:string
+  containerClassName?:string
 };
 export interface IServicePointDetailsContentProps {
   activeTabIndex: number;
@@ -282,3 +284,10 @@ export interface ISelectedTimeByDayProps {
   startTime: string | null,
   rid: number | null
 };
+
+export interface IInfoItems {
+  label: string;
+  value?: string | null[] | undefined;
+  render?: ReactNode;
+}
+
