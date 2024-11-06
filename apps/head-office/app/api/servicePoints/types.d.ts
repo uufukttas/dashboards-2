@@ -1,3 +1,5 @@
+import { IImage } from '../../types/model';
+
 interface IDeleteResponseDataProps {
     data: boolean;
     message: string;
@@ -108,3 +110,11 @@ export interface IGetServicePointsResponseProps {
     data: IGetServicePointsProps;
     status?: number;
 };
+
+
+
+
+export interface IGetStationImagesResponse {
+  data?: Array<IImage>;
+  error?: unknown;
+}

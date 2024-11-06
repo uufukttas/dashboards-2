@@ -22,7 +22,7 @@ const ServicePointInfoPage: React.FC = () => {
         <div className={`${BRAND_PREFIX}-service-point-details-page-wrapper w-full flex`}>
           <MainComponent headerName={`Istasyon: ${slug}`}>
             <div
-              className={`${BRAND_PREFIX}-service-point-details-page-container flex justify-center items-center flex-wrap w-full`}
+              className={`${BRAND_PREFIX}-service-point-details-page-container flex justify-center  flex-wrap w-full`}
             >
               {
                 slug && (
