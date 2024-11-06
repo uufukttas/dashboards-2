@@ -2,7 +2,7 @@ import React, { useCallback, useRef, useState } from 'react';
 import { GoogleMap, Marker, InfoWindow, useLoadScript, Libraries } from '@react-google-maps/api';
 import { IoCloseCircle } from "react-icons/io5";
 import { BRAND_PREFIX } from '../../constants/constants';
-import { IDashboardDataValueProps, IMapItemsProps } from './types';
+import { IComponentValueProps, IMapItemsProps } from './types';
 
 interface Station {
   lat: number;
@@ -12,8 +12,7 @@ interface Station {
   mapIconCode: string;
 }
 
-const DashboardMap: React.FC<{ mapItems: IDashboardDataValueProps[] }> = ({ mapItems }: { mapItems: IDashboardDataValueProps[] }) => {
-  console.log('mapItems', mapItems)
+const DashboardMap: React.FC<{ widget: IComponentValueProps }> = ({ widget }: { widget: IComponentValueProps }) => {
   const dashboardMapPrefix: string = `${BRAND_PREFIX}-dashboard-map`;
   const libraries: Libraries = ["places"];
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -22,7 +21,8 @@ const DashboardMap: React.FC<{ mapItems: IDashboardDataValueProps[] }> = ({ mapI
     address: "",
     name: ""
   });
-  const [selectedLocations, setSelectedLocations] = useState<{ lat: number, lon: number }>({ lat: 39.92503, lon: 32.83707 });
+  const [selectedLocations, setSelectedLocations] =
+    useState<{ lat: number, lon: number }>({ lat: 39.92503, lon: 32.83707 });
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
     libraries,
@@ -62,14 +62,17 @@ const DashboardMap: React.FC<{ mapItems: IDashboardDataValueProps[] }> = ({ mapI
   };
 
   if (loadError) return <div>Error loading map</div>;
-  if (!isLoaded || !mapItems) return <div>Loading...</div>;
+  if (!isLoaded || !widget.dashboardMapItemDataSummaries) return <div>Loading...</div>;
 
   return (
-    mapItems.length > 0 && (
-      <div className={`${dashboardMapPrefix}-container w-full px-2 my-4`}>
+    widget.dashboardMapItemDataSummaries && widget.dashboardMapItemDataSummaries.length > 0 && (
+      <div className={`${dashboardMapPrefix}-container flex w-full h-full flex-col justify-start w-full px-6 my-4`}>
+        <div className={`${BRAND_PREFIX}-map-title-container`}>
+          <div className={`${dashboardMapPrefix}-title lg:text-lg font-bold text-md`}>{widget.widgetTitle}</div>
+        </div>
         <GoogleMap
           center={{ lat: selectedLocations.lat, lng: selectedLocations.lon }} // Heart of Turkey - Ankara Anitkabir
-          mapContainerStyle={{ height: '635px' }}
+          mapContainerStyle={{ height: '750px' }}
           mapTypeId="roadmap"
           options={{
             fullscreenControl: false,
@@ -79,15 +82,15 @@ const DashboardMap: React.FC<{ mapItems: IDashboardDataValueProps[] }> = ({ mapI
           onLoad={onLoad}
         >
           {
-            mapItems.map((marker, index) => (
+            widget.dashboardMapItemDataSummaries.map((marker, index) => (
               <Marker
                 key={index}
-                // @ts-expect-error
+                // @ts-ignore
                 position={{ lat: Number(marker.latitude), lng: Number(marker.longitude) }}
                 onClick={() => {
-                  // @ts-expect-error
+                  // @ts-ignore
                   handleMarkerClick(marker)
-                  // @ts-expect-error
+                  // @st-ignore
                   setSelectedLocations({ lat: Number(marker.latitude), lon: Number(marker.longitude) });
                 }}
               // icon={setMarkerIcon(marker.mapPinIconCode)} // Özel ikon tipi burada belirleniyor

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { FaCircleInfo } from 'react-icons/fa6';
 import { Card } from '@projects/card';
 import { detectDevice } from '@projects/common';
 import DashboardMap from './DashboardMap';
+import DynamicSVG from './DynamicSVG';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { IDashboardCardComponentProps, IWidgetContentParamsProps, IComponentValueProps } from './types';
 
@@ -31,8 +33,7 @@ const DashboardCardContent = ({ widget }: { widget: IDashboardCardComponentProps
 
         if (componentValue.dashboardMapItemDataSummaries) {
             return (
-                // @ts-expect-error
-                <DashboardMap mapItems={componentValue.dashboardMapItemDataSummaries} />
+                <DashboardMap widget={componentValue}/>
             )
         } else {
             return (
@@ -42,42 +43,38 @@ const DashboardCardContent = ({ widget }: { widget: IDashboardCardComponentProps
                             <div className={`${dashboardCardContentPrefix}-title-container flex items-center justify-start w-full`}>
                                 <div className={`${dashboardCardContentPrefix}-title lg:text-lg font-bold text-md`}>
                                     {
-                                        // getCardValues().title
-                                        componentValue.widgetDescription
+                                        componentValue.widgetTitle
                                     }
                                 </div>
                             </div>
+                            <div className={`${dashboardCardContentPrefix}-content-container flex items-center justify-center w-full h-5/6`}>
+                                <div className={`${dashboardCardContentPrefix}-icon-container flex items-center justify-center w-full h-5/6`}>
+                                    <DynamicSVG fileName={componentValue.iconName} />
+                                </div>
+                                <div className={`${dashboardCardContentPrefix}-value text-2xl flex w-full items-center justify-end h-full`}>
+                                    {
+                                        <>
+                                            <span className={`${BRAND_PREFIX}-active-widget-data text-6xl`}>{componentValue.activeData}</span> /
+                                            <span>{componentValue.totalData}</span>
+                                        </>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {
+                        widget.widgetDescription &&
+                        <div
+                            className={`${dashboardCardContentPrefix}-description-container w-full h-1/6 flex items-end text-xs px-4`}>
                             <div
-                                className={`${dashboardCardContentPrefix}-value text-2xl flex w-full items-center justify-end h-full`}>
+                                className={`${dashboardCardContentPrefix}-description w-full flex items-center justify-start`}>
+                                <FaCircleInfo className='mx-2' />
                                 {
-                                    <>
-                                        <>{componentValue.activeData}</> /
-                                        <>{componentValue.totalData}</>
-                                    </>
+                                    componentValue.widgetDescription
                                 }
                             </div>
                         </div>
-                        {
-                            // dashboardsData[item]?.icon_name && (
-                            //     <div
-                            //         className={`${itemPrefix}-content-icon-container flex items-center justify-center text-primary px-1`}>
-                            //         {
-                            //             getCardIcon(dashboardsData[item]?.icon_name)
-                            //         }
-                            //     </div>
-                            // )
-                        }
-                    </div>
-                    <div
-                        className={`${dashboardCardContentPrefix}-description-container w-full h-1/6 flex items-end text-xs px-4`}>
-                        <div
-                            className={`${dashboardCardContentPrefix}-description w-full flex items-center justify-start`}>
-                            {/* <FaCircleInfo className='mx-2' /> */}
-                            {
-                                componentValue.widgetDescription
-                            }
-                        </div>
-                    </div>
+                    }
                 </>
             )
         }

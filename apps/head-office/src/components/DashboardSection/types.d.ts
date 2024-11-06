@@ -18,6 +18,7 @@ export interface IComponentValueProps {
         name: string;
         status: string;
     }[];
+    widgetTitle?: string;
     dashboardWidgetType?: string;
     widgetDescription?: string;
     activeData?: number;
@@ -40,6 +41,7 @@ export interface IDashboardCardComponentProps {
     widgetCode: string;
     widgetDescription: string;
     widgetId: number;
+    widgetTitle?: string;
     widgetType: string;
 };
 export interface IDashboardData {
