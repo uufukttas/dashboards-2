@@ -12,7 +12,6 @@ const LoginInfoSection: React.FC = () => {
             <p className={`${lastLoginPrefix}-text text-heading`}>Son Giris: 01.10.2020</p>
             <p className={`${lastLoginPrefix}-text text-heading`}>Son Giris: 09.09.2020</p>
             <p className={`${lastLoginPrefix}-text text-heading`}>Son Giris: 01.09.2020</p>
-
         </div>
     );
 };
