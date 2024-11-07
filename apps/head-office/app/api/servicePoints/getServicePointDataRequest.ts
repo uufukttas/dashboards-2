@@ -15,7 +15,7 @@ const getServicePointDataRequest = async (servicePointId: number): Promise<IServ
     } catch (error) {
         const response = {
             success: false,
-            error: 'Istasyon servisinde hata!. Tekrar deneyiniz.',
+            error: 'İstasyon servisinde hata!. Tekrar deneyiniz.',
             data: [],
         };
 

@@ -44,7 +44,7 @@ const DevicesSection: React.FC = () => {
         }
     ];
     const tableHeaderData = [{
-        header: 'Cihaz Markasi',
+        header: 'Cihaz Markası',
         field: 'brand',
         isRemovable: true,
     }, {
@@ -52,7 +52,7 @@ const DevicesSection: React.FC = () => {
         field: 'model',
         isRemovable: true,
     }, {
-        header: 'Kw Degeri',
+        header: 'Kw Değeri',
         field: 'kwValue',
         isRemovable: true,
     }, {
@@ -224,7 +224,7 @@ const DevicesSection: React.FC = () => {
                                     labelText="Cihaz Modeli"
                                 />
                                 <Dropdown
-                                    className={`${deviceManagementPrefix}-model-input rounded-md`}
+                                    className={`${deviceManagementPrefix}-model-input rounded-md border border-gray-400`}
                                     id={`${deviceManagementPrefix}-model-input`}
                                     name="Cihaz Modeli"
                                     options={[
@@ -234,7 +234,7 @@ const DevicesSection: React.FC = () => {
                                         { value: 'Istanbul', code: 'IST' },
                                         { value: 'Paris', code: 'PRS' }
                                     ]}
-                                    placeholder="Select a Model"
+                                    placeholder="Model Seçiniz"
                                     value={selectedModel}
                                     onChange={(event) => {
                                         debugger;

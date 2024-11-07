@@ -11,21 +11,25 @@ const ModalHeader: React.FC<IModalHeaderProps> = ({ modalHeaderTitle, onClose }:
     };
 
     return (
-        <div className={`${modalHeaderPrefix}-title-container flex justify-between items-center border-b`}>
-            <h3 className={`${modalHeaderPrefix}-title text-lg font-bold text-heading`}>
-                {modalHeaderTitle}
-            </h3>
-            <div className={`${modalHeaderPrefix}-close-button-container`}>
-                <Button
-                    className={`${modalHeaderPrefix}-close-button text-sm p-1.5 ml-auto inline-flex items-center bg-white text-black hover:bg-white hover:text-black`}
-                    id={`${modalHeaderPrefix}-close-button`}
-                    type='button'
-                    onClick={handleClose}
-                >
-                    <FaRegCircleXmark />
-                </Button>
-            </div>
+      <div
+        className={`${modalHeaderPrefix}-title-container flex justify-between items-center border-b border-b-gray-300 py-4 px-8`}
+      >
+        <h3
+          className={`${modalHeaderPrefix}-title text-lg font-bold text-heading`}
+        >
+          {modalHeaderTitle}
+        </h3>
+        <div className={`${modalHeaderPrefix}-close-button-container`}>
+          <Button
+            className={`${modalHeaderPrefix}-close-button p-0 h-8 w-8 items-center justify-center rounded-md bg-gray-700`}
+            id={`${modalHeaderPrefix}-close-button`}
+            type="button"
+            onClick={handleClose}
+          >
+            <i className='pi pi-times text-white w-4 h-4 mt-1'/>
+          </Button>
         </div>
+      </div>
     );
 };
 

@@ -20,7 +20,7 @@ const ServicePointInfoPage: React.FC = () => {
       </Head>
       <Provider store={store}>
         <div className={`${BRAND_PREFIX}-service-point-details-page-wrapper w-full flex`}>
-          <MainComponent headerName={`Istasyon: ${slug}`}>
+          <MainComponent headerName={`İstasyon: ${slug}`}>
             <div
               className={`${BRAND_PREFIX}-service-point-details-page-container flex justify-center  flex-wrap w-full`}
             >

@@ -6,7 +6,7 @@ const ModalBody: React.FC<IModalBodyProps> = ({ children }: IModalBodyProps) => 
     const modalBodyContentPrefix: string = `${BRAND_PREFIX}-modal-content`;
 
     return (
-        <div className={`${modalBodyContentPrefix}-container relative bg-white rounded-lg`}>
+        <div className={`${modalBodyContentPrefix}-container relative bg-white rounded-lg p-4`}>
             {children}
         </div>
     );

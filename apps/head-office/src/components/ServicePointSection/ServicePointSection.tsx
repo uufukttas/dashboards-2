@@ -125,7 +125,7 @@ const ServicePointSection: React.FC = () => {
 
     searchProperties.searchedConditions.map((condition: string) => {
       switch (condition) {
-        case 'Istasyon Adi':
+        case 'İstasyon Adı':
           payload['name'] = searchProperties.searchedText;
           break;
         case 'Telefon':
@@ -137,7 +137,7 @@ const ServicePointSection: React.FC = () => {
         case 'Il':
           payload['cityName'] = searchProperties.searchedText;
           break;
-        case 'Ilce':
+        case 'İlçe':
           payload['districtName'] = searchProperties.searchedText;
           break;
         default:
@@ -189,7 +189,7 @@ const ServicePointSection: React.FC = () => {
             />
             <Tooltip
               className={`${tablePrefix}-export-button-tooltip text-base`}
-              content="Disari Aktar"
+              content="Dışarı Aktar"
               position="bottom"
               target={`#${tablePrefix}-export-button`}
               style={{
@@ -209,7 +209,7 @@ const ServicePointSection: React.FC = () => {
             />
             <Tooltip
               className={`${tablePrefix}-add-button-tooltip text-base`}
-              content="Istasyon Ekle"
+              content="İstasyon Ekle"
               position="bottom"
               target={`#${tablePrefix}-add-button`}
               style={{
@@ -419,7 +419,7 @@ const ServicePointSection: React.FC = () => {
         isModalVisible && (
           <Modal
             className={`${pagePrefix}-modal-container`}
-            modalHeaderTitle={`Istasyon ${isUpdatedServicePointData ? 'Güncelle' : 'Ekle'}`}
+            modalHeaderTitle={`İstasyon ${isUpdatedServicePointData ? 'Güncelle' : 'Ekle'}`}
             modalId={`${pagePrefix}-modal`}
             onClose={handleCloseModal}
           >

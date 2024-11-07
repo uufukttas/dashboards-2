@@ -139,7 +139,7 @@ const UserManagementModalPage: React.FC = () => {
                     <Label
                         className='block mb-2 text-heading mt-2 font-bold'
                         htmlFor={`${sectionPrefix}-username`}
-                        labelText={`Kullanici Adi`}
+                        labelText={`Kullanıcı Adı`}
                     />
                     <Input
                         className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary'
@@ -147,7 +147,7 @@ const UserManagementModalPage: React.FC = () => {
                         name={`${sectionPrefix}-userName`}
                         disabled={hasUserDataId}
                         register={register(`${sectionPrefix}-userName`, {
-                            required: 'Kullanici Adi zorunlu',
+                            required: 'Kullanıcı Adı zorunlu',
                             onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                                 setUserFormData({
                                     ...userFormData,
@@ -164,7 +164,7 @@ const UserManagementModalPage: React.FC = () => {
                         <Label
                             className='block mb-2 text-heading mt-2 font-bold'
                             htmlFor={`${sectionPrefix}-name`}
-                            labelText={`Isim`}
+                            labelText={`İsim`}
                         />
                         <Input
                             className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary mr-2'
@@ -187,7 +187,7 @@ const UserManagementModalPage: React.FC = () => {
                         <Label
                             className='block mb-2 text-heading mt-2 font-bold'
                             htmlFor={`${sectionPrefix}-surname`}
-                            labelText={`Soy isim`}
+                            labelText={`Soyisim`}
                         />
                         <Input
                             className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary ml-2'
@@ -211,7 +211,7 @@ const UserManagementModalPage: React.FC = () => {
                     <Label
                         className='block mb-2 text-heading mt-2 font-bold'
                         htmlFor={`${sectionPrefix}-eMail`}
-                        labelText={`eMail`}
+                        labelText={`E-Mail`}
                     />
                     <Input
                         className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary'
@@ -257,7 +257,7 @@ const UserManagementModalPage: React.FC = () => {
                     <Label
                         className='block mb-2 text-heading mt-2 font-bold'
                         htmlFor={`${sectionPrefix}-roles`}
-                        labelText={`Role`}
+                        labelText={`Rol`}
                     />
                     <CheckboxInDropdown
                         className='border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary'

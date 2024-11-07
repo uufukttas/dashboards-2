@@ -56,7 +56,7 @@ const ServicePointPermissionsModal = ({ slug }: IServicePointPermissionsModalPro
                             <Label
                                 className={`${sectionPrefix}-name-label block mb-2 text-heading font-semibold`}
                                 htmlFor={``}
-                                labelText={`Yetkili Isim`}
+                                labelText={`Yetkili İsim`}
                             >
                                 <span className="text-md text-error">*</span>
                             </Label>
@@ -66,7 +66,7 @@ const ServicePointPermissionsModal = ({ slug }: IServicePointPermissionsModalPro
                                 name={`${sectionPrefix}-name`}
                                 register={
                                     register(`${sectionPrefix}-name`, {
-                                        required: `Isim zorunludur.`,
+                                        required: `İsim zorunludur.`,
                                         value: permissionProperties.name,
                                         onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                                             setPermissionProperties({

@@ -26,40 +26,35 @@ export const sidebarItems = [
     subItems: [
       {
         label: 'Şarj Üniteleri',
-        icon: 'BiSolidEvStation',
         path: '/dashboards',
       },
       {
         label: 'Şarj İşlemleri',
-        icon: 'pi pi-chart-bar',
         path: '/helper-dashboard',
       },
     ],
   },
-  { label: 'Istasyonlar', icon: 'pi pi-map-marker', path: '/service-points' },
+  { label: 'İstasyonlar', icon: 'pi pi-map-marker', path: '/service-points' },
   {
-    label: 'Kullanici Yonetimi',
+    label: 'Kullanıcı Yönetimi',
     icon: 'pi pi-user',
     path: '/users-management',
   },
   {
     label: 'Rapor Merkezi',
-    icon: 'pi pi-chart-line',
+    icon: 'pi pi-chart-bar',
     path: '#',
     subItems: [
       {
-        label: 'Tum Islemler',
-        icon: 'pi pi-chart-line',
+        label: 'Tüm İşlemler',
         path: '/reports/all-reports',
       },
       {
-        label: 'Kullanici Islemleri',
-        icon: 'pi pi-chart-line',
+        label: 'Kullanıcı İşlemleri',
         path: '/reports/users-reports',
       },
       {
-        label: 'Sarj Raporlari',
-        icon: 'pi pi-chart-line',
+        label: 'Şarj Raporları',
         path: '/reports/charge-reports',
       },
     ],

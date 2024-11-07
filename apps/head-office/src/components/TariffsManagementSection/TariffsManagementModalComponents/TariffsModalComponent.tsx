@@ -97,14 +97,14 @@ const TariffsModalComponent: React.FC = () => {
                     <Label
                         className='block mb-2 text-heading mt-2 font-bold'
                         htmlFor={`${sectionPrefix}-username`}
-                        labelText={`Tarife Adi`}
+                        labelText={`Tarife Adı`}
                     />
                     <Input
                         className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary'
                         id={`${sectionPrefix}-name`}
                         name={`${sectionPrefix}-name`}
                         register={register(`${sectionPrefix}-name`, {
-                            required: 'Tarife Adi zorunlu',
+                            required: 'Tarife Adı zorunlu',
                             onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                                 setTariffFormData({
                                     ...tariffFormData,
@@ -121,7 +121,7 @@ const TariffsModalComponent: React.FC = () => {
                         <Label
                             className='block mb-2 text-heading mt-2 font-bold'
                             htmlFor={`${sectionPrefix}-min-range`}
-                            labelText={`Enerji Minimum Araligi`}
+                            labelText={`Enerji Minimum Aralığı`}
                         />
                         <Input
                             className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary mr-2'
@@ -144,7 +144,7 @@ const TariffsModalComponent: React.FC = () => {
                         <Label
                             className='block mb-2 text-heading mt-2 font-bold'
                             htmlFor={`${sectionPrefix}-max-range`}
-                            labelText={`Enerji Maximum Araligi`}
+                            labelText={`Enerji Maximum Aralığı`}
                         />
                         <Input
                             className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary ml-2'
@@ -222,7 +222,7 @@ const TariffsModalComponent: React.FC = () => {
                         <Label
                             className='block mb-2 text-heading mt-2 font-bold w-1/2'
                             htmlFor={`${sectionPrefix}-eMail`}
-                            labelText={`Hizmet Geliri raporlansin mi?`}
+                            labelText={`Hizmet Geliri raporlansın mı?`}
                         />
                         <Input
                             className='border text-text text-sm rounded-lg block p-2.5 focus:ring-primary focus:border-primary mx-8'
@@ -245,7 +245,7 @@ const TariffsModalComponent: React.FC = () => {
                             <Label
                                 className='block mb-2 text-heading mt-2 font-bold w-1/2'
                                 htmlFor={`${sectionPrefix}-energy-cost`}
-                                labelText={`Birim Enerji Maliyeti raporlansin mi?`}
+                                labelText={`Birim Enerji Maliyeti raporlansın mı?`}
                             />
                             <Input
                                 className='border text-text text-sm rounded-lg block p-2.5 focus:ring-primary focus:border-primary mx-8'
@@ -267,7 +267,7 @@ const TariffsModalComponent: React.FC = () => {
                             {
                                 <div className='error text-red flex items-center justify-between '>
                                     <FaCircleInfo className='w-1/12' />
-                                    <p className='w-11/12'>Isaretlenmedigi takdirde enerji maliyeti bilgisi raporlama ekraninda gosterilmeyecektir</p>
+                                    <p className='w-11/12'>İşaretlenmediği takdirde enerji maliyeti bilgisi raporlama ekranında gösterilmeyecektir</p>
                                 </div>
                             }
                         </div>
@@ -276,7 +276,7 @@ const TariffsModalComponent: React.FC = () => {
                         <Label
                             className='block mb-2 text-heading mt-2 font-bold w-1/2'
                             htmlFor={`${sectionPrefix}-time`}
-                            labelText={`Tarih ayari var mi?`}
+                            labelText={`Tarih ayarı var mı?`}
                         />
                         <Input
                             className='border text-text text-sm rounded-lg block p-2.5 focus:ring-primary focus:border-primary mx-8'
@@ -303,14 +303,14 @@ const TariffsModalComponent: React.FC = () => {
                             <Label
                                 className='block mb-2 text-heading mt-2 font-bold'
                                 htmlFor={`${sectionPrefix}-name`}
-                                labelText={`Baslangic Tarihi`}
+                                labelText={`Baslangıç Tarihi`}
                             />
                             <Input
                                 className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary mr-2'
                                 id={`${sectionPrefix}-start-date`}
                                 name={`${sectionPrefix}-start-date`}
                                 register={register(`${sectionPrefix}-start-date`, {
-                                    required: 'Baslangic Tarihi zorunlu',
+                                    required: 'Baslangıç Tarihi zorunlu',
                                     onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                                         setTariffFormData({
                                             ...tariffFormData,
@@ -326,14 +326,14 @@ const TariffsModalComponent: React.FC = () => {
                             <Label
                                 className='block mb-2 text-heading mt-2 font-bold'
                                 htmlFor={`${sectionPrefix}-surname`}
-                                labelText={`Bitis Tarihi`}
+                                labelText={`Bitiş Tarihi`}
                             />
                             <Input
                                 className='border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary ml-2'
                                 id={`${sectionPrefix}-end-date`}
                                 name={`${sectionPrefix}-end-date`}
                                 register={register(`${sectionPrefix}-end-date`, {
-                                    required: 'Bitis Tarihi zorunlu',
+                                    required: 'Bitiş Tarihi zorunlu',
                                     onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
                                         setTariffFormData({
                                             ...tariffFormData,

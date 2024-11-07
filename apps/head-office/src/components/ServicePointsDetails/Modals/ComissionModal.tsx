@@ -57,7 +57,7 @@ const ComissionModal = ({ slug }: { slug: number; }) => {
 
         dispatch(showAlert({
             alertType: 'success',
-            message: 'Istasyon komisyon bilgileri basariyla eklendi.'
+            message: 'İstasyon komisyon bilgileri basariyla eklendi.'
         }))
         dispatch(toggleModalVisibility(false));
         setTimeout(() => { dispatch(hideAlert()) }, 5000);
@@ -80,7 +80,7 @@ const ComissionModal = ({ slug }: { slug: number; }) => {
                     <Label
                         className={`${sectionPrefix}-label block mb-2 text-heading font-semibold`}
                         htmlFor={``}
-                        labelText={`Istasyon Komisyon Tanimlama`}
+                        labelText={`İstasyon Komisyon Tanimlama`}
                     >
                         <span className="text-md text-error">*</span>
                     </Label>

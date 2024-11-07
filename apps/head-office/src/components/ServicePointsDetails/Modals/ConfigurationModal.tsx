@@ -45,7 +45,7 @@ const ConfigurationModal = () => {
         //             <Label
         //                 className={`${sectionPrefix}-label block mb-2 text-heading font-semibold`}
         //                 htmlFor={``}
-        //                 labelText={`Enerji Fiyati (kwh/Birim fiyat)`}
+        //                 labelText={`Enerji Fiyatı (kwh/Birim fiyat)`}
         //             >
         //                 <span className="text-md text-error">*</span>
         //             </Label>
@@ -58,9 +58,9 @@ const ConfigurationModal = () => {
         //                         register(`${sectionPrefix}`, {
         //                             min: {
         //                                 value: 1,
-        //                                 message: `Enerji Fiyati 0'dan büyük olmalıdır.`,
+        //                                 message: `Enerji Fiyatı 0'dan büyük olmalıdır.`,
         //                             },
-        //                             required: `Enerji Fiyati zorunludur.`,
+        //                             required: `Enerji Fiyatı zorunludur.`,
         //                             value: energyPricesProperty.price.toString(),
         //                             onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
         //                                 setEnergyPricesProperty({

@@ -37,7 +37,7 @@ const Modal: React.FC<IModalProps> = ({
       }}
     >
       <div
-        className={`${modalPrefix}-container bg-white rounded-lg shadow sm:p-5 relative w-full max-w-2xl sm:h-auto max-h-[650px] overflow-y-scroll ${modalContainerClassName}`}
+        className={`${modalPrefix}-container bg-white rounded-lg shadow relative w-full max-w-2xl sm:h-auto max-h-[650px] overflow-y-scroll ${modalContainerClassName}`}
       >
         <ModalHeader modalHeaderTitle={modalHeaderTitle} onClose={onClose} />
         <ModalBody>{children}</ModalBody>

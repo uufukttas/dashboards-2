@@ -48,10 +48,10 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
 ```json
 "data": [{
     "total_charge_process_amount": {
-        "title": "Toplam Sarj Islem Tutari",
+        "title": "Toplam Şarj Islem Tutari",
         "value": "10000 / 11012",
         "icon_name": "FaChargingStation",
-        "description": "Tum zamanlarin toplam sarj islem tutari",
+        "description": "Tüm zamanlarin toplam sarj islem tutari",
         "position": "1 / 1 / 3 / 5",
         "mobile_layout": "1 / 1 / 1 / 12",
         "tablet_layout": "1 / 1 / 1 / 5",
@@ -75,7 +75,7 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
         "title": "Musteri Sayisi",
         "value": "700/765",
         "icon_name": "HiUserGroup",
-        "description": "Tum zamanlarin toplam musteri sayisi",
+        "description": "Tüm zamanlarin toplam musteri sayisi",
         "position": "1 / 9 / 3 / 13",
         "mobile_layout": "3 / 1 / 3 / 12",
         "tablet_layout": "1 / 9 / 2 / 12",
@@ -92,7 +92,7 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
         "type": ""
     },
     "total_charge_process_count": {
-        "title": "Toplam Sarj Islem Sayisi",
+        "title": "Toplam Şarj Islem Sayisi",
         "value": "1000/1100",
         "icon_name": "",
         "description": "Gun icinde yapilan sarj sayisi",
@@ -137,7 +137,7 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
         "title": "Aktif Musteri Sayisi",
         "value": "600/736",
         "icon_name": "icon_name",
-        "description": "Son 3 ay icinde sarj islemi yapmis kullanici sayisi",
+        "description": "Son 3 ay icinde sarj islemi yapmis kullanıcı sayisi",
         "position": "3 / 9 / 3 / 11",
         "mobile_layout": "10 / 1 / 10 / 12",
         "tablet_layout": "3 / 9 / 3 / 11",
@@ -147,7 +147,7 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
         "title": "Pasif Musteri Sayisi",
         "value": "136/736",
         "icon_name": "icon_name",
-        "description": "Son 3 ay icinde sarj islemi yapmamis kullanici sayisi",
+        "description": "Son 3 ay icinde sarj islemi yapmamis kullanıcı sayisi",
         "position": "3 / 11 / 3 / 13",
         "mobile_layout": "11 / 1 / 11 / 12",
         "tablet_layout": "3 / 11 / 3 / 12",
@@ -157,7 +157,7 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
         "title": "Toplam Maliyet",
         "value": "10000/15563",
         "icon_name": "icon_name",
-        "description": "Tum zamanlarin toplam maliyeti",
+        "description": "Tüm zamanlarin toplam maliyeti",
         "position": "4 / 1 / 4 / 3",
         "mobile_layout": "12 / 1 / 12 / 12",
         "tablet_layout": "4 / 1 / 4 / 3",
@@ -167,7 +167,7 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
         "title": "Toplam Kazanc",
         "value": "15000/20000",
         "icon_name": "icon_name",
-        "description": "Tum zamanlarin toplam kazanci",
+        "description": "Tüm zamanlarin toplam kazanci",
         "position": "4 / 3 / 4 / 5",
         "mobile_layout": "13 / 1 / 13 / 12",
         "tablet_layout": "4 / 3 / 4 / 5",
@@ -177,7 +177,7 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
         "title": "Son Ay Aktif Musteri Sayisi",
         "value": "100/123",
         "icon_name": "icon_name",
-        "description": "Son 1 ayda sarj islemi yapmis kullanici sayisi",
+        "description": "Son 1 ayda sarj islemi yapmis kullanıcı sayisi",
         "position": "4 / 9 / 4 / 11",
         "mobile_layout": "14 / 1 / 14 / 12",
         "tablet_layout": "4 / 9 / 4 / 11",
@@ -187,7 +187,7 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
         "title": "Son Hafta Aktif Musteri Sayisi",
         "value": "50/68",
         "icon_name": "icon_name",
-        "description": "Son 1 hafta icinde sarj islemi yapmis kullanici sayisi",
+        "description": "Son 1 hafta icinde sarj islemi yapmis kullanıcı sayisi",
         "position": "4 / 11 / 4 / 13",
         "mobile_layout": "15 / 1 / 15 / 12",
         "tablet_layout": "4 / 11 / 4 / 12",
@@ -336,7 +336,7 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
         "type": "list"
     },
     "most_charging_users": {
-        "title": "En Çok Sarj Yapan Kullanıcılar",
+        "title": "En Çok Şarj Yapan Kullanıcılar",
         "value": [
             { "User 1": 25 },
             { "User 2": 20 },
@@ -393,7 +393,7 @@ Mobil icin tanimlanacak notification center sayfasi mevcut su an herhangi bir da
 
 ## Devices Page
 
-Sarj cihazi marka/model tanimlama, sarj cihazi resim ekleme sayfasi.
+Şarj cihazi marka/model tanimlama, sarj cihazi resim ekleme sayfasi.
 
 ```json
 "data": [{

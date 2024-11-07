@@ -288,7 +288,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
             <Label
               className={`${formProperties.opportunities}-label block mb-2 text-sm font-medium text-gray-900`}
               htmlFor={`${formProperties.opportunities}`}
-              labelText={`Istasyon Olanaklari`}
+              labelText={`İstasyon Olanaklari`}
             />
             <CheckboxInDropdown
               className={`${formProperties.opportunities}-input bg-gray-50 border rounded-lg block w-full mb-4 border-gray-300 text-sm text-gray-900`}

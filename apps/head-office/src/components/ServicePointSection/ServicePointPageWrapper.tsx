@@ -18,7 +18,7 @@ const ServicePointPage: React.FC = () => {
                         <Loading />
                     )
                     : (
-                        <MainComponent headerName='Istasyonlar'>
+                        <MainComponent headerName='İstasyonlar'>
                             <div className={`${servicePointPagePrefix}-container w-full flex justify-center items-center md:pt-6 flex-wrap`}>
                                 <ServicePointSection />
                             </div>

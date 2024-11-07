@@ -255,7 +255,7 @@ const StationManagementModal: React.FC<{ unitCode: string; connectorNumber: numb
                     <Label
                         className={`${BRAND_PREFIX}-${sectionPrefix}-station-user-label block mb-2 text-heading font-semibold`}
                         htmlFor={`${BRAND_PREFIX}-${sectionPrefix}-station-user`}
-                        labelText='Kullanici Telefon Numarasi'
+                        labelText='Kullanıcı Telefon Numarasi'
                     />
                     <div className={`${BRAND_PREFIX}-${sectionPrefix}-station-user-phone-number-input-container flex justify-between items-center w-full`}>
                         <Input
