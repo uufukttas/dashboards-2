@@ -324,19 +324,13 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                                     >
                                                         {renderMenuItems(items)}
                                                     </TieredMenu>
-                                                    <PrimeButton
-                                                        icon={
-                                                            <div className={`${connectorPrefix}-menu-icon-container flex x-2`}>
-                                                                <svg width="15" height="18" xmlns="http://www.w3.org/2000/svg">
-                                                                    <circle cx="5" cy="3" r="3" fill="#aaa" />
-                                                                    <circle cx="5" cy="9" r="3" fill="#aaa" />
-                                                                    <circle cx="5" cy="15" r="3" fill="#aaa" />
-                                                                </svg>
-                                                            </div>
-                                                        }
-                                                        // @ts-ignore
-                                                        onClick={(e) => menu?.current?.toggle(e)}
-                                                    />
+                                                    <Button type='button'
+                                                      onClick={(e) => menu?.current?.toggle(e)}
+                                                      id='menu-button'
+                                                      className='w-8 h-8 rounded-full items-center justify-center bg-gray-700 opacity-60 flex ml-4 '
+                                                    >
+                                                      <i className="pi pi-ellipsis-v text-white"></i>
+                                                    </Button>
                                                 </div>
                                             </div>
                                         }
