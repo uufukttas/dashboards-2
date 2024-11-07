@@ -157,7 +157,7 @@ const StaticsPage: React.FC = () => {
                 >
                     <div className={`${chartsPrefix}-content-container flex justify-between my-4 mx-2 flex-col`}>
                         <div className={`${chartsPrefix}-header-container w-full flex justify-center my-4 mx-2`}>
-                            <h3 className='font-bold'>Istasyonlar Durumlari</h3>
+                            <h3 className='font-bold'>İstasyonlar Durumlari</h3>
                         </div>
                         <Pie data={pieData} />
                     </div>
@@ -168,7 +168,7 @@ const StaticsPage: React.FC = () => {
                 >
                     <div className={`${chartsPrefix}-content-container flex justify-between my-4 mx-2 flex-col`}>
                         <div className={`${chartsPrefix}-header-container w-full flex justify-center my-4 mx-2`}>
-                            <h3 className='font-bold'>Sarj Unite Durumlari</h3>
+                            <h3 className='font-bold'>Şarj Unite Durumlari</h3>
                         </div>
                         <Doughnut
                             data={donutData}

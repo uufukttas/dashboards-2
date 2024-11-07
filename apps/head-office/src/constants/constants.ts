@@ -34,9 +34,9 @@ export const sidebarItems = [
       },
     ],
   },
-  { label: 'Istasyonlar', icon: 'pi pi-map-marker', path: '/service-points' },
+  { label: 'İstasyonlar', icon: 'pi pi-map-marker', path: '/service-points' },
   {
-    label: 'Kullanici Yonetimi',
+    label: 'Kullanıcı Yönetimi',
     icon: 'pi pi-user',
     path: '/users-management',
   },
@@ -46,15 +46,15 @@ export const sidebarItems = [
     path: '#',
     subItems: [
       {
-        label: 'Tum Islemler',
+        label: 'Tüm İşlemler',
         path: '/reports/all-reports',
       },
       {
-        label: 'Kullanici Islemleri',
+        label: 'Kullanıcı İşlemleri',
         path: '/reports/users-reports',
       },
       {
-        label: 'Sarj Raporlari',
+        label: 'Şarj Raporları',
         path: '/reports/charge-reports',
       },
     ],

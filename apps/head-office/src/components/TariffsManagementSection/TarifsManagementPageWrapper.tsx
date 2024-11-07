@@ -24,7 +24,7 @@ const TarifssManagement: React.FC = () => {
                         <Loading />
                     )
                     : (
-                        <MainComponent headerName='Tarife Yonetimi'>
+                        <MainComponent headerName='Tarife Yönetimi'>
                             <div className={`${pagePrefix}-container w-full justify-center items-center md:pt-6 flex-wrap`}>
                                 <TariffsManagementSection />
                             </div>

@@ -27,7 +27,7 @@ const initialServicePointInformationValue = {
 const servicePointTableFilteredDropdownItems = [{
     id: 1,
     isChecked: true,
-    name: 'Istasyon Adi',
+    name: 'İstasyon Adı',
     rid: null,
     stationFeatureType: 0,
     stationFeatureValue: 0,
@@ -55,7 +55,7 @@ const servicePointTableFilteredDropdownItems = [{
 }, {
     id: 5,
     isChecked: false,
-    name: 'Ilce',
+    name: 'İlçe',
     rid: null,
     stationFeatureType: 0,
     stationFeatureValue: 0,
@@ -63,7 +63,7 @@ const servicePointTableFilteredDropdownItems = [{
 const servicePointTableHeadData = [
     {
         field: 'name',
-        header: 'Istasyon Adi',
+        header: 'İstasyon Adı',
         isRemovable: true,
     }, {
         field: 'phone',
@@ -79,11 +79,11 @@ const servicePointTableHeadData = [
         isRemovable: true,
     }, {
         field: 'districtId',
-        header: 'Ilce',
+        header: 'İlçe',
         isRemovable: true,
     }, {
         field: 'actions',
-        header: 'Islemler',
+        header: 'İşlemler',
         isRemovable: false,
     }
 ];

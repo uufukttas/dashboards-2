@@ -40,7 +40,7 @@ const ServicePointModalFormSecondPage: React.FC<IModalSecondPageInputsProps> = (
 
   const getCities = async () => {
     const response = await getCityRequest();
-    
+
     setCities(response);
     getDistricts();
   };
@@ -203,7 +203,7 @@ const ServicePointModalFormSecondPage: React.FC<IModalSecondPageInputsProps> = (
           onClick={() => setActivePage(activePage - 1)}
         />
         <Button
-          buttonText='Ileri'
+          buttonText='İleri'
           className={`${sectionPrefix}-next-button bg-primary text-text text-sm rounded-lg block p-2.5`}
           id={`${sectionPrefix}-next-button`}
           type={`submit`}

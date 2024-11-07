@@ -212,7 +212,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
         (
           <div className={`${formProperties['y-coord']}-error-wrapper mb-4 font-bold text-error`}>
             <p className={`${formProperties['y-coord']}-error-message text-error`}>
-              {'Harita uzerinden bir Istasyon Noktasi seciniz.'}
+              {'Harita uzerinden bir İstasyon Noktasi seciniz.'}
             </p>
           </div>
         )
@@ -226,7 +226,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
           onClick={() => setActivePage(activePage - 1)}
         />
         <Button
-          buttonText='Ileri'
+          buttonText='İleri'
           className={`${sectionPrefix}-next-button bg-primary text-text text-sm rounded-lg block p-2.5`}
           id={`${sectionPrefix}-next-button`}
           type={`submit`}

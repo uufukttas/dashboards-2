@@ -23,10 +23,10 @@ const Comissions: React.FC<IComissionDetailProps> = ({ slug }: IComissionDetailP
                             <p className={`${sectionPrefix}-breakpoint text-lg font-bold w-full`}>Komisyon Türü</p>
                         </div>
                         <div className={`${sectionPrefix}-percent-container flex justify-between md:items-center flex-col md:flex-row w-full `}>
-                            <p className={`${sectionPrefix}-percent text-lg font-bold w-full`}>Yuzde Degeri</p>
+                            <p className={`${sectionPrefix}-percent text-lg font-bold w-full`}>Yuzde Değeri</p>
                         </div>
                         <div className={`${sectionPrefix}-actions-container flex justify-between md:items-center flex-col md:flex-row w-full`}>
-                            <p className={`${sectionPrefix}-actions text-lg font-bold w-full`}>Islemler</p>
+                            <p className={`${sectionPrefix}-actions text-lg font-bold w-full`}>İşlemler</p>
                         </div>
                     </div>
                 </div>

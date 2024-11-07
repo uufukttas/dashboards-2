@@ -35,7 +35,7 @@ const ServicePointsDetailsContent: React.FC<
 
   const addChargeUnitButton: React.ReactNode = (
     <Button
-      buttonText={` + Sarj Ünitesi`}
+      buttonText={` + Şarj Ünitesi`}
       className={`button bg-secondary rounded-md mx-4 font-bold text-white p-3`}
       id={`add-charge-unit-button`}
       type="button"
@@ -51,7 +51,7 @@ const ServicePointsDetailsContent: React.FC<
 
   const addEnergyPriceButton: React.ReactNode = (
     <Button
-      buttonText={`+ Enerji Fiyati Ekle`}
+      buttonText={`+ Enerji Fiyatı Ekle`}
       className="button bg-secondary rounded-md mx-4 font-bold text-white p-3"
       id={`energy-prices-add-button`}
       type={'button'}
@@ -66,7 +66,7 @@ const ServicePointsDetailsContent: React.FC<
 
   const addImageButton: React.ReactNode = (
     <Button
-      buttonText={`+ Istasyon Resmi Ekle`}
+      buttonText={`+ İstasyon Resmi Ekle`}
       className="button bg-secondary rounded-md mx-4 font-bold text-white p-3"
       id={`service-point-image-add-button`}
       type={'button'}
@@ -81,7 +81,7 @@ const ServicePointsDetailsContent: React.FC<
 
   const addServicePointPermissionButton: React.ReactNode = (
     <Button
-      buttonText={`+ Istasyon Yetkisi Ekle`}
+      buttonText={`+ İstasyon Yetkisi Ekle`}
       className="button bg-secondary rounded-md mx-4 font-bold text-white p-3"
       id={`service-point-permission-add-button`}
       type={'button'}
@@ -113,7 +113,7 @@ const ServicePointsDetailsContent: React.FC<
     {
       actionButton: addImageButton,
       accordionContent: <LocationInfo slug={slug} />,
-      accordionTitle: 'Istasyon Bilgileri',
+      accordionTitle: 'İstasyon Bilgileri',
       titleClassName: 'font-bold',
     },
     {
@@ -122,7 +122,7 @@ const ServicePointsDetailsContent: React.FC<
         <ChargeUnitsContent chargeUnits={chargeUnits} slug={slug} />
       ),
       accordionIcon: <FaChargingStation />,
-      accordionTitle: 'Sarj Üniteleri',
+      accordionTitle: 'Şarj Üniteleri',
       titleClassName: 'font-bold',
     },
     {
@@ -146,7 +146,7 @@ const ServicePointsDetailsContent: React.FC<
     {
       actionButton: addServicePointPermissionButton,
       accordionContent: <ServicePointPermissions />,
-      accordionTitle: 'Istasyon Yetkisi',
+      accordionTitle: 'İstasyon Yetkisi',
       titleClassName: 'font-bold',
     },
   ];

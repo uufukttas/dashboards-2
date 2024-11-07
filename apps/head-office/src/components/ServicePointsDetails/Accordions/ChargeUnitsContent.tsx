@@ -455,7 +455,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                                                 </div>
                                                                 <div className={`${chargeUnitPrefix}-info-content-row-item text-text flex`}>
                                                                     <div className={`${chargeUnitPrefix}-info-content-row-item-label text-text font-medium`}>
-                                                                        Konnektor Ismi:
+                                                                        Konnektor İsmi:
                                                                     </div>
                                                                     <div className={`${chargeUnitPrefix}-info-content-row-item-value text-text font-bolder`}>
                                                                         {connectorItem.stationConnectorName}

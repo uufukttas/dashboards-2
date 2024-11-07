@@ -1,17 +1,17 @@
 const tariffsTableHeadData = [
     {
         field: 'name',
-        header: 'Tarife Adi',
+        header: 'Tarife Adı',
         isRemovable: true,
     },
     {
         field: 'saleUnitPrice',
-        header: 'Tarife Fiyati',
+        header: 'Tarife Fiyatı',
         isRemovable: true,
     },
     {
         field: 'kwRange',
-        header: 'Min-Max KW Araligi',
+        header: 'Min-Max KW Aralığı',
         isRemovable: true,
     },
     {
@@ -31,7 +31,7 @@ const tariffsTableHeadData = [
     },
     {
         field: 'actions',
-        header: 'Islemler',
+        header: 'İşlemler',
         isRemovable: false,
     },
 ];

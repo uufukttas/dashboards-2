@@ -24,7 +24,7 @@ const UserManagement: React.FC = () => {
                         <Loading />
                     )
                     : (
-                        <MainComponent headerName='Kullanici Yonetimi'>
+                        <MainComponent headerName='Kullanıcı Yönetimi'>
                             <div className={`${pagePrefix}-container w-full justify-center items-center md:pt-6 flex-wrap`}>
                                 <UserManagementSection />
                             </div>

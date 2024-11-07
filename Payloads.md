@@ -376,7 +376,7 @@
 
   ```json
     "data": [],
-    "message": "Istasyon ozellikleri eklendi.",
+    "message": "İstasyon ozellikleri eklendi.",
     "status": 200
   ```
 
@@ -387,7 +387,7 @@
     "data": [{
         "id": 65870
     }],
-    "message": "Istasyon bilgileri basarili bir sekilde kaydedildi.",
+    "message": "İstasyon bilgileri basarili bir sekilde kaydedildi.",
     "status": 200
   ```
 
@@ -415,7 +415,7 @@
     "data": [{
         "id": 65870
     }],
-    "message": "Istasyon bilgileri basarili bir sekilde guncellendi",
+    "message": "İstasyon bilgileri basarili bir sekilde guncellendi",
     "status": 200
   ```
 
@@ -433,7 +433,7 @@
 
   ```json
     "data": [],
-    "message": "Enerji Fiyati basariyla silindi",
+    "message": "Enerji Fiyatı basariyla silindi",
     "status": 200
   ```
 
@@ -442,7 +442,7 @@
 
   ```json
     "data": [],
-    "message": "Tanimli kullanici basariyla silindi",
+    "message": "Tanimli kullanıcı basariyla silindi",
     "status": 200
   ```
 
@@ -528,7 +528,7 @@
         "connectorNumber": 2,
         "deviceCode": 908090809080,
         "hoStatus": "Kullanilabilir",
-        "investor": "Investor Ismi",
+        "investor": "Investor İsmi",
         "investorId": 4,
         "isFreePoint": true,
         "lastHeartBeat": "dateTime",
@@ -675,7 +675,7 @@
 
   ```json
     "data":[],
-    "message": "Sarj unitesi basariya eklendi.",
+    "message": "Şarj unitesi basariya eklendi.",
     "status": 200
   ```
 
@@ -739,7 +739,7 @@
 
   ```json
     "data": [],
-    "message": "Kullanici basariyla silindi.",
+    "message": "Kullanıcı basariyla silindi.",
     "status": 200
   ```
 
@@ -777,7 +777,7 @@
 
   ```json
     "data": [],
-    "message": "Kullanici basarili bit sekilde olusturuldu",
+    "message": "Kullanıcı basarili bit sekilde olusturuldu",
     "status": 200
   ```
 
@@ -786,7 +786,7 @@
 
   ```json
     "data": [],
-    "message": "Kullanici basarili bit sekilde guncellendi",
+    "message": "Kullanıcı basarili bit sekilde guncellendi",
     "status": 200
   ```
 

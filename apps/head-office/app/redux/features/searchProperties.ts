@@ -2,7 +2,7 @@ import { createSlice, Reducer }from '@reduxjs/toolkit';
 import type { ISearchPropertiesProps } from '../types';
 
 const initialState: ISearchPropertiesProps = {
-  searchedConditions: ['Istasyon Adi'],
+  searchedConditions: ['İstasyon Adı'],
   searchedText: '',
 };
 

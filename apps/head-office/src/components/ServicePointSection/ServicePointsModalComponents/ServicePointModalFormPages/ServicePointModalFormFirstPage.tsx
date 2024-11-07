@@ -109,48 +109,52 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
     companies.length > 0 &&
     resellers.length > 0 && (
       <form
-        className={`${BRAND_PREFIX}-modal-form-page-1 ${activePage === 1 ? 'block' : 'hidden'}`}
+        className={`${BRAND_PREFIX}-modal-form-page-1 ${
+          activePage === 1 ? 'block' : 'hidden'
+        }`}
         onSubmit={handleSubmit(handleFormSubmit)}
       >
         <div className={`${formProperties.name}-container`}>
           <Label
-            className={`${formProperties.name}-label block mb-2 text-heading`}
+            className={`${formProperties.name}-label block mb-2 text-heading font-semibold`}
             htmlFor={`${formProperties.name}`}
-            labelText={`Istasyon Ismi`}
+            labelText={`İstasyon İsmi`}
           >
             <span className="text-md text-error">*</span>
           </Label>
           <Input
-            className={`${formProperties.name}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${hasStationId
-              ? 'cursor-not-allowed'
-              : ''
-              }`
-            }
+            className={`${
+              formProperties.name
+            }-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${
+              hasStationId ? 'cursor-not-allowed' : ''
+            }`}
             disabled={hasStationId}
             id={`${formProperties.name}`}
             name={`${formProperties.name}`}
-            register={
-              register(`${formProperties.name}`, {
-                minLength: {
-                  value: 3,
-                  message: 'En az 3 karakter girmelisiniz.',
-                },
-                required: `Istasyon Ismi zorunludur.`,
-                value: firstPageFormData[`${formProperties.name}`].toString(),
-                onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                  setFirstPageFormData({
-                    ...firstPageFormData,
-                    [event.target.name]: event.target.value,
-                  });
-                },
-              })}
+            register={register(`${formProperties.name}`, {
+              minLength: {
+                value: 3,
+                message: 'En az 3 karakter girmelisiniz.',
+              },
+              required: `İstasyon İsmi zorunludur.`,
+              value: firstPageFormData[`${formProperties.name}`].toString(),
+              onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
+                setFirstPageFormData({
+                  ...firstPageFormData,
+                  [event.target.name]: event.target.value,
+                });
+              },
+            })}
             type={`text`}
           />
-          {errors[`${formProperties.name}`]
-            && errors[`${formProperties.name}`]?.message
-            && (
-              <div className={`${formProperties.name}-error-wrapper my-4 font-bold text-error`}>
-                <p className={`${formProperties.name}-error-message text-error`}>
+          {errors[`${formProperties.name}`] &&
+            errors[`${formProperties.name}`]?.message && (
+              <div
+                className={`${formProperties.name}-error-wrapper my-4 font-bold text-error`}
+              >
+                <p
+                  className={`${formProperties.name}-error-message text-error`}
+                >
                   {errors[`${formProperties.name}`]?.message?.toString()}
                 </p>
               </div>
@@ -160,16 +164,16 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
           <Label
             className={`${formProperties.company}-label block mb-2 text-heading font-semibold`}
             htmlFor={`${formProperties.company}`}
-            labelText={`Sirket`}
+            labelText={`Şirket`}
           >
             <span className="text-md text-error">*</span>
           </Label>
           <Dropdown
-            className={`${formProperties.company}-input border text-text text-sm rounded-lg block w-full focus:ring-primary focus:border-primary p-2.5 mb-4 hover:${hasStationId
-              ? 'cursor-not-allowed'
-              : ''
-              }`
-            }
+            className={`${
+              formProperties.company
+            }-input border text-text text-sm rounded-lg block w-full focus:ring-primary focus:border-primary p-2.5 mb-4 hover:${
+              hasStationId ? 'cursor-not-allowed' : ''
+            }`}
             disabled={hasStationId}
             id={`${formProperties.company}`}
             items={companies}
@@ -180,8 +184,8 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
               hasServicePointDataId
                 ? servicePointData.companyId.toString()
                 : hasStationId
-                  ? servicePointData[`${formProperties.company}`]?.toString()
-                  : companies[0]
+                ? servicePointData[`${formProperties.company}`]?.toString()
+                : companies[0]
             }
             value={servicePointData[`${formProperties.company}`]?.toString()}
           />
@@ -195,11 +199,11 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
             <span className="text-md text-error">*</span>
           </Label>
           <Dropdown
-            className={`${formProperties.reseller}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${hasStationId
-              ? 'cursor-not-allowed'
-              : ''
-              }`
-            }
+            className={`${
+              formProperties.reseller
+            }-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${
+              hasStationId ? 'cursor-not-allowed' : ''
+            }`}
             disabled={hasStationId}
             id={`${formProperties.reseller}`}
             items={resellers}
@@ -209,15 +213,17 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
               hasServicePointDataId
                 ? servicePointData.resellerCompanyId.toString()
                 : hasStationId
-                  ? servicePointData[`${formProperties.reseller}`]?.toString()
-                  : resellers[0]
+                ? servicePointData[`${formProperties.reseller}`]?.toString()
+                : resellers[0]
             }
             value={servicePointData[`${formProperties.reseller}`]?.toString()}
           />
         </div>
-        <div className={`${sectionPrefix}-buttons-container flex flex-row-reverse`}>
+        <div
+          className={`${sectionPrefix}-buttons-container flex flex-row-reverse`}
+        >
           <Button
-            buttonText="Ileri"
+            buttonText="İleri"
             className={`${sectionPrefix}-submit-button bg-primary text-text text-sm rounded-lg block p-2.5`}
             disabled={isDisabled}
             id={`${sectionPrefix}-submit-button`}

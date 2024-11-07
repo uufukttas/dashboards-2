@@ -70,10 +70,10 @@ const UserManagementSection: React.FC = () => {
 
         searchProperties.searchedConditions.map((condition: string) => {
             switch (condition) {
-                case 'Isim/Soyisim':
+                case 'İsim/Soyisim':
                     payload['name'] = searchProperties.searchedText;
                     break;
-                case 'Kullanici Adi':
+                case 'Kullanıcı Adı':
                     payload['userName'] = searchProperties.searchedText;
                     break;
                 case 'Telefon':
@@ -112,7 +112,7 @@ const UserManagementSection: React.FC = () => {
                             />
                             <Tooltip
                                 className={`${BRAND_PREFIX}-data-table-add-button-tooltip text-base`}
-                                content="Kullanici Ekle"
+                                content="Kullanıcı Ekle"
                                 position="bottom"
                                 target={`#${BRAND_PREFIX}-table-header-add-button`}
                                 style={{ fontSize: '12px', padding: '4px' }}
@@ -127,11 +127,11 @@ const UserManagementSection: React.FC = () => {
         const response = await deleteUserRequest(deletedId);
         let type: string = 'success';
 
-        response.message = response.message || 'Kullanici basariyla silindi';
+        response.message = response.message || 'Kullanıcı basariyla silindi';
 
         if (!response.success) {
             type = 'error';
-            response.message = 'Kullanici silinirken bir hata olustu';
+            response.message = 'Kullanıcı silinirken bir hata olustu';
         };
 
         dispatch(
@@ -293,7 +293,7 @@ const UserManagementSection: React.FC = () => {
                 isModalVisible && (
                     <Modal
                         className={`${userManagementPrefix}-modal-container`}
-                        modalHeaderTitle='Kullanici Yonetimi'
+                        modalHeaderTitle='Kullanıcı Yönetimi'
                         modalId={`${userManagementPrefix}-modal`}
                         onClose={() => {
                             dispatch(toggleModalVisibility(false));

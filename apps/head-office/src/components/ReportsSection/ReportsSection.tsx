@@ -77,119 +77,148 @@ const defaultFilters: DataTableFilterMeta = ({
 });
 const ReportsSection: React.FC = () => {
     const pagePrefix = `${BRAND_PREFIX}-reports-center-section`;
-    const tableHeadData = [{
-        field: 'trxId',
-        header: 'TRX ID',
-        isRemovable: true,
-    }, {
-        field: 'batteryBeginningPercent',
-        header: 'Battery Beginning Percent',
-        isRemovable: true,
-    }, {
-        field: 'batteryPercent',
-        header: 'Battery Percent',
-        isRemovable: true,
-    }, {
-        field: 'batteryPercentDesc',
-        header: 'Battery Percent Desc',
-        isRemovable: true,
-    }, {
-        field: 'chargeProcessElapsedTime',
-        header: 'Charge Process Elapsed Time',
-        isRemovable: true,
-    }, {
-        field: 'chargingStatus',
-        header: 'Charging Status',
-        isRemovable: true,
-    }, {
-        field: 'chargingStatusMessage',
-        header: 'Charging Status Message',
-        isRemovable: true,
-    }, {
-        field: 'commissionResellerPrice',
-        header: 'Commission Reseller Price',
-        isRemovable: true,
-    }, {
-        field: 'commissionServicePointPrice',
-        header: 'Commission Service Point Price',
-        isRemovable: true,
-    }, {
-        field: 'companyID',
-        header: 'Company ID',
-        isRemovable: true,
-    }, {
-        field: 'consumerCompanyID',
-        header: 'Consumer Company ID',
-        isRemovable: true,
-    }, {
-        field: 'energyUsed',
-        header: 'Energy Used',
-        isRemovable: true,
-    }, {
-        field: 'finishDate',
-        header: 'Finish Date',
-        isRemovable: true,
-    }, {
-        field: 'meterFinishDate',
-        header: 'Meter Finish Date',
-        isRemovable: true,
-    }, {
-        field: 'meterStartDate',
-        header: 'Meter Start Date',
-        isRemovable: true,
-    }, {
-        field: 'priceENRJ',
-        header: 'Price ENRJ',
-        isRemovable: true,
-    }, {
-        field: 'priceSRV',
-        header: 'Price SRV',
-        isRemovable: true,
-    }, {
-        field: 'resellerCompanyID',
-        header: 'Reseller Company ID',
-        isRemovable: true,
-    }, {
-        field: 'startDate',
-        header: 'Start Date',
-        isRemovable: true,
-    }, {
-        field: 'stationChargePointCode',
-        header: 'Station Charge Point Code',
-        isRemovable: true,
-    }, {
-        field: 'stationChargePointConnectorTypeName',
-        header: 'Station Charge Point Connector Type Name',
-        isRemovable: true,
-    }, {
-        field: 'stationConnectorConnectorNr',
-        header: 'Station Connector Connector Nr',
-        isRemovable: true,
-    }, {
-        field: 'stationConnectorID',
-        header: 'Station Connector ID',
-        isRemovable: true,
-    }, {
-        field: 'stationID',
-        header: 'Station ID',
-        isRemovable: true,
-    }, {
-        field: 'stationName',
-        header: 'Station Name',
-        isRemovable: true,
-    }, {
-        field: 'totalAmount',
-        header: 'Total Amount',
-        isRemovable: true,
-    }, {
-        field: 'totalAmountWithOutKDV',
-        header: 'Total Amount With Out KDV',
-        isRemovable: true,
-    }, {
-        field: 'unitPrice',
-        header: 'Unit Price',
-        isRemovable: true,
-    }];
+  const tableHeadData = [
+    {
+      field: 'trxId',
+      header: 'İşlem ID',
+      isRemovable: true,
+    },
+    {
+      field: 'batteryBeginningPercent',
+      header: 'Başlangıç Batarya Yüzdesi',
+      isRemovable: true,
+    },
+    {
+      field: 'batteryPercent',
+      header: 'Batarya Yüzdesi',
+      isRemovable: true,
+    },
+    {
+      field: 'batteryPercentDesc',
+      header: 'Batarya Yüzdesi Açıklama',
+      isRemovable: true,
+    },
+    {
+      field: 'chargeProcessElapsedTime',
+      header: 'Şarj Süresi',
+      isRemovable: true,
+    },
+    {
+      field: 'chargingStatus',
+      header: 'Şarj Durumu',
+      isRemovable: true,
+    },
+    {
+      field: 'chargingStatusMessage',
+      header: 'Şarj Durumu Mesajı',
+      isRemovable: true,
+    },
+    {
+      field: 'commissionResellerPrice',
+      header: 'Bayi Komisyon Fiyatı',
+      isRemovable: true,
+    },
+    {
+      field: 'commissionServicePointPrice',
+      header: 'Hizmet Noktası Komisyon Fiyatı',
+      isRemovable: true,
+    },
+    {
+      field: 'companyID',
+      header: 'Şirket ID',
+      isRemovable: true,
+    },
+    {
+      field: 'consumerCompanyID',
+      header: 'Tüketici Şirket ID',
+      isRemovable: true,
+    },
+    {
+      field: 'energyUsed',
+      header: 'Kullanılan Enerji',
+      isRemovable: true,
+    },
+    {
+      field: 'finishDate',
+      header: 'Bitiş Tarihi',
+      isRemovable: true,
+    },
+    {
+      field: 'meterFinishDate',
+      header: 'Sayaç Bitiş Tarihi',
+      isRemovable: true,
+    },
+    {
+      field: 'meterStartDate',
+      header: 'Sayaç Başlangıç Tarihi',
+      isRemovable: true,
+    },
+    {
+      field: 'priceENRJ',
+      header: 'ENRJ Fiyatı',
+      isRemovable: true,
+    },
+    {
+      field: 'priceSRV',
+      header: 'SRV Fiyatı',
+      isRemovable: true,
+    },
+    {
+      field: 'resellerCompanyID',
+      header: 'Bayi Şirket ID',
+      isRemovable: true,
+    },
+    {
+      field: 'startDate',
+      header: 'Başlangıç Tarihi',
+      isRemovable: true,
+    },
+    {
+      field: 'stationChargePointCode',
+      header: 'İstasyon Şarj Noktası Kodu',
+      isRemovable: true,
+    },
+    {
+      field: 'stationChargePointConnectorTypeName',
+      header: 'Şarj Noktası Bağlayıcı Tip Adı',
+      isRemovable: true,
+    },
+    {
+      field: 'stationConnectorConnectorNr',
+      header: 'Bağlayıcı Numarası',
+      isRemovable: true,
+    },
+    {
+      field: 'stationConnectorID',
+      header: 'Bağlayıcı ID',
+      isRemovable: true,
+    },
+    {
+      field: 'stationID',
+      header: 'İstasyon ID',
+      isRemovable: true,
+    },
+    {
+      field: 'stationName',
+      header: 'İstasyon Adı',
+      isRemovable: true,
+    },
+    {
+      field: 'totalAmount',
+      header: 'Toplam Tutar',
+      isRemovable: true,
+    },
+    {
+      field: 'totalAmountWithOutKDV',
+      header: 'KDV Hariç Toplam Tutar',
+      isRemovable: true,
+    },
+    {
+      field: 'unitPrice',
+      header: 'Birim Fiyat',
+      isRemovable: true,
+    },
+  ];
 
     const dispatch = useDispatch();
     const reportsData = useSelector((state: RootState) => state.getAllReports.reportsData);
@@ -288,7 +317,7 @@ const ReportsSection: React.FC = () => {
                             />
                             <Tooltip
                                 className={`${BRAND_PREFIX}-data-table-export-button-tooltip text-base`}
-                                content="Disari Aktar"
+                                content="Dışarı Aktar"
                                 position="bottom"
                                 target={`#${BRAND_PREFIX}-table-header-export-button`}
                                 style={{ fontSize: '12px', padding: '4px' }}
@@ -305,7 +334,7 @@ const ReportsSection: React.FC = () => {
                             />
                             <Tooltip
                                 className={`${BRAND_PREFIX}-data-table-add-button-tooltip text-base`}
-                                content="Istasyon Ekle"
+                                content="İstasyon Ekle"
                                 position="bottom"
                                 target={`#${BRAND_PREFIX}-table-header-add-button`}
                                 style={{ fontSize: '12px', padding: '4px' }}
@@ -400,7 +429,7 @@ const ReportsSection: React.FC = () => {
     // const exportDataButton = (): React.ReactNode => {
     //     return (
     //         <Button
-    //             buttonText='Disari Aktar'
+    //             buttonText='Dışarı Aktar'
     //             className='mx-2 bg-primary text-white rounded-lg p-2'
     //             id={`${pagePrefix}-export-button`}
     //             type='button'

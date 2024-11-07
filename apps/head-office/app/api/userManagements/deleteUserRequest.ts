@@ -18,7 +18,7 @@ const deleteUserRequest = async (userId: number): Promise<IDeleteUserRequestResp
         return response.data;
     } catch (error) {
         return {
-            message: 'Kullanici silinirken bir hata olustu',
+            message: 'Kullanıcı silinirken bir hata olustu',
             success: false,
         };
     };

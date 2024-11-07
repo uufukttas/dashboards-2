@@ -88,7 +88,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({
       title: (
         <>
           <FaLocationDot />
-          {detectDevice().isMobile ? '' : 'Istasyon Bilgileri'}
+          {detectDevice().isMobile ? '' : 'İstasyon Bilgileri'}
         </>
       ),
     },
@@ -96,7 +96,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({
       title: (
         <>
           <RiBattery2ChargeFill />
-          {detectDevice().isMobile ? '' : 'Sarj Üniteleri'}
+          {detectDevice().isMobile ? '' : 'Şarj Üniteleri'}
         </>
       ),
     },
@@ -128,7 +128,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({
       title: (
         <>
           <FaUserGear />
-          {detectDevice().isMobile ? '' : 'Istasyon Yetkilileri'}
+          {detectDevice().isMobile ? '' : 'İstasyon Yetkilileri'}
         </>
       ),
     },
@@ -263,7 +263,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({
     },
     {
       condition: configureStation,
-      headerTitle: 'Istasyon Konfigurasyon Ayarlari',
+      headerTitle: 'İstasyon Konfigurasyon Ayarlari',
       modalId: `${BRAND_PREFIX}-service-point-configuration-modal`,
       content: <ConfigurationModal />,
       closeAction: () => dispatch(setConfigureStation(false)),

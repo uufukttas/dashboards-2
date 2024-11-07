@@ -11,14 +11,14 @@ const roleStyles: IRolesStyleProps = {
 const userManagementTableFilteredDropdownItems = [{
     id: 1,
     isChecked: true,
-    name: 'Isim/Soyisim',
+    name: 'İsim/Soyisim',
     rid: null,
     stationFeatureType: 0,
     stationFeatureValue: 0,
 }, {
     id: 2,
     isChecked: false,
-    name: 'Kullanici Adi',
+    name: 'Kullanıcı Adı',
     rid: null,
     stationFeatureType: 0,
     stationFeatureValue: 0,
@@ -40,12 +40,12 @@ const userManagementTableFilteredDropdownItems = [{
 const userManagementTableHeadData = [
     {
         field: 'name',
-        header: 'Isim/Soyisim',
+        header: 'İsim/Soyisim',
         isRemovable: true,
     },
     {
         field: 'userName',
-        header: 'Kullanici Adi',
+        header: 'Kullanıcı Adı',
         isRemovable: true,
     },
     {
@@ -55,7 +55,7 @@ const userManagementTableHeadData = [
     },
     {
         field: 'lastLoginDate',
-        header: 'Son Giris',
+        header: 'Son Giriş',
         isRemovable: true,
     },
     {
