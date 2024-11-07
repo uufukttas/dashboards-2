@@ -27,7 +27,7 @@ const Reports: React.FC = () => {
                     )
                     : (
                         <MainComponent headerName='Rapor Merkezi'>
-                            <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap`}>
+                            <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap overflow-scroll`}>
                                 <ReportsSection />
                             </div>
                         </MainComponent>
