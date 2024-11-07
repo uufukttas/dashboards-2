@@ -1,5 +1,5 @@
-import React, { ReactNode, useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   initialServicePointDataValue,
   initialServicePointsDetailsInfoStateValue,
@@ -10,7 +10,6 @@ import {
   getServicePointInformationRequest,
 } from '../../../../app/api/servicePoints/index';
 import { getServicePointFeatureValues } from '../../../../app/api/servicePointDetails/getFeatureValuesRequest';
-import { RootState } from '../../../../app/redux/store';
 import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
 import type {
   IFeatureValueProps,
@@ -124,7 +123,10 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({
     { label: 'Odeme Yontemleri:', value: paymentFeatureName },
     { label: 'Ucretsiz Park Yeri:', value: parkingFeatureValue },
     { label: 'Istayon Olanaklari:', value: opportunitiesFeatureName },
-    { label: 'Istasyon Görselleri:', render: <StationImages stationId={slug} /> },
+    {
+      label: 'Istasyon Görselleri:',
+      render: <StationImages stationId={slug} />,
+    },
   ];
 
   useEffect(() => {
@@ -149,7 +151,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({
         className={`${sectionPrefix}-info-container flex flex-col justify-between`}
       >
         {infoItems.map((item, index) => (
-          <div>
+          <div key={index}>
             <div
               key={index}
               className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}
