@@ -12,7 +12,7 @@ const Footer: React.FC<IFooterProps> = ({ className }: IFooterProps) => {
     >
       <div className={`${footerPrefix}-content w-full`}>
         <span className={`${footerPrefix}-content-text flex justify-end items-center px-8 text-xs`}>
-          © 2024 - All rights reserved
+          © 2024 - Tüm hakları saklıdır.
         </span>
       </div>
     </div>

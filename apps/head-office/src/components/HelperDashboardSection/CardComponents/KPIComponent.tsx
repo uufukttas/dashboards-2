@@ -7,6 +7,13 @@ const KPIComponent = ({ componentValue }: { componentValue: any }) => {
     const itemPrefix: string = `${BRAND_PREFIX}-dashboard-page-card-item`;
     const dashboardCardContentPrefix: string = `${itemPrefix}-content`;
 
+    const getKPIFontSize = (widgetCode: string) => {
+        if (widgetCode === 'active_customer' ||widgetCode === 'total_process_count') {
+            return 'text-4xl';
+        }
+
+        return 'text-2xl';
+    };
 
     const formattedNumber = (number: string) => {
         if (componentValue?.dashboardWidgetType !== 'total_transactions_amount' &&
@@ -44,7 +51,7 @@ const KPIComponent = ({ componentValue }: { componentValue: any }) => {
                             <DynamicSVG fileName={componentValue?.iconName} />
                         </div>
                         <div
-                            className={`${dashboardCardContentPrefix}-value text-2xl flex w-full items-center justify-end h-full`}>
+                            className={`${dashboardCardContentPrefix}-value ${getKPIFontSize(componentValue?.dashboardWidgetType)} flex w-full items-center justify-end h-full`}>
                             {
                                 <>
                                     <span>{formattedNumber(componentValue?.totalData)}</span>

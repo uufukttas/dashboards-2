@@ -28,7 +28,7 @@ const MainPage: React.FC = async () => {
 
   return (
     <div
-      className={`${userInfo.name}-head-office w-full flex items-center justify-center`}
+      className={`${userInfo.company}-head-office w-full flex items-center justify-center`}
       style={{
         '--primary-color': primaryColor,
         '--secondary-color': secondaryColor,

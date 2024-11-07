@@ -41,13 +41,13 @@ export const sidebarItems = [
     { label: 'FAQ', icon: 'pi pi-question-circle', path: '/faq' },
 ];
 export const stylesProps = {
-    primaryColor: '#FFCE0B',
-    secondaryColor: '#54565A',
-    opaqueColor: '#54565A',
+    primaryColor: '# #fcaf17',
+    secondaryColor: '#00529b',
+    opaqueColor: '#00529b',
     // primaryColor: '#0075bf',
     // secondaryColor: '#9acd66',
     borderColor: '#000000',
-    borderFocusColor: '#FFCE0B',
+    borderFocusColor: ' #fcaf17',
     borderRadius: '6px',
     fontColor: '#000000',
     fontSize: '16px',
@@ -55,8 +55,9 @@ export const stylesProps = {
 };
 export const userInfo = {
     logo: '../../logo.svg',
-    name: 'sharz',
+    name: 'John Doe',
     profileImage: '/avatar.jpg',
+    company: 'sharz',
 };
 
 // it will be deleted after the implementation of the API
