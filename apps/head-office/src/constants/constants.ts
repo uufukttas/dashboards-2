@@ -19,7 +19,18 @@ export const metaData = {
     'og:locale': 'en_US',
 };
 export const sidebarItems = [
-    { label: 'Dashboard', icon: 'pi pi-home', path: '/dashboards' },
+    { label: 'Dashboard', icon: 'pi pi-home', path: '/dashboards',subItems:[
+      {
+        label: 'Main Dashboard',
+        icon: 'pi pi-home',
+        path:'/dashboards'
+      },
+      {
+        label: 'Helper Dashboard',
+        icon: 'pi pi-chart-bar',
+        path:'/helper-dashboard'
+      },
+    ] },
     { label: 'Istasyonlar', icon: 'pi pi-map-marker', path: '/service-points' },
     { label: 'Kullanici Yonetimi', icon: 'pi pi-user', path: '/users-management' },
     {
