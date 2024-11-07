@@ -34,7 +34,7 @@ const SidebarBodyItem: React.FC<ISidebarItemComponentProps> = ({ item }) => {
           <i className="pi pi-chevron-down ml-auto mr-1"></i>
         </Button>
         <ul
-          className={`${sidebarPrefix}-sublist-item-container list-none py-0 pl-3 pr-0 m-0 overflow-y-hidden transition-all transition-duration-400 mt-2 ${
+          className={`${sidebarPrefix}-sublist-item-container list-none py-0 pl-3 pr-0 m-0 overflow-y-hidden transition-all transition-duration-400 mt-2   ${
             subActive ? 'block' : 'hidden'
           }`}
         >
