@@ -19,37 +19,60 @@ export const metaData = {
     'og:locale': 'en_US',
 };
 export const sidebarItems = [
-    { label: 'Dashboard', icon: 'pi pi-home', path: '/dashboards',subItems:[
+  {
+    label: 'Yönetim Dashboard',
+    icon: 'pi pi-home',
+    path: '/dashboards',
+    subItems: [
       {
-        label: 'Main Dashboard',
-        icon: 'pi pi-home',
-        path:'/dashboards'
+        label: 'Şarj Üniteleri',
+        icon: 'BiSolidEvStation',
+        path: '/dashboards',
       },
       {
-        label: 'Helper Dashboard',
+        label: 'Şarj İşlemleri',
         icon: 'pi pi-chart-bar',
-        path:'/helper-dashboard'
+        path: '/helper-dashboard',
       },
-    ] },
-    { label: 'Istasyonlar', icon: 'pi pi-map-marker', path: '/service-points' },
-    { label: 'Kullanici Yonetimi', icon: 'pi pi-user', path: '/users-management' },
-    {
-        label: 'Rapor Merkezi',
+    ],
+  },
+  { label: 'Istasyonlar', icon: 'pi pi-map-marker', path: '/service-points' },
+  {
+    label: 'Kullanici Yonetimi',
+    icon: 'pi pi-user',
+    path: '/users-management',
+  },
+  {
+    label: 'Rapor Merkezi',
+    icon: 'pi pi-chart-line',
+    path: '#',
+    subItems: [
+      {
+        label: 'Tum Islemler',
         icon: 'pi pi-chart-line',
-        path: '#',
-        subItems: [
-            { label: 'Tum Islemler', icon: 'pi pi-chart-line', path: '/reports/all-reports' },
-            { label: 'Kullanici Islemleri', icon: 'pi pi-chart-line', path: '/reports/users-reports' },
-            { label: 'Sarj Raporlari', icon: 'pi pi-chart-line', path: '/reports/charge-reports' }
-        ]
-    },
-    { label: 'Tarifeler', icon: 'pi pi-wallet', path: '/tariffs-management' },
-    { label: 'Kampanyalar', icon: 'pi pi-tags', path: '/campaigns' },
-    { label: 'Bildirim Merkezi', icon: 'pi pi-bell', path: '/notifications' },
-    {
-        label: 'Cihazlar', icon: 'BiSolidEvStation', path: '/devices'
-    },
-    { label: 'FAQ', icon: 'pi pi-question-circle', path: '/faq' },
+        path: '/reports/all-reports',
+      },
+      {
+        label: 'Kullanici Islemleri',
+        icon: 'pi pi-chart-line',
+        path: '/reports/users-reports',
+      },
+      {
+        label: 'Sarj Raporlari',
+        icon: 'pi pi-chart-line',
+        path: '/reports/charge-reports',
+      },
+    ],
+  },
+  { label: 'Tarifeler', icon: 'pi pi-wallet', path: '/tariffs-management' },
+  { label: 'Kampanyalar', icon: 'pi pi-tags', path: '/campaigns' },
+  { label: 'Bildirim Merkezi', icon: 'pi pi-bell', path: '/notifications' },
+  {
+    label: 'Cihazlar',
+    icon: 'BiSolidEvStation',
+    path: '/devices',
+  },
+  { label: 'FAQ', icon: 'pi pi-question-circle', path: '/faq' },
 ];
 export const stylesProps = {
     primaryColor: '#FFCE0B',

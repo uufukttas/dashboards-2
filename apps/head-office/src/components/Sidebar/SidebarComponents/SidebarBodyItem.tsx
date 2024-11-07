@@ -16,8 +16,6 @@ const SidebarBodyItem: React.FC<ISidebarItemComponentProps> = ({ item }) => {
 
   const [subActive, setSubActive] = useState(false);
 
-  const isActive = item.path === pathname;
-
   if (item.subItems) {
     const isSubItemActive = item.subItems.some(subItem => subItem.path === pathname);
     return (
@@ -36,32 +34,31 @@ const SidebarBodyItem: React.FC<ISidebarItemComponentProps> = ({ item }) => {
           <i className="pi pi-chevron-down ml-auto mr-1"></i>
         </Button>
         <ul
-          className={`${sidebarPrefix}-sublist-item-container list-none py-0 pl-3 pr-0 m-0 overflow-y-hidden transition-all transition-duration-400 ${
+          className={`${sidebarPrefix}-sublist-item-container list-none py-0 pl-3 pr-0 m-0 overflow-y-hidden transition-all transition-duration-400 mt-2 ${
             subActive ? 'block' : 'hidden'
           }`}
         >
-          {item.subItems.map((subItem, subIndex) => {
-            const isSubItemActive = subItem.path === pathname;
-            return (
-              <Button
-                key={subIndex}
-                className="w-full"
-                onClick={() => {
-                  dispatch(toggleLoadingVisibility(true));
-                  router.push(subItem.path);
-                }}
+          {item.subItems.map((subItem, subIndex) => (
+            <Button
+              key={subIndex}
+              className="w-full"
+              onClick={() => {
+                dispatch(toggleLoadingVisibility(true));
+                router.push(subItem.path);
+              }}
+            >
+              <li
+                className={`${sidebarPrefix}-sublist-item-container-item cursor-pointer flex items-center p-3 rounded-md text-700 hover:bg-gray-100 w-full`}
               >
-                <li
-                  className={`${sidebarPrefix}-sublist-item-container-item cursor-pointer flex items-center p-3 rounded-md text-700 hover:bg-gray-100 w-full ${
-                    isSubItemActive ? 'bg-gray-200' : ''
-                  }`}
-                >
+                {subItem.icon === 'BiSolidEvStation' ? (
+                  <BiSolidEvStation className="mr-2" />
+                ) : (
                   <i className={subItem.icon + ' mr-2'}></i>
-                  <span className="font-medium">{subItem.label}</span>
-                </li>
-              </Button>
-            );
-          })}
+                )}
+                <span className="font-medium">{subItem.label}</span>
+              </li>
+            </Button>
+          ))}
         </ul>
       </div>
     );
@@ -69,9 +66,7 @@ const SidebarBodyItem: React.FC<ISidebarItemComponentProps> = ({ item }) => {
 
   return (
     <Button
-      className={`${sidebarPrefix}-content-list-container-list-item-container w-full flex items-center p-3 rounded-md cursor-pointer text-700 hover:bg-gray-100 ${
-        isActive ? 'bg-gray-200' : ''
-      }`}
+      className={`${sidebarPrefix}-content-list-container-list-item-container w-full flex items-center p-3 rounded-md cursor-pointer text-700 hover:bg-gray-100 `}
       onClick={() => {
         dispatch(toggleLoadingVisibility(true));
         router.push(item.path);
