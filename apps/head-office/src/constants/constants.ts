@@ -26,12 +26,10 @@ export const sidebarItems = [
     subItems: [
       {
         label: 'Şarj Üniteleri',
-        icon: 'BiSolidEvStation',
         path: '/dashboards',
       },
       {
         label: 'Şarj İşlemleri',
-        icon: 'pi pi-chart-bar',
         path: '/helper-dashboard',
       },
     ],
@@ -44,22 +42,19 @@ export const sidebarItems = [
   },
   {
     label: 'Rapor Merkezi',
-    icon: 'pi pi-chart-line',
+    icon: 'pi pi-chart-bar',
     path: '#',
     subItems: [
       {
         label: 'Tum Islemler',
-        icon: 'pi pi-chart-line',
         path: '/reports/all-reports',
       },
       {
         label: 'Kullanici Islemleri',
-        icon: 'pi pi-chart-line',
         path: '/reports/users-reports',
       },
       {
         label: 'Sarj Raporlari',
-        icon: 'pi pi-chart-line',
         path: '/reports/charge-reports',
       },
     ],
