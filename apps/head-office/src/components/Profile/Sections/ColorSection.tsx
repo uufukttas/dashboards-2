@@ -4,9 +4,13 @@ import { Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { getColorsRequest, updateColors } from '../../../../app/api/profile';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../../app/redux/store';
+import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 
 const ColorSection: React.FC = () => {
     const colorNames: string[] = ['Primary', 'Secondary', 'Alternate', 'Backup'];
+    const dispatch = useDispatch<AppDispatch>();
 
     const profilePagePrefix: string = `${BRAND_PREFIX}-profile`;
     const [pageColors, setPageColors] = useState<{ value: string; resourceKey: string; id: number }[]>([]);
@@ -23,7 +27,8 @@ const ColorSection: React.FC = () => {
 
         const response = await updateColors(setColorRequestData());
 
-        console.log('response', response)
+        dispatch(showAlert({ message: 'Islem basariyla gerceklestirildi', type: 'error', }));
+        setTimeout(() => dispatch(hideAlert()), 5000);
     };
     const setColorRequestData = () => {
         const payload = pageColors.map((color) => {

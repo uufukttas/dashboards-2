@@ -98,7 +98,7 @@ const DashboardMap: React.FC<{ widget: IComponentValueProps }> = ({
           mapTypeId="roadmap"
           options={{
             fullscreenControl: false,
-            disableDefaultUI: true,
+            disableDefaultUI: false,
           }}
           zoom={5.6}
           onLoad={onLoad}

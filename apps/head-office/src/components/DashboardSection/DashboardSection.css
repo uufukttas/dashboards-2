@@ -5,6 +5,11 @@
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
 }
 
+.svg-icon {
+  width: 100%;
+  height: auto;
+}
+
 .gm-style-iw.gm-style-iw-c {
   padding: 4px !important;
   max-width: 250px !important;
@@ -33,4 +38,31 @@
 
 .gm-style-iw-chr {
   display: none !important;
+}
+
+.icon-class {
+  width: 100%;
+  height: auto;
+}
+
+/* For devices with a min-width of 320px (e.g., mobile) */
+@media (max-width: 320px) {
+  .icon-class {
+    width: 50px; /* Adjust width for small screens */
+    height: 50px;
+  }
+}
+/* For devices with a min-width of 768px (e.g., tablets) */
+@media (min-width: 768px) {
+  .icon-class {
+    width: 100px; /* Adjust width for medium screens */
+    height: 100px;
+  }
+}
+/* For devices with a min-width of 1200px (e.g., desktops) */
+@media (min-width: 1200px) {
+  .icon-class {
+    width: 150px; /* Adjust width for large screens */
+    height: 150px;
+  }
 }
