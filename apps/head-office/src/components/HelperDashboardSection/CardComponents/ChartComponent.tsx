@@ -40,7 +40,7 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
     const isTablet = detectDevice().isTablet;
     const isMobile = detectDevice().isMobile;
 
-    const getLabels = (count) => {
+    const getLabels = (count: number) => {
         return Array.from({ length: count }, (_, index) => (index + 1).toString());
     };
 
@@ -120,7 +120,8 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
     const dispatch = useDispatch();
     const doughnutData = (response: any) => {
         const labels = response.map((item: { name: string, data: any }) => item.name);
-        const data = response.map((item: { name: string, data: any }) => item.data);
+        const data = response.map((item: { name: string, data: any }) => (Number(item.data).toFixed(2)));
+
         return {
             datasets: [
                 {
@@ -160,8 +161,10 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
                 return <></>;
         };
     };
+    // @ts-ignore
     const ACDCPrepareData = (data) => {
         // İlk adımda verileri tamamlıyoruz
+        // @ts-ignore
         const completedData = data.map(item => {
             const completedItem = { ...item.data };
 
@@ -179,7 +182,9 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
         });
 
         // 'ac' ve 'dc' türlerini kontrol ediyoruz
+        // @ts-ignore
         const acItem = completedData.find(item => item.type === 'ac');
+        // @ts-ignore
         const dcItem = completedData.find(item => item.type === 'dc');
 
         const result = [];
@@ -219,6 +224,7 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
                     return (
                         <Line
                             data={response}
+                            // @ts-ignore
                             options={lineOptions}
                         />
                     )
@@ -250,7 +256,9 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
         };
     };
 
+    // @ts-ignore
     const PrepareMonthlyEanrningData = (data) => {
+        // @ts-ignore
         const completedData = data.map(item => {
             const completedItem = { ...item.data };
 
@@ -268,7 +276,9 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
         });
 
         // 'ac' ve 'dc' türlerini kontrol ediyoruz
+        // @ts-ignore
         const acItem = completedData.find(item => item.type === 'ac');
+        // @ts-ignore
         const dcItem = completedData.find(item => item.type === 'dc');
 
         const result = [];
@@ -526,7 +536,7 @@ const ChartComponent = ({ widget, componentValue }: { widget: any, componentValu
                         </div>
                         {
                             componentValue?.widgetDescription && (
-                                <div className='w-full h-1/6 description-container flex items-end text-xs px-4'>
+                                <div className='w-full description-container flex items-end text-xs px-4'>
                                     <div className='w-full flex items-center justify-start'>
                                         <FaCircleInfo className='mx-2' />
                                         {

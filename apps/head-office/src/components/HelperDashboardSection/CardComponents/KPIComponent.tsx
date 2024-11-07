@@ -1,9 +1,31 @@
-import { BRAND_PREFIX } from 'apps/head-office/src/constants/constants';
-import React from 'react'
+import React from 'react';
+import { BRAND_PREFIX } from '../../../../src/constants/constants';
+import { FaCircleInfo } from 'react-icons/fa6';
+import DynamicSVG from '../../DashboardSection/DynamicSVG';
 
-const KPIComponent = ({ componentValue }: {componentValue: any}) => {
+const KPIComponent = ({ componentValue }: { componentValue: any }) => {
     const itemPrefix: string = `${BRAND_PREFIX}-dashboard-page-card-item`;
     const dashboardCardContentPrefix: string = `${itemPrefix}-content`;
+
+
+    const formattedNumber = (number: string) => {
+        if (componentValue?.dashboardWidgetType !== 'total_transactions_amount' &&
+            componentValue?.dashboardWidgetType !== 'total_earnings' &&
+            componentValue?.dashboardWidgetType !== 'total_cost'
+        ) {
+            return number;
+        }
+
+        const res = new Intl.NumberFormat('de-DE', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+            // @ts-ignore
+        }).format(number);
+
+        console.log(res);
+
+        return `${res} TL`;
+    }
 
     return (
         <>
@@ -12,37 +34,31 @@ const KPIComponent = ({ componentValue }: {componentValue: any}) => {
                     <div className={`${dashboardCardContentPrefix}-title-container flex items-center justify-start w-full`}>
                         <div className={`${dashboardCardContentPrefix}-title lg:text-lg font-bold text-md`}>
                             {
-                                // getCardValues().title
-                                componentValue?.widgetDescription
+                                componentValue?.widgetTitle
                             }
                         </div>
                     </div>
-                    <div
-                        className={`${dashboardCardContentPrefix}-value text-2xl flex w-full items-center justify-end h-full`}>
-                        {
-                            <>
-                                {/* <>{componentValue?.activeData}</> / */}
-                                <>{componentValue?.totalData}</>
-                            </>
-                        }
+                    <div className={`${dashboardCardContentPrefix}-content-container flex items-center justify-center w-full h-5/6`}>
+
+                        <div className={`${dashboardCardContentPrefix}-icon-container flex items-center justify-center w-full h-5/6`}>
+                            <DynamicSVG fileName={componentValue?.iconName} />
+                        </div>
+                        <div
+                            className={`${dashboardCardContentPrefix}-value text-2xl flex w-full items-center justify-end h-full`}>
+                            {
+                                <>
+                                    <span>{formattedNumber(componentValue?.totalData)}</span>
+                                </>
+                            }
+                        </div>
                     </div>
                 </div>
-                {
-                    // dashboardsData[item]?.icon_name && (
-                    //     <div
-                    //         className={`${itemPrefix}-content-icon-container flex items-center justify-center text-primary px-1`}>
-                    //         {
-                    //             getCardIcon(dashboardsData[item]?.icon_name)
-                    //         }
-                    //     </div>
-                    // )
-                }
             </div>
             <div
                 className={`${dashboardCardContentPrefix}-description-container w-full h-1/6 flex items-end text-xs px-4`}>
                 <div
                     className={`${dashboardCardContentPrefix}-description w-full flex items-center justify-start`}>
-                    {/* <FaCircleInfo className='mx-2' /> */}
+                    <FaCircleInfo className='mx-2' />
                     {
                         componentValue?.widgetDescription
                     }

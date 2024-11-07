@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import { getLanguageListRequest } from './api/login';
 import MainClient from './main/MainClient';

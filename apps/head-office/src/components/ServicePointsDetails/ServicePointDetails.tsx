@@ -624,9 +624,11 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({
       {modalConfig.map((modal) => {
         // @ts-ignore
         if (
-          (typeof modal.condition !== 'object' &&
+          (
+            typeof modal.condition !== 'object' &&
             modal.condition &&
             isModalVisible) ||
+          // @ts-ignore
           (modal.condition.isVisible && isModalVisible)
         ) {
           return (

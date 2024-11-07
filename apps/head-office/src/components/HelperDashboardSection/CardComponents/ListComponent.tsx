@@ -4,6 +4,7 @@ import { FaCircleInfo } from 'react-icons/fa6'
 const ListComponent = ({ componentValue }: { componentValue: any }) => {
     return (
         <div className='w-full h-full'>
+            <h2 className={"text-xl font-bold flex w-full justify-center items-center list-none"}>{componentValue?.widgetTitle}</h2>
             {
                 componentValue?.listItemData.map((item: any) => {
                     return (
