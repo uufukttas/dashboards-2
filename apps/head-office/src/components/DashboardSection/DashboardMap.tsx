@@ -72,13 +72,14 @@ const DashboardMap: React.FC<{ widget: IComponentValueProps }> = ({ widget }: { 
         </div>
         <GoogleMap
           center={{ lat: selectedLocations.lat, lng: selectedLocations.lon }} // Heart of Turkey - Ankara Anitkabir
+
           mapContainerStyle={{ height: '750px' }}
           mapTypeId="roadmap"
           options={{
             fullscreenControl: false,
             disableDefaultUI: true,
           }}
-          zoom={7}
+          zoom={5.6}
           onLoad={onLoad}
         >
           {
