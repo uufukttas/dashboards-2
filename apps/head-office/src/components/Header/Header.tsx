@@ -32,6 +32,7 @@ const Header: React.FC<IHeaderProps> = ({ className, headerName }: IHeaderProps)
 
   useEffect(() => {
     getLanguageList();
+    console.log('userInfo', userInfo)
   }, []);
 
   return (

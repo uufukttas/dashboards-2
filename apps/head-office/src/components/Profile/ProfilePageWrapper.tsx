@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ProfileSection from './ProfileSection';
 import Loading from '../Loading/Loading';
 import MainComponent from '../MainComponent/MainComponent';
-import { BRAND_PREFIX } from '../../constants/constants';
+import { BRAND_PREFIX, userInfo } from '../../constants/constants';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { RootState, AppDispatch } from '../../../app/redux/store';
 import { getColorsRequest } from '../../../app/api/profile';
@@ -44,7 +44,7 @@ const Profile: React.FC = () => {
                             <Loading />
                         )
                         : (
-                            <MainComponent headerName='Hosgeldin, '>
+                            <MainComponent headerName={`Hosgeldin, ${userInfo.name}`}>
                                 <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap`}>
                                     <ProfileSection />
                                 </div>
