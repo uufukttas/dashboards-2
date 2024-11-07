@@ -41,6 +41,7 @@ const StationImages: FC<StationImagesProps> = (props) => {
         {images?.map((image) => {
           return (
             <div
+              key={image.id}
               className="w-[250px] h-[250px] p-2 bg-gray-100 flex rounded-md items-center justify-center text-center"
               onClick={(e) => handleClickImage(e, image.fileName)}
             >

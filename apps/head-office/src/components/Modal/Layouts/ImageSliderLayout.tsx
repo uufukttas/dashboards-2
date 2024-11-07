@@ -51,8 +51,8 @@ const ImageSliderLayout: FC<ImageSliderLayoutProps> = ({
         >
           ‹
         </button>
-        <div className="text-center w-full h-fit items-center justify-center flex flex-col">
-          <div className='items-center justify-center max-h-[300px] overflow-scroll'>
+        <div className="text-center w-full h-fit items-center justify-center flex flex-col self-center">
+          <div className='items-center justify-center  overflow-scroll'>
             <Image
               src={images[currentIndex].cdnUrl}
               alt={images[currentIndex].fileName}
