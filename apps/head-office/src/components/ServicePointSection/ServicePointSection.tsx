@@ -358,7 +358,7 @@ const ServicePointSection: React.FC = () => {
 
     getAllServicePoints();
     initFilters();
-  }, []);
+  }, [servicePointsCount]);
 
   return (
     servicePointsCount > 1 &&
