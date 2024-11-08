@@ -12,8 +12,7 @@ import { RootState } from '../../../app/redux/store';
 
 const ProfileSection: React.FC = () => {
     const profilePagePrefix: string = `${BRAND_PREFIX}-profile`;
-    const userProfileInfo = useSelector((state: RootState) => state.userProfileInfo);
-    console.log('userProfileInfo', userProfileInfo)
+    // const userProfileInfo = useSelector((state: RootState) => state.userProfileInfo);
 
     return (
       <div

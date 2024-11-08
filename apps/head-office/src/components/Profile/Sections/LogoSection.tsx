@@ -1,5 +1,5 @@
 import React from 'react';
-import { BRAND_PREFIX } from '../../../../src/constants/constants';
+import { BRAND_PREFIX, userInfo } from '../../../../src/constants/constants';
 import { Button } from '@projects/button';
 import { Image } from '@projects/image';
 import { Input } from '@projects/input';
@@ -8,6 +8,7 @@ import { Label } from '@projects/label';
 const LogoSection: React.FC = () => {
     const profilePagePrefix: string = `${BRAND_PREFIX}-profile`;
     const companyLogoPrefix: string = `${profilePagePrefix}-company-logo`;
+    console.log('userInfo', userInfo)
 
     return (
         <div className={`${companyLogoPrefix}-container flex justify-between items-center`}>
@@ -22,7 +23,7 @@ const LogoSection: React.FC = () => {
                         alt='Company Logo'
                         className='w-full h-full'
                         height={200}
-                        src={'/logo.svg'}
+                        src={`${userInfo.logo}`}
                         width={300}
                     />
                     <Input

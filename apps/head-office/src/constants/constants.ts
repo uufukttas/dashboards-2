@@ -83,7 +83,7 @@ export const stylesProps = {
     loginPageBackgroundImage: '../../background2.jpg',
 };
 export const userInfo = {
-    logo: '../../logo.svg',
+    logo: '../../ovolt_logo.png',
     name: 'John Doe',
     profileImage: '/avatar.jpg',
     company: 'sharz',

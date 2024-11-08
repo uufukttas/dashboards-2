@@ -325,11 +325,12 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                                         {renderMenuItems(items)}
                                                     </TieredMenu>
                                                     <Button type='button'
-                                                      onClick={(e) => menu?.current?.toggle(e)}
-                                                      id='menu-button'
-                                                      className='w-8 h-8 rounded-full items-center justify-center bg-gray-700 opacity-60 flex ml-4 '
+                                                        // @ts-ignore
+                                                        onClick={(e) => menu?.current?.toggle(e)}
+                                                        id='menu-button'
+                                                        className='w-8 h-8 rounded-full items-center justify-center bg-gray-700 opacity-60 flex ml-4 '
                                                     >
-                                                      <i className="pi pi-ellipsis-v text-white"></i>
+                                                        <i className="pi pi-ellipsis-v text-white"></i>
                                                     </Button>
                                                 </div>
                                             </div>

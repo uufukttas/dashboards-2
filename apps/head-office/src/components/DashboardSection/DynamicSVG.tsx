@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const DynamicSVG = ({ fileName, className }: { fileName: any, className: string }) => {
+const DynamicSVG = ({ fileName, className }: { fileName: any, className?: string }) => {
     const [svgContent, setSvgContent] = useState('');
 
     // useEffect içerisinde async fonksiyon çağırmak

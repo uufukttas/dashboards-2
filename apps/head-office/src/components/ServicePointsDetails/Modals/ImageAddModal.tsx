@@ -25,6 +25,7 @@ const FileUpload: React.FC<IServicePointDetailsModalProps> = ({
       reader.addEventListener('load', () =>
         setImageSrc(reader.result?.toString() || '')
       );
+      // @ts-ignore
       reader.readAsDataURL(e.target.files[0]);
 
       setSelectedFile(file);

@@ -4,7 +4,7 @@ export interface ISidebarBodyItemProps {
     sidebarElementsLength: number;
 };
 export interface ISidebarElementProps {
-    icon: string | JSX.Element;
+    icon?: string | JSX.Element;
     label: string;
     path: string;
     subItems?: ISidebarElementProps[];

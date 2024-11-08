@@ -71,7 +71,6 @@ const DashboardMap: React.FC<{ widget: IComponentValueProps }> = ({
       });
     }
   };
-
   if (loadError) return <div>Error loading map</div>;
   if (!isLoaded || !widget.dashboardMapItemDataSummaries)
     return <div>Loading...</div>;
@@ -115,6 +114,16 @@ const DashboardMap: React.FC<{ widget: IComponentValueProps }> = ({
                           lat: Number(marker.latitude),
                           lng: Number(marker.longitude),
                         }}
+                        icon={
+                          marker.iconUrl
+                            ? {
+                                url: marker.iconUrl,
+                                scaledSize: new google.maps.Size(50, 50),
+                                origin: new google.maps.Point(0, 0),
+                                anchor: new google.maps.Point(0, 0),
+                              }
+                            : undefined
+                        }
                         clusterer={clusterer}
                         onClick={() => {
                           handleMarkerClick(marker);
