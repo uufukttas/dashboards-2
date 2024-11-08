@@ -21,7 +21,7 @@ interface IBaseReportProps {
 }
 
 const BaseReport: React.FC<IBaseReportProps> = (props) => {
-  const { id,data, isLoading, pagePrefix, tableHeadData } = props;
+  const { id, data, isLoading, pagePrefix, tableHeadData } = props;
   const [visibleColumns, setVisibleColumns] = useState(tableHeadData);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -172,11 +172,11 @@ const BaseReport: React.FC<IBaseReportProps> = (props) => {
               paginatorRight={paginatorRight}
               paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
               removableSort
-              reorderableColumns
-              resizableColumns
+              reorderableColumns={true}
+              resizableColumns={true}
               rows={10}
               stateKey={`table-report-${id}`}
-              stateStorage='local'
+              stateStorage="local"
               rowsPerPageOptions={[5, 10, 25, 50]}
               showGridlines
               sortMode="multiple"
