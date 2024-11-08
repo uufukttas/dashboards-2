@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { IGetReportsPayloadProps } from './types';
 
-const getAllReportsRequest = async (payload: IGetReportsPayloadProps) => {
+const getUserReportsRequest = async (payload: IGetReportsPayloadProps) => {
   try {
     const response = await axios
       .post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/Report/MainReport` || '',
+        `${process.env.NEXT_PUBLIC_BASE_URL}/Report/UserReports` || '',
         payload,
         {
           headers: {
@@ -34,4 +34,4 @@ const getAllReportsRequest = async (payload: IGetReportsPayloadProps) => {
   }
 };
 
-export { getAllReportsRequest };
+export { getUserReportsRequest };
