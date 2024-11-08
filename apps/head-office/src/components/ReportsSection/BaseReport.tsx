@@ -21,7 +21,7 @@ interface IBaseReportProps {
 }
 
 const BaseReport: React.FC<IBaseReportProps> = (props) => {
-  const { data, isLoading, pagePrefix, tableHeadData } = props;
+  const { id,data, isLoading, pagePrefix, tableHeadData } = props;
   const [visibleColumns, setVisibleColumns] = useState(tableHeadData);
   const dispatch = useDispatch<AppDispatch>();
 
@@ -175,6 +175,8 @@ const BaseReport: React.FC<IBaseReportProps> = (props) => {
               reorderableColumns
               resizableColumns
               rows={10}
+              stateKey={`table-report-${id}`}
+              stateStorage='local'
               rowsPerPageOptions={[5, 10, 25, 50]}
               showGridlines
               sortMode="multiple"
