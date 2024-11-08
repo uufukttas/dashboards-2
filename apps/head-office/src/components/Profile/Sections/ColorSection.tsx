@@ -61,7 +61,10 @@ const ColorSection: React.FC = () => {
         handleColorSubmitError();
       });
 
-    setTimeout(() => dispatch(hideAlert()), 5000);
+    setTimeout(() => dispatch(hideAlert()), 600);
+    setTimeout(() => {
+      window.location.reload();
+    }, 800);
   };
 
   const setColorRequestData = () => {
