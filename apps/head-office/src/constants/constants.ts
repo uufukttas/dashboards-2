@@ -5,22 +5,22 @@ export const dashboardTypes = {
     3: 'callcenterdashboard',
 };
 export const metaData = {
-    author: 'Sharz.net',
+    author: 'Ovolt',
     description: 'Sharz.net is Turkey\'s leading electric vehicle charging station platform, offering comprehensive management solutions for EV charging stations. Manage service points, tariffs, and user access with our advanced dashboard. Experience seamless integration and real-time monitoring to enhance the efficiency and accessibility of EV charging across the country.',
     keywords: 'EV charging Turkey, electric vehicle charging, charging station management, EV service points, EV tariffs management, EV user management, Sharz.net',
     title: 'Welcome to Sharz.net',
     viewport: 'width=device-width, initial-scale=1.0',
-    'og:title': 'Sharz.net - Electric Vehicle Charging Station Management',
+    'og:title': 'Ovolt - Electric Vehicle Charging Station Management',
     'og:description': 'Manage and monitor electric vehicle charging stations with Sharz.net. Explore our services for efficient EV charging point management, tariff settings, and user management through an intuitive dashboard.',
     'og:type': 'website',
     'og:url': 'https://www.ho.sharz.net',
     'og:image': 'https://www.sharz.net/og-image.jpg',
-    'og:site_name': 'Sharz.net',
-    'og:locale': 'en_US',
+    'og:site_name': 'Ovolt',
+    'og:locale': 'tr_TR',
 };
 export const sidebarItems = [
   {
-    label: 'Yönetim Dashboard',
+    label: 'Gösterge Paneli',
     icon: 'pi pi-home',
     path: '/dashboards',
     subItems: [
@@ -70,13 +70,13 @@ export const sidebarItems = [
   { label: 'FAQ', icon: 'pi pi-question-circle', path: '/faq' },
 ];
 export const stylesProps = {
-    primaryColor: '# #fcaf17',
-    secondaryColor: '#00529b',
+    secondaryColor: '#fcaf17',
+    primaryColor: '#00529b',
     opaqueColor: '#00529b',
     // primaryColor: '#0075bf',
     // secondaryColor: '#9acd66',
     borderColor: '#000000',
-    borderFocusColor: ' #fcaf17',
+    borderFocusColor: '#fcaf17',
     borderRadius: '6px',
     fontColor: '#000000',
     fontSize: '16px',
@@ -84,9 +84,13 @@ export const stylesProps = {
 };
 export const userInfo = {
     logo: '../../ovolt_logo.png',
-    name: 'John Doe',
-    profileImage: '/avatar.jpg',
+    name: 'Erkut Öztürk',
+    profileImage: '/Erkut.png',
     company: 'sharz',
+    backgroundImage: '../../background2.jpg',
+    email: 'erkut.ozturk@example.com',
+    phone: '055512345678',
+    roles: ['Super Admin'],
 };
 
 // it will be deleted after the implementation of the API

@@ -14,7 +14,7 @@ const SidebarFooter: React.FC = () => {
                 <span>
                     © 2024
                 </span>
-                <Image src="/evslogo.jpg" alt='logo' width={30} height={30} />
+                <Image src="/evslogo.jpg" alt='logo' width={30} height={30} className='object-cover'/>
             </p>
         </div>
     );

@@ -75,7 +75,7 @@
     padding: 0 5px;
   }
   .sh-sidebar-container li.active {
-    background-color: var(#fcaf17);
+    background-color: var(#00529b);
   }
   .expanded {
     animation: expand-desktop 1s forwards;

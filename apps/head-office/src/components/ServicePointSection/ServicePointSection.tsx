@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
@@ -77,6 +78,7 @@ const ServicePointSection: React.FC = () => {
   const pagePrefix: string = `${BRAND_PREFIX}-service-point`;
   const dispatch = useDispatch<AppDispatch>();
   const toastRef = useRef(null);
+  const router = useRouter();
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
   const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
@@ -108,13 +110,14 @@ const ServicePointSection: React.FC = () => {
         </a>
         {
           (rowData?.address && rowData?.districtId && rowData?.cityId && rowData?.phone) && (
-            <a
+            <button
               className='font-medium text-blue-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out'
-              href={`/service-points/service-point/${rowData.id}`}
-              onClick={() => dispatch(toggleLoadingVisibility(true))}
+              onClick={() => {
+                router.push(`/service-points/service-point/${rowData.id}`)
+              }}
             >
               <FaCircleInfo className='text-2xl' />
-            </a>
+            </button>
           )
         }
       </div>
@@ -358,6 +361,8 @@ const ServicePointSection: React.FC = () => {
 
     getAllServicePoints();
     initFilters();
+
+    console.log('router', router)
   }, [servicePointsCount]);
 
   return (

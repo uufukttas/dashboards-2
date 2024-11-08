@@ -35,7 +35,7 @@ const DashboardPageWrapper: React.FC = () => {
                         <Loading />
                     )
                     : (
-                        <MainComponent headerName='Kontrol Paneli'>
+                        <MainComponent headerName='Gösterge Paneli'>
                             <div className={
                                 `${dashboardPrefix}-page-container flex justify-center items-center flex-wrap w-full`
                             }>

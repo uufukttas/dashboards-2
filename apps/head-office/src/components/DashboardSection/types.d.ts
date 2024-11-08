@@ -26,6 +26,8 @@ export interface IComponentValueProps {
     iconName?: string;
     totalData?: number;
     widgetDescription?: string
+    valuePositionType?: string;
+    valueSizeType?: string;
 };
 export interface IDashboardCardComponentInfoProps {
     data: IDashboardCardComponentProps[];

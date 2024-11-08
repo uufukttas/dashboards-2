@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Dialog } from '@projects/dialog';
 import Modal from '../Modal/Modal';
 import { BRAND_PREFIX } from '../../constants/constants';
+import { getChargeUnitBrands } from '../../../app/api/servicePointDetails';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import {
   hideDialog,
@@ -19,7 +20,6 @@ import { RootState } from '../../../app/redux/store';
 import { Dropdown } from 'primereact/dropdown';
 import { Label } from '@projects/label';
 import { Input } from '@projects/input';
-import { getChargeUnitBrands } from 'apps/head-office/app/api/servicePointDetails';
 
 const DevicesSection: React.FC = () => {
   const deviceManagementPrefix = `${BRAND_PREFIX}-device-management`;
@@ -92,7 +92,8 @@ const DevicesSection: React.FC = () => {
   const getBrands = async () => {
     const res = await getChargeUnitBrands().then((res) => res.data);
 
-    setBrands(res.map((item) => ({ label: item.name, value: item.id })));
+    // @ts-ignore
+    setBrands(res.map((item: any) => ({ label: item.name, value: item.id })));
   };
 
   useEffect(() => {

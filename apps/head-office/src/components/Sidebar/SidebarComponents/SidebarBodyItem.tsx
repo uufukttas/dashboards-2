@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { Button } from 'primereact/button';
 import { BiSolidEvStation } from 'react-icons/bi';
-
 import { useDispatch } from 'react-redux';
 import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
