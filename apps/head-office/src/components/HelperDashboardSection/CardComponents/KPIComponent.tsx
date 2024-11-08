@@ -1,12 +1,12 @@
 import React from 'react';
-import { FaCircleInfo } from 'react-icons/fa';
-import { IComponentValueProps } from './types';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import DynamicSVG from '../../DashboardSection/DynamicSVG';
+import { IComponentValueProps } from '../../DashboardSection/types';
+import { FaCircleInfo } from 'react-icons/fa6';
 
-const KPIComponent: React.FC<{ componentValue: IComponentValueProps | null }> = ({
-  componentValue,
-}) => {
+const KPIComponent: React.FC<{
+  componentValue: IComponentValueProps | null;
+}> = ({ componentValue }) => {
   const itemPrefix: string = `${BRAND_PREFIX}-dashboard-page-card-item`;
   const dashboardCardContentPrefix: string = `${itemPrefix}-content`;
 
@@ -35,8 +35,6 @@ const KPIComponent: React.FC<{ componentValue: IComponentValueProps | null }> = 
       maximumFractionDigits: 2,
       // @ts-ignore
     }).format(number);
-
-    console.log(res);
 
     return `${res} TL`;
   };
@@ -76,7 +74,7 @@ const KPIComponent: React.FC<{ componentValue: IComponentValueProps | null }> = 
             <div
               className={`${dashboardCardContentPrefix}-icon-container flex items-center justify-center w-full h-5/6`}
             >
-              <DynamicSVG fileName={componentValue?.iconName} />
+              {/* <DynamicSVG fileName={componentValue?.iconName} /> */}
             </div>
             <div
               className={`${dashboardCardContentPrefix}-value ${getKPIFontSize(
@@ -100,8 +98,8 @@ const KPIComponent: React.FC<{ componentValue: IComponentValueProps | null }> = 
         >
           {componentValue?.widgetDescription && (
             <>
+              <p>{componentValue?.widgetDescription}</p>
               <FaCircleInfo className="mx-2" />
-              {componentValue?.widgetDescription}
             </>
           )}
         </div>
