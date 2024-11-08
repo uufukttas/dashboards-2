@@ -38,7 +38,7 @@ const LogoSection: React.FC = () => {
                         id={`${companyLogoPrefix}-submit-button`}
                         type='submit'
                     >
-                        Logoyu Degistir
+                        Logoyu Değiştir
                     </Button>
                 </div>
             </form>

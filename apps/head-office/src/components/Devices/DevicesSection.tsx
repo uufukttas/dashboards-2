@@ -91,7 +91,7 @@ const DevicesSection: React.FC = () => {
                             />
                             <Tooltip
                                 className={`${BRAND_PREFIX}-data-table-add-button-tooltip text-base`}
-                                content="Tarife Ekle"
+                                content="Cihaz Ekle"
                                 position="bottom"
                                 target={`#${BRAND_PREFIX}-table-header-add-button`}
                                 style={{ fontSize: '12px', padding: '4px' }}
