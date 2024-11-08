@@ -14,48 +14,49 @@ import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import './MainClient.css';
 
-const MainClient: React.FC<{ languageList: ILanguageProps[] }> =
-    ({ languageList }: { languageList: ILanguageProps[] }) => {
-        const dispatch = useDispatch();
-        const toastRef = useRef<Toast>(null);
-        const alertInformation = useSelector((state: RootState) => state.alertInformation);
-        const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
+const MainClient: React.FC<{ languageList: ILanguageProps[] }> = ({
+  languageList,
+}: {
+  languageList: ILanguageProps[];
+}) => {
+  const dispatch = useDispatch();
+  const toastRef = useRef<Toast>(null);
+  const alertInformation = useSelector(
+    (state: RootState) => state.alertInformation
+  );
+  const isLoading = useSelector(
+    (state: RootState) => state.isLoadingVisible.isLoading
+  );
 
-        useEffect(() => {
-            dispatch(setLanguages(languageList));
+  useEffect(() => {
+    dispatch(setLanguages(languageList));
 
-            if (!alertInformation.isVisible) return;
+    if (!alertInformation.isVisible) return;
 
-            toastRef?.current?.show({
-                severity: alertInformation.type,
-                summary: `${alertInformation.message}`
-            });
-        }, [alertInformation.isVisible]);
+    toastRef?.current?.show({
+      severity: alertInformation.type,
+      summary: `${alertInformation.message}`,
+    });
+  }, [alertInformation.isVisible]);
 
-        return (
-            <>
-                {
-                    <Fragment>
-                        <div className={`${BRAND_PREFIX}-main-client-component-container flex flex-col`}>
-                            <Login />
-                        </div>
-                        <Background
-                            backgroundUrl={stylesProps.loginPageBackgroundImage}
-                        />
-                    </Fragment>
-                }
-                {
-                    isLoading && (
-                        <Loading />
-                    )
-                }
-                {
-                    alertInformation.isVisible && (
-                        <Toast position={'top-right'} ref={toastRef} />
-                    )
-                }
-            </>
-        );
-    };
+  return (
+    <>
+      {
+        <Fragment>
+          <div
+            className={`${BRAND_PREFIX}-main-client-component-container flex flex-col`}
+          >
+            <Login />
+          </div>
+          <Background backgroundUrl={stylesProps.loginPageBackgroundImage} />
+        </Fragment>
+      }
+      {isLoading && <Loading />}
+      {alertInformation.isVisible && (
+        <Toast position={'top-right'} ref={toastRef} />
+      )}
+    </>
+  );
+};
 
 export default MainClient;
