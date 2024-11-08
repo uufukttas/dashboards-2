@@ -51,10 +51,10 @@ const DashboardCardContent = ({ widget }: { widget: IDashboardCardComponentProps
                                 <div className={`${dashboardCardContentPrefix}-icon-container flex items-center justify-center ${componentValue.iconName ? 'w-full' : 'w-0'} h-5/6`}>
                                     <DynamicSVG fileName={componentValue.iconName} className='' />
                                 </div>
-                                <div className={`${dashboardCardContentPrefix}-value text-2xl flex w-full items-center ${componentValue.iconName ? 'justify-end': 'justify-center'} h-full`}>
+                                <div className={`${dashboardCardContentPrefix}-value text-2xl flex w-full items-center justify-${componentValue.valuePositionType} h-full`}>
                                     {
                                         <>
-                                            <span className={`${BRAND_PREFIX}-active-widget-data text-6xl px-1`}>{componentValue.activeData}</span> /
+                                            <span className={`${BRAND_PREFIX}-active-widget-data text-${componentValue?.valueSizeType} px-1`}>{componentValue.activeData}</span> /
                                             <span className='px-1'>{componentValue.totalData}</span>
                                         </>
                                     }

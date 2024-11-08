@@ -1,5 +1,5 @@
 import React from 'react';
-import { BRAND_PREFIX } from '../../../../src/constants/constants';
+import { BRAND_PREFIX, userInfo } from '../../../../src/constants/constants';
 import { Button } from '@projects/button';
 import { Image } from '@projects/image';
 import { Input } from '@projects/input';
@@ -27,7 +27,7 @@ const BackgroundSection: React.FC = () => {
                         alt='Background Image'
                         className='w-full h-full'
                         height={200}
-                        src={'https://placehold.co/600x400'}
+                        src={`${userInfo.backgroundImage}`}
                         width={300}
                     />
                     <Input

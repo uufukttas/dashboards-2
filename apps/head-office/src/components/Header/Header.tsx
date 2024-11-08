@@ -36,44 +36,43 @@ const Header: React.FC<IHeaderProps> = ({ className, headerName }: IHeaderProps)
   }, []);
 
   return (
-    <div className={`${headerPrefix}-container justify-between border-b border-gray-300 bg-background px-20 py-4 top-0 z-10 sticky ${className}`}>
-      <div className={`${headerPrefix}-left-side flex items-center`}>
-        <div className={`${headerPrefix}-sidebar-toggle-button-container flex items-center`}>
-          <Button
-            aria-controls={isSidebarExpanded ? 'sbar' : undefined}
-            aria-expanded={isSidebarExpanded ? true : false}
-            className={`${headerPrefix}-sidebar-toggle-button px-1 flex justify-start items-center`}
-            icon="pi pi-align-justify"
-            onClick={() => dispatch(toggleSidebarExpanded(isSidebarExpanded))}
-          />
-          <div className={`${headerPrefix}-name-container h-8 flex items-center justify-evenly`}>
-            <h1 className={`${headerPrefix}-name text-xl font-semibold `}>{headerName}</h1>
-          </div>
+    <div className={`${headerPrefix}-container justify-between border-b-4 border-primary bg-background px-20 py-4 top-0 z-10 sticky ${className}`}>
+      <div className={`${headerPrefix}-sidebar-toggle-button-container flex items-center w-1/3`}>
+        <Button
+          aria-controls={isSidebarExpanded ? 'sbar' : undefined}
+          aria-expanded={isSidebarExpanded ? true : false}
+          className={`${headerPrefix}-sidebar-toggle-button px-1 flex justify-start items-center`}
+          icon="pi pi-align-justify"
+          onClick={() => dispatch(toggleSidebarExpanded(isSidebarExpanded))}
+        />
+        <div className={`${headerPrefix}-name-container h-8 flex items-center justify-evenly`}>
+          <h1 className={`${headerPrefix}-name text-xl font-semibold `}>{headerName}</h1>
         </div>
       </div>
-      <div className={`${headerPrefix}-right-side flex items-center`}>
-        <div className={`${headerPrefix}-language-container mx-4`}>
-          <Dropdown
-            className='border text-text text-sm rounded-lg block w-full p-2.5 focus:ring-primary focus:border-primary'
-            id='languages'
-            items={languages}
-            name='languages'
+      <div className={`${headerPrefix}-logo-container w-1/3 flex justify-center`}>
+        <Link href='/dashboards'>
+          <Image
+            alt={`${userInfo.name} logo`}
+            className={`${headerPrefix}-logo`}
+            height={175}
+            src={userInfo.logo}
+            width={175}
           />
-        </div>
-        <div className={`${headerPrefix}-profile-button-container`}>
-          <Link
-            className={`${headerPrefix}-profile-button bg-white hover:bg-white  flex items-center rounded-full px-2 py-2`}
-            href='/profile'
-          >
-            <Image
-              alt='profile'
-              className='w-[50px] rounded-full'
-              height={50}
-              src={`${userInfo.profileImage}`}
-              width={50}
-            />
-          </Link>
-        </div>
+        </Link>
+      </div>
+      <div className={`${headerPrefix}-profile-button-container w-1/3 flex justify-end`}>
+        <Link
+          className={`${headerPrefix}-profile-button w-[50px] bg-white justify-end hover:bg-white flex items-center rounded-full px-2 py-2 border-b-4 border-primary`}
+          href='/profile'
+        >
+          <Image
+            alt='profile'
+            className='w-[50px] rounded-full'
+            height={50}
+            src={`${userInfo.profileImage}`}
+            width={50}
+          />
+        </Link>
       </div>
     </div>
   );

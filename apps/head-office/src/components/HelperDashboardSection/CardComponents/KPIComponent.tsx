@@ -5,12 +5,12 @@ import { IComponentValueProps } from '../../DashboardSection/types';
 import { FaCircleInfo } from 'react-icons/fa6';
 
 const KPIComponent: React.FC<{
-  componentValue: IComponentValueProps | null;
+  componentValue: IComponentValueProps | undefined;
 }> = ({ componentValue }) => {
   const itemPrefix: string = `${BRAND_PREFIX}-dashboard-page-card-item`;
   const dashboardCardContentPrefix: string = `${itemPrefix}-content`;
 
-  const getKPIFontSize = (widgetCode: string) => {
+  const getKPIFontSize = (widgetCode: string | undefined) => {
     if (
       widgetCode === 'active_customer' ||
       widgetCode === 'total_process_count'
@@ -19,24 +19,6 @@ const KPIComponent: React.FC<{
     }
 
     return 'text-2xl';
-  };
-
-  const formattedNumber = (number: string) => {
-    if (
-      componentValue?.dashboardWidgetType !== 'total_transactions_amount' &&
-      componentValue?.dashboardWidgetType !== 'total_earnings' &&
-      componentValue?.dashboardWidgetType !== 'total_cost'
-    ) {
-      return number;
-    }
-
-    const res = new Intl.NumberFormat('de-DE', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-      // @ts-ignore
-    }).format(number);
-
-    return `${res} TL`;
   };
 
   if (!componentValue) {
@@ -53,18 +35,10 @@ const KPIComponent: React.FC<{
 
   return (
     <>
-      <div
-        className={`${dashboardCardContentPrefix} w-full h-full flex text-center justify-between`}
-      >
-        <div
-          className={`${dashboardCardContentPrefix}-info-container flex flex-col items-center justify-start px-4 w-full`}
-        >
-          <div
-            className={`${dashboardCardContentPrefix}-title-container flex items-center justify-start w-full`}
-          >
-            <div
-              className={`${dashboardCardContentPrefix}-title lg:text-lg font-bold text-md`}
-            >
+      <div className={`${dashboardCardContentPrefix} w-full h-full flex text-center justify-between`}>
+        <div className={`${dashboardCardContentPrefix}-info-container flex flex-col items-center justify-start px-4 w-full`}>
+          <div className={`${dashboardCardContentPrefix}-title-container flex items-center justify-start w-full`}>
+            <div className={`${dashboardCardContentPrefix}-title lg:text-lg font-bold text-md`}>
               {componentValue?.widgetTitle}
             </div>
           </div>
@@ -74,16 +48,14 @@ const KPIComponent: React.FC<{
             <div
               className={`${dashboardCardContentPrefix}-icon-container flex items-center justify-center w-full h-5/6`}
             >
-              {/* <DynamicSVG fileName={componentValue?.iconName} /> */}
+              <DynamicSVG fileName={componentValue?.iconName} />
             </div>
             <div
-              className={`${dashboardCardContentPrefix}-value ${getKPIFontSize(
-                componentValue?.dashboardWidgetType
-              )} flex w-full items-center justify-end h-full`}
+              className={`${dashboardCardContentPrefix}-value text-${componentValue?.valueSizeType} flex w-full items-center ${componentValue?.valuePositionType} h-full`}
             >
               {
                 <>
-                  <span>{formattedNumber(componentValue?.totalData)}</span>
+                  <span>{componentValue?.totalData}</span>
                 </>
               }
             </div>
@@ -93,13 +65,12 @@ const KPIComponent: React.FC<{
       <div
         className={`${dashboardCardContentPrefix}-description-container w-full h-1/6 flex items-end text-xs px-4`}
       >
-        <div
-          className={`${dashboardCardContentPrefix}-description w-full flex items-center justify-start`}
+        <div className={`${dashboardCardContentPrefix}-description w-full flex items-center justify-start`}
         >
           {componentValue?.widgetDescription && (
             <>
-              <p>{componentValue?.widgetDescription}</p>
               <FaCircleInfo className="mx-2" />
+              <p>{componentValue?.widgetDescription}</p>
             </>
           )}
         </div>
