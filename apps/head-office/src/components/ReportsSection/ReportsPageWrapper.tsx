@@ -8,33 +8,61 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { RootState, AppDispatch } from '../../../app/redux/store';
 import ReportsSection from './ReportsSection';
+import UserReportsSection from './UserReportsSection';
+import ChargeReportsSection from './ChargeReportsSection';
 
-const Reports: React.FC = () => {
-    const pagePrefix: string = `${BRAND_PREFIX}-reports-center-page`;
-    const dispatch = useDispatch<AppDispatch>();
-    const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
+interface IReportsProps {
+  reportType: 'user' | 'charge' | 'all';
+}
 
-    useEffect(() => {
-        dispatch(toggleLoadingVisibility(false));
-    }, []);
+const Reports: React.FC<IReportsProps> = (props) => {
+  const { reportType } = props;
 
-    return (
-        <div className={`${pagePrefix}-wrapper w-full flex h-screen`}>
-            {
-                isLoading
-                    ? (
-                        <Loading />
-                    )
-                    : (
-                        <MainComponent headerName='Rapor Merkezi'>
-                            <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap overflow-scroll`}>
-                                <ReportsSection />
-                            </div>
-                        </MainComponent>
-                    )
-            }
+  const pagePrefix: string = `${BRAND_PREFIX}-reports-center-page`;
+
+  const dispatch = useDispatch<AppDispatch>();
+  const isLoading = useSelector(
+    (state: RootState) => state.isLoadingVisible.isLoading
+  );
+
+  const reportSection = {
+    ['user']: {
+      title: 'Kullanıcı Raporları',
+      headerName: 'Kullanıcı Raporları',
+      render: <UserReportsSection />,
+    },
+    ['charge']: {
+      title: 'Şarz Raporları',
+      headerName: 'Şarz Raporları',
+      render: <ChargeReportsSection />,
+    },
+    ['all']: {
+      title: 'Tüm İşlemler',
+      headerName: 'Tüm İşlemler',
+      render: <ReportsSection />,
+    },
+  };
+
+  useEffect(() => {
+    dispatch(toggleLoadingVisibility(false));
+  }, []);
+
+  return (
+    <div className={`${pagePrefix}-wrapper `}>
+      <MainComponent headerName={reportSection[reportType].headerName}>
+        <div
+          className={`${pagePrefix}-container overflow-hidden w-full`}
+        >
+          <div
+            className={`${BRAND_PREFIX}-reports-center-container overflow-hidden w-full`}
+          >
+            {reportSection[reportType].render}
+          </div>
         </div>
-    );
+      </MainComponent>
+      {isLoading && <Loading />}
+    </div>
+  );
 };
 
 export default Reports;

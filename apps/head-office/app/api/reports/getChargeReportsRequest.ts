@@ -5,7 +5,7 @@ const getAllReportsRequest = async (payload: IGetReportsPayloadProps) => {
   try {
     const response = await axios
       .post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/Report/MainReport` || '',
+        `${process.env.NEXT_PUBLIC_BASE_URL}/Report/ChargeReports` || '',
         payload,
         {
           headers: {

@@ -53,6 +53,11 @@ const MainComponent: React.FC<IMainPageProps> = ({
       'Backup',
     ]);
 
+    if(colors.error) {
+      setIsVisibleComponent(false);
+      return;
+    }
+
     dispatch(setConfigs(colors.data));
     setIsVisibleComponent(true);
   };
