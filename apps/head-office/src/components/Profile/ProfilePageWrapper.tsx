@@ -44,7 +44,7 @@ const Profile: React.FC = () => {
                             <Loading />
                         )
                         : (
-                            <MainComponent headerName='Hosgeldin, '>
+                            <MainComponent headerName={`Hoşgeldin, ${userInfo.name}`}>
                                 <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap w-full`}>
                                     <ProfileSection />
                                 </div>

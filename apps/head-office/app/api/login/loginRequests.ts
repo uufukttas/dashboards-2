@@ -13,9 +13,9 @@ const loginRequest = async (credentials: ILoginRequestProps): Promise<IResponseI
     } catch (error) {
         if (axios.isAxiosError(error)) {
             if (error.response?.status === 400) {
-                return { status: 400, data: { message: 'Hay aksi bir seyler ters gitti...' }, token: { result: '' } };
+                return { status: 400, data: { message: 'Hay aksi bir şeyler ters gitti...' }, token: { result: '' } };
             } else if (error.response?.status === 401) {
-                return { status: 401, data: { message: 'Kullanıcı adi veya sifre hatali.' }, token: { result: '' } };
+                return { status: 401, data: { message: 'Kullanıcı adı veya Şifre hatalı.' }, token: { result: '' } };
             }
         }
 

@@ -43,7 +43,7 @@ const BackgroundSection: React.FC = () => {
                         id={`${backgroundImagePrefix}-submit-button`}
                         type='submit'
                     >
-                        Arka Plani Degistir
+                        Arka Planı Değiştir
                     </Button>
                 </div>
             </form>

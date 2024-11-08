@@ -15,7 +15,7 @@ const PasswordSection: React.FC = () => {
                     <Label
                         className={`${passwordPrefix}-label block mb-2 text-heading font-semibold px-2`}
                         htmlFor={`${passwordPrefix}-input`}
-                        labelText='Yeni Sifre'
+                        labelText='Yeni Şifre'
                     />
                     <Input
                         className={`${passwordPrefix}-input border text-text text-sm rounded-lg block w-full p-2.5 focus:ring-primary focus:border-primary`}
@@ -30,7 +30,7 @@ const PasswordSection: React.FC = () => {
                         id={`${passwordPrefix}-submit-button`}
                         type='submit'
                     >
-                        Sifreyi Degistir
+                        Şifreyi Değiştir
                     </Button>
                 </div>
             </form>
