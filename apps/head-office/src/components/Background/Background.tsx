@@ -7,7 +7,7 @@ const Background: React.FC<IBackgroundProps> = ({ backgroundUrl, className }: IB
 
   return (
     <div
-      className={`${backgroundPrefix}-container h-screen ${className}`}
+      className={`${backgroundPrefix}-container h-screen ${className ? className : ''}`}
       style={{ backgroundImage: `url('${backgroundUrl}')` }}
     >
     </div>

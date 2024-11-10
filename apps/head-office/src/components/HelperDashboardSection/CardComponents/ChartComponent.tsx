@@ -135,7 +135,7 @@ const ChartComponent = ({
       (item: { name: string; data: any }) => item.name
     );
     const data = response.map((item: { name: string; data: any }) =>
-      Number(item.data).toFixed(2)
+      convertToNumber(item.data).toFixed(2)
     );
 
     return {
@@ -177,59 +177,6 @@ const ChartComponent = ({
         return <></>;
     }
   };
-  // @ts-ignore
-  const ACDCPrepareData = (data) => {
-    // İlk adımda verileri tamamlıyoruz
-    // @ts-ignore
-    const completedData = data.map((item) => {
-      const completedItem = { ...item.data };
-
-      // 1'den 8'e kadar olan anahtarları kontrol ediyoruz ve eksik olanlara 0 ekliyoruz
-      for (let i = 1; i <= 8; i++) {
-        if (completedItem[i] === undefined) {
-          completedItem[i] = 0;
-        }
-      }
-
-      return {
-        ...item,
-        data: completedItem,
-      };
-    });
-
-    // 'ac' ve 'dc' türlerini kontrol ediyoruz
-    // @ts-ignore
-    const acItem = completedData.find((item) => item.type === 'ac');
-    // @ts-ignore
-    const dcItem = completedData.find((item) => item.type === 'dc');
-
-    const result = [];
-
-    // 'ac' tipi varsa, onu ekliyoruz
-    if (acItem) {
-      result.push(acItem);
-    } else {
-      // 'ac' tipi yoksa, varsayılan bir obje modelinde ekliyoruz
-      result.push({
-        type: 'ac',
-        data: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 },
-      });
-    }
-
-    // 'dc' tipi varsa, onu ekliyoruz
-    if (dcItem) {
-      result.push(dcItem);
-    } else {
-      // 'dc' tipi yoksa, varsayılan bir obje modelinde ekliyoruz
-      result.push({
-        type: 'dc',
-        data: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0, 7: 0, 8: 0 },
-      });
-    }
-
-    return result;
-  };
-
   const getValue = (data: IDashboardData) => {
     if (!data?.chartType) return <></>;
 
@@ -275,63 +222,7 @@ const ChartComponent = ({
     }
   };
 
-  // @ts-ignore
-  const PrepareMonthlyEanrningData = (data) => {
-    // @ts-ignore
-    const completedData = data.map((item) => {
-      const completedItem = { ...item.data };
-
-      // 1'den 8'e kadar olan anahtarları kontrol ediyoruz ve eksik olanlara 0 ekliyoruz
-      for (let i = 1; i <= 5; i++) {
-        // if (completedItem[0][i] === undefined || completedItem[1][i] === undefined) {
-        completedItem[i] = 0;
-        // }
-      }
-
-      return {
-        ...item,
-        data: completedItem,
-      };
-    });
-
-    // 'ac' ve 'dc' türlerini kontrol ediyoruz
-    // @ts-ignore
-    const acItem = completedData.find((item) => item.type === 'ac');
-    // @ts-ignore
-    const dcItem = completedData.find((item) => item.type === 'dc');
-
-    const result = [];
-
-    // 'ac' tipi varsa, onu ekliyoruz
-    if (acItem) {
-      result.push(acItem);
-    } else {
-      // 'ac' tipi yoksa, varsayılan bir obje modelinde ekliyoruz
-      result.push({
-        type: 'ac',
-        data: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
-      });
-    }
-
-    // 'dc' tipi varsa, onu ekliyoruz
-    if (dcItem) {
-      result.push(dcItem);
-    } else {
-      // 'dc' tipi yoksa, varsayılan bir obje modelinde ekliyoruz
-      result.push({
-        type: 'dc',
-        data: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
-      });
-    }
-
-    return result;
-  };
-
   const lineData = (response: any) => {
-    widget.widgetCode === 'last_8_day_ac_dc_sales' &&
-      (response = ACDCPrepareData(response));
-    widget.widgetCode === 'monthly_earning' &&
-      (response = PrepareMonthlyEanrningData(response));
     let acData,
       dcData,
       todayData,
@@ -340,10 +231,10 @@ const ChartComponent = ({
       lastMonthData,
       yearData,
       lastYearData;
-    console.log('response', response);
-    if (response[0]?.type === 'ac' || response[1]?.type === 'dc') {
+
+      if (response[0]?.type === 'ac' || response[0]?.type === 'dc') {
       ({ acData: acData, dcData: dcData } = processData(response, 'ac', 'dc'));
-    } else if (response[0][0].type === 'ac' || response[0][1].type === 'dc') {
+    } else if (response[0][0]?.type === 'ac' || response[0][1]?.type === 'dc') {
       ({ acData: todayData, dcData: lastWeekData } = processData(
         response,
         'today',
@@ -373,6 +264,12 @@ const ChartComponent = ({
       labels: Object.keys(key || []).map((key) => key),
     };
   };
+
+  function convertToNumber(tlString) {
+    // ₺ ve virgülü temizleyip, sayıyı dönüştür
+    const cleanedString = tlString.replace('₺', '').replace('.', '').replace(',', '.');
+    return parseFloat(cleanedString);
+}
   const processData = (
     response: any,
     currentKey: string,
@@ -380,22 +277,17 @@ const ChartComponent = ({
   ) => {
     let acData = response[0],
       dcData = response[1];
-
     if (Array.isArray(response[0])) {
       acData = response[0][0].data.map((item: any) =>
-        item.kwh ? item.kwh : item.amount
+        item.kwh ? convertToNumber(item.kwh) : convertToNumber(item.amount)
       );
       dcData = response[0][1].data.map((item: any) =>
-        item.kwh ? item.kwh : item.amount
+        item.kwh ? convertToNumber(item.kwh) : convertToNumber(item.amount)
       );
     } else {
-      if (acData && dcData) {
-        acData = Object.keys(response[0].data).map(
-          (point) => response[0]?.data[point]
-        );
-        dcData = Object.keys(response[1].data).map(
-          (point) => response[1]?.data[point]
-        );
+      if (acData || dcData) {
+        acData = Object.keys(response[0].data).map((point) => response[0]?.data[point]);
+        dcData = Object.keys(response[0].data).map((point) => response[1]?.data[point]);
       }
     }
     return { acData, dcData };
@@ -570,17 +462,11 @@ const ChartComponent = ({
   }
 
   return (
-    <div
-      className={`${pagePrefix}-info-container w-full flex justify-between flex-wrap min-w-1/2 `}
-    >
-      <div
-        className={`${pagePrefix}-card-row-wrapper flex flex-col md:flex-row w-full`}
-      >
+    <div className={`${pagePrefix}-info-container w-full flex justify-between flex-wrap min-w-1/2 `}>
+      <div className={`${pagePrefix}-card-row-wrapper flex flex-col md:flex-row w-full`}>
         <div className="w-full h-full grid">
           <Fragment>
-            <div
-              className={`card-content w-full h-full flex text-center justify-between`}
-            >
+            <div className={`card-content w-full h-full flex text-center justify-between`}>
               <div className="card-info-container flex flex-col items-center justify-start px-4 w-full">
                 <div className="card-title-container flex items-center justify-start w-full">
                   <div className={`lg:text-lg font-bold text-md`}>

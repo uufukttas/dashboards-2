@@ -80,7 +80,7 @@ export const stylesProps = {
     borderRadius: '6px',
     fontColor: '#000000',
     fontSize: '16px',
-    loginPageBackgroundImage: '../../background2.jpg',
+    loginPageBackgroundImage: '../../UnivoltBG.jpg',
 };
 export const userInfo = {
     logo: '../../ovolt_logo.png',
