@@ -232,7 +232,7 @@ const ChartComponent = ({
       yearData,
       lastYearData;
 
-      if (response[0]?.type === 'ac' || response[0]?.type === 'dc') {
+    if (response[0]?.type === 'ac' || response[0]?.type === 'dc') {
       ({ acData: acData, dcData: dcData } = processData(response, 'ac', 'dc'));
     } else if (response[0][0]?.type === 'ac' || response[0][1]?.type === 'dc') {
       ({ acData: todayData, dcData: lastWeekData } = processData(
@@ -265,11 +265,11 @@ const ChartComponent = ({
     };
   };
 
-  function convertToNumber(tlString) {
+  function convertToNumber(tlString: string) {
     // ₺ ve virgülü temizleyip, sayıyı dönüştür
     const cleanedString = tlString.replace('₺', '').replace('.', '').replace(',', '.');
     return parseFloat(cleanedString);
-}
+  }
   const processData = (
     response: any,
     currentKey: string,
