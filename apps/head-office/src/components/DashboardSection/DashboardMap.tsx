@@ -19,6 +19,9 @@ interface Station {
   mapIconCode: string;
 }
 
+
+
+
 const DashboardMap: React.FC<{ widget: IComponentValueProps }> = ({
   widget,
 }) => {
@@ -71,7 +74,9 @@ const DashboardMap: React.FC<{ widget: IComponentValueProps }> = ({
       });
     }
   };
+
   if (loadError) return <div>Error loading map</div>;
+
   if (!isLoaded || !widget.dashboardMapItemDataSummaries)
     return <div>Loading...</div>;
 
@@ -102,7 +107,11 @@ const DashboardMap: React.FC<{ widget: IComponentValueProps }> = ({
           zoom={5.6}
           onLoad={onLoad}
         >
-          <MarkerClusterer>
+          <MarkerClusterer
+            options={{
+              minimumClusterSize:4
+            }}
+          >
             {(clusterer) => {
               return (
                 <div>

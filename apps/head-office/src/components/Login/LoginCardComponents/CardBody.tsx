@@ -67,7 +67,7 @@ const CardBody: React.FC = () => {
                 <div className={`${loginPrefix}-submit-button-container mb-4`}>
                     <Button
                         buttonText={'Giriş Yap'}
-                        className={`${loginPrefix}-submit-button w-full p-2 px-4 text-text font-bold bg-primary hover:bg-primary-lighter`}
+                        className={`${loginPrefix}-submit-button w-full p-2 px-4 font-bold bg-primary text-white hover:bg-primary-lighter`}
                         id={`${loginPrefix}-submit-button`}
                         type={'submit'}
                     />
