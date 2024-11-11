@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { getLanguageListRequest } from './api/login';
 import MainClient from './main/MainClient';
 import { getColorsRequest } from '../app/api/profile';
@@ -15,16 +15,40 @@ interface ILanguageProps {
   rid: number;
 };
 
-const MainPage: React.FC = async () => {
-  const { colors } = await getColorsRequest(['Primary', 'Secondary', 'Alternate', 'Backup']);
-  const languageList = await getLanguageListRequest();
+const MainPage: React.FC = () => {
+  const [colors, setColors] = useState([
+    {
+      id: null,
+      name: 'Primary',
+      value: '',
+    },
+    {
+      id: null,
+      name: 'Secondary',
+      value: '',
+    },
+  ]);
+  const [languageList, setLanguageList] = useState([]);
   const primaryColor = colors?.[0]?.value || stylesProps.primaryColor;
   const secondaryColor = colors?.[1]?.value || stylesProps.secondaryColor;
-  const updatedLanguages = languageList.map((language: ILanguageProps) => ({
+  const updatedLanguages = languageList?.map((language: ILanguageProps) => ({
     id: null,
     name: language.name,
     rid: language.rid,
   }));
+
+  useEffect(() => {
+    if (updatedLanguages.length === 0) {
+      getColorsRequest(['Primary', 'Secondary', 'Alternate', 'Backup']).then((response) => {
+        setColors(response);
+      });
+
+      getLanguageListRequest().then((response) => {
+        setLanguageList(response);
+      });
+    }
+  }, [languageList]);
+
 
   return (
     <div
@@ -34,7 +58,11 @@ const MainPage: React.FC = async () => {
         '--secondary-color': secondaryColor,
       } as React.CSSProperties}
     >
-      <MainClient languageList={updatedLanguages} />
+      {
+        languageList.length > 0 && (
+          <MainClient languageList={updatedLanguages} />
+        )
+      }
     </div>
   );
 };

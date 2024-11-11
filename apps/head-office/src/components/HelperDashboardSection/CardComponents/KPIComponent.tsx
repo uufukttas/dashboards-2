@@ -10,17 +10,6 @@ const KPIComponent: React.FC<{
   const itemPrefix: string = `${BRAND_PREFIX}-dashboard-page-card-item`;
   const dashboardCardContentPrefix: string = `${itemPrefix}-content`;
 
-  const getKPIFontSize = (widgetCode: string | undefined) => {
-    if (
-      widgetCode === 'active_customer' ||
-      widgetCode === 'total_process_count'
-    ) {
-      return 'text-4xl';
-    }
-
-    return 'text-2xl';
-  };
-
   if (!componentValue) {
     return (
       <div className="animate-pulse flex flex-col space-y-4 p-4 w-full">
@@ -42,17 +31,14 @@ const KPIComponent: React.FC<{
               {componentValue?.widgetTitle}
             </div>
           </div>
-          <div
-            className={`${dashboardCardContentPrefix}-content-container flex items-center justify-center w-full h-5/6`}
-          >
-            <div
-              className={`${dashboardCardContentPrefix}-icon-container flex items-center justify-center w-full h-5/6`}
-            >
-              <DynamicSVG fileName={componentValue?.iconName} />
-            </div>
-            <div
-              className={`${dashboardCardContentPrefix}-value text-${componentValue?.valueSizeType} flex w-full items-center ${componentValue?.valuePositionType} h-full`}
-            >
+          <div className={`${dashboardCardContentPrefix}-container flex items-center justify-center w-full h-5/6`}>
+            {
+              componentValue?.iconName &&
+              <div className={`${dashboardCardContentPrefix}-icon-container flex items-center justify-center w-full h-5/6`}>
+                <DynamicSVG fileName={componentValue?.iconName} />
+              </div>
+            }
+            <div className={`${dashboardCardContentPrefix}-value text-${componentValue?.valueSizeType} flex w-full items-center justify-center ${componentValue?.valuePositionType} h-full`}>
               {
                 <>
                   <span>{componentValue?.totalData}</span>
@@ -62,11 +48,8 @@ const KPIComponent: React.FC<{
           </div>
         </div>
       </div>
-      <div
-        className={`${dashboardCardContentPrefix}-description-container w-full h-1/6 flex items-end text-xs px-4`}
-      >
-        <div className={`${dashboardCardContentPrefix}-description w-full flex items-center justify-start`}
-        >
+      <div className={`${dashboardCardContentPrefix}-description-container w-full h-1/6 flex items-end text-xs px-4`}>
+        <div className={`${dashboardCardContentPrefix}-description w-full flex items-center justify-start`}>
           {componentValue?.widgetDescription && (
             <>
               <FaCircleInfo className="mx-2" />
