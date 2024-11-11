@@ -2,10 +2,12 @@ import React, { useRef, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { Button } from 'primereact/button';
 import { BiSolidEvStation } from 'react-icons/bi';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import { ISidebarItemComponentProps } from '../types';
+import { toggleSidebarExpanded } from '../../../../app/redux/features/isSidebarExpand';
+import { RootState } from '../../../../app/redux/store';
 
 const SidebarBodyItem: React.FC<ISidebarItemComponentProps> = ({ item }) => {
   const sidebarPrefix: string = `${BRAND_PREFIX}-sidebar`;
@@ -13,8 +15,17 @@ const SidebarBodyItem: React.FC<ISidebarItemComponentProps> = ({ item }) => {
   const expandMenuButton = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
+  const isSidebarExpanded = useSelector(
+    (state: RootState) => state.isSidebarExpand.isSidebarExpanded
+  );
 
   const [subActive, setSubActive] = useState(false);
+
+  const handleClick = (path: string) => {
+    dispatch(toggleLoadingVisibility(true));
+    dispatch(toggleSidebarExpanded(isSidebarExpanded));
+    router.push(path);
+  };
 
   if (item.subItems) {
     const isSubItemActive = item.subItems.some(
@@ -45,10 +56,7 @@ const SidebarBodyItem: React.FC<ISidebarItemComponentProps> = ({ item }) => {
             <Button
               key={subIndex}
               className="w-full border-l rounded-none p-0"
-              onClick={() => {
-                dispatch(toggleLoadingVisibility(true));
-                router.push(subItem.path);
-              }}
+              onClick={() => handleClick(subItem.path)}
             >
               <li
                 className={`${sidebarPrefix}-sublist-item-container-item cursor-pointer flex items-center p-3 pl-0 rounded-md text-700 hover:bg-gray-100 w-full`}
@@ -66,13 +74,10 @@ const SidebarBodyItem: React.FC<ISidebarItemComponentProps> = ({ item }) => {
   return (
     <Button
       className={`${sidebarPrefix}-content-list-container-list-item-container w-full flex items-center p-3 rounded-md cursor-pointer text-700 hover:bg-gray-100 `}
-      onClick={() => {
-        dispatch(toggleLoadingVisibility(true));
-        router.push(item.path);
-      }}
+      onClick={() => handleClick(item.path)}
     >
       <li className={`${sidebarPrefix}-content-list-container-list-item `}>
-        <div className='flex-row  flex items-center justify-center'>
+        <div className="flex-row  flex items-center justify-center">
           {item.icon === 'BiSolidEvStation' ? (
             <BiSolidEvStation className="mr-2 " />
           ) : (
