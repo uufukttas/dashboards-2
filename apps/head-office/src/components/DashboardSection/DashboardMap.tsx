@@ -125,7 +125,7 @@ const DashboardMap: React.FC<{ widget: IComponentValueProps }> = ({ widget }) =>
                         icon={
                           marker.iconUrl
                             ? {
-                              url: setIconUrl(marker.iconUrl),
+                              url: marker.iconUrl,
                               scaledSize: new google.maps.Size(50, 50),
                               origin: new google.maps.Point(50, 50),
                               anchor: new google.maps.Point(0, 0),

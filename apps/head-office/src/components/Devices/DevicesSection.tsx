@@ -214,6 +214,7 @@ const DevicesSection: React.FC = () => {
     formData.append('forceWrite', 'true');
     formData.append('fileName', selectedFile.name);
     formData.append('pathKey', 'station');
+    // @ts-ignore
     formData.append('stationId', slug);
     formData.append('image', _file);
 
@@ -269,38 +270,6 @@ const DevicesSection: React.FC = () => {
         </div>
       </>
     );
-  };
-  const prepareTableData = () => {
-    debugger;
-    const data = deviceListData.map((device) => {
-      return (
-        <div className={`${BRAND_PREFIX}-device-management-container flex justify-between items-center flex-col`}>
-          <div className={`${deviceManagementPrefix}-listing-container items-center w-full`}>
-            <div className={`${deviceManagementPrefix}-device-brand-container w-full flex justify-between items-center my-4`}>
-              <span className={`${deviceManagementPrefix}-device-brand font-semibold text-base`}>{device.brand}</span>
-            </div>
-            <div className={`${deviceManagementPrefix}-device-model-container w-full flex justify-between items-center my-4`}>
-              <span className={`${deviceManagementPrefix}-device-model font-semibold text-base`}>{device.name}</span>
-            </div>
-            <div className={`${deviceManagementPrefix}-device-kw-container w-full flex justify-between items-center my-4`}>
-              <span className={`${deviceManagementPrefix}-device-kw font-semibold text-base`}>{device.kw}</span>
-            </div>
-            <div className={`${deviceManagementPrefix}-used-kw-container w-full flex justify-between items-center my-4`}>
-              <span className={`${deviceManagementPrefix}-used-kw font-semibold text-base`}>{device.used_kw}</span>
-            </div>
-            <div className={`${deviceManagementPrefix}-image-container w-full flex justify-between items-center my-4`}>
-              <img
-                className={`${deviceManagementPrefix}-image`}
-                src={device.imageUrl}
-                alt="device"
-              />
-            </div>
-          </div>
-        </div>
-      );
-    });
-
-    return data;
   };
   const onColumnToggle = (event: MultiSelectChangeEvent): void => {
     const selectedColumns = event.target.value;
@@ -411,6 +380,7 @@ const DevicesSection: React.FC = () => {
                 placeholder="Marka Seçiniz"
                 type="text"
                 value={selectedBrand}
+                // @ts-ignore
                 onChange={(event) => setSelectedBrand(event.value)}
               />
             </div>
