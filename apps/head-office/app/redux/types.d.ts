@@ -265,6 +265,8 @@ export interface IReportDataProps {
 export interface IReportsDataStateProps {
     reportsData: IReportDataProps[];
     reportsCount: number;
+    usersData: any[];
+    usersCount: number;
 };
 export interface IResourceTextProps {
     [key: string]: string;

@@ -4,9 +4,8 @@ import { IGetReportsPayloadProps } from './types';
 const getUserReportsRequest = async (payload: IGetReportsPayloadProps) => {
   try {
     const response = await axios
-      .post(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/Report/UserReports` || '',
-        payload,
+      .get(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/Report/CustomerReport` || '',
         {
           headers: {
             'Content-Type': 'application/json',
@@ -17,8 +16,7 @@ const getUserReportsRequest = async (payload: IGetReportsPayloadProps) => {
       .then((response) => {
         return {
           data: response.data.data,
-          count: response.data.count,
-          success: response.status === 200,
+          success: response.data.success,
         };
       });
 
