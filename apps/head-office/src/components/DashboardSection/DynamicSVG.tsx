@@ -27,7 +27,7 @@ const DynamicSVG = ({ fileName, className }: { fileName: any, className?: string
 
     return (
         <div
-            className={`${className} svg-icon`}
+            className={`${className} svg-icon flex justify-center items-center`}
             dangerouslySetInnerHTML={{ __html: svgContent }}
         />
     );

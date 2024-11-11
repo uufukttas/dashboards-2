@@ -64,6 +64,11 @@ const DevicesSection: React.FC = () => {
       isRemovable: true,
     },
     {
+      header: 'Cihaz Gücü',
+      field: 'devicePower',
+      isRemovable: true,
+    },
+    {
       header: 'Resim',
       field: 'image',
       isRemovable: true,
@@ -86,8 +91,10 @@ const DevicesSection: React.FC = () => {
   );
   const toastRef = useRef<Toast>(null);
   const [visibleColumns, setVisibleColumns] = useState(tableHeaderData);
-  const [selectedModel, setSelectedModel] = useState(null);
+  const [selectedBrand, setSelectedBrand] = useState(null);
   const [brands, setBrands] = useState([]);
+  const [models, setModels] = useState([]);
+  const [selectedModel, setSelectedModel] = useState(null);
 
   const getBrands = async () => {
     const res = await getChargeUnitBrands().then((res) => res.data);
@@ -105,9 +112,7 @@ const DevicesSection: React.FC = () => {
   const dataTableHeader = (): JSX.Element => {
     return (
       <>
-        <div
-          className={`${BRAND_PREFIX}-data-table-header-container w-full flex justify-between items-center`}
-        >
+        <div className={`${BRAND_PREFIX}-data-table-header-container w-full flex justify-between items-center`}>
           <div className={`${BRAND_PREFIX}-data-table-select-container`}>
             <MultiSelect
               value={visibleColumns}
@@ -118,12 +123,8 @@ const DevicesSection: React.FC = () => {
               display="chip"
             />
           </div>
-          <div
-            className={`${BRAND_PREFIX}-data-table-action-button-container flex justify-center items-center`}
-          >
-            <div
-              className={`${BRAND_PREFIX}-data-table-add-button-container mx-4`}
-            >
+          <div className={`${BRAND_PREFIX}-data-table-action-button-container flex justify-center items-center`}>
+            <div className={`${BRAND_PREFIX}-data-table-add-button-container mx-4`}>
               <Button
                 className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
                 icon="pi pi-plus"
@@ -134,7 +135,7 @@ const DevicesSection: React.FC = () => {
               />
               <Tooltip
                 className={`${BRAND_PREFIX}-data-table-add-button-tooltip text-base`}
-                content="Tarife Ekle"
+                content="Cihaz Ekle"
                 position="bottom"
                 target={`#${BRAND_PREFIX}-table-header-add-button`}
                 style={{ fontSize: '12px', padding: '4px' }}
@@ -254,19 +255,21 @@ const DevicesSection: React.FC = () => {
         >
           <>
             <div
-              className={`${deviceManagementPrefix}-name-input-container w-full flex justify-between items-center my-4`}
+              className={`${deviceManagementPrefix}-brand-input-container w-full flex justify-between items-center my-4`}
             >
               <Label
-                className={`${deviceManagementPrefix}-name-input-label`}
-                htmlFor="Cihaz Adı"
-                labelText="Cihaz Adı"
+                className={`${deviceManagementPrefix}-brand-input-label`}
+                htmlFor="Cihaz Markası"
+                labelText="Cihaz Markası"
               />
-              <Input
-                className={`${deviceManagementPrefix}-name-input rounded-md`}
-                id={`${deviceManagementPrefix}-name-input`}
-                name="Cihaz Adı"
-                placeholder="Cihaz Adı"
-                type="text"
+              <Dropdown
+                className={`${deviceManagementPrefix}-brand-input rounded-md border border-gray-400`}
+                id={`${deviceManagementPrefix}-brand-input`}
+                name="Cihaz Markası"
+                options={brands}
+                placeholder="Marka Seçiniz"
+                value={selectedBrand}
+                onChange={(event) => setSelectedBrand(event.value)}
               />
             </div>
             <div
@@ -274,17 +277,17 @@ const DevicesSection: React.FC = () => {
             >
               <Label
                 className={`${deviceManagementPrefix}-model-input-label`}
-                htmlFor="Cihaz Modeli"
-                labelText="Cihaz Modeli"
+                htmlFor="Cihaz Markası"
+                labelText="Cihaz Markası"
               />
               <Dropdown
                 className={`${deviceManagementPrefix}-model-input rounded-md border border-gray-400`}
                 id={`${deviceManagementPrefix}-model-input`}
-                name="Cihaz Modeli"
+                name="Cihaz Markası"
                 options={brands}
-                placeholder="Model Seçiniz"
-                value={selectedModel}
-                onChange={(event) => setSelectedModel(event.value)}
+                placeholder="Marka Seçiniz"
+                value={selectedBrand}
+                onChange={(event) => setSelectedBrand(event.value)}
               />
             </div>
           </>
