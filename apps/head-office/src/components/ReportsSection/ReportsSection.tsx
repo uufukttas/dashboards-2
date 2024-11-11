@@ -1,32 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getAllReportsRequest } from '../../../app/api/reports';
-import { setReportsData } from '../../../app/redux/features/getAllReports';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
-import { RootState } from '../../../app/redux/store';
 import './ReportsSection.css';
 import BaseReport from './BaseReport';
 import { AllReportsTableHeadData } from './constants';
 
 const ReportsSection: React.FC = () => {
   const dispatch = useDispatch();
-  const reportsData = useSelector(
-    (state: RootState) => state.getAllReports.reportsData
-  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [data, setData] = useState([]);
 
   const getAllChargeData = async (): Promise<void> => {
+    dispatch(toggleLoadingVisibility(true));
     const response = await getAllReportsRequest({
       pageNumber: 1,
       userCount: 100,
     });
 
-    dispatch(
-      setReportsData({
-        data: response.data,
-        count: response.count,
-      })
-    );
+    setData(response.data);
 
     setIsLoading(false);
     dispatch(toggleLoadingVisibility(false));
@@ -39,7 +31,7 @@ const ReportsSection: React.FC = () => {
   return (
     <BaseReport
       id="all-reports"
-      data={reportsData}
+      data={data}
       isLoading={isLoading}
       pagePrefix="all-reports"
       tableHeadData={AllReportsTableHeadData}

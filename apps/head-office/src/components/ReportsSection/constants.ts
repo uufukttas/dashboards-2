@@ -373,7 +373,99 @@ export const StationStatusReportsTableHeadData: Array<ITableHeadData> = [
     field: 'chargingRate',
     header: 'Şarj Etme Oranı',
     isRemovable: true,
-  }
+  },
+];
+
+export const StationAlarmReportsTableHeadData: Array<ITableHeadData> = [
+  {
+    field: 'trxNo',
+    header: 'Trx No',
+    isRemovable: true,
+  },
+  {
+    field: 'locationName',
+    header: 'Lokasyon Adı',
+    isRemovable: true,
+  },
+  {
+    field: 'unitCode',
+    header: 'Ünite Kodu',
+    isRemovable: true,
+  },
+  {
+    field: 'socketCode',
+    header: 'Soket No',
+    isRemovable: true,
+  },
+  {
+    field: 'socketPower',
+    header: 'Soket Gücü',
+    isRemovable: true,
+  },
+  {
+    field: 'startAt',
+    header: 'Şarj Başlangıç',
+    isRemovable: true,
+  },
+  {
+    field: 'totalTime',
+    header: 'Şarj Süresi',
+    isRemovable: true,
+  },
+  {
+    field: 'endAt',
+    header: 'Şarj Bitiş',
+    isRemovable: true,
+  },
+  {
+    field: 'kwh',
+    header: 'kWh',
+    isRemovable: true,
+  },
+  {
+    field: 'averageKWH',
+    header: 'Ort kW',
+    isRemovable: true,
+  },
+  {
+    field: 'totalAmountWithoutKDV',
+    header: 'Toplam Tutar',
+    isRemovable: true,
+  },
+];
+
+
+export const StationPaymentReportsHeadData: Array<ITableHeadData> = [
+  {
+    field: 'userName',
+    header: 'Kullanıcı Adı',
+    isRemovable: true,
+  },
+  {
+    field: 'phoneNumber',
+    header: 'Cep Telefonu',
+    isRemovable: true,
+  },
+  {
+    field: 'orderNumber',
+    header: 'Sipariş No',
+    isRemovable: true,
+  },
+  {
+    field: 'processType',
+    header: 'İşlem Sebebi',
+    isRemovable: true,
+  },
+  {
+    field: 'processStatus',
+    header: 'İşlem Durumu',
+    isRemovable: true,
+  },
+  {
+    field: 'trxId',
+    header: 'Trx ID',
+    isRemovable: true,
+  },
 ]
 
 export const defaultFilters: DataTableFilterMeta = {

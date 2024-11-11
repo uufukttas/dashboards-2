@@ -11,6 +11,8 @@ import ReportsSection from './ReportsSection';
 import UserReportsSection from './UserReportsSection';
 import ChargeReportsSection from './ChargeReportsSection';
 import StationStatusReportSection from './StationStatusReportsSections';
+import StationAlarmReportSection from './StationAlarmReportsSections';
+import StationPaymentReportsSection from './StationPaymentsReportsSection';
 
 interface IReportsProps {
   reportType: 'all' | 'user' | 'station-status' | 'station-alarm' | 'payment';
@@ -45,12 +47,12 @@ const Reports: React.FC<IReportsProps> = (props) => {
     ['station-alarm']: {
       title: 'İstasyon Alarm Raporları',
       headerName: 'İstasyon Alarm Raporları',
-      render: <ChargeReportsSection />,
+      render: <StationAlarmReportSection />,
     },
     ['payment']: {
       title: 'Ödeme Raporları',
       headerName: 'Ödeme Raporları',
-      render: <ChargeReportsSection />,
+      render: <StationPaymentReportsSection />,
     },
   };
 
