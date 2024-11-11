@@ -27,7 +27,7 @@ const SidebarComponent: React.FC = () => {
         </div >
       )}
       visible={isSidebarExpanded}
-      onHide={() => dispatch(toggleSidebarExpanded(isSidebarExpanded))}
+      onHide={() => dispatch(toggleSidebarExpanded(false))}
     />
   );
 };

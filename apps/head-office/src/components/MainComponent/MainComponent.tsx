@@ -13,10 +13,8 @@ import {
   getCityRequest,
   getDistrictsRequest,
 } from '../../../app/api/servicePoints';
-import {
-  setCities,
-  setDistricts,
-} from '../../../app/redux/features/setCityInformation';
+import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpand';
+import { setCities, setDistricts } from '../../../app/redux/features/setCityInformation';
 import { setConfigs } from '../../../app/redux/features/setConfig';
 import { RootState } from '../../../app/redux/store';
 import type { IMainPageProps } from './types';
@@ -53,7 +51,7 @@ const MainComponent: React.FC<IMainPageProps> = ({
       'Backup',
     ]);
 
-    if(colors.error) {
+    if (colors.error) {
       setIsVisibleComponent(false);
       return;
     }
@@ -85,6 +83,7 @@ const MainComponent: React.FC<IMainPageProps> = ({
     fetchConfigurations();
     setCitiesData();
     setDistritcsData();
+    dispatch(toggleSidebarExpanded(false));
   }, []);
 
   return (

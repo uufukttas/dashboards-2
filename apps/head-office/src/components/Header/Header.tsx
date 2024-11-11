@@ -43,7 +43,7 @@ const Header: React.FC<IHeaderProps> = ({ className, headerName }: IHeaderProps)
           aria-expanded={isSidebarExpanded ? true : false}
           className={`${headerPrefix}-sidebar-toggle-button px-1 flex justify-start items-center`}
           icon="pi pi-align-justify"
-          onClick={() => dispatch(toggleSidebarExpanded(isSidebarExpanded))}
+          onClick={() => dispatch(toggleSidebarExpanded(true))}
         />
         <div className={`${headerPrefix}-name-container h-8 flex items-center justify-evenly`}>
           <h1 className={`${headerPrefix}-name text-xl font-semibold `}>{headerName}</h1>

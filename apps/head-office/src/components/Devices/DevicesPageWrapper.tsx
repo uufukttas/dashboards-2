@@ -25,7 +25,7 @@ const Devices: React.FC = () => {
                     )
                     : (
                         <MainComponent headerName='Cihazlar'>
-                            <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap`}>
+                            <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap w-full`}>
                                 <DevicesSection />
                             </div>
                         </MainComponent>

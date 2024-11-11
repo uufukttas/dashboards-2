@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 const CampaignsSection: React.FC = () => {
     return (
-        <div className='flex '>
+        <div className='flex'>
             <Card
                 BRAND_PREFIX='sh'
                 containerClassName="sh-campaigns-section w-1/2 h-full flex justify-center items-center mx-2"
@@ -12,7 +12,7 @@ const CampaignsSection: React.FC = () => {
                 <div className="sh-campaigns-section-content">
                     <div className="sh-campaigns-section-image-container">
                         <Image
-                            src="/Campaign.jpeg"
+                            src="/Cilgin_Kasim.jpeg"
                             alt="Campaigns"
                             width={750}
                             height={600}
@@ -26,7 +26,6 @@ const CampaignsSection: React.FC = () => {
                     </div>
                 </div>
             </Card>
-
             <Card
                 BRAND_PREFIX='sh'
                 containerClassName="sh-campaigns-section w-1/2 h-full flex justify-center items-center mx-2"
@@ -34,7 +33,7 @@ const CampaignsSection: React.FC = () => {
                 <div className="sh-campaigns-section-content">
                     <div className="sh-campaigns-section-image-container">
                         <Image
-                            src="/Campaign2.jpeg"
+                            src="/Cilgin_Kasim.jpeg"
                             alt="Campaigns"
                             width={750}
                             height={600}

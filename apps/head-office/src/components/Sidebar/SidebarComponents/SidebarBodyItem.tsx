@@ -23,7 +23,7 @@ const SidebarBodyItem: React.FC<ISidebarItemComponentProps> = ({ item }) => {
 
   const handleClick = (path: string) => {
     dispatch(toggleLoadingVisibility(true));
-    dispatch(toggleSidebarExpanded(isSidebarExpanded));
+    dispatch(toggleSidebarExpanded(false));
     router.push(path);
   };
 
