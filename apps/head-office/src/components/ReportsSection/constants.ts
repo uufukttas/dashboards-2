@@ -147,24 +147,109 @@ export const AllReportsTableHeadData: Array<ITableHeadData> = [
 
 export const UsersReportsTableHeadData: Array<ITableHeadData> = [
   {
-    field: 'id',
-    header: 'ID',
-    isRemovable: false,
+    field: 'username',
+    header: 'Kullanıcı ID',
+    isRemovable: true,
   },
   {
-    field: 'name',
-    header: 'İsim',
-    isRemovable: false,
+    field: 'phoneNumber',
+    header: 'Cep Telefonu',
+    isRemovable: true,
   },
   {
-    field: 'surname',
-    header: 'Soyad',
-    isRemovable: false,
+    field: 'city',
+    header: 'Şehir',
+    isRemovable: true,
   },
   {
-    field: 'phone',
-    header: 'Telefon',
-    isRemovable: false,
+    field: 'district',
+    header: 'İlçe',
+    isRemovable: true,
+  },
+  {
+    field: 'customerType',
+    header: 'Müşteri Tipi',
+    isRemovable: true,
+  },
+  {
+    field: 'title',
+    header: 'Ünvan',
+    isRemovable: true,
+  },
+  {
+    field: 'nationalIdOrTaxNumber',
+    header: 'TCKN/VKN',
+    isRemovable: true,
+  },
+  {
+    field: 'address',
+    header: 'Adres',
+    isRemovable: true,
+  },
+  {
+    field: 'licensePlate',
+    header: 'Plaka',
+    isRemovable: true,
+  },
+  {
+    field: 'vehicleBrand',
+    header: 'Araç Markası',
+    isRemovable: true,
+  },
+  {
+    field: 'vehicleModel',
+    header: 'Araç Modeli',
+    isRemovable: true,
+  },
+  {
+    field: 'emailAddress',
+    header: 'İlçe',
+    isRemovable: true,
+  },
+  {
+    field: 'rfCardId',
+    header: 'RF Kartları',
+    isRemovable: true,
+  },
+  {
+    field: 'totalTransactionCount',
+    header: 'Toplam İşlem Adedi',
+    isRemovable: true,
+  },
+  {
+    field: 'totalConsumption',
+    header: 'Toplam Tüketim',
+    isRemovable: true,
+  },
+  {
+    field: 'totalAmount',
+    header: 'Toplam Tutar',
+    isRemovable: true,
+  },
+  {
+    field: 'debtBalance',
+    header: 'Borç Bakiyesi',
+    isRemovable: true,
+  },
+  {
+    field: 'membershipDate',
+    header: 'Üyelik Tarihi',
+    isRemovable: true,
+  },
+  {
+    field: 'lastChargeDate',
+    header: 'Son Şarj Tarihi',
+    isRemovable: true,
+  },
+  {
+    field: 'lastLoginDate',
+    header: 'Son Giriş Tarihi',
+    isRemovable: true,
+  },
+  {
+    field: 'lastChargeDate',
+    header: 'Son Şarj Tarihi',
+    isRemovable: true,
   },
 ];
 
