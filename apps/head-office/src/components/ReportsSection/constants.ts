@@ -253,6 +253,129 @@ export const UsersReportsTableHeadData: Array<ITableHeadData> = [
   },
 ];
 
+export const StationStatusReportsTableHeadData: Array<ITableHeadData> = [
+  {
+    field: 'operatorName',
+    header: 'Operatör Adı',
+    isRemovable: true,
+  },
+  {
+    field: 'resellerName',
+    header: 'Reseller Adı',
+    isRemovable: true,
+  },
+  {
+    field: 'stationName',
+    header: 'İstasyon Adı',
+    isRemovable: true,
+  },
+  {
+    field: 'stationOwner',
+    header: 'İstasyon Sahibi',
+    isRemovable: true,
+  },
+  {
+    field: 'city',
+    header: 'Şehir',
+    isRemovable: true,
+  },
+  {
+    field: 'district',
+    header: 'İlçe',
+    isRemovable: true,
+  },
+  {
+    field: 'unitCode',
+    header: 'Ünite Kodu',
+    isRemovable: true,
+  },
+  {
+    field: 'brand',
+    header: 'Marka',
+    isRemovable: true,
+  },
+  {
+    field: 'model',
+    header: 'Model',
+    isRemovable: true,
+  },
+  {
+    field: 'connectorNumber',
+    header: 'Konnektor No',
+    isRemovable: true,
+  },
+  {
+    field: 'managementPageStatus',
+    header: 'Yönetim Sayfası Durum',
+    isRemovable: true,
+  },
+  {
+    field: 'mobileAppStatus',
+    header: 'Mobil Uygulama Durum',
+    isRemovable: true,
+  },
+  {
+    field: 'connectorStatus',
+    header: 'Konnektör Durum',
+    isRemovable: true,
+  },
+  {
+    field: 'lastCommunicationTime',
+    header: 'Son İletişim Zamanı',
+    isRemovable: true,
+  },
+  {
+    field: 'lastChargeStatus',
+    header: 'Son Şarj Durumu',
+    isRemovable: true,
+  },
+  {
+    field: 'lastChargeStartTime',
+    header: 'Son Şarj Başlama Zamanı',
+    isRemovable: true,
+  },
+  {
+    field: 'lastChargeKWh',
+    header: 'Son Şarj KWh',
+    isRemovable: true,
+  },
+  {
+    field: 'connectorPower',
+    header: 'Konnektör Gücü',
+    isRemovable: true,
+  },
+  {
+    field: 'connectorType',
+    header: 'Konnektör Tipi',
+    isRemovable: true,
+  },
+  {
+    field: 'energyUnitPrice',
+    header: 'Enerji Birim Fiyatı',
+    isRemovable: true,
+  },
+  {
+    field: 'tariff',
+    header: 'Tarife',
+    isRemovable: true,
+  },
+  {
+    field: 'epdkCode',
+    header: 'EPDK Kodu',
+    isRemovable: true,
+  },
+  {
+    field: 'workingRate',
+    header: 'Çalışma Oranı',
+    isRemovable: true,
+  },
+  {
+    field: 'chargingRate',
+    header: 'Şarj Etme Oranı',
+    isRemovable: true,
+  }
+]
+
 export const defaultFilters: DataTableFilterMeta = {
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   trxId: {

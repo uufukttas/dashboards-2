@@ -14,11 +14,11 @@ const Reports: React.FC = () => {
   return (
     <>
       <Head>
-        <title>Şarz Raporları | Sharz.net</title>
+        <title>İstasyon Durum Raporları | Sharz.net</title>
       </Head>
       <PrimeReactProvider>
         <Provider store={store}>
-          <ReportsPageWrapper reportType='charge'/>
+          <ReportsPageWrapper reportType="station-status" />
         </Provider>
       </PrimeReactProvider>
     </>

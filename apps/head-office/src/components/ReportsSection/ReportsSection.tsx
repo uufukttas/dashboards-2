@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllReportsRequest } from '../../../app/api/reports';
-import { setReportsData, setUsersData } from '../../../app/redux/features/getAllReports';
+import { setReportsData } from '../../../app/redux/features/getAllReports';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
 import { RootState } from '../../../app/redux/store';
 import './ReportsSection.css';
 import BaseReport from './BaseReport';
 import { AllReportsTableHeadData } from './constants';
-import { getUserReportsRequest } from '../../../app/api/reports/getUserReportsRequest';
 
 const ReportsSection: React.FC = () => {
   const dispatch = useDispatch();
   const reportsData = useSelector(
     (state: RootState) => state.getAllReports.reportsData
   );
-  const usersData = useSelector(
-    (state: RootState) => state.getAllReports.usersData
-  );
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const getAllChargeData = async (): Promise<void> => {
@@ -36,28 +31,9 @@ const ReportsSection: React.FC = () => {
     setIsLoading(false);
     dispatch(toggleLoadingVisibility(false));
   };
-  const getUsersData = async (): Promise<void> => {
-    const response = await getUserReportsRequest({
-      pageNumber: 1,
-      userCount: 100,
-    });
-
-    dispatch(
-      setUsersData({
-        data: response.data,
-      })
-    );
-    setIsLoading(false);
-    dispatch(toggleLoadingVisibility(false));
-  };
 
   useEffect(() => {
-    if (reportsData.length === 0) {
-      dispatch(toggleLoadingVisibility(true));
-    }
-
     getAllChargeData();
-    getUsersData();
   }, []);
 
   return (

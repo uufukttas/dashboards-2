@@ -2,25 +2,48 @@ import { createSlice, Reducer } from '@reduxjs/toolkit';
 import { IReportsDataStateProps } from '../types';
 
 const initialState: IReportsDataStateProps = {
-    reportsData: [],
-    reportsCount: 0,
-    usersData: [],
-    usersCount: 0,
+  allReports: {
+    data: [],
+    count: 0,
+  },
+  userReports: {
+    data: [],
+    count: 0,
+  },
+  paymentReports: {
+    data: [],
+    count: 0,
+  },
+  stationAlarmReports: {
+    data: [],
+    count: 0,
+  },
+  stationStatusReports: {
+    data: [],
+    count: 0,
+  },
 };
 
 export const reportsData = createSlice({
-    name: 'reportsData',
-    initialState,
-    reducers: {
-        setReportsData: (state, action) => {
-            state.reportsData = action.payload.data;
-            state.reportsCount = action.payload.count;
-        },
-        setUsersData: (state, action) => {
-            state.usersData = action.payload.data;
-            state.usersCount = action.payload.count;
-        }
+  name: 'reportsData',
+  initialState,
+  reducers: {
+    setReportsData: (state, action) => {
+      state.allReports = action.payload;
     },
+    setUsersData: (state, action) => {
+      state.userReports = action.payload;
+    },
+    setPaymentData: (state, action) => {
+      state.paymentReports = action.payload;
+    },
+    setStationStatusData: (state, action) => {
+      state.stationStatusReports = action.payload;
+    },
+    setStationAlarmData: (state, action) => {
+      state.stationAlarmReports = action.payload;
+    }
+  },
 });
 
 export const { setReportsData, setUsersData } = reportsData.actions;
