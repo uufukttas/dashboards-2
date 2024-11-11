@@ -253,6 +253,221 @@ export const UsersReportsTableHeadData: Array<ITableHeadData> = [
   },
 ];
 
+export const StationStatusReportsTableHeadData: Array<ITableHeadData> = [
+  {
+    field: 'operatorName',
+    header: 'Operatör Adı',
+    isRemovable: true,
+  },
+  {
+    field: 'resellerName',
+    header: 'Reseller Adı',
+    isRemovable: true,
+  },
+  {
+    field: 'stationName',
+    header: 'İstasyon Adı',
+    isRemovable: true,
+  },
+  {
+    field: 'stationOwner',
+    header: 'İstasyon Sahibi',
+    isRemovable: true,
+  },
+  {
+    field: 'city',
+    header: 'Şehir',
+    isRemovable: true,
+  },
+  {
+    field: 'district',
+    header: 'İlçe',
+    isRemovable: true,
+  },
+  {
+    field: 'unitCode',
+    header: 'Ünite Kodu',
+    isRemovable: true,
+  },
+  {
+    field: 'brand',
+    header: 'Marka',
+    isRemovable: true,
+  },
+  {
+    field: 'model',
+    header: 'Model',
+    isRemovable: true,
+  },
+  {
+    field: 'connectorNumber',
+    header: 'Konnektor No',
+    isRemovable: true,
+  },
+  {
+    field: 'managementPageStatus',
+    header: 'Yönetim Sayfası Durum',
+    isRemovable: true,
+  },
+  {
+    field: 'mobileAppStatus',
+    header: 'Mobil Uygulama Durum',
+    isRemovable: true,
+  },
+  {
+    field: 'connectorStatus',
+    header: 'Konnektör Durum',
+    isRemovable: true,
+  },
+  {
+    field: 'lastCommunicationTime',
+    header: 'Son İletişim Zamanı',
+    isRemovable: true,
+  },
+  {
+    field: 'lastChargeStatus',
+    header: 'Son Şarj Durumu',
+    isRemovable: true,
+  },
+  {
+    field: 'lastChargeStartTime',
+    header: 'Son Şarj Başlama Zamanı',
+    isRemovable: true,
+  },
+  {
+    field: 'lastChargeKWh',
+    header: 'Son Şarj KWh',
+    isRemovable: true,
+  },
+  {
+    field: 'connectorPower',
+    header: 'Konnektör Gücü',
+    isRemovable: true,
+  },
+  {
+    field: 'connectorType',
+    header: 'Konnektör Tipi',
+    isRemovable: true,
+  },
+  {
+    field: 'energyUnitPrice',
+    header: 'Enerji Birim Fiyatı',
+    isRemovable: true,
+  },
+  {
+    field: 'tariff',
+    header: 'Tarife',
+    isRemovable: true,
+  },
+  {
+    field: 'epdkCode',
+    header: 'EPDK Kodu',
+    isRemovable: true,
+  },
+  {
+    field: 'workingRate',
+    header: 'Çalışma Oranı',
+    isRemovable: true,
+  },
+  {
+    field: 'chargingRate',
+    header: 'Şarj Etme Oranı',
+    isRemovable: true,
+  },
+];
+
+export const StationAlarmReportsTableHeadData: Array<ITableHeadData> = [
+  {
+    field: 'trxNo',
+    header: 'Trx No',
+    isRemovable: true,
+  },
+  {
+    field: 'locationName',
+    header: 'Lokasyon Adı',
+    isRemovable: true,
+  },
+  {
+    field: 'unitCode',
+    header: 'Ünite Kodu',
+    isRemovable: true,
+  },
+  {
+    field: 'socketCode',
+    header: 'Soket No',
+    isRemovable: true,
+  },
+  {
+    field: 'socketPower',
+    header: 'Soket Gücü',
+    isRemovable: true,
+  },
+  {
+    field: 'startAt',
+    header: 'Şarj Başlangıç',
+    isRemovable: true,
+  },
+  {
+    field: 'totalTime',
+    header: 'Şarj Süresi',
+    isRemovable: true,
+  },
+  {
+    field: 'endAt',
+    header: 'Şarj Bitiş',
+    isRemovable: true,
+  },
+  {
+    field: 'kwh',
+    header: 'kWh',
+    isRemovable: true,
+  },
+  {
+    field: 'averageKWH',
+    header: 'Ort kW',
+    isRemovable: true,
+  },
+  {
+    field: 'totalAmountWithoutKDV',
+    header: 'Toplam Tutar',
+    isRemovable: true,
+  },
+];
+
+
+export const StationPaymentReportsHeadData: Array<ITableHeadData> = [
+  {
+    field: 'userName',
+    header: 'Kullanıcı Adı',
+    isRemovable: true,
+  },
+  {
+    field: 'phoneNumber',
+    header: 'Cep Telefonu',
+    isRemovable: true,
+  },
+  {
+    field: 'orderNumber',
+    header: 'Sipariş No',
+    isRemovable: true,
+  },
+  {
+    field: 'processType',
+    header: 'İşlem Sebebi',
+    isRemovable: true,
+  },
+  {
+    field: 'processStatus',
+    header: 'İşlem Durumu',
+    isRemovable: true,
+  },
+  {
+    field: 'trxId',
+    header: 'Trx ID',
+    isRemovable: true,
+  },
+]
+
 export const defaultFilters: DataTableFilterMeta = {
   global: { value: null, matchMode: FilterMatchMode.CONTAINS },
   trxId: {

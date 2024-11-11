@@ -1,47 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import BaseReport from './BaseReport';
-import { UsersReportsTableHeadData } from './constants';
+import { StationAlarmReportsTableHeadData } from './constants';
 import { AppDispatch } from '../../../app/redux/store';
-import { getUserReportsRequest } from '../../../app/api/reports/getUserReportsRequest';
-import { setReportsData } from '../../../app/redux/features/getAllReports';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
+import { getStationAlarmReports } from '../../../app/api/reports/getStationAlarmReportsRequest';
 
-const UserReportsSection = () => {
+const StationAlarmReportSection = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [data, setData] = useState([]);
 
-  const getUserReports = async (): Promise<void> => {
+  const getReports = async (): Promise<void> => {
     dispatch(toggleLoadingVisibility(true));
 
-    const response = await getUserReportsRequest({
+    const response = await getStationAlarmReports({
       pageNumber: 1,
       userCount: 100,
     });
 
     setData(response.data);
+
     setIsLoading(false);
     dispatch(toggleLoadingVisibility(false));
   };
 
   useEffect(() => {
-    getUserReports();
-
-    return () => {
-      dispatch(setReportsData({ data: [], count: 0 }));
-    };
+    getReports();
   }, []);
 
   return (
     <BaseReport
-      id="user-reports"
+      id="station-alarm-reports"
       data={data}
       isLoading={isLoading}
-      pagePrefix="user-reports"
-      tableHeadData={UsersReportsTableHeadData}
+      pagePrefix="station-status-reports"
+      tableHeadData={StationAlarmReportsTableHeadData}
     />
   );
 };
 
-export default UserReportsSection;
+export default StationAlarmReportSection;

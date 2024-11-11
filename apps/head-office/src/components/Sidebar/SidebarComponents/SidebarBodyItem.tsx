@@ -59,10 +59,10 @@ const SidebarBodyItem: React.FC<ISidebarItemComponentProps> = ({ item }) => {
               onClick={() => handleClick(subItem.path)}
             >
               <li
-                className={`${sidebarPrefix}-sublist-item-container-item cursor-pointer flex items-center p-3 pl-0 rounded-md text-700 hover:bg-gray-100 w-full`}
+                className={`${sidebarPrefix}-sublist-item-container-item cursor-pointer flex items-center py-2 pl-0 rounded-md text-700 hover:bg-gray-100 w-full`}
               >
                 <div className="w-6 h-4 border-l border-b -ml-1 rounded-bl-md mb-4"></div>
-                <span className="font-medium pl-3">{subItem.label}</span>
+                <span className="font-medium pl-3 text-sm">{subItem.label}</span>
               </li>
             </Button>
           ))}

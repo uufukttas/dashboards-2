@@ -10,9 +10,12 @@ import { RootState, AppDispatch } from '../../../app/redux/store';
 import ReportsSection from './ReportsSection';
 import UserReportsSection from './UserReportsSection';
 import ChargeReportsSection from './ChargeReportsSection';
+import StationStatusReportSection from './StationStatusReportsSections';
+import StationAlarmReportSection from './StationAlarmReportsSections';
+import StationPaymentReportsSection from './StationPaymentsReportsSection';
 
 interface IReportsProps {
-  reportType: 'user' | 'charge' | 'all';
+  reportType: 'all' | 'user' | 'station-status' | 'station-alarm' | 'payment';
 }
 
 const Reports: React.FC<IReportsProps> = (props) => {
@@ -26,20 +29,30 @@ const Reports: React.FC<IReportsProps> = (props) => {
   );
 
   const reportSection = {
+    ['all']: {
+      title: 'Tüm İşlemler',
+      headerName: 'Tüm İşlemler',
+      render: <ReportsSection />,
+    },
     ['user']: {
       title: 'Kullanıcı Raporları',
       headerName: 'Kullanıcı Raporları',
       render: <UserReportsSection />,
     },
-    ['charge']: {
-      title: 'Şarz Raporları',
-      headerName: 'Şarz Raporları',
-      render: <ChargeReportsSection />,
+    ['station-status']: {
+      title: 'İstasyon Durum Raporları',
+      headerName: 'İstasyon Durum Raporları',
+      render: <StationStatusReportSection />,
     },
-    ['all']: {
-      title: 'Tüm İşlemler',
-      headerName: 'Tüm İşlemler',
-      render: <ReportsSection />,
+    ['station-alarm']: {
+      title: 'İstasyon Alarm Raporları',
+      headerName: 'İstasyon Alarm Raporları',
+      render: <StationAlarmReportSection />,
+    },
+    ['payment']: {
+      title: 'Ödeme Raporları',
+      headerName: 'Ödeme Raporları',
+      render: <StationPaymentReportsSection />,
     },
   };
 
@@ -50,9 +63,7 @@ const Reports: React.FC<IReportsProps> = (props) => {
   return (
     <div className={`${pagePrefix}-wrapper `}>
       <MainComponent headerName={reportSection[reportType].headerName}>
-        <div
-          className={`${pagePrefix}-container overflow-hidden w-full`}
-        >
+        <div className={`${pagePrefix}-container overflow-hidden w-full`}>
           <div
             className={`${BRAND_PREFIX}-reports-center-container overflow-hidden w-full`}
           >

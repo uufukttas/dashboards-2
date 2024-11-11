@@ -263,10 +263,26 @@ export interface IReportDataProps {
     NameSurname?: string
 };
 export interface IReportsDataStateProps {
-    reportsData: IReportDataProps[];
-    reportsCount: number;
-    usersData: any[];
-    usersCount: number;
+    allReports:{
+        data: IReportDataProps[];
+        count: number;
+    }
+    userReports:{
+        data: IReportDataProps[];
+        count: number;
+    }
+    stationStatusReports:{
+       data: IReportDataProps[];
+        count: number;
+    }
+    stationAlarmReports:{
+        data: IReportDataProps[];
+        count: number;
+    }
+    paymentReports:{
+        data: IReportDataProps[];
+        count: number;
+    }
 };
 export interface IResourceTextProps {
     [key: string]: string;

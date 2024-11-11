@@ -54,9 +54,17 @@ export const sidebarItems = [
         path: '/reports/users-reports',
       },
       {
-        label: 'Şarj Raporları',
-        path: '/reports/charge-reports',
+        label: 'İstasyon Durum Raporları',
+        path: '/reports/station-status-reports',
       },
+      {
+        label:'İstasyon Alarm Raporları',
+        path:'/reports/station-alarm-reports',
+      },
+      {
+        label:'Ödeme Raporları',
+        path:'/reports/payment-reports',
+      }
     ],
   },
   { label: 'Tarifeler', icon: 'pi pi-wallet', path: '/tariffs-management' },
