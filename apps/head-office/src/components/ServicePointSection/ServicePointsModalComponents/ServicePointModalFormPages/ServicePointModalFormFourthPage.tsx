@@ -136,10 +136,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   };
   const getSelectedStationFeatures = async () => {
     const response = await getStationFeaturesRequest(stationId);
-
     const selectedPaymentMethods = response.filter((feature: IFeatureProps) => feature.stationFeatureType === 1);
-
-
     const updatedPaymentMethods = paymentMethods.map((paymentMethod: IFeatureProps) => {
       const isChecked = selectedPaymentMethods.some((selectedPaymentMethod: IFeatureProps) => {
         return paymentMethod.stationFeatureValue === Number(selectedPaymentMethod.stationFeatureValue);
@@ -154,7 +151,6 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     setPaymentMethods(updatedPaymentMethods);
 
     const selectedOpportunities = response.filter((feature: IFeatureProps) => feature.stationFeatureType === 2);
-
     const updatedOpportunities = opportunities.map((opportunity: IFeatureProps) => {
       const isChecked = selectedOpportunities.some((selectedOpportunity: IFeatureProps) => {
         return opportunity.stationFeatureValue === Number(selectedOpportunity.stationFeatureValue);
@@ -167,7 +163,6 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     });
 
     setOpportunities(updatedOpportunities);
-
     setFourthPageFormData({
       ...fourthPageFormData,
       [`${formProperties.paymentMethods}`]: selectedPaymentMethods,
@@ -315,7 +310,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
           />
           <Button
             buttonText={servicePointInformation?.id > 0 ? 'Guncelle' : 'Kaydet'}
-            className={`${sectionPrefix}-submit-button bg-primary text-text text-sm rounded-lg block p-2.5`}
+            className={`${sectionPrefix}-submit-button bg-primary text-white text-sm rounded-lg block p-2.5`}
             disabled={isDisabled}
             id={`${sectionPrefix}-submit-button`}
             type={`submit`}

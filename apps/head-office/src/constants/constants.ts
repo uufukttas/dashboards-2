@@ -22,7 +22,7 @@ export const sidebarItems = [
   {
     label: 'Gösterge Paneli',
     icon: 'pi pi-home',
-    path: '/dashboards',
+    path: 'dashboards',
     subItems: [
       {
         label: 'Şarj Üniteleri',

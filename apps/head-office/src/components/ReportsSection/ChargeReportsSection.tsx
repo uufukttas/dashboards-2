@@ -24,7 +24,8 @@ const UserReportsSection = () => {
     dispatch(
       setReportsData({
         data: response.data,
-        count: response.count,
+        // @ts-ignore
+        count: response?.count,
       })
     );
     setIsLoading(false);
