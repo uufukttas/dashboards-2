@@ -120,7 +120,7 @@ const FileUpload: React.FC<IServicePointDetailsModalProps> = ({
           />
         </form>
       )}
-      {selectedFile && (
+      {(
         <div className="items-center justify-center flex flex-col">
           <ReactCrop
             crop={crop}

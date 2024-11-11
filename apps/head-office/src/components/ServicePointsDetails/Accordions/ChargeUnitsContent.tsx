@@ -477,7 +477,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                                                 <div className={`${chargeUnitPrefix}-info-edit-actions flex justify-between items-center w-full`}>
                                                                     <Link
                                                                         className={`${chargeUnitPrefix}-qr-code-button rounded-md px-2 py-2 mx-4`}
-                                                                        href={`http://192.168.3.75:91/Values/QRCodeCreate?text=${chargeUnits[0].deviceCode.toString()}&connectorNr=${connectorItem.connectorNr.toString()}`}
+                                                                        href={`${process.env.NEXT_PUBLIC_BASE_URL}/Values/QRCodeCreate?text=${chargeUnits[0].deviceCode.toString()}&connectorNr=${connectorItem.connectorNr.toString()}`}
                                                                         id={`${chargeUnitPrefix}-qr-code-button`}
                                                                         target='_blank'
                                                                     >

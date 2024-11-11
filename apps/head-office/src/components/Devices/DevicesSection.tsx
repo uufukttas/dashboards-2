@@ -20,57 +20,95 @@ import { RootState } from '../../../app/redux/store';
 import { Dropdown } from 'primereact/dropdown';
 import { Label } from '@projects/label';
 import { Input } from '@projects/input';
+import ReactCrop, { Crop } from 'react-image-crop';
 
 const DevicesSection: React.FC = () => {
   const deviceManagementPrefix = `${BRAND_PREFIX}-device-management`;
   const deviceListData = [
     {
+      brand: 'Circontrol',
       id: 1,
-      brand: 'Bosch',
-      model: 'Bosch 1234',
-      kwValue: 1234,
-      image: 'https://via.placeholder.com/150',
-      createDate: '2021-10-10T10:10:10',
-      kwRange: '1000 - 2000',
-      validityBeginDate: '2021-10-10T10:10:10',
-      validityEndDate: '2021-10-10T10:10:10',
-    },
-    {
+      name: 'E-Next Elite',
+      kw: 22,
+      used_kw: 22,
+      imageUrl: <img src='https://circontrol.com/wp-content/uploads/2023/03/circontrol-1080x1080-enext-elite-product-1-2048x2048.png' width={75} height={75}/>
+    }, {
+      brand: 'Circontrol',
       id: 2,
-      brand: 'Bosch',
-      model: 'Bosch 1234',
-      kwValue: 1234,
-      image: 'https://via.placeholder.com/150',
-      createDate: '2021-10-10T10:10:10',
-      kwRange: '1000 - 2000',
-      validityBeginDate: '2021-10-10T10:10:10',
-      validityEndDate: '2021-10-10T10:10:10',
-    },
+      name: 'E-Next Park',
+      kw: 22,
+      used_kw: 22,
+      // imageUrl: 'https://circontrol.com/wp-content/uploads/2023/03/circontrol-1080x1080-enext-park-product.png'
+      imageUrl: <img src='https://circontrol.com/wp-content/uploads/2023/03/circontrol-1080x1080-enext-park-product.png' width={75} height={75}/>
+    }, {
+      brand: 'Circontrol',
+      id: 3,
+      name: 'Raption 100',
+      kw: 100,
+      used_kw: 100,
+      // imageUrl: 'https://circontrol.com/wp-content/uploads/2023/10/R100-300x400-1.png'
+      imageUrl: <img src='https://circontrol.com/wp-content/uploads/2023/10/R100-300x400-1.png' width={75} height={75}/>
+    }, {
+      brand: 'HyperCharger',
+      id: 4,
+      name: 'HYC 50',
+      kw: 50,
+      used_kw: 50,
+      imageUrl: <img src="/HYC_50.png" width={75} height={75}/>
+    }, {
+      brand: 'HyperCharger',
+      id: 5,
+      name: 'HYC 150',
+      kw: 150,
+      used_kw: 150,
+      imageUrl: <img src="/HYC_150.png" width={75} height={75}/>
+    }, {
+      brand: 'Sinexcel',
+      id: 6,
+      name: 'SEC 240',
+      kw: 240,
+      used_kw: 180,
+      imageUrl: <img src="https://en.sinexcel.com/evcharger/240w/pic3-1.png?v=1.0" width={75} height={75}/>
+    }, {
+      brand: 'Sinexcel',
+      id: 7,
+      name: 'SEC 160',
+      kw: 160,
+      used_kw: 120,
+      imageUrl: <img src="/SEC160.png" width={75} height={75}/>
+    }, {
+      brand: 'Sinexcel',
+      id: 8,
+      name: 'Interstaller',
+      kw: 22,
+      used_kw: 22,
+      imageUrl: <img src='/Interstaller_22.png' width={75} height={75}/>
+    }
   ];
   const tableHeaderData = [
     {
-      header: 'Cihaz Markası',
+      header: 'Ünite Markası',
       field: 'brand',
       isRemovable: true,
     },
     {
-      header: 'Cihaz Modeli',
-      field: 'model',
+      header: 'Ünite Modeli',
+      field: 'name',
       isRemovable: true,
     },
     {
       header: 'Kw Değeri',
-      field: 'kwValue',
+      field: 'kw',
       isRemovable: true,
     },
     {
-      header: 'Cihaz Gücü',
-      field: 'devicePower',
+      header: 'Ünite Gücü',
+      field: 'used_kw',
       isRemovable: true,
     },
     {
-      header: 'Resim',
-      field: 'image',
+      header: 'Ünite Fotoğrafı',
+      field: 'imageUrl',
       isRemovable: true,
     },
     {
@@ -91,16 +129,102 @@ const DevicesSection: React.FC = () => {
   );
   const toastRef = useRef<Toast>(null);
   const [visibleColumns, setVisibleColumns] = useState(tableHeaderData);
-  const [selectedBrand, setSelectedBrand] = useState(null);
+  const [selectedBrand, setSelectedBrand] = useState('');
   const [brands, setBrands] = useState([]);
   const [models, setModels] = useState([]);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [selectedModel, setSelectedModel] = useState(null);
+  const [crop, setCrop] = useState<Crop>();
+  const imageRef = useRef<HTMLImageElement>(null);
+  const [imageSrc, setImageSrc] = useState('');
+
+  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files && e.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+      reader.addEventListener('load', () =>
+        setImageSrc(reader.result?.toString() || '')
+      );
+      // @ts-ignore
+      reader.readAsDataURL(e.target.files[0]);
+
+      setSelectedFile(file);
+    }
+  };
+
+  const getCroppedImg = (image: HTMLImageElement, crop: Crop) => {
+    const canvas = document.createElement('canvas');
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+    const ctx = canvas.getContext('2d');
+
+    ctx?.drawImage(
+      image,
+      crop.x * scaleX,
+      crop.y * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
+      0,
+      0,
+      crop.width,
+      crop.height
+    );
+
+    return new Promise<string>((resolve, reject) => {
+      canvas.toBlob((blob) => {
+        if (!blob) {
+          reject(new Error('Canvas is empty'));
+          return;
+        }
+        const fileUrl = URL.createObjectURL(blob);
+        resolve(fileUrl);
+      }, 'image/jpeg', 1);
+    });
+  };
 
   const getBrands = async () => {
     const res = await getChargeUnitBrands().then((res) => res.data);
 
     // @ts-ignore
     setBrands(res.map((item: any) => ({ label: item.name, value: item.id })));
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    if (!imageRef.current || !crop) {
+      return;
+    }
+    if (!selectedFile) {
+      return;
+    }
+
+    const croppedImageUrl = await getCroppedImg(imageRef.current, crop);
+
+    const _file = await fetch(croppedImageUrl)
+      .then((r) => r.blob())
+      .then(
+        (blobFile) =>
+          new File([blobFile], selectedFile.name, { type: 'image/jpeg' })
+      );
+
+    const formData = new FormData();
+
+    formData.append('forceWrite', 'true');
+    formData.append('fileName', selectedFile.name);
+    formData.append('pathKey', 'station');
+    formData.append('stationId', slug);
+    formData.append('image', _file);
+
+    try {
+      // await addServicePointImageRequest(formData);
+
+      // sendRequest
+    } catch (error) {
+      console.error('Error uploading file:', error);
+    }
+    dispatch(toggleModalVisibility(false));
   };
 
   useEffect(() => {
@@ -135,7 +259,7 @@ const DevicesSection: React.FC = () => {
               />
               <Tooltip
                 className={`${BRAND_PREFIX}-data-table-add-button-tooltip text-base`}
-                content="Cihaz Ekle"
+                content="Ünite Ekle"
                 position="bottom"
                 target={`#${BRAND_PREFIX}-table-header-add-button`}
                 style={{ fontSize: '12px', padding: '4px' }}
@@ -147,11 +271,33 @@ const DevicesSection: React.FC = () => {
     );
   };
   const prepareTableData = () => {
+    debugger;
     const data = deviceListData.map((device) => {
-      return {
-        ...device,
-        image: <img alt={device.model} src={device.image} />,
-      };
+      return (
+        <div className={`${BRAND_PREFIX}-device-management-container flex justify-between items-center flex-col`}>
+          <div className={`${deviceManagementPrefix}-listing-container items-center w-full`}>
+            <div className={`${deviceManagementPrefix}-device-brand-container w-full flex justify-between items-center my-4`}>
+              <span className={`${deviceManagementPrefix}-device-brand font-semibold text-base`}>{device.brand}</span>
+            </div>
+            <div className={`${deviceManagementPrefix}-device-model-container w-full flex justify-between items-center my-4`}>
+              <span className={`${deviceManagementPrefix}-device-model font-semibold text-base`}>{device.name}</span>
+            </div>
+            <div className={`${deviceManagementPrefix}-device-kw-container w-full flex justify-between items-center my-4`}>
+              <span className={`${deviceManagementPrefix}-device-kw font-semibold text-base`}>{device.kw}</span>
+            </div>
+            <div className={`${deviceManagementPrefix}-used-kw-container w-full flex justify-between items-center my-4`}>
+              <span className={`${deviceManagementPrefix}-used-kw font-semibold text-base`}>{device.used_kw}</span>
+            </div>
+            <div className={`${deviceManagementPrefix}-image-container w-full flex justify-between items-center my-4`}>
+              <img
+                className={`${deviceManagementPrefix}-image`}
+                src={device.imageUrl}
+                alt="device"
+              />
+            </div>
+          </div>
+        </div>
+      );
     });
 
     return data;
@@ -171,12 +317,8 @@ const DevicesSection: React.FC = () => {
   };
 
   return (
-    <div
-      className={`${BRAND_PREFIX}-device-management-container flex justify-between items-center flex-col`}
-    >
-      <div
-        className={`${deviceManagementPrefix}-listing-container items-center w-full`}
-      >
+    <div className={`${BRAND_PREFIX}-device-management-container flex justify-between items-center flex-col`}>
+      <div className={`${deviceManagementPrefix}-listing-container items-center w-full`}>
         <DataTable
           className="w-full shadow"
           currentPageReportTemplate="{first} to {last} of {totalRecords}"
@@ -193,7 +335,7 @@ const DevicesSection: React.FC = () => {
           showGridlines={true}
           sortMode="multiple"
           stripedRows={true}
-          value={prepareTableData()}
+          value={deviceListData}
         >
           {visibleColumns.map((headerProps, index) => {
             if (headerProps.field !== 'actions') {
@@ -249,7 +391,7 @@ const DevicesSection: React.FC = () => {
       {isModalVisible && (
         <Modal
           className={`${deviceManagementPrefix}-modal-container`}
-          modalHeaderTitle={`Cihaz Ekle`}
+          modalHeaderTitle={`Ünite Ekle`}
           modalId={`${deviceManagementPrefix}-modal`}
           onClose={() => dispatch(toggleModalVisibility(false))}
         >
@@ -259,15 +401,15 @@ const DevicesSection: React.FC = () => {
             >
               <Label
                 className={`${deviceManagementPrefix}-brand-input-label`}
-                htmlFor="Cihaz Markası"
-                labelText="Cihaz Markası"
+                htmlFor="device_brand"
+                labelText="Ünite Markası"
               />
-              <Dropdown
+              <Input
                 className={`${deviceManagementPrefix}-brand-input rounded-md border border-gray-400`}
                 id={`${deviceManagementPrefix}-brand-input`}
-                name="Cihaz Markası"
-                options={brands}
+                name="device_brand"
                 placeholder="Marka Seçiniz"
+                type="text"
                 value={selectedBrand}
                 onChange={(event) => setSelectedBrand(event.value)}
               />
@@ -277,17 +419,82 @@ const DevicesSection: React.FC = () => {
             >
               <Label
                 className={`${deviceManagementPrefix}-model-input-label`}
-                htmlFor="Cihaz Markası"
-                labelText="Cihaz Markası"
+                htmlFor="device_model"
+                labelText="Ünite Modeli"
               />
-              <Dropdown
+              <Input
                 className={`${deviceManagementPrefix}-model-input rounded-md border border-gray-400`}
                 id={`${deviceManagementPrefix}-model-input`}
-                name="Cihaz Markası"
-                options={brands}
-                placeholder="Marka Seçiniz"
+                name="device_model"
+                placeholder="Model Seçiniz"
+                type="text"
                 value={selectedBrand}
-                onChange={(event) => setSelectedBrand(event.value)}
+                onChange={(event) => { console.log('event.target.value', event.target.value) }}
+              />
+            </div>
+            <div
+              className={`${deviceManagementPrefix}-device-kw-input-container w-full flex justify-between items-center my-4`}
+            >
+              <Label
+                className={`${deviceManagementPrefix}-device-kw-input-label`}
+                htmlFor="device_kw"
+                labelText="Kasa Gücü"
+              />
+              <Input
+                className={`${deviceManagementPrefix}-device-kw-input rounded-md border border-gray-400`}
+                id={`${deviceManagementPrefix}-device-kw-input`}
+                name="device_kw"
+                placeholder="Kasa Gücünü Belirtiniz"
+                type="number"
+                value={selectedBrand}
+                onChange={(event) => { console.log('event.target.value', event.target.value) }}
+              />
+            </div>
+            <div
+              className={`${deviceManagementPrefix}-used-kw-input-container w-full flex justify-between items-center my-4`}
+            >
+              <Label
+                className={`${deviceManagementPrefix}-used-kw-input-label`}
+                htmlFor="used_kw"
+                labelText="Kullanılacak Güç"
+              />
+              <Input
+                className={`${deviceManagementPrefix}-used-kw-input rounded-md border border-gray-400`}
+                id={`${deviceManagementPrefix}-used-kw-input`}
+                name="used_kw"
+                placeholder="Kullanılacak Gücü Belirtiniz"
+                type="number"
+                value={selectedBrand}
+                onChange={(event) => { console.log(event.target.value) }}
+              />
+            </div>
+            <div className={`${deviceManagementPrefix}-image-input-container w-full flex justify-between my-4 flex flex-col items-start`}>
+              <Input
+                className=""
+                id="file-input"
+                name="file-input"
+                type="file"
+                onChange={handleFileInput}
+              />
+              {selectedFile && (
+                <div className="items-center justify-center flex flex-col">
+                  <ReactCrop
+                    crop={crop}
+                    onChange={setCrop}
+                    aspect={4 / 3}
+                    minWidth={400}
+                    minHeight={225}
+                  >
+                    <img ref={imageRef} src={imageSrc} alt="Crop" />
+                  </ReactCrop>
+                </div>
+              )}
+            </div>
+            <div className={`${deviceManagementPrefix}-submit-button-container bg-primary border rounded-md`}>
+              <Button
+                className={`${deviceManagementPrefix}-submit-button w-full flex justify-center items-center text-primary-font-color font-semibold text-base p-2`}
+                label="Ekle"
+                onClick={() => { }}
               />
             </div>
           </>
@@ -297,7 +504,7 @@ const DevicesSection: React.FC = () => {
       {dialogInformation.isVisible && (
         <Dialog
           handleCancel={() => dispatch(hideDialog())}
-          handleSuccess={() => {}}
+          handleSuccess={() => { }}
         />
       )}
     </div>

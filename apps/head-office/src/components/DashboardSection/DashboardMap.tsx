@@ -19,12 +19,7 @@ interface Station {
   mapIconCode: string;
 }
 
-
-
-
-const DashboardMap: React.FC<{ widget: IComponentValueProps }> = ({
-  widget,
-}) => {
+const DashboardMap: React.FC<{ widget: IComponentValueProps }> = ({ widget }) => {
   const dashboardMapPrefix: string = `${BRAND_PREFIX}-dashboard-map`;
   const libraries: Libraries = ['places'];
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -75,6 +70,10 @@ const DashboardMap: React.FC<{ widget: IComponentValueProps }> = ({
     }
   };
 
+  const setIconUrl = (iconUrl: string) => {
+    return iconUrl.replace('http://78.188.179.89:7585', 'https://bo-dev.sharz.net');
+  };
+
   if (loadError) return <div>Error loading map</div>;
 
   if (!isLoaded || !widget.dashboardMapItemDataSummaries)
@@ -109,7 +108,7 @@ const DashboardMap: React.FC<{ widget: IComponentValueProps }> = ({
         >
           <MarkerClusterer
             options={{
-              minimumClusterSize:4
+              minimumClusterSize: 4
             }}
           >
             {(clusterer) => {
@@ -126,11 +125,11 @@ const DashboardMap: React.FC<{ widget: IComponentValueProps }> = ({
                         icon={
                           marker.iconUrl
                             ? {
-                                url: marker.iconUrl,
-                                scaledSize: new google.maps.Size(50, 50),
-                                origin: new google.maps.Point(0, 0),
-                                anchor: new google.maps.Point(0, 0),
-                              }
+                              url: setIconUrl(marker.iconUrl),
+                              scaledSize: new google.maps.Size(50, 50),
+                              origin: new google.maps.Point(50, 50),
+                              anchor: new google.maps.Point(0, 0),
+                            }
                             : undefined
                         }
                         clusterer={clusterer}
