@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 0 510 510" style="enable-background:new 0 0 510 510;" xml:space="preserve" width="75" height="75">
+    <g>
+        <g>
+            <line style="fill:none;stroke:#00529b;stroke-width:30;stroke-miterlimit:10;" x1="345" y1="435" x2="285" y2="435"/>
+            <path style="fill:none;stroke:#00529b;stroke-width:30;stroke-miterlimit:10;" d="M285,315h133.5c42.25,0,76.5,34.25,76.5,76.5&#10;&#9;&#9;&#9;V435h-60"/>
+            <polyline style="fill:none;stroke:#00529b;stroke-width:30;stroke-miterlimit:10;" points="285,225 345,225 405,315 285,315 &#9;&#9;"/>
+            <circle style="fill:none;stroke:#00529b;stroke-width:30;stroke-miterlimit:10;" cx="390" cy="450" r="45"/>
+            <line style="fill:none;stroke:#00529b;stroke-width:30;stroke-miterlimit:10;" x1="0" y1="495" x2="510" y2="495"/>
+            <rect x="15" y="15" style="fill:none;stroke:#00529b;stroke-width:30;stroke-miterlimit:10;" width="270" height="480"/>
+            <line style="fill:none;stroke:#00529b;stroke-width:30;stroke-miterlimit:10;" x1="495" y1="375" x2="450" y2="375"/>
+            <polyline style="fill:none;stroke:#00529b;stroke-width:30;stroke-miterlimit:10;" points="165,255 127.5,300 172.5,300 135,345 &#10;&#9;&#9;&#9;&#9;&#9;"/>
+            <rect x="75" y="75" style="fill:none;stroke:#00529b;stroke-width:30;stroke-miterlimit:10;" width="150" height="105"/>
+            <path style="fill:none;stroke:#00529b;stroke-width:30;stroke-miterlimit:10;" d="M285,270v23.5&#10;&#9;&#9;&#9;c0,69.864-56.636,126.5-126.5,126.5h-17C71.636,420,15,363.364,15,293.5V270"/>
+        </g>
+    </g>
+</svg>
