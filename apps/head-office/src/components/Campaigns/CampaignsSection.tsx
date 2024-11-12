@@ -19,30 +19,33 @@ const CampaignsSection: React.FC = () => {
                         />
                     </div>
                     <div className="sh-campaigns-section-text-container">
-                        <h2 className="sh-campaigns-section-title">Campaigns</h2>
-                        <p className="sh-campaigns-section-description">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan
+                        <p className="sh-campaigns-section-description p-4">
+                            <span className='text-bold '>⚡Çılgın Kasım İndirimleri Başladı!⚡</span><br/>
+                            Elektrikli araç sahipleri için yılın fırsatını kaçırmayın:
+                            Circontrol E Home 650 €yerine sadece 499 €!
+                            Kampanya 01.01.2025 tarihine kadar geçerlidir!
+                            Stoklarla sınırlıdır, fırsatı kaçırmadan hemen sipariş verin.
+                            <span>#ÇılgınKasım #SharzNet #ElektrikliAraç #EVŞarjİstasyonu #YılSonuKampanyası #SürdürülebilirGelecek #EVMobility #İndirim</span>
                         </p>
                     </div>
                 </div>
             </Card>
             <Card
                 BRAND_PREFIX='sh'
-                containerClassName="sh-campaigns-section w-1/2 h-full flex justify-center items-center mx-2"
+                containerClassName="sh-campaigns-section w-1/2 h-full flex justify-center items-center mx-2 h-auto"
             >
                 <div className="sh-campaigns-section-content">
                     <div className="sh-campaigns-section-image-container">
                         <Image
-                            src="/Cilgin_Kasim.jpeg"
-                            alt="Campaigns"
+                            src="/duyuru.jpeg"
+                            alt="Duyuru"
                             width={750}
                             height={600}
                         />
                     </div>
                     <div className="sh-campaigns-section-text-container">
-                        <h2 className="sh-campaigns-section-title">Campaigns</h2>
-                        <p className="sh-campaigns-section-description">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet. Proin gravida dolor sit amet lacus accumsan
+                        <p className="sh-campaigns-section-description p-4">
+                            Geleceğin e-mobilite çözümlerini keşfetmeniz için sizleri de standımızda görmekten mutluluk duyarız.
                         </p>
                     </div>
                 </div>

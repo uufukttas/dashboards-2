@@ -172,7 +172,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   const getStationParkingFeatures = async () => {
     const response = await getStationFeaturesRequest(stationId);
     const parkingCount = response
-      .filter((feature: IFeatureProps) => feature.stationFeatureType === 8)[0].stationFeatureValue;
+      .filter((feature: IFeatureProps) => feature.stationFeatureType === 8)[0]?.stationFeatureValue || 0;
 
     setFourthPageFormData({
       ...fourthPageFormData,
@@ -243,7 +243,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
           <Label
             className={`${formProperties.paymentMethods}-label block mb-2 text-sm font-medium text-gray-900`}
             htmlFor={`${formProperties.paymentMethods}`}
-            labelText={`Odeme Yontemleri`}
+            labelText={`Ödeme Yöntemleri`}
           />
           <CheckboxInDropdown
             className={`${formProperties.paymentMethods}-input bg-gray-50 border rounded-lg block w-full mb-4 border-gray-300 text-sm text-gray-900`}
@@ -263,7 +263,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
           <Label
             className={`${formProperties.freeParkCount}-block mb-2 text-heading font-semibold`}
             htmlFor={`${formProperties.freeParkCount}`}
-            labelText={`Ucretsiz arac park sayisi`} />
+            labelText={`Ücretsiz araç park sayısı`} />
           <Input
             className={`${formProperties.freeParkCount}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
             id={`${formProperties.freeParkCount}`}
@@ -309,7 +309,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
             onClick={() => setActivePage(activePage - 1)}
           />
           <Button
-            buttonText={servicePointInformation?.id > 0 ? 'Guncelle' : 'Kaydet'}
+            buttonText={servicePointInformation?.id > 0 ? 'Güncelle' : 'Kaydet'}
             className={`${sectionPrefix}-submit-button bg-primary text-white text-sm rounded-lg block p-2.5`}
             disabled={isDisabled}
             id={`${sectionPrefix}-submit-button`}

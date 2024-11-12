@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@projects/button';
@@ -44,6 +44,7 @@ const ChargeUnitAddModal = ({ slug }: IServicePointDetailsModalProps) => {
   const chargeUnitData = useSelector((state: RootState) => state.chargeUnitData.chargeUnitData);
   const investors = useSelector((state: RootState) => state.chargeUnitInvestors);
   const statusList = useSelector((state: RootState) => state.statusList);
+  const [uniqueBrands, setUniqueBrands] = useState([]);
   const [chargeUnitFormData, setChargeUnitFormData] = useState<IFormDataProps>({
     [`${formProperties['access-type']}`]: chargeUnitData.accessType || '1',
     [`${formProperties['serial-number']}`]: chargeUnitData.serialNumber || '0',
@@ -59,7 +60,67 @@ const ChargeUnitAddModal = ({ slug }: IServicePointDetailsModalProps) => {
     ...(chargeUnitData?.code > 0 ? { code: chargeUnitData?.code } : ''),
   });
   const [isDisabled, setIsDisabled] = useState(false);
-
+  const deviceListData = [
+    {
+      brand: 'Circontrol',
+      id: 1,
+      name: 'E-Next Elite',
+      kw: 22,
+      used_kw: 22,
+      imageUrl: <img src='https://circontrol.com/wp-content/uploads/2023/03/circontrol-1080x1080-enext-elite-product-1-2048x2048.png' width={75} height={75} />
+    }, {
+      brand: 'Circontrol',
+      id: 2,
+      name: 'E-Next Park',
+      kw: 22,
+      used_kw: 22,
+      // imageUrl: 'https://circontrol.com/wp-content/uploads/2023/03/circontrol-1080x1080-enext-park-product.png'
+      imageUrl: <img src='https://circontrol.com/wp-content/uploads/2023/03/circontrol-1080x1080-enext-park-product.png' width={75} height={75} />
+    }, {
+      brand: 'Circontrol',
+      id: 3,
+      name: 'Raption 100',
+      kw: 100,
+      used_kw: 100,
+      // imageUrl: 'https://circontrol.com/wp-content/uploads/2023/10/R100-300x400-1.png'
+      imageUrl: <img src='https://circontrol.com/wp-content/uploads/2023/10/R100-300x400-1.png' width={75} height={75} />
+    }, {
+      brand: 'HyperCharger',
+      id: 4,
+      name: 'HYC 50',
+      kw: 50,
+      used_kw: 50,
+      imageUrl: <img src="/HYC_50.png" width={75} height={75} />
+    }, {
+      brand: 'HyperCharger',
+      id: 5,
+      name: 'HYC 150',
+      kw: 150,
+      used_kw: 150,
+      imageUrl: <img src="/HYC_150.png" width={75} height={75} />
+    }, {
+      brand: 'Sinexcel',
+      id: 6,
+      name: 'SEC 240',
+      kw: 240,
+      used_kw: 180,
+      imageUrl: <img src="https://en.sinexcel.com/evcharger/240w/pic3-1.png?v=1.0" width={75} height={75} />
+    }, {
+      brand: 'Sinexcel',
+      id: 7,
+      name: 'SEC 160',
+      kw: 160,
+      used_kw: 120,
+      imageUrl: <img src="/SEC160.png" width={75} height={75} />
+    }, {
+      brand: 'Sinexcel',
+      id: 8,
+      name: 'Interstaller',
+      kw: 22,
+      used_kw: 22,
+      imageUrl: <img src='/Interstaller_22.png' width={75} height={75} />
+    }
+  ];
   const createRequestData = ({ chargePointId, features }: IRequestDataProps) => {
     return ({
       chargePoint: {

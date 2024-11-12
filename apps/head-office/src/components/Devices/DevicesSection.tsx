@@ -118,15 +118,9 @@ const DevicesSection: React.FC = () => {
     },
   ];
   const dispatch = useDispatch();
-  const alertInformation = useSelector(
-    (state: RootState) => state.alertInformation
-  );
-  const dialogInformation = useSelector(
-    (state: RootState) => state.dialogInformation
-  );
-  const isModalVisible = useSelector(
-    (state: RootState) => state.isModalVisible.isModalVisible
-  );
+  const alertInformation = useSelector((state: RootState) => state.alertInformation);
+  const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
+  const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
   const toastRef = useRef<Toast>(null);
   const [visibleColumns, setVisibleColumns] = useState(tableHeaderData);
   const [selectedBrand, setSelectedBrand] = useState('');
@@ -152,7 +146,6 @@ const DevicesSection: React.FC = () => {
       setSelectedFile(file);
     }
   };
-
   const getCroppedImg = (image: HTMLImageElement, crop: Crop) => {
     const canvas = document.createElement('canvas');
     const scaleX = image.naturalWidth / image.width;
@@ -184,14 +177,12 @@ const DevicesSection: React.FC = () => {
       }, 'image/jpeg', 1);
     });
   };
-
   const getBrands = async () => {
     const res = await getChargeUnitBrands().then((res) => res.data);
 
     // @ts-ignore
     setBrands(res.map((item: any) => ({ label: item.name, value: item.id })));
   };
-
   const handleSubmit = async (event: React.FormEvent) => {
     if (!imageRef.current || !crop) {
       return;

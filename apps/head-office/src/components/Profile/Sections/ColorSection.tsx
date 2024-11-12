@@ -36,14 +36,14 @@ const ColorSection: React.FC = () => {
   const handleColorSubmitSuccess = () => {
     dispatch(
       showAlert({
-        message: 'Islem basariyla gerceklestirildi',
+        message: 'İşlem basariyla gerceklestirildi',
         type: 'success',
       })
     );
   };
 
   const handleColorSubmitError = () => {
-    dispatch(showAlert({ message: 'Islem basarisiz oldu', type: 'error' }));
+    dispatch(showAlert({ message: 'İşlem basarisiz oldu', type: 'error' }));
   };
 
   const handleColorsSubmit = async (

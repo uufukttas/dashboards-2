@@ -33,6 +33,7 @@ interface IConnectorStateProps {
   tariffId: number;
   tariffName: string;
   tariffSaleUnitPrice: number;
+  statusName: string;
 }
 interface IConvertedStructure {
   stationID: number;
@@ -106,6 +107,7 @@ export interface IChargeUnitsProps {
   location: string;
   serialNumber: string;
   createdDate: string;
+  statusName: string;
 };
 export interface IComissionDetailProps {
   slug: string;

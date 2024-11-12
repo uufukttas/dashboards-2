@@ -113,7 +113,7 @@
         "type": ""
     },
     "ac_status": {
-        "title": "AC Sayisi",
+        "title": "AC Sayısı",
         "value": "350/371",
         "icon_name": "IoIosFlash",
         "description": "This is description of this card",
@@ -123,7 +123,7 @@
         "type": ""
     },
     "dc_status": {
-        "title": "DC Sayisi",
+        "title": "DC Sayısı",
         "value": "100/112",
         "icon_name": "PiWaveSineBold",
         "description": "This is description of this card",

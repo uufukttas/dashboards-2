@@ -109,7 +109,7 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({
     { label: 'Adres Tarifi:', value: servicePointDetailsInfo.addressDetail },
     { label: 'Telefon:', value: servicePointDetailsInfo.phone1 },
     { label: 'Telefon 2:', value: servicePointDetailsInfo.phone2 },
-    { label: 'Il:', value: getSelectedCity(servicePointDetailsInfo.cityId) },
+    { label: 'İl:', value: getSelectedCity(servicePointDetailsInfo.cityId) },
     {
       label: 'İlçe:',
       value: getSelectedDistrict(servicePointDetailsInfo.districtId),
@@ -120,9 +120,9 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({
     },
     { label: 'Şirket:', value: servicePointData.companyName },
     { label: 'Bayi:', value: servicePointData.resellerName },
-    { label: 'Odeme Yontemleri:', value: paymentFeatureName },
-    { label: 'Ucretsiz Park Yeri:', value: parkingFeatureValue },
-    { label: 'Istayon Olanaklari:', value: opportunitiesFeatureName },
+    { label: 'Ödeme Yöntemleri:', value: paymentFeatureName },
+    { label: 'Ücretsiz Park Yeri:', value: parkingFeatureValue },
+    { label: 'İstayon Olanakları:', value: opportunitiesFeatureName },
     {
       label: 'İstasyon Görselleri:',
       render: <StationImages stationId={slug} />,

@@ -48,7 +48,7 @@ const servicePointTableFilteredDropdownItems = [{
 }, {
     id: 4,
     isChecked: false,
-    name: 'Il',
+    name: 'İl',
     rid: null,
     stationFeatureType: 0,
     stationFeatureValue: 0,
@@ -75,7 +75,7 @@ const servicePointTableHeadData = [
         isRemovable: true,
     }, {
         field: 'cityId',
-        header: 'Il',
+        header: 'İl',
         isRemovable: true,
     }, {
         field: 'districtId',

@@ -137,7 +137,7 @@ const ServicePointSection: React.FC = () => {
         case 'Adres':
           payload['address'] = searchProperties.searchedText;
           break;
-        case 'Il':
+        case 'İl':
           payload['cityName'] = searchProperties.searchedText;
           break;
         case 'İlçe':

@@ -17,7 +17,7 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
         "type": ""
     },
     "ac_status": {
-        "title": "AC Sayisi",
+        "title": "AC Sayısı",
         "value": "350/371",
         "icon_name": "PiWaveSineBold",
         "description": "This is description of this card",
@@ -27,7 +27,7 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
         "type": ""
     },
     "dc_status": {
-        "title": "DC Sayisi",
+        "title": "DC Sayısı",
         "value": "100/112",
         "icon_name": "IoIosFlash",
         "description": "This is description of this card",
@@ -48,7 +48,7 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
 ```json
 "data": [{
     "total_charge_process_amount": {
-        "title": "Toplam Şarj Islem Tutari",
+        "title": "Toplam Şarj İşlem Tutari",
         "value": "10000 / 11012",
         "icon_name": "FaChargingStation",
         "description": "Tüm zamanlarin toplam sarj islem tutari",
@@ -72,17 +72,17 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
         "type": "line"
     },
     "total_customer_count": {
-        "title": "Musteri Sayisi",
+        "title": "Müşteri Sayısı",
         "value": "700/765",
         "icon_name": "HiUserGroup",
-        "description": "Tüm zamanlarin toplam musteri sayisi",
+        "description": "Tüm zamanlarin toplam müşteri sayısı",
         "position": "1 / 9 / 3 / 13",
         "mobile_layout": "3 / 1 / 3 / 12",
         "tablet_layout": "1 / 9 / 2 / 12",
         "type": ""
     },
     "total_used_kwh": {
-        "title": "Toplam Kwh Tuketimi",
+        "title": "Toplam Kwh Tüketimi",
         "value": "10000",
         "icon_name": "FaBolt",
         "description": "",
@@ -92,17 +92,17 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
         "type": ""
     },
     "total_charge_process_count": {
-        "title": "Toplam Şarj Islem Sayisi",
+        "title": "Toplam Şarj İşlem Sayısı",
         "value": "1000/1100",
         "icon_name": "",
-        "description": "Gun icinde yapilan sarj sayisi",
+        "description": "Gun icinde yapilan sarj sayısı",
         "position": "3 / 3 / 3 / 5",
         "mobile_layout": "7 / 1 / 7 / 12",
         "tablet_layout": "3 / 4 / 3 / 6",
         "type": ""
     },
     "payment_method_types": {
-        "title": "Odeme Yontemleri",
+        "title": "Ödeme Yontemleri",
         "value": [
             {
                 "Kredi Karti (MP)": 100
@@ -134,20 +134,20 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
         "type": "semi_doughnut"
     },
     "last_three_months_active_customer_count": {
-        "title": "Aktif Musteri Sayisi",
+        "title": "Aktif Müşteri Sayısı",
         "value": "600/736",
         "icon_name": "icon_name",
-        "description": "Son 3 ay icinde sarj islemi yapmis kullanıcı sayisi",
+        "description": "Son 3 ay icinde sarj islemi yapmis kullanıcı sayısı",
         "position": "3 / 9 / 3 / 11",
         "mobile_layout": "10 / 1 / 10 / 12",
         "tablet_layout": "3 / 9 / 3 / 11",
         "type": ""
     },
     "inactive_customer_count": {
-        "title": "Pasif Musteri Sayisi",
+        "title": "Pasif Müşteri Sayısı",
         "value": "136/736",
         "icon_name": "icon_name",
-        "description": "Son 3 ay icinde sarj islemi yapmamis kullanıcı sayisi",
+        "description": "Son 3 ay icinde sarj islemi yapmamis kullanıcı sayısı",
         "position": "3 / 11 / 3 / 13",
         "mobile_layout": "11 / 1 / 11 / 12",
         "tablet_layout": "3 / 11 / 3 / 12",
@@ -174,27 +174,27 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
         "type": ""
     },
     "last_month_active_customer_count": {
-        "title": "Son Ay Aktif Musteri Sayisi",
+        "title": "Son Ay Aktif Müşteri Sayısı",
         "value": "100/123",
         "icon_name": "icon_name",
-        "description": "Son 1 ayda sarj islemi yapmis kullanıcı sayisi",
+        "description": "Son 1 ayda sarj islemi yapmis kullanıcı sayısı",
         "position": "4 / 9 / 4 / 11",
         "mobile_layout": "14 / 1 / 14 / 12",
         "tablet_layout": "4 / 9 / 4 / 11",
         "type": ""
     },
     "last_week_active_customer_count": {
-        "title": "Son Hafta Aktif Musteri Sayisi",
+        "title": "Son Hafta Aktif Müşteri Sayısı",
         "value": "50/68",
         "icon_name": "icon_name",
-        "description": "Son 1 hafta icinde sarj islemi yapmis kullanıcı sayisi",
+        "description": "Son 1 hafta icinde sarj islemi yapmis kullanıcı sayısı",
         "position": "4 / 11 / 4 / 13",
         "mobile_layout": "15 / 1 / 15 / 12",
         "tablet_layout": "4 / 11 / 4 / 12",
         "type": ""
     },
     "daily_income": {
-        "title": "Günlük Islem Tutarı",
+        "title": "Günlük İşlem Tutarı",
         "value": [
             { "today": [{ "00": 100 }, { "01": 300 }, { "02": 200 }, { "03": 250 }, { "04": 150 }, { "05": 220 }, { "06": 400 }, { "07": 250 }, { "08": 100 }, { "09": 100 }, { "10": 300 }, { "11": 200 }, { "12": 250 }, { "13": 150 }, { "14": 220 }, { "15": 400 }, { "16": 250 }, { "17": 100 }, { "18": 100 }, { "19": 300 }, { "20": 200 }, { "21": 250 }, { "22": 150 }, { "23": 220 }] },
             { "last_week_today": [{ "00": 100 }, { "01": 300 }, { "02": 250 }, { "03": 350 }, { "04": 400 }, { "05": 200 }, { "06": 300 }, { "07": 450 }, { "08": 100 }, { "09": 100 }, { "10": 300 }, { "11": 200 }, { "12": 250 }, { "13": 150 }, { "14": 220 }, { "15": 400 }, { "16": 250 }, { "17": 100 }, { "18": 100 }, { "19": 300 }, { "20": 200 }, { "21": 250 }, { "22": 150 }, { "23": 220 }] }
@@ -213,7 +213,7 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
             { "last_week_today": [{ "00": 100 }, { "01": 300 }, { "02": 250 }, { "03": 350 }, { "04": 400 }, { "05": 200 }, { "06": 300 }, { "07": 450 }, { "08": 100 }, { "09": 100 }, { "10": 300 }, { "11": 200 }, { "12": 250 }, { "13": 150 }, { "14": 220 }, { "15": 400 }, { "16": 250 }, { "17": 100 }, { "18": 100 }, { "19": 300 }, { "20": 200 }, { "21": 250 }, { "22": 150 }, { "23": 220 }] }
         ],
         "icon_name": "icon_name",
-        "description": "Gunluk kwh tuketiminin karsilastirmasi",
+        "description": "Gunluk kwh Tüketiminin karsilastirmasi",
         "position": "5 / 3 / 7 / 5",
         "mobile_layout": "21 / 1 / 21 / 12",
         "tablet_layout": "5 / 3 / 7 / 5",
@@ -239,7 +239,7 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
             { "last_month": [{ "00": 100 }, { "01": 300 }, { "02": 250 }, { "03": 350 }, { "04": 400 }, { "05": 200 }, { "06": 300 }, { "07": 450 }, { "08": 100 }, { "09": 100 }, { "10": 300 }, { "11": 200 }, { "12": 250 }, { "13": 150 }, { "14": 220 }, { "15": 400 }, { "16": 250 }, { "17": 100 }, { "18": 100 }, { "19": 300 }, { "20": 200 }, { "21": 250 }, { "22": 150 }, { "23": 220 }] }
         ],
         "icon_name": "icon_name",
-        "description": "Aylik kwh tuketiminin karsilastirmasi",
+        "description": "Aylik kwh Tüketiminin karsilastirmasi",
         "position": "5 / 7 / 7 / 9",
         "mobile_layout": "23 / 1 / 23 / 12",
         "tablet_layout": "5 / 7 / 7 / 9",
@@ -265,7 +265,7 @@ Dashboard KPI Metrikleri icin henuz bir API yok. Dummy response icin kullanilan 
             { "last_year": [{ "00": 100 }, { "01": 300 }, { "02": 250 }, { "03": 350 }, { "04": 400 }, { "05": 200 }, { "06": 300 }, { "07": 450 }, { "08": 100 }, { "09": 100 }, { "10": 300 }, { "11": 200 }, { "12": 250 }, { "13": 150 }, { "14": 220 }, { "15": 400 }, { "16": 250 }, { "17": 100 }, { "18": 100 }, { "19": 300 }, { "20": 200 }, { "21": 250 }, { "22": 150 }, { "23": 220 }] }
         ],
         "icon_name": "icon_name",
-        "description": "Yillik kwh tuketiminin karsilastirmasi",
+        "description": "Yillik kwh Tüketiminin karsilastirmasi",
         "position": "5 / 11 / 7 / 13",
         "mobile_layout": "25 / 1 / 25 / 12",
         "tablet_layout": "5 / 11 / 7 / 12",

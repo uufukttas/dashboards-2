@@ -11,6 +11,7 @@ import { Button } from '@projects/button';
 //     getConnectorModels
 // } from '../../../../app/api/servicePointDetails';
 // import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
+import { getChargeUnitBrands } from '../../../../app/api/servicePointDetails';
 import { setConnectorProperty } from '../../../../app/redux/features/connectorProperty';
 // import { showDialog } from '../../../../app/redux/features/dialogInformation';
 import isConnectorUpdated from '../../../../app/redux/features/isConnectorUpdated';
@@ -247,9 +248,15 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
     const getBrandLogo = (brand: string) => {
         if (brand === 'Sinexcel') {
             return '/sinexcel.png';
-        } else {
-            return '/abb.svg';
+        } else if (brand === 'Circontrol') {
+            return '/circontrol_logo.png';
+        } else if (brand === 'HyperCharger') {
+            return '/hypercharger_logo.png';
         }
+    };
+
+
+    const getStatusName = (statusId: number) => {
     };
 
     // @ts-ignore
@@ -260,6 +267,11 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
     //         </div>
     //     )
     // };
+
+    const getBrandName = async (brandId: number) => {
+        const modelNames = await getChargeUnitBrands();
+        return modelNames.data.filter((model: IConnectorModel) => model.id === brandId);
+    };
 
     const renderMenuItems = (items: MenuItem[]) => {
         return items.map((item) => (
@@ -312,7 +324,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                                     <Tag
                                                         className={`${connectorPrefix}-status-tag`}
                                                         severity={getHOStatus(chargeUnits[index].hoStatus)}
-                                                        value={chargeUnits[index].hoStatus || 'Planlanmis'}
+                                                        value={chargeUnits[index].status}
                                                     >
                                                     </Tag>
                                                 </div>
@@ -349,6 +361,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                                     </div>
                                                     <div className={`${BRAND_PREFIX}-charge-unit-info-content-row-item-value text-text font-bolder`}>
                                                         {chargeUnits[index].model}
+                                                        {/* {getBrandName(Number(chargeUnits[index].modelId))} */}
                                                     </div>
                                                 </div>
                                                 <div className={`${BRAND_PREFIX}-charge-unit-info-content-row-item text-text flex`}>
