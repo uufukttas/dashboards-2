@@ -46,7 +46,9 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
     const [connectorTypes, setConnectorTypes] = useState<IConnectorModel[]>([]);
     // const [selectedBrand, setSelectedBrand] = useState(1);
     // const [connectorUpdate, setConnectorUpdate] = useState(false);
+    const statusList = useSelector((state: RootState) => state.statusList);
 
+    console.log('statusList', statusList)
     const items: MenuItem[] = [
         {
             label: 'Edit',
@@ -229,6 +231,37 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
 
         return `${dateArray[0]} ${timeArray[0]}:${timeArray[1]}`;
     };
+
+    const getDeviceImage = (deviceName) => {
+        if (deviceName === 'Sinexcel') {
+            return (
+                <img
+                    src="https://en.sinexcel.com/evcharger/240w/pic3-1.png?v=1.0"
+                    alt="Sinexcel"
+                    width={200}
+                    height={200}
+                />
+            );
+        } else if (deviceName === 'Circontrol') {
+            return (
+                <img
+                    src="https://circontrol.com/wp-content/uploads/2023/03/circontrol-600x800-raption400-product.png"
+                    alt="Circontrol"
+                    width={200}
+                    height={200}
+                />
+            );
+        } else if (deviceName === 'HyperCharger') {
+            return (
+                <img
+                    src="/HYC_150.png"
+                    alt="HyperCharger"
+                    width={200}
+                    height={200}
+                />
+            )
+        }
+    };
     const setConnectorProperties = (chargeUnits: IChargeUnitsProps[]): void => {
         console.log('chargeUnits', chargeUnits)
     };
@@ -257,6 +290,9 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
 
 
     const getStatusName = (statusId: number) => {
+        const status = statusList.filter((statusItem) => statusItem.id === statusId);
+
+        return status[0].name;
     };
 
     // @ts-ignore
@@ -324,8 +360,8 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                                 <div className={`${connectorPrefix}-status-tag-container flex items-center justify-end relative`}>
                                                     <Tag
                                                         className={`${connectorPrefix}-status-tag`}
-                                                        severity={getHOStatus(chargeUnits[index].hoStatus)}
-                                                        value={chargeUnits[index].status}
+                                                        severity={getHOStatus(getStatusName(Number(chargeUnits[index].status)))}
+                                                        value={getStatusName(Number(chargeUnits[index].status))}
                                                     >
                                                     </Tag>
                                                 </div>
@@ -416,7 +452,9 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                             </div>
                                         </div>
                                         <div className={`${connectorPrefix}-charge-unit-info w-1/3`}>
-                                            <img src="https://en.sinexcel.com/evcharger/240w/pic3-1.png?v=1.0" />
+                                            {
+                                                getDeviceImage(chargeUnits[index].model)
+                                            }
                                         </div>
                                     </div>
                                     <div className={`${chargeUnitPrefix}-connector-list-card-contianer flex w-full w-1/2`}>

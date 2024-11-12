@@ -34,7 +34,7 @@ const ProfileSection: React.FC = () => {
           <div className={`${profilePagePrefix}-company-logo-card-container w-1/3`}>
             <Card
               BRAND_PREFIX={BRAND_PREFIX}
-              containerClassName={`${profilePagePrefix}-company-logo-card p-8 bg-white shadow-md rounded-md`}
+              containerClassName={`${profilePagePrefix}-company-logo-card p-8 bg-white shadow-md rounded-md h-full`}
             >
               <LogoSection />
             </Card>

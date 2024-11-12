@@ -32,9 +32,9 @@ const CampaignsSection: React.FC = () => {
             </Card>
             <Card
                 BRAND_PREFIX='sh'
-                containerClassName="sh-campaigns-section w-1/2 h-full flex justify-center items-center mx-2 h-auto"
+                containerClassName="sh-campaigns-section w-1/2 h-auto flex justify-center items-center mx-2"
             >
-                <div className="sh-campaigns-section-content">
+                <div className="sh-campaigns-section-content h-full">
                     <div className="sh-campaigns-section-image-container">
                         <Image
                             src="/duyuru.jpeg"
