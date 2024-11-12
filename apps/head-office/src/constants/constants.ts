@@ -91,7 +91,7 @@ export const stylesProps = {
     loginPageBackgroundImage: '../../UnivoltBG.jpg',
 };
 export const userInfo = {
-    logo: '../../ovolt_logo.png',
+    logo: '/ovolt_logo.png',
     name: 'Erkut Öztürk',
     profileImage: '/Erkut.png',
     company: 'sharz',

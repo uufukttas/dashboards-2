@@ -33,20 +33,7 @@ const FormElement: React.FC<IFormElementProps> = ({
                     register(
                         loginFormInput,
                         {
-                            pattern: {
-                                message: `Geçersiz ${getDisplayName(loginFormInput)}.`,
-                                // TODO: Add pattern for username email if it need // /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/
-                                value: loginFormInput === loginFormInputs[0]
-                                    ? /^.*$/
-                                    : /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s)(?=.*[!@#$.*])/,
-                            },
                             required: `${getDisplayName(loginFormInput)} zorunlu bir alandır.`,
-                            validate: loginFormInput === loginFormInputs[1]
-                                ? {
-                                    checkLength: (value: string) => value.length >= 6,
-                                    matchPattern: (value: string) => /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&.*-]).{6,}$/.test(value),
-                                }
-                                : {},
                             onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
                                 setLoginFormData({
                                     ...loginFormData,
