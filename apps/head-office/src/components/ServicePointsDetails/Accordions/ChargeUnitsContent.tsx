@@ -232,7 +232,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
         return `${dateArray[0]} ${timeArray[0]}:${timeArray[1]}`;
     };
 
-    const getDeviceImage = (deviceName) => {
+    const getDeviceImage = (deviceName: string) => {
         if (deviceName === 'Sinexcel') {
             return (
                 <img
@@ -290,7 +290,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
 
 
     const getStatusName = (statusId: number) => {
-        const status = statusList.filter((statusItem) => statusItem.id === statusId);
+        const status = statusList.filter((statusItem: { id: number }) => statusItem.id === statusId);
 
         return status[0].name;
     };
