@@ -270,7 +270,8 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
 
     const getBrandName = async (brandId: number) => {
         const modelNames = await getChargeUnitBrands();
-        return modelNames.data.filter((model: IConnectorModel) => model.id === brandId);
+        // @ts-ignore
+        return modelNames.data.filter((model: IConnectorModel) => model?.id === brandId);
     };
 
     const renderMenuItems = (items: MenuItem[]) => {
