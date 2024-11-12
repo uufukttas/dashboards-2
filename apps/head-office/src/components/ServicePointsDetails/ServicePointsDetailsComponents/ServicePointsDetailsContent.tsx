@@ -36,7 +36,7 @@ const ServicePointsDetailsContent: React.FC<
   const addChargeUnitButton: React.ReactNode = (
     <Button
       buttonText={` + Şarj Ünitesi`}
-      className={`button bg-secondary rounded-md mx-4 font-bold text-white p-3`}
+      className={`button bg-[#AAAAAA] rounded-md mx-4 font-bold text-white p-3`}
       id={`add-charge-unit-button`}
       type="button"
       onClick={(event) => {
@@ -52,7 +52,7 @@ const ServicePointsDetailsContent: React.FC<
   const addEnergyPriceButton: React.ReactNode = (
     <Button
       buttonText={`+ Enerji Fiyatı Ekle`}
-      className="button bg-secondary rounded-md mx-4 font-bold text-white p-3"
+      className="button bg-[#AAAAAA] rounded-md mx-4 font-bold text-white p-3"
       id={`energy-prices-add-button`}
       type={'button'}
       onClick={(event) => {
@@ -67,7 +67,7 @@ const ServicePointsDetailsContent: React.FC<
   const addImageButton: React.ReactNode = (
     <Button
       buttonText={`+ İstasyon Resmi Ekle`}
-      className="button bg-secondary rounded-md mx-4 font-bold text-white p-3"
+      className="button bg-[#AAAAAA] rounded-md mx-4 font-bold text-white p-3"
       id={`service-point-image-add-button`}
       type={'button'}
       onClick={(event) => {
@@ -82,7 +82,7 @@ const ServicePointsDetailsContent: React.FC<
   const addServicePointPermissionButton: React.ReactNode = (
     <Button
       buttonText={`+ İstasyon Yetkisi Ekle`}
-      className="button bg-secondary rounded-md mx-4 font-bold text-white p-3"
+      className="button bg-[#AAAAAA] rounded-md mx-4 font-bold text-white p-3"
       id={`service-point-permission-add-button`}
       type={'button'}
       onClick={(event) => {
@@ -97,7 +97,7 @@ const ServicePointsDetailsContent: React.FC<
   const addComissionButton: React.ReactNode = (
     <Button
       buttonText={`+ Komisyon Ekle`}
-      className="button bg-secondary rounded-md mx-4 font-bold text-white p-3"
+      className="button bg-[#AAAAAA] rounded-md mx-4 font-bold text-white p-3"
       id={`comission-add-button`}
       type={'button'}
       onClick={(event) => {
