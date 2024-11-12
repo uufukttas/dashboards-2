@@ -286,8 +286,8 @@ const ChartComponent = ({
       );
     } else {
       if (acData || dcData) {
-        acData = Object.keys(response[0].data).map((point) => response[0]?.data[point]);
-        dcData = Object.keys(response[0].data).map((point) => response[1]?.data[point]);
+        acData = Object.keys(response[0].data).map((point) => convertToNumber(response[0]?.data[point]));
+        dcData = Object.keys(response[0].data).map((point) => convertToNumber(response[1]?.data[point]));
       }
     }
     return { acData, dcData };

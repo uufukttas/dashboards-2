@@ -245,7 +245,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
         } else if (deviceName === 'Circontrol') {
             return (
                 <img
-                    src="https://circontrol.com/wp-content/uploads/2023/03/circontrol-600x800-raption400-product.png"
+                    src="https://circontrol.com/wp-content/uploads/2023/03/circontrol-1080x1080-enext-elite-product-1-2048x2048.png"
                     alt="Circontrol"
                     width={200}
                     height={200}
@@ -335,10 +335,10 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                     connectorList.map((connector: IConnectorStateProps[], index: number) => {
                         return (
                             <div
-                                className={`${connectorPrefix}-container flex justify-center items-center w-[45%] shadow rounded-md flex flex-col mx-2 my-4`}
+                                className={`${connectorPrefix}-container flex justify-start items-center w-[45%] shadow rounded-md flex flex-col mx-2 my-4`}
                                 key={index}
                             >
-                                <div className={`${connectorPrefix}-header-container w-full`}>
+                                <div className={`${connectorPrefix}-header-container w-full h-[64px]`}>
                                     <div className={`${connectorPrefix}-header flex justify-between items-center w-full p-4`}>
                                         {
                                             <div className={`${connectorPrefix}-brand-logo-container flex justify-start items-center w-1/3`}>
@@ -387,8 +387,8 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
                                     </div>
                                 </div>
                                 <hr className="seperator text-text w-full" />
-                                <div className={`${connectorPrefix}-content-container w-full flex flex-col`}>
-                                    <div className={`${connectorPrefix}-charge-unit-info-container border-r-1 w-full m-4 flex`}>
+                                <div className={`${connectorPrefix}-content-container w-full flex flex-col h-full justify-between`}>
+                                    <div className={`${connectorPrefix}-charge-unit-info-container border-r-1 w-full m-4 pr-10 flex h-[175px]`}>
                                         <div className={`${connectorPrefix}-charge-unit-info w-2/3`}>
                                             <h2 className={`${connectorPrefix}-charge-unit-info-header`}>Ünite Bilgileri</h2>
                                             <div className={`${BRAND_PREFIX}-charge-unit-info-content-row flex flex-col justify-start items-start w-full px-4`}>
