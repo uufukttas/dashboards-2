@@ -26,7 +26,7 @@ const CardBody: React.FC = () => {
     })
       .unwrap()
       .then(() => {
-        // router.push('/dashboards');
+        router.push('/dashboards');
       })
       .catch(() => {
         form.reset({});
@@ -35,10 +35,7 @@ const CardBody: React.FC = () => {
 
   return (
     <div className={`${loginPrefix}-form-container`}>
-      <form
-        className={`${loginPrefix}-form mb-4`}
-        onSubmit={form.handleSubmit(handleLoginSubmit)}
-      >
+      <form className={`${loginPrefix}-form mb-4`} onSubmit={form.handleSubmit(handleLoginSubmit)}>
         <div className="flex  flex-col gap-4">
           <BaseInput
             id="username"

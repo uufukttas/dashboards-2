@@ -101,7 +101,7 @@ class ApiRequestManager {
 
         successResultServices.includes(endpoint) && this.pushSuccess(dispatch, result?.data.message);
 
-        return { data: result?.data || result };
+        return { data: result?.data.data || result };
       } catch (error: AxiosError | any) {
         !silentErrorServices.includes(endpoint) && this.handleErrors(dispatch, error);
 
