@@ -31,3 +31,22 @@ export interface IResponseProps {
         response: IResponseInfoProps;
     },
 };
+
+
+export interface Get<T = undefined> {
+  id?: number;
+  params?: T;
+}
+
+export interface Post<T = undefined> {
+  body: T;
+}
+
+export interface Put<T = undefined> {
+  id: number;
+  body: T;
+}
+
+export interface Delete {
+  id: number;
+}

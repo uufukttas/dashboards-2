@@ -5,8 +5,8 @@ const getUsersRequest = async (payload: IGetUsersRequestPayloadProps): Promise<I
     try {
         const response = await axios
             .post(
-                `${process.env.NEXT_PUBLIC_BASE_URL}/Auth/Users` || '',
-                payload,
+                `${process.env.NEXT_PUBLIC_BASE_URL}/Auh/Users` || '',
+                payload,t
                 { headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` } }
             );
 

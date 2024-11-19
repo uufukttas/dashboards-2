@@ -15,7 +15,6 @@ const Login: React.FC = () => {
     const loginPrefix: string = `${BRAND_PREFIX}-login`;
     const dispatch = useDispatch();
     const languageList: IDropdownItemProps[] = useSelector((state: RootState) => state.languages.languages);
-
     return (
         <div
             className={`${loginPrefix}-side-container flex flex-col justify-between w-full px-8 py-4 h-screen`}
