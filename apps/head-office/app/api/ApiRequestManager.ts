@@ -3,6 +3,7 @@ import { BaseQueryFn } from '@reduxjs/toolkit/query';
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { BaseQueryFunctionParams } from './ApiRequestManager.interface';
 import { RequestMethods } from './constant';
+import { showAlert } from '../redux/features/alertInformation';
 
 class ApiRequestManager {
   baseUrl: string = '';
@@ -28,16 +29,21 @@ class ApiRequestManager {
       }
     );
   };
-  private handleErrors = (dispatch: ThunkDispatch<any, any, any>) => {
-    this.axiosInstance?.interceptors.response.use(
-      (response) => {
-        return response;
-      },
-      (error) => {
-        console.log('Response Error:', error);
 
-        return Promise.reject(error);
-      }
+  private handleErrors = (
+    dispatch: ThunkDispatch<any, any, any>,
+    error: AxiosError
+  ) => {
+    if (error.response?.status === 401) {
+      // dispatch(logout());
+    }
+    console.log('dispatch', dispatch);
+
+    dispatch(
+      showAlert({
+        message: error.response?.data?.message || 'Something went wrong',
+        type: 'error',
+      })
     );
   };
 
@@ -50,18 +56,19 @@ class ApiRequestManager {
     ) => {
       try {
         const result = await this.axiosInstance?.request({
-          method: method as RequestMethods,
           url,
-          body,
           params,
+          data: body,
           headers: {
             ...headers,
             'Content-Type': 'application/json',
           },
+          method,
         });
 
         return { data: result?.data || result };
-      } catch (error) {
+      } catch (error: AxiosError | any) {
+        this.handleErrors(dispatch, error);
         return {
           error,
         };

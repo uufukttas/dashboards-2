@@ -13,6 +13,7 @@ import { ILanguageProps } from './types';
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import './MainClient.css';
+import { hideAlert } from '../redux/features/alertInformation';
 
 const MainClient: React.FC<{ languageList: ILanguageProps[] }> = ({
   languageList,
