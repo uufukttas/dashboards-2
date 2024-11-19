@@ -54,7 +54,11 @@ const MainClient: React.FC<{ languageList: ILanguageProps[] }> = ({
       }
       {isLoading && <Loading />}
       {alertInformation.isVisible && (
-        <Toast position={'top-right'} ref={toastRef} />
+        <Toast
+          position={'top-right'}
+          ref={toastRef}
+          onHide={() => dispatch(hideAlert())}
+        />
       )}
     </>
   );

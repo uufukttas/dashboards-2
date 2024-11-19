@@ -1,9 +1,12 @@
 import { ThunkDispatch } from '@reduxjs/toolkit';
 import { BaseQueryFn } from '@reduxjs/toolkit/query';
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosInstance, HttpStatusCode } from 'axios';
 import { BaseQueryFunctionParams } from './ApiRequestManager.interface';
-import { RequestMethods } from './constant';
 import { showAlert } from '../redux/features/alertInformation';
+import { successResultServices } from './successResultServices';
+import { silentErrorServices } from './silentErrorServices';
+import { toggleLoadingVisibility } from '../redux/features/isLoadingVisible';
+import { silentLoadingServices } from './silentLoadingServices';
 
 class ApiRequestManager {
   baseUrl: string = '';
@@ -17,7 +20,11 @@ class ApiRequestManager {
   }
 
   private setAccessToken = async () => {
-    const token = await localStorage.getItem('access_token');
+    const token = await localStorage.getItem('token');
+
+    if (!token) {
+      return;
+    }
 
     this.axiosInstance?.interceptors.request.use(
       (config) => {
@@ -30,31 +37,57 @@ class ApiRequestManager {
     );
   };
 
-  private handleErrors = (
-    dispatch: ThunkDispatch<any, any, any>,
-    error: AxiosError
-  ) => {
-    if (error.response?.status === 401) {
-      // dispatch(logout());
-    }
-    console.log('dispatch', dispatch);
+  private handleErrors = (dispatch: ThunkDispatch<any, any, any>, error: AxiosError) => {
+    const pushError = (message: string) => {
+      dispatch(
+        showAlert({
+          message: message,
+          type: 'error',
+        })
+      );
+    };
 
+    switch (error.response?.status) {
+      case HttpStatusCode.BadRequest:
+        pushError(error.response.statusText || 'Hatalı İstek');
+        break;
+      case HttpStatusCode.Unauthorized:
+        pushError('Yetkisiz erişim. Lütfen tekrar giriş yapın.');
+        localStorage.removeItem('token');
+        window.location.href = '/';
+        window.location.reload();
+        break;
+      case HttpStatusCode.Forbidden:
+        pushError('Yetkisiz İşlem');
+        break;
+      case HttpStatusCode.NotFound:
+        pushError(error.response.statusText || 'Bulunamadı');
+        break;
+      case HttpStatusCode.InternalServerError:
+        pushError(error.response.statusText || 'Sunucu Hatası');
+        break;
+      default:
+        pushError('Bir hata oluştu');
+    }
+  };
+
+  private pushSuccess = (dispatch: ThunkDispatch<any, any, any>, message: string) => {
     dispatch(
       showAlert({
-        message: error.response?.data?.message || 'Something went wrong',
-        type: 'error',
+        message: message || 'İşlem Başarılı',
+        type: 'success',
       })
     );
   };
 
   public request =
     (): BaseQueryFn<BaseQueryFunctionParams> =>
-    async (
-      { url, method, headers, body, params },
-      { dispatch, endpoint },
-      extraOptions
-    ) => {
+    async ({ url, method, headers, body, params }, { dispatch, endpoint }, extraOptions) => {
+      this.setAccessToken();
+
       try {
+        !silentLoadingServices.includes(endpoint) && dispatch(toggleLoadingVisibility(true));
+
         const result = await this.axiosInstance?.request({
           url,
           params,
@@ -66,12 +99,17 @@ class ApiRequestManager {
           method,
         });
 
+        successResultServices.includes(endpoint) && this.pushSuccess(dispatch, result?.data.message);
+
         return { data: result?.data || result };
       } catch (error: AxiosError | any) {
-        this.handleErrors(dispatch, error);
+        !silentErrorServices.includes(endpoint) && this.handleErrors(dispatch, error);
+
         return {
           error,
         };
+      } finally {
+        dispatch(toggleLoadingVisibility(false));
       }
     };
 }

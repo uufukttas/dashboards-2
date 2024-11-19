@@ -26,7 +26,7 @@ const CardBody: React.FC = () => {
     })
       .unwrap()
       .then(() => {
-        router.push('/dashboards');
+        // router.push('/dashboards');
       })
       .catch(() => {
         form.reset({});
