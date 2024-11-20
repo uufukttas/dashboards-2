@@ -267,7 +267,7 @@ const ChartComponent = ({
 
   function convertToNumber(tlString: string) {
     // ₺ ve virgülü temizleyip, sayıyı dönüştür
-    const cleanedString = tlString.replace('₺', '').replace('.', '').replace(',', '.');
+    const cleanedString = tlString?.replace('₺', '').replace('.', '').replace(',', '.');
     return parseFloat(cleanedString);
   }
   const processData = (

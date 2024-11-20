@@ -1,14 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import { Card } from '@projects/card';
 import BackgroundSection from './Sections/BackgroundSection';
 import ColorSection from './Sections/ColorSection';
 import InfoSection from './Sections/InfoSection';
-import LoginInfoSection from './Sections/LoginInfoSection';
 import LogoSection from './Sections/LogoSection';
 import PasswordSection from './Sections/PasswordSection';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { RootState } from '../../../app/redux/store';
 
 const ProfileSection: React.FC = () => {
   const profilePagePrefix: string = `${BRAND_PREFIX}-profile`;

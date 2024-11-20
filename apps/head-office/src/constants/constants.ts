@@ -79,7 +79,7 @@ export const sidebarItems = [
 ];
 export const stylesProps = {
     secondaryColor: '#fcaf17',
-    primaryColor: '#00529b',
+    primaryColor: '#00529b' ,
     opaqueColor: '#00529b',
     // primaryColor: '#0075bf',
     // secondaryColor: '#9acd66',
@@ -100,7 +100,6 @@ export const userInfo = {
     phone: '055512345678',
     roles: ['Super Admin'],
 };
-
 // it will be deleted after the implementation of the API
 export const CITIES = {
     '1': 'ADANA',

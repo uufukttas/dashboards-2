@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { Montserrat } from 'next/font/google';
 import { useDispatch, useSelector } from 'react-redux';
 import Footer from '../Footer/Footer';
@@ -8,14 +8,12 @@ import Header from '../Header/Header';
 import Section from '../Section/Section';
 import Sidebar from '../Sidebar/Sidebar';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { getColorsRequest } from '../../../app/api/profile';
 import {
   getCityRequest,
   getDistrictsRequest,
 } from '../../../app/api/servicePoints';
 import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpand';
 import { setCities, setDistricts } from '../../../app/redux/features/setCityInformation';
-import { setConfigs } from '../../../app/redux/features/setConfig';
 import { RootState } from '../../../app/redux/store';
 import type { IMainPageProps } from './types';
 import 'primeicons/primeicons.css';
@@ -23,6 +21,7 @@ import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import './MainComponent.css';
 import { Toast } from 'primereact/toast';
+import useThemeColors from '../../hooks/useThemeColors';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -36,29 +35,11 @@ const MainComponent: React.FC<IMainPageProps> = ({
 }: IMainPageProps) => {
   const pagePrefix: string = `${BRAND_PREFIX}-main-page`;
   const dispatch = useDispatch();
-  const colors = useSelector((state: RootState) => state.configs.colors);
-  const [isVisibleComponent, setIsVisibleComponent] = useState<boolean>(false);
   const alertInformation = useSelector(
     (state: RootState) => state.alertInformation
   );
   const toastRef = useRef<Toast>(null);
-
-  const fetchConfigurations = async (): Promise<void> => {
-    const colors = await getColorsRequest([
-      'Primary',
-      'Secondary',
-      'Alternate',
-      'Backup',
-    ]);
-
-    if (colors.error) {
-      setIsVisibleComponent(false);
-      return;
-    }
-
-    dispatch(setConfigs(colors.data));
-    setIsVisibleComponent(true);
-  };
+  useThemeColors();
   const setCitiesData = async (): Promise<void> => {
     const cities = await getCityRequest();
 
@@ -80,23 +61,15 @@ const MainComponent: React.FC<IMainPageProps> = ({
   }, [alertInformation.isVisible]);
 
   useEffect(() => {
-    fetchConfigurations();
     setCitiesData();
     setDistritcsData();
     dispatch(toggleSidebarExpanded(false));
   }, []);
 
   return (
-    isVisibleComponent && (
+    (
       <div
         className={`${montserrat.className} ${pagePrefix}-wrapper w-full flex`}
-        style={
-          {
-            '--primary-color': `${colors[0].value}`,
-            '--secondary-color': `${colors[1].value}`,
-            '--primary-font-color': '#FFFFFF',
-          } as React.CSSProperties
-        }
       >
         {alertInformation.isVisible && (
           <Toast position={'top-right'} ref={toastRef} />

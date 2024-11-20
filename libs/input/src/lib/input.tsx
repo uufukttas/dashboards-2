@@ -1,6 +1,6 @@
 import { UseFormRegisterReturn } from 'react-hook-form';
 
-interface IInputProps {
+export interface IInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   ariaInvalid?: boolean;
   className?: string;
   dataAttributes?: { [key: string]: string };
@@ -11,7 +11,6 @@ interface IInputProps {
   placeholder?: string;
   register?: UseFormRegisterReturn;
   required?: boolean;
-  type: string;
   value?: string | number | undefined;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
@@ -30,6 +29,7 @@ export function Input({
   type,
   value,
   onChange,
+  ...rest
 }: IInputProps) {
   return (
     <input
@@ -46,6 +46,7 @@ export function Input({
       onChange={onChange}
       {...dataAttributes}
       {...register}
+      {...rest}
     />
   );
 };
