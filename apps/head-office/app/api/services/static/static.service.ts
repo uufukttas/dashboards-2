@@ -19,7 +19,14 @@ const staticService = baseApi.injectEndpoints({
         url: ENDPOINTS.LANGUAGE_LIST,
       }),
     }),
+    updatedKeyList: builder.mutation<void, Post<Array<ResourceKey>>>({
+      query: ({ body }) => ({
+        url: `${ENDPOINTS.RESOURCE_TEXT}${ENDPOINTS.UPDATE_MULTIPLE}`,
+        method: ApiServiceMethods.POST,
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useGetKeyByListMutation, useGetLanaugeListQuery } = staticService;
+export const { useGetKeyByListMutation, useGetLanaugeListQuery, useUpdatedKeyListMutation } = staticService;

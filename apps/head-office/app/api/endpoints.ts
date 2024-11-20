@@ -8,4 +8,5 @@ export const ENDPOINTS = {
   DASHBOARD: '/Dashboard',
   GET_DASHBOARD_ITEMS: '/GetDashboardItems',
   GET_DASHBOARD_ITEM_DATA: '/GetDashboardItemData',
+  UPDATE_MULTIPLE: '/UpdateMultiple',
 };
