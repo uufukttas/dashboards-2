@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import BaseReport from './BaseReport';
-import { StationPaymentReportsHeadData, StationStatusReportsTableHeadData } from './constants';
-import { AppDispatch } from '../../../app/redux/store';
+import { getStationPaymentReports } from '../../../app/api/reports/getStationPaymentReportsRequest';
 import { setReportsData } from '../../../app/redux/features/getAllReports';
 import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
-import { getStationPaymentReports } from '../../../app/api/reports/getStationPaymentReportsRequest';
+import { AppDispatch } from '../../../app/redux/store';
+import BaseReport from './BaseReport';
+import { StationPaymentReportsHeadData } from './constants';
 
 const StationPaymentReportsSection = () => {
   const dispatch = useDispatch<AppDispatch>();

@@ -30,7 +30,7 @@ const Header: React.FC<IHeaderProps> = ({ className, headerName }: IHeaderProps)
           <h1 className={`${headerPrefix}-name text-xl font-semibold `}>{headerName}</h1>
         </div>
       </div>
-      <div className={`${headerPrefix}-logo-container w-1/3 flex justify-center`}>
+      <div className={`${headerPrefix}-logo-container w-1/3 flex justify-center `}>
         <Link href="/dashboards">
           <Image
             alt={`${userInfo.name} logo`}
