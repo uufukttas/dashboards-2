@@ -1,8 +1,11 @@
 export const ENDPOINTS = {
-  AUTH:'/Auth',
-  USERS:'/Users',
-  LOGIN:'/Login',
-  LANGUAGE_LIST:'/Language/LanguagesList',
-  RESOURCE_TEXT:'/ResourceText',
-  GET_BY_KEY_LIST:'/GetByKeyList',
-}
+  AUTH: '/Auth',
+  USERS: '/Users',
+  LOGIN: '/Login',
+  LANGUAGE_LIST: '/Language/LanguagesList',
+  RESOURCE_TEXT: '/ResourceText',
+  GET_BY_KEY_LIST: '/GetByKeyList',
+  DASHBOARD: '/Dashboard',
+  GET_DASHBOARD_ITEMS: '/GetDashboardItems',
+  GET_DASHBOARD_ITEM_DATA: '/GetDashboardItemData',
+};

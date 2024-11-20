@@ -11,6 +11,7 @@ import { silentLoadingServices } from './silentLoadingServices';
 class ApiRequestManager {
   baseUrl: string = '';
   axiosInstance: AxiosInstance | null = null;
+  accessToken: string | null = null;
 
   constructor({ baseUrl = '' }: { baseUrl?: string } = {}) {
     this.baseUrl = baseUrl;
@@ -19,22 +20,16 @@ class ApiRequestManager {
     });
   }
 
-  private setAccessToken = async () => {
-    const token = await localStorage.getItem('token');
+  private setAccessToken =  () => {
+    const token =  localStorage.getItem('token');
 
     if (!token) {
       return;
     }
 
-    this.axiosInstance?.interceptors.request.use(
-      (config) => {
-        config.headers.Authorization = `Bearer ${token}`;
-        return config;
-      },
-      (error) => {
-        return Promise.reject(error);
-      }
-    );
+    if (token && this.axiosInstance) {
+      this.axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
   };
 
   private handleErrors = (dispatch: ThunkDispatch<any, any, any>, error: AxiosError) => {
@@ -53,8 +48,8 @@ class ApiRequestManager {
         break;
       case HttpStatusCode.Unauthorized:
         pushError('Yetkisiz erişim. Lütfen tekrar giriş yapın.');
-        localStorage.removeItem('token');
         window.location.href = '/';
+        localStorage.removeItem('token');
         window.location.reload();
         break;
       case HttpStatusCode.Forbidden:
