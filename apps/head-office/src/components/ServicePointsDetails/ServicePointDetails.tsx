@@ -19,7 +19,6 @@ import Loading from '../Loading/Loading';
 import Modal from '../Modal/Modal';
 import Tabs from '../Tabs/Tabs';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { getColorsRequest } from '../../../app/api/profile';
 import {
   deleteComissionRequest,
   deleteEnergyPriceRequest,
@@ -56,7 +55,6 @@ import { toggleModalVisibility } from '../../../app/redux/features/isModalVisibl
 import { toggleServicePointPermissionsUpdated } from '../../../app/redux/features/isServicePointPermissionsUpdated';
 import { setPermissionData } from '../../../app/redux/features/permissionsData';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
-import { setConfigs } from '../../../app/redux/features/setConfig';
 import {
   setAddChargeUnit,
   setAddComission,
@@ -159,7 +157,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({
   const chargeUnitList = useSelector(
     (state: RootState) => state.chargeUnitList
   );
-  const colors = useSelector((state: RootState) => state.configs.colors);
   const configureStation = useSelector(
     (state: RootState) => state.setVisibleModal.configureStation
   );
@@ -360,16 +357,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({
       dispatch(hideAlert());
     }, 5000);
   };
-  const fetchConfigurations = async (): Promise<void> => {
-    const colors = await getColorsRequest([
-      'Primary',
-      'Secondary',
-      'Alternate',
-      'Backup',
-    ]);
-
-    dispatch(setConfigs(colors.data));
-  };
   const getBrands = async (): Promise<void | null> => {
     const chargeUnitBrands = await getChargeUnitBrands();
 
@@ -532,7 +519,6 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({
   };
 
   useEffect(() => {
-    fetchConfigurations();
     getBrands();
     getChargeUnits();
     getChargeUnitFeatures();
@@ -594,12 +580,7 @@ const ServicePointsDetails: React.FC<IServicePointsDetailsPageProps> = ({
   ) : (
     <div
       className={`${BRAND_PREFIX}-service-point-details-page-content-wrapper w-full`}
-      style={
-        {
-          '--primary-color': `${colors && colors[0]?.value}`,
-          '--secondary-color': `${colors && colors[1]?.value}`,
-        } as React.CSSProperties
-      }
+
     >
       <div
         className={`${BRAND_PREFIX}-service-point-details-page-content-container w-full`}

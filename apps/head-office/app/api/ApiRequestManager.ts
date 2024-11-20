@@ -1,12 +1,13 @@
-import { ThunkDispatch } from '@reduxjs/toolkit';
-import { BaseQueryFn } from '@reduxjs/toolkit/query';
 import axios, { AxiosError, AxiosInstance, HttpStatusCode } from 'axios';
+import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { BaseQueryFn } from '@reduxjs/toolkit/query';
 import { BaseQueryFunctionParams } from './ApiRequestManager.interface';
-import { showAlert } from '../redux/features/alertInformation';
-import { successResultServices } from './successResultServices';
 import { silentErrorServices } from './silentErrorServices';
-import { toggleLoadingVisibility } from '../redux/features/isLoadingVisible';
 import { silentLoadingServices } from './silentLoadingServices';
+import { successResultServices } from './successResultServices';
+import { showAlert } from '../redux/features/alertInformation';
+import { toggleLoadingVisibility } from '../redux/features/isLoadingVisible';
+import { RootState } from '../redux/store';
 
 class ApiRequestManager {
   baseUrl: string = '';
@@ -20,8 +21,8 @@ class ApiRequestManager {
     });
   }
 
-  private setAccessToken =  () => {
-    const token =  localStorage.getItem('token');
+  private setAccessToken = (): void => {
+    const token = localStorage.getItem('token');
 
     if (!token) {
       return;
@@ -32,13 +33,16 @@ class ApiRequestManager {
     }
   };
 
-  private handleErrors = (dispatch: ThunkDispatch<any, any, any>, error: AxiosError) => {
+  private handleErrors = (
+    dispatch: ThunkDispatch<RootState, unknown, AnyAction>,
+    error: AxiosError,
+  ): void => {
     const pushError = (message: string) => {
       dispatch(
         showAlert({
           message: message,
           type: 'error',
-        })
+        }),
       );
     };
 
@@ -66,39 +70,49 @@ class ApiRequestManager {
     }
   };
 
-  private pushSuccess = (dispatch: ThunkDispatch<any, any, any>, message: string) => {
+  private pushSuccess = (
+    dispatch: ThunkDispatch<RootState, unknown, AnyAction>,
+    message: string,
+  ): void => {
     dispatch(
       showAlert({
         message: message || 'İşlem Başarılı',
         type: 'success',
-      })
+      }),
     );
   };
 
   public request =
     (): BaseQueryFn<BaseQueryFunctionParams> =>
-    async ({ url, method, headers, body, params }, { dispatch, endpoint }, extraOptions) => {
+    async (
+      { body, headers, method, params, url },
+      { dispatch, endpoint },
+      extraOptions,
+    ) => {
       this.setAccessToken();
 
       try {
-        !silentLoadingServices.includes(endpoint) && dispatch(toggleLoadingVisibility(true));
+        !silentLoadingServices.includes(endpoint) &&
+          dispatch(toggleLoadingVisibility(true));
 
         const result = await this.axiosInstance?.request({
-          url,
-          params,
-          data: body,
           headers: {
             ...headers,
             'Content-Type': 'application/json',
           },
+          data: body,
           method,
+          params,
+          url,
         });
 
-        successResultServices.includes(endpoint) && this.pushSuccess(dispatch, result?.data.message);
+        successResultServices.includes(endpoint) &&
+          this.pushSuccess(dispatch, result?.data.message);
 
         return { data: result?.data.data || result };
-      } catch (error: AxiosError | any) {
-        !silentErrorServices.includes(endpoint) && this.handleErrors(dispatch, error);
+      } catch (error) {
+        !silentErrorServices.includes(endpoint) &&
+          this.handleErrors(dispatch, error as AxiosError);
 
         return {
           error,
@@ -107,6 +121,6 @@ class ApiRequestManager {
         dispatch(toggleLoadingVisibility(false));
       }
     };
-}
+};
 
 export default ApiRequestManager;

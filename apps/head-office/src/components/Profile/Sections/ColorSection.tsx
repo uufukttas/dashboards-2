@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '@projects/button';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
-import { getColorsRequest, updateColors } from '../../../../app/api/profile';
+import { updateColors } from '../../../../app/api/profile';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../../app/redux/store';
@@ -10,28 +10,14 @@ import {
   hideAlert,
   showAlert,
 } from '../../../../app/redux/features/alertInformation';
+import { useGetKeyByListMutation } from '../../../../app/api/services/static/static.service';
 
 const ColorSection: React.FC = () => {
   const colorNames: string[] = ['Primary', 'Secondary', 'Alternate', 'Backup'];
+  const [getColors, { data: pageColors }] = useGetKeyByListMutation();
   const dispatch = useDispatch<AppDispatch>();
 
   const profilePagePrefix: string = `${BRAND_PREFIX}-profile`;
-  const [pageColors, setPageColors] = useState<
-    { value: string; resourceKey: string; id: number }[]
-  >([]);
-
-  const getBrandColors = async (): Promise<void> => {
-    const response = await getColorsRequest(colorNames);
-
-    response.data.map(
-      (color: { value: string; resourceKey: string; id: number }) => {
-        setPageColors((prev) => [
-          ...prev,
-          { value: color.value, resourceKey: color.resourceKey, id: color.id },
-        ]);
-      }
-    );
-  };
 
   const handleColorSubmitSuccess = () => {
     dispatch(
@@ -68,7 +54,7 @@ const ColorSection: React.FC = () => {
   };
 
   const setColorRequestData = () => {
-    const payload = pageColors.map((color) => {
+    const payload = pageColors?.map((color) => {
       return {
         resourceKey: color.resourceKey,
         value: color.value,
@@ -80,7 +66,11 @@ const ColorSection: React.FC = () => {
   };
 
   useEffect(() => {
-    getBrandColors();
+    getColors({
+      body: {
+        resourceKeyList: ['Alternate', 'Backup', 'Primary', 'Secondary'],
+      },
+    });
   }, []);
 
   return (
@@ -99,7 +89,7 @@ const ColorSection: React.FC = () => {
         <div
           className={`${profilePagePrefix}-colors-form-content flex flex-col w-full h-full justify-evenly`}
         >
-          {pageColors.map((color, index) => {
+          {pageColors?.map((color, index) => {
             return (
               <div
                 key={index}
@@ -126,7 +116,7 @@ const ColorSection: React.FC = () => {
                     onChange={(event) => {
                       const newColors = [...pageColors];
                       newColors[index].value = event.target.value;
-                      setPageColors(newColors);
+                      // setPageColors(newColors);
                     }}
                   />
                 </div>

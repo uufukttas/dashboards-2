@@ -95,14 +95,14 @@ const ServicePointSection: React.FC = () => {
     return (
       <div className={`${pagePrefix}-data-table-actions-button-container flex justify-start items-center`}>
         <a
-          className="font-medium text-yellow-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
+          className="font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
           data-service-point-id={rowData['id']}
           onClick={getUpdatedServicePointInfo}
         >
           <FaPen className='text-primary text-2xl' />
         </a>
         <a
-          className="font-medium text-red-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
+          className="font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
           data-service-point-id={rowData['id']}
           onClick={deleteServicePointInfo}
         >
@@ -111,7 +111,7 @@ const ServicePointSection: React.FC = () => {
         {
           (rowData?.address && rowData?.districtId && rowData?.cityId && rowData?.phone) && (
             <button
-              className='font-medium text-blue-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out'
+              className='font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out'
               onClick={() => {
                 router.push(`/service-points/service-point/${rowData.id}`)
               }}
