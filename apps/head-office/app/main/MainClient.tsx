@@ -1,5 +1,6 @@
 'use client';
 
+import useCheckAuth from 'apps/head-office/src/hooks/useCheckAuth';
 import ModalManager from 'apps/head-office/src/managers/Modal.manager';
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
@@ -19,6 +20,7 @@ const MainClient: React.FC = () => {
   const toastRef = useRef<Toast>(null);
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
+  const { isReady } = useCheckAuth();
 
   useEffect(() => {
     if (!alertInformation.isVisible) return;
@@ -28,6 +30,14 @@ const MainClient: React.FC = () => {
       summary: `${alertInformation.message}`,
     });
   }, [alertInformation.isVisible]);
+
+  if (!isReady) {
+    return (
+      <div className={`${BRAND_PREFIX}-main-client-component-container flex flex-col`}>
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <>

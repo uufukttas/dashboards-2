@@ -49,9 +49,10 @@ class ApiRequestManager {
         break;
       case HttpStatusCode.Unauthorized:
         pushError('Yetkisiz erişim. Lütfen tekrar giriş yapın.');
-        window.location.href = '/';
-        localStorage.removeItem('token');
-        window.location.reload();
+        setTimeout(() => {
+          window.localStorage.removeItem('token');
+          window.location.href = '/';
+        }, 700);
         break;
       case HttpStatusCode.Forbidden:
         pushError('Yetkisiz İşlem');
