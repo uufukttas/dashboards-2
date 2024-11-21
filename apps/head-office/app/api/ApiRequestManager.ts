@@ -48,7 +48,7 @@ class ApiRequestManager {
         pushError(error.response.statusText || 'Hatalı İstek');
         break;
       case HttpStatusCode.Unauthorized:
-        pushError('Yetkisiz erişim. Lütfen tekrar giriş yapın.');
+        pushError('Oturum süreniz dolmuştur. Lütfen tekrar giriş yapın.');
         setTimeout(() => {
           window.localStorage.removeItem('token');
           window.location.href = '/';
