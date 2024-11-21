@@ -11,4 +11,5 @@ export const ENDPOINTS = {
   UPDATE_MULTIPLE: '/UpdateMultiple',
   SERVICE_POINT: '/ServicePoint',
   GET_ALL_POINTS: '/GetAllPoints',
+  DELETE_STATION: '/DeleteStation',
 };

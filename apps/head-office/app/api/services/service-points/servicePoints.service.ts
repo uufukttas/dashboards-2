@@ -2,7 +2,11 @@ import baseApi from '../../baseApi';
 import { ApiServiceMethods } from '../../constant';
 import { ENDPOINTS } from '../../endpoints';
 import { Post } from '../../types';
-import { IGetAllServicePointsRequestBody, ServicePoint } from './servicePoints.interface';
+import {
+  IDeleteServicePointRequestBody,
+  IGetAllServicePointsRequestBody,
+  ServicePoint,
+} from './servicePoints.interface';
 
 const servicePointService = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -13,7 +17,16 @@ const servicePointService = baseApi.injectEndpoints({
         body,
       }),
     }),
+    deleteServicePoint: build.mutation<void, Post<IDeleteServicePointRequestBody>>({
+      query: ({ body }) => ({
+        url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.DELETE_STATION}`,
+        method: ApiServiceMethods.POST,
+        body: {
+          id: body,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetServicePointsMutation } = servicePointService;
+export const { useGetServicePointsMutation, useDeleteServicePointMutation } = servicePointService;

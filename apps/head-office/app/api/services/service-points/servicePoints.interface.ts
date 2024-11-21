@@ -24,3 +24,7 @@ export interface ServicePoint {
   resellerCompanyId: number;
   resellerName: string;
 }
+
+export interface IDeleteServicePointRequestBody {
+  id: number;
+}

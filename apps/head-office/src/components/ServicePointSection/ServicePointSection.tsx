@@ -1,4 +1,6 @@
-import { useGetServicePointsMutation } from 'apps/head-office/app/api/services/service-points/servicePoints.service';
+import {
+  useGetServicePointsMutation
+} from 'apps/head-office/app/api/services/service-points/servicePoints.service';
 import { useRouter } from 'next/router';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { Button } from 'primereact/button';
@@ -24,7 +26,7 @@ import { toggleModalVisibility } from '../../../app/redux/features/isModalVisibl
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
 import { AppDispatch, RootState } from '../../../app/redux/store';
-import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
+import { BRAND_PREFIX } from '../../constants/constants';
 import { BaseTable } from '../BaseTable/BaseTable';
 import {
   initialServicePointDataValues,
@@ -65,7 +67,10 @@ const ServicePointSection: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const toastRef = useRef(null);
   const router = useRouter();
+
   const [getServicePoints, { data: servicePoints }] = useGetServicePointsMutation();
+  // const [deleteServicePoint] = useDeleteServicePointMutation();
+
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const searchProperties = useSelector((state: RootState) => state.searchedText);
   const servicePointsCount = useSelector((state: RootState) => state.servicePoints.count);
@@ -74,6 +79,16 @@ const ServicePointSection: React.FC = () => {
   const [visibleColumns, setVisibleColumns] = useState(servicePointTableHeadData);
   const [globalFilterValue, setGlobalFilterValue] = useState<string>('');
   const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters);
+
+  const _deleteServicePoint = async (deletedId: number): Promise<void> => {
+    // await deleteServicePoint({
+    //   body: {
+    //     id: deletedId,
+    //   },
+    // })
+    //   .unwrap()
+    //   .then(() => getServicePoints({ body: createGetServicePointsRequestPayload() }));
+  };
 
   const actionsButtonsContainer = (rowData: IRowDataProps): React.JSX.Element => {
     return (
@@ -282,18 +297,6 @@ const ServicePointSection: React.FC = () => {
     setVisibleColumns(orderedSelectedColumns);
   };
 
-  const prepareTableData = () => {
-    const newTableData = servicePoints?.map((data) => {
-      return {
-        ...data,
-        cityId: CITIES[data.cityId?.toString() as keyof typeof CITIES],
-        districtId: DISTRICTS[(data.districtId?.toString() as keyof typeof DISTRICTS) || '0'],
-      };
-    });
-
-    return newTableData;
-  };
-
   const saveAsExcelFile = (buffer: ArrayBuffer, fileName: string): void => {
     import('file-saver').then((module) => {
       if (module && module.default) {
@@ -344,8 +347,8 @@ const ServicePointSection: React.FC = () => {
   }, []);
 
   return (
-    <div className={`${BRAND_PREFIX}-service-points-container flex justify-between items-center flex-col`}>
-      <BaseTable columns={visibleColumns} data={prepareTableData()} />
+    <div className={`${BRAND_PREFIX}-service-points-container flex justify-between items-center flex-col h-full`}>
+      <BaseTable id="service-points" columns={servicePointTableHeadData} data={servicePoints || []} />
     </div>
   );
 };
