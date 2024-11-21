@@ -19,15 +19,16 @@ interface IModalLayoutProps extends PropsWithChildren {
       textClassName?: string;
     },
   ];
+  contentClassName?: string;
 }
 
 const ModalLayout: FC<IModalLayoutProps> = (props) => {
-  const { title, headerClassName, subTitle, onClose, className, fotterClassName, buttons } = props;
+  const { title, headerClassName, subTitle, onClose, className, fotterClassName, contentClassName, buttons } = props;
   const [isVisible, setIsVisible] = useState(false);
   const { closeModal } = useModalManager();
 
   const containerClasses = twMerge(
-    'bg-white min-w-[600px] min-h-[500px] rounded-md flex flex-col transition-opacity duration-100',
+    'bg-white min-w-[600px] min-h-[500px] max-w-[90%] max-h-[90%] rounded-md flex flex-col transition-opacity duration-100',
     isVisible ? 'opacity-100' : 'opacity-0',
     className,
   );
@@ -38,6 +39,12 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
   );
 
   const fotterClasses = twMerge('flex justify-end items-center border-t border-t-gray-300 py-4 px-4', fotterClassName);
+
+  const contentClasses = twMerge(
+    'p-4 flex-grow overflow-auto',
+    'max-w-[900px] max-h-[600px] w-full h-full',
+    contentClassName,
+  );
 
   const handleClose = () => {
     setIsVisible(false);
@@ -75,7 +82,7 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
           </button>
         </div>
       </div>
-      <div className="flex-1 p-4">{props.children}</div>
+      <div className={contentClasses}>{props.children}</div>
       <div className={fotterClasses}>
         {buttons.map((button) => (
           <button key={button.key} className={button.buttonClassName} onClick={button.onClick}>

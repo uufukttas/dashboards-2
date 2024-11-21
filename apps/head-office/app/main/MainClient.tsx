@@ -39,11 +39,11 @@ const MainClient: React.FC = () => {
           <Background backgroundUrl={stylesProps.loginPageBackgroundImage} />
         </Fragment>
       }
-      {isLoading && <Loading />}
       {alertInformation.isVisible && (
         <Toast position={'top-right'} ref={toastRef} onHide={() => dispatch(hideAlert())} />
       )}
       <ModalManager />
+      {isLoading && <Loading />}
     </>
   );
 };
