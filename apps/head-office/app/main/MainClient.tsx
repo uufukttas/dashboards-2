@@ -1,17 +1,18 @@
 'use client';
 
-import React, { Fragment, useEffect, useRef } from 'react';
+import ModalManager from 'apps/head-office/src/managers/Modal.manager';
+import 'primereact/resources/primereact.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import { Toast } from 'primereact/toast';
+import React, { Fragment, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
 import Background from '../../src/components/Background/Background';
 import Loading from '../../src/components/Loading/Loading';
 import Login from '../../src/components/Login/Login';
 import { BRAND_PREFIX, stylesProps } from '../../src/constants/constants';
-import 'primereact/resources/primereact.css';
-import 'primereact/resources/themes/lara-light-indigo/theme.css';
-import './MainClient.css';
 import { hideAlert } from '../redux/features/alertInformation';
+import { RootState } from '../redux/store';
+import './MainClient.css';
 
 const MainClient: React.FC = () => {
   const dispatch = useDispatch();
@@ -42,6 +43,7 @@ const MainClient: React.FC = () => {
       {alertInformation.isVisible && (
         <Toast position={'top-right'} ref={toastRef} onHide={() => dispatch(hideAlert())} />
       )}
+      <ModalManager />
     </>
   );
 };

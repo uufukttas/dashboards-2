@@ -1,13 +1,12 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
 import { Montserrat } from 'next/font/google';
+import 'primeicons/primeicons.css';
+import 'primereact/resources/primereact.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
+import { Toast } from 'primereact/toast';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Footer from '../Footer/Footer';
-import Header from '../Header/Header';
-import Section from '../Section/Section';
-import Sidebar from '../Sidebar/Sidebar';
-import { BRAND_PREFIX } from '../../constants/constants';
 import {
   getCityRequest,
   getDistrictsRequest,
@@ -15,13 +14,15 @@ import {
 import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpand';
 import { setCities, setDistricts } from '../../../app/redux/features/setCityInformation';
 import { RootState } from '../../../app/redux/store';
-import type { IMainPageProps } from './types';
-import 'primeicons/primeicons.css';
-import 'primereact/resources/primereact.css';
-import 'primereact/resources/themes/lara-light-indigo/theme.css';
-import './MainComponent.css';
-import { Toast } from 'primereact/toast';
+import { BRAND_PREFIX } from '../../constants/constants';
 import useThemeColors from '../../hooks/useThemeColors';
+import ModalManager from '../../managers/Modal.manager';
+import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
+import Section from '../Section/Section';
+import Sidebar from '../Sidebar/Sidebar';
+import './MainComponent.css';
+import type { IMainPageProps } from './types';
 
 const montserrat = Montserrat({
   subsets: ['latin'],
@@ -83,6 +84,7 @@ const MainComponent: React.FC<IMainPageProps> = ({
           <Section>{children}</Section>
           <Footer className={`flex items-center w-full bg-white`} />
         </div>
+        <ModalManager />
       </div>
     )
   );
