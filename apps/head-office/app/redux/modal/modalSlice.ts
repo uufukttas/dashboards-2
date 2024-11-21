@@ -1,6 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState = {
+interface Modal {
+  name: string;
+  component: React.ReactNode;
+}
+
+interface ModalState {
+  modals: Modal[];
+}
+
+const initialState: ModalState = {
   modals: [],
 };
 
@@ -8,7 +17,13 @@ const modalSlice = createSlice({
   name: 'modals',
   initialState,
   reducers: {
-    pushModal: (state, action) => {
+    pushModal: (
+      state,
+      action: PayloadAction<{
+        name: string;
+        component: React.ReactNode;
+      }>,
+    ) => {
       state.modals.push(action.payload);
     },
     removeModalByName: (state, action) => {

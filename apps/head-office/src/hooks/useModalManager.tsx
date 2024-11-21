@@ -1,14 +1,15 @@
 import { clearModals, pushModal, removeModalByName } from 'apps/head-office/app/redux/modal/modalSlice';
+import { ReactNode } from 'react';
 import { useDispatch } from 'react-redux';
 
 const useModalManager = () => {
   const dispatch = useDispatch();
 
-  const openModal = (name, component) => {
+  const openModal = (name: string, component: ReactNode) => {
     dispatch(pushModal({ name, component }));
   };
 
-  const closeModal = (name) => {
+  const closeModal = (name: string) => {
     dispatch(removeModalByName(name));
   };
 
