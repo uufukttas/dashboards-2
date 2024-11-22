@@ -1,96 +1,134 @@
+import { IBaseTableColumn } from '../BaseTable/BaseTableInterface';
+
 const initialServicePointDataValues = {
-    id: 0,
-    isActive: true,
-    isDeleted: false,
-    name: '',
-    companyId: 0,
-    companyName: '',
-    resellerCompanyId: 0,
-    resellerName: '',
+  id: 0,
+  isActive: true,
+  isDeleted: false,
+  name: '',
+  companyId: 0,
+  companyName: '',
+  resellerCompanyId: 0,
+  resellerName: '',
 };
 const initialServicePointInformationValue = {
-    address: '',
-    addressDetail: '',
-    cityId: 0,
-    districtId: 0,
-    freePark: false,
-    id: 0,
-    lon: 0,
-    lat: 0,
-    name: '',
-    opportunities: [],
-    paymentMethods: '1',
-    phone1: '',
-    phone2: '',
-    type: '',
+  address: '',
+  addressDetail: '',
+  cityId: 0,
+  districtId: 0,
+  freePark: false,
+  id: 0,
+  lon: 0,
+  lat: 0,
+  name: '',
+  opportunities: [],
+  paymentMethods: '1',
+  phone1: '',
+  phone2: '',
+  type: '',
 };
-const servicePointTableFilteredDropdownItems = [{
+const servicePointTableFilteredDropdownItems = [
+  {
     id: 1,
     isChecked: true,
     name: 'İstasyon Adı',
     rid: null,
     stationFeatureType: 0,
     stationFeatureValue: 0,
-}, {
+  },
+  {
     id: 2,
     isChecked: false,
     name: 'Telefon',
     rid: null,
     stationFeatureType: 0,
     stationFeatureValue: 0,
-}, {
+  },
+  {
     id: 3,
     isChecked: false,
     name: 'Adres',
     rid: null,
     stationFeatureType: 0,
     stationFeatureValue: 0,
-}, {
+  },
+  {
     id: 4,
     isChecked: false,
     name: 'İl',
     rid: null,
     stationFeatureType: 0,
     stationFeatureValue: 0,
-}, {
+  },
+  {
     id: 5,
     isChecked: false,
     name: 'İlçe',
     rid: null,
     stationFeatureType: 0,
     stationFeatureValue: 0,
-}];
-const servicePointTableHeadData = [
-    {
-        field: 'name',
-        header: 'İstasyon Adı',
-        isRemovable: true,
-    }, {
-        field: 'phone',
-        header: 'Telefon',
-        isRemovable: true,
-    }, {
-        field: 'address',
-        header: 'Adres',
-        isRemovable: true,
-    }, {
-        field: 'cityId',
-        header: 'İl',
-        isRemovable: true,
-    }, {
-        field: 'districtId',
-        header: 'İlçe',
-        isRemovable: true,
-    }, {
-        field: 'actions',
-        header: 'İşlemler',
-        isRemovable: false,
-    }
+  },
+];
+
+const servicePointTableHeadData: IBaseTableColumn[] = [
+  {
+    accessor: 'name',
+    align: 'left',
+    field: 'İstasyon Adı',
+    header: 'İstasyon Adı',
+    id: 'name',
+    isRemovable: true,
+    type: 'string',
+  },
+  {
+    accessor: 'phone',
+    align: 'left',
+    field: 'Telefon',
+    header: 'Telefon',
+    id: 'phone',
+    isRemovable: true,
+    type: 'string',
+  },
+  {
+    accessor: 'address',
+    align: 'left',
+    field: 'Adres',
+    header: 'Adres',
+    id: 'address',
+    isRemovable: true,
+    type: 'string',
+  },
+  {
+    accessor: 'city',
+    align: 'left',
+    field: 'İl',
+    header: 'İl',
+    id: 'city',
+    isRemovable: true,
+    type: 'string',
+  },
+  {
+    accessor: 'district',
+    align: 'left',
+    field: 'İlçe',
+    header: 'İlçe',
+    id: 'district',
+    isRemovable: true,
+    type: 'string',
+  },
+  {
+    accessor: 'actions',
+    align: 'center',
+    field: 'İşlemler',
+    header: 'İşlemler',
+    id: 'actions',
+    isRemovable: false,
+    type: 'custom',
+  },
 ];
 
 export {
-    initialServicePointDataValues,
-    initialServicePointInformationValue,
-    servicePointTableFilteredDropdownItems,
-    servicePointTableHeadData,
+  initialServicePointDataValues,
+  initialServicePointInformationValue,
+  servicePointTableFilteredDropdownItems,
+  servicePointTableHeadData,
 };
