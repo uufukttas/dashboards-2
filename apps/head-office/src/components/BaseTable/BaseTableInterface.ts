@@ -1,17 +1,42 @@
-export interface IBasetableColumn {
-  id: string;
-  Header: string;
+import { DataTableFilterMeta } from "primereact/datatable";
+
+export interface IBaseTableColumn {
   accessor: string;
   align?: 'left' | 'right' | 'center';
-  style?: Record<string, unknown>;
+  bodyTemplate?: JSX.Element;
   className?: string;
-  bodyTemplate?: (rowData: Record<string, unknown>) => JSX.Element;
-}
-export interface IBaseTableProps {
+  field: string;
+  header: string,
   id: string;
-  columns: Array<IBasetableColumn>;
-  data: Array<Record<string, unknown>>;
-  onRowEditComplete?: (e: any) => void;
+  isRemovable: boolean;
+  style?: Record<string, unknown>;
+  type: 'string' | 'number' | 'date' | 'boolean' | 'custom';
+};
+
+export interface IBaseTableProps {
+  className?: string;
+  columns: IBaseTableColumn[];
+  columnResizeMode?: 'expand' | 'fit';
+  currentPageReportTemplate?: string;
+  data: Record<string, unknown>[];
+  defaultRowCount?: number;
   expandable?: boolean;
+  exportableExcel?: boolean;
+  exportableCSV?: boolean;
+  filters?: DataTableFilterMeta;
+  globalFilterFields?: string[];
+  hasFilterMatchModes?: boolean;
+  hasPaginator?: boolean;
+  hasReorderableColumns?: boolean;
+  hasResizableColumn?: boolean;
+  tableHeader: () => JSX.Element;
+  id: string;
+  isRemovableSort?: boolean;
+  isScrollable?: boolean;
   multiSelect?: boolean;
-}
+  paginatorTemplate?: string;
+  rowsPerPageOptions?: number[];
+  selectionMode?: 'multiple' | 'checkbox' | null;
+  stateStorageType?: 'local' | 'session';
+  userStateKey?: string;
+};

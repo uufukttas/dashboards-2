@@ -1,4 +1,4 @@
-import { IBasetableColumn } from '../BaseTable/BaseTableInterface';
+import { IBaseTableColumn } from '../BaseTable/BaseTableInterface';
 
 const initialServicePointDataValues = {
   id: 0,
@@ -69,42 +69,60 @@ const servicePointTableFilteredDropdownItems = [
   },
 ];
 
-const servicePointTableHeadData: IBasetableColumn[] = [
+const servicePointTableHeadData: IBaseTableColumn[] = [
   {
-    id: 'name',
-    Header: 'İstasyon Adı',
     accessor: 'name',
     align: 'left',
+    field: 'İstasyon Adı',
+    header: 'İstasyon Adı',
+    id: 'name',
+    isRemovable: true,
+    type: 'string',
   },
   {
-    id: 'phone',
-    Header: 'Telefon',
     accessor: 'phone',
     align: 'left',
+    field: 'Telefon',
+    header: 'Telefon',
+    id: 'phone',
+    isRemovable: true,
+    type: 'string',
   },
   {
-    id: 'address',
-    Header: 'Adres',
     accessor: 'address',
     align: 'left',
+    field: 'Adres',
+    header: 'Adres',
+    id: 'address',
+    isRemovable: true,
+    type: 'string',
   },
   {
-    id: 'cityId',
-    Header: 'İl',
-    accessor: 'cityId',
+    accessor: 'city',
     align: 'left',
+    field: 'İl',
+    header: 'İl',
+    id: 'city',
+    isRemovable: true,
+    type: 'string',
   },
   {
-    id: 'districtId',
-    Header: 'İlçe',
-    accessor: 'districtId',
+    accessor: 'district',
     align: 'left',
+    field: 'İlçe',
+    header: 'İlçe',
+    id: 'district',
+    isRemovable: true,
+    type: 'string',
   },
   {
-    id: 'actions',
-    Header: 'İşlemler',
     accessor: 'actions',
     align: 'center',
+    field: 'İşlemler',
+    header: 'İşlemler',
+    id: 'actions',
+    isRemovable: false,
+    type: 'custom',
   },
 ];
 
@@ -112,6 +130,5 @@ export {
   initialServicePointDataValues,
   initialServicePointInformationValue,
   servicePointTableFilteredDropdownItems,
-  servicePointTableHeadData
+  servicePointTableHeadData,
 };
-
