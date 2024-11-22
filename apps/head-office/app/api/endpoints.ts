@@ -9,4 +9,7 @@ export const ENDPOINTS = {
   GET_DASHBOARD_ITEMS: '/GetDashboardItems',
   GET_DASHBOARD_ITEM_DATA: '/GetDashboardItemData',
   UPDATE_MULTIPLE: '/UpdateMultiple',
+  SERVICE_POINT: '/ServicePoint',
+  GET_ALL_POINTS: '/GetAllPoints',
+  DELETE_STATION: '/DeleteStation',
 };
