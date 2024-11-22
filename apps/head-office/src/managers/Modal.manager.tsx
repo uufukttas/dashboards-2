@@ -1,9 +1,15 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import useModalManager from '../hooks/useModalManager';
 
 const ModalManager = () => {
   const modals = useSelector((state) => state?.modals?.modals);
   const { closeModal } = useModalManager();
+
+  useEffect(() => {
+    console.log('modals', modals);
+  }, [modals]);
+
   if (!modals?.length) return null;
 
   return (

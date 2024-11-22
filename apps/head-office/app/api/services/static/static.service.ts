@@ -1,8 +1,8 @@
-import { ResourceKey, ResourceTextRequestBody } from './static.interface';
 import baseApi from '../../baseApi';
 import { ApiServiceMethods } from '../../constant';
 import { ENDPOINTS } from '../../endpoints';
 import { Post } from '../../types';
+import { City, District, ResourceKey, ResourceTextRequestBody } from './static.interface';
 
 const staticService = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -26,7 +26,20 @@ const staticService = baseApi.injectEndpoints({
         body,
       }),
     }),
+    getCities: builder.query<Array<City>, void>({
+      query: () => ({
+        method: ApiServiceMethods.GET,
+        url: `${ENDPOINTS.VALUES}${ENDPOINTS.GET_CITIES}`,
+      }),
+    }),
+    getDistricts: builder.mutation<Array<District>, Post<{ plateNumber: number }>>({
+      query: ({ body }) => ({
+        method: ApiServiceMethods.POST,
+        url: `${ENDPOINTS.VALUES}${ENDPOINTS.GET_DISTRICTS}`,
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useGetKeyByListMutation, useGetLanaugeListQuery, useUpdatedKeyListMutation } = staticService;
+export const { useGetKeyByListMutation, useGetLanaugeListQuery, useUpdatedKeyListMutation, useGetCitiesQuery, useGetDistrictsMutation } = staticService;

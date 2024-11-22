@@ -1,7 +1,5 @@
 'use client';
 
-import useCheckAuth from 'apps/head-office/src/hooks/useCheckAuth';
-import ModalManager from 'apps/head-office/src/managers/Modal.manager';
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import { Toast } from 'primereact/toast';
@@ -11,6 +9,8 @@ import Background from '../../src/components/Background/Background';
 import Loading from '../../src/components/Loading/Loading';
 import Login from '../../src/components/Login/Login';
 import { BRAND_PREFIX, stylesProps } from '../../src/constants/constants';
+import useCheckAuth from '../../src/hooks/useCheckAuth';
+import ModalManager from '../../src/managers/Modal.manager';
 import { hideAlert } from '../redux/features/alertInformation';
 import { RootState } from '../redux/store';
 import './MainClient.css';

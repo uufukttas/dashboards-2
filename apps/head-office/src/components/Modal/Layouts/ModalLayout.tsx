@@ -1,6 +1,6 @@
-import useModalManager from 'apps/head-office/src/hooks/useModalManager';
 import { FC, PropsWithChildren, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+import useModalManager from '../../../hooks/useModalManager';
 
 interface IModalLayoutProps extends PropsWithChildren {
   name: string;
@@ -10,7 +10,8 @@ interface IModalLayoutProps extends PropsWithChildren {
   subTitle?: string;
   onClose?: () => void;
   fotterClassName?: string;
-  buttons: [
+  disableClose?: boolean;
+  buttons?: [
     {
       key: string;
       label: string;
@@ -23,12 +24,22 @@ interface IModalLayoutProps extends PropsWithChildren {
 }
 
 const ModalLayout: FC<IModalLayoutProps> = (props) => {
-  const { title, headerClassName, subTitle, onClose, className, fotterClassName, contentClassName, buttons } = props;
+  const {
+    title,
+    headerClassName,
+    subTitle,
+    onClose,
+    className,
+    fotterClassName,
+    contentClassName,
+    buttons,
+    disableClose = false
+  } = props;
   const [isVisible, setIsVisible] = useState(false);
   const { closeModal } = useModalManager();
 
   const containerClasses = twMerge(
-    'bg-white min-w-[600px] min-h-[500px] max-w-[90%] max-h-[90%] rounded-md flex flex-col transition-opacity duration-100',
+    'bg-white min-w-[600px] min-h-[500px] max-w-[90%] max-h-[90%] rounded-md flex flex-col transition-opacity duration-100 shadow-lg',
     isVisible ? 'opacity-100' : 'opacity-0',
     className,
   );
@@ -47,6 +58,8 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
   );
 
   const handleClose = () => {
+    if (disableClose) return;
+
     setIsVisible(false);
     setTimeout(() => {
       onClose && onClose();
@@ -56,7 +69,7 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
+      if (event.key === 'Escape' && !disableClose) {
         handleClose();
       }
     };
@@ -65,11 +78,21 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
     return () => {
       document.removeEventListener('keydown', handleEscape);
     };
-  }, []);
+  }, [disableClose]);
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
+
+  const defaultButtons = disableClose ? [] : [{
+    key: 'close',
+    label: 'Close',
+    onClick: handleClose,
+    buttonClassName: 'px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 mr-2',
+    textClassName: 'text-gray-700'
+  }];
+
+  const allButtons = [...defaultButtons, ...(buttons || [])];
 
   return (
     <div className={containerClasses}>
@@ -77,14 +100,16 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
         <h3 className="text-lg font-bold text-heading">{title}</h3>
         <div className="flex items-center">
           {subTitle && <p className="text-sm text-gray-500">{subTitle}</p>}
-          <button className="p-0 h-8 w-8 items-center justify-center rounded-md bg-gray-700" onClick={handleClose}>
-            <i className="pi pi-times text-white w-4 h-4 mt-1" />
-          </button>
+          {!disableClose && (
+            <button className="p-0 h-8 w-8 items-center justify-center rounded-md bg-gray-700" onClick={handleClose}>
+              <i className="pi pi-times text-white w-4 h-4 mt-1" />
+            </button>
+          )}
         </div>
       </div>
       <div className={contentClasses}>{props.children}</div>
       <div className={fotterClasses}>
-        {buttons.map((button) => (
+        {allButtons.map((button) => (
           <button key={button.key} className={button.buttonClassName} onClick={button.onClick}>
             <span className={button.textClassName}>{button.label}</span>
           </button>

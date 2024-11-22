@@ -1,8 +1,8 @@
 import { Card } from '@projects/card';
 import { detectDevice } from '@projects/common';
-import { useGetComponentContentMutation } from 'apps/head-office/app/api/services/dashboard/dashboard.service';
 import { useEffect } from 'react';
 import { FaCircleInfo } from 'react-icons/fa6';
+import { useGetComponentContentMutation } from '../../../app/api/services/dashboard/dashboard.service';
 import { BRAND_PREFIX } from '../../constants/constants';
 import DashboardMap from './DashboardMap';
 import DynamicSVG from './DynamicSVG';
