@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 
 interface IFormErrorProps {
   prefix?: string;
@@ -10,7 +10,7 @@ const BaseFormError: FC<IFormErrorProps> = (props) => {
 
   return (
     <div className={`${prefix}-wrapper w-full `}>
-      <p className={`${prefix}-message font-bold text-error`}>{message}</p>
+      <p className={`${prefix}-message font-bold text-red-700 text-sm`}>{message}</p>
     </div>
   );
 };

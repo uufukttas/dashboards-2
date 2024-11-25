@@ -1,27 +1,27 @@
-import React, { useEffect } from 'react';
+import { Card } from '@projects/card';
+import { detectDevice } from '@projects/common';
+import { useGetDashboardItemsMutation } from 'apps/head-office/app/api/services/dashboard/dashboard.service';
 import {
   ArcElement,
   CategoryScale,
   Chart,
   Filler,
+  Legend,
   LinearScale,
   LineElement,
-  Legend,
   PointElement,
   Title,
   Tooltip,
 } from 'chart.js';
 import 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { Card } from '@projects/card';
-import { detectDevice } from '@projects/common';
+import React, { useEffect } from 'react';
+import { BRAND_PREFIX } from '../../constants/constants';
+import ChartComponent from './CardComponents/ChartComponent';
 import KPIComponent from './CardComponents/KPIComponent';
 import ListComponent from './CardComponents/ListComponent';
-import ChartComponent from './CardComponents/ChartComponent';
-import { BRAND_PREFIX } from '../../constants/constants';
 import './HelperDashboardSection.css';
 import { IHelperDashboardCardComponentProps } from './types';
-import { useGetDashboardItemsMutation } from 'apps/head-office/app/api/services/dashboard/dashboard.service';
 
 Chart.register(
   ArcElement,
@@ -33,7 +33,7 @@ Chart.register(
   Legend,
   PointElement,
   Title,
-  Tooltip
+  Tooltip,
 );
 
 const HelperDashboardCards: React.FC<{ widget: IHelperDashboardCardComponentProps }> = ({
@@ -44,7 +44,7 @@ const HelperDashboardCards: React.FC<{ widget: IHelperDashboardCardComponentProp
   const itemPrefix: string = `${BRAND_PREFIX}-helper-dashboard-page-card-item`;
   const isDesktop = detectDevice().isDesktop;
   const isTablet = detectDevice().isTablet;
-  const [getDashboardItems, { data: componentValue }] = useGetDashboardItemsMutation({});
+  const [getDashboardItems, { data: componentValue, isLoading }] = useGetDashboardItemsMutation({});
 
   const getCardComponentContent = () => {
     if (!componentValue) {
@@ -53,11 +53,11 @@ const HelperDashboardCards: React.FC<{ widget: IHelperDashboardCardComponentProp
 
     switch (widget.widgetType) {
       case 'chart':
-        return <ChartComponent widget={widget} componentValue={componentValue} />;
+        return <ChartComponent widget={widget} componentValue={componentValue} isLoading={isLoading} />;
       case 'kpi':
-        return <KPIComponent componentValue={componentValue} />;
+        return <KPIComponent componentValue={componentValue} isLoading={isLoading} />;
       case 'list':
-        return <ListComponent componentValue={componentValue} />;
+        return <ListComponent componentValue={componentValue} isLoading={isLoading} />;
     }
   };
   const setComponentPosition = (): string => {

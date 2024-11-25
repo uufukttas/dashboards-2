@@ -12,7 +12,7 @@ interface IButtonProps {
 export function Button({ buttonText, children, className, dataAttributes, disabled, id, type, onClick }: IButtonProps) {
   return (
     <button
-      className={`button ${className}`}
+      className={`button active:bg-opacity-25 ${className}`}
       disabled={disabled}
       id={id}
       type={type}

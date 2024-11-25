@@ -1,31 +1,27 @@
-import React, { Fragment, useEffect } from 'react';
+import { detectDevice } from '@projects/common';
 import {
   ArcElement,
   CategoryScale,
   Chart,
   Filler,
+  Legend,
   LinearScale,
   LineElement,
-  Legend,
   PointElement,
   Title,
   Tooltip,
 } from 'chart.js';
 import 'chart.js/auto';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { Fragment, useEffect } from 'react';
 import { Doughnut, Line, Pie } from 'react-chartjs-2';
-import { BRAND_PREFIX } from '../../../constants/constants';
-import { detectDevice } from '@projects/common';
-import { useDispatch } from 'react-redux';
-import { IChartData, IDashboardData } from '../types';
-import {
-  FaBatteryHalf,
-  FaChargingStation,
-  FaCircleInfo,
-} from 'react-icons/fa6';
 import { BiSolidEvStation } from 'react-icons/bi';
+import { FaBatteryHalf, FaChargingStation, FaCircleInfo } from 'react-icons/fa6';
 import { HiUserGroup } from 'react-icons/hi';
+import { useDispatch } from 'react-redux';
 import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
+import { BRAND_PREFIX } from '../../../constants/constants';
+import { IChartData, IDashboardData } from '../types';
 
 Chart.register(
   ArcElement,
@@ -37,14 +33,16 @@ Chart.register(
   Legend,
   PointElement,
   Title,
-  Tooltip
+  Tooltip,
 );
 const ChartComponent = ({
   widget,
   componentValue,
+  isLoading,
 }: {
   widget: any;
   componentValue: any;
+  isLoading: boolean;
 }) => {
   const isDesktop = detectDevice().isDesktop;
   const isTablet = detectDevice().isTablet;
@@ -91,7 +89,7 @@ const ChartComponent = ({
               default:
                 return 0;
             }
-          })()
+          })(),
         ),
       },
     },
@@ -131,12 +129,8 @@ const ChartComponent = ({
   const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page-cards`;
   const dispatch = useDispatch();
   const doughnutData = (response: any) => {
-    const labels = response.map(
-      (item: { name: string; data: any }) => item.name
-    );
-    const data = response.map((item: { name: string; data: any }) =>
-      convertToNumber(item.data).toFixed(2)
-    );
+    const labels = response.map((item: { name: string; data: any }) => item.name);
+    const data = response.map((item: { name: string; data: any }) => convertToNumber(item.data).toFixed(2));
 
     return {
       datasets: [
@@ -223,23 +217,12 @@ const ChartComponent = ({
   };
 
   const lineData = (response: any) => {
-    let acData,
-      dcData,
-      todayData,
-      lastWeekData,
-      monthData,
-      lastMonthData,
-      yearData,
-      lastYearData;
+    let acData, dcData, todayData, lastWeekData, monthData, lastMonthData, yearData, lastYearData;
 
     if (response[0]?.type === 'ac' || response[0]?.type === 'dc') {
       ({ acData: acData, dcData: dcData } = processData(response, 'ac', 'dc'));
     } else if (response[0][0]?.type === 'ac' || response[0][1]?.type === 'dc') {
-      ({ acData: todayData, dcData: lastWeekData } = processData(
-        response,
-        'today',
-        'last_week_today'
-      ));
+      ({ acData: todayData, dcData: lastWeekData } = processData(response, 'today', 'last_week_today'));
     }
     const key =
       (response[0].ac && response[0]?.ac[0]) ||
@@ -270,19 +253,15 @@ const ChartComponent = ({
     const cleanedString = tlString?.replace('₺', '').replace('.', '').replace(',', '.');
     return parseFloat(cleanedString);
   }
-  const processData = (
-    response: any,
-    currentKey: string,
-    previousKey: string
-  ) => {
+  const processData = (response: any, currentKey: string, previousKey: string) => {
     let acData = response[0],
       dcData = response[1];
     if (Array.isArray(response[0])) {
       acData = response[0][0].data.map((item: any) =>
-        item.kwh ? convertToNumber(item.kwh) : convertToNumber(item.amount)
+        item.kwh ? convertToNumber(item.kwh) : convertToNumber(item.amount),
       );
       dcData = response[0][1].data.map((item: any) =>
-        item.kwh ? convertToNumber(item.kwh) : convertToNumber(item.amount)
+        item.kwh ? convertToNumber(item.kwh) : convertToNumber(item.amount),
       );
     } else {
       if (acData || dcData) {
@@ -452,7 +431,7 @@ const ChartComponent = ({
     dispatch(toggleLoadingVisibility(false));
   }, []);
 
-  if (!componentValue) {
+  if (isLoading) {
     return (
       <div className="animate-pulse flex flex-col items-center justify-center h-full w-full px-4">
         <div className="h-6 bg-gray-300 rounded w-1/4 mb-4 mx-4"></div>
@@ -469,9 +448,7 @@ const ChartComponent = ({
             <div className={`card-content w-full h-full flex text-center justify-between`}>
               <div className="card-info-container flex flex-col items-center justify-start px-4 w-full">
                 <div className="card-title-container flex items-center justify-start w-full">
-                  <div className={`lg:text-lg font-bold text-md`}>
-                    {componentValue?.widgetTitle}
-                  </div>
+                  <div className={`lg:text-lg font-bold text-md`}>{componentValue?.widgetTitle}</div>
                 </div>
                 <div className="card-info text-2xl flex w-full items-center justify-end h-full">
                   {getValue(componentValue)}

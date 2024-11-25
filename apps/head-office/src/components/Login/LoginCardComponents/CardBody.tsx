@@ -1,9 +1,9 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
 import { Button } from '@projects/button';
-import { BRAND_PREFIX } from '../../../constants/constants';
 import { useLoginMutation } from 'apps/head-office/app/api/services/auth/auth.service';
 import { useRouter } from 'next/navigation';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { BRAND_PREFIX } from '../../../constants/constants';
 import BaseInput from '../../Base/BaseInput';
 
 const CardBody: React.FC = () => {
@@ -26,7 +26,7 @@ const CardBody: React.FC = () => {
     })
       .unwrap()
       .then(() => {
-        router.push('/dashboards');
+        router.replace('/dashboards');
       })
       .catch(() => {
         form.reset({});

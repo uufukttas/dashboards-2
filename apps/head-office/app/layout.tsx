@@ -1,6 +1,6 @@
 import { Montserrat } from 'next/font/google';
-import ClientComponent from './ClientComponent';
 import { metaData } from '../src/constants/constants';
+import ClientComponent from './ClientComponent';
 import './global.css';
 
 export const metadata = metaData;

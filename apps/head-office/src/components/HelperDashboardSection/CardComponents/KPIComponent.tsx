@@ -1,16 +1,17 @@
 import React from 'react';
+import { FaCircleInfo } from 'react-icons/fa6';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import DynamicSVG from '../../DashboardSection/DynamicSVG';
 import { IComponentValueProps } from '../../DashboardSection/types';
-import { FaCircleInfo } from 'react-icons/fa6';
 
 const KPIComponent: React.FC<{
   componentValue: IComponentValueProps | undefined;
-}> = ({ componentValue }) => {
+  isLoading?: boolean;
+}> = ({ componentValue, isLoading }) => {
   const itemPrefix: string = `${BRAND_PREFIX}-dashboard-page-card-item`;
   const dashboardCardContentPrefix: string = `${itemPrefix}-content`;
 
-  if (!componentValue) {
+  if (isLoading) {
     return (
       <div className="animate-pulse flex flex-col space-y-4 p-4 w-full">
         <p>Yükleniyor...</p>
@@ -25,20 +26,25 @@ const KPIComponent: React.FC<{
   return (
     <>
       <div className={`${dashboardCardContentPrefix} w-full h-full flex text-center justify-between`}>
-        <div className={`${dashboardCardContentPrefix}-info-container flex flex-col items-center justify-start px-4 w-full`}>
+        <div
+          className={`${dashboardCardContentPrefix}-info-container flex flex-col items-center justify-start px-4 w-full`}
+        >
           <div className={`${dashboardCardContentPrefix}-title-container flex items-center justify-start w-full`}>
             <div className={`${dashboardCardContentPrefix}-title lg:text-lg font-bold text-md`}>
               {componentValue?.widgetTitle}
             </div>
           </div>
           <div className={`${dashboardCardContentPrefix}-container flex items-center justify-center w-full h-5/6`}>
-            {
-              componentValue?.iconName &&
-              <div className={`${dashboardCardContentPrefix}-icon-container flex items-center justify-center w-full h-5/6`}>
+            {componentValue?.iconName && (
+              <div
+                className={`${dashboardCardContentPrefix}-icon-container flex items-center justify-center w-full h-5/6`}
+              >
                 <DynamicSVG fileName={componentValue?.iconName} />
               </div>
-            }
-            <div className={`${dashboardCardContentPrefix}-value text-${componentValue?.valueSizeType} flex w-full items-center justify-center ${componentValue?.valuePositionType} h-full`}>
+            )}
+            <div
+              className={`${dashboardCardContentPrefix}-value text-${componentValue?.valueSizeType} flex w-full items-center justify-center ${componentValue?.valuePositionType} h-full`}
+            >
               {
                 <>
                   <span>{componentValue?.totalData}</span>

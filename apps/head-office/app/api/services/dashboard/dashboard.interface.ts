@@ -25,3 +25,22 @@ export interface DashboardItemDataRequest {
   dateFilterStartAt: string;
   dateFilterEndAt: string;
 }
+
+export interface ComponentValue {
+  dashboardMapItemDataSummaries?: {
+    iconUrl: string;
+    isAC: boolean;
+    latitude: string;
+    longitude: string;
+    name: string;
+    status: string;
+  }[];
+  widgetTitle?: string;
+  activeData?: number;
+  dashboardWidgetType?: string;
+  iconName?: string;
+  totalData?: number;
+  widgetDescription?: string;
+  valuePositionType?: string;
+  valueSizeType?: string;
+}

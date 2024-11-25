@@ -1,9 +1,11 @@
 import { IInputProps, Input } from '@projects/input';
 import { Label } from '@projects/label';
-import React, { FC, useEffect } from 'react';
+import { Textarea } from '@projects/textarea';
+
+import { FC } from 'react';
 import { Controller, FieldValues, useController } from 'react-hook-form';
-import BaseFormError from './BaseFormError';
 import { cn } from '../../utils/common.utils';
+import BaseFormError from './BaseFormError';
 
 interface IBaseInputProps extends Omit<IInputProps, 'form'> {
   form: FieldValues;
@@ -13,19 +15,11 @@ interface IBaseInputProps extends Omit<IInputProps, 'form'> {
   rules?: Record<string, unknown>;
   inputClassName?: string;
   containerClassName?: string;
+  isTextarea?: boolean;
 }
 
 const BaseInput: FC<IBaseInputProps> = (props) => {
-  const {
-    form,
-    label,
-    name,
-    rules,
-    prefix,
-    inputClassName,
-    containerClassName,
-    ...rest
-  } = props;
+  const { form, label, name, rules, prefix, inputClassName, containerClassName, isTextarea = false, ...rest } = props;
 
   const {
     fieldState: { error },
@@ -38,7 +32,7 @@ const BaseInput: FC<IBaseInputProps> = (props) => {
   const inputClasses = cn(
     `${prefix}-input w-full mt-1 p-2 border rounded-lg text-text text-sm focus:ring-primary focus:border-primary`,
     error && 'border-error',
-    inputClassName
+    inputClassName,
   );
 
   const containerClasses = cn('h-20', containerClassName);
@@ -46,29 +40,21 @@ const BaseInput: FC<IBaseInputProps> = (props) => {
   return (
     <div className={containerClasses}>
       {label && (
-        <Label
-          className={`${prefix}-label block text-sm font-medium text-gray-600`}
-          htmlFor={name}
-          labelText={label}
-        />
+        <Label className={`${prefix}-label block text-sm font-medium text-gray-600`} htmlFor={name} labelText={label} />
       )}
       <Controller
         control={form.control}
         name={name}
         rules={rules}
         render={({ field }) => (
-          <Input
-            {...field}
-            className={inputClasses}
-            name={name}
-            type="text"
-            {...rest}
-          />
+          isTextarea ? (
+            <Textarea {...field} className={inputClasses} name={name} {...rest} />
+          ) : (
+            <Input {...field} className={inputClasses} name={name} type="text" {...rest} />
+          )
         )}
       />
-      {error && error.message && (
-        <BaseFormError message={error.message} prefix={prefix} />
-      )}
+      {error && error.message && <BaseFormError message={error.message} prefix={prefix} />}
     </div>
   );
 };

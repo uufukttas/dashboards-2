@@ -1,38 +1,20 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import DevicesSection from './DevicesSection';
-import Loading from '../Loading/Loading';
-import MainComponent from '../MainComponent/MainComponent';
+import React from 'react';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
-import { RootState, AppDispatch } from '../../../app/redux/store';
+import MainComponent from '../MainComponent/MainComponent';
+import DevicesSection from './DevicesSection';
 
 const Devices: React.FC = () => {
-    const pagePrefix: string = `${BRAND_PREFIX}-devices-page`;
-    const dispatch = useDispatch<AppDispatch>();
-    const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
+  const pagePrefix: string = `${BRAND_PREFIX}-devices-page`;
 
-    useEffect(() => {
-        dispatch(toggleLoadingVisibility(false));
-    }, []);
-
-    return (
-        <div className={`${pagePrefix}-wrapper w-full flex h-screen`}>
-            {
-                isLoading
-                    ? (
-                        <Loading />
-                    )
-                    : (
-                        <MainComponent headerName='Cihazlar'>
-                            <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap w-full`}>
-                                <DevicesSection />
-                            </div>
-                        </MainComponent>
-                    )
-            }
+  return (
+    <div className={`${pagePrefix}-wrapper w-full flex h-screen`}>
+      <MainComponent headerName="Cihazlar">
+        <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap w-full`}>
+          <DevicesSection />
         </div>
-    );
+      </MainComponent>
+    </div>
+  );
 };
 
 export default Devices;
