@@ -1,27 +1,7 @@
-import { FC, PropsWithChildren, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
 import useModalManager from '../../../hooks/useModalManager';
-
-interface IModalLayoutProps extends PropsWithChildren {
-  name: string;
-  className?: string;
-  title: string;
-  headerClassName?: string;
-  subTitle?: string;
-  onClose?: () => void;
-  fotterClassName?: string;
-  disableClose?: boolean;
-  buttons?: [
-    {
-      key: string;
-      label: string;
-      onClick: () => void;
-      buttonClassName?: string;
-      textClassName?: string;
-    },
-  ];
-  contentClassName?: string;
-}
+import type { IModalLayoutProps } from './ModalLayout.interface';
 
 const ModalLayout: FC<IModalLayoutProps> = (props) => {
   const {
@@ -33,34 +13,34 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
     fotterClassName,
     contentClassName,
     buttons,
-    disableClose = false
+    disableClose = false,
   } = props;
-  const [isVisible, setIsVisible] = useState(false);
   const { closeModal } = useModalManager();
 
   const containerClasses = twMerge(
-    'bg-white min-w-[600px] min-h-[500px] max-w-[90%] max-h-[90%] rounded-md flex flex-col transition-opacity duration-100 shadow-lg',
-    isVisible ? 'opacity-100' : 'opacity-0',
+    'bg-white w-[95%] md:min-w-[600px] min-h-[300px] md:min-h-[500px] max-w-[100%] max-h-[100vh] rounded-md flex flex-col transition-opacity duration-100 shadow-lg',
     className,
   );
 
   const headerClasses = twMerge(
-    'flex justify-between items-center border-b border-b-gray-300 py-4 px-4',
+    'flex justify-between items-center border-b border-b-gray-300 py-2 md:py-4 px-3 md:px-4',
     headerClassName,
   );
 
-  const fotterClasses = twMerge('flex justify-end items-center border-t border-t-gray-300 py-4 px-4', fotterClassName);
+  const fotterClasses = twMerge(
+    'flex justify-end items-center border-t border-t-gray-300 py-2 md:py-4 px-3 md:px-4',
+    fotterClassName,
+  );
 
   const contentClasses = twMerge(
-    'p-4 flex-grow overflow-auto',
-    'max-w-[900px] max-h-[600px] w-full h-full',
+    'p-3 md:p-4 flex-grow overflow-auto',
+    'w-full h-full max-w-full md:max-w-[900px] max-h-[70vh] md:max-h-[600px]',
     contentClassName,
   );
 
   const handleClose = () => {
     if (disableClose) return;
 
-    setIsVisible(false);
     setTimeout(() => {
       onClose && onClose();
       closeModal(props.name);
@@ -80,29 +60,33 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
     };
   }, [disableClose]);
 
-  useEffect(() => {
-    setIsVisible(true);
-  }, []);
-
-  const defaultButtons = disableClose ? [] : [{
-    key: 'close',
-    label: 'Close',
-    onClick: handleClose,
-    buttonClassName: 'px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 mr-2',
-    textClassName: 'text-gray-700'
-  }];
+  const defaultButtons = disableClose
+    ? []
+    : [
+        {
+          key: 'close',
+          label: 'Close',
+          onClick: handleClose,
+          buttonClassName:
+            'px-3 md:px-4 py-1.5 md:py-2 bg-gray-200 rounded-md hover:bg-gray-300 mr-2 text-sm md:text-base',
+          textClassName: 'text-gray-700',
+        },
+      ];
 
   const allButtons = [...defaultButtons, ...(buttons || [])];
 
   return (
     <div className={containerClasses}>
       <div className={headerClasses}>
-        <h3 className="text-lg font-bold text-heading">{title}</h3>
+        <h3 className="text-base md:text-lg font-bold text-heading">{title}</h3>
         <div className="flex items-center">
-          {subTitle && <p className="text-sm text-gray-500">{subTitle}</p>}
+          {subTitle && <p className="text-xs md:text-sm text-gray-500">{subTitle}</p>}
           {!disableClose && (
-            <button className="p-0 h-8 w-8 items-center justify-center rounded-md bg-gray-700" onClick={handleClose}>
-              <i className="pi pi-times text-white w-4 h-4 mt-1" />
+            <button
+              className="p-0 h-6 w-6 md:h-8 md:w-8 items-center justify-center rounded-md bg-gray-700"
+              onClick={handleClose}
+            >
+              <i className="pi pi-times text-white w-3 h-3 md:w-4 md:h-4 mt-1" />
             </button>
           )}
         </div>

@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { Button } from 'primereact/button';
 import { DataTableFilterMeta } from 'primereact/datatable';
-import { MultiSelect } from 'primereact/multiselect';
+import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import { Tooltip } from 'primereact/tooltip';
@@ -65,11 +65,7 @@ const ServicePointSection: React.FC = () => {
   // const [deleteServicePoint] = useDeleteServicePointMutation();
 
   const searchProperties = useSelector((state: RootState) => state.searchedText);
-  const servicePointsCount = useSelector((state: RootState) => state.servicePoints.count);
-  const servicePointsData = useSelector((state: RootState) => state.servicePoints.servicePoints);
-  const [isUpdatedServicePointData, setIsUpdatedServicePointData] = useState(false);
   const [visibleColumns, setVisibleColumns] = useState(servicePointTableHeadData);
-  const [globalFilterValue, setGlobalFilterValue] = useState<string>('');
   const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters);
 
   const _deleteServicePoint = async (deletedId: number): Promise<void> => {
@@ -172,7 +168,6 @@ const ServicePointSection: React.FC = () => {
               onChange={onColumnToggle}
             />
           </div>
-
         </div>
         <div className={`${tablePrefix}-header-action-buttons-container flex justify-center items-center`}>
           <div className={`${tablePrefix}-add-button-container mx-4`}>
@@ -216,8 +211,6 @@ const ServicePointSection: React.FC = () => {
   };
 
   const getUpdatedServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>): Promise<void> => {
-    setIsUpdatedServicePointData(true);
-
     const servicePointId: number = Number(event.currentTarget.getAttribute('data-service-point-id') || '0');
     const servicePointData = await getServicePointDataRequest(servicePointId);
     const servicePointInformation = await getServicePointInformationRequest(servicePointId);
@@ -249,15 +242,12 @@ const ServicePointSection: React.FC = () => {
   // };
   const onColumnToggle = (event: MultiSelectChangeEvent): void => {
     const selectedColumns = event.target.value;
-    const orderedSelectedColumns = servicePointTableHeadData
-      .filter((col) => selectedColumns
-        .some((sCol) => sCol.field === col.field)
-      || col.field === 'actions'
-      );
+    const orderedSelectedColumns = servicePointTableHeadData.filter(
+      (col) => selectedColumns.some((sCol) => sCol.field === col.field) || col.field === 'actions',
+    );
 
     setVisibleColumns(orderedSelectedColumns);
   };
-
 
   useEffect(() => {
     getServicePoints({
