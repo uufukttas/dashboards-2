@@ -8,7 +8,7 @@ const addStationSettingsRequest = async (data: string, token: string) => {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }
             }
         );
