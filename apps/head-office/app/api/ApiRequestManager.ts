@@ -1,4 +1,4 @@
-import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { ThunkDispatch } from '@reduxjs/toolkit';
 import { BaseQueryFn } from '@reduxjs/toolkit/query';
 import axios, { AxiosError, AxiosInstance, HttpStatusCode } from 'axios';
 import { showAlert } from '../redux/features/alertInformation';
@@ -77,6 +77,8 @@ class ApiRequestManager {
     );
   };
 
+
+
   public request =
     (): BaseQueryFn<BaseQueryFunctionParams> =>
     async ({ body, headers, method, params, url }, { dispatch, endpoint }, extraOptions) => {
@@ -85,7 +87,7 @@ class ApiRequestManager {
       try {
         !silentLoadingServices.includes(endpoint) && dispatch(toggleLoadingVisibility(true));
 
-        const result = await this.axiosInstance?.request({
+        const result = await this?.axiosInstance?.request({
           headers: {
             ...headers,
             'Content-Type': 'application/json',

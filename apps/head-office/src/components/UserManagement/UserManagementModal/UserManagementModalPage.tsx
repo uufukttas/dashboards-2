@@ -1,7 +1,13 @@
+import { CheckboxInDropdown } from '@projects/checkbox-in-dropdown';
+import { isNil } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { useRegisterUserMutation, useUpdateUserMutation } from '../../../../app/api/services/user/user.service';
+import {
+  useGetUserMutation,
+  useRegisterUserMutation,
+  useUpdateUserMutation,
+} from '../../../../app/api/services/user/user.service';
 import { toggleUserListUpdate } from '../../../../app/redux/features/isUserListUpdated';
 import BaseInput from '../../Base/BaseInput';
 import ModalLayout from '../../Modal/Layouts/ModalLayout';
@@ -9,12 +15,12 @@ import { IModalLayoutButtonProps } from '../../Modal/Layouts/ModalLayout.interfa
 import { IUserRoleProps } from '../types';
 
 interface IUserManagementModalPageProps {
-  onSuccess: () => void;
-  userData?: Record<string, unknown>;
+  onSuccess?: () => void;
+  userId?: number;
 }
 
-const UserManagementModalPage: React.FC<IUserManagementModalPageProps> = ({ onSuccess, userData }) => {
-  const hasUserDataId: boolean = userData?.userId > 0;
+const UserManagementModalPage: React.FC<IUserManagementModalPageProps> = ({ onSuccess, userId }) => {
+  const [getUser, { data: userData }] = useGetUserMutation();
 
   const [registerUser] = useRegisterUserMutation();
   const [updateUser] = useUpdateUserMutation();
@@ -53,23 +59,27 @@ const UserManagementModalPage: React.FC<IUserManagementModalPageProps> = ({ onSu
       return;
     }
 
-    if (!hasUserDataId) {
+    if (isNil(userData)) {
       registerUser({
         body: {
           ...data,
           roles: roles.filter((role) => role.isChecked).map((role) => role.name),
+          password: '123456',
+          newPassword: '123456',
         },
-      });
-      onSuccess();
+      }).unwrap();
+      onSuccess && onSuccess();
     } else {
       updateUser({
         body: {
           ...data,
           id: userData?.userId,
           roles: roles.filter((role) => role.isChecked).map((role) => role.name),
+          password: '123456',
+          newPassword: '123456',
         },
       });
-      onSuccess();
+      onSuccess && onSuccess();
     }
 
     dispatch(toggleUserListUpdate(true));
@@ -81,8 +91,6 @@ const UserManagementModalPage: React.FC<IUserManagementModalPageProps> = ({ onSu
 
       roles[roleIndex].isChecked = true;
     });
-
-    setRoles(roles);
   };
 
   useEffect(() => {
@@ -98,6 +106,16 @@ const UserManagementModalPage: React.FC<IUserManagementModalPageProps> = ({ onSu
       textClassName: 'text-white',
     },
   ];
+
+  useEffect(() => {
+    if (userId) {
+      getUser({
+        body: {
+          userId,
+        },
+      });
+    }
+  }, [getUser, userId]);
 
   return (
     <ModalLayout name="userManagement" title="Kullanıcı Yönetimi" buttons={modalButtons}>
@@ -172,6 +190,23 @@ const UserManagementModalPage: React.FC<IUserManagementModalPageProps> = ({ onSu
               value: /^[0-9]{10}$/,
               message: 'Geçerli bir telefon numarası giriniz (10 haneli)',
             },
+          }}
+        />
+        <CheckboxInDropdown
+          className="border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary"
+          id={`roles`}
+          inputName={`roles`}
+          items={roles}
+          onChange={(role) => {
+            const updatedRoles = role.map((item) => ({
+              id: item.id || 0,
+              name: item.name,
+              isChecked: item.isChecked || false,
+              rid: null,
+              stationFeatureType: item.stationFeatureType,
+              stationFeatureValue: item.stationFeatureValue,
+            }));
+            setRoles(updatedRoles);
           }}
         />
       </div>

@@ -1,3 +1,4 @@
+import { IBaseTableColumn } from '../BaseTable/BaseTableInterface';
 import { IRolesStyleProps } from "./types";
 
 const roleStyles: IRolesStyleProps = {
@@ -37,32 +38,52 @@ const userManagementTableFilteredDropdownItems = [{
     stationFeatureType: 0,
     stationFeatureValue: 0,
 }];
-const userManagementTableHeadData = [
-    {
-        field: 'name',
-        header: 'İsim/Soyisim',
-        isRemovable: true,
-    },
-    {
-        field: 'userName',
-        header: 'Kullanıcı Adı',
-        isRemovable: true,
-    },
-    {
-        field: 'roleNames',
-        header: 'Rol',
-        isRemovable: true,
-    },
-    {
-        field: 'lastLoginDate',
-        header: 'Son Giriş',
-        isRemovable: true,
-    },
-    {
-        field: 'actions',
-        header: 'Aksiyonlar',
-        isRemovable: false,
-    }
+const userManagementTableHeadData: IBaseTableColumn[] = [
+  {
+    accessor: 'name',
+    align: 'left',
+    field: 'name',
+    header: 'İsim/Soyisim',
+    id: 'name',
+    isRemovable: true,
+    type: 'string'
+  },
+  {
+    accessor: 'userName',
+    align: 'left',
+    field: 'userName',
+    header: 'Kullanıcı Adı',
+    id: 'userName',
+    isRemovable: true,
+    type: 'string'
+  },
+  {
+    accessor: 'roleNames',
+    align: 'left',
+    field: 'roleNames',
+    header: 'Rol',
+    id: 'roleNames',
+    isRemovable: true,
+    type: 'string'
+  },
+  {
+    accessor: 'lastLoginDate',
+    align: 'left',
+    field: 'lastLoginDate',
+    header: 'Son Giriş',
+    id: 'lastLoginDate',
+    isRemovable: true,
+    type: 'date'
+  },
+  {
+    accessor: 'actions',
+    align: 'center',
+    field: 'actions',
+    header: 'Aksiyonlar',
+    id: 'actions',
+    isRemovable: false,
+    type: 'custom'
+  },
 ];
 const initialUserManagementDataValues = {
     roles: [],
@@ -74,8 +95,8 @@ const initialUserManagementDataValues = {
     surname: '',
 };
 export {
-    initialUserManagementDataValues,
-    roleStyles,
-    userManagementTableFilteredDropdownItems,
-    userManagementTableHeadData
+  initialUserManagementDataValues,
+  roleStyles,
+  userManagementTableFilteredDropdownItems,
+  userManagementTableHeadData
 };

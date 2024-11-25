@@ -19,4 +19,5 @@ export interface IModalLayoutProps extends PropsWithChildren {
   disableClose?: boolean;
   buttons?: IModalLayoutButtonProps[];
   contentClassName?: string;
+  footerVisible?: boolean;
 }

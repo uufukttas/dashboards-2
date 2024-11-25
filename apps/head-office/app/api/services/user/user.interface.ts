@@ -27,3 +27,9 @@ export interface IGetUsersRequestBody {
   phoneNumber?: string;
   roles?: string;
 }
+
+export interface IGetUserResponse {
+  userId: number;
+  name: string;
+  surname: string;
+}

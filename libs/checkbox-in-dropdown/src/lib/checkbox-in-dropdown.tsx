@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useRef } from 'react';
 import { Button } from '@projects/button';
 import { Checkbox } from '@projects/checkbox';
 import { Label } from '@projects/label';
+import { useEffect, useRef, useState } from 'react';
 
 interface IDropdownItemProps {
   id: null | number;
@@ -78,7 +78,7 @@ export function CheckboxInDropdown({ className, id, inputName, items, onChange }
       </div>
       <div
         className={`${isOpen
-          ? 'absolute bg-white shadow-lg w-48 rounded-md z-10'
+          ? 'absolute bg-white shadow-lg w-48 rounded-md z-[1000]'
           : 'hidden'} checkbox-in-dropdown-input-wrapper border w-full border-gray-300`}
         id="checkbox-in-dropdown-input-wrapper"
       >
@@ -87,7 +87,7 @@ export function CheckboxInDropdown({ className, id, inputName, items, onChange }
             <div className="py-2 px-4 checkbox-in-dropdown-input-container flex" key={index}>
               <Checkbox
                 checked={item.isChecked}
-                className="form-checkbox h-5 w-5 checkbox-in-dropdown-input"
+                className="form-checkbox h-5 w-5 checkbox-in-dropdown-input z-[1000]"
                 id={`checkbox-in-dropdown-input-${item.id || item.rid}`}
                 name={`checkbox-${item.id || item.rid}`}
                 dataAttributes={{

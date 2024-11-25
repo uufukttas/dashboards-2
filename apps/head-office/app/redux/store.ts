@@ -95,7 +95,10 @@ const reducers = combineReducers({
 
 export const store: EnhancedStore = configureStore({
   reducer: reducers,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({}).concat(baseApi.middleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat(baseApi.middleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 

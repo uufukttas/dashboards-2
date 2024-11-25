@@ -14,6 +14,7 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
     contentClassName,
     buttons,
     disableClose = false,
+    footerVisible = true,
   } = props;
   const { closeModal } = useModalManager();
 
@@ -92,13 +93,15 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
         </div>
       </div>
       <div className={contentClasses}>{props.children}</div>
-      <div className={fotterClasses}>
-        {allButtons.map((button) => (
-          <button key={button.key} className={button.buttonClassName} onClick={button.onClick}>
-            <span className={button.textClassName}>{button.label}</span>
-          </button>
-        ))}
-      </div>
+      {footerVisible && (
+        <div className={fotterClasses}>
+          {allButtons.map((button) => (
+            <button key={button.key} className={button.buttonClassName} onClick={button.onClick}>
+              <span className={button.textClassName}>{button.label}</span>
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

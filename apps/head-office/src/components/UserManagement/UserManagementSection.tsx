@@ -1,7 +1,6 @@
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { Button } from 'primereact/button';
-import { Column } from 'primereact/column';
-import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
+import { DataTableFilterMeta } from 'primereact/datatable';
 import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 import { Tooltip } from 'primereact/tooltip';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
@@ -16,10 +15,16 @@ import { setSearchProperties } from '../../../app/redux/features/searchPropertie
 import { AppDispatch, RootState } from '../../../app/redux/store';
 import { BRAND_PREFIX } from '../../constants/constants';
 import useModalManager from '../../hooks/useModalManager';
+import { BaseTable } from '../BaseTable/BaseTable';
+import ConfirmationModal from '../Modals/ConfirmationModal';
 import { userManagementTableHeadData } from './constants';
 import { IUserDataProps } from './types';
 import UserManagementModalPage from './UserManagementModal/UserManagementModalPage';
 import './UserManagementSection.css';
+
+interface IUserManagementSectionProps extends Omit<IUserDataProps, 'userId'> {
+  id: number;
+}
 
 const UserManagementSection: React.FC = () => {
   const userManagementPrefix: string = `${BRAND_PREFIX}-user-management`;
@@ -51,7 +56,7 @@ const UserManagementSection: React.FC = () => {
   );
 
   const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters);
-  const [globalFilterValue, setGlobalFilterValue] = useState<string>('');
+  const [, setGlobalFilterValue] = useState<string>('');
 
   const [getUsers, { data: users }] = useGetUsersMutation();
   const [getUser] = useGetUserMutation();
@@ -73,44 +78,97 @@ const UserManagementSection: React.FC = () => {
   }, [searchProperties.searchedText, getUsers]);
 
   const handleOpenUserManagementModal = () => {
-    openModal('userManagement', <UserManagementModalPage onSuccess={_getUsers} />);
+    openModal('userManagement', <UserManagementModalPage />);
+  };
+
+  const handleEditUser = (userId: number) => {
+    getUser({
+      body: {
+        userId,
+      },
+    })
+      .unwrap()
+      .then((response) => {
+        openModal('userManagement', <UserManagementModalPage userData={response} />);
+      });
+  };
+
+  const handleDeleteUser = (userId: number) => {
+    openModal(
+      'confirmation',
+      <ConfirmationModal
+        onConfirm={() => {
+          deleteUser({
+            body: {
+              userId,
+            },
+          })
+            .unwrap()
+            .then(() => {
+              _getUsers();
+            });
+        }}
+        onCancel={() => null}
+      />,
+    );
+  };
+
+  const actionsButtonsContainer = (rowData: IUserManagementSectionProps): JSX.Element => {
+    console.log('rowData', rowData);
+
+    return (
+      <div className={`${BRAND_PREFIX}-data-table-actions-button-container flex justify-start items-center`}>
+        <a
+          className="font-medium text-blue-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
+          data-user-management-id={rowData['id']}
+          onClick={() => handleEditUser(rowData['id'])}
+        >
+          <FaPen className="text-primary" />
+        </a>
+        <a
+          className="font-medium text-red-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
+          data-user-management-id={rowData['id']}
+          onClick={() => handleDeleteUser(rowData['id'])}
+        >
+          <FaTrashCan />
+        </a>
+      </div>
+    );
   };
 
   const dataTableHeader = (): JSX.Element => {
     return (
-      <>
-        <div className={`${BRAND_PREFIX}-data-table-header-container w-full flex justify-between items-center`}>
-          <div className={`${BRAND_PREFIX}-data-table-select-container`}>
-            <MultiSelect
-              value={visibleColumns}
-              options={userManagementTableHeadData.filter((item) => item.isRemovable)}
-              optionLabel="header"
-              onChange={onColumnToggle}
-              className="w-full sm:w-20rem"
-              display="chip"
+      <div className={`${BRAND_PREFIX}-data-table-header-container w-full flex justify-between items-center`}>
+        <div className={`${BRAND_PREFIX}-data-table-select-container`}>
+          <MultiSelect
+            value={visibleColumns}
+            options={userManagementTableHeadData.filter((item) => item.isRemovable)}
+            optionLabel="header"
+            onChange={onColumnToggle}
+            className="w-full sm:w-20rem"
+            display="chip"
+          />
+        </div>
+        <div className={`${BRAND_PREFIX}-data-table-action-button-container flex justify-center items-center`}>
+          <div className={`${BRAND_PREFIX}-data-table-add-button-container mx-4`}>
+            <Button
+              className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
+              icon="pi pi-plus"
+              id={`${BRAND_PREFIX}-table-header-add-button`}
+              rounded
+              type="button"
+              onClick={handleOpenUserManagementModal}
+            />
+            <Tooltip
+              className={`${BRAND_PREFIX}-data-table-add-button-tooltip text-base`}
+              content="Kullanıcı Ekle"
+              position="bottom"
+              target={`#${BRAND_PREFIX}-table-header-add-button`}
+              style={{ fontSize: '12px', padding: '4px' }}
             />
           </div>
-          <div className={`${BRAND_PREFIX}-data-table-action-button-container flex justify-center items-center`}>
-            <div className={`${BRAND_PREFIX}-data-table-add-button-container mx-4`}>
-              <Button
-                className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
-                icon="pi pi-plus"
-                id={`${BRAND_PREFIX}-table-header-add-button`}
-                rounded
-                type="button"
-                onClick={handleOpenUserManagementModal}
-              />
-              <Tooltip
-                className={`${BRAND_PREFIX}-data-table-add-button-tooltip text-base`}
-                content="Kullanıcı Ekle"
-                position="bottom"
-                target={`#${BRAND_PREFIX}-table-header-add-button`}
-                style={{ fontSize: '12px', padding: '4px' }}
-              />
-            </div>
-          </div>
         </div>
-      </>
+      </div>
     );
   };
 
@@ -162,89 +220,26 @@ const UserManagementSection: React.FC = () => {
   }, [searchProperties, getUsers, _getUsers]);
 
   return (
-    <div className={`${userManagementPrefix}-table-container flex justify-between items-center flex-col`}>
-      <div className={`${userManagementPrefix}-listing-container items-center w-full`}>
-        <DataTable
+    <div className={`flex justify-between items-center flex-col`}>
+      <div className={`items-center w-full`}>
+        <BaseTable
           className="w-full shadow"
-          currentPageReportTemplate="{first} to {last} of {totalRecords}"
-          filters={filters}
-          filterDisplay="menu"
-          header={dataTableHeader}
-          globalFilterFields={['name', 'cityId', 'districtId', 'address', 'phoneNumber']}
-          paginator={true}
-          paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-          removableSort
-          reorderableColumns
-          resizableColumns
-          rows={10}
-          rowsPerPageOptions={[10, 20, 50]}
-          showGridlines={true}
-          sortMode="multiple"
-          stripedRows={true}
-          value={prepareTableData()}
-        >
-          {visibleColumns.map((headerProps, index) => {
-            if (headerProps.field !== 'actions') {
-              return (
-                <Column
-                  className="border-none"
-                  field={headerProps.field}
-                  filter
-                  filterMenuClassName="border-none shadow-lg"
-                  filterPlaceholder={`${headerProps.header}...`}
-                  header={headerProps.header}
-                  headerClassName="border-0"
-                  key={index}
-                  sortable={true}
-                />
-              );
-            } else {
-              return (
-                <Column
-                  body={(rowData) => {
-                    return (
-                      <div
-                        className={`${BRAND_PREFIX}-data-table-actions-button-container flex justify-start items-center`}
-                      >
-                        <a
-                          className="font-medium text-blue-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
-                          data-user-management-id={rowData['id']}
-                          onClick={() => {
-                            getUser({
-                              body: {
-                                userId: rowData['id'],
-                              },
-                            });
-                          }}
-                        >
-                          <FaPen className="text-primary" />
-                        </a>
-                        <a
-                          className="font-medium text-red-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
-                          data-user-management-id={rowData['id']}
-                          onClick={() => {
-                            deleteUser({
-                              body: {
-                                userId: rowData['id'],
-                              },
-                            });
-                          }}
-                        >
-                          <FaTrashCan />
-                        </a>
-                      </div>
-                    );
-                  }}
-                  field={headerProps.field}
-                  frozen
-                  header={headerProps.header}
-                  headerClassName={`flex justify-start items-center`}
-                  key={index}
-                />
-              );
+          columns={visibleColumns.map((column) => {
+            if (column.id === 'actions') {
+              column.bodyTemplate = actionsButtonsContainer as unknown as React.ReactElement;
             }
+
+            return column;
           })}
-        </DataTable>
+          data={prepareTableData()}
+          exportableExcel={true}
+          exportableCSV={true}
+          filters={filters}
+          globalFilterFields={['name', 'cityId', 'districtId', 'address', 'phoneNumber']}
+          id={`${userManagementPrefix}-list`}
+          hasFilterMatchModes={true}
+          tableHeader={() => dataTableHeader()}
+        />
       </div>
     </div>
   );

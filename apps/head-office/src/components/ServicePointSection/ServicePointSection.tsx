@@ -1,7 +1,5 @@
 import { useRouter } from 'next/router';
-import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { Button } from 'primereact/button';
-import { DataTableFilterMeta } from 'primereact/datatable';
 import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
@@ -9,12 +7,11 @@ import { Tooltip } from 'primereact/tooltip';
 import React, { useEffect, useState } from 'react';
 import { FaCircleInfo, FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
+import { getServicePointDataRequest, getServicePointInformationRequest } from '../../../app/api/servicePoints';
 import {
-  deleteServicePointRequest,
-  getServicePointDataRequest,
-  getServicePointInformationRequest,
-} from '../../../app/api/servicePoints';
-import { useGetServicePointsMutation } from '../../../app/api/services/service-points/servicePoints.service';
+  useDeleteServicePointMutation,
+  useGetServicePointsMutation,
+} from '../../../app/api/services/service-points/servicePoints.service';
 import { showDialog } from '../../../app/redux/features/dialogInformation';
 import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
@@ -22,61 +19,21 @@ import { setServicePointInformation } from '../../../app/redux/features/serviceP
 import { AppDispatch, RootState } from '../../../app/redux/store';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
 import { BaseTable } from '../BaseTable/BaseTable';
-import {
-  initialServicePointDataValues,
-  initialServicePointInformationValue,
-  servicePointTableHeadData,
-} from './constants';
+import { servicePointTableDefaultFilters, servicePointTableHeadData } from './constants';
 import './ServicePointSection.css';
 import type { IPayloadProps, IRowDataProps } from './types';
 
 const ServicePointSection: React.FC = () => {
-  const defaultFilters: DataTableFilterMeta = {
-    address: {
-      operator: FilterOperator.OR,
-      constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
-    },
-    cityId: {
-      operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
-    },
-    districtId: {
-      operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
-    },
-    global: {
-      value: null,
-      matchMode: FilterMatchMode.CONTAINS,
-    },
-    name: {
-      operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.IN }],
-    },
-    phoneNumber: {
-      operator: FilterOperator.AND,
-      constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
-    },
-  };
   const pagePrefix: string = `${BRAND_PREFIX}-service-point`;
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
   const [getServicePoints, { data: servicePoints }] = useGetServicePointsMutation();
-  // const [deleteServicePoint] = useDeleteServicePointMutation();
+  const [deleteServicePoint] = useDeleteServicePointMutation();
 
   const searchProperties = useSelector((state: RootState) => state.searchedText);
   const [visibleColumns, setVisibleColumns] = useState(servicePointTableHeadData);
-  const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters);
-
-  const _deleteServicePoint = async (deletedId: number): Promise<void> => {
-    // await deleteServicePoint({
-    //   body: {
-    //     id: deletedId,
-    //   },
-    // })
-    //   .unwrap()
-    //   .then(() => getServicePoints({ body: createGetServicePointsRequestPayload() }));
-  };
+  const [filters, setFilters] = useState(servicePointTableDefaultFilters);
 
   const actionsButtonsContainer = (rowData: IRowDataProps): JSX.Element => {
     return (
@@ -120,6 +77,7 @@ const ServicePointSection: React.FC = () => {
 
     return newTableData;
   };
+
   const createGetServicePointsRequestPayload = (): IPayloadProps => {
     const payload: IPayloadProps = {};
 
@@ -204,12 +162,6 @@ const ServicePointSection: React.FC = () => {
     );
   };
 
-  const deleteServicePoint = async (deletedId: number): Promise<void> => {
-    const { data } = await deleteServicePointRequest(deletedId);
-
-    // handleDeleteServicePointSuccess(data);
-  };
-
   const getUpdatedServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>): Promise<void> => {
     const servicePointId: number = Number(event.currentTarget.getAttribute('data-service-point-id') || '0');
     const servicePointData = await getServicePointDataRequest(servicePointId);
@@ -220,26 +172,6 @@ const ServicePointSection: React.FC = () => {
     dispatch(toggleModalVisibility(true));
   };
 
-  const handleCloseModal = (): void => {
-    dispatch(setServicePointData(initialServicePointDataValues));
-    dispatch(setServicePointInformation(initialServicePointInformationValue));
-    dispatch(toggleModalVisibility(false));
-
-    setIsUpdatedServicePointData(false);
-  };
-
-  // const handleDeleteServicePointSuccess = (data: IResponseDataProps): void => {
-  //   dispatch(
-  //     showAlert({
-  //       message: data.message,
-  //       type: data.success ? 'success' : 'error',
-  //     }),
-  //   );
-
-  //   setTimeout(() => {
-  //     dispatch(hideAlert());
-  //   }, 5000);
-  // };
   const onColumnToggle = (event: MultiSelectChangeEvent): void => {
     const selectedColumns = event.target.value;
     const orderedSelectedColumns = servicePointTableHeadData.filter(
@@ -256,12 +188,12 @@ const ServicePointSection: React.FC = () => {
   }, []);
 
   return (
-    <div className={`${BRAND_PREFIX}-service-points-container flex justify-between items-center flex-col h-full`}>
+    <div className={``}>
       <BaseTable
-        className={`${BRAND_PREFIX}-service-points-list-table w-full`}
+        className="w-full shadow"
         columns={visibleColumns.map((column) => {
           if (column.id === 'actions') {
-            column.bodyTemplate = actionsButtonsContainer;
+            column.bodyTemplate = actionsButtonsContainer as unknown as React.ReactElement;
           }
 
           return column;

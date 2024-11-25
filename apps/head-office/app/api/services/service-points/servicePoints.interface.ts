@@ -28,3 +28,68 @@ export interface ServicePoint {
 export interface IDeleteServicePointRequestBody {
   id: number;
 }
+
+export interface IAddStationRequestBody {
+  name: string;
+  address: string;
+  cityId: number;
+  districtId: number;
+}
+
+export interface IAddStationInfoRequestBody {
+  stationId: number;
+  stationInfo: string;
+}
+
+export interface IUpdateStationRequestBody {
+  id: number;
+  name: string;
+  address: string;
+  cityId: number;
+  districtId: number;
+}
+
+export interface IUpdateStationInfoRequestBody {
+  id: number;
+  stationInfo: Record<string, unknown>;
+}
+
+export interface IDeleteChargePointRequestBody {
+  accessType: string;
+  chargePointId: number;
+  connectorNumber: number;
+  connectorId: number;
+  count: number;
+  deviceCode: string;
+  externalAddress: string;
+  hoStatus: string;
+  internalAddress: string;
+  investor: string;
+  isFreePoint: boolean;
+  lastHeartBeat: string;
+  limitedUsage: boolean;
+  modelId: number;
+  model: string;
+  ocppVersion: string;
+  sendRoaming: boolean;
+  stationId: number;
+  status: string;
+  location: string;
+}
+
+export interface IGetServicePointData {
+  companyId: number;
+  companyName: string;
+  id: number;
+  isActive: boolean;
+  isDeleted: boolean;
+  name: string;
+  resellerCompanyId: number;
+  resellerName: string;
+}
+
+export interface CompanyResponse {
+  id: number;
+  name: string;
+  rid: null;
+}

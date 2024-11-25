@@ -1,3 +1,5 @@
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
+import { DataTableFilterMeta } from 'primereact/datatable';
 import { IBaseTableColumn } from '../BaseTable/BaseTableInterface';
 
 const initialServicePointDataValues = {
@@ -117,7 +119,7 @@ const servicePointTableHeadData: IBaseTableColumn[] = [
   },
   {
     accessor: 'actions',
-    align: 'center',
+    align: 'right',
     field: 'İşlemler',
     header: 'İşlemler',
     id: 'actions',
@@ -126,9 +128,39 @@ const servicePointTableHeadData: IBaseTableColumn[] = [
   },
 ];
 
+const servicePointTableDefaultFilters: DataTableFilterMeta = {
+  address: {
+    operator: FilterOperator.OR,
+    constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
+  },
+  cityId: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
+  },
+  districtId: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
+  },
+  global: {
+    value: null,
+    matchMode: FilterMatchMode.CONTAINS,
+  },
+  name: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: null, matchMode: FilterMatchMode.IN }],
+  },
+  phoneNumber: {
+    operator: FilterOperator.AND,
+    constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }],
+  },
+};
+
+
 export {
   initialServicePointDataValues,
   initialServicePointInformationValue,
+  servicePointTableDefaultFilters,
   servicePointTableFilteredDropdownItems,
-  servicePointTableHeadData,
+  servicePointTableHeadData
 };
+

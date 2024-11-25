@@ -1,7 +1,7 @@
 import baseApi from '../../baseApi';
 import { ApiServiceMethods } from '../../constant';
 import { Post } from '../../types';
-import { IGetUsersRequestBody, IRegisterUserRequestBody, IUpdatedUserData } from './user.interface';
+import { IGetUserResponse, IGetUsersRequestBody, IRegisterUserRequestBody, IUpdatedUserData } from './user.interface';
 
 const userService = baseApi.injectEndpoints({
   endpoints: (build) => ({
@@ -26,16 +26,16 @@ const userService = baseApi.injectEndpoints({
         body,
       }),
     }),
-    getUser: build.mutation<void, Post<{ userId: number }>>({
+    getUser: build.mutation<IGetUserResponse, Post<{ userId: number }>>({
       query: ({ body }) => ({
-        url: '/Auth/GetUser',
+        url: '/Auth/User',
         method: ApiServiceMethods.POST,
         body,
       }),
     }),
     getUsers: build.mutation<void, Post<IGetUsersRequestBody>>({
       query: ({ body }) => ({
-        url: '/Auth/GetUsers',
+        url: '/Auth/Users',
         method: ApiServiceMethods.POST,
         body,
       }),
