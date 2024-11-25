@@ -97,6 +97,7 @@ export const store: EnhancedStore = configureStore({
   reducer: reducers,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
+      immutableCheck: false,
       serializableCheck: false,
     }).concat(baseApi.middleware),
   devTools: process.env.NODE_ENV !== 'production',

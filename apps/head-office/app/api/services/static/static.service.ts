@@ -1,7 +1,7 @@
 import baseApi from '../../baseApi';
 import { ApiServiceMethods } from '../../constant';
 import { ENDPOINTS } from '../../endpoints';
-import { Post } from '../../types';
+import { Get, Post } from '../../types';
 import { City, District, ResourceKey, ResourceTextRequestBody } from './static.interface';
 
 const staticService = baseApi.injectEndpoints({
@@ -26,7 +26,7 @@ const staticService = baseApi.injectEndpoints({
         body,
       }),
     }),
-    getCities: builder.query<Array<City>, void>({
+    getCities: builder.query<Array<City>, Get>({
       query: () => ({
         method: ApiServiceMethods.GET,
         url: `${ENDPOINTS.VALUES}${ENDPOINTS.GET_CITIES}`,
@@ -42,4 +42,10 @@ const staticService = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetKeyByListMutation, useGetLanaugeListQuery, useUpdatedKeyListMutation, useGetCitiesQuery, useGetDistrictsMutation } = staticService;
+export const {
+  useGetKeyByListMutation,
+  useGetLanaugeListQuery,
+  useUpdatedKeyListMutation,
+  useGetCitiesQuery,
+  useGetDistrictsMutation,
+} = staticService;

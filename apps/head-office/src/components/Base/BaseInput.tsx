@@ -1,5 +1,7 @@
 import { IInputProps, Input } from '@projects/input';
 import { Label } from '@projects/label';
+import { Textarea } from '@projects/textarea';
+
 import { FC } from 'react';
 import { Controller, FieldValues, useController } from 'react-hook-form';
 import { cn } from '../../utils/common.utils';
@@ -13,10 +15,11 @@ interface IBaseInputProps extends Omit<IInputProps, 'form'> {
   rules?: Record<string, unknown>;
   inputClassName?: string;
   containerClassName?: string;
+  isTextarea?: boolean;
 }
 
 const BaseInput: FC<IBaseInputProps> = (props) => {
-  const { form, label, name, rules, prefix, inputClassName, containerClassName, ...rest } = props;
+  const { form, label, name, rules, prefix, inputClassName, containerClassName, isTextarea = false, ...rest } = props;
 
   const {
     fieldState: { error },
@@ -43,7 +46,13 @@ const BaseInput: FC<IBaseInputProps> = (props) => {
         control={form.control}
         name={name}
         rules={rules}
-        render={({ field }) => <Input {...field} className={inputClasses} name={name} type="text" {...rest} />}
+        render={({ field }) => (
+          isTextarea ? (
+            <Textarea {...field} className={inputClasses} name={name} {...rest} />
+          ) : (
+            <Input {...field} className={inputClasses} name={name} type="text" {...rest} />
+          )
+        )}
       />
       {error && error.message && <BaseFormError message={error.message} prefix={prefix} />}
     </div>

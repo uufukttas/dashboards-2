@@ -24,6 +24,8 @@ const modalSlice = createSlice({
         component: React.ReactNode;
       }>,
     ) => {
+      if (state.modals.find((modal) => modal.name === action.payload.name)) return;
+
       state.modals.push(action.payload);
     },
     removeModalByName: (state, action) => {
