@@ -66,7 +66,7 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
     : [
         {
           key: 'close',
-          label: 'Close',
+          label: 'Kapat',
           onClick: handleClose,
           buttonClassName:
             'px-3 md:px-4 py-1.5 md:py-2 bg-gray-200 rounded-md hover:bg-gray-300 mr-2 text-sm md:text-base',

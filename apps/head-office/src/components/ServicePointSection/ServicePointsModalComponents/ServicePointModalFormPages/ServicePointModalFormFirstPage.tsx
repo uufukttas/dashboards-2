@@ -1,237 +1,138 @@
-import React, { useEffect, useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
-import { Dropdown } from '@projects/dropdown';
-import { Input } from '@projects/input';
-import { Label } from '@projects/label';
-import { toggleServicePointDataUpdated } from '../../../../../app/redux/features/isServicePointDataUpdated';
-import { setServicePointData } from '../../../../../app/redux/features/servicePointData';
-import { RootState } from '../../../../../app/redux/store';
+import {
+  useAddStationMutation,
+  useGetCompaniesQuery,
+  useGetResellersQuery,
+  useUpdateStationMutation,
+} from 'apps/head-office/app/api/services/service-points/servicePoints.service';
+import { EVENTS_EMMITER_CONSTANTS } from 'apps/head-office/src/constants/event.constants';
+import EventManager from 'apps/head-office/src/managers/Event.manager';
+import React, { useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
 import { BRAND_PREFIX } from '../../../../constants/constants';
-import { ICompanyProps, IFormDataProps, IModalFirstPageInputsProps } from '../../types';
-import { addStationRequest, getCompaniesRequest, getResellersRequest, updateStationRequest } from '../../../../../app/api/servicePoints';
+import BaseInput from '../../../Base/BaseInput';
+import BaseSelect from '../../../Base/BaseSelect';
+import { IFormDataProps, IModalFirstPageInputsProps } from '../../types';
 
 const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
+  form,
   activePage,
-  stationId,
   setActivePage,
-  setStationId,
 }: IModalFirstPageInputsProps) => {
-  const formName: string[] = ['name', 'reseller', 'company'];
-  const hasStationId: boolean = stationId !== 0;
+  const hasStationId: boolean = form.watch(`id`) > 0;
   const sectionPrefix: string = 'service-point';
-  const formProperties = {
-    name: `${sectionPrefix}-${formName[0]}`,
-    reseller: `${sectionPrefix}-${formName[1]}`,
-    company: `${sectionPrefix}-${formName[2]}`,
-  };
-  const dispatch = useDispatch();
-  const { formState: { errors }, handleSubmit, register } = useForm();
-  const servicePointData = useSelector((state: RootState) => state.servicePointData.servicePointData);
-  const [companies, setCompanies] = useState<ICompanyProps[] | []>([]);
+  const { handleSubmit } = form;
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  const [resellers, setResellers] = useState<ICompanyProps[] | []>([]);
-  const hasServicePointDataId: boolean = servicePointData.id > 0;
-  const [firstPageFormData, setFirstPageFormData] = useState<IFormDataProps>({
-    [`${formProperties.name}`]: servicePointData.name || '',
-    [`${formProperties.reseller}`]: servicePointData.resellerCompanyId || 1,
-    [`${formProperties.company}`]: servicePointData.companyId || 1,
-  });
+  const hasServicePointDataId: boolean = form.watch(`id`) > 0;
 
-  const createServicePointConfigData = (): IFormDataProps => ({
-    name: firstPageFormData[`${formProperties.name}`],
-    resellerCompanyId: firstPageFormData[`${formProperties.reseller}`],
-    companyId: firstPageFormData[`${formProperties.company}`],
-    isActive: true,
-    ...(hasServicePointDataId && { id: servicePointData.id }),
-  });
-  const handleDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setFirstPageFormData({
-      ...firstPageFormData,
-      [event.target.name]: Number(event.target.value),
-    });
+  const { data: resellers } = useGetResellersQuery();
+  const { data: companies } = useGetCompaniesQuery();
+
+  const [addStation] = useAddStationMutation();
+  const [updateStation] = useUpdateStationMutation();
+
+  const handleDropdownChange = (name: string, event: React.ChangeEvent<HTMLSelectElement>) => {
+    form.setValue(name, Number(event.target.value));
   };
+
   const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
     setIsDisabled(true);
 
-    if (stationId !== 0) {
+    if (form.watch(`id`) > 0) {
       setActivePage(activePage + 1);
 
       return;
-    };
+    }
 
     handleServicePointOperation();
   };
-  const handleServicePointOperation = async () => {
-    let response;
-    const actionData = createServicePointConfigData();
 
+  const handleServicePointOperation = async () => {
     if (hasServicePointDataId) {
-      response = await updateStationRequest(actionData);
-      setStationId(servicePointData.id);
+      updateStation({
+        body: {
+          id: form.watch(`id`),
+          address: form.watch(`address`),
+          cityId: form.watch(`city`),
+          districtId: form.watch(`district`),
+          resellerCompanyId: form.watch(`ressler`),
+          companyId: form.watch(`company`),
+          isActive: true,
+          name: form.watch('name'),
+        },
+      });
     } else {
-      response = await addStationRequest(actionData);
-      setStationId(response.data[0].id);
+      addStation({
+        body: {
+          name: form.watch(`name`),
+          resellerCompanyId: form.watch(`ressler`),
+          companyId: form.watch(`company`),
+          isActive: true,
+          ...(form.watch(`address`) && { address: form.watch(`address`) }),
+          ...(form.watch(`city`) && { cityId: form.watch(`city`) }),
+          ...(form.watch(`district`) && { districtId: form.watch(`district`) }),
+        },
+      })
+        .unwrap()
+        .then((response) => {
+          form.setValue(`id`, (response?.[0] as any)?.id || 0);
+        });
     }
 
-    dispatch(
-      setServicePointData({
-        ...servicePointData,
-        id: servicePointData.id || response.data[0].id,
-        name: firstPageFormData[`${formProperties.name}`],
-        resellerCompanyId: firstPageFormData[`${formProperties.reseller}`],
-        companyId: firstPageFormData[`${formProperties.company}`]
-      })
-    );
-    dispatch(toggleServicePointDataUpdated(true));
+    EventManager.emit(EVENTS_EMMITER_CONSTANTS.FIRE_REFECTCH_STATIONS, {});
     setActivePage(activePage + 1);
   };
-  const getDropdownData = async () => {
-    try {
-      if (resellers.length === 0 && companies.length === 0) {
-        const resellers = await getResellersRequest();
-        const companies = await getCompaniesRequest();
-
-        setResellers(resellers);
-        setCompanies(companies);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getDropdownData();
-  }, []);
 
   return (
-    companies.length > 0 &&
-    resellers.length > 0 && (
-      <form
-        className={`${BRAND_PREFIX}-modal-form-page-1 ${
-          activePage === 1 ? 'block' : 'hidden'
-        }`}
-        onSubmit={handleSubmit(handleFormSubmit)}
-      >
-        <div className={`${formProperties.name}-container`}>
-          <Label
-            className={`${formProperties.name}-label block mb-2 text-heading font-semibold`}
-            htmlFor={`${formProperties.name}`}
-            labelText={`İstasyon İsmi`}
-          >
-            <span className="text-md text-error">*</span>
-          </Label>
-          <Input
-            className={`${
-              formProperties.name
-            }-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${
-              hasStationId ? 'cursor-not-allowed' : ''
-            }`}
-            disabled={hasStationId}
-            id={`${formProperties.name}`}
-            name={`${formProperties.name}`}
-            register={register(`${formProperties.name}`, {
-              minLength: {
-                value: 3,
-                message: 'En az 3 karakter girmelisiniz.',
-              },
-              required: `İstasyon İsmi zorunludur.`,
-              value: firstPageFormData[`${formProperties.name}`].toString(),
-              onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                setFirstPageFormData({
-                  ...firstPageFormData,
-                  [event.target.name]: event.target.value,
-                });
-              },
-            })}
-            type={`text`}
-          />
-          {errors[`${formProperties.name}`] &&
-            errors[`${formProperties.name}`]?.message && (
-              <div
-                className={`${formProperties.name}-error-wrapper my-4 font-bold text-error`}
-              >
-                <p
-                  className={`${formProperties.name}-error-message text-error`}
-                >
-                  {errors[`${formProperties.name}`]?.message?.toString()}
-                </p>
-              </div>
-            )}
-        </div>
-        <div className={`${formProperties.company}-container`}>
-          <Label
-            className={`${formProperties.company}-label block mb-2 text-heading font-semibold`}
-            htmlFor={`${formProperties.company}`}
-            labelText={`Şirket`}
-          >
-            <span className="text-md text-error">*</span>
-          </Label>
-          <Dropdown
-            className={`${
-              formProperties.company
-            }-input border text-text text-sm rounded-lg block w-full focus:ring-primary focus:border-primary p-2.5 mb-4 hover:${
-              hasStationId ? 'cursor-not-allowed' : ''
-            }`}
-            disabled={hasStationId}
-            id={`${formProperties.company}`}
-            items={companies}
-            name={`${formProperties.company}`}
-            onChange={handleDropdownChange}
-            optionClassName={`hover:bg-primary-lighter hover:text-black`}
-            selectedValue={
-              hasServicePointDataId
-                ? servicePointData.companyId.toString()
-                : hasStationId
-                ? servicePointData[`${formProperties.company}`]?.toString()
-                : companies[0]
-            }
-            value={servicePointData[`${formProperties.company}`]?.toString()}
-          />
-        </div>
-        <div className={`${formProperties.reseller}-container`}>
-          <Label
-            className={`${formProperties.reseller}-label block mb-2 text-heading font-semibold`}
-            htmlFor={`${formProperties.reseller}`}
-            labelText={`Bayi`}
-          >
-            <span className="text-md text-error">*</span>
-          </Label>
-          <Dropdown
-            className={`${
-              formProperties.reseller
-            }-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary hover:${
-              hasStationId ? 'cursor-not-allowed' : ''
-            }`}
-            disabled={hasStationId}
-            id={`${formProperties.reseller}`}
-            items={resellers}
-            name={`${formProperties.reseller}`}
-            onChange={handleDropdownChange}
-            selectedValue={
-              hasServicePointDataId
-                ? servicePointData.resellerCompanyId.toString()
-                : hasStationId
-                ? servicePointData[`${formProperties.reseller}`]?.toString()
-                : resellers[0]
-            }
-            value={servicePointData[`${formProperties.reseller}`]?.toString()}
-          />
-        </div>
-        <div
-          className={`${sectionPrefix}-buttons-container flex flex-row-reverse`}
-        >
-          <Button
-            buttonText="İleri"
-            className={`${sectionPrefix}-submit-button bg-primary text-white text-sm rounded-lg block p-2.5`}
-            disabled={isDisabled}
-            id={`${sectionPrefix}-submit-button`}
-            type={`submit`}
-          />
-        </div>
-      </form>
-    )
+    <form
+      className={`${BRAND_PREFIX}-modal-form-page-1 ${activePage === 1 ? 'block' : 'hidden'}`}
+      onSubmit={handleSubmit(handleFormSubmit)}
+    >
+      <BaseInput
+        form={form}
+        name={`name`}
+        id={`name`}
+        label="İstasyon İsmi"
+        rules={{
+          required: 'İstasyon İsmi zorunludur',
+          minLength: {
+            value: 3,
+            message: 'İstasyon İsmi en az 3 karakter olmalıdır',
+          },
+        }}
+        disabled={hasStationId}
+      />
+      <BaseSelect
+        form={form}
+        items={companies || []}
+        name={`company`}
+        label="Şirket"
+        onChange={(event: React.ChangeEvent<HTMLSelectElement>) => handleDropdownChange(`company`, event)}
+        optionClassName="hover:bg-primary-lighter hover:text-black"
+        disabled={hasStationId}
+        rules={{
+          required: 'Şirket seçimi zorunludur',
+        }}
+      />
+      <BaseSelect
+        form={form}
+        items={resellers || []}
+        name={`ressler`}
+        label="Bayi"
+        onChange={(event: React.ChangeEvent<HTMLSelectElement>) => handleDropdownChange(`ressler`, event)}
+        optionClassName="hover:bg-primary-lighter hover:text-black"
+        disabled={hasStationId}
+      />
+      <div className={`${sectionPrefix}-buttons-container flex flex-row-reverse`}>
+        <Button
+          buttonText="İleri"
+          className={`${sectionPrefix}-submit-button bg-primary text-white text-sm rounded-lg block p-2.5`}
+          disabled={isDisabled}
+          id={`${sectionPrefix}-submit-button`}
+          type={`submit`}
+        />
+      </div>
+    </form>
   );
 };
 

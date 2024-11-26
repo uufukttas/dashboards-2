@@ -5,10 +5,9 @@ interface IDropdownProps {
   className?: string;
   disabled?: boolean;
   id: string;
-  items: {
+  items?: {
     id: null;
     rid: number | string;
-    plateCode?: number;
     name: string;
     disabled?: boolean;
     selected?: boolean;
@@ -17,7 +16,7 @@ interface IDropdownProps {
     id: number;
     rid: null;
     disabled?: boolean;
-    selected?: true
+    selected?: boolean
   }[];
   multiple?: boolean;
   name: string;

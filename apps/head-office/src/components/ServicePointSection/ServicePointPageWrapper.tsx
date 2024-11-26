@@ -8,13 +8,9 @@ const ServicePointPage: React.FC = () => {
 
   return (
     <div className={`${servicePointPagePrefix}-wrapper w-full flex h-screen`}>
-      {
-        <MainComponent headerName="İstasyonlar">
-          <div className={`${servicePointPagePrefix}-container w-full justify-center items-center md:pt-6 flex-wrap`}>
-            <ServicePointSection />
-          </div>
-        </MainComponent>
-      }
+      <MainComponent headerName="İstasyonlar">
+        <ServicePointSection />
+      </MainComponent>
     </div>
   );
 };

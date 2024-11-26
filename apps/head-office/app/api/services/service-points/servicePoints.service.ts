@@ -7,12 +7,11 @@ import {
   IAddStationInfoRequestBody,
   IAddStationRequestBody,
   IDeleteChargePointRequestBody,
-  IDeleteServicePointRequestBody,
   IGetAllServicePointsRequestBody,
   IGetServicePointData,
   IUpdateStationInfoRequestBody,
   IUpdateStationRequestBody,
-  ServicePoint,
+  ServicePoint
 } from './servicePoints.interface';
 
 const servicePointService = baseApi.injectEndpoints({
@@ -24,12 +23,12 @@ const servicePointService = baseApi.injectEndpoints({
         body,
       }),
     }),
-    deleteServicePoint: build.mutation<void, Post<IDeleteServicePointRequestBody>>({
-      query: ({ body }) => ({
+    deleteServicePoint: build.mutation<void, { id: number }>({
+      query: ({ id }) => ({
         url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.DELETE_STATION}`,
         method: ApiServiceMethods.POST,
         body: {
-          id: body,
+          id,
         },
       }),
     }),
@@ -115,6 +114,13 @@ const servicePointService = baseApi.injectEndpoints({
         params: { stationId },
       }),
     }),
+    getFeatureValues: build.mutation<Array<{ rid: number; name: string }>, Post<number>>({
+      query: ({ body }) => ({
+        url: `${ENDPOINTS.STATION_FEATURE}${ENDPOINTS.GET_FEATURE_VALUES}`,
+        method: ApiServiceMethods.POST,
+        body: { stationFeatureType: body },
+      }),
+    }),
   }),
 });
 
@@ -133,4 +139,5 @@ export const {
   useAddStationFeatureMutation,
   useGetStationFeaturesMutation,
   useGetStationImagesQuery,
+  useGetFeatureValuesMutation,
 } = servicePointService;

@@ -31,14 +31,17 @@ export interface IDeleteServicePointRequestBody {
 
 export interface IAddStationRequestBody {
   name: string;
-  address: string;
-  cityId: number;
-  districtId: number;
+  address?: string;
+  cityId?: number;
+  districtId?: number;
+  resellerCompanyId: number;
+  companyId: number;
+  isActive: boolean;
 }
 
 export interface IAddStationInfoRequestBody {
   stationId: number;
-  stationInfo: string;
+  stationInfo: Record<string, unknown>;
 }
 
 export interface IUpdateStationRequestBody {
@@ -47,6 +50,9 @@ export interface IUpdateStationRequestBody {
   address: string;
   cityId: number;
   districtId: number;
+  resellerCompanyId: number;
+  companyId: number;
+  isActive: boolean;
 }
 
 export interface IUpdateStationInfoRequestBody {

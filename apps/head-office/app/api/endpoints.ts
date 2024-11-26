@@ -39,4 +39,5 @@ export const ENDPOINTS = {
   UPDATE_STATION_SETTINGS: '/UpdateStationSettings',
   USERS: '/Users',
   VALUES: '/Values',
+  GET_FEATURE_VALUES: '/GetFeatureValues',
 };

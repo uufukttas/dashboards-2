@@ -11,27 +11,21 @@ interface IBaseSelectProps {
   label?: string;
   prefix?: string;
   rules?: Record<string, unknown>;
-  items:
-    | {
-        id: null;
-        rid: number | string;
-        plateCode?: number;
-        name: string;
-        disabled?: boolean;
-        selected?: boolean;
-      }[]
+  items?:
+    | { id: null; rid: number | string; name: string; disabled?: boolean; selected?: boolean }[]
     | {
         name: string;
         id: number;
         rid: null;
         disabled?: boolean;
-        selected?: true;
+        selected?: boolean;
       }[];
   multiple?: boolean;
   className?: string;
   containerClassName?: string;
   optionClassName?: string;
   disabled?: boolean;
+  onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 const BaseSelect: FC<IBaseSelectProps> = (props) => {
@@ -47,6 +41,7 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
     containerClassName,
     optionClassName,
     disabled,
+    onChange,
   } = props;
 
   const {
@@ -83,6 +78,10 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
             items={items || []}
             multiple={multiple}
             name={name}
+            onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
+              field.onChange(event);
+              onChange && onChange(event);
+            }}
             optionClassName={optionClassName}
           />
         )}

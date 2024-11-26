@@ -16,10 +16,22 @@ interface IBaseInputProps extends Omit<IInputProps, 'form'> {
   inputClassName?: string;
   containerClassName?: string;
   isTextarea?: boolean;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const BaseInput: FC<IBaseInputProps> = (props) => {
-  const { form, label, name, rules, prefix, inputClassName, containerClassName, isTextarea = false, ...rest } = props;
+  const {
+    form,
+    label,
+    name,
+    rules,
+    prefix,
+    inputClassName,
+    containerClassName,
+    isTextarea = false,
+    onChange,
+    ...rest
+  } = props;
 
   const {
     fieldState: { error },
@@ -50,7 +62,17 @@ const BaseInput: FC<IBaseInputProps> = (props) => {
           isTextarea ? (
             <Textarea className={inputClasses} {...field} {...rest} name={name} onChange={field.onChange} />
           ) : (
-            <Input {...field} className={inputClasses} name={name} type="text" {...rest} />
+            <Input
+              {...field}
+              onChange={(event: React.ChangeEvent<HTMLInputElement>): void => {
+                field.onChange(event);
+                onChange?.(event);
+              }}
+              className={inputClasses}
+              name={name}
+              type="text"
+              {...rest}
+            />
           )
         }
       />

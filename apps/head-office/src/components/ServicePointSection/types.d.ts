@@ -1,119 +1,111 @@
 export interface ICitiesProps {
-    id: null; rid: number; plateCode: number; name: string;
-};
+  id: null;
+  rid: number;
+  plateCode: number;
+  name: string;
+}
 export interface ICompanyProps {
-    id: number;
-    name: string;
-    rid: null;
-};
+  id: number;
+  name: string;
+  rid: null;
+}
 export interface IFeatureProps {
-    stationId?: number;
-    id: null | number;
-    isChecked?: boolean;
-    name: string;
-    rid: number | null;
-    stationFeatureType: number;
-    stationFeatureValue: number;
-};
+  stationId?: number;
+  id: null | number;
+  isChecked?: boolean;
+  name: string;
+  rid: number | null;
+  stationFeatureType: number;
+  stationFeatureValue: number;
+}
 export interface IFormDataProps {
-    [key: string]: boolean | number | string | string[] | IFeatureProps[];
-};
+  [key: string]: boolean | number | string | string[] | IFeatureProps[];
+}
 export interface IGetServicePointsProps {
-    count: number;
-    data: IGetServicePointsDataProps[];
-    success: boolean;
-};
+  count: number;
+  data: IGetServicePointsDataProps[];
+  success: boolean;
+}
 export interface IModalFirstPageInputsProps {
-    activePage: number;
-    stationId: number;
-    setActivePage: React.Dispatch<React.SetStateAction<number>>;
-    setStationId: React.Dispatch<React.SetStateAction<number>>;
-};
+  form: UseFormReturn<IFormDataProps>;
+  activePage: number;
+  setActivePage: React.Dispatch<React.SetStateAction<number>>;
+}
 export interface IModalFourthPageInputsProps {
-    activePage: number;
-    paymentMethods: IFeatureProps[];
-    opportunities: IFeatureProps[];
-    stationId: number;
-    setActivePage: React.Dispatch<React.SetStateAction<number>>;
-    setPaymentMethods: React.Dispatch<React.SetStateAction<IFeatureProps[]>>;
-    setOpportunities: React.Dispatch<React.SetStateAction<IFeatureProps[]>>;
-};
+  form: UseFormReturn<IFormDataProps>;
+  activePage: number;
+  setActivePage: React.Dispatch<React.SetStateAction<number>>;
+}
 export interface IModalSecondPageInputsProps {
-    activePage: number;
-    cities: { rid: number; plateCode: number; name: string; }[];
-    setActivePage: React.Dispatch<React.SetStateAction<number>>;
-    setCities: React.Dispatch<React.SetStateAction<{ rid: number; plateCode: number; name: string; id: null }[]>>;
-    setDistricts: React.Dispatch<React.SetStateAction<{ rid: number; name: string; plateCode: number; id: null }[]>>;
-};
+  form: UseFormReturn<IFormDataProps>;
+  activePage: number;
+  setActivePage: React.Dispatch<React.SetStateAction<number>>;
+}
 export interface IModalThirdPageInputsProps {
-    activePage: number;
-    cities: { rid: number; plateCode: number; name: string; id: null; }[];
-    districts: { rid: number; name: string; plateCode: number; id: null }[];
-    setActivePage: React.Dispatch<React.SetStateAction<number>>;
-    setDistricts: React.Dispatch<React.SetStateAction<{ rid: number; name: string; plateCode: number; id: null }[]>>;
-    setPaymentMethods: React.Dispatch<React.SetStateAction<IFeatureProps[]>>;
-    setOpportunities: React.Dispatch<React.SetStateAction<IFeatureProps[]>>;
-};
+  form: UseFormReturn<IFormDataProps>;
+  activePage: number;
+  setActivePage: React.Dispatch<React.SetStateAction<number>>;
+}
 export interface IPaginationProps {
-    currentPage: number;
-    totalCounts: number;
-    setCurrentPage: (currentPage: number) => void;
-};
+  currentPage: number;
+  totalCounts: number;
+  setCurrentPage: (currentPage: number) => void;
+}
 export interface IPaginationItemProps {
-    children: React.ReactNode;
-    isActive: boolean;
-    isDisabled: boolean;
-    pageNumber: number;
-    onClick: () => void;
-};
+  children: React.ReactNode;
+  isActive: boolean;
+  isDisabled: boolean;
+  pageNumber: number;
+  onClick: () => void;
+}
 export interface IPayloadProps {
-    address?: string;
-    cityName?: string;
-    districtName?: string;
-    name?: string;
-    pageNumber?: number;
-    phone?: string;
-    userCount?: number;
-};
+  address?: string;
+  cityName?: string;
+  districtName?: string;
+  name?: string;
+  pageNumber?: number;
+  phone?: string;
+  userCount?: number;
+}
 export interface IResponseDataProps {
-    data: boolean;
-    message: string;
-    success: boolean;
-};
+  data: boolean;
+  message: string;
+  success: boolean;
+}
 export interface IRowDataProps {
-    address: string;
-    cityId: string;
-    districtId: string;
-    id: number;
-    name: string;
-    phone: string;
-};
+  address: string;
+  cityId: string;
+  districtId: string;
+  id: number;
+  name: string;
+  phone: string;
+}
 export interface ISelectedColumnProps {
-    field: string;
-    header: string;
-    isRemovable: boolean;
-};
+  field: string;
+  header: string;
+  isRemovable: boolean;
+}
 export interface IServicePoint {
-    id: number;
-    name: string;
-    cityId: number;
-    districtId: number;
-    address: string;
-    phoneNumber: string;
-};
+  id: number;
+  name: string;
+  cityId: number;
+  districtId: number;
+  address: string;
+  phoneNumber: string;
+}
 export interface IServicePointData {
-    address: string;
-    cityId: string;
-    companyId: number;
-    companyName: string;
-    districtId: string;
-    isActive: boolean;
-    isDeleted: boolean;
-    latitude: number;
-    longitude: number;
-    id: number;
-    name: string;
-    phone: string;
-    resellerCompanyId: number;
-    resellerName: string;
-};
+  address: string;
+  cityId: string;
+  companyId: number;
+  companyName: string;
+  districtId: string;
+  isActive: boolean;
+  isDeleted: boolean;
+  latitude: number;
+  longitude: number;
+  id: number;
+  name: string;
+  phone: string;
+  resellerCompanyId: number;
+  resellerName: string;
+}
