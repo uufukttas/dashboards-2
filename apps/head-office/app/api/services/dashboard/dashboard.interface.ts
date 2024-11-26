@@ -1,7 +1,6 @@
 export interface DashboardComponentInfoRequest {
   PageCode: string;
-}
-
+};
 export interface DashboardItem {
   activeData: unknown;
   iconName: string;

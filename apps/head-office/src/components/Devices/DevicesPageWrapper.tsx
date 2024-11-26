@@ -1,7 +1,7 @@
 import React from 'react';
-import { BRAND_PREFIX } from '../../constants/constants';
-import MainComponent from '../MainComponent/MainComponent';
 import DevicesSection from './DevicesSection';
+import MainComponent from '../MainComponent/MainComponent';
+import { BRAND_PREFIX } from '../../constants/constants';
 
 const Devices: React.FC = () => {
   const pagePrefix: string = `${BRAND_PREFIX}-devices-page`;

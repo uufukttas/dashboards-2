@@ -10,6 +10,7 @@ export interface ResourceTextRequestBody {
 }
 
 export interface City {
+  name: string;
   countryId: number;
   isDeleted: string;
   plateCode: string;

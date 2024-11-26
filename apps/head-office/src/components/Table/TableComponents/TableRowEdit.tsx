@@ -2,7 +2,7 @@ import React from 'react';
 import { FaPen } from 'react-icons/fa6';
 import { useDispatch } from 'react-redux';
 import { getServicePointDataRequest, getServicePointInformationRequest } from '../../../../app/api/servicePoints';
-import { getUserRequest } from '../../../../app/api/userManagements';
+// import { getUserRequest } from '../../../../app/api/userManagements';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { setServicePointData } from '../../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../../app/redux/features/servicePointInformation';
@@ -25,6 +25,7 @@ const TableRowEdit: React.FC<ITableRowEditProps> = ({ attributeName, tableCellDa
     };
     const getUpdatedUserInfo = async (event: React.MouseEvent<HTMLAnchorElement>): Promise<void> => {
         const userId = Number(event.currentTarget.getAttribute('data-user-management-id') || '0');
+        // @ts-ignore
         const userData = await getUserRequest(userId);
 
         dispatch(setUserData(userData));

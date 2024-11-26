@@ -11,6 +11,7 @@ import TableActions from './TableActions';
 const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleStyles }: ITableRowProps) => {
   const dataAttributes: ITableDataAttributeProps = { [`data-${attributeName}-id`]: tableRowData.id || 0 };
   const dispatch = useDispatch();
+  // @ts-ignore
   const { data: cities } = useGetCitiesQuery();
 
   const convertDateFormat = (date: string): string => {
@@ -137,21 +138,17 @@ const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleS
       {attributeName === 'reports-management' && (
         <>
           <td className="px-4 py-2 text-center">
-            {(
               <div className="date-time-container flex flex-col">
-                <span>{tableRowData.startDate ? new Date(tableRowData.startDate).toLocaleDateString() : ''}</span>
-                <span>{tableRowData.startDate ? new Date(tableRowData.startDate).toLocaleTimeString() : ''}</span>
+                <span>{tableRowData.startDate ? new Date(tableRowData.startDate).toLocaleDateString() : '-'}</span>
+                <span>{tableRowData.startDate ? new Date(tableRowData.startDate).toLocaleTimeString() : '-'}</span>
               </div>
-            ) || '-'}
           </td>
           <td className="px-4 py-2 text-center">{tableRowData.chargeProcessElapsedTime}</td>
           <td className="px-4 py-2 text-center">
-            {(
               <div className="date-time-container flex flex-col">
-                <span>{tableRowData.finishDate ? new Date(tableRowData.finishDate).toLocaleDateString() : ''}</span>
-                <span>{tableRowData.finishDate ? new Date(tableRowData.finishDate).toLocaleTimeString() : ''}</span>
+                <span>{tableRowData.finishDate ? new Date(tableRowData.finishDate).toLocaleDateString() : '-'}</span>
+                <span>{tableRowData.finishDate ? new Date(tableRowData.finishDate).toLocaleTimeString() : '-'}</span>
               </div>
-            ) || '-'}{' '}
           </td>
           <td className="px-4 py-2 text-center">{tableRowData.unitPrice}</td>
           <td className="px-4 py-2 text-center">{tableRowData.kWh}</td>

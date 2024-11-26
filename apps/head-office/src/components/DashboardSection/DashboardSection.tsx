@@ -1,10 +1,10 @@
-import { detectDevice } from '@projects/common';
-import { useGetDashboardComponentInfoQuery } from 'apps/head-office/app/api/services/dashboard/dashboard.service';
 import React from 'react';
-import { BRAND_PREFIX, dashboardTypes } from '../../constants/constants';
+import { detectDevice } from '@projects/common';
 import DashboardCardContent from './DashboardCardContent';
-import './DashboardSection.css';
+import { BRAND_PREFIX, dashboardTypes } from '../../constants/constants';
+import { useGetDashboardComponentInfoQuery } from '../../../app/api/services/dashboard/dashboard.service';
 import { IDashboardCardComponentProps } from './types';
+import './DashboardSection.css';
 
 const DashboardSection: React.FC = () => {
   const pagePrefix: string = `${BRAND_PREFIX}-dashboard-page-cards`;

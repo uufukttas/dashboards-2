@@ -15,6 +15,7 @@ interface IBaseSelectProps {
     | {
         id: null;
         rid: number | string;
+        plateCode?: number;
         name: string;
         disabled?: boolean;
         selected?: boolean;
@@ -24,7 +25,7 @@ interface IBaseSelectProps {
         id: number;
         rid: null;
         disabled?: boolean;
-        selected?: boolean;
+        selected?: true;
       }[];
   multiple?: boolean;
   className?: string;

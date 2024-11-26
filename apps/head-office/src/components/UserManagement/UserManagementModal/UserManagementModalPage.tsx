@@ -62,21 +62,27 @@ const UserManagementModalPage: React.FC<IUserManagementModalPageProps> = ({ onSu
     if (isNil(userData)) {
       registerUser({
         body: {
-          ...data,
+          name: data.name as string,
+          surname: data.surname as string,
+          userName: data.userName as string,
+          eMail: data.eMail as string,
+          phoneNumber: data.phoneNumber as string,
           roles: roles.filter((role) => role.isChecked).map((role) => role.name),
-          password: '123456',
-          newPassword: '123456',
+          password: '',
+          newPassword: '',
         },
       }).unwrap();
       onSuccess && onSuccess();
     } else {
       updateUser({
         body: {
-          ...data,
           id: userData?.userId,
+          name: data.name as string,
+          surname: data.surname as string,
+          userName: data.userName as string,
+          eMail: data.eMail as string,
+          phoneNumber: data.phoneNumber as string,
           roles: roles.filter((role) => role.isChecked).map((role) => role.name),
-          password: '123456',
-          newPassword: '123456',
         },
       });
       onSuccess && onSuccess();

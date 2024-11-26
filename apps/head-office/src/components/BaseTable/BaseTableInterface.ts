@@ -1,5 +1,8 @@
 import { DataTableFilterMeta } from "primereact/datatable";
-
+export interface IColumnProps {
+  filterApplyCallback?: () => void;
+  filterClearCallback?: () => void;
+};
 export interface IBaseTableColumn {
   accessor: string;
   align?: 'left' | 'right' | 'center';
@@ -12,7 +15,6 @@ export interface IBaseTableColumn {
   style?: Record<string, unknown>;
   type: 'string' | 'number' | 'date' | 'boolean' | 'custom';
 };
-
 export interface IBaseTableProps {
   className?: string;
   columns: IBaseTableColumn[];

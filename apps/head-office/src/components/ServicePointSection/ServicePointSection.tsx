@@ -175,6 +175,7 @@ const ServicePointSection: React.FC = () => {
   const onColumnToggle = (event: MultiSelectChangeEvent): void => {
     const selectedColumns = event.target.value;
     const orderedSelectedColumns = servicePointTableHeadData.filter(
+    // @ts-ignore
       (col) => selectedColumns.some((sCol) => sCol.field === col.field) || col.field === 'actions',
     );
 
@@ -193,7 +194,9 @@ const ServicePointSection: React.FC = () => {
         className="w-full shadow"
         columns={visibleColumns.map((column) => {
           if (column.id === 'actions') {
-            column.bodyTemplate = actionsButtonsContainer as unknown as React.ReactElement;
+            column.align = 'left';
+            // @ts-ignore
+            column.bodyTemplate = actionsButtonsContainer;
           }
 
           return column;

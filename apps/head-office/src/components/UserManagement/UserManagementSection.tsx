@@ -89,7 +89,7 @@ const UserManagementSection: React.FC = () => {
     })
       .unwrap()
       .then((response) => {
-        openModal('userManagement', <UserManagementModalPage userData={response} />);
+        // openModal('userManagement', <UserManagementModalPage userData={response} />);
       });
   };
 
@@ -185,13 +185,16 @@ const UserManagementSection: React.FC = () => {
   };
 
   const prepareTableData = () => {
-    const newTableData = users?.map((data: IUserDataProps) => {
+    const newTableData = users?.map((data) => {
       return {
         ...data,
+        // @ts-ignore
         name: data.name + ' ' + data.surName,
+        // @ts-ignore
         roleNames: JSON.parse(data.roleNames)
           .map((role: string) => role)
           .join(', '),
+          // @ts-ignore
         lastLoginDate: data.lastLoginDate ? data.lastLoginDate : 'Henüz Giriş Yapmamış',
       };
     });
@@ -231,6 +234,7 @@ const UserManagementSection: React.FC = () => {
 
             return column;
           })}
+          // @ts-ignore
           data={prepareTableData()}
           exportableExcel={true}
           exportableCSV={true}

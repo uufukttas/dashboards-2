@@ -48,7 +48,6 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
     // const [connectorUpdate, setConnectorUpdate] = useState(false);
     const statusList = useSelector((state: RootState) => state.statusList);
 
-    console.log('statusList', statusList)
     const items: MenuItem[] = [
         {
             label: 'Edit',
@@ -279,11 +278,11 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ chargeUnits, s
         }
     };
     const getBrandLogo = (brand: string) => {
-        if (brand === 'Sinexcel') {
+        if (brand === 'Sinexcel Model') {
             return '/sinexcel.png';
-        } else if (brand === 'Circontrol') {
+        } else if (brand === 'Circontrol Model') {
             return '/circontrol_logo.png';
-        } else if (brand === 'HyperCharger') {
+        } else if (brand === 'HyperCharger Model') {
             return '/hypercharger_logo.png';
         }
     };
