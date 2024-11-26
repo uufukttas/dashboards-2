@@ -32,4 +32,5 @@ export interface IGetUserResponse {
   userId: number;
   name: string;
   surname: string;
+  roles: string[];
 }

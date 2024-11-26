@@ -1,5 +1,5 @@
 import React from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Button } from '@projects/button';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
@@ -20,7 +20,7 @@ const AddBrandModal = () => {
     modelImage: `${sectionPrefix}-${formName[2]}`,
   };
 
-  const handleFormSubmit: SubmitHandler<[]> = () => {
+  const handleFormSubmit= () => {
     // handle form submit
   };
 

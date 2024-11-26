@@ -15,7 +15,7 @@ const dashboardService = baseApi.injectEndpoints({
       query: ({ params }) => ({
         url: `${ENDPOINTS.DASHBOARD}${ENDPOINTS.GET_DASHBOARD_ITEMS}`,
         method: ApiServiceMethods.GET,
-        params,
+        params
       }),
     }),
     getDashboardItems: builder.mutation<Array<DashboardItem>, Post<DashboardItemDataRequest>>({

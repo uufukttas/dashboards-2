@@ -46,13 +46,13 @@ const BaseInput: FC<IBaseInputProps> = (props) => {
         control={form.control}
         name={name}
         rules={rules}
-        render={({ field }) => (
+        render={({ field }) =>
           isTextarea ? (
-            <Textarea {...field} className={inputClasses} name={name} {...rest} />
+            <Textarea className={inputClasses} {...field} {...rest} name={name} onChange={field.onChange} />
           ) : (
             <Input {...field} className={inputClasses} name={name} type="text" {...rest} />
           )
-        )}
+        }
       />
       {error && error.message && <BaseFormError message={error.message} prefix={prefix} />}
     </div>

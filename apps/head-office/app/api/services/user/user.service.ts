@@ -33,7 +33,7 @@ const userService = baseApi.injectEndpoints({
         body,
       }),
     }),
-    getUsers: build.mutation<void, Post<IGetUsersRequestBody>>({
+    getUsers: build.mutation<IGetUserResponse[], Post<IGetUsersRequestBody>>({
       query: ({ body }) => ({
         url: '/Auth/Users',
         method: ApiServiceMethods.POST,

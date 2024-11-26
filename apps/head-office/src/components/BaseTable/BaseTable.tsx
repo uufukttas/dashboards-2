@@ -33,7 +33,7 @@ export const BaseTable: FC<IBaseTableProps> = (props) => {
     stateStorageType = 'local',
     userStateKey = `table-${id}`,
   } = props;
-  const dataTableRef = useRef(null);
+  const dataTableRef = useRef<DataTable<Record<string,unknown>[]>>(null);
   const [editingRows, setEditingRows] = useState({});
   const [defultFilters, setDefaultFilters] = useState<DataTableFilterMeta | undefined>(filters);
   const [globalFilterValue, setGlobalFilterValue] = useState<string>('');

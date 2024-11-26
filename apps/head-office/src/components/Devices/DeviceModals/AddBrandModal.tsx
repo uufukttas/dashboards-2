@@ -1,7 +1,8 @@
-import React from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Button } from '@projects/button';
 import { Dropdown } from '@projects/dropdown';
 import { Label } from '@projects/label';
+import React from 'react';
+import { useForm } from 'react-hook-form';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 
 const AddBrandModal: React.FC = () => {
@@ -18,7 +19,7 @@ const AddBrandModal: React.FC = () => {
     brandLogo: `${sectionPrefix}-${formName[1]}`,
   };
 
-  const handleFormSubmit: SubmitHandler<[]> = () => {
+  const handleFormSubmit = () => {
     // handle form submit
   };
 
@@ -35,16 +36,16 @@ const AddBrandModal: React.FC = () => {
           </Label>
           <Dropdown
             className={`${formProperties.brandName}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
-            id={`${formProperties.brands}`}
-            items={brands}
-            name={`${formProperties.brands}`}
+            id={`${formProperties.brandName}`}
+            items={[]}
+            name={`${formProperties.brandName}`}
             onChange={(event) => {
-              setChargeUnitFormData({
-                ...chargeUnitFormData,
-                [event.target.name]: Number(event.target.value),
-              });
+              // setChargeUnitFormData({
+              //   ...chargeUnitFormData,
+              //   [event.target.name]: Number(event.target.value),
+              // });
             }}
-            value={chargeUnitFormData[`${formProperties.brandName}`]?.toString()}
+            value={[`${formProperties.brandName}`]?.toString()}
           />
         </div>
         <div className={`${formProperties.brandLogo}-container`}>
@@ -61,7 +62,6 @@ const AddBrandModal: React.FC = () => {
           <Button
             buttonText={'Kaydet'}
             className={`charge-unit-submit-button bg-primary text-white rounded-md px-4 py-2`}
-            disabled={isDisabled}
             id={`charge-unit-submit-button`}
             type={'submit'}
           />

@@ -1,4 +1,4 @@
-import { ThunkDispatch } from '@reduxjs/toolkit';
+import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { BaseQueryFn } from '@reduxjs/toolkit/query';
 import axios, { AxiosError, AxiosInstance, HttpStatusCode } from 'axios';
 import { showAlert } from '../redux/features/alertInformation';
@@ -33,7 +33,7 @@ class ApiRequestManager {
     }
   };
 
-  private handleErrors = (dispatch: ThunkDispatch<RootState, unknown, AnyAction>, error: AxiosError): void => {
+  private handleErrors = (dispatch: ThunkDispatch<RootState, unknown, Action>, error: AxiosError): void => {
     const pushError = (message: string) => {
       dispatch(
         showAlert({
@@ -68,7 +68,7 @@ class ApiRequestManager {
     }
   };
 
-  private pushSuccess = (dispatch: ThunkDispatch<RootState, unknown, AnyAction>, message: string): void => {
+  private pushSuccess = (dispatch: ThunkDispatch<RootState, unknown, Action>, message: string): void => {
     dispatch(
       showAlert({
         message: message || 'İşlem Başarılı',
@@ -76,8 +76,6 @@ class ApiRequestManager {
       }),
     );
   };
-
-
 
   public request =
     (): BaseQueryFn<BaseQueryFunctionParams> =>

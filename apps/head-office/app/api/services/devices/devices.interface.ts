@@ -5,10 +5,11 @@ export interface IBrandModelDataProps {
   name: string;
 };
 export interface IDeviceBrandDataProps {
-  displayName: string;
+  displayName?: string;
   id: number;
   imageCdnUrl: string | null;
-  name: string;
+  name: string | null;
+  stationChargePointModelConnectorId?: number;
 };
 export interface IDeviceResponsesProps {
   count: null | number;

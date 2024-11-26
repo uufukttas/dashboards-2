@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, Reducer } from '@reduxjs/toolkit';
 
-interface Modal {
+export interface Modal {
   name: string;
   component: React.ReactNode;
 }
@@ -38,4 +38,5 @@ const modalSlice = createSlice({
 });
 
 export const { pushModal, removeModalByName, clearModals } = modalSlice.actions;
-export default modalSlice.reducer;
+export default modalSlice.reducer as Reducer;
+

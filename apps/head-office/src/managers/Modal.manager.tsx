@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import useModalManager from '../hooks/useModalManager';
+import { Modal } from '../../app/redux/modal/modalSlice';
+import { RootState } from '../../app/redux/store';
 
 const ModalManager = () => {
-  const modals = useSelector((state) => state?.modals?.modals);
+  const modals = useSelector((state: RootState) => state?.modals?.modals);
   const { closeModal } = useModalManager();
 
   useEffect(() => {
@@ -14,7 +16,7 @@ const ModalManager = () => {
 
   return (
     <div className="absolute flex flex-1 w-full h-full bg-heading z-[1000] bg-opacity-40 transition-all items-center justify-center">
-      {modals?.map((modal) => (
+      {modals?.map((modal: Modal) => (
         <>
           <div
             className="absolute flex flex-1 w-full h-full bg-transparent z-[1000]"

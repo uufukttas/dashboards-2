@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
 import { Menu } from 'primereact/menu';
-import ListHeader from './ListHeader';
-import ListItem from './ListItem';
+import React, { useState } from 'react';
 import { IDeviceBrandDataProps, IDeviceResponsesProps } from '../../../app/api/services/devices/devices.interface';
 import {
   useGetConnectorInfoMutation,
@@ -10,6 +8,8 @@ import {
 } from '../../../app/api/services/devices/devices.service';
 import { BRAND_PREFIX } from '../../constants/constants';
 import './devices.css';
+import ListHeader from './ListHeader';
+import ListItem from './ListItem';
 
 const DevicesSection: React.FC = () => {
   const [brandId, setBrandId] = useState<number>(3);
@@ -23,6 +23,7 @@ const DevicesSection: React.FC = () => {
     setModelId(id);
     try {
       const response = await getConnectorInfo({ body: { brandId: id } }).unwrap();
+      // @ts-ignore
       setConnectors(response);
     } catch (error) {
       console.error('Failed to fetch connector info:', error);
@@ -36,7 +37,7 @@ const DevicesSection: React.FC = () => {
     return listItems.map((item) => ({
       template:
         item.id === 0 ? (
-          <ListHeader name={item.name} onClick={() => {}} />
+          <ListHeader name={item.name || ''} onClick={() => {}} />
         ) : (
           <ListItem
             item={item}

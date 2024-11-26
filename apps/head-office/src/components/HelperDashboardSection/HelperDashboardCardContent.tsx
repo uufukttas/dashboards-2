@@ -55,6 +55,7 @@ const HelperDashboardCards: React.FC<{ widget: IHelperDashboardCardComponentProp
       case 'chart':
         return <ChartComponent widget={widget} componentValue={componentValue} isLoading={isLoading} />;
       case 'kpi':
+        // @ts-ignore
         return <KPIComponent componentValue={componentValue} isLoading={isLoading} />;
       case 'list':
         return <ListComponent componentValue={componentValue} isLoading={isLoading} />;
