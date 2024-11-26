@@ -13,21 +13,22 @@ import {
   useGetServicePointsMutation,
 } from '../../../app/api/services/service-points/servicePoints.service';
 import { showDialog } from '../../../app/redux/features/dialogInformation';
-import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
 import { setServicePointData } from '../../../app/redux/features/servicePointData';
 import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
 import { AppDispatch, RootState } from '../../../app/redux/store';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
+import useModalManager from '../../hooks/useModalManager';
 import { BaseTable } from '../BaseTable/BaseTable';
 import { servicePointTableDefaultFilters, servicePointTableHeadData } from './constants';
 import './ServicePointSection.css';
+import ServicePointModalForm from './ServicePointsModalComponents/ServicePointModal';
 import type { IPayloadProps, IRowDataProps } from './types';
 
 const ServicePointSection: React.FC = () => {
   const pagePrefix: string = `${BRAND_PREFIX}-service-point`;
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-
+  const { openModal } = useModalManager();
   const [getServicePoints, { data: servicePoints }] = useGetServicePointsMutation();
   const [deleteServicePoint] = useDeleteServicePointMutation();
 
@@ -110,6 +111,10 @@ const ServicePointSection: React.FC = () => {
     return payload;
   };
 
+  const handleOpenServicePointModal = () => {
+    openModal('servicePointModalFormFirstPage', <ServicePointModalForm />);
+  }
+
   const dataTableHeader = (): JSX.Element => {
     const tablePrefix: string = `${pagePrefix}-data-table`;
 
@@ -135,7 +140,8 @@ const ServicePointSection: React.FC = () => {
               id={`${tablePrefix}-add-button`}
               rounded
               type="button"
-              onClick={() => dispatch(toggleModalVisibility(true))}
+              // onClick={() => dispatch(toggleModalVisibility(true))}
+              onClick={handleOpenServicePointModal}
             />
             <Tooltip
               className={`${tablePrefix}-add-button-tooltip text-base`}
@@ -169,7 +175,7 @@ const ServicePointSection: React.FC = () => {
 
     dispatch(setServicePointData(servicePointData.data[0] || {}));
     dispatch(setServicePointInformation(servicePointInformation.data[0] || {}));
-    dispatch(toggleModalVisibility(true));
+    handleOpenServicePointModal();
   };
 
   const onColumnToggle = (event: MultiSelectChangeEvent): void => {

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../../../app/redux/store';
+import { BRAND_PREFIX } from '../../../constants/constants';
+import ModalLayout from '../../Modal/Layouts/ModalLayout';
+import { ICitiesProps, IFeatureProps } from '../types';
 import ServicePointModalFormFirstPage from './ServicePointModalFormPages/ServicePointModalFormFirstPage';
 import ServicePointModalFormFourthPage from './ServicePointModalFormPages/ServicePointModalFormFourthPage';
 import ServicePointModalFormSecondPage from './ServicePointModalFormPages/ServicePointModalFormSecondPage';
 import ServicePointModalFormThirdPage from './ServicePointModalFormPages/ServicePointModalFormThirdPage';
-import { BRAND_PREFIX } from '../../../constants/constants';
-import { RootState } from '../../../../app/redux/store';
-import { ICitiesProps, IFeatureProps } from '../types';
 
 const ServicePointModalForm: React.FC = () => {
   const servicePointModalPrefix: string = `${BRAND_PREFIX}-service-point`;
@@ -20,20 +21,26 @@ const ServicePointModalForm: React.FC = () => {
   const [stationId, setStationId] = useState<number>(0);
 
   return (
-    <div className={`${servicePointModalPrefix}-${isCreateData ? 'create' : 'update'}-modal-form-wrapper`}>
-      <div className={`${servicePointModalPrefix}-${isCreateData ? 'create' : 'update'}-modal-form-container relative p-6 bg-white rounded-lg max-h-[650px]`}>
-        {
-          activePage === 1 && (
+    <ModalLayout
+      name='servicePointModalFormFirstPage'
+      title='Service Noktasi Ekle'
+      footerVisible={false}
+    >
+      <div className={`${servicePointModalPrefix}-${isCreateData ? 'create' : 'update'}-modal-form-wrapper`}>
+        <div
+          className={`${servicePointModalPrefix}-${
+            isCreateData ? 'create' : 'update'
+          }-modal-form-container relative p-6 bg-white rounded-lg max-h-[650px]`}
+        >
+          {activePage === 1 && (
             <ServicePointModalFormFirstPage
               activePage={activePage}
               stationId={stationId}
               setActivePage={setActivePage}
               setStationId={setStationId}
             />
-          )
-        }
-        {
-          activePage === 2 && (
+          )}
+          {activePage === 2 && (
             <ServicePointModalFormSecondPage
               activePage={activePage}
               cities={cities}
@@ -41,10 +48,8 @@ const ServicePointModalForm: React.FC = () => {
               setCities={setCities}
               setDistricts={setDistricts}
             />
-          )
-        }
-        {
-          activePage === 3 && (
+          )}
+          {activePage === 3 && (
             <ServicePointModalFormThirdPage
               activePage={activePage}
               cities={cities}
@@ -54,10 +59,8 @@ const ServicePointModalForm: React.FC = () => {
               setPaymentMethods={setPaymentMethods}
               setOpportunities={setOpportunities}
             />
-          )
-        }
-        {
-          activePage === 4 && (
+          )}
+          {activePage === 4 && (
             <ServicePointModalFormFourthPage
               activePage={activePage}
               paymentMethods={paymentMethods}
@@ -67,10 +70,10 @@ const ServicePointModalForm: React.FC = () => {
               setPaymentMethods={setPaymentMethods}
               setOpportunities={setOpportunities}
             />
-          )
-        }
+          )}
+        </div>
       </div>
-    </div>
+    </ModalLayout>
   );
 };
 
