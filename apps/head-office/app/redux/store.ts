@@ -1,8 +1,5 @@
-import {
-  combineReducers,
-  configureStore,
-  EnhancedStore,
-} from '@reduxjs/toolkit';
+import { combineReducers, configureStore, EnhancedStore } from '@reduxjs/toolkit';
+import baseApi from '../api/baseApi';
 import accessTypeList from './features/accessTypeList';
 import activeTabIndex from './features/activeTabIndex';
 import alertInformation from './features/alertInformation';
@@ -10,8 +7,9 @@ import chargeUnitBrands from './features/chargeUnitBrands';
 import chargeUnitData from './features/chargeUnitData';
 import chargeUnitInvestors from './features/chargeUnitInvestors';
 import chargeUnitList from './features/chargeUnitList';
-import configs from './features/setConfig';
 import comissionData from './features/comissionData';
+import setConnectorProperty from './features/connectorProperty';
+import setConnectors from './features/connectorsData';
 import dashboardComponentInfo from './features/dashboardComponentInfo';
 import dialogInformation from './features/dialogInformation';
 import energyPriceDetails from './features/energyPriceDetails';
@@ -25,28 +23,27 @@ import isLoadingVisible from './features/isLoadingVisible';
 import isModalVisible from './features/isModalVisible';
 import isServicePointDataUpdated from './features/isServicePointDataUpdated';
 import isServicePointPermissionsUpdated from './features/isServicePointPermissionsUpdated';
-import isTariffListUpdated from './features/isTariffListUpdated';
 import isSidebarExpand from './features/isSidebarExpand';
+import isTariffListUpdated from './features/isTariffListUpdated';
 import isUserListUpdated from './features/isUserListUpdated';
 import languages from './features/languages';
+import setLoginToken from './features/loginToken';
 import permissionsData from './features/permissionsData';
 import searchedText from './features/searchProperties';
-import servicePoints from './features/servicePoints';
 import servicePointData from './features/servicePointData';
 import servicePointInformation from './features/servicePointInformation';
 import servicePointPermissions from './features/servicePointPermissions';
+import servicePoints from './features/servicePoints';
 import setCityInformation from './features/setCityInformation';
-import setConnectorProperty from './features/connectorProperty';
-import setConnectors from './features/connectorsData';
-import setLoginToken from './features/loginToken';
+import configs from './features/setConfig';
 import setVisibleModal from './features/setVisibleModal';
 import statusList from './features/statusList';
+import tariffData from './features/tariffData';
+import tariffs from './features/tariffs';
 import userData from './features/userData';
 import userProfileInfo from './features/userProfileInfo';
 import users from './features/users';
-import tariffs from './features/tariffs';
-import tariffData from './features/tariffData';
-import baseApi from '../api/baseApi';
+import modalReducer from './modal/modalSlice';
 
 const reducers = combineReducers({
   accessTypeList,
@@ -92,13 +89,17 @@ const reducers = combineReducers({
   users,
   tariffs,
   tariffData,
+  modals: modalReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 });
 
 export const store: EnhancedStore = configureStore({
   reducer: reducers,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({}).concat(baseApi.middleware),
+    getDefaultMiddleware({
+      immutableCheck: false,
+      serializableCheck: false,
+    }).concat(baseApi.middleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 

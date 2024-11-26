@@ -1,7 +1,7 @@
 import React from 'react';
-import DashboardSection from './DashboardSection';
-import MainComponent from '../MainComponent/MainComponent';
 import { BRAND_PREFIX } from '../../constants/constants';
+import MainComponent from '../MainComponent/MainComponent';
+import DashboardSection from './DashboardSection';
 
 const DashboardPageWrapper: React.FC = () => {
   const dashboardPrefix: string = `${BRAND_PREFIX}-dashboard`;

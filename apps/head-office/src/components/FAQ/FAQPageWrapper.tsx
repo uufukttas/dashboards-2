@@ -1,38 +1,20 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import Loading from '../Loading/Loading';
-import MainComponent from '../MainComponent/MainComponent';
+import React from 'react';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
-import { RootState, AppDispatch } from '../../../app/redux/store';
+import MainComponent from '../MainComponent/MainComponent';
 import FAQSection from './FAQSection';
 
 const FAQ: React.FC = () => {
-    const pagePrefix: string = `${BRAND_PREFIX}-faq-page`;
-    const dispatch = useDispatch<AppDispatch>();
-    const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
+  const pagePrefix: string = `${BRAND_PREFIX}-faq-page`;
 
-    useEffect(() => {
-        dispatch(toggleLoadingVisibility(false));
-    }, []);
-
-    return (
-        <div className={`${pagePrefix}-wrapper w-full flex h-screen`}>
-            {
-                isLoading
-                    ? (
-                        <Loading />
-                    )
-                    : (
-                        <MainComponent headerName='Sıkça Sorular Sorular'>
-                            <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap`}>
-                                <FAQSection />
-                            </div>
-                        </MainComponent>
-                    )
-            }
+  return (
+    <div className={`${pagePrefix}-wrapper w-full flex h-screen`}>
+      <MainComponent headerName="Sıkça Sorular Sorular">
+        <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap`}>
+          <FAQSection />
         </div>
-    );
+      </MainComponent>
+    </div>
+  );
 };
 
 export default FAQ;

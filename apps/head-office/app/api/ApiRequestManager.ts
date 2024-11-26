@@ -1,13 +1,13 @@
-import axios, { AxiosError, AxiosInstance, HttpStatusCode } from 'axios';
-import { AnyAction, ThunkDispatch } from '@reduxjs/toolkit';
+import { ThunkDispatch } from '@reduxjs/toolkit';
 import { BaseQueryFn } from '@reduxjs/toolkit/query';
+import axios, { AxiosError, AxiosInstance, HttpStatusCode } from 'axios';
+import { showAlert } from '../redux/features/alertInformation';
+import { toggleLoadingVisibility } from '../redux/features/isLoadingVisible';
+import { RootState } from '../redux/store';
 import { BaseQueryFunctionParams } from './ApiRequestManager.interface';
 import { silentErrorServices } from './silentErrorServices';
 import { silentLoadingServices } from './silentLoadingServices';
 import { successResultServices } from './successResultServices';
-import { showAlert } from '../redux/features/alertInformation';
-import { toggleLoadingVisibility } from '../redux/features/isLoadingVisible';
-import { RootState } from '../redux/store';
 
 class ApiRequestManager {
   baseUrl: string = '';
@@ -33,10 +33,7 @@ class ApiRequestManager {
     }
   };
 
-  private handleErrors = (
-    dispatch: ThunkDispatch<RootState, unknown, AnyAction>,
-    error: AxiosError,
-  ): void => {
+  private handleErrors = (dispatch: ThunkDispatch<RootState, unknown, AnyAction>, error: AxiosError): void => {
     const pushError = (message: string) => {
       dispatch(
         showAlert({
@@ -51,10 +48,11 @@ class ApiRequestManager {
         pushError(error.response.statusText || 'Hatalı İstek');
         break;
       case HttpStatusCode.Unauthorized:
-        pushError('Yetkisiz erişim. Lütfen tekrar giriş yapın.');
-        window.location.href = '/';
-        localStorage.removeItem('token');
-        window.location.reload();
+        pushError('Oturum süreniz dolmuştur. Lütfen tekrar giriş yapın.');
+        setTimeout(() => {
+          window.localStorage.removeItem('token');
+          window.location.href = '/';
+        }, 700);
         break;
       case HttpStatusCode.Forbidden:
         pushError('Yetkisiz İşlem');
@@ -70,10 +68,7 @@ class ApiRequestManager {
     }
   };
 
-  private pushSuccess = (
-    dispatch: ThunkDispatch<RootState, unknown, AnyAction>,
-    message: string,
-  ): void => {
+  private pushSuccess = (dispatch: ThunkDispatch<RootState, unknown, AnyAction>, message: string): void => {
     dispatch(
       showAlert({
         message: message || 'İşlem Başarılı',
@@ -82,20 +77,17 @@ class ApiRequestManager {
     );
   };
 
+
+
   public request =
     (): BaseQueryFn<BaseQueryFunctionParams> =>
-    async (
-      { body, headers, method, params, url },
-      { dispatch, endpoint },
-      extraOptions,
-    ) => {
+    async ({ body, headers, method, params, url }, { dispatch, endpoint }, extraOptions) => {
       this.setAccessToken();
 
       try {
-        !silentLoadingServices.includes(endpoint) &&
-          dispatch(toggleLoadingVisibility(true));
+        !silentLoadingServices.includes(endpoint) && dispatch(toggleLoadingVisibility(true));
 
-        const result = await this.axiosInstance?.request({
+        const result = await this?.axiosInstance?.request({
           headers: {
             ...headers,
             'Content-Type': 'application/json',
@@ -106,13 +98,11 @@ class ApiRequestManager {
           url,
         });
 
-        successResultServices.includes(endpoint) &&
-          this.pushSuccess(dispatch, result?.data.message);
+        successResultServices.includes(endpoint) && this.pushSuccess(dispatch, result?.data.message);
 
         return { data: result?.data.data || result };
       } catch (error) {
-        !silentErrorServices.includes(endpoint) &&
-          this.handleErrors(dispatch, error as AxiosError);
+        !silentErrorServices.includes(endpoint) && this.handleErrors(dispatch, error as AxiosError);
 
         return {
           error,
@@ -121,6 +111,6 @@ class ApiRequestManager {
         dispatch(toggleLoadingVisibility(false));
       }
     };
-};
+}
 
 export default ApiRequestManager;

@@ -8,13 +8,11 @@ const Devices: React.FC = () => {
 
   return (
     <div className={`${pagePrefix}-wrapper w-full flex h-screen`}>
-      {
-        <MainComponent headerName="Cihazlar">
-          <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap w-full`}>
-            <DevicesSection />
-          </div>
-        </MainComponent>
-      }
+      <MainComponent headerName="Cihazlar">
+        <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap w-full`}>
+          <DevicesSection />
+        </div>
+      </MainComponent>
     </div>
   );
 };

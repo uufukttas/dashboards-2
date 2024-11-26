@@ -6,7 +6,7 @@ const Loading: React.FC = () => {
 
   return (
     <div
-      className={`${loadingSpinner}-container flex items-center justify-center absolute top-0 left-0 w-full h-screen opacity-70 bg-[${stylesProps.opaqueColor}] z-20`}
+      className={`${loadingSpinner}-container flex items-center justify-center absolute top-0 left-0 w-full h-screen opacity-90 bg-[${stylesProps.opaqueColor}] z-20`}
     >
       <div className={`${loadingSpinner}`}></div>
     </div>

@@ -54,17 +54,21 @@ export const BaseTable: FC<IBaseTableProps> = (props) => {
       saveAsExcelFile(excelBuffer, 'products');
     });
   };
+
   const filterApplyTemplate = (options) => {
     return <Button type="button" icon="pi pi-check" onClick={options.filterApplyCallback} severity="success"></Button>;
   };
+
   const filterClearTemplate = (options) => {
     return (
       <Button type="button" icon="pi pi-times" onClick={options.filterClearCallback} severity="secondary"></Button>
     );
   };
+
   const filterFooterTemplate = () => {
     return <div className="px-3 pt-0 pb-3 text-center"></div>;
   };
+
   const saveAsExcelFile = (buffer: string, fileName: string): void => {
     import('file-saver').then((module) => {
       if (module && module.default) {
@@ -78,6 +82,7 @@ export const BaseTable: FC<IBaseTableProps> = (props) => {
       }
     });
   };
+
   const onGlobalFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const _filters = { ...filters };
@@ -87,6 +92,7 @@ export const BaseTable: FC<IBaseTableProps> = (props) => {
     setDefaultFilters(_filters);
     setGlobalFilterValue(value);
   };
+
   const setHeader = () => {
     return (
       <div className="haeder-wrapper flex justify-between items-center">

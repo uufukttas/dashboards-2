@@ -1,23 +1,26 @@
 'use client';
 
-import React, { Fragment, useEffect, useRef } from 'react';
+import 'primereact/resources/primereact.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import { Toast } from 'primereact/toast';
+import React, { Fragment, useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
 import Background from '../../src/components/Background/Background';
 import Loading from '../../src/components/Loading/Loading';
 import Login from '../../src/components/Login/Login';
 import { BRAND_PREFIX, stylesProps } from '../../src/constants/constants';
-import 'primereact/resources/primereact.css';
-import 'primereact/resources/themes/lara-light-indigo/theme.css';
-import './MainClient.css';
+import useCheckAuth from '../../src/hooks/useCheckAuth';
+import ModalManager from '../../src/managers/Modal.manager';
 import { hideAlert } from '../redux/features/alertInformation';
+import { RootState } from '../redux/store';
+import './MainClient.css';
 
 const MainClient: React.FC = () => {
   const dispatch = useDispatch();
   const toastRef = useRef<Toast>(null);
   const alertInformation = useSelector((state: RootState) => state.alertInformation);
   const isLoading = useSelector((state: RootState) => state.isLoadingVisible.isLoading);
+  const { isReady } = useCheckAuth();
 
   useEffect(() => {
     if (!alertInformation.isVisible) return;
@@ -27,6 +30,14 @@ const MainClient: React.FC = () => {
       summary: `${alertInformation.message}`,
     });
   }, [alertInformation.isVisible]);
+
+  if (!isReady) {
+    return (
+      <div className={`${BRAND_PREFIX}-main-client-component-container flex flex-col`}>
+        <Loading />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -38,10 +49,11 @@ const MainClient: React.FC = () => {
           <Background backgroundUrl={stylesProps.loginPageBackgroundImage} />
         </Fragment>
       }
-      {isLoading && <Loading />}
       {alertInformation.isVisible && (
         <Toast position={'top-right'} ref={toastRef} onHide={() => dispatch(hideAlert())} />
       )}
+      <ModalManager />
+      {isLoading && <Loading />}
     </>
   );
 };

@@ -1,14 +1,14 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Card } from '@projects/card';
 import { Dropdown } from '@projects/dropdown';
+import { useGetLanaugeListQuery } from 'apps/head-office/app/api/services/static/static.service';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { setSelectedLanguage } from '../../../app/redux/features/languages';
+import { BRAND_PREFIX } from '../../constants/constants';
+import './Login.css';
 import CardBody from './LoginCardComponents/CardBody';
 import CardFooter from './LoginCardComponents/CardFooter';
 import CardHeader from './LoginCardComponents/CardHeader';
-import { BRAND_PREFIX } from '../../constants/constants';
-import { setSelectedLanguage } from '../../../app/redux/features/languages';
-import './Login.css';
-import { useGetLanaugeListQuery } from 'apps/head-office/app/api/services/static/static.service';
 
 const Login: React.FC = () => {
   const loginPrefix: string = `${BRAND_PREFIX}-login`;
