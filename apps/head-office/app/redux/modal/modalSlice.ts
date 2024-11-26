@@ -39,4 +39,3 @@ const modalSlice = createSlice({
 
 export const { pushModal, removeModalByName, clearModals } = modalSlice.actions;
 export default modalSlice.reducer as Reducer;
-

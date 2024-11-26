@@ -1,9 +1,9 @@
 import React from 'react';
-import HelperDashboardCards from './HelperDashboardCardContent';
-import { BRAND_PREFIX, dashboardTypes } from '../../constants/constants';
 import { useGetDashboardComponentInfoQuery } from '../../../app/api/services/dashboard/dashboard.service';
-import { IHelperDashboardCardComponentProps } from './types';
+import { BRAND_PREFIX, dashboardTypes } from '../../constants/constants';
+import HelperDashboardCards from './HelperDashboardCardContent';
 import './HelperDashboardSection.css';
+import { IHelperDashboardCardComponentProps } from './types';
 
 const HelperDashboardSection: React.FC = () => {
   const pagePrefix: string = `${BRAND_PREFIX}-helper-dashboard-page-cards`;

@@ -89,7 +89,7 @@ const reducers = combineReducers({
   users,
   tariffs,
   tariffData,
-  modalReducer,
+  modal: modalReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 });
 
