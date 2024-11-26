@@ -1,0 +1,8 @@
+.p-menu {
+  padding: 0;
+}
+.p-menu-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
