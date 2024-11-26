@@ -25,7 +25,7 @@ const ListItem: React.FC<{
         <div className={`menu-item-${type}-name`}>{type === 'connector' ? item.displayName : item.name}</div>
         {type !== 'connector' && (
           <div className={`menu-item-${type}-logo`}>
-            <Image alt={item.name} src={getImageUrl(item.imageCdnUrl)} />
+            <Image alt={item.name} height={100} src={getImageUrl(item.imageCdnUrl)} width={100} />
           </div>
         )}
       </div>

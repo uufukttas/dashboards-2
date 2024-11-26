@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { Menu } from 'primereact/menu';
-import { BRAND_PREFIX } from '../../constants/constants';
+import ListHeader from './ListHeader';
+import ListItem from './ListItem';
 import { IDeviceBrandDataProps, IDeviceResponsesProps } from '../../../app/api/services/devices/devices.interface';
 import {
   useGetConnectorInfoMutation,
   useGetDeviceBrandsQuery,
   useGetDeviceModelsQuery,
 } from '../../../app/api/services/devices/devices.service';
+import { BRAND_PREFIX } from '../../constants/constants';
 import './devices.css';
-import ListHeader from './ListHeader';
-import { ListItem } from 'flowbite-react';
 
 const DevicesSection: React.FC = () => {
   const [brandId, setBrandId] = useState<number>(3);
