@@ -5,8 +5,8 @@ import SidebarBody from './SidebarComponents/SidebarBody';
 import SidebarFooter from './SidebarComponents/SidebarFooter';
 import SidebarHeader from './SidebarComponents/SidebarHeader';
 import { BRAND_PREFIX } from '../../constants/constants';
-import { RootState } from '../../../app/redux/store';
 import { toggleSidebarExpanded } from '../../../app/redux/features/isSidebarExpand';
+import { RootState } from '../../../app/redux/store';
 import './Sidebar.css';
 
 const SidebarComponent: React.FC = () => {
@@ -18,7 +18,7 @@ const SidebarComponent: React.FC = () => {
     <Sidebar
       className={`${sidebarPrefix}-container w-1/6`}
       content={({ hide }) => (
-        <div className={`${sidebarPrefix}-content-container min-h-screen flex relative lg:static surface-ground`}>
+        <div className={`${sidebarPrefix}-content-container min-h-screen flex relative`}>
           <div className={`${sidebarPrefix}-content flex flex-col h-full w-full`}>
             <SidebarHeader hide={hide} />
             <SidebarBody />

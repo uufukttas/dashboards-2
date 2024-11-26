@@ -193,7 +193,8 @@ const ServicePointSection: React.FC = () => {
         className="w-full shadow"
         columns={visibleColumns.map((column) => {
           if (column.id === 'actions') {
-            column.bodyTemplate = actionsButtonsContainer as unknown as React.ReactElement;
+            column.align = 'left';
+            column.bodyTemplate = actionsButtonsContainer;
           }
 
           return column;

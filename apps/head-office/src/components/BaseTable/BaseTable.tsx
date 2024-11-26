@@ -4,8 +4,8 @@ import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
-import { FC, useRef, useState } from 'react';
-import { IBaseTableProps } from './BaseTableInterface';
+import { FC, useEffect, useRef, useState } from 'react';
+import { IBaseTableProps, IColumnProps } from './BaseTableInterface';
 
 export const BaseTable: FC<IBaseTableProps> = (props) => {
   const {
@@ -54,21 +54,17 @@ export const BaseTable: FC<IBaseTableProps> = (props) => {
       saveAsExcelFile(excelBuffer, 'products');
     });
   };
-
-  const filterApplyTemplate = (options) => {
+  const filterApplyTemplate = (options: IColumnProps) => {
     return <Button type="button" icon="pi pi-check" onClick={options.filterApplyCallback} severity="success"></Button>;
   };
-
-  const filterClearTemplate = (options) => {
+  const filterClearTemplate = (options: IColumnProps) => {
     return (
       <Button type="button" icon="pi pi-times" onClick={options.filterClearCallback} severity="secondary"></Button>
     );
   };
-
   const filterFooterTemplate = () => {
     return <div className="px-3 pt-0 pb-3 text-center"></div>;
   };
-
   const saveAsExcelFile = (buffer: string, fileName: string): void => {
     import('file-saver').then((module) => {
       if (module && module.default) {
@@ -82,17 +78,6 @@ export const BaseTable: FC<IBaseTableProps> = (props) => {
       }
     });
   };
-
-  const onGlobalFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
-    const _filters = { ...filters };
-
-    (_filters['global'] as any).value = value;
-
-    setDefaultFilters(_filters);
-    setGlobalFilterValue(value);
-  };
-
   const setHeader = () => {
     return (
       <div className="haeder-wrapper flex justify-between items-center">
@@ -140,6 +125,23 @@ export const BaseTable: FC<IBaseTableProps> = (props) => {
       </div>
     );
   };
+  const onGlobalFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const _filters = { ...filters };
+
+    // @ts-ignore
+    _filters['global'].value = value;
+
+    setDefaultFilters(_filters);
+    setGlobalFilterValue(value);
+  };
+
+  useEffect(() => {
+    const globalFilterValue = localStorage.getItem(userStateKey) || '';
+
+    globalFilterValue && JSON.parse(globalFilterValue).filters.global.value &&
+      setGlobalFilterValue(JSON.parse(globalFilterValue).filters.global.value);
+  }, []);
 
   return (
     <div className="w-full h-full">
