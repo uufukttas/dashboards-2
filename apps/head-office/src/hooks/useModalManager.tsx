@@ -1,4 +1,4 @@
-import { clearModals, pushModal, removeModalByName } from 'apps/head-office/app/redux/modal/modalSlice';
+import { clearModals, pushModal, removeModalByName } from '../../app/redux/modal/modalSlice';
 import { ReactNode } from 'react';
 import { useDispatch } from 'react-redux';
 

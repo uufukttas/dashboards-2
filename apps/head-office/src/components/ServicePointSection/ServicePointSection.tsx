@@ -6,16 +6,12 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import { Tooltip } from 'primereact/tooltip';
 import React, { useEffect, useState } from 'react';
 import { FaCircleInfo, FaPen, FaTrashCan } from 'react-icons/fa6';
-import { useDispatch, useSelector } from 'react-redux';
-import { getServicePointDataRequest, getServicePointInformationRequest } from '../../../app/api/servicePoints';
+import { useSelector } from 'react-redux';
 import {
   useDeleteServicePointMutation,
   useGetServicePointsMutation,
 } from '../../../app/api/services/service-points/servicePoints.service';
-import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
-import { setServicePointData } from '../../../app/redux/features/servicePointData';
-import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
-import { AppDispatch, RootState } from '../../../app/redux/store';
+import { RootState } from '../../../app/redux/store';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
 import { EVENTS_EMMITER_CONSTANTS } from '../../constants/event.constants';
 import useModalManager from '../../hooks/useModalManager';
@@ -29,7 +25,6 @@ import type { IPayloadProps, IRowDataProps } from './types';
 
 const ServicePointSection: React.FC = () => {
   const pagePrefix: string = `${BRAND_PREFIX}-service-point`;
-  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
   const { openModal } = useModalManager();
@@ -47,7 +42,7 @@ const ServicePointSection: React.FC = () => {
         <a
           className="font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
           data-service-point-id={rowData['id']}
-          onClick={getUpdatedServicePointInfo}
+          onClick={() => {}}
         >
           <FaPen className="text-primary" />
         </a>
@@ -179,16 +174,6 @@ const ServicePointSection: React.FC = () => {
         }}
       />,
     );
-  };
-
-  const getUpdatedServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>): Promise<void> => {
-    const servicePointId: number = Number(event.currentTarget.getAttribute('data-service-point-id') || '0');
-    const servicePointData = await getServicePointDataRequest(servicePointId);
-    const servicePointInformation = await getServicePointInformationRequest(servicePointId);
-
-    dispatch(setServicePointData(servicePointData.data[0] || {}));
-    dispatch(setServicePointInformation(servicePointInformation.data[0] || {}));
-    dispatch(toggleModalVisibility(true));
   };
 
   const onColumnToggle = (event: MultiSelectChangeEvent): void => {
