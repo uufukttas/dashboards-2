@@ -24,8 +24,6 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
   const sectionPrefix = 'service-point';
   const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
 
-  const selectedCity = form.watch(`cityId`);
-
   const handleSelectLocation = (location: { lat: number; lng: number }) => {
     const { lat, lng } = location;
 

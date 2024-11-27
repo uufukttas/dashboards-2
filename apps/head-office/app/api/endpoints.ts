@@ -40,4 +40,9 @@ export const ENDPOINTS = {
   USERS: '/Users',
   VALUES: '/Values',
   GET_FEATURE_VALUES: '/GetFeatureValues',
+  TARIFF: '/Tariff',
+  ADD_TARIFF: '/AddTariff',
+  GET_TARIFFS: '/GetTariffs',
+  DELETE_TARIFF: '/DeleteTariff',
+  TARIFFS: '/Tariffs',
 };

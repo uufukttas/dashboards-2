@@ -32,12 +32,12 @@ const MapComponent: React.FC<MapProps> = ({ onSelectLocation, cityId, districtId
   const onLoad = useCallback(function callback(map: google.maps.Map) {
     // @ts-ignore
     mapRef.current = map;
-  }, []);
+  }, [cityId, districtId]);
 
   const onSearchBoxLoad = useCallback(function callback(searchBox: google.maps.places.SearchBox) {
     // @ts-ignore
     searchBoxRef.current = searchBox;
-  }, []);
+  }, [cityId, districtId]);
 
   const onPlacesChanged = () => {
     const places = searchBoxRef.current?.getPlaces();
@@ -63,6 +63,8 @@ const MapComponent: React.FC<MapProps> = ({ onSelectLocation, cityId, districtId
   };
 
   const getAddressName = () => {
+    console.log(cityId, districtId);
+
     return `${CITIES[cityId?.toString() as keyof typeof CITIES]},${
       DISTRICTS[districtId?.toString() as keyof typeof DISTRICTS]
     }`;
