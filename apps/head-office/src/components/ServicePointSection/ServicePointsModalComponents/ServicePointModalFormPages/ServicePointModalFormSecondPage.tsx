@@ -1,4 +1,5 @@
 import { Button } from '@projects/button';
+import { useAddStationInfoMutation } from 'apps/head-office/app/api/services/service-points/servicePoints.service';
 import React from 'react';
 import { BRAND_PREFIX } from '../../../../constants/constants';
 import BaseInput from '../../../Base/BaseInput';
@@ -12,8 +13,23 @@ const ServicePointModalFormSecondPage: React.FC<IModalSecondPageInputsProps> = (
   const { handleSubmit } = form;
 
   const sectionPrefix = 'service-point';
+  const [addStationInfo] = useAddStationInfoMutation();
 
-  const handleFormSubmit = () => setActivePage(activePage + 1);
+  const handleFormSubmit = () => {
+    if (form.watch(`id`) > 0) {
+      addStationInfo({
+        body: {
+          stationId: form.watch(`id`),
+          phone1: form.watch(`phone1`),
+          phone2: form.watch(`phone2`),
+          address: form.watch(`address`),
+          addressDetail: form.watch(`address-detail`),
+        },
+      }).unwrap();
+    }
+
+    setActivePage(activePage + 1);
+  };
 
   return (
     <form

@@ -93,7 +93,7 @@ const servicePointService = baseApi.injectEndpoints({
         method: ApiServiceMethods.GET,
       }),
     }),
-    addStationFeature: build.mutation<void, Post<string>>({
+    addStationFeature: build.mutation<void, Post<Record<string, any>>>({
       query: ({ body }) => ({
         url: `${ENDPOINTS.STATION_FEATURE}${ENDPOINTS.ADD_STATION_FEATURE}`,
         method: ApiServiceMethods.POST,

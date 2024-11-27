@@ -41,7 +41,14 @@ export interface IAddStationRequestBody {
 
 export interface IAddStationInfoRequestBody {
   stationId: number;
-  stationInfo: Record<string, unknown>;
+  address?: string;
+  addressDetail?: string;
+  cityId?: string;
+  districtId?: string;
+  lat?: string;
+  lon?: string;
+  phone1?: string;
+  phone2?: string;
 }
 
 export interface IUpdateStationRequestBody {

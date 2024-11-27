@@ -1,17 +1,17 @@
 import { Button } from '@projects/button';
-import React, { useEffect, useState } from 'react';
+import useModalManager from 'apps/head-office/src/hooks/useModalManager';
+import React, { useEffect } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import {
   useAddStationFeatureMutation,
   useAddStationInfoMutation,
   useGetFeatureValuesMutation,
   useGetStationFeaturesMutation,
-  useUpdateStationInfoMutation,
 } from '../../../../../app/api/services/service-points/servicePoints.service';
 import { BRAND_PREFIX } from '../../../../constants/constants';
 import BaseInput from '../../../Base/BaseInput';
 import BaseMultiSelect from '../../../Base/BaseMultiSelect';
-import { IFeatureProps, IFormDataProps, IModalFourthPageInputsProps } from '../../types';
+import { IFormDataProps, IModalFourthPageInputsProps } from '../../types';
 
 const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = ({
   form,
@@ -21,24 +21,16 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   const { handleSubmit } = form;
 
   const stationId: number = form.watch(`id`);
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+
+  const { closeModal } = useModalManager();
 
   const [addStationFeature] = useAddStationFeatureMutation();
   const [addStationInfo] = useAddStationInfoMutation();
-  const [updateStationInfo] = useUpdateStationInfoMutation();
   const [getStationFeatures] = useGetStationFeaturesMutation();
   const [getPaymentMethods, { data: paymentMethods }] = useGetFeatureValuesMutation();
   const [getOpportunities, { data: opportunities }] = useGetFeatureValuesMutation();
 
   const createConfigData = () => ({
-    address: form.watch(`address`),
-    addressDetail: form.watch(`address-detail`),
-    phone1: form.watch(`phone1`),
-    phone2: form.watch(`phone2`),
-    lat: form.watch(`lat`),
-    lon: form.watch(`lon`),
-    cityId: form.watch(`cityId`),
-    districtId: form.watch(`districtId`),
     ...(form.watch(`id`) > 0 ? { id: form.watch(`id`) } : { stationId: stationId }),
   });
 
@@ -56,108 +48,68 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     ];
   };
 
-  const createPaymentMethodsConfigData = (): Promise<IFeatureProps[] | []> => {
-    return new Promise((resolve) => {
-      if (paymentMethods?.length === 0) {
-        resolve([]);
-      } else {
-        const filteredPaymentMethods = paymentMethods
-          ?.filter((paymentMethod) => paymentMethod.isChecked)
-          .map((paymentMethod) => ({
-            ...paymentMethod,
-            stationId: stationId,
-            id: null,
-            name: '',
-            rid: null,
-            stationFeatureType: 1,
-            stationFeatureValue: Number(paymentMethod.stationFeatureValue),
-            isDeleted: false,
-          }));
-        resolve(filteredPaymentMethods);
-      }
-    });
+  const createPaymentMethodsConfigData = () => {
+    const data = paymentMethods
+      ?.filter((paymentMethod: any) => form.watch(`payment-methods`).includes(paymentMethod.rid))
+      .map((paymentMethod: any) => ({
+        ...paymentMethod,
+        stationId: stationId,
+        stationFeatureType: 1,
+        stationFeatureValue: Number(paymentMethod.stationFeatureValue),
+        isDeleted: false,
+      }));
+
+    return data;
   };
 
-  const createOpportunitiesConfigData = (): Promise<IFeatureProps[] | []> => {
-    return new Promise((resolve, reject) => {
-      if (opportunities?.length === 0) {
-        resolve([]);
-      } else {
-        const filteredOpportunities = opportunities
-          ?.filter((opportunity) => opportunity.isChecked)
-          .map((opportunity) => ({
-            ...opportunity,
-            stationId: stationId,
-            stationFeatureType: 2,
-            stationFeatureValue: Number(opportunity.stationFeatureValue),
-            isDeleted: false,
-          }));
-        resolve(filteredOpportunities);
-      }
-    });
+  const createOpportunitiesConfigData = () => {
+    const data = opportunities
+      ?.filter((opportunity: any) => form.watch(`opportunities`).includes(opportunity.rid))
+      .map((opportunity: any) => ({
+        ...opportunity,
+        stationId: stationId,
+        stationFeatureType: 2,
+        stationFeatureValue: Number(opportunity.stationFeatureValue),
+        isDeleted: false,
+      }));
+
+    return data;
   };
 
   const createServicePointDetails = async () => {
     const actionData = createConfigData();
 
-    if (form.watch(`id`) > 0) {
-      updateStationInfo({
-        body: {
-          id: form.watch(`id`),
-          stationInfo: actionData,
-        },
-      });
-
-      return;
-    } else {
-      addStationInfo({
-        body: {
-          stationId: stationId,
-          stationInfo: actionData,
-        },
-      });
-    }
-  };
-
-  const getStationParkingFeatures = async () => {
-    const response = await getStationFeatures({ body: stationId }).unwrap();
-    const parkingCount =
-      response?.filter((feature: IFeatureProps) => feature.stationFeatureType === 8)[0]?.stationFeatureValue || 0;
-
-    form.setValue(`free-park-count`, parkingCount);
-  };
-
-  const setStationFeatures = (featuresData: IFeatureProps[]) => {
-    addStationFeature({
-      body: JSON.stringify(featuresData),
+    addStationInfo({
+      body: {
+        stationId: stationId,
+        ...actionData,
+      },
     });
   };
 
   const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
-    setIsDisabled(true);
-
     createServicePointDetails();
+    const paymentMethodsData = createPaymentMethodsConfigData();
+    const opportunitiesData = createOpportunitiesConfigData();
+    const parkingData = createParkingConfigData();
 
-    Promise.all([createPaymentMethodsConfigData(), createOpportunitiesConfigData(), createParkingConfigData()])
-      .then(([filteredPaymentMethods, filteredOpportunities, freeParkCount]) => {
-        if (filteredPaymentMethods && filteredOpportunities) {
-          setStationFeatures([...filteredPaymentMethods, ...filteredOpportunities, ...freeParkCount]);
-        } else {
-          console.error('One of the arrays is empty or undefined');
-        }
-      })
-      .catch((error) => console.error('Error in Promise.all:', error));
+    const requestData = {
+      ...paymentMethodsData,
+      ...opportunitiesData,
+      ...parkingData,
+    };
+
+    addStationFeature({ body: requestData })
+      .unwrap()
+      .then(() => {
+        closeModal('add-service-point');
+      });
   };
-
-  useEffect(() => {
-    if (form.watch(`id`) > 0) {
-      getStationParkingFeatures();
-    }
-  }, [form.watch(`id`)]);
 
   useEffect(() => {
     getPaymentMethods({ body: 1 }).unwrap();
     getOpportunities({ body: 2 }).unwrap();
+    getStationFeatures({ body: stationId }).unwrap();
   }, []);
 
   return paymentMethods?.length === 0 ? null : (
@@ -201,7 +153,6 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
         <Button
           buttonText={form.watch(`id`) > 0 ? 'Güncelle' : 'Kaydet'}
           className={`submit-button bg-primary text-white text-sm rounded-lg block p-2.5`}
-          // disabled={isDisabled}
           id={`submit-button`}
           type={`submit`}
         />

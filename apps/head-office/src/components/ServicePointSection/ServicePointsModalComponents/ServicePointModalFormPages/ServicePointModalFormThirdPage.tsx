@@ -1,6 +1,6 @@
 import { Button } from '@projects/button';
 import { Label } from '@projects/label';
-import { useGetFeatureValuesMutation } from 'apps/head-office/app/api/services/service-points/servicePoints.service';
+import { useAddStationInfoMutation } from 'apps/head-office/app/api/services/service-points/servicePoints.service';
 import { useGetCitiesQuery, useGetDistrictsMutation } from 'apps/head-office/app/api/services/static/static.service';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
@@ -19,11 +19,9 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
   const { data: cities } = useGetCitiesQuery({});
   const [getDistricts, { data: districts }] = useGetDistrictsMutation();
 
-  const [getFeatureValues] = useGetFeatureValuesMutation();
-
   const sectionPrefix = 'service-point';
   const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
-
+  const [addStationInfo] = useAddStationInfoMutation();
   const handleSelectLocation = (location: { lat: number; lng: number }) => {
     const { lat, lng } = location;
 
@@ -38,7 +36,13 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
   const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
     if (form.watch(`lat`) === 0 && form.watch(`lon`) === 0) {
       setIsErrorVisible(true);
-
+      addStationInfo({
+        body: {
+          stationId: form.watch(`id`),
+          lat: form.watch(`lat`),
+          lon: form.watch(`lon`),
+        },
+      }).unwrap();
       return;
     }
 
