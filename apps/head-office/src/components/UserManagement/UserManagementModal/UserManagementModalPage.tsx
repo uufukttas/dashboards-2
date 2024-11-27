@@ -2,13 +2,11 @@ import { CheckboxInDropdown } from '@projects/checkbox-in-dropdown';
 import { isNil } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import {
   useGetUserMutation,
   useRegisterUserMutation,
   useUpdateUserMutation,
 } from '../../../../app/api/services/user/user.service';
-import { toggleUserListUpdate } from '../../../../app/redux/features/isUserListUpdated';
 import BaseInput from '../../Base/BaseInput';
 import ModalLayout from '../../Modal/Layouts/ModalLayout';
 import { IModalLayoutButtonProps } from '../../Modal/Layouts/ModalLayout.interface';
@@ -25,7 +23,6 @@ const UserManagementModalPage: React.FC<IUserManagementModalPageProps> = ({ onSu
   const [registerUser] = useRegisterUserMutation();
   const [updateUser] = useUpdateUserMutation();
 
-  const dispatch = useDispatch();
   const form = useForm();
   const [roles, setRoles] = useState<IUserRoleProps[]>([
     {
@@ -88,7 +85,6 @@ const UserManagementModalPage: React.FC<IUserManagementModalPageProps> = ({ onSu
       onSuccess && onSuccess();
     }
 
-    dispatch(toggleUserListUpdate(true));
   };
 
   const prepareUserSelectedRoles = (roles: IUserRoleProps[]): void => {

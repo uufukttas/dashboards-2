@@ -78,7 +78,7 @@ const UserManagementSection: React.FC = () => {
   }, [searchProperties.searchedText, getUsers]);
 
   const handleOpenUserManagementModal = () => {
-    openModal('userManagement', <UserManagementModalPage />);
+    openModal('userManagement', <UserManagementModalPage onSuccess={() => _getUsers()} />);
   };
 
   const handleEditUser = (userId: number) => {
