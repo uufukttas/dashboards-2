@@ -45,4 +45,9 @@ export const ENDPOINTS = {
   GET_TARIFFS: '/GetTariffs',
   DELETE_TARIFF: '/DeleteTariff',
   TARIFFS: '/Tariffs',
+  NOTIFICATION: '/Notification',
+  GET_NOTIFICATION_LIST: '/GetNotificationList',
+  GET_NOTIFICATION_TYPES: '/GetNotificationTypeList',
+  GET_NOTIFICATION_PUSH_CATEGORIES: '/GetNotificationPushCategories',
+  ADD_NOTIFICATION: '/AddNotification',
 };
