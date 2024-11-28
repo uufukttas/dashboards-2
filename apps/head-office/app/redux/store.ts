@@ -28,8 +28,6 @@ import languages from './features/languages';
 import setLoginToken from './features/loginToken';
 import permissionsData from './features/permissionsData';
 import searchedText from './features/searchProperties';
-import servicePointData from './features/servicePointData';
-import servicePointInformation from './features/servicePointInformation';
 import servicePointPermissions from './features/servicePointPermissions';
 import servicePoints from './features/servicePoints';
 import setCityInformation from './features/setCityInformation';
@@ -69,8 +67,6 @@ const reducers = combineReducers({
   permissionsData,
   searchedText,
   servicePoints,
-  servicePointData,
-  servicePointInformation,
   servicePointPermissions,
   setCityInformation,
   setConnectorProperty,

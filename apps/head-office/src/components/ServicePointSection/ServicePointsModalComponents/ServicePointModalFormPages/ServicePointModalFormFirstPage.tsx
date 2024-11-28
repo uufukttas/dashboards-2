@@ -1,18 +1,17 @@
 import { Button } from '@projects/button';
+import React, { useState } from 'react';
 import {
   useAddStationMutation,
   useGetCompaniesQuery,
   useGetResellersQuery,
   useUpdateStationMutation,
-} from 'apps/head-office/app/api/services/service-points/servicePoints.service';
-import { EVENTS_EMMITER_CONSTANTS } from 'apps/head-office/src/constants/event.constants';
-import EventManager from 'apps/head-office/src/managers/Event.manager';
-import React, { useState } from 'react';
-import { SubmitHandler } from 'react-hook-form';
+} from '../../../../../app/api/services/service-points/servicePoints.service';
+import { EVENTS_EMMITER_CONSTANTS } from '../../../../../src/constants/event.constants';
+import EventManager from '../../../../../src/managers/Event.manager';
 import { BRAND_PREFIX } from '../../../../constants/constants';
 import BaseInput from '../../../Base/BaseInput';
 import BaseSelect from '../../../Base/BaseSelect';
-import { IFormDataProps, IModalFirstPageInputsProps } from '../../types';
+import { IModalFirstPageInputsProps } from '../../types';
 
 const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
   form,
@@ -35,7 +34,7 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
     form.setValue(name, Number(event.target.value));
   };
 
-  const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
+  const handleFormSubmit = () => {
     setIsDisabled(true);
 
     if (form.watch(`id`) > 0) {
@@ -53,31 +52,32 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
         body: {
           id: form.watch(`id`),
           address: form.watch(`address`),
-          cityId: form.watch(`city`),
-          districtId: form.watch(`district`),
-          resellerCompanyId: form.watch(`ressler`),
+          cityId: form.watch(`cityId`),
+          districtId: form.watch(`districtId`),
+          resellerCompanyId: form.watch(`resslerCompanyId`),
           companyId: form.watch(`company`),
           isActive: true,
           name: form.watch('name'),
         },
-      });
-    } else {
-      addStation({
-        body: {
-          name: form.watch(`name`),
-          resellerCompanyId: form.watch(`ressler`),
-          companyId: form.watch(`company`),
-          isActive: true,
-          ...(form.watch(`address`) && { address: form.watch(`address`) }),
-          ...(form.watch(`city`) && { cityId: form.watch(`city`) }),
-          ...(form.watch(`district`) && { districtId: form.watch(`district`) }),
-        },
-      })
-        .unwrap()
-        .then((response) => {
-          form.setValue(`id`, (response?.[0] as any)?.id || 0);
-        });
+      }).unwrap();
+      return;
     }
+
+    addStation({
+      body: {
+        name: form.watch(`name`),
+        resellerCompanyId: form.watch(`resslerCompanyId`),
+        companyId: form.watch(`company`),
+        isActive: true,
+        address: form.watch(`address`),
+        cityId: form.watch(`cityId`),
+        districtId: form.watch(`districtId`),
+      },
+    })
+      .unwrap()
+      .then((response) => {
+        form.setValue(`id`, (response?.[0] as unknown as { id: number })?.id || 0);
+      });
 
     EventManager.emit(EVENTS_EMMITER_CONSTANTS.FIRE_REFECTCH_STATIONS, {});
     setActivePage(activePage + 1);
@@ -117,9 +117,9 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
       <BaseSelect
         form={form}
         items={resellers || []}
-        name={`ressler`}
+        name={`resslerCompanyId`}
         label="Bayi"
-        onChange={(event: React.ChangeEvent<HTMLSelectElement>) => handleDropdownChange(`ressler`, event)}
+        onChange={(event: React.ChangeEvent<HTMLSelectElement>) => handleDropdownChange(`resslerCompanyId`, event)}
         optionClassName="hover:bg-primary-lighter hover:text-black"
         disabled={hasStationId}
       />

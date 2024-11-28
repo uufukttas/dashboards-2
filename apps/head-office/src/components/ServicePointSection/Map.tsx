@@ -29,15 +29,21 @@ const MapComponent: React.FC<MapProps> = ({ onSelectLocation, cityId, districtId
   const mapRef = useRef<google.maps.Map>(null);
   const searchBoxRef = useRef<google.maps.places.SearchBox>(null);
 
-  const onLoad = useCallback(function callback(map: google.maps.Map) {
-    // @ts-ignore
-    mapRef.current = map;
-  }, [cityId, districtId]);
+  const onLoad = useCallback(
+    function callback(map: google.maps.Map) {
+      // @ts-ignore
+      mapRef.current = map;
+    },
+    [cityId, districtId],
+  );
 
-  const onSearchBoxLoad = useCallback(function callback(searchBox: google.maps.places.SearchBox) {
-    // @ts-ignore
-    searchBoxRef.current = searchBox;
-  }, [cityId, districtId]);
+  const onSearchBoxLoad = useCallback(
+    function callback(searchBox: google.maps.places.SearchBox) {
+      // @ts-ignore
+      searchBoxRef.current = searchBox;
+    },
+    [cityId, districtId],
+  );
 
   const onPlacesChanged = () => {
     const places = searchBoxRef.current?.getPlaces();
@@ -63,8 +69,6 @@ const MapComponent: React.FC<MapProps> = ({ onSelectLocation, cityId, districtId
   };
 
   const getAddressName = () => {
-    console.log(cityId, districtId);
-
     return `${CITIES[cityId?.toString() as keyof typeof CITIES]},${
       DISTRICTS[districtId?.toString() as keyof typeof DISTRICTS]
     }`;
@@ -122,26 +126,27 @@ const MapComponent: React.FC<MapProps> = ({ onSelectLocation, cityId, districtId
             onKeyPress={handleKeyPress}
           />
         </StandaloneSearchBox>
-        <GoogleMap
-          mapContainerStyle={{ width: '584px', height: '300px' }}
-          center={mapCenter}
-          zoom={18}
-          onClick={handleMapClick}
-          onLoad={onLoad}
-        >
-          {markerPosition && (
-            <Marker
-              position={markerPosition}
-              draggable={true}
-              onDragEnd={(event: google.maps.MapMouseEvent) => {
-                const lat = event?.latLng?.lat() || 41.0848993;
-                const lng = event?.latLng?.lng() || 28.9765895;
-
-                onSelectLocation({ lat, lng });
-              }}
-            />
-          )}
-        </GoogleMap>
+        {markerPosition && (
+          <GoogleMap
+            mapContainerStyle={{ width: '584px', height: '300px' }}
+            center={mapCenter}
+            zoom={18}
+            onClick={handleMapClick}
+            onLoad={onLoad}
+          >
+            {markerPosition && (
+              <Marker
+                position={markerPosition}
+                draggable={true}
+                onDragEnd={(event: google.maps.MapMouseEvent) => {
+                  const lat = event?.latLng?.lat() || 41.0848993;
+                  const lng = event?.latLng?.lng() || 28.9765895;
+                  onSelectLocation({ lat, lng });
+                }}
+              />
+            )}
+          </GoogleMap>
+        )}
       </LoadScript>
     </div>
   );

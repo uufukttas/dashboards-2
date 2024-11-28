@@ -36,13 +36,21 @@ const ServicePointSection: React.FC = () => {
   const [visibleColumns, setVisibleColumns] = useState(servicePointTableHeadData);
   const [filters, setFilters] = useState(servicePointTableDefaultFilters);
 
+  const handleAddServicePoint = (): void => {
+    openModal('add-service-point', <ServicePointModalForm />);
+  };
+
+  const handleUpdateServicePoint = (id: number): void => {
+    openModal('add-service-point', <ServicePointModalForm id={id} />);
+  };
+
   const actionsButtonsContainer = (rowData: IRowDataProps): JSX.Element => {
     return (
       <div className={`${pagePrefix}-data-table-actions-button-container flex justify-end items-start`}>
         <a
           className="font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
           data-service-point-id={rowData['id']}
-          onClick={() => {}}
+          onClick={() => handleUpdateServicePoint(rowData['id'])}
         >
           <FaPen className="text-primary" />
         </a>
@@ -109,10 +117,6 @@ const ServicePointSection: React.FC = () => {
     payload.userCount = 100;
 
     return payload;
-  };
-
-  const handleAddServicePoint = (): void => {
-    openModal('add-service-point', <ServicePointModalForm />);
   };
 
   const dataTableHeader = (): JSX.Element => {

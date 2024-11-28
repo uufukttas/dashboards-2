@@ -1,3 +1,5 @@
+import { StationFeatureType } from 'apps/head-office/src/enums/stationFeature.enums';
+
 export interface IGetAllServicePointsRequestBody {
   address?: string;
   city?: string;
@@ -9,20 +11,24 @@ export interface IGetAllServicePointsRequestBody {
 }
 
 export interface ServicePoint {
-  isDeleted: boolean;
-  address: string;
-  cityId: number;
-  companyId: number;
-  companyName: string;
-  districtId: number;
-  id: number;
-  isActive: boolean;
-  latitude: number;
-  longitude: number;
-  name: string;
-  phone: string;
-  resellerCompanyId: number;
-  resellerName: string;
+  isDeleted?: boolean;
+  address?: string;
+  cityId?: number;
+  companyId?: number;
+  companyName?: string;
+  districtId?: number;
+  id?: number;
+  isActive?: boolean;
+  latitude?: number;
+  longitude?: number;
+  name?: string;
+  phone1?: string;
+  phone2?: string;
+  resslerId?: number;
+  resellerName?: string;
+  lat?: number;
+  lng?: number;
+  addressDetail?: string;
 }
 
 export interface IDeleteServicePointRequestBody {
@@ -43,8 +49,8 @@ export interface IAddStationInfoRequestBody {
   stationId: number;
   address?: string;
   addressDetail?: string;
-  cityId?: string;
-  districtId?: string;
+  cityId?: number;
+  districtId?: number;
   lat?: string;
   lon?: string;
   phone1?: string;
@@ -105,4 +111,12 @@ export interface CompanyResponse {
   id: number;
   name: string;
   rid: null;
+}
+
+export interface StationFeature {
+  isDeleted: boolean;
+  rid: number;
+  stationFeatureType: StationFeatureType;
+  stationFeatureValue: number;
+  stationId: number;
 }

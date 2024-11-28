@@ -1,6 +1,5 @@
 import { Button } from '@projects/button';
-import useModalManager from 'apps/head-office/src/hooks/useModalManager';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import {
   useAddStationFeatureMutation,
@@ -8,7 +7,10 @@ import {
   useGetFeatureValuesMutation,
   useGetStationFeaturesMutation,
 } from '../../../../../app/api/services/service-points/servicePoints.service';
+import useModalManager from '../../../../../src/hooks/useModalManager';
 import { BRAND_PREFIX } from '../../../../constants/constants';
+import { EVENTS_EMMITER_CONSTANTS } from '../../../../constants/event.constants';
+import EventManager from '../../../../managers/Event.manager';
 import BaseInput from '../../../Base/BaseInput';
 import BaseMultiSelect from '../../../Base/BaseMultiSelect';
 import { IFormDataProps, IModalFourthPageInputsProps } from '../../types';
@@ -30,10 +32,6 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   const [getPaymentMethods, { data: paymentMethods }] = useGetFeatureValuesMutation();
   const [getOpportunities, { data: opportunities }] = useGetFeatureValuesMutation();
 
-  const createConfigData = () => ({
-    ...(form.watch(`id`) > 0 ? { id: form.watch(`id`) } : { stationId: stationId }),
-  });
-
   const createParkingConfigData = () => {
     return [
       {
@@ -49,42 +47,52 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
   };
 
   const createPaymentMethodsConfigData = () => {
-    const data = paymentMethods
-      ?.filter((paymentMethod: any) => form.watch(`payment-methods`).includes(paymentMethod.rid))
-      .map((paymentMethod: any) => ({
+    return paymentMethods
+      ?.filter((paymentMethod) => form.watch(`payment-methods`)?.includes(paymentMethod.rid))
+      .map((paymentMethod: Record<string, unknown>) => ({
         ...paymentMethod,
+        id: paymentMethod?.id || null,
         stationId: stationId,
         stationFeatureType: 1,
         stationFeatureValue: Number(paymentMethod.stationFeatureValue),
         isDeleted: false,
+        isChecked: true,
       }));
-
-    return data;
   };
 
   const createOpportunitiesConfigData = () => {
-    const data = opportunities
-      ?.filter((opportunity: any) => form.watch(`opportunities`).includes(opportunity.rid))
-      .map((opportunity: any) => ({
+    return opportunities
+      ?.filter((opportunity) => form.watch(`opportunities`)?.includes(opportunity.rid))
+      .map((opportunity: Record<string, unknown>) => ({
         ...opportunity,
+        id: opportunity.id || null,
         stationId: stationId,
         stationFeatureType: 2,
         stationFeatureValue: Number(opportunity.stationFeatureValue),
         isDeleted: false,
+        isChecked: true,
       }));
-
-    return data;
   };
 
-  const createServicePointDetails = async () => {
-    const actionData = createConfigData();
-
+  const createServicePointDetails = () => {
     addStationInfo({
       body: {
         stationId: stationId,
-        ...actionData,
+        phone1: form.watch(`phone1`),
+        phone2: form.watch(`phone2`),
+        address: form.watch(`address`),
+        addressDetail: form.watch(`address-detail`),
+        cityId: Number(form.watch(`cityId`)),
+        districtId: Number(form.watch(`districtId`)),
+        lat: form.watch(`lat`),
+        lon: form.watch(`lon`),
       },
-    });
+    })
+      .unwrap()
+      .then(() => {
+        closeModal('add-service-point');
+        EventManager.emit(EVENTS_EMMITER_CONSTANTS.FIRE_REFECTCH_STATIONS, {});
+      });
   };
 
   const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
@@ -93,11 +101,8 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     const opportunitiesData = createOpportunitiesConfigData();
     const parkingData = createParkingConfigData();
 
-    const requestData = {
-      ...paymentMethodsData,
-      ...opportunitiesData,
-      ...parkingData,
-    };
+    // @ts-ignore
+    const requestData = Array.from(new Set([...paymentMethodsData, ...opportunitiesData, ...parkingData]));
 
     addStationFeature({ body: requestData })
       .unwrap()
@@ -110,7 +115,7 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
     getPaymentMethods({ body: 1 }).unwrap();
     getOpportunities({ body: 2 }).unwrap();
     getStationFeatures({ body: stationId }).unwrap();
-  }, []);
+  }, [getOpportunities, getPaymentMethods, getStationFeatures, stationId]);
 
   return paymentMethods?.length === 0 ? null : (
     <form

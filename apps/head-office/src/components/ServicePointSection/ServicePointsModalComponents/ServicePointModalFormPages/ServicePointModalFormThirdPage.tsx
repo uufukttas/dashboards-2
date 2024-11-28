@@ -1,9 +1,8 @@
 import { Button } from '@projects/button';
 import { Label } from '@projects/label';
-import { useAddStationInfoMutation } from 'apps/head-office/app/api/services/service-points/servicePoints.service';
-import { useGetCitiesQuery, useGetDistrictsMutation } from 'apps/head-office/app/api/services/static/static.service';
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
+import { useGetCitiesQuery, useGetDistrictsMutation } from '../../../../../app/api/services/static/static.service';
 import { BRAND_PREFIX } from '../../../../constants/constants';
 import BaseSelect from '../../../Base/BaseSelect';
 import MapComponent from '../../Map';
@@ -21,7 +20,7 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
 
   const sectionPrefix = 'service-point';
   const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
-  const [addStationInfo] = useAddStationInfoMutation();
+
   const handleSelectLocation = (location: { lat: number; lng: number }) => {
     const { lat, lng } = location;
 
@@ -29,20 +28,11 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
     form.setValue(`lon`, lng);
   };
 
-  const handleCityChange = (id: number) => {
-    getDistricts({ body: { plateNumber: id } });
-  };
+  const handleCityChange = (id: string) => id && getDistricts({ body: { plateNumber: Number(id) } }).unwrap();
 
   const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
     if (form.watch(`lat`) === 0 && form.watch(`lon`) === 0) {
       setIsErrorVisible(true);
-      addStationInfo({
-        body: {
-          stationId: form.watch(`id`),
-          lat: form.watch(`lat`),
-          lon: form.watch(`lon`),
-        },
-      }).unwrap();
       return;
     }
 
@@ -53,17 +43,31 @@ const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
     handleCityChange(form.watch(`cityId`));
   }, [form.watch(`cityId`)]);
 
-  useEffect(() => {
-    handleCityChange(1);
-  }, []);
-
   return (
     <form
       className={`${BRAND_PREFIX}-modal-page-3 ${activePage === 3 ? 'block' : 'hidden'}`}
       onSubmit={handleSubmit(handleFormSubmit)}
     >
-      <BaseSelect form={form} label="İl" name={`cityId`} items={cities || []} />
-      <BaseSelect form={form} label="İlçe" name={`districtId`} items={districts || []} />
+      <BaseSelect
+        form={form}
+        label="İl"
+        name={`cityId`}
+        items={cities || []}
+        defaultValue={form.watch(`cityId`)}
+        onChange={(e) => {
+          handleCityChange(e.target.value);
+        }}
+      />
+      <BaseSelect
+        form={form}
+        label="İlçe"
+        name={`districtId`}
+        items={districts || []}
+        defaultValue={form.watch(`districtId`)}
+        onChange={(e) => {
+          form.setValue(`districtId`, e.target.value);
+        }}
+      />
       <div className={`${sectionPrefix}-coordinates-container flex justify-center items-center`}>
         <div className={`w-1/2 flex flex-col justify-center `}>
           <Label

@@ -11,7 +11,8 @@ import {
   IGetServicePointData,
   IUpdateStationInfoRequestBody,
   IUpdateStationRequestBody,
-  ServicePoint
+  ServicePoint,
+  StationFeature,
 } from './servicePoints.interface';
 
 const servicePointService = baseApi.injectEndpoints({
@@ -67,7 +68,7 @@ const servicePointService = baseApi.injectEndpoints({
         body: JSON.stringify(body),
       }),
     }),
-    getServicePointData: build.mutation<IGetServicePointData, Post<number>>({
+    getServicePointData: build.mutation<Array<IGetServicePointData>, Post<number>>({
       query: ({ body }) => ({
         url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.GET_STATION_BY_ID}`,
         method: ApiServiceMethods.POST,
@@ -100,7 +101,7 @@ const servicePointService = baseApi.injectEndpoints({
         body,
       }),
     }),
-    getStationFeatures: build.mutation<void, Post<number>>({
+    getStationFeatures: build.mutation<Array<StationFeature>, Post<number>>({
       query: ({ body }) => ({
         url: `${ENDPOINTS.STATION_FEATURE}${ENDPOINTS.GET_STATION_FEATURE}`,
         method: ApiServiceMethods.POST,
@@ -119,6 +120,13 @@ const servicePointService = baseApi.injectEndpoints({
         url: `${ENDPOINTS.STATION_FEATURE}${ENDPOINTS.GET_FEATURE_VALUES}`,
         method: ApiServiceMethods.POST,
         body: { stationFeatureType: body },
+      }),
+    }),
+    getByStationId: build.mutation<Array<ServicePoint>, Post<{ stationId: number }>>({
+      query: ({ body }) => ({
+        url: `${ENDPOINTS.STATION_INFO}${ENDPOINTS.GET_BY_STATION_ID}`,
+        method: ApiServiceMethods.POST,
+        body,
       }),
     }),
   }),
@@ -140,4 +148,5 @@ export const {
   useGetStationFeaturesMutation,
   useGetStationImagesQuery,
   useGetFeatureValuesMutation,
+  useGetByStationIdMutation,
 } = servicePointService;

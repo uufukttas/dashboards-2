@@ -79,7 +79,7 @@ class ApiRequestManager {
 
   public request =
     (): BaseQueryFn<BaseQueryFunctionParams> =>
-    async ({ body, headers, method, params, url }, { dispatch, endpoint }, extraOptions) => {
+    async ({ body = {}, headers, method, params, url }, { dispatch, endpoint }, extraOptions) => {
       this.setAccessToken();
 
       try {
