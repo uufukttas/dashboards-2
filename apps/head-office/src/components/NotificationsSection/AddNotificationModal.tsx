@@ -4,6 +4,7 @@ import {
   useGetNotificationTypesQuery,
 } from 'apps/head-office/app/api/services/notifications/notification.service';
 import { useForm } from 'react-hook-form';
+import useModalManager from '../../hooks/useModalManager';
 import BaseInput from '../Base/BaseInput';
 import BaseSelect from '../Base/BaseSelect';
 import ModalLayout from '../Modal/Layouts/ModalLayout';
@@ -14,20 +15,21 @@ const AddNotificationModal = () => {
 
   const { data: notificationTypes } = useGetNotificationTypesQuery();
   const { data: notificationPushCategories } = useGetNotificationPushCategoriesQuery();
-  const [addNotification, { isLoading }] = useAddNotificationMutation();
+  const [addNotification] = useAddNotificationMutation();
+  const { closeModal } = useModalManager();
 
   const onSubmit = (data: any) => {
     addNotification({
       body: {
-        notificationTypeRID: data.notification_type_id,
-        notificationPushCategoryRID: data.notification_push_category_id,
         userRID: 1,
-        title: data.title,
-        message: data.content,
         imageUrl: 'https://unsplash.com/photos/grayscale-photography-of-person-standing-on-water-A5EUGGHqs4A',
-        startedDate: new Date().toISOString(),
+        ...data,
       },
-    });
+    })
+      .unwrap()
+      .then(() => {
+        closeModal('addNotification');
+      });
   };
 
   const buttons: IModalLayoutButtonProps[] = [
@@ -78,6 +80,7 @@ const AddNotificationModal = () => {
           id="started_date"
           type="date"
           containerClassName="mt-6"
+          rules={{ required: 'Başlangıç tarihi girilmedi' }}
         />
         <BaseInput form={form} label="Resim URL" name="imageUrl" id="image_url" type="file" inputClassName="p-4" />
       </div>
