@@ -1,0 +1,19 @@
+.base-multiselect {
+  .p-multiselect-trigger {
+    background-color: transparent;
+    align-self: flex-end;
+  }
+  .p-multiselect-label-container {
+    display: block;
+  }
+  .p-multiselect-token {
+  }
+  .p-multiselect-item{
+    border-radius: 0;
+  }
+  .p-multiselect-token {
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+  }
+}

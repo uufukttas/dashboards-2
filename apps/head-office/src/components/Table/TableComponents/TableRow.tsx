@@ -11,8 +11,7 @@ import TableActions from './TableActions';
 const TableRow: React.FC<ITableRowProps> = ({ attributeName, tableRowData, roleStyles }: ITableRowProps) => {
   const dataAttributes: ITableDataAttributeProps = { [`data-${attributeName}-id`]: tableRowData.id || 0 };
   const dispatch = useDispatch();
-  // @ts-ignore
-  const { data: cities } = useGetCitiesQuery();
+  const { data: cities } = useGetCitiesQuery({});
 
   const convertDateFormat = (date: string): string => {
     const formattedDate = [

@@ -1,1 +1,1 @@
-export const successResultServices = ['addStation'];
+export const successResultServices = ['addStation', 'createTariff', 'deleteTariff'];

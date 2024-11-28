@@ -78,7 +78,7 @@ const UserManagementSection: React.FC = () => {
   }, [searchProperties.searchedText, getUsers]);
 
   const handleOpenUserManagementModal = () => {
-    openModal('userManagement', <UserManagementModalPage />);
+    openModal('userManagement', <UserManagementModalPage onSuccess={() => _getUsers()} />);
   };
 
   const handleEditUser = (userId: number) => {
@@ -95,8 +95,9 @@ const UserManagementSection: React.FC = () => {
 
   const handleDeleteUser = (userId: number) => {
     openModal(
-      'confirmation',
+      'confirmation-modal',
       <ConfirmationModal
+        name="confirmation-modal"
         onConfirm={() => {
           deleteUser({
             body: {
@@ -114,8 +115,6 @@ const UserManagementSection: React.FC = () => {
   };
 
   const actionsButtonsContainer = (rowData: IUserManagementSectionProps): JSX.Element => {
-    console.log('rowData', rowData);
-
     return (
       <div className={`${BRAND_PREFIX}-data-table-actions-button-container flex justify-start items-center`}>
         <a
@@ -194,7 +193,7 @@ const UserManagementSection: React.FC = () => {
         roleNames: JSON.parse(data.roleNames)
           .map((role: string) => role)
           .join(', '),
-          // @ts-ignore
+        // @ts-ignore
         lastLoginDate: data.lastLoginDate ? data.lastLoginDate : 'Henüz Giriş Yapmamış',
       };
     });

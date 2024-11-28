@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@projects/button';
 import { Label } from '@projects/label';
-import './ServicePointDetails.css'
 import { Radio } from '@projects/radio';
+import React, { useEffect, useRef, useState } from 'react';
 import { BRAND_PREFIX } from '../../../constants/constants';
+import './ServicePointDetails.css';
 
 const WorkingHoursModal = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -52,7 +52,6 @@ const WorkingHoursModal = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-    console.log('value', value)
   };
 
   const handleSubmit = () => {

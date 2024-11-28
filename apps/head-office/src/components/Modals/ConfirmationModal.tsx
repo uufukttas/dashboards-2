@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import useModalManager from '../../hooks/useModalManager';
 import ModalLayout from '../Modal/Layouts/ModalLayout';
 import { IModalLayoutProps } from '../Modal/Layouts/ModalLayout.interface';
 
 interface IConfirmationModalProps {
+  name: string;
   onConfirm: () => void;
-  onCancel: () => void;
+  onCancel?: () => void;
 }
 
-const ConfirmationModal: React.FC<IConfirmationModalProps> = ({ onConfirm, onCancel }) => {
+const ConfirmationModal: React.FC<IConfirmationModalProps> = ({ name, onConfirm, onCancel }) => {
   const { closeModal } = useModalManager();
   const config: IModalLayoutProps = {
-    name: 'confirmation',
+    name,
     title: 'Bu işlemi onaylıyor musunuz?',
     buttons: [
       {
@@ -30,13 +31,26 @@ const ConfirmationModal: React.FC<IConfirmationModalProps> = ({ onConfirm, onCan
 
   const handleCancel = () => {
     closeModal(config.name);
-    onCancel();
+    onCancel?.();
   };
 
   const handleConfirm = () => {
     closeModal(config.name);
     onConfirm();
   };
+
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+      if (e.key === 'Enter') {
+        handleConfirm();
+      }
+    };
+
+    window.addEventListener('keypress', handleKeyPress);
+    return () => window.removeEventListener('keypress', handleKeyPress);
+  }, []);
 
   return (
     <ModalLayout {...config}>

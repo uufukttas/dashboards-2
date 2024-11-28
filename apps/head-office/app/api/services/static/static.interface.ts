@@ -10,6 +10,7 @@ export interface ResourceTextRequestBody {
 }
 
 export interface City {
+  id: number;
   name: string;
   countryId: number;
   isDeleted: string;
@@ -22,6 +23,7 @@ export interface GetDistrictsRequestParams {
 }
 
 export interface District {
+  id: number;
   cityID: number;
   isDeleted: string;
   name: string;

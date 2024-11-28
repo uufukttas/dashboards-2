@@ -15,6 +15,12 @@ const nextConfig = {
     unoptimized: true,
   },
   trailingSlash: true,
+  webpackDevMiddleware: (config) => {
+    config.watchOptions = {
+      ignored: ['**/node_modules', '**/public/css/*'],
+    };
+    return config;
+  },
 };
 
 const plugins = [withNx];

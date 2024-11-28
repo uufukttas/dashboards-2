@@ -139,8 +139,8 @@ export const BaseTable: FC<IBaseTableProps> = (props) => {
   useEffect(() => {
     const globalFilterValue = localStorage.getItem(userStateKey) || '';
 
-    globalFilterValue && JSON.parse(globalFilterValue).filters.global.value &&
-      setGlobalFilterValue(JSON.parse(globalFilterValue).filters.global.value);
+    globalFilterValue && JSON.parse(globalFilterValue).filters?.global?.value &&
+      setGlobalFilterValue(JSON.parse(globalFilterValue).filters?.global?.value);
   }, []);
 
   return (

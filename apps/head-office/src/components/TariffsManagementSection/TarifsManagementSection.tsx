@@ -1,239 +1,204 @@
+import { Tariff } from 'apps/head-office/app/api/services/tarrifs/tarrif.interface';
+import {
+  useDeleteTariffMutation,
+  useGetTariffsMutation,
+} from 'apps/head-office/app/api/services/tarrifs/tarrif.service';
+import { FilterMatchMode, FilterOperator } from 'primereact/api';
+import { Button } from 'primereact/button';
+import { DataTableFilterMeta } from 'primereact/datatable';
+import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
+import { Tooltip } from 'primereact/tooltip';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Alert } from '@projects/alert';
-import { Dialog } from '@projects/dialog';
+import { FaTrashCan } from 'react-icons/fa6';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../app/redux/store';
+import { BRAND_PREFIX } from '../../constants/constants';
+import useModalManager from '../../hooks/useModalManager';
+import { BaseTable } from '../BaseTable/BaseTable';
+import ConfirmationModal from '../Modals/ConfirmationModal';
 import { tariffsTableHeadData } from './constants';
 import TariffsModalComponent from './TariffsManagementModalComponents/TariffsModalComponent';
-import Modal from '../Modal/Modal';
-import { BRAND_PREFIX } from '../../constants/constants';
-import { deleteTariffRequest, getAllTariffsRequest } from '../../../app/api/tariffsManagement';
-import { hideDialog, showDialog } from '../../../app/redux/features/dialogInformation';
-import { setTariffs } from '../../../app/redux/features/tariffs';
-import { toggleLoadingVisibility } from '../../../app/redux/features/isLoadingVisible';
-import { toggleModalVisibility } from '../../../app/redux/features/isModalVisible';
-import { toggleTariffListUpdated } from '../../../app/redux/features/isTariffListUpdated';
-import { AppDispatch, RootState } from '../../../app/redux/store';
-import { FaTrashCan } from 'react-icons/fa6';
-import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
-import { Button } from 'primereact/button';
-import { Tooltip } from 'primereact/tooltip';
-import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { ITariffDataProps } from './types';
 import './TariffsManagementSection.css';
-import { FilterMatchMode, FilterOperator } from 'primereact/api';
 
 const TarifssManagementSection: React.FC = () => {
-    const tarifssManagementSectionPrefix: string = `${BRAND_PREFIX}-tariffs-management`;
-    const dispatch = useDispatch<AppDispatch>();
-    const alertInformation = useSelector((state: RootState) => state.alertInformation);
-    const dialogInformation = useSelector((state: RootState) => state.dialogInformation);
-    const isModalVisible = useSelector((state: RootState) => state.isModalVisible.isModalVisible);
-    const isTariffListUpdated = useSelector((state: RootState) => state.isTariffListUpdated.isTariffListUpdated);
-    const searchProperties = useSelector((state: RootState) => state.searchedText);
-    const tariffListData = useSelector((state: RootState) => state.tariffs);
-    const [visibleColumns, setVisibleColumns] = useState(tariffsTableHeadData);
-    const defaultFilters: DataTableFilterMeta = {
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS},
-        name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-        saleUnitPrice: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-        validityBeginDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
-        validityEndDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
-        kwRange: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-        createDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
-    };
-    const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters);
+  const tarifssManagementSectionPrefix: string = `${BRAND_PREFIX}-tariffs-management`;
+  const searchProperties = useSelector((state: RootState) => state.searchedText);
+  const [visibleColumns, setVisibleColumns] = useState(tariffsTableHeadData);
 
-    const dataTableHeader = (): JSX.Element => {
-        return (
-            <>
-                <div className={`${BRAND_PREFIX}-data-table-header-container w-full flex justify-between items-center`}>
-                    <div className={`${BRAND_PREFIX}-data-table-select-container`}>
-                        <MultiSelect value={visibleColumns} options={tariffsTableHeadData.filter((item) => item.isRemovable)} optionLabel="header" onChange={onColumnToggle} className="w-full sm:w-20rem" display="chip" />
-                    </div>
-                    <div className={`${BRAND_PREFIX}-data-table-action-button-container flex justify-center items-center`}>
-                        <div className={`${BRAND_PREFIX}-data-table-add-button-container mx-4`}>
-                            <Button
-                                className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
-                                icon="pi pi-plus"
-                                id={`${BRAND_PREFIX}-table-header-add-button`}
-                                rounded
-                                type="button"
-                                onClick={() => dispatch(toggleModalVisibility(true))}
-                            />
-                            <Tooltip
-                                className={`${BRAND_PREFIX}-data-table-add-button-tooltip text-base`}
-                                content="Tarife Ekle"
-                                position="bottom"
-                                target={`#${BRAND_PREFIX}-table-header-add-button`}
-                                style={{ fontSize: '12px', padding: '4px' }}
-                            />
-                        </div>
-                    </div>
-                </div>
-            </>
-        )
-    };
-    const getAllTariffs = async (tariffName: string) => {
-        const response = await getAllTariffsRequest(tariffName, 1);
+  const [getAllTariffsRequest, { data: tarrifs }] = useGetTariffsMutation();
+  const [deleteTariffRequest] = useDeleteTariffMutation();
 
-        if (response) {
-            dispatch(
-                setTariffs({
-                    tariffs: response.data,
-                    count: 1000,
-                })
-            );
+  const defaultFilters: DataTableFilterMeta = {
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    saleUnitPrice: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    validityBeginDate: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
+    },
+    validityEndDate: {
+      operator: FilterOperator.AND,
+      constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }],
+    },
+    kwRange: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+    createDate: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.DATE_IS }] },
+  };
+  const [filters, setFilters] = useState<DataTableFilterMeta>(defaultFilters);
+
+  const { openModal } = useModalManager();
+
+  const handleAddTariff = () => {
+    openModal('addTariff', <TariffsModalComponent onAddTariff={() => getAllTariffs(searchProperties.searchedText)} />);
+  };
+
+  const handleDeleteTariff = (tariffId: number) => {
+    openModal(
+      'confirmation',
+      <ConfirmationModal
+        name="confirmation"
+        onConfirm={() =>
+          deleteTariffRequest({ body: { tariffId } })
+            .unwrap()
+            .then(() => getAllTariffs(searchProperties.searchedText))
         }
-
-        dispatch(toggleTariffListUpdated(false));
-        dispatch(toggleLoadingVisibility(false));
-    };
-    const handleCloseModal = (): void => {
-        dispatch(toggleModalVisibility(false));
-    };
-    const onColumnToggle = (event: MultiSelectChangeEvent): void => {
-        const selectedColumns = event.target.value;
-        const orderedSelectedColumns = tariffsTableHeadData
-            .filter((col) => selectedColumns
-                .some((sCol: { field: string; header: string; isRemovable: boolean }) => {
-                    return sCol.field === col.field
-                }) || col.field === 'actions');
-
-        setVisibleColumns(orderedSelectedColumns);
-    };
-    const prepareTableData = () => {
-        const data = tariffListData.tariffs.map((tariff: ITariffDataProps) => {
-            return {
-                ...tariff,
-                createDate: new Date(tariff.createDate).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
-                kwRange: `${tariff.minKW} - ${tariff.maxKW}`,
-                validityBeginDate: new Date(tariff.validityBeginDate).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
-                validityEndDate: new Date(tariff.validityEndDate).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }),
-            }
-        });
-
-        return data;
-    };
-    const initFilters = () => {
-        setFilters(defaultFilters);
-    };
-
-    useEffect(() => {
-        if (tariffListData.tariffs.length === 0) {
-            dispatch(toggleLoadingVisibility(true));
-        }
-
-        getAllTariffs(searchProperties.searchedText);
-        initFilters();
-    }, [isTariffListUpdated, searchProperties]);
-
-    return (
-        <div className={`${BRAND_PREFIX}-tariffs-management-container flex justify-between items-center flex-col`}>
-            <div className={`${tarifssManagementSectionPrefix}-listing-container items-center w-full`}>
-                <DataTable
-                    className="w-full shadow"
-                    currentPageReportTemplate="{first} to {last} of {totalRecords}"
-                    filterDisplay="menu"
-                    filters={filters}
-                    header={dataTableHeader}
-                    paginator={true}
-                    paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-                    removableSort
-                    reorderableColumns
-                    resizableColumns
-                    rows={10}
-                    rowsPerPageOptions={[10, 20, 50]}
-                    showGridlines={true}
-                    sortMode="multiple"
-                    stripedRows={true}
-                    value={prepareTableData()}
-                >
-                    {
-                        visibleColumns.map((headerProps, index) => {
-                            if (headerProps.field !== "actions") {
-                                return (
-                                    <Column
-                                        className='border-none'
-                                        field={headerProps.field}
-                                        filter
-                                        filterMenuClassName='border-none shadow-lg'
-                                        filterPlaceholder={`${headerProps.header}...`}
-                                        header={headerProps.header}
-                                        headerClassName='border-0'
-                                        key={index}
-                                        sortable={true}
-                                    />
-                                );
-                            } else {
-                                return (
-                                    <Column
-                                        body={(rowData) => {
-                                            return (
-                                                <div className={`${BRAND_PREFIX}-data-table-actions-button-container flex justify-start items-center`}>
-                                                    <a
-                                                        className="font-medium text-red-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
-                                                        data-user-management-id={rowData['id']}
-                                                        onClick={() => {
-                                                            dispatch(showDialog({
-                                                                actionType: 'delete',
-                                                                data: rowData['id']
-                                                            }))
-                                                        }}
-                                                    >
-                                                        <FaTrashCan />
-                                                    </a>
-                                                </div>
-                                            )
-                                        }}
-                                        field={headerProps.field}
-                                        frozen
-                                        header={headerProps.header}
-                                        headerClassName={`flex justify-start items-center`}
-                                        key={index}
-                                    />
-                                );
-                            }
-                        })
-                    }
-
-                </DataTable>
-            </div>
-            {
-                isModalVisible && (
-                    <Modal
-                        className={`${tarifssManagementSectionPrefix}-modal-container`}
-                        modalHeaderTitle={`Tarife Ekle`}
-                        modalId={`${tarifssManagementSectionPrefix}-modal`}
-                        onClose={handleCloseModal}
-                    >
-                        <TariffsModalComponent />
-                    </Modal>
-                )
-            }
-            {
-                alertInformation.isVisible && (
-                    <Alert
-                        alertText={alertInformation.message}
-                        alertType={alertInformation.type}
-                        id={`${tarifssManagementSectionPrefix}-alert`}
-                    />
-                )
-            }
-            {
-                dialogInformation.isVisible && (
-                    <Dialog
-                        handleCancel={() => dispatch(hideDialog())}
-                        handleSuccess={() => {
-                            deleteTariffRequest(dialogInformation.data);
-                            dispatch(hideDialog());
-                            dispatch(toggleTariffListUpdated(true));
-                        }}
-                    />
-                )
-            }
-        </div>
+      />,
     );
+  };
+
+  const dataTableHeader = (): JSX.Element => {
+    return (
+      <>
+        <div className={`${BRAND_PREFIX}-data-table-header-container w-full flex justify-between items-center`}>
+          <div className={`${BRAND_PREFIX}-data-table-select-container`}>
+            <MultiSelect
+              value={visibleColumns}
+              options={tariffsTableHeadData.filter((item) => item.isRemovable)}
+              optionLabel="header"
+              onChange={onColumnToggle}
+              className="w-full sm:w-20rem"
+              display="chip"
+            />
+          </div>
+          <div className={`${BRAND_PREFIX}-data-table-action-button-container flex justify-center items-center`}>
+            <div className={`${BRAND_PREFIX}-data-table-add-button-container mx-4`}>
+              <Button
+                className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
+                icon="pi pi-plus"
+                id={`${BRAND_PREFIX}-table-header-add-button`}
+                rounded
+                type="button"
+                onClick={handleAddTariff}
+              />
+              <Tooltip
+                className={`${BRAND_PREFIX}-data-table-add-button-tooltip text-base`}
+                content="Tarife Ekle"
+                position="bottom"
+                target={`#${BRAND_PREFIX}-table-header-add-button`}
+                style={{ fontSize: '12px', padding: '4px' }}
+              />
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  const getAllTariffs = (tariffName: string) => {
+    getAllTariffsRequest({
+      body: {
+        name: tariffName,
+        pageNumber: 1,
+      },
+    }).unwrap();
+  };
+
+  const onColumnToggle = (event: MultiSelectChangeEvent): void => {
+    const selectedColumns = event.target.value;
+    const orderedSelectedColumns = tariffsTableHeadData.filter(
+      (col) =>
+        selectedColumns.some((sCol: { field: string; header: string; isRemovable: boolean }) => {
+          return sCol.field === col.field;
+        }) || col.field === 'actions',
+    );
+
+    setVisibleColumns(orderedSelectedColumns);
+  };
+
+  const prepareTableData = () => {
+    const data = tarrifs?.map((tariff: Tariff) => {
+      return {
+        ...tariff,
+        createDate: new Date(tariff.createDate).toLocaleDateString('tr-TR', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+        kwRange: `${tariff.minKW} - ${tariff.maxKW}`,
+        validityBeginDate: new Date(tariff.validityBeginDate).toLocaleDateString('tr-TR', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+        validityEndDate: new Date(tariff.validityEndDate).toLocaleDateString('tr-TR', {
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+        }),
+      };
+    });
+
+    return data;
+  };
+
+  const actionsButtonsContainer = (rowData: Tariff): JSX.Element => {
+    return (
+      <div className={`${BRAND_PREFIX}-data-table-actions-button-container flex justify-start items-center`}>
+        <a
+          className="font-medium text-red-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
+          data-user-management-id={rowData['id']}
+          onClick={() => handleDeleteTariff(rowData['id'])}
+        >
+          <FaTrashCan />
+        </a>
+      </div>
+    );
+  };
+
+  const initFilters = () => {
+    setFilters(defaultFilters);
+  };
+
+  useEffect(() => {
+    getAllTariffs(searchProperties.searchedText);
+    initFilters();
+  }, [searchProperties]);
+
+  return (
+    <div className={`${BRAND_PREFIX}-tariffs-management-container flex justify-between items-center flex-col`}>
+      <div className={`${tarifssManagementSectionPrefix}-listing-container items-center w-full`}>
+        <BaseTable
+          columns={visibleColumns.map((column) => {
+            if (column.id === 'actions') {
+              column.bodyTemplate = actionsButtonsContainer as unknown as React.ReactElement;
+            }
+
+            return column;
+          })}
+          data={prepareTableData() || []}
+          globalFilterFields={['name', 'saleUnitPrice', 'kwRange']}
+          filters={filters}
+          id={`${tarifssManagementSectionPrefix}-list`}
+          tableHeader={dataTableHeader}
+        />
+      </div>
+    </div>
+  );
 };
 
 export default TarifssManagementSection;

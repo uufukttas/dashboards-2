@@ -24,22 +24,16 @@ import isModalVisible from './features/isModalVisible';
 import isServicePointDataUpdated from './features/isServicePointDataUpdated';
 import isServicePointPermissionsUpdated from './features/isServicePointPermissionsUpdated';
 import isSidebarExpand from './features/isSidebarExpand';
-import isTariffListUpdated from './features/isTariffListUpdated';
-import isUserListUpdated from './features/isUserListUpdated';
 import languages from './features/languages';
 import setLoginToken from './features/loginToken';
 import permissionsData from './features/permissionsData';
 import searchedText from './features/searchProperties';
-import servicePointData from './features/servicePointData';
-import servicePointInformation from './features/servicePointInformation';
 import servicePointPermissions from './features/servicePointPermissions';
 import servicePoints from './features/servicePoints';
 import setCityInformation from './features/setCityInformation';
 import configs from './features/setConfig';
 import setVisibleModal from './features/setVisibleModal';
 import statusList from './features/statusList';
-import tariffData from './features/tariffData';
-import tariffs from './features/tariffs';
 import userData from './features/userData';
 import userProfileInfo from './features/userProfileInfo';
 import users from './features/users';
@@ -69,14 +63,10 @@ const reducers = combineReducers({
   isServicePointDataUpdated,
   isServicePointPermissionsUpdated,
   isSidebarExpand,
-  isTariffListUpdated,
-  isUserListUpdated,
   languages,
   permissionsData,
   searchedText,
   servicePoints,
-  servicePointData,
-  servicePointInformation,
   servicePointPermissions,
   setCityInformation,
   setConnectorProperty,
@@ -87,8 +77,6 @@ const reducers = combineReducers({
   userData,
   userProfileInfo,
   users,
-  tariffs,
-  tariffData,
   modal: modalReducer,
   [baseApi.reducerPath]: baseApi.reducer,
 });

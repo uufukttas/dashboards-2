@@ -1,3 +1,4 @@
+import { cn } from 'apps/head-office/src/utils/common.utils';
 import { FC, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
 import useModalManager from '../../../hooks/useModalManager';
@@ -66,7 +67,7 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
     : [
         {
           key: 'close',
-          label: 'Close',
+          label: 'Kapat',
           onClick: handleClose,
           buttonClassName:
             'px-3 md:px-4 py-1.5 md:py-2 bg-gray-200 rounded-md hover:bg-gray-300 mr-2 text-sm md:text-base',
@@ -96,7 +97,11 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
       {footerVisible && (
         <div className={fotterClasses}>
           {allButtons.map((button) => (
-            <button key={button.key} className={button.buttonClassName} onClick={button.onClick}>
+            <button
+              key={button.key}
+              className={cn('text-white bg-primary px-4 py-2 rounded-md', button.buttonClassName)}
+              onClick={button.onClick}
+            >
               <span className={button.textClassName}>{button.label}</span>
             </button>
           ))}

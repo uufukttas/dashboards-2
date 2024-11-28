@@ -6,19 +6,18 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import { Tooltip } from 'primereact/tooltip';
 import React, { useEffect, useState } from 'react';
 import { FaCircleInfo, FaPen, FaTrashCan } from 'react-icons/fa6';
-import { useDispatch, useSelector } from 'react-redux';
-import { getServicePointDataRequest, getServicePointInformationRequest } from '../../../app/api/servicePoints';
+import { useSelector } from 'react-redux';
 import {
   useDeleteServicePointMutation,
   useGetServicePointsMutation,
 } from '../../../app/api/services/service-points/servicePoints.service';
-import { showDialog } from '../../../app/redux/features/dialogInformation';
-import { setServicePointData } from '../../../app/redux/features/servicePointData';
-import { setServicePointInformation } from '../../../app/redux/features/servicePointInformation';
-import { AppDispatch, RootState } from '../../../app/redux/store';
+import { RootState } from '../../../app/redux/store';
 import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
+import { EVENTS_EMMITER_CONSTANTS } from '../../constants/event.constants';
 import useModalManager from '../../hooks/useModalManager';
+import EventManager from '../../managers/Event.manager';
 import { BaseTable } from '../BaseTable/BaseTable';
+import ConfirmationModal from '../Modals/ConfirmationModal';
 import { servicePointTableDefaultFilters, servicePointTableHeadData } from './constants';
 import './ServicePointSection.css';
 import ServicePointModalForm from './ServicePointsModalComponents/ServicePointModal';
@@ -26,9 +25,10 @@ import type { IPayloadProps, IRowDataProps } from './types';
 
 const ServicePointSection: React.FC = () => {
   const pagePrefix: string = `${BRAND_PREFIX}-service-point`;
-  const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
+
   const { openModal } = useModalManager();
+
   const [getServicePoints, { data: servicePoints }] = useGetServicePointsMutation();
   const [deleteServicePoint] = useDeleteServicePointMutation();
 
@@ -36,22 +36,30 @@ const ServicePointSection: React.FC = () => {
   const [visibleColumns, setVisibleColumns] = useState(servicePointTableHeadData);
   const [filters, setFilters] = useState(servicePointTableDefaultFilters);
 
+  const handleAddServicePoint = (): void => {
+    openModal('add-service-point', <ServicePointModalForm />);
+  };
+
+  const handleUpdateServicePoint = (id: number): void => {
+    openModal('add-service-point', <ServicePointModalForm id={id} />);
+  };
+
   const actionsButtonsContainer = (rowData: IRowDataProps): JSX.Element => {
     return (
-      <div className={`${pagePrefix}-data-table-actions-button-container flex justify-start items-center`}>
+      <div className={`${pagePrefix}-data-table-actions-button-container flex justify-end items-start`}>
         <a
           className="font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
           data-service-point-id={rowData['id']}
-          onClick={getUpdatedServicePointInfo}
+          onClick={() => handleUpdateServicePoint(rowData['id'])}
         >
-          <FaPen className="text-primary text-2xl" />
+          <FaPen className="text-primary" />
         </a>
         <a
           className="font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
           data-service-point-id={rowData['id']}
-          onClick={deleteServicePointInfo}
+          onClick={() => deleteServicePointInfo(rowData['id'])}
         >
-          <FaTrashCan className="text-2xl" />
+          <FaTrashCan className="text-red-500" />
         </a>
         {rowData?.address && rowData?.districtId && rowData?.cityId && rowData?.phone && (
           <button
@@ -60,7 +68,7 @@ const ServicePointSection: React.FC = () => {
               router.push(`/service-points/service-point/${rowData.id}`);
             }}
           >
-            <FaCircleInfo className="text-2xl" />
+            <FaCircleInfo className="text-primary" />
           </button>
         )}
       </div>
@@ -111,10 +119,6 @@ const ServicePointSection: React.FC = () => {
     return payload;
   };
 
-  const handleOpenServicePointModal = () => {
-    openModal('servicePointModalFormFirstPage', <ServicePointModalForm />);
-  }
-
   const dataTableHeader = (): JSX.Element => {
     const tablePrefix: string = `${pagePrefix}-data-table`;
 
@@ -123,7 +127,7 @@ const ServicePointSection: React.FC = () => {
         <div className={`${tablePrefix}-header-filter-container flex justify-start items-center`}>
           <div className={`${tablePrefix}-header-select-container mx-4`}>
             <MultiSelect
-              className={`${tablePrefix}-header-column-name-selection w-full sm:w-20rem`}
+              className={`${tablePrefix}-header-column-name-selection w-full sm:w-20rem text-white`}
               placeholder="Sütunları Seç"
               optionLabel="header"
               options={servicePointTableHeadData.filter((item) => item.isRemovable)}
@@ -136,12 +140,11 @@ const ServicePointSection: React.FC = () => {
           <div className={`${tablePrefix}-add-button-container mx-4`}>
             <Button
               className={`${tablePrefix}-add-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
-              icon="pi pi-plus"
+              icon="pi pi-plus text-white"
               id={`${tablePrefix}-add-button`}
               rounded
               type="button"
-              // onClick={() => dispatch(toggleModalVisibility(true))}
-              onClick={handleOpenServicePointModal}
+              onClick={handleAddServicePoint}
             />
             <Tooltip
               className={`${tablePrefix}-add-button-tooltip text-base`}
@@ -159,29 +162,28 @@ const ServicePointSection: React.FC = () => {
     );
   };
 
-  const deleteServicePointInfo = (event: React.MouseEvent<HTMLAnchorElement>): void => {
-    dispatch(
-      showDialog({
-        actionType: 'delete',
-        data: parseInt(event.currentTarget.getAttribute('data-service-point-id') || '0'),
-      }),
+  const deleteServicePointInfo = (id: number): void => {
+    openModal(
+      'confirmation-modal',
+      <ConfirmationModal
+        name="confirmation-modal"
+        onConfirm={() => {
+          deleteServicePoint({ id })
+            .unwrap()
+            .then(() => {
+              getServicePoints({
+                body: createGetServicePointsRequestPayload(),
+              });
+            });
+        }}
+      />,
     );
-  };
-
-  const getUpdatedServicePointInfo = async (event: React.MouseEvent<HTMLAnchorElement>): Promise<void> => {
-    const servicePointId: number = Number(event.currentTarget.getAttribute('data-service-point-id') || '0');
-    const servicePointData = await getServicePointDataRequest(servicePointId);
-    const servicePointInformation = await getServicePointInformationRequest(servicePointId);
-
-    dispatch(setServicePointData(servicePointData.data[0] || {}));
-    dispatch(setServicePointInformation(servicePointInformation.data[0] || {}));
-    handleOpenServicePointModal();
   };
 
   const onColumnToggle = (event: MultiSelectChangeEvent): void => {
     const selectedColumns = event.target.value;
     const orderedSelectedColumns = servicePointTableHeadData.filter(
-    // @ts-ignore
+      // @ts-ignore
       (col) => selectedColumns.some((sCol) => sCol.field === col.field) || col.field === 'actions',
     );
 
@@ -194,28 +196,41 @@ const ServicePointSection: React.FC = () => {
     });
   }, []);
 
-  return (
-    <div className={``}>
-      <BaseTable
-        className="w-full shadow"
-        columns={visibleColumns.map((column) => {
-          if (column.id === 'actions') {
-            column.align = 'left';
-            // @ts-ignore
-            column.bodyTemplate = actionsButtonsContainer;
-          }
+  useEffect(() => {
+    EventManager.subscribe(EVENTS_EMMITER_CONSTANTS.FIRE_REFECTCH_STATIONS, () => {
+      getServicePoints({
+        body: createGetServicePointsRequestPayload(),
+      });
+    });
 
-          return column;
-        })}
-        data={prepareTableData() || []}
-        exportableExcel={true}
-        exportableCSV={true}
-        filters={filters}
-        id={`${BRAND_PREFIX}-service-points-list`}
-        globalFilterFields={visibleColumns.map((column) => column.id)}
-        hasFilterMatchModes={false}
-        tableHeader={() => dataTableHeader()}
-      />
+    return () => {
+      EventManager.removeAllListeners(EVENTS_EMMITER_CONSTANTS.FIRE_REFECTCH_STATIONS);
+    };
+  }, []);
+
+  return (
+    <div className={`w-full`}>
+      <div className={`items-center w-full`}>
+        <BaseTable
+          className="w-full shadow"
+          columns={visibleColumns.map((column) => {
+            if (column.id === 'actions') {
+              column.bodyTemplate = actionsButtonsContainer as unknown as React.ReactElement;
+            }
+
+            return column;
+          })}
+          data={prepareTableData() || []}
+          exportableExcel={true}
+          exportableCSV={true}
+          filters={filters}
+          id={`${BRAND_PREFIX}-service-points-list`}
+          globalFilterFields={visibleColumns.map((column) => column.id)}
+          hasFilterMatchModes={false}
+          tableHeader={() => dataTableHeader()}
+          columnResizeMode="expand"
+        />
+      </div>
     </div>
   );
 };

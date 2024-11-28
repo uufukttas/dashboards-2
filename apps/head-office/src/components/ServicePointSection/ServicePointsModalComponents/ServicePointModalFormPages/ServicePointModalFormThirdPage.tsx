@@ -1,238 +1,132 @@
-import React, { useEffect, useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
-import { useSelector, useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
-import { Dropdown } from '@projects/dropdown';
 import { Label } from '@projects/label';
-import MapComponent from '../../Map';
+import React, { useEffect, useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
+import { useGetCitiesQuery, useGetDistrictsMutation } from '../../../../../app/api/services/static/static.service';
 import { BRAND_PREFIX } from '../../../../constants/constants';
-import { getServicePointFeatureValues } from '../../../../../app/api/servicePointDetails';
-import { getDistrictsRequest } from '../../../../../app/api/servicePoints';
-import { setServicePointInformation } from '../../../../../app/redux/features/servicePointInformation';
-import { RootState } from '../../../../../app/redux/store';
+import BaseSelect from '../../../Base/BaseSelect';
+import MapComponent from '../../Map';
 import { IFormDataProps, IModalThirdPageInputsProps } from '../../types';
 
 const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
+  form,
   activePage,
-  cities,
-  districts,
   setActivePage,
-  setDistricts,
-  setPaymentMethods,
-  setOpportunities,
 }: IModalThirdPageInputsProps) => {
-  const dispatch = useDispatch();
-  const { handleSubmit } = useForm();
-  const servicePointInformation = useSelector((state: RootState) => {
-    return state.servicePointInformation.servicePointInformation;
-  });
-  const formName = ['cityId', 'districtId', 'x-coord', 'y-coord'];
+  const { handleSubmit } = form;
+
+  const { data: cities } = useGetCitiesQuery({});
+  const [getDistricts, { data: districts }] = useGetDistrictsMutation();
+
   const sectionPrefix = 'service-point';
-  const formProperties = {
-    cityId: `${sectionPrefix}-${formName[0]}`,
-    districtId: `${sectionPrefix}-${formName[1]}`,
-    'x-coord': `${sectionPrefix}-${formName[2]}`,
-    'y-coord': `${sectionPrefix}-${formName[3]}`,
-  };
   const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
-  const [thirdPageFormData, setThirdPageFormData] = useState<IFormDataProps>({
-    [`${formProperties.cityId}`]: servicePointInformation.cityId || 1,
-    [`${formProperties.districtId}`]: servicePointInformation.districtId || 1,
-    [`${formProperties['x-coord']}`]: typeof servicePointInformation.lat === 'undefined' ? '' : servicePointInformation.lat,
-    [`${formProperties['y-coord']}`]: typeof servicePointInformation.lon === 'undefined' ? '' : servicePointInformation.lon,
-  });
-  const [selectedCity, setSelectedCity] = useState<number>(Number(thirdPageFormData[formProperties.cityId]));
 
   const handleSelectLocation = (location: { lat: number; lng: number }) => {
     const { lat, lng } = location;
-    setThirdPageFormData(({ ...thirdPageFormData, [`${formProperties['x-coord']}`]: lat, [`${formProperties['y-coord']}`]: lng }));
+
+    form.setValue(`lat`, lat);
+    form.setValue(`lon`, lng);
   };
-  const getDistricts = async (selectedCity: number) => {
-    const response = await getDistrictsRequest(selectedCity);
 
-    setDistricts(response);
-    setThirdPageFormData(({
-      ...thirdPageFormData,
-      [`${formProperties.districtId}`]: thirdPageFormData[`${formProperties.districtId}`] || response[0].rid,
-      [`${formProperties.cityId}`]: selectedCity
-    }));
-  };
-  const getPaymentMethods = async () => {
-    const response = await getServicePointFeatureValues(1);
+  const handleCityChange = (id: string) => id && getDistricts({ body: { plateNumber: Number(id) } }).unwrap();
 
-    const paymentMethods = response.data.map((item: { rid: number; name: string }, index: number) => {
-      return {
-        id: null,
-        name: item.name,
-        rid: item.rid,
-        isChecked: false,
-        stationFeatureValue: index + 1,
-        stationFeatureType: 1,
-      };
-    });
-
-    setPaymentMethods(paymentMethods);
-  };
-  const getOpportunities = async () => {
-    const response = await getServicePointFeatureValues(2);
-
-    const opportunities = response.data.map((item: { rid: number; name: string }, index: number) => {
-      return {
-        id: null,
-        name: item.name,
-        rid: item.rid,
-        isChecked: false,
-        stationFeatureValue: index + 1,
-        stationFeatureType: 2,
-      };
-    });
-
-    setOpportunities(opportunities);
-  };
-  const handleCityChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const cityId = Number(event.target.value);
-
-    getDistricts(cityId);
-    setSelectedCity(cityId);
-  };
-  const handleDistrictChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const districtId = Number(event.target.value);
-
-    setThirdPageFormData(({ ...thirdPageFormData, [`${formProperties.districtId}`]: districtId }));
-  };
   const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
-    if (
-      thirdPageFormData[`${formProperties['x-coord']}`] === 0 &&
-      thirdPageFormData[`${formProperties['y-coord']}`] === 0
-    ) {
+    if (form.watch(`lat`) === 0 && form.watch(`lon`) === 0) {
       setIsErrorVisible(true);
-
       return;
-    };
+    }
 
-    dispatch(
-      setServicePointInformation({
-        ...servicePointInformation,
-        cityId: thirdPageFormData[`${formProperties.cityId}`],
-        districtId: thirdPageFormData[`${formProperties.districtId}`],
-        lon: thirdPageFormData[`${formProperties['y-coord']}`],
-        lat: thirdPageFormData[`${formProperties['x-coord']}`],
-      })
-    );
     setActivePage(activePage + 1);
   };
 
   useEffect(() => {
-    getDistricts(selectedCity);
-    getPaymentMethods();
-    getOpportunities();
-  }, []);
-
-  useEffect(() => {
-    setIsErrorVisible(false);
-  }, [thirdPageFormData])
+    handleCityChange(form.watch(`cityId`));
+  }, [form.watch(`cityId`)]);
 
   return (
     <form
       className={`${BRAND_PREFIX}-modal-page-3 ${activePage === 3 ? 'block' : 'hidden'}`}
-      onSubmit={handleSubmit(handleFormSubmit)}>
-      <div className={`${formProperties.cityId}-container`}>
-        <Label
-          className={`${formProperties.cityId}-label block mb-2 text-heading font-semibold`}
-          htmlFor={`${formProperties.cityId}`}
-          labelText={`İl`} />
-        <Dropdown
-          className={`${formProperties.cityId}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
-          id={`${formProperties.cityId}`}
-          items={cities}
-          name={`${formProperties.cityId}`}
-          onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { handleCityChange(event); }}
-          selectedValue={thirdPageFormData[`${formProperties.cityId}`].toString()}
-        />
-      </div>
-      <div className={`${formProperties.districtId}-container`}>
-        <Label
-          className={`${formProperties.districtId}-label block mb-2 text-heading font-semibold`}
-          htmlFor={`${formProperties.districtId}`}
-          labelText={`İlcesi`} />
-        <Dropdown
-          className={`${formProperties.districtId}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4`}
-          id={`${formProperties.districtId}`}
-          items={districts}
-          name={`${formProperties.districtId}`}
-          onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => { handleDistrictChange(event); }}
-          selectedValue={thirdPageFormData[`${formProperties.districtId}`].toString()}
-        />
-      </div>
+      onSubmit={handleSubmit(handleFormSubmit)}
+    >
+      <BaseSelect
+        form={form}
+        label="İl"
+        name={`cityId`}
+        items={cities || []}
+        defaultValue={form.watch(`cityId`)}
+        onChange={(e) => {
+          handleCityChange(e.target.value);
+        }}
+      />
+      <BaseSelect
+        form={form}
+        label="İlçe"
+        name={`districtId`}
+        items={districts || []}
+        defaultValue={form.watch(`districtId`)}
+        onChange={(e) => {
+          form.setValue(`districtId`, e.target.value);
+        }}
+      />
       <div className={`${sectionPrefix}-coordinates-container flex justify-center items-center`}>
-        <div className={`${formProperties['x-coord']}-container w-1/2 flex flex-col justify-center `}>
+        <div className={`w-1/2 flex flex-col justify-center `}>
           <Label
-            className={`${formProperties['x-coord']}-label block mb-2 text-heading font-semibold`}
-            htmlFor={`${formProperties['x-coord']}`}
+            className={`x-coord-label block mb-2 text-heading font-semibold`}
+            htmlFor={`lat`}
             labelText={`X Koordinati`}
           >
             <span className="text-md text-error">*</span>
           </Label>
-          <Label
-            className={`${formProperties['x-coord']}-label-value block mb-2`}
-            htmlFor={`${formProperties['x-coord']}-value`}
-            labelText={''}
-          >
-            {(thirdPageFormData[`${formProperties['x-coord']}`] || '').toString()}
+          <Label className={`x-coord-label-value block mb-2`} htmlFor={`x-coord-value`} labelText={''}>
+            {(form.watch(`lat`) || '').toString()}
           </Label>
         </div>
-        <div className={`${formProperties['y-coord']}-container w-1/2 flex flex-col justify-center`}>
+        <div className={`w-1/2 flex flex-col justify-center`}>
           <Label
-            className={`${formProperties['y-coord']}-label block mb-2 text-heading font-semibold`}
-            htmlFor={`${formProperties['y-coord']}`}
+            className={`y-coord-label block mb-2 text-heading font-semibold`}
+            htmlFor={`lon`}
             labelText={`Y Koordinati`}
           >
             <span className="text-md text-error">*</span>
           </Label>
-          <Label
-            className={`${formProperties['y-coord']}-label-value block mb-2`}
-            htmlFor={`${formProperties['y-coord']}-value`}
-            labelText={''}
-          >
-            {(thirdPageFormData[`${formProperties['y-coord']}`] || '').toString()}
+          <Label className={`y-coord-label-value block mb-2`} htmlFor={`y-coord-value`} labelText={''}>
+            {(form.watch(`lon`) || '').toString()}
           </Label>
         </div>
       </div>
-      <MapComponent formData={thirdPageFormData} onSelectLocation={handleSelectLocation} />
-      {
-        isErrorVisible && (
-          <div className={`coordinates-error-wrapper my-4 font-bold text-error`}>
-            <p className={`coordinates-error-message text-error`}>
-              {'Harita uzerinden lokasyon seciniz.'}
-            </p>
-          </div>
-        )}
-      {
-        thirdPageFormData[`${formProperties['x-coord']}`] === '' && thirdPageFormData[`${formProperties['y-coord']}`] === '' &&
-        (
-          <div className={`${formProperties['y-coord']}-error-wrapper mb-4 font-bold text-error`}>
-            <p className={`${formProperties['y-coord']}-error-message text-error`}>
-              {'Harita uzerinden bir İstasyon Noktasi seciniz.'}
-            </p>
-          </div>
-        )
-      }
+      <MapComponent
+        cityId={form.watch(`cityId`)}
+        districtId={form.watch(`districtId`)}
+        lat={form.watch(`lat`)}
+        lng={form.watch(`lon`)}
+        onSelectLocation={handleSelectLocation}
+      />
+      {isErrorVisible && (
+        <div className={`coordinates-error-wrapper my-4 font-bold text-error`}>
+          <p className={`coordinates-error-message text-error`}>{'Harita uzerinden lokasyon seciniz.'}</p>
+        </div>
+      )}
+      {form.watch(`lat`) === '' && form.watch(`lon`) === '' && (
+        <div className={`y-coord-error-wrapper mb-4 font-bold text-error`}>
+          <p className={`y-coord-error-message text-error`}>{'Harita uzerinden bir İstasyon Noktasi seciniz.'}</p>
+        </div>
+      )}
       <div className={`${sectionPrefix}-buttons-container flex justify-between items-center mt-4`}>
         <Button
-          buttonText='Geri'
+          buttonText="Geri"
           className={`${sectionPrefix}-prev-button bg-primary text-white text-sm rounded-lg block p-2.5`}
           id={`${sectionPrefix}-prev-button`}
           type={`button`}
           onClick={() => setActivePage(activePage - 1)}
         />
         <Button
-          buttonText='İleri'
+          buttonText="İleri"
           className={`${sectionPrefix}-next-button bg-primary text-white text-sm rounded-lg block p-2.5`}
           id={`${sectionPrefix}-next-button`}
           type={`submit`}
         />
       </div>
-    </form >
+    </form>
   );
 };
 
