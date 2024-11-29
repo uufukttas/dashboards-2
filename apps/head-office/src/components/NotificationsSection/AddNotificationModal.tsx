@@ -1,8 +1,10 @@
+import { CreateNotificationBody } from 'apps/head-office/app/api/services/notifications/notification.interface';
 import {
   useAddNotificationMutation,
   useGetNotificationPushCategoriesQuery,
   useGetNotificationTypesQuery,
 } from 'apps/head-office/app/api/services/notifications/notification.service';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useModalManager from '../../hooks/useModalManager';
 import BaseInput from '../Base/BaseInput';
@@ -19,6 +21,8 @@ const AddNotificationModal = () => {
   const [addNotification] = useAddNotificationMutation();
   const { closeModal } = useModalManager();
 
+  const [image, setImage] = useState<File>();
+
   const onSubmit = (data: any) => {
     const formData = new FormData();
 
@@ -29,8 +33,10 @@ const AddNotificationModal = () => {
     formData.append('notificationTypeRID', data.notificationTypeRID);
     formData.append('notificationPushCategoryRID', data.notificationPushCategoryRID);
 
+    image && formData.append('image', image);
+
     addNotification({
-      body: formData,
+      body: formData as unknown as CreateNotificationBody,
     })
       .unwrap()
       .then(() => {
@@ -88,7 +94,7 @@ const AddNotificationModal = () => {
           containerClassName="mt-6"
           rules={{ required: 'Başlangıç tarihi girilmedi' }}
         />
-        <ImageUpload form={form} name="imageUrl" label="Resim" aspect={2 / 1} />
+        <ImageUpload form={form} name="imageUrl" label="Resim" aspect={2 / 1} onSuccess={(image) => setImage(image)} />
       </div>
     </ModalLayout>
   );

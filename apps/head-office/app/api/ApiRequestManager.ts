@@ -87,8 +87,8 @@ class ApiRequestManager {
 
         const result = await this?.axiosInstance?.request({
           headers: {
-            ...headers,
             'Content-Type': 'application/json',
+            ...headers,
           },
           data: body,
           method,

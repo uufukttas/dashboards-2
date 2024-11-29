@@ -23,6 +23,9 @@ const notificationService = baseApi.injectEndpoints({
         url: `${ENDPOINTS.NOTIFICATION}${ENDPOINTS.ADD_NOTIFICATION}`,
         method: ApiServiceMethods.POST,
         body,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       }),
       invalidatesTags: ['notifications'],
     }),

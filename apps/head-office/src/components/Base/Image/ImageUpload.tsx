@@ -40,7 +40,7 @@ const ImageUpload: React.FC<IImageUploadProps> = ({
     }
   };
 
-  const getCroppedImg = (image: HTMLImageElement, crop: Crop): Promise<string> => {
+  const getCroppedImg = (image: HTMLImageElement, crop: Crop): Promise<Blob> => {
     const canvas = document.createElement('canvas');
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
@@ -67,8 +67,7 @@ const ImageUpload: React.FC<IImageUploadProps> = ({
             reject(new Error('Canvas is empty'));
             return;
           }
-          const fileUrl = URL.createObjectURL(blob);
-          resolve(fileUrl);
+          resolve(blob);
         },
         'image/jpeg',
         1,
@@ -79,10 +78,8 @@ const ImageUpload: React.FC<IImageUploadProps> = ({
   const handleSubmit = async () => {
     if (!imageRef.current || !crop || !selectedFile) return;
 
-    const croppedImageUrl = await getCroppedImg(imageRef.current, crop);
-    const croppedFile = await fetch(croppedImageUrl)
-      .then((r) => r.blob())
-      .then((blobFile) => new File([blobFile], selectedFile.name, { type: 'image/jpeg' }));
+    const croppedBlob = await getCroppedImg(imageRef.current, crop);
+    const croppedFile = new File([croppedBlob], selectedFile.name, { type: 'image/jpeg' });
 
     form.setValue(name, croppedFile);
     onSuccess?.(croppedFile);

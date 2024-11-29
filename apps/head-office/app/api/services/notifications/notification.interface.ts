@@ -18,7 +18,6 @@ export interface CreateNotificationBody {
   startedDate: string;
 }
 
-
 export interface INoficication {
   rid: number;
   notificationTypeRID: number;
