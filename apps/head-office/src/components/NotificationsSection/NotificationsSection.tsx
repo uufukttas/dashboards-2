@@ -7,7 +7,6 @@ import { BaseTable } from '../BaseTable/BaseTable';
 import AddNotificationModal from './AddNotificationModal';
 import { NOTIFICATION_TABLE_COLUMNS } from './Notification.constant';
 
-
 const NotificationsSection: React.FC = () => {
   const { data: notifications } = useGetNotificationsQuery({});
 
@@ -21,7 +20,7 @@ const NotificationsSection: React.FC = () => {
     return (
       <div className="">
         <Button
-          className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
+          className={`${BRAND_PREFIX}-table-header-a  dd-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
           icon="pi pi-plus text-white"
           id={`${BRAND_PREFIX}-table-header-add-button`}
           rounded
