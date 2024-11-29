@@ -1,12 +1,17 @@
 import baseApi from '../../baseApi';
 import { ApiServiceMethods } from '../../constant';
 import { ENDPOINTS } from '../../endpoints';
-import { Post } from '../../types';
-import { CreateNotificationBody, INotificationPushCategory, INotificationTypeList } from './notification.interface';
+import { Get, Post } from '../../types';
+import {
+  CreateNotificationBody,
+  INoficication,
+  INotificationPushCategory,
+  INotificationTypeList,
+} from './notification.interface';
 
 const notificationService = baseApi.injectEndpoints({
   endpoints: (build) => ({
-    getNotifications: build.query<void, void>({
+    getNotifications: build.query<Array<INoficication>, Get>({
       query: () => ({
         url: `${ENDPOINTS.NOTIFICATION}${ENDPOINTS.GET_NOTIFICATION_LIST}`,
         method: ApiServiceMethods.GET,

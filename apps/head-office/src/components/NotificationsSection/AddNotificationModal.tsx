@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import useModalManager from '../../hooks/useModalManager';
 import BaseInput from '../Base/BaseInput';
 import BaseSelect from '../Base/BaseSelect';
+import ImageUpload from '../Base/Image/ImageUpload';
 import ModalLayout from '../Modal/Layouts/ModalLayout';
 import { IModalLayoutButtonProps } from '../Modal/Layouts/ModalLayout.interface';
 
@@ -19,12 +20,17 @@ const AddNotificationModal = () => {
   const { closeModal } = useModalManager();
 
   const onSubmit = (data: any) => {
+    const formData = new FormData();
+
+    formData.append('userRID', '1');
+    formData.append('title', data.title);
+    formData.append('message', data.message);
+    formData.append('startedDate', data.startedDate);
+    formData.append('notificationTypeRID', data.notificationTypeRID);
+    formData.append('notificationPushCategoryRID', data.notificationPushCategoryRID);
+
     addNotification({
-      body: {
-        userRID: 1,
-        imageUrl: 'https://unsplash.com/photos/grayscale-photography-of-person-standing-on-water-A5EUGGHqs4A',
-        ...data,
-      },
+      body: formData,
     })
       .unwrap()
       .then(() => {
@@ -82,7 +88,7 @@ const AddNotificationModal = () => {
           containerClassName="mt-6"
           rules={{ required: 'Başlangıç tarihi girilmedi' }}
         />
-        <BaseInput form={form} label="Resim URL" name="imageUrl" id="image_url" type="file" inputClassName="p-4" />
+        <ImageUpload form={form} name="imageUrl" label="Resim" aspect={2 / 1} />
       </div>
     </ModalLayout>
   );

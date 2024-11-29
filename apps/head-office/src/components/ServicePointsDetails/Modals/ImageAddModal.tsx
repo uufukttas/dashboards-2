@@ -1,16 +1,14 @@
-import React, { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { Input } from '@projects/input';
 import { Button } from '@projects/button';
+import { Input } from '@projects/input';
+import React, { useRef, useState } from 'react';
+import ReactCrop, { Crop } from 'react-image-crop';
+import 'react-image-crop/src/ReactCrop.scss';
+import { useDispatch } from 'react-redux';
 import { addServicePointImageRequest } from '../../../../app/api/servicePointDetails';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { IServicePointDetailsModalProps } from '../types';
-import ReactCrop, { Crop } from 'react-image-crop';
-import 'react-image-crop/src/ReactCrop.scss';
 
-const FileUpload: React.FC<IServicePointDetailsModalProps> = ({
-  slug,
-}: IServicePointDetailsModalProps) => {
+const FileUpload: React.FC<IServicePointDetailsModalProps> = ({ slug }: IServicePointDetailsModalProps) => {
   const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [crop, setCrop] = useState<Crop>();
@@ -22,9 +20,7 @@ const FileUpload: React.FC<IServicePointDetailsModalProps> = ({
 
     if (file) {
       const reader = new FileReader();
-      reader.addEventListener('load', () =>
-        setImageSrc(reader.result?.toString() || '')
-      );
+      reader.addEventListener('load', () => setImageSrc(reader.result?.toString() || ''));
       // @ts-ignore
       reader.readAsDataURL(e.target.files[0]);
 
@@ -49,18 +45,22 @@ const FileUpload: React.FC<IServicePointDetailsModalProps> = ({
       0,
       0,
       crop.width,
-      crop.height
+      crop.height,
     );
 
     return new Promise<string>((resolve, reject) => {
-      canvas.toBlob((blob) => {
-        if (!blob) {
-          reject(new Error('Canvas is empty'));
-          return;
-        }
-        const fileUrl = URL.createObjectURL(blob);
-        resolve(fileUrl);
-      }, 'image/jpeg',1);
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) {
+            reject(new Error('Canvas is empty'));
+            return;
+          }
+          const fileUrl = URL.createObjectURL(blob);
+          resolve(fileUrl);
+        },
+        'image/jpeg',
+        1,
+      );
     });
   };
 
@@ -76,10 +76,7 @@ const FileUpload: React.FC<IServicePointDetailsModalProps> = ({
 
     const _file = await fetch(croppedImageUrl)
       .then((r) => r.blob())
-      .then(
-        (blobFile) =>
-          new File([blobFile], selectedFile.name, { type: 'image/jpeg' })
-      );
+      .then((blobFile) => new File([blobFile], selectedFile.name, { type: 'image/jpeg' }));
 
     const formData = new FormData();
 
@@ -111,24 +108,12 @@ const FileUpload: React.FC<IServicePointDetailsModalProps> = ({
           className="file-upload-form border border-dashed my-8 items-center text-center p-12 "
           onSubmit={handleSubmit}
         >
-          <Input
-            className=""
-            id="file-input"
-            name="file-input"
-            type="file"
-            onChange={handleFileInput}
-          />
+          <Input className="" id="file-input" name="file-input" type="file" onChange={handleFileInput} />
         </form>
       )}
-      {(
+      {
         <div className="items-center justify-center flex flex-col">
-          <ReactCrop
-            crop={crop}
-            onChange={setCrop}
-            aspect={4 / 3}
-            minWidth={400}
-            minHeight={225}
-          >
+          <ReactCrop crop={crop} onChange={setCrop} aspect={4 / 3} minWidth={400} minHeight={225}>
             <img ref={imageRef} src={imageSrc} alt="Crop" />
           </ReactCrop>
           <div className="flex flex-row gap-4 mt-8 w-full">
@@ -151,7 +136,7 @@ const FileUpload: React.FC<IServicePointDetailsModalProps> = ({
             </Button>
           </div>
         </div>
-      )}
+      }
     </div>
   );
 };

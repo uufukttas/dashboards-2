@@ -4,46 +4,12 @@ import React from 'react';
 import { BRAND_PREFIX } from '../../constants/constants';
 import useModalManager from '../../hooks/useModalManager';
 import { BaseTable } from '../BaseTable/BaseTable';
-import { IBaseTableColumn } from '../BaseTable/BaseTableInterface';
 import AddNotificationModal from './AddNotificationModal';
+import { NOTIFICATION_TABLE_COLUMNS } from './Notification.constant';
 
-const NOTIFICATION_TABLE_COLUMNS: IBaseTableColumn[] = [
-  {
-    header: 'Bildirim Tipi',
-    accessor: 'notificationType',
-    field: 'notificationType',
-    id: 'notificationType',
-    isRemovable: false,
-    type: 'string',
-  },
-  {
-    header: 'Kategori',
-    accessor: 'category',
-    field: 'category',
-    id: 'category',
-    isRemovable: false,
-    type: 'string',
-  },
-  {
-    header: 'Başlık',
-    accessor: 'title',
-    field: 'title',
-    id: 'title',
-    isRemovable: false,
-    type: 'string',
-  },
-  {
-    header: 'İçerik',
-    accessor: 'content',
-    field: 'content',
-    id: 'content',
-    isRemovable: false,
-    type: 'string',
-  },
-];
 
 const NotificationsSection: React.FC = () => {
-  const { data: notifications } = useGetNotificationsQuery();
+  const { data: notifications } = useGetNotificationsQuery({});
 
   const { openModal } = useModalManager();
 
