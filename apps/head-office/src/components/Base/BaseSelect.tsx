@@ -11,7 +11,7 @@ interface IBaseSelectProps {
   label?: string;
   prefix?: string;
   rules?: Record<string, unknown>;
-  items?:Array<unknown>
+  items?: Array<unknown>;
   multiple?: boolean;
   className?: string;
   containerClassName?: string;
@@ -52,7 +52,7 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
     className,
   );
 
-  const containerClasses = cn('h-20', containerClassName);
+  const containerClasses = cn('h-20 w-full ', containerClassName);
 
   useEffect(() => {
     if (defaultValue) {
@@ -78,7 +78,7 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
             className={selectClasses}
             disabled={disabled}
             id={name}
-            items={items as any || []}
+            items={(items as any) || []}
             multiple={multiple}
             name={name}
             onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {

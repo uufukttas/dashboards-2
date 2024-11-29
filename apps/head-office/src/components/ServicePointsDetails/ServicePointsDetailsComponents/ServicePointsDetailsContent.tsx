@@ -1,14 +1,7 @@
+import { Button } from '@projects/button';
 import React from 'react';
 import { FaChargingStation, FaSackDollar } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@projects/button';
-import ChargeUnitsContent from '../Accordions/ChargeUnitsContent';
-import Comissions from '../Accordions/Comissions/Comissions';
-import EnergyPricesContent from '../Accordions/EnergyPricesContent';
-import LocationInfo from '../Accordions/LocationInfo';
-import ServicePointPermissions from '../Accordions/ServicePointPermissions';
-import WorkingHoursContent from '../Accordions/WorkingHoursContent';
-import { initialChargeUnitDataValue } from '../constants';
 import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import {
@@ -20,16 +13,21 @@ import {
 } from '../../../../app/redux/features/setVisibleModal';
 import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
-import {
-  IAccordionConfigProps,
-  IServicePointDetailsContentProps,
-} from '../types';
+import ChargeUnitsContent from '../Accordions/ChargeUnitsContent';
+import Comissions from '../Accordions/Comissions/Comissions';
+import EnergyPricesContent from '../Accordions/EnergyPricesContent';
+import LocationInfo from '../Accordions/LocationInfo';
+import ServicePointPermissions from '../Accordions/ServicePointPermissions';
+import WorkingHoursContent from '../Accordions/WorkingHoursContent';
+import { initialChargeUnitDataValue } from '../constants';
+import { IAccordionConfigProps, IServicePointDetailsContentProps } from '../types';
 
 import { Accordion, AccordionTab } from 'primereact/accordion';
 
-const ServicePointsDetailsContent: React.FC<
-  IServicePointDetailsContentProps
-> = ({ activeTabIndex, slug }: IServicePointDetailsContentProps) => {
+const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> = ({
+  activeTabIndex,
+  slug,
+}: IServicePointDetailsContentProps) => {
   const dispatch = useDispatch();
   const chargeUnits = useSelector((state: RootState) => state.chargeUnitList);
 
@@ -118,9 +116,7 @@ const ServicePointsDetailsContent: React.FC<
     },
     {
       actionButton: addChargeUnitButton,
-      accordionContent: chargeUnits.length > 0 && (
-        <ChargeUnitsContent chargeUnits={chargeUnits} slug={slug} />
-      ),
+      accordionContent: chargeUnits.length > 0 && <ChargeUnitsContent chargeUnits={chargeUnits} slug={slug} />,
       accordionIcon: <FaChargingStation />,
       accordionTitle: 'Şarj Üniteleri',
       titleClassName: 'font-bold',
@@ -152,9 +148,7 @@ const ServicePointsDetailsContent: React.FC<
   ];
 
   return (
-    <div
-      className={`${BRAND_PREFIX}-service-point-details-accordion-container`}
-    >
+    <div className={`${BRAND_PREFIX}-service-point-details-accordion-container`}>
       {accordionConfig.map((accordion, index) => (
         <Accordion
           activeIndex={activeTabIndex}
@@ -168,14 +162,10 @@ const ServicePointsDetailsContent: React.FC<
                   <div
                     className={`${BRAND_PREFIX}-service-point-details-accordion-header-container w-full flex justify-between items-center text-white h-12`}
                   >
-                    <div
-                      className={`${BRAND_PREFIX}-service-point-details-accordion-info-container text-white`}
-                    >
+                    <div className={`${BRAND_PREFIX}-service-point-details-accordion-info-container text-white`}>
                       {accordion.accordionTitle}
                     </div>
-                    <div
-                      className={`${BRAND_PREFIX}-service-point-details-accordion-header-action-container`}
-                    >
+                    <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-action-container`}>
                       {accordion.actionButton}
                     </div>
                   </div>
@@ -184,9 +174,7 @@ const ServicePointsDetailsContent: React.FC<
               headerClassName={`${BRAND_PREFIX}-service-point-details-accordion-header bg-primary border-gray-300 ${accordion.titleClassName} border rounded-md flex justify-between items-center`}
             >
               {index === activeTabIndex && (
-                <div
-                  className={`${BRAND_PREFIX}-service-point-details-accordion-info-container`}
-                >
+                <div className={`${BRAND_PREFIX}-service-point-details-accordion-info-container`}>
                   {accordion.accordionContent}
                 </div>
               )}
