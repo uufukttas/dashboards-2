@@ -15,7 +15,7 @@ interface TariffsModalComponentProps {
 }
 
 const TariffsModalComponent: React.FC<TariffsModalComponentProps> = ({ tariffData, onAddTariff }) => {
-  const hasTariffDataId: boolean = !isNil(tariffData?.id) && tariffData?.id > 0;
+  // const hasTariffDataId: boolean = !isNil(tariffData?.id) && tariffData?.id > 0;
   const [addTariffRequest] = useCreateTariffMutation();
   const { closeModal } = useModalManager();
   const form = useForm({
@@ -89,6 +89,7 @@ const TariffsModalComponent: React.FC<TariffsModalComponentProps> = ({ tariffDat
             label="Tarife Adı"
             placeholder="Tarife Adı"
             rules={{ required: 'Tarife Adı zorunlu' }}
+            type='text'
           />
           <div className="flex flex-row gap-4">
             <BaseInput
@@ -122,6 +123,7 @@ const TariffsModalComponent: React.FC<TariffsModalComponentProps> = ({ tariffDat
             placeholder="Fiyat (KDV Dahil)"
             rules={{ required: 'Fiyat zorunlu' }}
             containerClassName="w-1/2"
+            type="text"
           />
           <BaseInput
             id="vat"
@@ -131,6 +133,7 @@ const TariffsModalComponent: React.FC<TariffsModalComponentProps> = ({ tariffDat
             placeholder="KDV"
             rules={{ required: 'KDV zorunlu' }}
             containerClassName="w-1/2"
+            type="text"
           />
         </div>
         <div className={`w-full`}>

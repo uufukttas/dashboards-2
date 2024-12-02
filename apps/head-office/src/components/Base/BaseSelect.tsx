@@ -23,41 +23,30 @@ interface IBaseSelectProps {
 
 const BaseSelect: FC<IBaseSelectProps> = (props) => {
   const {
-    form,
-    label,
-    name,
-    rules,
-    prefix,
-    items,
-    multiple,
     className,
     containerClassName,
-    optionClassName,
-    disabled,
     defaultValue,
+    disabled,
+    form,
+    items,
+    label,
+    multiple,
+    name,
+    optionClassName,
+    prefix,
+    rules,
     onChange,
   } = props;
-
-  const {
-    fieldState: { error },
-  } = useController({
-    name,
-    control: form.control,
-    rules,
-  });
-
+  const { fieldState: { error } } = useController({ name, control: form.control, rules });
   const selectClasses = cn(
     `${prefix}-select w-full mt-1 p-2 border rounded-lg text-text text-sm focus:ring-primary focus:border-primary`,
     error && 'border-error',
     className,
   );
-
   const containerClasses = cn('h-20 w-full ', containerClassName);
 
   useEffect(() => {
     if (defaultValue) {
-      console.log('defaultValue', name, defaultValue);
-
       form.setValue(name, defaultValue);
     }
   }, [defaultValue, form, name]);

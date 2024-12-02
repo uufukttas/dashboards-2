@@ -1,1 +1,1 @@
-export const silentErrorServices = [''];
+export const silentErrorServices = ['getBrandById'];

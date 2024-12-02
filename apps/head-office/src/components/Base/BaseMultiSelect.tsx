@@ -7,57 +7,45 @@ import BaseFormError from './BaseFormError';
 import './BaseMultiSelect.css';
 
 interface IBaseMultiSelectProps {
+  containerClassName?: string;
   form: FieldValues;
-  name: string;
+  id?: string;
+  inputClassName?: string;
   label?: string;
-  prefix?: string;
-  rules?: Record<string, unknown>;
-  options: any[];
+  name: string;
   optionLabel: string;
+  options: any[];
   optionValue: string;
   placeholder?: string;
-  inputClassName?: string;
-  containerClassName?: string;
+  prefix?: string;
+  rules?: Record<string, unknown>;
   onChange?: (value: any) => void;
-}
+};
 
 const BaseMultiSelect: FC<IBaseMultiSelectProps> = (props) => {
   const {
+    containerClassName,
     form,
+    id,
+    inputClassName,
     label,
     name,
     rules,
+    placeholder,
     prefix='base',
     options,
     optionLabel,
     optionValue,
-    placeholder,
-    inputClassName,
-    containerClassName,
     onChange,
     ...rest
   } = props;
 
-  const {
-    fieldState: { error },
-  } = useController({
-    name,
-    control: form.control,
-    rules,
-  });
-
-  const mappedOptions = options.map((option) => ({
-    ...option,
-    label: option[optionLabel],
-    value: option[optionValue],
-  }));
-
+  const { fieldState: { error } } = useController({ name, control: form.control, rules });
   const inputClasses = cn(
     `${prefix}-multiselect w-full mt-1 border focus:border-primary`,
     error && 'border-error',
     inputClassName,
   );
-
   const containerClasses = cn('mb-4', containerClassName);
 
   return (
@@ -72,6 +60,7 @@ const BaseMultiSelect: FC<IBaseMultiSelectProps> = (props) => {
         render={({ field: { value, onChange: fieldOnChange, ...field } }) => (
           <MultiSelect
             {...field}
+            id={id}
             value={value || []}
             options={options}
             optionLabel={optionLabel}

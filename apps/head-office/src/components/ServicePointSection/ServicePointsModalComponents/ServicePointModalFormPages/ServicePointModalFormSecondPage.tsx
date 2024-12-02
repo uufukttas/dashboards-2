@@ -33,6 +33,7 @@ const ServicePointModalFormSecondPage: React.FC<IModalSecondPageInputsProps> = (
             minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
             maxLength: { value: 11, message: 'En fazla 11 karakter girebilirsiniz.' },
           }}
+          type='text'
         />
         <BaseInput
           form={form}
@@ -44,6 +45,7 @@ const ServicePointModalFormSecondPage: React.FC<IModalSecondPageInputsProps> = (
             minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
             maxLength: { value: 11, message: 'En fazla 11 karakter girebilirsiniz.' },
           }}
+          type='text'
         />
         <BaseInput
           form={form}
@@ -53,6 +55,7 @@ const ServicePointModalFormSecondPage: React.FC<IModalSecondPageInputsProps> = (
           rules={{
             required: 'Adres alani zorunludur.',
           }}
+          type={'text'}
           isTextarea={true}
         />
         <BaseInput
@@ -61,6 +64,7 @@ const ServicePointModalFormSecondPage: React.FC<IModalSecondPageInputsProps> = (
           id={`address-detail`}
           label="Adres Tarifi"
           isTextarea={true}
+          type={'text'}
           containerClassName="mt-6"
         />
       </div>

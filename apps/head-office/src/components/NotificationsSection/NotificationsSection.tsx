@@ -35,6 +35,7 @@ const NotificationsSection: React.FC = () => {
     <div className={`${BRAND_PREFIX}-notifications-page wrapper flex`}>
       <BaseTable
         columns={NOTIFICATION_TABLE_COLUMNS}
+        // @ts-ignore
         data={notifications || []}
         tableHeader={tableHeader}
         globalFilterFields={['title', 'content', 'notificationType', 'category']}

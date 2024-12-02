@@ -88,20 +88,23 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
       className={`${BRAND_PREFIX}-modal-form-page-1 ${activePage === 1 ? 'block' : 'hidden'}`}
       onSubmit={handleSubmit(handleFormSubmit)}
     >
-      <BaseInput
-        form={form}
-        name={`name`}
-        id={`name`}
-        label="İstasyon İsmi"
-        rules={{
-          required: 'İstasyon İsmi zorunludur',
-          minLength: {
-            value: 3,
-            message: 'İstasyon İsmi en az 3 karakter olmalıdır',
-          },
-        }}
-        disabled={hasStationId}
-      />
+      {
+        // @ts-ignore
+        <BaseInput
+          form={form}
+          name={`name`}
+          id={`name`}
+          label="İstasyon İsmi"
+          rules={{
+            required: 'İstasyon İsmi zorunludur',
+            minLength: {
+              value: 3,
+              message: 'İstasyon İsmi en az 3 karakter olmalıdır',
+            },
+          }}
+          disabled={hasStationId}
+        />
+      }
       <BaseSelect
         form={form}
         items={companies || []}

@@ -2,18 +2,11 @@ import React, { useEffect } from 'react';
 import useModalManager from '../../hooks/useModalManager';
 import ModalLayout from '../Modal/Layouts/ModalLayout';
 import { IModalLayoutProps } from '../Modal/Layouts/ModalLayout.interface';
-
-interface IConfirmationModalProps {
-  name: string;
-  onConfirm: () => void;
-  onCancel?: () => void;
-}
+import { IConfirmationModalProps } from './types';
 
 const ConfirmationModal: React.FC<IConfirmationModalProps> = ({ name, onConfirm, onCancel }) => {
   const { closeModal } = useModalManager();
   const config: IModalLayoutProps = {
-    name,
-    title: 'Bu işlemi onaylıyor musunuz?',
     buttons: [
       {
         key: 'confirm',
@@ -23,37 +16,41 @@ const ConfirmationModal: React.FC<IConfirmationModalProps> = ({ name, onConfirm,
       },
     ],
     className: 'w-[400px] h-[200px]',
-    fotterClassName: 'flex justify-end',
     contentClassName: 'flex flex-col gap-4 h-[200px]',
-    onClose: onCancel,
+    fotterClassName: 'flex justify-end',
     footerVisible: false,
+    name,
+    title: 'Bu işlemi onaylıyor musunuz?',
+    onClose: onCancel,
   };
 
-  const handleCancel = () => {
+  const handleCancel = (): void => {
     closeModal(config.name);
     onCancel?.();
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = (): void => {
     closeModal(config.name);
     onConfirm();
   };
 
   useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      e.stopPropagation();
-      e.preventDefault();
-      if (e.key === 'Enter') {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      event.stopPropagation();
+      event.preventDefault();
+
+      if (event.key === 'Enter') {
         handleConfirm();
       }
     };
 
     window.addEventListener('keypress', handleKeyPress);
+
     return () => window.removeEventListener('keypress', handleKeyPress);
   }, []);
 
   return (
-    <ModalLayout {...config}>
+    <ModalLayout {...config} className="md:min-h-[200px]">
       <div className="flex flex-1 justify-center items-center flex-col">
         <p>Bu işlemi onaylıyor musunuz?</p>
         <p className="text-gray-500">Bu işlem geri alınamaz.</p>

@@ -133,7 +133,13 @@ const ServicePointModalFormFourthPage: React.FC<IModalFourthPageInputsProps> = (
         />
       </div>
       <div>
-        <BaseInput id={`free-park-count`} form={form} name={`free-park-count`} label={`Ücretsiz araç park sayısı`} />
+        <BaseInput
+          id={`free-park-count`}
+          form={form}
+          name={`free-park-count`}
+          label={`Ücretsiz araç park sayısı`}
+          type={'text'}
+        />
       </div>
       <div className={`opportunities-container`}>
         <div className={`opportunities-container`}>

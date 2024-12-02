@@ -76,15 +76,21 @@ const AddNotificationModal = () => {
             rules={{ required: 'Bildirim kategori seçilmedi' }}
           />
         </div>
-        <BaseInput form={form} label="Başlık" name="title" id="title" rules={{ required: 'Başlık girilmedi' }} />
-        <BaseInput
-          form={form}
-          label="İçerik"
-          name="message"
-          rules={{ required: 'İçerik girilmedi' }}
-          id="message"
-          isTextarea
-        />
+        {
+          // @ts-ignore
+          <BaseInput form={form} label="Başlık" name="title" id="title" rules={{ required: 'Başlık girilmedi' }} />
+        }
+        {
+          // @ts-ignore
+          <BaseInput
+            form={form}
+            label="İçerik"
+            name="message"
+            rules={{ required: 'İçerik girilmedi' }}
+            id="message"
+            isTextarea
+          />
+        }
         <BaseInput
           form={form}
           label="Başlangıç Tarihi"

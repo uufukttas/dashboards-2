@@ -1,7 +1,8 @@
-import { RootState } from 'apps/head-office/app/redux/store';
+import { Fragment } from 'react';
 import { useSelector } from 'react-redux';
-import { Modal } from '../../app/redux/modal/modalSlice';
 import useModalManager from '../hooks/useModalManager';
+import { Modal } from '../../app/redux/modal/modalSlice';
+import { RootState } from '../../app/redux/store';
 
 const ModalManager = () => {
   const modals = useSelector((state: RootState) => state?.modal?.modals);
@@ -11,8 +12,8 @@ const ModalManager = () => {
 
   return (
     <div className="absolute flex flex-1 w-full h-full bg-heading z-[1000] bg-opacity-40 transition-all items-center justify-center">
-      {modals?.map((modal: Modal) => (
-        <>
+      {modals?.map((modal: Modal, index: number) => (
+        <Fragment key={index}>
           <div
             className="absolute flex flex-1 w-full h-full bg-transparent z-[1000]"
             onClick={() => closeModal(modal.name)}
@@ -20,7 +21,7 @@ const ModalManager = () => {
           <div key={modal.name} style={{ zIndex: 1000 }}>
             {modal.component}
           </div>
-        </>
+        </Fragment>
       ))}
     </div>
   );
