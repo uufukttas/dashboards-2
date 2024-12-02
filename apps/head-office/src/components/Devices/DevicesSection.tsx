@@ -1,5 +1,5 @@
 import { Menu } from 'primereact/menu';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   useGetConnectorsQuery,
   useGetDeviceBrandsQuery,
@@ -14,16 +14,14 @@ import { IConnectorStateProps, IDeviceBrandDataProps, IDeviceResponsesProps, IHe
 const DevicesSection: React.FC = () => {
   const listTypes: string[] = ['brand', 'model', 'connector'];
   const [brandId, setBrandId] = useState<number>(3);
-  const [connectorId, setConnectorId] = useState<number>(3);
+  const [connectorId, setConnectorId] = useState<number>(0);
   const [modelId, setModelId] = useState<number>(3);
-  const { data: deviceModels = [] } = useGetDeviceModelsQuery<IDeviceResponsesProps>(brandId);
-  const { data: deviceConnectors = [] } = useGetConnectorsQuery<IDeviceResponsesProps>(modelId);
+  const { data: deviceModels = [], refetch: refetchModels } = useGetDeviceModelsQuery<IDeviceResponsesProps>(brandId);
+  const { data: deviceConnectors = [], refetch: refetchConnectors } =
+    useGetConnectorsQuery<IDeviceResponsesProps>(modelId);
   const { data: deviceBrands = [] } = useGetDeviceBrandsQuery<IDeviceResponsesProps>(null);
 
-  const createMenuItems = (
-    items: IDeviceBrandDataProps[] | IHeaderProps[] | IConnectorStateProps[],
-    type: string,
-  ) => {
+  const createMenuItems = (items: IDeviceBrandDataProps[] | IHeaderProps[] | IConnectorStateProps[], type: string) => {
     const headerName = getHeaderName(type) || '';
 
     if (items) {
@@ -38,13 +36,16 @@ const DevicesSection: React.FC = () => {
             <ListItem
               item={item}
               type={type}
-              onClick={
-                type === 'brand'
-                  ? () => setBrandId(item.id)
-                  : type === 'model'
-                  ? () => setModelId(item.id)
-                  : () => setConnectorId(item.id)
-              }
+              onClick={() => {
+                if (type === 'brand') {
+                  setBrandId(item.id);
+                  setModelId(deviceModels[0]?.id);
+                } else if (type === 'model') {
+                  setModelId(item.id);
+                } else if (type === 'connector') {
+                  setConnectorId(item.id);
+                }
+              }}
             />
           ),
       }));
@@ -68,6 +69,20 @@ const DevicesSection: React.FC = () => {
       return createMenuItems(deviceConnectors, 'connector');
     }
   };
+
+  useEffect(() => {
+    if (brandId) {
+      refetchModels().then(() => {
+        if (deviceModels.length > 0) {
+          setModelId(deviceModels[0].id);
+        }
+      });
+    }
+  }, [brandId, refetchModels, refetchConnectors, deviceModels.length]);
+
+  useEffect(() => {
+    refetchConnectors();
+  }, [modelId]);
 
   return (
     <div

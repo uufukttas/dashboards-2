@@ -1,17 +1,17 @@
-import React from 'react';
-import Image from 'next/image';
 import { Button } from '@projects/button';
-import AddBrandModal from './DeviceModals/AddBrandModal';
-import AddConnectorModal from './DeviceModals/AddConnectorModal';
-import AddModelModal from './DeviceModals/AddModelModal';
-import ConfirmationModal from '../Modals/ConfirmationModal';
-import { BRAND_PREFIX } from '../../constants/constants';
-import useModalManager from '../../hooks/useModalManager';
+import Image from 'next/image';
+import React from 'react';
 import {
   useDeleteDeviceBrandMutation,
   useDeleteDeviceConnectorMutation,
   useDeleteDeviceModelMutation,
 } from '../../../app/api/services/devices/devices.service';
+import { BRAND_PREFIX } from '../../constants/constants';
+import useModalManager from '../../hooks/useModalManager';
+import ConfirmationModal from '../Modals/ConfirmationModal';
+import AddBrandModal from './DeviceModals/AddBrandModal';
+import AddConnectorModal from './DeviceModals/AddConnectorModal';
+import AddModelModal from './DeviceModals/AddModelModal';
 
 import { IConnectorStateProps, IDeviceBrandDataProps, IDeviceModelDataProps } from './types';
 
@@ -73,7 +73,7 @@ const ListItem: React.FC<{
 
   return (
     <div
-      className={`${sectionPrefix}-item-container w-full h-full flex justify-between items-center min-h-[50px] px-4 hover:bg-gray-300`}
+      className={`${sectionPrefix}-item-container w-full h-full flex justify-between items-center min-h-[50px] px-4 hover:bg-gray-100`}
     >
       <div
         className={`${sectionPrefix}-info-container w-full flex items-center justify-between px-8`}
