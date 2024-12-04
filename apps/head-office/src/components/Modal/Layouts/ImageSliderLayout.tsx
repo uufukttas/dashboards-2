@@ -1,9 +1,11 @@
-import React, { FC, ReactNode, useState } from 'react';
 import { Button } from '@projects/button';
+import { Image } from '@projects/image';
+import { FC, ReactNode, useState } from 'react';
+import { removeServicePointImageRequest } from '../../../../app/api/servicePointDetails/removeServicePointImageRequest';
 import { IImage } from '../../../../app/types/model';
 import { BRAND_PREFIX } from '../../../constants/constants';
-import { removeServicePointImageRequest } from '../../../../app/api/servicePointDetails/removeServicePointImageRequest';
-import { Image } from '@projects/image';
+import ConfirmationModal from '../../Modals/ConfirmationModal';
+import useModalManager from 'apps/head-office/src/hooks/useModalManager';
 
 interface ImageSliderLayoutProps {
   images: Array<IImage> | null;
@@ -17,6 +19,7 @@ const ImageSliderLayout: FC<ImageSliderLayoutProps> = ({
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const sectionPrefix = 'image_slider';
+  const { openModal } = useModalManager();
 
   const handleNext = () => {
     if (images) setCurrentIndex((currentIndex + 1) % images.length);
@@ -33,16 +36,18 @@ const ImageSliderLayout: FC<ImageSliderLayoutProps> = ({
     }
 
     const image = images[currentIndex];
+    openModal('confirmation-modal', <ConfirmationModal name="confirmation-modal" onConfirm={() => removeServicePointImageRequest(image.id)} />);
 
-    await removeServicePointImageRequest(image.id);
-    window.location.reload();
+
+    // await removeServicePointImageRequest(image.id);
+    // window.location.reload();
   };
 
   if (!images || images.length === 0) return <></>;
 
   return (
     <div
-      className={`${BRAND_PREFIX}-${sectionPrefix}-modal-form-container relative p-6 bg-white rounded-lg h-[550px]`}
+      className={`${BRAND_PREFIX}-${sectionPrefix}-modal-form-container relative p-6 bg-white rounded-lg h-[550px] flex items-center justify-center`}
     >
       <div className="relative flex justify-center items-center h-fit w-full">
         <button

@@ -1,173 +1,128 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useEffect, useState } from 'react';
+import StationImages from './LocationInfo/StationImages';
+import { initialServicePointDataValue, initialServicePointsDetailsInfoStateValue } from '../constants';
+import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../constants/constants';
 import {
-  initialServicePointDataValue,
-  initialServicePointsDetailsInfoStateValue,
-} from '../constants';
-import { getSelectedStationFeatures } from '../../../../app/api/servicePointDetails/index';
-import {
-  getServicePointDataRequest,
-  getServicePointInformationRequest,
-} from '../../../../app/api/servicePoints/index';
-import { getServicePointFeatureValues } from '../../../../app/api/servicePointDetails/getFeatureValuesRequest';
-import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
+  useGetServicePointDataMutation,
+  useGetServicePointInformationMutation,
+  useGetStationFeatureValuesMutation,
+  useGetStationSelectedValuesMutation,
+} from '../../../../app/api/services/service-point-details/servicePointDetails.service';
 import type {
-  IFeatureValueProps,
-  IInfoItems,
+  IFeatureItemProps,
+  IInfoItemsProps,
   IServiceDetailsContentProps,
   IServicePointsDetailsInfoProps,
   IServicePointsDetailsProps,
+  IStationFeatureProps,
 } from '../types';
 
-import { CITIES, DISTRICTS } from '../../../constants/constants';
-import StationImages from './LocationInfo/StationImages';
+const LocationInfo: React.FC<IServiceDetailsContentProps> = ({ slug }: IServiceDetailsContentProps) => {
+  const sectionPrefix: string = `${BRAND_PREFIX}-service-point-details`;
+  const stationId: number = Number(slug);
+  const [getServicePointData] = useGetServicePointDataMutation();
+  const [getServicePointInformation] = useGetServicePointInformationMutation();
+  const [getStationFeatureValues] = useGetStationFeatureValuesMutation();
+  const [getStationSelectedValues] = useGetStationSelectedValuesMutation();
+  const [features, setFeatures] = useState<IStationFeatureProps[]>([]);
+  const [opportunitiesFeatureName, setOpportunitiesFeatureName] = useState<string | null>('');
+  const [parkingFeatureValue, setParkingFeatureValue] = useState<string>('0');
+  const [paymentFeatureName, setPaymentFeatureName] = useState<string>('');
+  const [servicePointData, setServicePointData] = useState<IServicePointsDetailsProps>(initialServicePointDataValue);
+  const [servicePointDetailsInfo, setServicePointDetailsInfo] = useState<IServicePointsDetailsInfoProps>(
+    initialServicePointsDetailsInfoStateValue,
+  );
 
-const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({
-  slug,
-}: IServiceDetailsContentProps) => {
-  const sectionPrefix = 'station-images';
-  const dispatch = useDispatch();
-  const [features, setFeatures] = useState<
-    { StationFeatureType: number; StationFeatureValue: string }[]
-  >([]);
-  const [opportunitiesFeatureName, setOpportunitiesFeatureName] = useState<
-    string | null[]
-  >();
-  const [parkingFeatureValue, setParkingFeatureValue] = useState<string>();
-  const [paymentFeatureName, setPaymentFeatureName] = useState<
-    string | null[]
-  >();
-  const [servicePointDetailsInfo, setServicePointDetailsInfo] =
-    useState<IServicePointsDetailsInfoProps>(
-      initialServicePointsDetailsInfoStateValue
-    );
-  const [servicePointData, setServicePointData] =
-    useState<IServicePointsDetailsProps>(initialServicePointDataValue);
+  const fetchServicePointData = useCallback(async (): Promise<void> => {
+    const response = await getServicePointData({ body: { id: stationId } });
 
-  const getParkingValues = async () => {
-    setParkingFeatureValue(
-      features.find((feature) => feature.StationFeatureType === 8)
-        ?.StationFeatureValue
-    );
-  };
-  const getSelectedCity = (cityId: number) =>
-    CITIES[cityId as unknown as keyof typeof CITIES];
-  const getSelectedDistrict = (districtId: number) =>
-    DISTRICTS[districtId as unknown as keyof typeof DISTRICTS];
-  const getSelectedOpportunitiesName = async (): Promise<void> => {
-    const opportunities = features.filter(
-      (feature) => feature.StationFeatureType === 2
-    );
-    const opportunitiesFeatureValues = await getServicePointFeatureValues(2);
+    if (response?.data) setServicePointData(response.data[0]);
+  }, [getServicePointData, stationId]);
+  const fetchServicePointDetails = useCallback(async (): Promise<void> => {
+    const [servicePointInfo, servicePointFeatures] = await Promise.all([
+      getServicePointInformation({ body: { stationId } }).unwrap(),
+      getStationSelectedValues({
+        body: {
+          featureTypeModel: [{ featureType: 1 }, { featureType: 2 }, { featureType: 8 }],
+          stationId,
+        },
+      }).unwrap(),
+    ]);
 
-    const selectedOpportunities = opportunitiesFeatureValues.data
-      .filter((item: IFeatureValueProps) => {
-        return opportunities.some(
-          (opportunity) => item.rid === Number(opportunity.StationFeatureValue)
-        );
-      })
-      .map((item: IFeatureValueProps) => item.name);
+    setServicePointDetailsInfo(servicePointInfo[0]);
+    setFeatures(servicePointFeatures);
+  }, [getServicePointInformation, getStationSelectedValues, stationId]);
+  const findFeatureValue = useCallback(
+    (type: number): string | undefined =>
+      features.find((feature) => feature.StationFeatureType === type)?.StationFeatureValue,
+    [features],
+  );
+  const getSelectedFeatureNames = useCallback(
+    async (type: number, setName: (value: string) => void): Promise<void> => {
+      const filteredFeatures: IStationFeatureProps[] = features.filter(
+        (feature) => feature.StationFeatureType === type,
+      );
+      const featureValues: IFeatureItemProps[] = await mapFeatureValuesToNames(type);
 
-    setOpportunitiesFeatureName(selectedOpportunities.join(', '));
-  };
-  const getSelectedPaymentsMethodsName = async (): Promise<void> => {
-    const paymentMethods = features.filter(
-      (feature) => feature.StationFeatureType === 1
-    );
-    const paymentsFeatureValues = await getServicePointFeatureValues(1);
-
-    const selectedPaymentMethodNames = paymentsFeatureValues.data
-      .filter((item: IFeatureValueProps) =>
-        paymentMethods.some(
-          (paymentMethod) =>
-            item.rid === Number(paymentMethod.StationFeatureValue)
+      const selectedNames: string[] = featureValues
+        .filter((item: IFeatureItemProps) =>
+          filteredFeatures.some((feature: IStationFeatureProps) => item.rid === Number(feature.StationFeatureValue)),
         )
-      )
-      .map((item: IFeatureValueProps) => item.name);
+        .map((item) => item.name);
 
-    setPaymentFeatureName(selectedPaymentMethodNames.join(', '));
-  };
-  const getServicePointsDetailsInfo = async (slug: string): Promise<void> => {
-    const stationInfo = await getServicePointInformationRequest(Number(slug));
+      setName(selectedNames.join(', ') || '');
+    },
+    [features],
+  );
+  const mapFeatureValuesToNames = useCallback(
+    async (type: number) => {
+      const response: { data?: IFeatureItemProps[]; error?: string | unknown } = await getStationFeatureValues({
+        body: { stationFeatureType: type },
+      });
 
-    stationInfo.data[0] && setServicePointDetailsInfo(stationInfo.data[0]);
-  };
-  const getServicePointData = async (slug: string): Promise<void> => {
-    const stationData = await getServicePointDataRequest(Number(slug));
+      return response.data || [];
+    },
+    [getStationFeatureValues],
+  );
 
-    stationData.data && setServicePointData(stationData.data[0]);
-  };
-  const getServicePointFeatures = async (slug: string): Promise<void> => {
-    const featureData = await getSelectedStationFeatures(Number(slug));
-
-    setFeatures(featureData.data);
-    dispatch(toggleLoadingVisibility(false));
-  };
-
-  const infoItems: Array<IInfoItems> = [
+  const infoItems: IInfoItemsProps[] = [
     { label: 'Adres:', value: servicePointDetailsInfo.address },
     { label: 'Adres Tarifi:', value: servicePointDetailsInfo.addressDetail },
     { label: 'Telefon:', value: servicePointDetailsInfo.phone1 },
     { label: 'Telefon 2:', value: servicePointDetailsInfo.phone2 },
-    { label: 'İl:', value: getSelectedCity(servicePointDetailsInfo.cityId) },
-    {
-      label: 'İlçe:',
-      value: getSelectedDistrict(servicePointDetailsInfo.districtId),
-    },
-    {
-      label: 'Enlem - Boylam:',
-      value: `${servicePointDetailsInfo.lat} - ${servicePointDetailsInfo.lon}`,
-    },
+    { label: 'İl:', value: CITIES[servicePointDetailsInfo.cityId as unknown as keyof typeof CITIES] },
+    { label: 'İlçe:', value: DISTRICTS[servicePointDetailsInfo.districtId as unknown as keyof typeof DISTRICTS] },
+    { label: 'Enlem - Boylam:', value: `${servicePointDetailsInfo.lat} - ${servicePointDetailsInfo.lon}` },
     { label: 'Şirket:', value: servicePointData.companyName },
     { label: 'Bayi:', value: servicePointData.resellerName },
     { label: 'Ödeme Yöntemleri:', value: paymentFeatureName },
     { label: 'Ücretsiz Park Yeri:', value: parkingFeatureValue },
     { label: 'İstayon Olanakları:', value: opportunitiesFeatureName },
-    {
-      label: 'İstasyon Görselleri:',
-      render: <StationImages stationId={slug} />,
-    },
+    { label: 'İstasyon Görselleri:', render: <StationImages stationId={stationId} /> },
   ];
 
   useEffect(() => {
-    getServicePointsDetailsInfo(slug);
-    getServicePointData(slug);
-    getServicePointFeatures(slug);
-  }, []);
+    fetchServicePointDetails();
+    fetchServicePointData();
+  }, [fetchServicePointDetails, fetchServicePointData]);
 
   useEffect(() => {
-    getSelectedPaymentsMethodsName();
-    getParkingValues();
-    getSelectedOpportunitiesName();
-    getSelectedCity(servicePointDetailsInfo.cityId);
-    getSelectedDistrict(servicePointDetailsInfo.districtId);
-  }, [features]);
+    if (features.length > 0) {
+      getSelectedFeatureNames(1, setPaymentFeatureName);
+      setParkingFeatureValue(findFeatureValue(8) || '0');
+      getSelectedFeatureNames(2, setOpportunitiesFeatureName);
+    }
+  }, [features, getSelectedFeatureNames, findFeatureValue]);
 
   return (
-    <div
-      className={`${sectionPrefix}-content text-black bg-white p-4 rounded-b-md`}
-    >
-      <div
-        className={`${sectionPrefix}-info-container flex flex-col justify-between`}
-      >
+    <div className={`${sectionPrefix}-content text-black bg-white p-4 rounded-b-md`}>
+      <div className={`${sectionPrefix}-info-container flex flex-col justify-between`}>
         {infoItems.map((item, index) => (
-          <div key={index}>
-            <div
-              key={index}
-              className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}
-            >
-              <p
-                className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold`}
-              >
-                {item.label}
-              </p>
-              <p
-                className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}
-              >
-                {item.value && item.value}
-                {item.render && item.render}
-              </p>
-            </div>
+          <div key={index} className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
+            <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold`}>{item.label}</p>
+            <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>
+              {item.value || item.render}
+            </p>
           </div>
         ))}
       </div>
@@ -175,4 +130,4 @@ const ServicePointDetailsContent: React.FC<IServiceDetailsContentProps> = ({
   );
 };
 
-export default ServicePointDetailsContent;
+export default React.memo(LocationInfo);

@@ -6,12 +6,19 @@ import 'react-image-crop/src/ReactCrop.scss';
 import { useDispatch } from 'react-redux';
 import { addServicePointImageRequest } from '../../../../app/api/servicePointDetails';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import ModalLayout from '../../Modal/Layouts/ModalLayout';
 import { IServicePointDetailsModalProps } from '../types';
 
 const FileUpload: React.FC<IServicePointDetailsModalProps> = ({ slug }: IServicePointDetailsModalProps) => {
   const dispatch = useDispatch();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [crop, setCrop] = useState<Crop>();
+  const [crop, setCrop] = useState<Crop>({
+    height: 360,
+    unit: 'px',
+    width: 480,
+    x: 1,
+    y: 1,
+  });
   const imageRef = useRef<HTMLImageElement>(null);
   const [imageSrc, setImageSrc] = useState('');
 
@@ -71,7 +78,6 @@ const FileUpload: React.FC<IServicePointDetailsModalProps> = ({ slug }: IService
     if (!selectedFile) {
       return;
     }
-
     const croppedImageUrl = await getCroppedImg(imageRef.current, crop);
 
     const _file = await fetch(croppedImageUrl)
@@ -102,42 +108,51 @@ const FileUpload: React.FC<IServicePointDetailsModalProps> = ({ slug }: IService
   };
 
   return (
-    <div className="file-upload">
-      {!selectedFile && (
-        <form
-          className="file-upload-form border border-dashed my-8 items-center text-center p-12 "
-          onSubmit={handleSubmit}
-        >
-          <Input className="" id="file-input" name="file-input" type="file" onChange={handleFileInput} />
-        </form>
-      )}
-      {
-        <div className="items-center justify-center flex flex-col">
-          <ReactCrop crop={crop} onChange={setCrop} aspect={4 / 3} minWidth={400} minHeight={225}>
-            <img ref={imageRef} src={imageSrc} alt="Crop" />
-          </ReactCrop>
-          <div className="flex flex-row gap-4 mt-8 w-full">
-            <Button
-              className="file-upload-button bg-blue-700 text-white rounded-md px-4 py-2 w-2/3"
-              id="file-upload-button"
-              type="submit"
-              onClick={handleSubmit}
-              disabled={!crop}
-            >
-              Kaydet
-            </Button>
-            <Button
-              className="file-upload-button bg-orange-500 text-white rounded-md px-4 py-2 w-1/3"
-              id="file-upload-button"
-              type="submit"
-              onClick={handleReset}
-            >
-              Sıfırla
-            </Button>
+    <ModalLayout
+      className={`md:min-h-[350px]`}
+      footerVisible={false}
+      name="addServicePointImageModal"
+      title={`Servis Noktası Göreseli Ekle `}
+    >
+      <div className="file-upload">
+        {!selectedFile && (
+          <form
+            className="file-upload-form border border-dashed my-8 items-center text-center p-12 "
+            onSubmit={handleSubmit}
+          >
+            <Input className="" id="file-input" name="file-input" type="file" onChange={handleFileInput} />
+          </form>
+        )}
+        {
+          <div className="items-center justify-center flex flex-col">
+            {crop && selectedFile && (
+              <ReactCrop crop={crop} onChange={setCrop} aspect={4 / 3} minWidth={400} minHeight={225}>
+                <img ref={imageRef} src={imageSrc} alt="Crop" />
+              </ReactCrop>
+            )}
+            <div className="flex flex-row gap-4 mt-8 w-full">
+              <Button
+                className="file-upload-button bg-blue-700 text-white rounded-md px-4 py-2 w-2/3"
+                id="file-upload-button"
+                type="submit"
+                onClick={handleSubmit}
+                disabled={!crop}
+              >
+                Kaydet
+              </Button>
+              <Button
+                className="file-upload-button bg-orange-500 text-white rounded-md px-4 py-2 w-1/3"
+                id="file-upload-button"
+                type="submit"
+                onClick={handleReset}
+              >
+                Sıfırla
+              </Button>
+            </div>
           </div>
-        </div>
-      }
-    </div>
+        }
+      </div>
+    </ModalLayout>
   );
 };
 
