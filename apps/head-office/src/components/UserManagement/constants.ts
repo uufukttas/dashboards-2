@@ -82,7 +82,7 @@ const userManagementTableHeadData: IBaseTableColumn[] = [
     header: 'Aksiyonlar',
     id: 'actions',
     isRemovable: false,
-    type: 'custom'
+    type: 'custom',
   },
 ];
 const initialUserManagementDataValues = {

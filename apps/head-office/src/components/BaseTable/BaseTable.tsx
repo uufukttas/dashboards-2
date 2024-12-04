@@ -1,6 +1,6 @@
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
-import { DataTable, DataTableFilterMeta } from 'primereact/datatable';
+import { DataTable, DataTableFilterMeta, DataTableRowClickEvent } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
@@ -32,8 +32,9 @@ export const BaseTable: FC<IBaseTableProps> = (props) => {
     selectionMode = 'multiple',
     stateStorageType = 'local',
     userStateKey = `table-${id}`,
+    onRowClick,
   } = props;
-  const dataTableRef = useRef<DataTable<Record<string,unknown>[]>>(null);
+  const dataTableRef = useRef<DataTable<Record<string, unknown>[]>>(null);
   const [editingRows, setEditingRows] = useState({});
   const [defultFilters, setDefaultFilters] = useState<DataTableFilterMeta | undefined>(filters);
   const [globalFilterValue, setGlobalFilterValue] = useState<string>('');
@@ -136,10 +137,20 @@ export const BaseTable: FC<IBaseTableProps> = (props) => {
     setGlobalFilterValue(value);
   };
 
+  const handleRowClick = (e: DataTableRowClickEvent) => {
+    onRowClick &&
+      onRowClick({
+        // @ts-ignore
+        rowData: e.data,
+        rowIndex: e.index,
+      });
+  };
+
   useEffect(() => {
     const globalFilterValue = localStorage.getItem(userStateKey) || '';
 
-    globalFilterValue && JSON.parse(globalFilterValue).filters?.global?.value &&
+    globalFilterValue &&
+      JSON.parse(globalFilterValue).filters?.global?.value &&
       setGlobalFilterValue(JSON.parse(globalFilterValue).filters?.global?.value);
   }, []);
 
@@ -171,6 +182,7 @@ export const BaseTable: FC<IBaseTableProps> = (props) => {
         onRowEditChange={(e) => setEditingRows(e.data)}
         onRowEditComplete={(e) => setEditingRows(e.data)}
         onSelectionChange={(e) => setSelectedRows(e.data)}
+        onRowClick={handleRowClick}
       >
         {columns.map((column, index) => (
           <Column

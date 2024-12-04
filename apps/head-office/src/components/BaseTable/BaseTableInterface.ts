@@ -15,7 +15,13 @@ export interface IBaseTableColumn {
   style?: Record<string, unknown>;
   type: 'string' | 'number' | 'date' | 'boolean' | 'custom';
 };
-export interface IBaseTableProps {
+
+export interface TableRowClickEvent<T = undefined> {
+  rowData: T;
+  rowIndex: number;
+}
+
+export interface IBaseTableProps<T = undefined> {
   className?: string;
   columns: IBaseTableColumn[];
   columnResizeMode?: 'expand' | 'fit';
@@ -41,4 +47,5 @@ export interface IBaseTableProps {
   selectionMode?: 'multiple' | 'checkbox' | null;
   stateStorageType?: 'local' | 'session';
   userStateKey?: string;
+  onRowClick?: (e: TableRowClickEvent<T>) => void;
 };

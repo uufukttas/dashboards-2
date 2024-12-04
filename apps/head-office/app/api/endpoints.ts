@@ -65,4 +65,7 @@ export const ENDPOINTS = {
   GET_NOTIFICATION_TYPES: '/GetNotificationTypeList',
   GET_NOTIFICATION_PUSH_CATEGORIES: '/GetNotificationPushCategories',
   ADD_NOTIFICATION: '/AddNotification',
+  GET_NOTIFICATION_DELIVERY_LIST: '/GetNotificationDeliveryList',
+  EDIT_NOTIFICATION: '/EditNotification',
+  CANCEL_NOTIFICATION: '/CancelNotification',
 };

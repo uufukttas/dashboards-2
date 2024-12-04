@@ -1,10 +1,10 @@
-import { FC } from 'react';
-import { Controller, FieldValues, useController } from 'react-hook-form';
 import { IInputProps, Input } from '@projects/input';
 import { Label } from '@projects/label';
 import { Textarea } from '@projects/textarea';
-import BaseFormError from './BaseFormError';
+import { FC } from 'react';
+import { Controller, FieldValues, useController } from 'react-hook-form';
 import { cn } from '../../utils/common.utils';
+import BaseFormError from './BaseFormError';
 
 interface IBaseInputProps extends Omit<IInputProps, 'form' | 'className'> {
   form: FieldValues;
@@ -15,7 +15,7 @@ interface IBaseInputProps extends Omit<IInputProps, 'form' | 'className'> {
   inputClassName?: string;
   containerClassName?: string;
   isTextarea?: boolean;
-  type: string;
+  type?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -70,7 +70,7 @@ const BaseInput: FC<IBaseInputProps> = (props) => {
               {...rest}
               checked={field.value}
               onChange={(event) => {
-                type === 'checkbox' 
+                type === 'checkbox'
                   ? field.onChange(event.target.checked)
                   : field.onChange(event.target.value);
                 if (onChange) {

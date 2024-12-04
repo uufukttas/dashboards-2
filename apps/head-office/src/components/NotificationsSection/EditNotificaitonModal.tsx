@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { CreateNotificationBody } from '../../../app/api/services/notifications/notification.interface';
+import { IEditNotificationBody, INoficication } from '../../../app/api/services/notifications/notification.interface';
 import {
-  useAddNotificationMutation,
+  useEditNotificationMutation,
   useGetNotificationPushCategoriesQuery,
   useGetNotificationTypesQuery,
 } from '../../../app/api/services/notifications/notification.service';
@@ -11,12 +11,18 @@ import ModalLayout from '../Modal/Layouts/ModalLayout';
 import { IModalLayoutButtonProps } from '../Modal/Layouts/ModalLayout.interface';
 import NotificationForm from './NotificationForm';
 
-const AddNotificationModal = () => {
+interface EditNotificationModalProps {
+  notificationId: number;
+  notification?: INoficication;
+}
+
+const EditNotificationModal = ({ notificationId, notification }: EditNotificationModalProps) => {
   const form = useForm();
 
   const { data: notificationTypes } = useGetNotificationTypesQuery();
   const { data: notificationPushCategories } = useGetNotificationPushCategoriesQuery();
-  const [addNotification] = useAddNotificationMutation();
+
+  const [editNotification] = useEditNotificationMutation();
   const { closeModal } = useModalManager();
 
   const [image, setImage] = useState<File>();
@@ -29,22 +35,23 @@ const AddNotificationModal = () => {
     formData.append('startedDate', data.startedDate);
     formData.append('notificationTypeRID', data.notificationTypeRID);
     formData.append('notificationPushCategoryRID', data.notificationPushCategoryRID);
+    formData.append('notificationId', notificationId.toString());
 
     image && formData.append('image', image);
 
-    addNotification({
-      body: formData as unknown as CreateNotificationBody,
+    editNotification({
+      body: formData as unknown as IEditNotificationBody,
     })
       .unwrap()
       .then(() => {
-        closeModal('addNotification');
+        closeModal('editNotification');
       });
   };
 
   const buttons: IModalLayoutButtonProps[] = [
     {
-      key: 'addNotification',
-      label: 'Ekle',
+      key: 'editNotification',
+      label: 'Düzenle',
       buttonClassName: 'px-12 ml-4',
       onClick: () => {
         form.handleSubmit(onSubmit)();
@@ -52,8 +59,20 @@ const AddNotificationModal = () => {
     },
   ];
 
+  useEffect(() => {
+    if (notification) {
+      form.reset({
+        title: notification.title,
+        message: notification.message,
+        startedDate: notification.startedDate,
+        notificationTypeRID: notification.notificationTypeRID,
+        notificationPushCategoryRID: notification.notificationPushCategoryRID,
+      });
+    }
+  }, [notification]);
+
   return (
-    <ModalLayout name="addNotification" title="Bildirim Ekle" buttons={buttons}>
+    <ModalLayout name="editNotification" title="Bildirim Düzenle" buttons={buttons}>
       <NotificationForm
         form={form}
         notificationTypes={notificationTypes}
@@ -64,4 +83,4 @@ const AddNotificationModal = () => {
   );
 };
 
-export default AddNotificationModal;
+export default EditNotificationModal;

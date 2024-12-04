@@ -37,3 +37,15 @@ export interface INoficication {
   deliveryMessageID: number;
   deliveryAttemps: number;
 }
+
+export interface IGetNotificationDeliveryListParams {
+  notificationId: number;
+}
+
+export interface IEditNotificationBody extends CreateNotificationBody {
+  NotificaitonId: number;
+}
+
+export interface ICancelNotificationBody {
+  notificationId: number;
+}
