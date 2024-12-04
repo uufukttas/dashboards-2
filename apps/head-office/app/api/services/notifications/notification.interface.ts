@@ -38,6 +38,16 @@ export interface INoficication {
   deliveryAttemps: number;
 }
 
+export interface INotificationDelivery {
+  rid: number;
+  notificationRID: number;
+  userRID: number;
+  deliveryDate: string;
+  isDelivered: boolean;
+  messageID: number;
+  deliveryAttempts: number;
+}
+
 export interface IGetNotificationDeliveryListParams {
   notificationId: number;
 }

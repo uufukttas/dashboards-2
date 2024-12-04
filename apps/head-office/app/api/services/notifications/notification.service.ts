@@ -8,6 +8,7 @@ import {
   IEditNotificationBody,
   IGetNotificationDeliveryListParams,
   INoficication,
+  INotificationDelivery,
   INotificationPushCategory,
   INotificationTypeList,
 } from './notification.interface';
@@ -44,12 +45,15 @@ const notificationService = baseApi.injectEndpoints({
         method: ApiServiceMethods.GET,
       }),
     }),
-    getNotificationDeliveryList: build.query<Array<INoficication>, IGetNotificationDeliveryListParams>({
+    getNotificationDeliveryList: build.query<Array<INotificationDelivery>, IGetNotificationDeliveryListParams>({
       query: ({ notificationId }) => ({
         url: `${ENDPOINTS.NOTIFICATION}${ENDPOINTS.GET_NOTIFICATION_DELIVERY_LIST}`,
         method: ApiServiceMethods.GET,
-        params: {
+        body: {
           notificationId,
+        },
+        headers: {
+          'Content-Type': 'multipart/form-data',
         },
       }),
     }),
