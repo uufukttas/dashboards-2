@@ -33,6 +33,7 @@ export const BaseTable: FC<IBaseTableProps> = (props) => {
     stateStorageType = 'local',
     userStateKey = `table-${id}`,
     onRowClick,
+    rowClassName,
   } = props;
   const dataTableRef = useRef<DataTable<Record<string, unknown>[]>>(null);
   const [editingRows, setEditingRows] = useState({});
@@ -179,6 +180,7 @@ export const BaseTable: FC<IBaseTableProps> = (props) => {
         stateKey={userStateKey}
         stateStorage={stateStorageType}
         value={data}
+        rowClassName={rowClassName}
         onRowEditChange={(e) => setEditingRows(e.data)}
         onRowEditComplete={(e) => setEditingRows(e.data)}
         onSelectionChange={(e) => setSelectedRows(e.data)}

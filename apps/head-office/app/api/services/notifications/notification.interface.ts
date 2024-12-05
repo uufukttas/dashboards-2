@@ -36,6 +36,8 @@ export interface INoficication {
   deliveryDate: string;
   deliveryMessageID: number;
   deliveryAttemps: number;
+  notificationInfoColorRID: number;
+  notificationInfoTypeRID: number;
 }
 
 export interface INotificationDelivery {
@@ -58,4 +60,16 @@ export interface IEditNotificationBody extends CreateNotificationBody {
 
 export interface ICancelNotificationBody {
   notificationId: number;
+}
+
+export interface INotificationInfoType {
+  rid: number;
+  name: string;
+  imageCdnUrl: string;
+}
+
+export interface INotificationInfoColor {
+  rid: number;
+  name: string;
+  hexCode: string;
 }

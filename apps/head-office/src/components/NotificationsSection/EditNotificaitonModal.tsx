@@ -36,7 +36,8 @@ const EditNotificationModal = ({ notificationId, notification }: EditNotificatio
     formData.append('notificationTypeRID', data.notificationTypeRID);
     formData.append('notificationPushCategoryRID', data.notificationPushCategoryRID);
     formData.append('notificationId', notificationId.toString());
-
+    formData.append('notificationInfoTypeRID', data.notificationInfoTypeRID);
+    formData.append('notificationInfoColorRID', data.notificationInfoColorRID);
     image && formData.append('image', image);
 
     editNotification({
@@ -67,6 +68,8 @@ const EditNotificationModal = ({ notificationId, notification }: EditNotificatio
         startedDate: notification.startedDate,
         notificationTypeRID: notification.notificationTypeRID,
         notificationPushCategoryRID: notification.notificationPushCategoryRID,
+        notificationInfoTypeRID: notification.notificationInfoTypeRID,
+        notificationInfoColorRID: notification.notificationInfoColorRID,
       });
     }
   }, [notification]);

@@ -29,6 +29,8 @@ const AddNotificationModal = () => {
     formData.append('startedDate', data.startedDate);
     formData.append('notificationTypeRID', data.notificationTypeRID);
     formData.append('notificationPushCategoryRID', data.notificationPushCategoryRID);
+    formData.append('notificationInfoColorRID', data.notificationInfoColorRID);
+    formData.append('notificationInfoTypeRID', data.notificationInfoTypeRID);
 
     image && formData.append('image', image);
 
@@ -53,7 +55,7 @@ const AddNotificationModal = () => {
   ];
 
   return (
-    <ModalLayout name="addNotification" title="Bildirim Ekle" buttons={buttons}>
+    <ModalLayout name="addNotification" title="Bildirim Ekle" buttons={buttons} className="md:w-[700px]">
       <NotificationForm
         form={form}
         notificationTypes={notificationTypes}

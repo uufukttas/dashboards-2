@@ -68,4 +68,6 @@ export const ENDPOINTS = {
   GET_NOTIFICATION_DELIVERY_LIST: '/GetNotificationDeliveryList',
   EDIT_NOTIFICATION: '/EditNotification',
   CANCEL_NOTIFICATION: '/CancelNotification',
+  GET_NOTIFICATION_INFO_COLOR_LIST: '/GetNotificationInfoColorList',
+  GET_NOTIFICATION_INFO_TYPE_LIST: '/GetNotificationInfoTypeList',
 };

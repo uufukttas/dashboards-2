@@ -48,4 +48,5 @@ export interface IBaseTableProps<T = undefined> {
   stateStorageType?: 'local' | 'session';
   userStateKey?: string;
   onRowClick?: (e: TableRowClickEvent<T>) => void;
+  rowClassName?: (e: Record<string, unknown>) => string;
 };

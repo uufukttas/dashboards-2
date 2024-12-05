@@ -1,3 +1,4 @@
+import { isNil } from 'lodash';
 import moment from 'moment';
 import { Button } from 'primereact/button';
 import React from 'react';
@@ -5,7 +6,8 @@ import { FaPen, FaTrashCan } from 'react-icons/fa6';
 import { INoficication } from '../../../app/api/services/notifications/notification.interface';
 import {
   useCancelNotificationMutation,
-  useGetNotificationsQuery,
+  useGetNotificationInfoTypeListQuery,
+  useGetNotificationsQuery
 } from '../../../app/api/services/notifications/notification.service';
 import { BRAND_PREFIX } from '../../constants/constants';
 import useModalManager from '../../hooks/useModalManager';
@@ -19,6 +21,7 @@ import NotificationDeliveryModal from './NotificationDeliveryModal';
 
 const NotificationsSection: React.FC = () => {
   const { data: notifications } = useGetNotificationsQuery({});
+  const { data: notificationInfoTypes } = useGetNotificationInfoTypeListQuery();
   const [cancelNotification] = useCancelNotificationMutation();
 
   const { openModal, closeModal } = useModalManager();
@@ -97,16 +100,28 @@ const NotificationsSection: React.FC = () => {
     );
   };
 
+  const renderNotificationInfoType = (notification: INoficication) => {
+    const notificationInfoType = notificationInfoTypes?.find(
+      (type) => type.rid === notification.notificationInfoTypeRID,
+    );
+    return (
+      <div className="flex items-center gap-2">
+        <img src={notificationInfoType?.imageCdnUrl} alt={notificationInfoType?.name} />
+        <span>{notificationInfoType?.name}</span>
+      </div>
+    );
+  };
+
   const getNotificationList = () => {
     return notifications?.map((notification) => {
       const timeDiff = moment().diff(moment(notification.startedDate, 'YYYY-MM-DDTHH:mm:ss'), 'minutes');
 
       return {
         ...notification,
-        actions:
-          notification.startedDate && timeDiff <= -3
-            ? actionsButtonsContainer(notification)
-            : null,
+        notificationInfoTypeRID: !isNil(notification.notificationInfoTypeRID)
+          ? renderNotificationInfoType(notification)
+          : null,
+        actions: notification.startedDate && timeDiff <= -3 ? actionsButtonsContainer(notification) : null,
       };
     });
   };

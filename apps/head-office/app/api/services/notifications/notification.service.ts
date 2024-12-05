@@ -9,6 +9,8 @@ import {
   IGetNotificationDeliveryListParams,
   INoficication,
   INotificationDelivery,
+  INotificationInfoColor,
+  INotificationInfoType,
   INotificationPushCategory,
   INotificationTypeList,
 } from './notification.interface';
@@ -79,6 +81,18 @@ const notificationService = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['notifications'],
     }),
+    getNotificationInfoColorList: build.query<Array<INotificationInfoColor>, void>({
+      query: () => ({
+        url: `${ENDPOINTS.NOTIFICATION}${ENDPOINTS.GET_NOTIFICATION_INFO_COLOR_LIST}`,
+        method: ApiServiceMethods.GET,
+      }),
+    }),
+    getNotificationInfoTypeList: build.query<Array<INotificationInfoType>, void>({
+      query: () => ({
+        url: `${ENDPOINTS.NOTIFICATION}${ENDPOINTS.GET_NOTIFICATION_INFO_TYPE_LIST}`,
+        method: ApiServiceMethods.GET,
+      }),
+    }),
   }),
 });
 
@@ -90,4 +104,6 @@ export const {
   useGetNotificationDeliveryListQuery,
   useEditNotificationMutation,
   useCancelNotificationMutation,
+  useGetNotificationInfoColorListQuery,
+  useGetNotificationInfoTypeListQuery,
 } = notificationService;

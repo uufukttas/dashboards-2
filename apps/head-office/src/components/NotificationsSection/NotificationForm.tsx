@@ -6,6 +6,8 @@ import {
 import BaseInput from '../Base/BaseInput';
 import BaseSelect from '../Base/BaseSelect';
 import ImageUpload from '../Base/Image/ImageUpload';
+import NotificationInfoColorSelect from './NotificationInfoColorSelect';
+import NotificationInfoTypeSelect from './NotificationInfoTypeSelect';
 
 interface NotificationFormProps {
   form: UseFormReturn;
@@ -21,7 +23,7 @@ const NotificationForm = ({
   onImageUpload,
 }: NotificationFormProps) => {
   return (
-    <div className="mb-4">
+    <div className="mb-4 flex flex-col gap-2">
       <div className="flex flex-row w-full gap-4">
         <BaseSelect
           form={form}
@@ -39,6 +41,10 @@ const NotificationForm = ({
           defaultValue={notificationPushCategories?.[0]?.rid}
           rules={{ required: 'Bildirim kategori seçilmedi' }}
         />
+      </div>
+      <div className="flex flex-row w-full gap-4">
+        <NotificationInfoTypeSelect form={form} />
+        <NotificationInfoColorSelect form={form} />
       </div>
       <BaseInput form={form} label="Başlık" name="title" id="title" rules={{ required: 'Başlık girilmedi' }} />
       <BaseInput
