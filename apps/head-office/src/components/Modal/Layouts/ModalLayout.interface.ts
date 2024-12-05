@@ -10,6 +10,7 @@ export interface IModalLayoutButtonProps {
 
 export interface IModalLayoutProps extends PropsWithChildren {
   name: string;
+  id?: string;
   className?: string;
   title: string;
   headerClassName?: string;

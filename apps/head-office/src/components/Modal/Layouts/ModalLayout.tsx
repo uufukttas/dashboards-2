@@ -16,6 +16,7 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
     buttons,
     disableClose = false,
     footerVisible = true,
+    id,
   } = props;
   const { closeModal } = useModalManager();
 
@@ -78,7 +79,7 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
   const allButtons = [...defaultButtons, ...(buttons || [])];
 
   return (
-    <div className={containerClasses}>
+    <div className={containerClasses} id={id}>
       <div className={headerClasses}>
         <h3 className="text-base md:text-lg font-bold text-heading">{title}</h3>
         <div className="flex items-center">

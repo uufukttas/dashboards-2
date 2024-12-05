@@ -18,7 +18,7 @@ import {
   IStationFeatureProps,
   IStationFeatureRequestProps,
   IStationIdRequestProps,
-  IStationSelectedValuesRequestProps,
+  IStationSelectedValuesRequestProps
 } from './servicePointDetails.interface';
 
 const authService = baseApi.injectEndpoints({
@@ -42,6 +42,13 @@ const authService = baseApi.injectEndpoints({
         body,
         method: ApiServiceMethods.POST,
         url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.ADD_ENERGY_PRICE}`,
+      }),
+    }),
+    addServicePointImage: builder.mutation<IServicePointDetailResponseProps[], Post>({
+      query: ({ body }) => ({
+        body,
+        method: ApiServiceMethods.POST,
+        url: `${ENDPOINTS.STATION_POINT}${ENDPOINTS.ADD_IMAGE}`,
       }),
     }),
     addWorkingHours: builder.mutation<IServicePointDetailResponseProps[], Post>({
@@ -181,6 +188,7 @@ export const {
   useAddChargePointUserPermissionMutation,
   useAddComissionMutation,
   useAddEnergyPriceMutation,
+  useAddServicePointImageMutation,
   useAddWorkingHoursMutation,
   useDeleteComissionMutation,
   useDeleteEnergyPriceMutation,

@@ -44,6 +44,9 @@ export interface IGetServicePointDataRequestProps {
 export interface IStationIdRequestProps {
   stationId: number;
 }
+export interface IStationImageAddRequestProps {
+  formData: FormData;
+};
 
 interface IFeatureTypeModelProps {
   featureType: number;

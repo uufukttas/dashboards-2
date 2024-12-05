@@ -10,22 +10,22 @@ import {
 } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
 import type {
   IFeatureItemProps,
+  IInfoItems,
   IInfoItemsProps,
-  IServiceDetailsContentProps,
   IServicePointsDetailsInfoProps,
   IServicePointsDetailsProps,
   IStationFeatureProps,
+  IStationIdProps,
 } from '../types';
 
-const LocationInfo: React.FC<IServiceDetailsContentProps> = ({ slug }: IServiceDetailsContentProps) => {
+const LocationInfo: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
   const sectionPrefix: string = `${BRAND_PREFIX}-service-point-details`;
-  const stationId: number = Number(slug);
   const [getServicePointData] = useGetServicePointDataMutation();
   const [getServicePointInformation] = useGetServicePointInformationMutation();
   const [getStationFeatureValues] = useGetStationFeatureValuesMutation();
   const [getStationSelectedValues] = useGetStationSelectedValuesMutation();
   const [features, setFeatures] = useState<IStationFeatureProps[]>([]);
-  const [opportunitiesFeatureName, setOpportunitiesFeatureName] = useState<string | null>('');
+  const [opportunitiesFeatureName, setOpportunitiesFeatureName] = useState<string>('');
   const [parkingFeatureValue, setParkingFeatureValue] = useState<string>('0');
   const [paymentFeatureName, setPaymentFeatureName] = useState<string>('');
   const [servicePointData, setServicePointData] = useState<IServicePointsDetailsProps>(initialServicePointDataValue);
@@ -34,9 +34,9 @@ const LocationInfo: React.FC<IServiceDetailsContentProps> = ({ slug }: IServiceD
   );
 
   const fetchServicePointData = useCallback(async (): Promise<void> => {
-    const response = await getServicePointData({ body: { id: stationId } });
+    const { data: servicePointData } = await getServicePointData({ body: { id: stationId } });
 
-    if (response?.data) setServicePointData(response.data[0]);
+    servicePointData && setServicePointData(servicePointData[0]);
   }, [getServicePointData, stationId]);
   const fetchServicePointDetails = useCallback(async (): Promise<void> => {
     const [servicePointInfo, servicePointFeatures] = await Promise.all([
@@ -52,38 +52,27 @@ const LocationInfo: React.FC<IServiceDetailsContentProps> = ({ slug }: IServiceD
     setServicePointDetailsInfo(servicePointInfo[0]);
     setFeatures(servicePointFeatures);
   }, [getServicePointInformation, getStationSelectedValues, stationId]);
-  const findFeatureValue = useCallback(
-    (type: number): string | undefined =>
-      features.find((feature) => feature.StationFeatureType === type)?.StationFeatureValue,
-    [features],
-  );
-  const getSelectedFeatureNames = useCallback(
-    async (type: number, setName: (value: string) => void): Promise<void> => {
-      const filteredFeatures: IStationFeatureProps[] = features.filter(
-        (feature) => feature.StationFeatureType === type,
-      );
-      const featureValues: IFeatureItemProps[] = await mapFeatureValuesToNames(type);
+  const findFeatureValue = useCallback((type: number): string | undefined => {
+    return features.find((feature) => feature.StationFeatureType === type)?.StationFeatureValue;
+  }, [features]);
+  const getSelectedFeatureNames = useCallback(async (type: number, setName: (value: string) => void): Promise<void> => {
+    const featureValues: IFeatureItemProps[] = await mapFeatureValuesToNames(type);
+    const filteredFeatures: IStationFeatureProps[] = features.filter((feature) => feature.StationFeatureType === type);
+    const selectedNames: string[] = featureValues
+      .filter((item: IFeatureItemProps) =>
+        filteredFeatures.some((feature: IStationFeatureProps) => item.rid === Number(feature.StationFeatureValue)),
+      )
+      .map((item) => item.name);
 
-      const selectedNames: string[] = featureValues
-        .filter((item: IFeatureItemProps) =>
-          filteredFeatures.some((feature: IStationFeatureProps) => item.rid === Number(feature.StationFeatureValue)),
-        )
-        .map((item) => item.name);
+    setName(selectedNames.join(', ') || '');
+  }, [features]);
+  const mapFeatureValuesToNames = useCallback(async (type: number) => {
+    const response: { data?: IFeatureItemProps[]; error?: string | unknown } = await getStationFeatureValues({
+      body: { stationFeatureType: type },
+    });
 
-      setName(selectedNames.join(', ') || '');
-    },
-    [features],
-  );
-  const mapFeatureValuesToNames = useCallback(
-    async (type: number) => {
-      const response: { data?: IFeatureItemProps[]; error?: string | unknown } = await getStationFeatureValues({
-        body: { stationFeatureType: type },
-      });
-
-      return response.data || [];
-    },
-    [getStationFeatureValues],
-  );
+    return response.data || [];
+  }, [getStationFeatureValues]);
 
   const infoItems: IInfoItemsProps[] = [
     { label: 'Adres:', value: servicePointDetailsInfo.address },
@@ -102,22 +91,22 @@ const LocationInfo: React.FC<IServiceDetailsContentProps> = ({ slug }: IServiceD
   ];
 
   useEffect(() => {
-    fetchServicePointDetails();
     fetchServicePointData();
-  }, [fetchServicePointDetails, fetchServicePointData]);
+    fetchServicePointDetails();
+  }, [fetchServicePointData, fetchServicePointDetails]);
 
   useEffect(() => {
     if (features.length > 0) {
+      getSelectedFeatureNames(2, setOpportunitiesFeatureName);
       getSelectedFeatureNames(1, setPaymentFeatureName);
       setParkingFeatureValue(findFeatureValue(8) || '0');
-      getSelectedFeatureNames(2, setOpportunitiesFeatureName);
     }
   }, [features, getSelectedFeatureNames, findFeatureValue]);
 
   return (
     <div className={`${sectionPrefix}-content text-black bg-white p-4 rounded-b-md`}>
       <div className={`${sectionPrefix}-info-container flex flex-col justify-between`}>
-        {infoItems.map((item, index) => (
+        {infoItems.map((item: IInfoItemsProps, index: number) => (
           <div key={index} className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
             <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold`}>{item.label}</p>
             <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>

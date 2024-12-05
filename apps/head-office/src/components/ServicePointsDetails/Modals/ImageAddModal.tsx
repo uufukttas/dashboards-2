@@ -1,47 +1,36 @@
 import { Button } from '@projects/button';
 import { Input } from '@projects/input';
+import { isNil } from 'lodash';
 import React, { useRef, useState } from 'react';
 import ReactCrop, { Crop } from 'react-image-crop';
 import 'react-image-crop/src/ReactCrop.scss';
-import { useDispatch } from 'react-redux';
-import { addServicePointImageRequest } from '../../../../app/api/servicePointDetails';
-import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
+import { useAddServicePointImageMutation } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
+import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import ModalLayout from '../../Modal/Layouts/ModalLayout';
-import { IServicePointDetailsModalProps } from '../types';
+import { IStationIdProps } from '../types';
 
-const FileUpload: React.FC<IServicePointDetailsModalProps> = ({ slug }: IServicePointDetailsModalProps) => {
-  const dispatch = useDispatch();
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [crop, setCrop] = useState<Crop>({
+const FileUpload: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
+  const cropInitialState: Crop = {
     height: 360,
     unit: 'px',
     width: 480,
-    x: 1,
-    y: 1,
-  });
-  const imageRef = useRef<HTMLImageElement>(null);
-  const [imageSrc, setImageSrc] = useState('');
-
-  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
-
-    if (file) {
-      const reader = new FileReader();
-      reader.addEventListener('load', () => setImageSrc(reader.result?.toString() || ''));
-      // @ts-ignore
-      reader.readAsDataURL(e.target.files[0]);
-
-      setSelectedFile(file);
-    }
+    x: 0,
+    y: 0,
   };
+  const sectionPrefix: string = `${BRAND_PREFIX}-service-point-add-image`;
+  const [addServicePointImage] = useAddServicePointImageMutation();
+  const imageRef = useRef<HTMLImageElement>(null);
+  const [crop, setCrop] = useState<Crop>(cropInitialState);
+  const [imageSrc, setImageSrc] = useState<string>('');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const getCroppedImg = (image: HTMLImageElement, crop: Crop) => {
+  const getCroppedImg = async (image: HTMLImageElement, crop: Crop): Promise<string> => {
     const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
-    canvas.width = crop.width;
     canvas.height = crop.height;
-    const ctx = canvas.getContext('2d');
+    canvas.width = crop.width;
 
     ctx?.drawImage(
       image,
@@ -70,80 +59,87 @@ const FileUpload: React.FC<IServicePointDetailsModalProps> = ({ slug }: IService
       );
     });
   };
+  const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const file = event.target.files && event.target.files[0];
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    if (!imageRef.current || !crop) {
+    if (file) {
+      const reader = new FileReader();
+
+      reader.addEventListener('load', () => setImageSrc(reader.result?.toString() || ''));
+      !isNil(event.target.files) && reader.readAsDataURL(event?.target?.files[0]);
+
+      setSelectedFile(file);
+    }
+  };
+  const handleReset = (): void => {
+    setCrop(cropInitialState);
+    setImageSrc('');
+    setSelectedFile(null);
+  };
+  const handleSubmit = async (): Promise<void> => {
+    if (!imageRef.current || !crop || !selectedFile) {
       return;
     }
-    if (!selectedFile) {
-      return;
-    }
+
     const croppedImageUrl = await getCroppedImg(imageRef.current, crop);
-
     const _file = await fetch(croppedImageUrl)
       .then((r) => r.blob())
       .then((blobFile) => new File([blobFile], selectedFile.name, { type: 'image/jpeg' }));
-
     const formData = new FormData();
 
-    formData.append('forceWrite', 'true');
     formData.append('fileName', selectedFile.name);
-    formData.append('pathKey', 'station');
-    formData.append('stationId', slug);
+    formData.append('forceWrite', 'true');
     formData.append('image', _file);
+    formData.append('pathKey', 'station');
+    formData.append('stationId', stationId.toString());
 
-    try {
-      await addServicePointImageRequest(formData);
-    } catch (error) {
-      console.error('Error uploading file:', error);
-    }
-    dispatch(toggleModalVisibility(false));
-    window.location.reload();
-  };
-
-  const handleReset = () => {
-    setSelectedFile(null);
-    setImageSrc('');
-    setCrop(undefined);
+    await addServicePointImage({ body: formData });
   };
 
   return (
     <ModalLayout
-      className={`md:min-h-[350px]`}
+      className={`${sectionPrefix}-modal`}
       footerVisible={false}
+      id={`${sectionPrefix}-modal`}
       name="addServicePointImageModal"
-      title={`Servis Noktası Göreseli Ekle `}
+      title={`Servis Noktası Göreseli Ekle`}
     >
-      <div className="file-upload">
+      <div className={`${sectionPrefix}-modal-file-container`}>
         {!selectedFile && (
           <form
-            className="file-upload-form border border-dashed my-8 items-center text-center p-12 "
+            className={`${sectionPrefix}-modal-file-form border border-dashed my-8 items-center text-center p-12`}
             onSubmit={handleSubmit}
           >
-            <Input className="" id="file-input" name="file-input" type="file" onChange={handleFileInput} />
+            <Input
+              className={`${sectionPrefix}-modal-file-form-input`}
+              id={`${sectionPrefix}-modal-file-form-input`}
+              name={`${sectionPrefix}`}
+              type="file"
+              onChange={handleFileInput}
+            />
           </form>
         )}
         {
-          <div className="items-center justify-center flex flex-col">
-            {crop && selectedFile && (
-              <ReactCrop crop={crop} onChange={setCrop} aspect={4 / 3} minWidth={400} minHeight={225}>
-                <img ref={imageRef} src={imageSrc} alt="Crop" />
+          <div className={`${sectionPrefix}-container flex flex-col items-center justify-center`}>
+            {selectedFile && crop && (
+              <ReactCrop aspect={4 / 3} crop={crop} minHeight={360} minWidth={480} onChange={setCrop}>
+                <img alt="Service Point Image" ref={imageRef} src={imageSrc} />
               </ReactCrop>
             )}
-            <div className="flex flex-row gap-4 mt-8 w-full">
+            <div className={`${sectionPrefix}-action-buttons-container w-full flex flex-row gap-4 mt-8`}>
               <Button
-                className="file-upload-button bg-blue-700 text-white rounded-md px-4 py-2 w-2/3"
-                id="file-upload-button"
+                className={`${sectionPrefix}-submit-button w-2/3 px-4 py-2 bg-primary text-white rounded-md`}
+                disabled={!crop}
+                id={`${sectionPrefix}-submit-button`}
                 type="submit"
                 onClick={handleSubmit}
-                disabled={!crop}
               >
-                Kaydet
+                Ekle
               </Button>
               <Button
-                className="file-upload-button bg-orange-500 text-white rounded-md px-4 py-2 w-1/3"
-                id="file-upload-button"
-                type="submit"
+                className={`${sectionPrefix}-reset-button w-1/3 px-4 py-2 bg-secondary text-white rounded-md`}
+                id={`${sectionPrefix}-reset-button`}
+                type="reset"
                 onClick={handleReset}
               >
                 Sıfırla
