@@ -1,6 +1,7 @@
 import baseApi from '../../baseApi';
 import { ApiServiceMethods } from '../../constant';
 import { ENDPOINTS } from '../../endpoints';
+import { addEnergyPriceRequest } from '../../servicePointDetails';
 import { Post } from '../../types';
 import {
   IChargeUnitProps,
@@ -23,6 +24,13 @@ import {
 
 const authService = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    addEnergyPrice: builder.mutation<IServicePointDetailResponseProps[], Post>({
+      query: ({ body }) => ({
+        body,
+        method: ApiServiceMethods.POST,
+        url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.ADD_ENERGY_PRICE}`,
+      }),
+    }),
     addWorkingHours: builder.mutation<IServicePointDetailResponseProps[], Post>({
       query: ({ body }) => ({
         body,
@@ -157,6 +165,7 @@ const authService = baseApi.injectEndpoints({
 });
 
 export const {
+  useAddEnergyPriceMutation,
   useAddWorkingHoursMutation,
   useDeleteComissionMutation,
   useDeleteEnergyPriceMutation,

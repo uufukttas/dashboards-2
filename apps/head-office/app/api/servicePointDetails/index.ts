@@ -1,5 +1,4 @@
 export { addComissionRequest } from './addComissionRequest';
-export { addEnergyPriceRequest } from './addEnergyPriceRequest';
 export { addServicePointImageRequest } from './addServicePointImageRequest';
 export { addStationSettingsRequest } from './addStationSettingsRequest';
 export { getChargePointFeatureStatus } from './getChargePointFeatureStatus';
