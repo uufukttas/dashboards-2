@@ -1,4 +1,3 @@
-export { addComissionRequest } from './addComissionRequest';
 export { addServicePointImageRequest } from './addServicePointImageRequest';
 export { addStationSettingsRequest } from './addStationSettingsRequest';
 export { getChargePointFeatureStatus } from './getChargePointFeatureStatus';
@@ -7,7 +6,6 @@ export { getChargeUnitBrands } from './getChargeUnitBrands';
 export { getChargeUnitDeviceCode } from './getChargeUnitDeviceCode';
 export { getChargeUnitFeatureValuesRequest } from './getChargeUnitFeatureValuesRequest';
 export { getChargeUnitsRequest } from './getChargeUnitsRequest';
-export { getComissionDetails } from './getComissionDetails';
 export { getConnectorInfo } from './getConnectorInfo';
 export { getConnectorModels } from './getConnectorModels';
 export { getConnectorPropertiesRequest } from './getConnectorPropertiesRequest';
