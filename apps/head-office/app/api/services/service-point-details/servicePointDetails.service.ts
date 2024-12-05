@@ -23,6 +23,13 @@ import {
 
 const authService = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    addChargePointUserPermission: builder.mutation<IServicePointDetailResponseProps[], Post>({
+      query: ({ body }) => ({
+        body,
+        method: ApiServiceMethods.POST,
+        url: `${ENDPOINTS.AUTH}${ENDPOINTS.CHARGE_POINT_USER_CREATE}`,
+      }),
+    }),
     addComission: builder.mutation<IServicePointDetailResponseProps[], Post>({
       query: ({ body }) => ({
         body,
@@ -171,6 +178,7 @@ const authService = baseApi.injectEndpoints({
 });
 
 export const {
+  useAddChargePointUserPermissionMutation,
   useAddComissionMutation,
   useAddEnergyPriceMutation,
   useAddWorkingHoursMutation,

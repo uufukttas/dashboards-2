@@ -4,15 +4,15 @@ import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
-import { addChargePointPermission } from '../../../../app/api/servicePointDetails/addChargePointPermission';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { toggleServicePointPermissionsUpdated } from '../../../../app/redux/features/isServicePointPermissionsUpdated';
 import { setAddPermission } from '../../../../app/redux/features/setVisibleModal';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type { IServicePointPermissionsModalProps } from '../types';
+import { useAddChargePointUserPermissionMutation } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
 
-const ServicePointPermissionsModal = ({ slug }: IServicePointPermissionsModalProps) => {
+const ServicePointPermissionsModal = ({ stationId }: IServicePointPermissionsModalProps) => {
     const sectionPrefix = 'service-point-permission';
     const dispatch = useDispatch();
     const [isDisabled, setIsDisabled] = useState<boolean>(false);
@@ -22,11 +22,17 @@ const ServicePointPermissionsModal = ({ slug }: IServicePointPermissionsModalPro
         phoneNumber: '',
     });
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const [addChargePointUserPermission] = useAddChargePointUserPermissionMutation();
 
     const handleFormSubmit = async () => {
         setIsDisabled(true);
 
-        const response = await addChargePointPermission(permissionProperties, slug);
+        const response = await addChargePointUserPermission({body: {
+            name: permissionProperties.name,
+            surname: permissionProperties.surname,
+            phoneNumber: permissionProperties.phoneNumber,
+            stationId,
+        }})
 
         dispatch(
             showAlert({
