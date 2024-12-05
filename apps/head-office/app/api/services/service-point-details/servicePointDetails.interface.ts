@@ -52,7 +52,7 @@ interface IFeatureTypeModelProps {
 export interface IStationSelectedValuesRequestProps {
   featureTypeModel: IFeatureTypeModelProps[];
   stationId: number;
-};
+}
 
 export interface IStationFeatureRequestProps {
   stationFeatureType: number;
@@ -75,4 +75,51 @@ export interface IServicePointsDetailResponseProps {
 export interface IFeatureItemProps {
   rid: number;
   name: string;
+}
+
+export interface IChargeUnitProps {
+  accessType: string;
+  chargePointId: number;
+  createdDate: string;
+  connectorNumber: number;
+  connectorId: number;
+  count: number;
+  deviceCode: string;
+  externalAddress: string;
+  hoStatus: string;
+  internalAddress: string;
+  investor: string;
+  isFreePoint: boolean;
+  lastHeartBeat: string;
+  limitedUsage: boolean;
+  location: string;
+  modelId: number;
+  model: string;
+  ocppVersion: string;
+  sendRoaming: boolean;
+  stationId: number;
+  status: string;
+  serialNumber: string;
+  statusName: string;
+}
+
+export interface IConnectorProps {
+  chargingStatus: number;
+  chargingStatusMessage: string;
+  connectorNr: number;
+  energyUsed: number;
+  epdkSocketNumber: string;
+  isActive: boolean;
+  meterStartDate: string;
+  modelId: number;
+  RID: number;
+  stationChargePointID: number;
+  stationConnectorAC: boolean;
+  stationConnectorKW: number;
+  stationConnectorName: string;
+  status: number;
+  statusName: string;
+  tariffId: number;
+  tariffName: string;
+  tariffSaleUnitPrice: number;
 }

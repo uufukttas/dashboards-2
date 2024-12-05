@@ -3,6 +3,8 @@ import { ApiServiceMethods } from '../../constant';
 import { ENDPOINTS } from '../../endpoints';
 import { Post } from '../../types';
 import {
+  IChargeUnitProps,
+  IConnectorProps,
   IDeleteComissionRequestProps,
   IDeleteEnergyPriceRequestProps,
   IDeleteServicePointPermissionRequestProps,
@@ -21,6 +23,13 @@ import {
 
 const authService = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    addWorkingHours: builder.mutation<IServicePointDetailResponseProps[], Post>({
+      query: ({ body }) => ({
+        body,
+        method: ApiServiceMethods.POST,
+        url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.ADD_WORKING_HOURS}`,
+      }),
+    }),
     deleteComission: builder.mutation<IServicePointDetailResponseProps[], Post<IDeleteComissionRequestProps>>({
       query: ({ body }) => ({
         body,
@@ -46,7 +55,7 @@ const authService = baseApi.injectEndpoints({
       }),
     }),
     getChargePointConnetorsV2: builder.mutation<
-      IServicePointDetailResponseProps[],
+      { [key: string]: IConnectorProps[] | undefined }[],
       Post<IGetChargePointConnetorsRequestProps>
     >({
       query: ({ body }) => ({
@@ -55,11 +64,11 @@ const authService = baseApi.injectEndpoints({
         url: `${ENDPOINTS.STATION_INFO}${ENDPOINTS.GET_CHARGE_POINT_CONNECTORSV2}`,
       }),
     }),
-    getChargeUnits: builder.mutation<IServicePointDetailResponseProps[], Post<IGetChargeUnitsRequestProps>>({
+    getChargeUnits: builder.mutation<IChargeUnitProps[], Post<IGetChargeUnitsRequestProps>>({
       query: ({ body }) => ({
         body,
         method: ApiServiceMethods.POST,
-        url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.GET_SERVICE_POINT_DATA}`,
+        url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.GET_STATION_SETTINGS}`,
       }),
     }),
     getChargePointFeatureStatus: builder.query({
@@ -130,10 +139,25 @@ const authService = baseApi.injectEndpoints({
         url: `${ENDPOINTS.STATION_FEATURE}${ENDPOINTS.GET_FEATURE_VALUES}`,
       }),
     }),
+    getWorkingHours: builder.mutation<IServicePointDetailResponseProps[], Post>({
+      query: ({ body }) => ({
+        body,
+        method: ApiServiceMethods.POST,
+        url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.GET_WORKING_HOURS}`,
+      }),
+    }),
+    updateWorkingHours: builder.mutation<IServicePointDetailResponseProps[], Post>({
+      query: ({ body }) => ({
+        body,
+        method: ApiServiceMethods.POST,
+        url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.UPDATE_WOKRING_HOURS}`,
+      }),
+    }),
   }),
 });
 
 export const {
+  useAddWorkingHoursMutation,
   useDeleteComissionMutation,
   useDeleteEnergyPriceMutation,
   useDeleteServicePointPermissionMutation,
@@ -149,4 +173,6 @@ export const {
   useGetServicePointInformationMutation,
   useGetStationSelectedValuesMutation,
   useGetStationFeatureValuesMutation,
+  useGetWorkingHoursMutation,
+  useUpdateWorkingHoursMutation,
 } = authService;
