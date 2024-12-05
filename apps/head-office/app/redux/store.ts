@@ -1,11 +1,9 @@
 import { combineReducers, configureStore, EnhancedStore } from '@reduxjs/toolkit';
 import baseApi from '../api/baseApi';
-import accessTypeList from './features/accessTypeList';
 import activeTabIndex from './features/activeTabIndex';
 import alertInformation from './features/alertInformation';
 import chargeUnitBrands from './features/chargeUnitBrands';
 import chargeUnitData from './features/chargeUnitData';
-import chargeUnitInvestors from './features/chargeUnitInvestors';
 import chargeUnitList from './features/chargeUnitList';
 import comissionData from './features/comissionData';
 import setConnectorProperty from './features/connectorProperty';
@@ -33,19 +31,16 @@ import servicePoints from './features/servicePoints';
 import setCityInformation from './features/setCityInformation';
 import configs from './features/setConfig';
 import setVisibleModal from './features/setVisibleModal';
-import statusList from './features/statusList';
 import userData from './features/userData';
 import userProfileInfo from './features/userProfileInfo';
 import users from './features/users';
 import modalReducer from './modal/modalSlice';
 
 const reducers = combineReducers({
-  accessTypeList,
   activeTabIndex,
   alertInformation,
   chargeUnitBrands,
   chargeUnitData,
-  chargeUnitInvestors,
   chargeUnitList,
   comissionData,
   configs,
@@ -73,7 +68,6 @@ const reducers = combineReducers({
   setConnectors,
   setLoginToken,
   setVisibleModal,
-  statusList,
   userData,
   userProfileInfo,
   users,

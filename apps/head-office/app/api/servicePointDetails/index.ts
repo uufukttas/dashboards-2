@@ -1,19 +1,8 @@
-export { addServicePointImageRequest } from './addServicePointImageRequest';
 export { addStationSettingsRequest } from './addStationSettingsRequest';
-export { getChargePointFeatureStatus } from './getChargePointFeatureStatus';
-export { getChargePointInvestors } from './getChargePointInvestors';
-export { getChargeUnitBrands } from './getChargeUnitBrands';
 export { getChargeUnitDeviceCode } from './getChargeUnitDeviceCode';
 export { getChargeUnitFeatureValuesRequest } from './getChargeUnitFeatureValuesRequest';
-export { getChargeUnitsRequest } from './getChargeUnitsRequest';
 export { getConnectorInfo } from './getConnectorInfo';
-export { getConnectorModels } from './getConnectorModels';
 export { getConnectorPropertiesRequest } from './getConnectorPropertiesRequest';
-export { getEnergyPriceDetails } from './getEnergyPriceDetails';
-export { getServicePointFeatureValues } from './getFeatureValuesRequest';
-export { getInvestors } from './getInvestors';
-export { getPermissionRequest } from './getPermissionRequest';
-export { getSelectedStationFeatures } from './getSelectedStationFeatures';
 export { getTariffFractionTypeRequest } from './getTariffFractionTypeRequest';
 export { updateConnectorRequest } from './updateConnectorRequest';
-export { updateStationSettings } from './updateStationSettings';
+
