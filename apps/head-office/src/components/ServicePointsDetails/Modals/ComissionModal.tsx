@@ -3,18 +3,18 @@ import { Checkbox } from '@projects/checkbox';
 import { Dropdown } from '@projects/dropdown';
 import { Input } from '@projects/input';
 import { Label } from '@projects/label';
+import { useAddComissionMutation, useGetChargePointInvestorsQuery } from 'apps/head-office/app/api/services/service-point-details/servicePointDetails.service';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { getChargePointInvestors, getTariffFractionTypeRequest } from '../../../../app/api/servicePointDetails';
+import { getTariffFractionTypeRequest } from '../../../../app/api/servicePointDetails';
 import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
 import { toggleComissionListUpdate } from '../../../../app/redux/features/isComissionListUpdated';
 import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
 import { setAddComission } from '../../../../app/redux/features/setVisibleModal';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
-import { useAddComissionMutation } from 'apps/head-office/app/api/services/service-point-details/servicePointDetails.service';
 
-const ComissionModal = ({ slug }: { slug: number }) => {
+const ComissionModal = ({ stationId }: { stationId: number }) => {
   const dispatch = useDispatch();
   const sectionPrefix = 'comission-details';
   const {
@@ -35,13 +35,12 @@ const ComissionModal = ({ slug }: { slug: number }) => {
   const [investorList, setInvestorList] = useState([]);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [tariffFractionList, setTariffFractionList] = useState([]);
+  const { data: investors } = useGetChargePointInvestorsQuery({});
 
   const [addComission] = useAddComissionMutation();
 
   const getInvestors = async () => {
-    const investors = await getChargePointInvestors();
-
-    setInvestorList(investors.data);
+    setInvestorList(investors);
     comissionFeatures.resller = investors.data[0].id;
   };
 
@@ -61,7 +60,7 @@ const ComissionModal = ({ slug }: { slug: number }) => {
         forInvestor: comissionFeatures.isResellerForServicePoint,
         tariffSubFractionTypeID: comissionFeatures.tariffFraction,
         rate: comissionFeatures.rate,
-        stationId: slug.toString(),
+        stationId,
         isActive: true,
       },
     });
