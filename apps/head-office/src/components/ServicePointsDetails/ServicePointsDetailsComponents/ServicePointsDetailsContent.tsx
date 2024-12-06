@@ -1,17 +1,6 @@
-import { Button } from '@projects/button';
+import { Accordion, AccordionTab } from 'primereact/accordion';
 import React from 'react';
 import { FaChargingStation, FaSackDollar } from 'react-icons/fa6';
-import { useDispatch, useSelector } from 'react-redux';
-import { setChargeUnitData } from '../../../../app/redux/features/chargeUnitData';
-import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
-import {
-  setAddChargeUnit,
-  setAddComission,
-  setAddEnergyPrice,
-  setAddPermission,
-  setAddServicePointImage,
-} from '../../../../app/redux/features/setVisibleModal';
-import { RootState } from '../../../../app/redux/store';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import ChargeUnitsContent from '../Accordions/ChargeUnitsContent';
 import Comissions from '../Accordions/Comissions/Comissions';
@@ -19,171 +8,132 @@ import EnergyPricesContent from '../Accordions/EnergyPricesContent';
 import LocationInfo from '../Accordions/LocationInfo';
 import ServicePointPermissions from '../Accordions/ServicePointPermissions';
 import WorkingHoursContent from '../Accordions/WorkingHoursContent';
-import { initialChargeUnitDataValue } from '../constants';
-import { IAccordionConfigProps, IServicePointDetailsContentProps } from '../types';
-
-import { Accordion, AccordionTab } from 'primereact/accordion';
+import ChargeUnitAddModal from '../Modals/ChargeUnitAddModal';
+import ComissionModal from '../Modals/ComissionModal';
+import EnergyPricesModal from '../Modals/EnergyPricesModal';
+import ImageAddModal from '../Modals/ImageAddModal';
+import ServicePointPermissionsModal from '../Modals/ServicePointPermissionsModal';
+import { IAccordionSection, IServicePointDetailsContentProps } from '../types';
+import ActionButton from './AccordionHeaderActionButton';
 
 const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> = ({
   activeTabIndex,
-  slug,
+  stationId,
 }: IServicePointDetailsContentProps) => {
-  const dispatch = useDispatch();
-  const chargeUnits = useSelector((state: RootState) => state.chargeUnitList);
-
-  const addChargeUnitButton: React.ReactNode = (
-    <Button
-      buttonText={` + Şarj Ünitesi`}
-      className={`button bg-[#AAAAAA] rounded-md mx-4 font-bold text-white p-3`}
-      id={`add-charge-unit-button`}
-      type="button"
-      onClick={(event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        dispatch(toggleModalVisibility(true));
-        dispatch(setChargeUnitData(initialChargeUnitDataValue));
-        dispatch(setAddChargeUnit(true));
-      }}
-    />
-  );
-
-  const addEnergyPriceButton: React.ReactNode = (
-    <Button
-      buttonText={`+ Enerji Fiyatı Ekle`}
-      className="button bg-[#AAAAAA] rounded-md mx-4 font-bold text-white p-3"
-      id={`energy-prices-add-button`}
-      type={'button'}
-      onClick={(event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        dispatch(setAddEnergyPrice(true));
-        dispatch(toggleModalVisibility(true));
-      }}
-    />
-  );
-
-  const addImageButton: React.ReactNode = (
-    <Button
-      buttonText={`+ İstasyon Resmi Ekle`}
-      className="button bg-[#AAAAAA] rounded-md mx-4 font-bold text-white p-3"
-      id={`service-point-image-add-button`}
-      type={'button'}
-      onClick={(event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        dispatch(setAddServicePointImage(true));
-        dispatch(toggleModalVisibility(true));
-      }}
-    />
-  );
-
-  const addServicePointPermissionButton: React.ReactNode = (
-    <Button
-      buttonText={`+ İstasyon Yetkisi Ekle`}
-      className="button bg-[#AAAAAA] rounded-md mx-4 font-bold text-white p-3"
-      id={`service-point-permission-add-button`}
-      type={'button'}
-      onClick={(event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        dispatch(setAddPermission(true));
-        dispatch(toggleModalVisibility(true));
-      }}
-    />
-  );
-
-  const addComissionButton: React.ReactNode = (
-    <Button
-      buttonText={`+ Komisyon Ekle`}
-      className="button bg-[#AAAAAA] rounded-md mx-4 font-bold text-white p-3"
-      id={`comission-add-button`}
-      type={'button'}
-      onClick={(event) => {
-        event.stopPropagation();
-        event.preventDefault();
-        dispatch(setAddComission(true));
-        dispatch(toggleModalVisibility(true));
-      }}
-    />
-  );
-
-  const accordionConfig: IAccordionConfigProps[] = [
+  const accordionSections: IAccordionSection[] = [
     {
-      actionButton: addImageButton,
-      accordionContent: <LocationInfo slug={slug} />,
-      accordionTitle: 'İstasyon Bilgileri',
-      titleClassName: 'font-bold',
+      actionButton: (stationId: number) => (
+        <ActionButton
+          buttonText="+ İstasyon Resmi Ekle"
+          modalName="addServicePointImageModal"
+          ModalComponent={ImageAddModal}
+          stationId={stationId}
+        />
+      ),
+      content: LocationInfo,
+      key: 'locationInfo',
+      title: 'İstasyon Bilgileri',
     },
     {
-      actionButton: addChargeUnitButton,
-      accordionContent: chargeUnits.length > 0 && <ChargeUnitsContent chargeUnits={chargeUnits} slug={slug} />,
-      accordionIcon: <FaChargingStation />,
-      accordionTitle: 'Şarj Üniteleri',
-      titleClassName: 'font-bold',
+      actionButton: (stationId: number) => (
+        <ActionButton
+          buttonText="+ Şarj Ünitesi"
+          modalName="addChargeUnitModal"
+          ModalComponent={ChargeUnitAddModal}
+          stationId={stationId}
+        />
+      ),
+      content: ChargeUnitsContent,
+      icon: <FaChargingStation />,
+      key: 'chargeUnits',
+      title: 'Şarj Üniteleri',
     },
     {
-      accordionContent: <WorkingHoursContent slug={Number(slug)} />,
-      accordionTitle: 'Calisma Saatleri',
-      titleClassName: 'font-bold',
+      actionButton: () => null,
+      content: WorkingHoursContent,
+      key: 'workingHours',
+      title: 'Calisma Saatleri',
     },
     {
-      actionButton: addEnergyPriceButton,
-      accordionContent: <EnergyPricesContent />,
-      accordionIcon: <FaSackDollar />,
-      accordionTitle: 'Enerji Fiyat Ayarlari',
-      titleClassName: 'font-bold',
+      key: 'energyPrices',
+      title: 'Enerji Fiyat Ayarlari',
+      content: EnergyPricesContent,
+      icon: <FaSackDollar />,
+      actionButton: (stationId: number) => (
+        <ActionButton
+          buttonText="+ Enerji Fiyatı Ekle"
+          modalName="addEnergyPriceModal"
+          ModalComponent={EnergyPricesModal}
+          stationId={stationId}
+        />
+      ),
     },
     {
-      actionButton: addComissionButton,
-      accordionContent: <Comissions slug={slug} />,
-      accordionTitle: 'Komisyonlar',
-      titleClassName: 'font-bold',
+      key: 'commissions',
+      title: 'Komisyonlar',
+      content: Comissions,
+      actionButton: (stationId: number) => (
+        <ActionButton
+          buttonText="+ Komisyon Ekle"
+          modalName="addComissionModal"
+          ModalComponent={ComissionModal}
+          stationId={stationId}
+        />
+      ),
     },
     {
-      actionButton: addServicePointPermissionButton,
-      accordionContent: <ServicePointPermissions />,
-      accordionTitle: 'İstasyon Yetkisi',
-      titleClassName: 'font-bold',
+      key: 'permissions',
+      title: 'İstasyon Yetkisi',
+      content: ServicePointPermissions,
+      actionButton: (stationId: number) => (
+        <ActionButton
+          buttonText="+ İstasyon Yetkisi Ekle"
+          modalName="addServicePointPermissionModal"
+          ModalComponent={ServicePointPermissionsModal}
+          stationId={stationId}
+        />
+      ),
     },
   ];
+  const sectionPrefix: string = `${BRAND_PREFIX}-service-point-details-accordion`;
 
   return (
-    <div className={`${BRAND_PREFIX}-service-point-details-accordion-container`}>
-      {accordionConfig.map((accordion, index) => (
-        <Accordion
-          activeIndex={activeTabIndex}
-          className={`${BRAND_PREFIX}-service-point-details-accordion my-4 bg-primary border-gray-300 rounded-md`}
-          key={index}
-        >
-          {index === activeTabIndex && (
-            <AccordionTab
-              header={() => {
-                return (
+    <div className={`${sectionPrefix}-container`}>
+      {accordionSections.map((section, index) => {
+        const { title, content: Content, actionButton } = section;
+
+        return (
+          <Accordion
+            activeIndex={activeTabIndex}
+            className={`${sectionPrefix} my-4 bg-primary border-gray-300 rounded-md`}
+            key={section.key}
+          >
+            {index === activeTabIndex && (
+              <AccordionTab
+                header={() => (
                   <div
-                    className={`${BRAND_PREFIX}-service-point-details-accordion-header-container w-full flex justify-between items-center text-white h-12`}
+                    className={`${sectionPrefix}-header-container w-full flex justify-between items-center text-white h-12`}
                   >
-                    <div className={`${BRAND_PREFIX}-service-point-details-accordion-info-container text-white`}>
-                      {accordion.accordionTitle}
+                    <div className={`${sectionPrefix}-info-container text-white`}>
+                      {title}
                     </div>
-                    <div className={`${BRAND_PREFIX}-service-point-details-accordion-header-action-container`}>
-                      {accordion.actionButton}
+                    <div className={`${sectionPrefix}-header-action-container`}>
+                      {actionButton && actionButton(stationId)}
                     </div>
                   </div>
-                );
-              }}
-              headerClassName={`${BRAND_PREFIX}-service-point-details-accordion-header bg-primary border-gray-300 ${accordion.titleClassName} border rounded-md flex justify-between items-center`}
-            >
-              {index === activeTabIndex && (
-                <div className={`${BRAND_PREFIX}-service-point-details-accordion-info-container`}>
-                  {accordion.accordionContent}
+                )}
+                headerClassName={`${sectionPrefix}-header bg-primary border-gray-300 font-bold border rounded-md flex justify-between items-center`}
+              >
+                <div className={`${sectionPrefix}-info-container`}>
+                  <Content stationId={stationId} />
                 </div>
-              )}
-            </AccordionTab>
-          )}
-        </Accordion>
-      ))}
+              </AccordionTab>
+            )}
+          </Accordion>
+        );
+      })}
     </div>
   );
 };
 
-export default ServicePointsDetailsContent;
+export default React.memo(ServicePointsDetailsContent);

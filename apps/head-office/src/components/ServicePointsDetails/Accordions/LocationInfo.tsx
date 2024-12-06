@@ -10,11 +10,11 @@ import {
 } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
 import type {
   IFeatureItemProps,
-  IInfoItems,
   IInfoItemsProps,
   IServicePointsDetailsInfoProps,
   IServicePointsDetailsProps,
   IStationFeatureProps,
+  IStationFeatureValuesProps,
   IStationIdProps,
 } from '../types';
 
@@ -67,9 +67,7 @@ const LocationInfo: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps)
     setName(selectedNames.join(', ') || '');
   }, [features]);
   const mapFeatureValuesToNames = useCallback(async (type: number) => {
-    const response: { data?: IFeatureItemProps[]; error?: string | unknown } = await getStationFeatureValues({
-      body: { stationFeatureType: type },
-    });
+    const response: IStationFeatureValuesProps = await getStationFeatureValues({ body: { stationFeatureType: type } });
 
     return response.data || [];
   }, [getStationFeatureValues]);

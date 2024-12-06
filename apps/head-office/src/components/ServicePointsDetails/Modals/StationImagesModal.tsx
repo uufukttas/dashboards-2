@@ -1,28 +1,22 @@
-import getStationImages from 'apps/head-office/app/api/servicePoints/getStationImages';
-import { IImage } from 'apps/head-office/app/types/model';
 import { FC, useEffect, useState } from 'react';
 import ImageSliderLayout from '../../Modal/Layouts/ImageSliderLayout';
 import ModalLayout from '../../Modal/Layouts/ModalLayout';
+import { useGetServicePointImagesQuery } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
+import { IImageDataProps, IStationIdProps } from '../types';
 
-interface StationImageModalProps {
-  stationId: number;
-}
-
-const StationImagesModal: FC<StationImageModalProps> = (props) => {
-  const { stationId } = props;
-  const [images, setImages] = useState<Array<IImage> | null>(null);
-
-  const getImages = async () => {
-    const res = await getStationImages(stationId.toString());
-
-    if (res.data) {
-      setImages(res.data);
-    }
-  };
+const StationImagesModal: FC<IStationIdProps> = ({ stationId }) => {
+  const [images, setImages] = useState<Array<IImageDataProps> | null>(null);
+  const { data: imagesData } = useGetServicePointImagesQuery({
+    params: {
+      stationId: stationId,
+    },
+  });
 
   useEffect(() => {
-    getImages();
-  }, []);
+    if (imagesData) {
+      setImages(imagesData);
+    }
+  }, [imagesData]);
 
   return (
     <ModalLayout
