@@ -1,5 +1,6 @@
 import { isNil } from 'lodash';
 import moment from 'moment';
+import Image from 'next/image';
 import { Button } from 'primereact/button';
 import React from 'react';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
@@ -7,7 +8,7 @@ import { INoficication } from '../../../app/api/services/notifications/notificat
 import {
   useCancelNotificationMutation,
   useGetNotificationInfoTypeListQuery,
-  useGetNotificationsQuery
+  useGetNotificationsQuery,
 } from '../../../app/api/services/notifications/notification.service';
 import { BRAND_PREFIX } from '../../constants/constants';
 import useModalManager from '../../hooks/useModalManager';
@@ -106,10 +107,38 @@ const NotificationsSection: React.FC = () => {
     );
     return (
       <div className="flex items-center gap-2">
-        <img src={notificationInfoType?.imageCdnUrl} alt={notificationInfoType?.name} />
+        <Image
+          src={notificationInfoType?.imageCdnUrl || ''}
+          alt={notificationInfoType?.name || ''}
+          width={24}
+          height={24}
+        />
         <span>{notificationInfoType?.name}</span>
       </div>
     );
+  };
+
+  const renderNotificationImage = (notification: INoficication) => {
+    const notificationImage = notification.imageUrl;
+
+    const handleImageClick = (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation();
+      window.open(notificationImage, '_blank');
+    };
+
+    if (notificationImage) {
+      return (
+        <div className="flex items-center gap-2" onClick={handleImageClick}>
+          <Image
+            src={notificationImage}
+            alt="notification"
+            width={100}
+            height={100}
+          />
+        </div>
+      );
+    }
+    return null;
   };
 
   const getNotificationList = () => {
@@ -121,6 +150,7 @@ const NotificationsSection: React.FC = () => {
         notificationInfoTypeRID: !isNil(notification.notificationInfoTypeRID)
           ? renderNotificationInfoType(notification)
           : null,
+        notificationImage: notification.imageUrl ? renderNotificationImage(notification) : null,
         actions: notification.startedDate && timeDiff <= -3 ? actionsButtonsContainer(notification) : null,
       };
     });

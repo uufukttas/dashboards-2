@@ -2,12 +2,20 @@ import { IBaseTableColumn } from '../BaseTable/BaseTableInterface';
 
 export const NOTIFICATION_TABLE_COLUMNS: IBaseTableColumn[] = [
   {
-    header: 'Bildirim Bilgi Tipi',
+    header: 'Bildirim Bilgi İkonu',
     accessor: 'notificationInfoTypeRID',
     field: 'notificationInfoTypeRID',
     id: 'notificationInfoTypeRID',
     isRemovable: false,
     type: 'string',
+  },
+  {
+    accessor: 'notificationImage',
+    field: 'notificationImage',
+    header: 'Bildirim Resmi',
+    id: 'notificationImage',
+    isRemovable: false,
+    type: 'custom',
   },
   {
     header: 'Bildirim Tipi',
