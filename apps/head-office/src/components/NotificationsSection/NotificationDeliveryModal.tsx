@@ -70,6 +70,7 @@ const NotificationDeliveryModal = ({ notificationId }: INotificationDeliveryModa
       <>
         <BaseTable
           columns={NOTIFICATION_DELIVERY_TABLE_COLUMNS}
+          // @ts-ignore
           data={notificationDeliveries?.data?.data || []}
           tableHeader={tableHeader}
           id={'notification-delivery'}

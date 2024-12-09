@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface IDropdownItem {
-  id: null;
-  rid: number | string;
+  id: null | number;
+  rid: number | string | null;
   name: string;
   label?: string;
   disabled?: boolean;
