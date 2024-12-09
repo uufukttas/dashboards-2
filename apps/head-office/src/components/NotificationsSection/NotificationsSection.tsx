@@ -73,6 +73,8 @@ const NotificationsSection: React.FC = () => {
   };
 
   const handleRowClick = (e: TableRowClickEvent<INoficication>) => {
+    console.log('e', e.rowData.rid);
+
     openModal('notification-delivery', <NotificationDeliveryModal notificationId={e.rowData.rid} />);
   };
 

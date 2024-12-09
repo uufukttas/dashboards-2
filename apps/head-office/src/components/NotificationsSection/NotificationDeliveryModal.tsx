@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useGetNotificationDeliveryListQuery } from '../../../app/api/services/notifications/notification.service';
 import { BaseTable } from '../BaseTable/BaseTable';
 import { IBaseTableColumn } from '../BaseTable/BaseTableInterface';
@@ -53,17 +52,14 @@ const NOTIFICATION_DELIVERY_TABLE_COLUMNS: IBaseTableColumn[] = [
 ];
 
 const NotificationDeliveryModal = ({ notificationId }: INotificationDeliveryModalProps) => {
-  const { data: notificationDeliveries } = useGetNotificationDeliveryListQuery({ notificationId });
+  const { data: notificationDeliveries } = useGetNotificationDeliveryListQuery({ params: { notificationId } });
 
   const modalConfig: IModalLayoutProps = {
     name: 'notification-delivery',
-    title: 'Bildirim Teslim Detayı',
+    title: `Bildirim Teslim Detayı - ${notificationId}`,
   };
 
   const tableHeader = () => <></>;
-  useEffect(() => {
-    console.log('notificationDeliveries', notificationDeliveries);
-  }, [notificationDeliveries]);
 
   return (
     <ModalLayout {...modalConfig}>

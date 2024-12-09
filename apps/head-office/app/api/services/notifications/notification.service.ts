@@ -6,7 +6,6 @@ import {
   CreateNotificationBody,
   ICancelNotificationBody,
   IEditNotificationBody,
-  IGetNotificationDeliveryListParams,
   INoficication,
   INotificationDelivery,
   INotificationInfoColor,
@@ -47,13 +46,11 @@ const notificationService = baseApi.injectEndpoints({
         method: ApiServiceMethods.GET,
       }),
     }),
-    getNotificationDeliveryList: build.query<Array<INotificationDelivery>, IGetNotificationDeliveryListParams>({
-      query: ({ notificationId }) => ({
+    getNotificationDeliveryList: build.query<Array<INotificationDelivery>, Get<{ notificationId: number }>>({
+      query: ({ params }) => ({
         url: `${ENDPOINTS.NOTIFICATION}${ENDPOINTS.GET_NOTIFICATION_DELIVERY_LIST}`,
         method: ApiServiceMethods.GET,
-        body: {
-          notificationId,
-        },
+        params,
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -102,6 +99,7 @@ export const {
   useGetNotificationTypesQuery,
   useGetNotificationPushCategoriesQuery,
   useGetNotificationDeliveryListQuery,
+  useLazyGetNotificationDeliveryListQuery,
   useEditNotificationMutation,
   useCancelNotificationMutation,
   useGetNotificationInfoColorListQuery,
