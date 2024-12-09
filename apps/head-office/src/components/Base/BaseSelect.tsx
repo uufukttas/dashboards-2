@@ -39,11 +39,11 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
   } = props;
   const { fieldState: { error } } = useController({ name, control: form.control, rules });
   const selectClasses = cn(
-    `${prefix}-select w-full mt-1 p-2 border rounded-lg text-text text-sm focus:ring-primary focus:border-primary`,
+    `${prefix}-select w-full mt-1 border border-gray-400 h-12 rounded-lg text-text text-sm focus:ring-primary focus:border-primary `,
     error && 'border-error',
     className,
   );
-  const containerClasses = cn('h-20 w-full ', containerClassName);
+  const containerClasses = cn(' w-full ', containerClassName);
 
   useEffect(() => {
     if (defaultValue) {
@@ -67,7 +67,8 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
             className={selectClasses}
             disabled={disabled}
             id={name}
-            items={(items as any) || []}
+            // @ts-ignore
+            items={items as unknown as Array<Record<string, unknown>>}
             multiple={multiple}
             name={name}
             onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
@@ -75,6 +76,7 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
               onChange && onChange(event);
             }}
             optionClassName={optionClassName}
+            placeholder="Seçiniz"
           />
         )}
       />

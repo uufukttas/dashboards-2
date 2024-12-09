@@ -5,3 +5,24 @@
  * .container {
  * }
 */
+.p-dropdown {
+  height: 40px !important;
+  /* Adjust height as needed */
+  min-height: 40px !important;
+}
+
+.p-dropdown-panel {
+  max-height: 250px !important;
+  /* Adjust dropdown panel height as needed */
+}
+
+.p-dropdown-items-wrapper {
+  max-height: 200px !important;
+  /* Adjust items wrapper height as needed */
+}
+
+.p-dropdown-label {
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+}

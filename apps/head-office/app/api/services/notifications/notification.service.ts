@@ -4,7 +4,13 @@ import { ENDPOINTS } from '../../endpoints';
 import { Get, Post } from '../../types';
 import {
   CreateNotificationBody,
+  ICancelNotificationBody,
+  IEditNotificationBody,
+  IGetNotificationDeliveryListParams,
   INoficication,
+  INotificationDelivery,
+  INotificationInfoColor,
+  INotificationInfoType,
   INotificationPushCategory,
   INotificationTypeList,
 } from './notification.interface';
@@ -41,6 +47,52 @@ const notificationService = baseApi.injectEndpoints({
         method: ApiServiceMethods.GET,
       }),
     }),
+    getNotificationDeliveryList: build.query<Array<INotificationDelivery>, IGetNotificationDeliveryListParams>({
+      query: ({ notificationId }) => ({
+        url: `${ENDPOINTS.NOTIFICATION}${ENDPOINTS.GET_NOTIFICATION_DELIVERY_LIST}`,
+        method: ApiServiceMethods.GET,
+        body: {
+          notificationId,
+        },
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }),
+    }),
+    editNotification: build.mutation<void, Post<IEditNotificationBody>>({
+      query: ({ body }) => ({
+        url: `${ENDPOINTS.NOTIFICATION}${ENDPOINTS.EDIT_NOTIFICATION}`,
+        method: ApiServiceMethods.POST,
+        body,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }),
+      invalidatesTags: ['notifications'],
+    }),
+    cancelNotification: build.mutation<void, Post<ICancelNotificationBody>>({
+      query: ({ body }) => ({
+        url: `${ENDPOINTS.NOTIFICATION}${ENDPOINTS.CANCEL_NOTIFICATION}`,
+        method: ApiServiceMethods.POST,
+        body,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }),
+      invalidatesTags: ['notifications'],
+    }),
+    getNotificationInfoColorList: build.query<Array<INotificationInfoColor>, void>({
+      query: () => ({
+        url: `${ENDPOINTS.NOTIFICATION}${ENDPOINTS.GET_NOTIFICATION_INFO_COLOR_LIST}`,
+        method: ApiServiceMethods.GET,
+      }),
+    }),
+    getNotificationInfoTypeList: build.query<Array<INotificationInfoType>, void>({
+      query: () => ({
+        url: `${ENDPOINTS.NOTIFICATION}${ENDPOINTS.GET_NOTIFICATION_INFO_TYPE_LIST}`,
+        method: ApiServiceMethods.GET,
+      }),
+    }),
   }),
 });
 
@@ -49,4 +101,9 @@ export const {
   useAddNotificationMutation,
   useGetNotificationTypesQuery,
   useGetNotificationPushCategoriesQuery,
+  useGetNotificationDeliveryListQuery,
+  useEditNotificationMutation,
+  useCancelNotificationMutation,
+  useGetNotificationInfoColorListQuery,
+  useGetNotificationInfoTypeListQuery,
 } = notificationService;
