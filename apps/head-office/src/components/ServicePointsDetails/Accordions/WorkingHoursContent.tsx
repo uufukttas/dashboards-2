@@ -1,12 +1,12 @@
 import { Button } from '@projects/button';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import {
   useAddWorkingHoursMutation,
   useGetWorkingHoursMutation,
   useUpdateWorkingHoursMutation,
-} from 'apps/head-office/app/api/services/service-point-details/servicePointDetails.service';
-import React, { MouseEvent, useEffect, useState } from 'react';
+} from '../../../../app/api/services/service-point-details/servicePointDetails.service';
 import { DAYS } from '../constants';
-import {
+import type {
   IPositionProps,
   IScheduleItemProps,
   ISelectedTimeByDayProps,
@@ -15,7 +15,7 @@ import {
   IWorkingHoursContentProps,
 } from '../types';
 
-const WorkingHoursContent: React.FC<IWorkingHoursContentProps> = ({ slug }) => {
+const WorkingHoursContent: React.FC<IWorkingHoursContentProps> = ({ stationId }) => {
   const [dataLoaded, setDataLoaded] = useState<boolean>(false);
   const [isSelecting, setIsSelecting] = useState<boolean>(false);
   const [oldData, setOldData] = useState<ITimeFromAPIProps[]>([]);
@@ -99,7 +99,7 @@ const WorkingHoursContent: React.FC<IWorkingHoursContentProps> = ({ slug }) => {
   };
   const getTimes = async (): Promise<void> => {
     try {
-      const response = await getWorkingHours({ body: { stationID: slug } });
+      const response = await getWorkingHours({ body: { stationId: stationId } });
       const getTimesByDay: ITimeFromAPIProps[] = response.data.data;
       const updatedSchedule = [...schedule];
 
@@ -159,7 +159,7 @@ const WorkingHoursContent: React.FC<IWorkingHoursContentProps> = ({ slug }) => {
     const addTimes = timesToSend
       .filter((time) => time.rid === null)
       .map((time) => ({
-        stationID: slug,
+        stationID: stationId,
         dayOfTheWeek: DAYS.indexOf(time.day) + 1,
         openingTime: time.startTime,
         closingTime: time.endTime,
