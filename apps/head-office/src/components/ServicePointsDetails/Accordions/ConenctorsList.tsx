@@ -1,0 +1,166 @@
+import { Button } from '@projects/button';
+import { Card } from '@projects/card';
+import { BRAND_PREFIX } from 'apps/head-office/src/constants/constants';
+import { FaPlugCirclePlus, FaQrcode } from 'react-icons/fa6';
+import { IConnectorProps } from '../types';
+import { useGetChargePointConnetorsV2Mutation } from 'apps/head-office/app/api/services/service-point-details/servicePointDetails.service';
+import { useEffect, useState } from 'react';
+
+const ConenctorsList: React.FC<{ chargePointId: string }> = ({ chargePointId }) => {
+  const chargeUnitPrefix: string = `${BRAND_PREFIX}-charge-unit`;
+  const [getChargePointConnetors] = useGetChargePointConnetorsV2Mutation();
+  const [connectors, setConnectors] = useState<IConnectorProps[] | null>([]);
+
+  const getChargePointConnectorsList = async () => {
+    const { data: connectorList } = await getChargePointConnetors({
+      body: { stationChargePointId: Number(chargePointId) },
+    });
+
+    setConnectors(connectorList);
+  };
+
+  useEffect(() => {
+    getChargePointConnectorsList();
+  }, []);
+
+  console.log('connectors', connectors);
+  return (
+    connectors &&
+    connectors.map((connectorItem: IConnectorProps, index: number) => {
+      return (
+        <Card
+          BRAND_PREFIX={BRAND_PREFIX}
+          containerClassName={`${chargeUnitPrefix}-card-container text-text font-bold flex flex-col rounded-md w-1/2 m-4 border border-gray-200 shadow-none`}
+          key={index}
+        >
+          <div className={`${chargeUnitPrefix}-card-content flex flex-col justify-between p-4`}>
+            <div
+              className={`${chargeUnitPrefix}-card-content-row flex flex-col justify-start items-start w-full border-b border-gray-200`}
+            >
+              <div className={`${chargeUnitPrefix}-info-content-row-item text-text flex`}>
+                <div className={`${chargeUnitPrefix}-info-content-row-item-label text-text font-medium`}>
+                  Konnektor Numarasi:
+                </div>
+                <div className={`${chargeUnitPrefix}-info-content-row-item-value text-text font-bolder`}>
+                  {connectorItem.connectorNr}
+                </div>
+              </div>
+              <div className={`${chargeUnitPrefix}-info-content-row-item text-text flex`}>
+                <div className={`${chargeUnitPrefix}-info-content-row-item-label text-text font-medium`}>
+                  EPDK Socket Numarasi:
+                </div>
+              </div>
+              <div className={`${chargeUnitPrefix}-info-content-row-item text-text flex`}>
+                <div className={`${chargeUnitPrefix}-info-content-row-item-value text-text font-bolder`}>
+                  {connectorItem.epdkSocketNumber}
+                </div>
+              </div>
+              <div className={`${chargeUnitPrefix}-info-content-row-item text-text flex`}>
+                <div className={`${chargeUnitPrefix}-info-content-row-item text-text flex`}>
+                  <div className={`${chargeUnitPrefix}-info-content-row-item-label text-text font-medium`}>
+                    Konnektor Tipi:
+                  </div>
+                  <div className={`${chargeUnitPrefix}-info-content-row-item-value text-text font-bolder`}>
+                    {connectorItem.stationConnectorAC ? 'AC' : 'DC'}
+                  </div>
+                </div>
+              </div>
+              <div className={`${chargeUnitPrefix}-info-content-row-item text-text flex`}>
+                <div className={`${chargeUnitPrefix}-info-content-row-item text-text flex`}>
+                  <div className={`${chargeUnitPrefix}-info-content-row-item-label text-text font-medium`}>
+                    Konnektor KW:
+                  </div>
+                  <div className={`${chargeUnitPrefix}-info-content-row-item-value text-text font-bolder`}>
+                    {connectorItem.stationConnectorKW}
+                  </div>
+                </div>
+              </div>
+              <div className={`${chargeUnitPrefix}-info-content-row-item text-text flex`}>
+                <div className={`${chargeUnitPrefix}-info-content-row-item-label text-text font-medium`}>
+                  Konnektor İsmi:
+                </div>
+                <div className={`${chargeUnitPrefix}-info-content-row-item-value text-text font-bolder`}>
+                  {connectorItem.stationConnectorName}
+                </div>
+              </div>
+              <div className={`${chargeUnitPrefix}-info-content-row-item text-text flex`}>
+                <div className={`${chargeUnitPrefix}-info-content-row-item text-text flex`}>
+                  <div className={`${chargeUnitPrefix}-info-content-row-item-label text-text font-medium`}>Tarife:</div>
+                  <div className={`${chargeUnitPrefix}-info-content-row-item-value text-text font-bolder`}>
+                    {connectorItem.tariffName}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={`${chargeUnitPrefix}-info-actions-container text-text flex`}>
+              <div className={`${chargeUnitPrefix}-info-edit-actions flex justify-between items-center w-full`}>
+                {/* <Link
+                className={`${chargeUnitPrefix}-qr-code-button rounded-md px-2 py-2 mx-4`}
+                href={`${
+                  process.env.NEXT_PUBLIC_BASE_URL
+                }/Values/QRCodeCreate?text=${chargeUnitsList[0].deviceCode.toString()}&connectorNr=${connectorItem.connectorNr.toString()}`}
+                id={`${chargeUnitPrefix}-qr-code-button`}
+                target="_blank"
+              > */}
+                <FaQrcode />
+                {/* </Link> */}
+                <Button
+                  className="connector-add-button rounded-md px-2 py-2 mx-4"
+                  dataAttributes={
+                    {
+                      //   'data-charge-point-id': connectorItem.stationChargePointID.toString(),
+                      //   'data-charge-point-model-id': connectorItem.modelId.toString(),
+                      //   'data-connector-nr': connectorItem.connectorNr.toString(),
+                      //   'data-connector-id': connectorItem.RID.toString(),
+                      //   'data-device-code': chargeUnitsList[0].deviceCode.toString(),
+                    }
+                  }
+                  id={`${chargeUnitPrefix}-connector-add-button`}
+                  type={'button'}
+                  onClick={() => {
+                    //   dispatch(setAddChargeUnit(false));
+                    //   dispatch(setAddConnector(true));
+                    //   dispatch(toggleModalVisibility(true));
+                    //   dispatch(
+                    //     setConnectorProperty({
+                    //       chargePointModelId: connectorItem.modelId,
+                    //       chargePointId: connectorItem.stationChargePointID,
+                    //       connectorNumber: connectorItem.connectorNr,
+                    //       connectorId: connectorItem.RID,
+                    //     }),
+                    //   );
+                  }}
+                >
+                  <FaPlugCirclePlus />
+                </Button>
+                <Button
+                  dataAttributes={
+                    {
+                      //   'data-device-code': chargeUnitsList[0].deviceCode.toString(),
+                    }
+                  }
+                  id={`${chargeUnitPrefix}-connector-process-button`}
+                  type={'button'}
+                  onClick={(event) => {
+                    //   dispatch(
+                    //     setManageStation({
+                    //       isVisible: true,
+                    //       unitCode: event.currentTarget.getAttribute('data-device-code') || '',
+                    //       connectorNumber: connectorItem.connectorNr,
+                    //     }),
+                    //   );
+                    //   dispatch(toggleModalVisibility(true));
+                  }}
+                >
+                  {/* <TbProgressBolt /> */}
+                </Button>
+              </div>
+            </div>
+          </div>
+        </Card>
+      );
+    })
+  );
+};
+
+export default ConenctorsList;

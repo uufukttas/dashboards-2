@@ -8,32 +8,25 @@ interface IConnectorPropertyProps {
   connectorNumber: number;
   connectorId: number;
 }
-interface IConnectorProps {
-  RID: number;
-  connectorName: string;
+export interface IConnectorProps {
+  chargingStatus: number;
+  chargingStatusMessage: string;
   connectorNr: number;
-  id: number;
-  isAC: boolean;
-  kw: number;
-  stationChargePointID: number;
-  epdkSocketNumber: number;
-}
-interface IConnectorStateProps {
-  [key: number]: IConnectorProps[][][][];
-  stationChargePointID: number;
-  stationConnectorName: string;
-  stationConnectorKW: number;
-  stationConnectorAC: boolean;
-  connectorNr: number;
+  energyUsed: number;
   epdkSocketNumber: string;
-  isAC: boolean;
+  isActive: boolean;
+  meterStartDate: string;
   modelId: number;
-  kw: number;
   RID: number;
+  stationChargePointID: number;
+  stationConnectorAC: boolean;
+  stationConnectorKW: number;
+  stationConnectorName: string;
+  status: number;
+  statusName: string;
   tariffId: number;
   tariffName: string;
   tariffSaleUnitPrice: number;
-  statusName: string;
 }
 interface IConvertedStructure {
   stationID: number;
@@ -64,7 +57,7 @@ interface IRequestDataProps {
   features: { id: number; stationChargePointFeatureType: number; stationChargePointFeatureTypeValue: string }[];
 }
 interface IWorkingHoursContentProps {
-  slug: number;
+  stationId: number;
 }
 export interface IAccordionConfigProps {
   actionButton?: React.ReactNode;
@@ -81,15 +74,16 @@ export interface IBrandsProps {
 }
 
 export interface IChargeUnitsContentProps {
-  chargeUnits: IChargeUnitsProps[];
-  slug: string;
+  stationId: number;
 }
-export interface IChargeUnitsProps {
+export interface IChargeUnitProps {
   accessType: string;
+  brandName: string;
   chargePointId: number;
   connectorNumber: number;
   connectorId: number;
   count: number;
+  createdDate: string;
   deviceCode: string;
   externalAddress: string;
   hoStatus: string;
@@ -98,35 +92,34 @@ export interface IChargeUnitsProps {
   isFreePoint: boolean;
   lastHeartBeat: string;
   limitedUsage: boolean;
+  location: string;
   modelId: number;
   model: string;
   ocppVersion: string;
   sendRoaming: boolean;
-  stationId: number;
-  status: string;
-  location: string;
   serialNumber: string;
-  createdDate: string;
+  stationId: number;
+  status: number;
   statusName: string;
 }
 export interface IComissionDetailProps {
-  slug: string;
+  stationId: number;
 }
-export interface IComissionProps {
-  RID: number;
+export interface IComissionDataProps {
+  ForInvestor: number;
   ID: number;
-  TariffSubFractionTypeID: number;
-  TariffSubFractionTypeName: string;
-  Rate: number;
-  OwnerType: number;
-  OwnerTypeName: string;
+  IsActive: boolean;
+  LocationRelatedID: null | number;
+  LocationType: null | number;
+  LocationTypeName: string;
   OwnerID: number;
   OwnerName: string;
-  IsActive: boolean;
-  IsActive: null;
-  LocationTypeName: string;
-  LocationRelatedID: null;
-  ForInvestor: number;
+  OwnerType: number;
+  OwnerTypeName: string;
+  RID: number;
+  Rate: number;
+  TariffSubFractionTypeID: number;
+  TariffSubFractionTypeName: string;
 }
 export interface IConnectorInfoProps {
   connectorId: number;
@@ -195,7 +188,7 @@ export interface IModalConfigProps {
 }
 export interface IServicePointDetailsContentProps {
   activeTabIndex: number;
-  slug: string;
+  stationId: number;
 }
 export interface IServicePointsDetailsProps {
   name: string;
@@ -208,7 +201,7 @@ export interface IServicePointsDetailsProps {
   isDeleted: boolean;
 }
 export interface IFormDataProps {
-  [key: string]: boolean | number | string;
+  [key: string]: string | number | boolean | undefined;
 }
 export interface IServiceDetailsContentProps {
   slug: string;
@@ -233,7 +226,7 @@ export interface IServicePointDetailsModalProps {
   slug: string;
 }
 export interface IServicePointPermissionsModalProps {
-  slug: string;
+  stationId: number;
 }
 export interface IServicePointsDetailsPageProps {
   slug: string;
@@ -280,7 +273,7 @@ export interface ITimeFromAPIProps {
 }
 
 export interface IWorkingHoursContentProps {
-  slug: number;
+  stationId: number;
 }
 
 export interface ISelectedTimeByDayProps {
@@ -320,4 +313,79 @@ export interface IInfoItemsProps {
   label: string;
   value?: string | null;
   render?: React.ReactNode;
+}
+
+export interface IBrandItemProps {
+  id: number;
+  imageCdnUrl: string | null;
+  name: string;
+}
+
+export interface IChargeUnitAddModalProps {
+  chargePointId?: number;
+  stationId: number;
+}
+export interface IStationIdProps {
+  stationId: number;
+}
+
+export interface IActionButtonProps {
+  buttonText: string;
+  modalName: string;
+  ModalComponent: React.FC<{ stationId: number }>;
+  stationId: number;
+}
+
+export interface IAccordionSection {
+  actionButton: (stationId: number) => JSX.Element | null;
+  content: React.ComponentType<{ stationId: number }> | React.ComponentType;
+  icon?: React.ReactNode;
+  key: string;
+  title: string;
+}
+
+export interface ITabTitleProps {
+  icon: JSX.Element;
+  label: string;
+}
+
+export interface IStationFeatureValuesProps {
+  data?: IFeatureItemProps[];
+  error?: string | unknown;
+}
+export interface IStationIdProps {
+  stationId: number;
+}
+
+export interface IImageDataProps {
+  id: number;
+  cdnUrl: string;
+  fileName: string;
+  sortOrder: number;
+  stationId: number;
+}
+
+export interface ICommissionTableHeaderItemProps {
+  label: string;
+}
+
+export interface IComissionItemProps {
+  stationId: number;
+  comissionDetail: IComissionDataProps;
+}
+
+export interface IInfoColumnProps {
+  children: React.ReactNode;
+  className?: string;
+}
+export interface IServicePointPermissionProps {
+  name: string;
+  surName: string;
+  userId: number;
+  userName: string;
+}
+
+export interface ITabsTitleProps {
+  icon: JSX.Element;
+  label: string;
 }
