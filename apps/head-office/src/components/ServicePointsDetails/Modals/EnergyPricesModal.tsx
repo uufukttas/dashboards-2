@@ -1,10 +1,11 @@
+import { Button } from '@projects/button';
+import useModalManager from 'apps/head-office/src/hooks/useModalManager';
 import React, { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button } from '@projects/button';
+import { useAddEnergyPriceMutation, useGetEnergyPriceDetailsMutation } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
+import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import BaseInput from '../../Base/BaseInput';
 import ModalLayout from '../../Modal/Layouts/ModalLayout';
-import { useAddEnergyPriceMutation } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
-import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import type { IEnergyPriceModalProps, IStationIdProps } from '../types';
 
 const EnergyPricesModal: FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
@@ -22,8 +23,11 @@ const EnergyPricesModal: FC<IStationIdProps> = ({ stationId }: IStationIdProps) 
   });
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const [addEnergyPrice] = useAddEnergyPriceMutation();
+  const { closeModal } = useModalManager();
+  const [getEnergyPriceDetails] = useGetEnergyPriceDetailsMutation();
 
-  const handleFormSubmit = async () => {
+  const handleFormSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     setIsDisabled(true);
 
     await addEnergyPrice({
@@ -35,6 +39,10 @@ const EnergyPricesModal: FC<IStationIdProps> = ({ stationId }: IStationIdProps) 
         isDeleted: false,
       },
     });
+
+    closeModal('addEnergyPriceModal');
+    getEnergyPriceDetails({ body: { stationId } });
+
   };
 
   return (
