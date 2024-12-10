@@ -1,7 +1,7 @@
 import baseApi from '../../baseApi';
 import { ApiServiceMethods } from '../../constant';
 import { ENDPOINTS } from '../../endpoints';
-import { Delete, Post } from '../../types';
+import { Delete, Get, Post } from '../../types';
 import { IDeviceBrandDataProps, IDeviceResponsesProps } from './devices.interface';
 
 const deviceServices = baseApi.injectEndpoints({
@@ -115,7 +115,7 @@ const deviceServices = baseApi.injectEndpoints({
         url: `${ENDPOINTS.DEVICE}${ENDPOINTS.GET_BRAND_BY_ID}?brandId=${brandId}`,
       }),
     }),
-    getDeviceBrands: builder.query<IDeviceResponsesProps[], null>({
+    getDeviceBrands: builder.query<IDeviceResponsesProps[], Get<{}>>({
       query: () => ({
         method: ApiServiceMethods.GET,
         url: `${ENDPOINTS.VALUES}${ENDPOINTS.GET_BRANDS}`,

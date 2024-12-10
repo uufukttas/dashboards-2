@@ -11,7 +11,7 @@ export interface IBrandModelDataProps {
 export interface IDeviceBrandDataProps {
   id: number;
   imageCdnUrl: string | null;
-  name: string | null;
+  name: string;
 };
 export interface IDeviceResponsesProps {
   count: null | number;

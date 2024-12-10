@@ -46,7 +46,7 @@ export interface IStationIdRequestProps {
 }
 export interface IStationImageAddRequestProps {
   formData: FormData;
-};
+}
 
 interface IFeatureTypeModelProps {
   featureType: number;
@@ -82,6 +82,7 @@ export interface IFeatureItemProps {
 
 export interface IChargeUnitProps {
   accessType: string;
+  brandName: string;
   chargePointId: number;
   createdDate: string;
   connectorNumber: number;
@@ -101,7 +102,7 @@ export interface IChargeUnitProps {
   ocppVersion: string;
   sendRoaming: boolean;
   stationId: number;
-  status: string;
+  status: number;
   serialNumber: string;
   statusName: string;
 }
@@ -125,4 +126,46 @@ export interface IConnectorProps {
   tariffId: number;
   tariffName: string;
   tariffSaleUnitPrice: number;
+}
+
+export interface IEnergyPricesDataProps {
+  createDate: string;
+  id: number;
+  isActive: boolean;
+  isDeleted: boolean;
+  price: number;
+  startDate: string;
+  stationId: number;
+}
+
+export interface IEnergyPriceRequestProps {
+  stationId: number;
+  price: number;
+  startDate: string;
+  isActive: boolean;
+  isDeleted: boolean;
+}
+
+export interface IComissionDataProps {
+  ForInvestor: number;
+  ID: number;
+  IsActive: boolean;
+  LocationRelatedID: null | number;
+  LocationType: null | number;
+  LocationTypeName: string;
+  OwnerID: number;
+  OwnerName: string;
+  OwnerType: number;
+  OwnerTypeName: string;
+  RID: number;
+  Rate: number;
+  TariffSubFractionTypeID: number;
+  TariffSubFractionTypeName: string;
+}
+
+export interface IServicePointPermissionProps {
+  name: string;
+  surName: string;
+  userId: number;
+  userName: string;
 }
