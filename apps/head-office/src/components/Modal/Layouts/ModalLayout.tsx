@@ -15,13 +15,13 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
     contentClassName,
     buttons,
     disableClose = false,
-    footerVisible = true,
+    footerVisible = false,
     id,
   } = props;
   const { closeModal } = useModalManager();
 
   const containerClasses = twMerge(
-    'bg-white w-[95%] md:min-w-[600px] min-h-[300px] md:min-h-[500px] max-w-[100%] max-h-[100vh] rounded-md flex flex-col transition-opacity duration-100 shadow-lg',
+    'bg-white w-[95%] md:min-w-[600px] min-h-[300px] max-w-[100%] max-h-[100vh] rounded-md flex flex-col transition-opacity duration-100 shadow-lg',
     className,
   );
 
@@ -36,7 +36,7 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
   );
 
   const contentClasses = twMerge(
-    'p-3 md:p-4 flex-grow overflow-auto',
+    'p-3 md:p-4 overflow-auto flex',
     'w-full h-full max-w-full md:max-w-[900px] max-h-[70vh] md:max-h-[600px]',
     contentClassName,
   );

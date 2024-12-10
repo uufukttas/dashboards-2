@@ -104,7 +104,7 @@ const FileUpload: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) =
       name="addServicePointImageModal"
       title={`Servis Noktası Göreseli Ekle`}
     >
-      <div className={`${sectionPrefix}-modal-file-container`}>
+      <div className={`${sectionPrefix}-modal-file-container w-full`}>
         {!selectedFile && (
           <form
             className={`${sectionPrefix}-modal-file-form border border-dashed my-8 items-center text-center p-12`}
