@@ -2,6 +2,7 @@ import { Dropdown } from '@projects/dropdown';
 import { Label } from '@projects/label';
 import { FC, useEffect } from 'react';
 import { Controller, FieldValues, useController } from 'react-hook-form';
+import { BRAND_PREFIX } from '../../constants/constants';
 import { cn } from '../../utils/common.utils';
 import BaseFormError from './BaseFormError';
 
@@ -11,6 +12,7 @@ interface IBaseSelectProps {
   label?: string;
   prefix?: string;
   rules?: Record<string, unknown>;
+  id?: string;
   items?: Array<unknown>;
   multiple?: boolean;
   className?: string;
@@ -28,20 +30,24 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
     defaultValue,
     disabled,
     form,
+    id,
     items,
     label,
     multiple,
     name,
     optionClassName,
-    prefix,
+    prefix = BRAND_PREFIX,
     rules,
     onChange,
   } = props;
-  const { fieldState: { error } } = useController({ name, control: form.control, rules });
+  const {
+    fieldState: { error },
+  } = useController({ name, control: form.control, rules });
   const selectClasses = cn(
-    `${prefix}-select w-full mt-1 p-2 border rounded-lg text-text text-sm focus:ring-primary focus:border-primary`,
+    `${prefix}-select w-full flex mt-1 border border-gray-400 h-12 rounded-lg text-text text-sm focus:ring-primary focus:border-primary `,
     error && 'border-error',
     className,
+    'flex',
   );
   const containerClasses = cn('h-20 w-full ', containerClassName);
 
@@ -66,8 +72,9 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
             {...field}
             className={selectClasses}
             disabled={disabled}
-            id={name}
-            items={(items as any) || []}
+            id={id || name}
+            // @ts-ignore
+            items={items as unknown as Array<Record<string, unknown>>}
             multiple={multiple}
             name={name}
             onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
