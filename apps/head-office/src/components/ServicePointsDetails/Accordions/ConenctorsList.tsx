@@ -1,22 +1,23 @@
 import { Button } from '@projects/button';
 import { Card } from '@projects/card';
-import { BRAND_PREFIX } from 'apps/head-office/src/constants/constants';
-import { FaPlugCirclePlus, FaQrcode } from 'react-icons/fa6';
-import { IConnectorProps } from '../types';
 import { useGetChargePointConnetorsV2Mutation } from 'apps/head-office/app/api/services/service-point-details/servicePointDetails.service';
-import { useEffect, useState } from 'react';
+import { BRAND_PREFIX } from 'apps/head-office/src/constants/constants';
+import useModalManager from 'apps/head-office/src/hooks/useModalManager';
+import Link from 'next/link';
+import { useEffect } from 'react';
+import { FaPlugCirclePlus, FaQrcode } from 'react-icons/fa6';
+import { TbProgressBolt } from 'react-icons/tb';
+import AddConnectorModal from '../../Devices/DeviceModals/AddConnectorModal';
+import { IConnectorProps } from '../types';
+import ConnectorAddModal from '../Modals/ConnectorAddModal';
 
-const ConenctorsList: React.FC<{ chargePointId: string }> = ({ chargePointId }) => {
+const ConenctorsList: React.FC<{ chargePointId: number; deviceCode: number }> = ({ chargePointId, deviceCode }) => {
   const chargeUnitPrefix: string = `${BRAND_PREFIX}-charge-unit`;
-  const [getChargePointConnetors] = useGetChargePointConnetorsV2Mutation();
-  const [connectors, setConnectors] = useState<IConnectorProps[] | null>([]);
+  const [getChargePointConnetors, { data: connectors }] = useGetChargePointConnetorsV2Mutation();
+  const { openModal } = useModalManager();
 
   const getChargePointConnectorsList = async () => {
-    const { data: connectorList } = await getChargePointConnetors({
-      body: { stationChargePointId: Number(chargePointId) },
-    });
-
-    setConnectors(connectorList);
+    await getChargePointConnetors({ body: { stationChargePointId: chargePointId } });
   };
 
   useEffect(() => {
@@ -94,65 +95,51 @@ const ConenctorsList: React.FC<{ chargePointId: string }> = ({ chargePointId }) 
             </div>
             <div className={`${chargeUnitPrefix}-info-actions-container text-text flex`}>
               <div className={`${chargeUnitPrefix}-info-edit-actions flex justify-between items-center w-full`}>
-                {/* <Link
-                className={`${chargeUnitPrefix}-qr-code-button rounded-md px-2 py-2 mx-4`}
-                href={`${
-                  process.env.NEXT_PUBLIC_BASE_URL
-                }/Values/QRCodeCreate?text=${chargeUnitsList[0].deviceCode.toString()}&connectorNr=${connectorItem.connectorNr.toString()}`}
-                id={`${chargeUnitPrefix}-qr-code-button`}
-                target="_blank"
-              > */}
-                <FaQrcode />
-                {/* </Link> */}
+                <Link
+                  className={`${chargeUnitPrefix}-qr-code-button rounded-md px-2 py-2 mx-4`}
+                  href={`${
+                    process.env.NEXT_PUBLIC_BASE_URL
+                  }/Values/QRCodeCreate?text=${deviceCode}&connectorNr=${connectorItem.connectorNr.toString()}`}
+                  id={`${chargeUnitPrefix}-qr-code-button`}
+                  target="_blank"
+                >
+                  <FaQrcode />
+                </Link>
                 <Button
                   className="connector-add-button rounded-md px-2 py-2 mx-4"
-                  dataAttributes={
-                    {
-                      //   'data-charge-point-id': connectorItem.stationChargePointID.toString(),
-                      //   'data-charge-point-model-id': connectorItem.modelId.toString(),
-                      //   'data-connector-nr': connectorItem.connectorNr.toString(),
-                      //   'data-connector-id': connectorItem.RID.toString(),
-                      //   'data-device-code': chargeUnitsList[0].deviceCode.toString(),
-                    }
-                  }
+                  // dataAttributes={{
+                  //   'data-charge-point-id': connectorItem.stationChargePointID.toString(),
+                  //   'data-charge-point-model-id': connectorItem.modelId.toString(),
+                  //   'data-connector-nr': connectorItem.connectorNr.toString(),
+                  //   'data-connector-id': connectorItem.RID.toString(),
+                  //   'data-device-code': chargeUnitsList[0].deviceCode.toString(),
+                  // }}
                   id={`${chargeUnitPrefix}-connector-add-button`}
                   type={'button'}
                   onClick={() => {
-                    //   dispatch(setAddChargeUnit(false));
-                    //   dispatch(setAddConnector(true));
-                    //   dispatch(toggleModalVisibility(true));
-                    //   dispatch(
-                    //     setConnectorProperty({
-                    //       chargePointModelId: connectorItem.modelId,
-                    //       chargePointId: connectorItem.stationChargePointID,
-                    //       connectorNumber: connectorItem.connectorNr,
-                    //       connectorId: connectorItem.RID,
-                    //     }),
-                    //   );
+                    openModal('addConnectorModal', <ConnectorAddModal modelId={connectorItem.modelId}/>);
                   }}
                 >
                   <FaPlugCirclePlus />
                 </Button>
                 <Button
-                  dataAttributes={
-                    {
-                      //   'data-device-code': chargeUnitsList[0].deviceCode.toString(),
-                    }
-                  }
+                  // dataAttributes={{
+                  //   'data-device-code': chargeUnitsList[0].deviceCode.toString(),
+                  // }}
                   id={`${chargeUnitPrefix}-connector-process-button`}
                   type={'button'}
                   onClick={(event) => {
-                    //   dispatch(
-                    //     setManageStation({
-                    //       isVisible: true,
-                    //       unitCode: event.currentTarget.getAttribute('data-device-code') || '',
-                    //       connectorNumber: connectorItem.connectorNr,
-                    //     }),
-                    //   );
-                    //   dispatch(toggleModalVisibility(true));
+                    // dispatch(
+                    //   setManageStation({
+                    //     isVisible: true,
+                    //     unitCode: event.currentTarget.getAttribute('data-device-code') || '',
+                    //     connectorNumber: connectorItem.connectorNr,
+                    //   }),
+                    // );
+                    // dispatch(toggleModalVisibility(true));
                   }}
                 >
-                  {/* <TbProgressBolt /> */}
+                  <TbProgressBolt />
                 </Button>
               </div>
             </div>

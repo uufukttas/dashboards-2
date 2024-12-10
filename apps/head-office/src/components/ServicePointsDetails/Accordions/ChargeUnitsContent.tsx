@@ -263,7 +263,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
                     </div>
                   </div>
                   <div className={`${chargeUnitPrefix}-connector-list-card-contianer flex w-full w-1/2`}>
-                    <ConenctorsList chargePointId={chargeUnit.chargePointId} />
+                    <ConenctorsList chargePointId={chargeUnit.chargePointId} deviceCode={chargeUnit.deviceCode}/>
                   </div>
                 </div>
               </div>

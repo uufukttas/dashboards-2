@@ -389,3 +389,15 @@ export interface ITabsTitleProps {
   icon: JSX.Element;
   label: string;
 }
+
+export interface IConnectorAddModalProps {
+  id: number;
+  stationChargePointBrandID: number;
+  stationChargePointBrandName: string;
+  stationChargePointModelID: number;
+  stationChargePointModelName: string;
+  stationChargePointConnectorTypeID: number;
+  stationChargePointConnectorTypeName: string;
+  kwh: number;
+  ac: boolean;
+}
