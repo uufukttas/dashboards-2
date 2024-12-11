@@ -2,7 +2,10 @@ import { Button } from '@projects/button';
 import useModalManager from 'apps/head-office/src/hooks/useModalManager';
 import React, { FC, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useAddEnergyPriceMutation, useGetEnergyPriceDetailsMutation } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
+import {
+  useAddEnergyPriceMutation,
+  useGetEnergyPriceDetailsMutation,
+} from '../../../../app/api/services/service-point-details/servicePointDetails.service';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import BaseInput from '../../Base/BaseInput';
 import ModalLayout from '../../Modal/Layouts/ModalLayout';
@@ -10,39 +13,34 @@ import type { IEnergyPriceModalProps, IStationIdProps } from '../types';
 
 const EnergyPricesModal: FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
   const sectionPrefix: string = `${BRAND_PREFIX}-energy-price-modal`;
-  const form = useForm();
   const today: Date = new Date();
   const formattedDate: string = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today
     .getDate()
     .toString()
     .padStart(2, '0')}`;
+  const form = useForm();
+  const [addEnergyPrice] = useAddEnergyPriceMutation();
+  const { closeModal } = useModalManager();
   const [energyPricesProperty, setEnergyPricesProperty] = useState<IEnergyPriceModalProps>({
     isActive: true,
     price: 0,
     time: formattedDate,
   });
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  const [addEnergyPrice] = useAddEnergyPriceMutation();
-  const { closeModal } = useModalManager();
-  const [getEnergyPriceDetails] = useGetEnergyPriceDetailsMutation();
 
-  const handleFormSubmit = async (event: React.FormEvent) => {
+  const handleFormSubmit = async (event: React.FormEvent): Promise<void> => {
     event.preventDefault();
-    setIsDisabled(true);
 
     await addEnergyPrice({
       body: {
-        stationId,
-        price: energyPricesProperty.price,
-        startDate: energyPricesProperty.time,
         isActive: true,
         isDeleted: false,
+        price: energyPricesProperty.price,
+        startDate: energyPricesProperty.time,
+        stationId,
       },
     });
 
     closeModal('addEnergyPriceModal');
-    getEnergyPriceDetails({ body: { stationId } });
-
   };
 
   return (
@@ -89,7 +87,6 @@ const EnergyPricesModal: FC<IStationIdProps> = ({ stationId }: IStationIdProps) 
             <Button
               buttonText="Kaydet"
               className={`-button bg-primary text-white w-full py-2.5 rounded-lg`}
-              disabled={isDisabled}
               id="addEnergyPriceButton"
               type="submit"
             />

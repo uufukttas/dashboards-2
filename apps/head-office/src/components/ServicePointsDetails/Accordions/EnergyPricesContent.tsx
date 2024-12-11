@@ -1,13 +1,13 @@
-import { Button } from '@projects/button';
 import { FC, useEffect } from 'react';
 import { FaTrashCan } from 'react-icons/fa6';
+import { Button } from '@projects/button';
+import ConfirmationModal from '../../Modals/ConfirmationModal';
 import {
   useDeleteEnergyPriceMutation,
   useGetEnergyPriceDetailsMutation,
 } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import useModalManager from '../../../../src/hooks/useModalManager';
-import ConfirmationModal from '../../Modals/ConfirmationModal';
 import type { IEnergyPriceDetailsProps, IStationIdProps } from '../types';
 
 const EnergyPricesContent: FC<IStationIdProps> = ({ stationId }) => {
@@ -20,28 +20,15 @@ const EnergyPricesContent: FC<IStationIdProps> = ({ stationId }) => {
     getEnergyPriceDetails({ body: { stationId } });
   };
 
-  const handleDeleteClick = (id: number): void => {
-    openModal(
-      'confirmationModal',
-      <ConfirmationModal
-        name="deleteEnergyPrice"
-        onConfirm={() => {
-          deleteEnergyPrice({ body: { Id: id } });
-          closeModal('confirmationModal');
-        }}
-      />,
-    );
-  };
-
   useEffect(() => {
     getEnergyPrice();
   }, []);
 
-  return energyPriceDetails?.map((energyPriceDetail: IEnergyPriceDetailsProps, idx: number) => {
+  return energyPriceDetails?.map((energyPriceDetail: IEnergyPriceDetailsProps, index: number) => {
     return (
       <div
         className={`${sectionPrefix}-container flex flex-col items-end py-4 text-white bg-white p-4 rounded-b-md`}
-        key={idx}
+        key={index}
       >
         <div className={`${sectionPrefix}-content-container flex w-full`}>
           <div className={`${sectionPrefix}-content py-4 text-text w-full`}>
@@ -53,7 +40,7 @@ const EnergyPricesContent: FC<IStationIdProps> = ({ stationId }) => {
                   className={`${sectionPrefix}-info-item-value text-lg font-normal flex items-center justify-between w-full`}
                 >
                   <p className={`${sectionPrefix}-date-container`}>
-                    <span className={`${sectionPrefix}-date-item font-bold`}>{`${idx + 1}`}</span>
+                    <span className={`${sectionPrefix}-date-item font-bold`}>{`${index + 1}`}</span>
                     {`. ${energyPriceDetail.startDate.split('T')[0]}`}
                   </p>
                   <div className={`${sectionPrefix}-price-container flex items-center w-1/6`}>
@@ -74,8 +61,19 @@ const EnergyPricesContent: FC<IStationIdProps> = ({ stationId }) => {
                   className={`${sectionPrefix}-energy-prices-delete-button bg-secondary rounded-md px-4 py-2 mx-4 text-white`}
                   id={`${sectionPrefix}-energy-prices-delete-button`}
                   type={'button'}
-                  dataAttributes={{ 'energy-price-id': energyPriceDetail.id.toString() }}
-                  onClick={() => handleDeleteClick(energyPriceDetail.id)}
+                  onClick={() => {
+                    openModal(
+                      'confirmationModal',
+                      <ConfirmationModal
+                        name="deleteEnergyPrice"
+                        onConfirm={() => {
+                          deleteEnergyPrice({ body: { Id: energyPriceDetail.id } });
+                          closeModal('confirmationModal');
+                        }}
+                      />,
+                    );
+                  }
+                }
                 >
                   <FaTrashCan />
                 </Button>
