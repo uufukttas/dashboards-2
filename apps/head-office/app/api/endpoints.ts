@@ -67,6 +67,7 @@ export const ENDPOINTS = {
   REMOVE_DEVICE_BRAND: '/RemoveDeviceBrand',
   REMOVE_DEVICE_MODEL: '/RemoveDeviceModel',
   REMOVE_ENERGY_PRICE: '/RemoveEnergyPrice',
+  REMOVE_IMAGE_BY_ID: '/RemoveImageByImageId',
   RESOURCE_TEXT: '/ResourceText',
   SELECT_COMISSION_RATE: '/SelectCommisionRate',
   SERVICE_POINT: '/ServicePoint',

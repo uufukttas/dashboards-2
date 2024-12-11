@@ -1,81 +1,76 @@
+import { FC, ReactNode, useState } from 'react';
 import { Button } from '@projects/button';
 import { Image } from '@projects/image';
-import { FC, ReactNode, useState } from 'react';
-import { removeServicePointImageRequest } from '../../../../app/api/servicePointDetails/removeServicePointImageRequest';
-import { IImage } from '../../../../app/types/model';
-import { BRAND_PREFIX } from '../../../constants/constants';
 import ConfirmationModal from '../../Modals/ConfirmationModal';
-import useModalManager from 'apps/head-office/src/hooks/useModalManager';
+import { BRAND_PREFIX } from '../../../constants/constants';
+import useModalManager from '../../../../src/hooks/useModalManager';
+import {
+  useGetServicePointImagesQuery,
+  useRemoveServicePointImageMutation,
+} from '../../../../app/api/services/service-point-details/servicePointDetails.service';
+import { IImageDataProps, ImageSliderLayoutProps } from '../types';
 
-interface ImageSliderLayoutProps {
-  images: Array<IImage> | null;
-  activeId?: string;
-  children: ReactNode;
-}
+const ImageSliderLayout: FC<ImageSliderLayoutProps> = ({ children, clickedImageId, stationId }) => {
+  const sectionPrefix: string = `${BRAND_PREFIX}-image-slider-modal`;
+  const { data: imagesData } = useGetServicePointImagesQuery({ params: { stationId: stationId } });
+  const { closeModal, openModal } = useModalManager();
+  const [removeServicePointImage] = useRemoveServicePointImageMutation();
+  const clickedImageIndex: number = imagesData?.findIndex((image: IImageDataProps) => image.id === clickedImageId) || 0;
+  const [currentIndex, setCurrentIndex] = useState(clickedImageIndex);
 
-const ImageSliderLayout: FC<ImageSliderLayoutProps> = ({
-  images,
-  children,
-}) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const sectionPrefix = 'image_slider';
-  const { openModal } = useModalManager();
-
-  const handleNext = () => {
-    if (images) setCurrentIndex((currentIndex + 1) % images.length);
-  };
-
-  const handlePrevious = () => {
-    if (images)
-      setCurrentIndex((currentIndex - 1 + images.length) % images.length);
-  };
-
-  const handleDelete = async () => {
-    if (!images) {
+  const handleDelete = async (): Promise<void> => {
+    if (!imagesData) {
       return;
     }
 
-    const image = images[currentIndex];
-    openModal('confirmation-modal', <ConfirmationModal name="confirmation-modal" onConfirm={() => removeServicePointImageRequest(image.id)} />);
-
-
-    // await removeServicePointImageRequest(image.id);
-    // window.location.reload();
+    const image = imagesData[currentIndex];
+    openModal(
+      'confirmation-modal',
+      <ConfirmationModal name="confirmation-modal" onConfirm={() => removeServicePointImage({ id: image.id })} />,
+    );
+    closeModal('stationImageListModal');
+  };
+  const handleNext = (): void => {
+    if (imagesData) setCurrentIndex((currentIndex + 1) % imagesData.length);
+  };
+  const handlePrevious = (): void => {
+    if (imagesData) setCurrentIndex((currentIndex - 1 + imagesData.length) % imagesData.length);
   };
 
-  if (!images || images.length === 0) return <></>;
+  if (!imagesData || imagesData.length === 0) return <></>;
 
   return (
     <div
-      className={`${BRAND_PREFIX}-${sectionPrefix}-modal-form-container relative p-6 bg-white rounded-lg h-[550px] flex items-center justify-center`}
+      className={`${sectionPrefix}-wrapper relative p-6 bg-white rounded-lg h-[550px] flex items-center justify-center`}
     >
-      <div className="relative flex justify-center items-center h-fit w-full">
+      <div className={`${sectionPrefix}-content-container relative flex justify-center items-center h-fit w-full`}>
         <button
           onClick={handlePrevious}
-          className="absolute left-4 bg-gray-500 opacity-60 text-white w-16 h-16 rounded-full"
+          className={`${sectionPrefix}-previous-button absolute left-4 bg-gray-500 opacity-60 text-white w-16 h-16 rounded-full`}
         >
           ‹
         </button>
-        <div className="text-center w-full h-fit items-center justify-center flex flex-col self-center">
-          <div className='items-center justify-center  overflow-scroll'>
+        <div
+          className={`${sectionPrefix}-image-content text-center w-full h-fit items-center justify-center flex flex-col self-center`}
+        >
+          <div className={`${sectionPrefix}-image-container items-center justify-center  overflow-scroll`}>
             <Image
-              src={images[currentIndex].cdnUrl}
-              alt={images[currentIndex].fileName}
-              className="object-contain rounded-md h-fit"
+              src={imagesData[currentIndex].cdnUrl}
+              alt={imagesData[currentIndex].fileName}
+              className={`${sectionPrefix}-image object-contain rounded-md h-fit`}
             />
           </div>
           <Button
             buttonText="Sil"
-            type="button"
-            className="bg-red-500 w-32 text-white mt-4 p-2 rounded-md"
+            className={`${sectionPrefix}-delete-button bg-red-500 w-32 text-white mt-4 p-2 rounded-md`}
             id="delete"
+            type="button"
             onClick={handleDelete}
           />
         </div>
-
         <button
           onClick={handleNext}
-          className="absolute right-4 bg-gray-500 opacity-60 text-white w-16 h-16 rounded-full"
+          className={`${sectionPrefix}-next-button absolute right-4 bg-gray-500 opacity-60 text-white w-16 h-16 rounded-full`}
         >
           ›
         </button>

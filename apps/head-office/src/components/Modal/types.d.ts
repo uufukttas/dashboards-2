@@ -1,3 +1,16 @@
+export interface IImageDataProps {
+  cdnUrl: string;
+  fileName: string;
+  id: number;
+  sortOrder: number;
+  stationId: number;
+}
+
+export interface ImageSliderLayoutProps {
+  children: ReactNode;
+  clickedImageId: number;
+  stationId: number;
+}
 export interface IModalBodyProps {
   children: React.ReactNode;
 }

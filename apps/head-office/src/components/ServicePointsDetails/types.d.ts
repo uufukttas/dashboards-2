@@ -409,3 +409,8 @@ export interface ICommissionFeaturesProps {
   rate: string;
   time: number;
 }
+
+export interface IStationImagesModalProps {
+  clickedImageId: number;
+  stationId: number;
+}

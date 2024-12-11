@@ -4,18 +4,18 @@ import StationImagesModal from '../../Modals/StationImagesModal';
 import { useGetServicePointImagesQuery } from '../../../../../app/api/services/service-point-details/servicePointDetails.service';
 import { BRAND_PREFIX } from '../../../../../src/constants/constants';
 import useModalManager from '../../../../../src/hooks/useModalManager';
-import { IStationImageResponseProps, IStationImagesProps } from '../../types';
+import { IStationIdProps, IStationImageResponseProps } from '../../types';
 
-const StationImages: FC<IStationImagesProps> = ({ stationId }) => {
+const StationImages: FC<IStationIdProps> = ({ stationId }) => {
   const sectionPrefix: string = `${BRAND_PREFIX}-station-image`;
   const { data: imageList } = useGetServicePointImagesQuery({ params: { stationId } });
   const { openModal } = useModalManager();
 
-  const handleClickImage = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, id: string): void => {
+  const handleClickImage = (event: React.MouseEvent<HTMLElement>, id: number): void => {
     event.stopPropagation();
     event.preventDefault();
 
-    openModal('stationImageListModal', <StationImagesModal stationId={stationId} />);
+    openModal('stationImageListModal', <StationImagesModal clickedImageId={id} stationId={stationId} />);
   };
 
   return (
@@ -28,11 +28,12 @@ const StationImages: FC<IStationImagesProps> = ({ stationId }) => {
             <div
               className={`${sectionPrefix}-container w-[250px] h-[250px] p-2 bg-gray-100 flex rounded-md items-center justify-center text-center cursor-pointer`}
               key={image.id}
-              onClick={(event) => handleClickImage(event, image.fileName)}
+              onClick={(event) => handleClickImage(event, image.id)}
             >
               <Image
                 alt={`service-point-image-${index}`}
                 className={`${sectionPrefix}`}
+                data-image-id={image.id}
                 height={250}
                 src={image.cdnUrl}
                 width={'250'}

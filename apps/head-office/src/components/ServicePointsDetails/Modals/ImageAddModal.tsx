@@ -1,5 +1,6 @@
 import { Button } from '@projects/button';
 import { Input } from '@projects/input';
+import useModalManager from 'apps/head-office/src/hooks/useModalManager';
 import { isNil } from 'lodash';
 import React, { useRef, useState } from 'react';
 import ReactCrop, { Crop } from 'react-image-crop';
@@ -11,7 +12,7 @@ import { IStationIdProps } from '../types';
 
 const FileUpload: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
   const cropInitialState: Crop = {
-    height: 360,
+    height: 470,
     unit: 'px',
     width: 480,
     x: 0,
@@ -19,6 +20,7 @@ const FileUpload: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) =
   };
   const sectionPrefix: string = `${BRAND_PREFIX}-service-point-add-image`;
   const [addServicePointImage] = useAddServicePointImageMutation();
+  const { closeModal } = useModalManager();
   const imageRef = useRef<HTMLImageElement>(null);
   const [crop, setCrop] = useState<Crop>(cropInitialState);
   const [imageSrc, setImageSrc] = useState<string>('');
@@ -90,10 +92,11 @@ const FileUpload: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) =
     formData.append('fileName', selectedFile.name);
     formData.append('forceWrite', 'true');
     formData.append('image', _file);
-    formData.append('pathKey', 'station');
     formData.append('stationId', stationId.toString());
 
     await addServicePointImage({ body: formData });
+
+    closeModal('addServicePointImageModal');
   };
 
   return (

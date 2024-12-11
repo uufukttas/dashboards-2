@@ -1,7 +1,7 @@
 import baseApi from '../../baseApi';
 import { ApiServiceMethods } from '../../constant';
 import { ENDPOINTS } from '../../endpoints';
-import { IComissionRequestProps, Post } from '../../types';
+import { Delete, IComissionRequestProps, Post } from '../../types';
 import {
   IChargeUnitProps,
   IComissionDataProps,
@@ -59,9 +59,11 @@ const authService = baseApi.injectEndpoints({
     addServicePointImage: builder.mutation<IServicePointDetailResponseProps[], Post<FormData>>({
       query: ({ body }) => ({
         body,
+        headers: { 'Content-Type': 'multipart/form-data' },
         method: ApiServiceMethods.POST,
         url: `${ENDPOINTS.STATION_POINT}${ENDPOINTS.ADD_IMAGE}`,
       }),
+      invalidatesTags: ['ServicePointImageUpload'],
     }),
     addStationSettings: builder.mutation<IServicePoinDetailsInfo[], Post>({
       query: ({ body }) => ({
@@ -184,6 +186,7 @@ const authService = baseApi.injectEndpoints({
         method: ApiServiceMethods.GET,
         url: `${ENDPOINTS.STATION_POINT}${ENDPOINTS.GET_IMAGE_LIST}`,
       }),
+      providesTags: ['ServicePointImageUpload'],
     }),
     getServicePointInformation: builder.mutation<IServicePoinDetailsInfo[], Post<IStationIdRequestProps>>({
       query: ({ body }) => ({
@@ -212,6 +215,13 @@ const authService = baseApi.injectEndpoints({
         method: ApiServiceMethods.POST,
         url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.GET_WORKING_HOURS}`,
       }),
+    }),
+    removeServicePointImage: builder.mutation<IServicePointDetailResponseProps[], Delete>({
+      query: ({ id }) => ({
+        method: ApiServiceMethods.DELETE,
+        url: `${ENDPOINTS.STATION_POINT}${ENDPOINTS.REMOVE_IMAGE_BY_ID}/${id}`,
+      }),
+      invalidatesTags: ['ServicePointImageUpload'],
     }),
     updateWorkingHours: builder.mutation<IServicePointDetailResponseProps[], Post>({
       query: ({ body }) => ({
@@ -249,5 +259,6 @@ export const {
   useGetStationSelectedValuesMutation,
   useGetStationFeatureValuesMutation,
   useGetWorkingHoursMutation,
+  useRemoveServicePointImageMutation,
   useUpdateWorkingHoursMutation,
 } = authService;
