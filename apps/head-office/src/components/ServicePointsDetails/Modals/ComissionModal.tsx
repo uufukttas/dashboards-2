@@ -1,60 +1,41 @@
 import { Button } from '@projects/button';
-import { Checkbox } from '@projects/checkbox';
-import { Dropdown } from '@projects/dropdown';
-import { Input } from '@projects/input';
-import { Label } from '@projects/label';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { getTariffFractionTypeRequest } from '../../../../app/api/servicePointDetails';
+import BaseInput from '../../Base/BaseInput';
+import BaseSelect from '../../Base/BaseSelect';
+import ModalLayout from '../../Modal/Layouts/ModalLayout';
 import {
   useAddComissionMutation,
   useGetChargePointInvestorsQuery,
+  useGetFractionTypeQuery,
 } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
-import ModalLayout from '../../Modal/Layouts/ModalLayout';
-import useModalManager from 'apps/head-office/src/hooks/useModalManager';
+import useModalManager from '../../../../src/hooks/useModalManager';
+import { ICommissionFeaturesProps, IStationIdProps } from '../types';
 
-const ComissionModal = ({ stationId }: { stationId: number }) => {
-  const sectionPrefix = 'comission-details';
+const ComissionModal: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
+  const sectionPrefix: string = `${BRAND_PREFIX}-add-comission-modal`;
   const form = useForm();
-  const [comissionFeatures, setComissionFeatures] = useState<{
-    resller: number;
-    isResellerForServicePoint: boolean;
-    tariffFraction: number;
-    rate: number;
-  }>({
-    resller: 0,
+  const [comissionFeatures, setComissionFeatures] = useState<ICommissionFeaturesProps>({
     isResellerForServicePoint: false,
-    tariffFraction: 0,
-    rate: 0,
+    rate: '0',
+    reseller: 0,
+    tariffFraction: 1,
+    time: new Date().getTime(),
   });
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  const [tariffFractionList, setTariffFractionList] = useState([]);
-  const { data: investors } = useGetChargePointInvestorsQuery({});
-  const {closeModal} = useModalManager();
-
   const [addComission] = useAddComissionMutation();
+  const { data: tariffFractionList } = useGetFractionTypeQuery({});
+  const { data: investors } = useGetChargePointInvestorsQuery({});
+  const { closeModal } = useModalManager();
 
-  const getInvestors = async () => {
-    comissionFeatures.resller = investors?.data[0].id;
-  };
-
-  const getTariffFraction = async () => {
-    const tariffFraction = await getTariffFractionTypeRequest();
-
-    setTariffFractionList(tariffFraction);
-    comissionFeatures.tariffFraction = tariffFraction[0].id;
-  };
-
-  const handleFormSubmit = async () => {
-    setIsDisabled(true);
-
-    const response = await addComission({
+  const getInvestors = (): void => (comissionFeatures.reseller = investors?.data?.[0].id);
+  const handleFormSubmit = async (): Promise<void> => {
+    await addComission({
       body: {
-        ownerType: comissionFeatures.resller,
+        ownerType: comissionFeatures.reseller || 1,
         forInvestor: comissionFeatures.isResellerForServicePoint,
         tariffSubFractionTypeID: comissionFeatures.tariffFraction,
-        rate: comissionFeatures.rate,
+        rate: Number(comissionFeatures.rate),
         stationId,
         isActive: true,
       },
@@ -65,7 +46,6 @@ const ComissionModal = ({ stationId }: { stationId: number }) => {
 
   useEffect(() => {
     getInvestors();
-    getTariffFraction();
   }, []);
 
   return (
@@ -76,63 +56,62 @@ const ComissionModal = ({ stationId }: { stationId: number }) => {
       name={'addComissionModal'}
       title={'Komisyon Ekle'}
     >
-      <div className={`${BRAND_PREFIX}-${sectionPrefix}-modal-form-container relative p-6 bg-white rounded-lg`}>
-        <form
-          className={`${BRAND_PREFIX}-add-${sectionPrefix}-form w-full`}
-          onSubmit={form.handleSubmit(handleFormSubmit)}
-        >
-          <div className={`${sectionPrefix}-container`}>
-            <Label
-              className={`${sectionPrefix}-label block mb-2 text-heading font-semibold`}
-              htmlFor={``}
-              labelText={`İstasyon Komisyon Tanimlama`}
-            >
-              <span className="text-md text-error">*</span>
-            </Label>
-            <Dropdown
-              className="border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary"
-              id="comission-details-service-point"
-              name="comission-details-service-point"
+      <div className={`${sectionPrefix}-form-container relative p-6 bg-white rounded-lg`}>
+        <form className={`${sectionPrefix}-form w-full`} onSubmit={form.handleSubmit(handleFormSubmit)}>
+          <div className={`${sectionPrefix}-name-container`}>
+            <BaseSelect
+              className={`${sectionPrefix}-comission-name border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
+              form={form}
+              id={`${sectionPrefix}-comission-name`}
+              name={`${sectionPrefix}-comission-name`}
               items={investors}
               onChange={(event) => {
                 setComissionFeatures({
                   ...comissionFeatures,
-                  resller: Number(event.target.value),
+                  reseller: Number(event.target.value),
                 });
               }}
-              value={comissionFeatures.resller}
+              defaultValue={comissionFeatures.reseller}
             />
-
-            <div className="flex flex-row justify-between">
-              <Label
-                className={`${sectionPrefix}-label block mb-2 text-heading font-semibold w-2/3`}
-                htmlFor={``}
-                labelText={`Cihaz Yatirimcisi mi?`}
-              >
-                <span className="text-md text-error">*</span>
-              </Label>
-              <Checkbox
-                className="border text-text text-sm rounded-lg block p-2.5 mb-4 focus:ring-primary focus:border-primary"
-                id={`${sectionPrefix}-is-reseller`}
-                name={`${sectionPrefix}-is-reseller`}
-                onChange={(event) => {
-                  setComissionFeatures({
-                    ...comissionFeatures,
-                    isResellerForServicePoint: event.target.checked,
-                  });
-                }}
-                checked={comissionFeatures.isResellerForServicePoint}
-              />
-            </div>
-            <Label
-              className={`${sectionPrefix}-label block mb-2 text-heading font-semibold`}
-              htmlFor={``}
-              labelText={`Alt Kirilmlari seciniz`}
+          </div>
+          <div className={`${sectionPrefix}-rate`}>
+            <BaseInput
+              containerClassName={`${sectionPrefix}-rate text-text text-sm rounded-lg block w-2/3 p-2.5 mb-4 focus:ring-primary focus:border-primary`}
+              form={form}
+              id={`${sectionPrefix}-rate`}
+              label="Komisyon Degeri"
+              name={`${sectionPrefix}-rate`}
+              type={'number'}
+              onChange={(event) => {
+                setComissionFeatures({
+                  ...comissionFeatures,
+                  rate: event.target.value,
+                });
+              }}
             />
-            <Dropdown
-              className=" border text-text text-sm rounded-lg w-full block p-2.5 mb-4 focus:ring-primary focus:border-primary"
-              id="comission-details-service-point"
-              name="comission-details-service-point"
+          </div>
+          <div className={`${sectionPrefix}-is-investor-reseller flex flex-row justify-between`}>
+            <BaseInput
+              containerClassName={`${sectionPrefix}-is-investor-reseller text-text text-sm rounded-lg block w-2/3 p-2.5 mb-4 focus:ring-primary focus:border-primary flex`}
+              form={form}
+              id={`${sectionPrefix}-is-investor-reseller`}
+              label="Lokasyon sahibi cihaz yatirimcisi mi?"
+              name={`${sectionPrefix}-is-investor-reseller`}
+              type={'checkbox'}
+              onChange={(event) => {
+                setComissionFeatures({
+                  ...comissionFeatures,
+                  isResellerForServicePoint: event.target.checked,
+                });
+              }}
+            />
+          </div>
+          <div className={`${sectionPrefix}-tariff-fraction-list-container`}>
+            <BaseSelect
+              containerClassName={`${sectionPrefix}-tariff-fraction-list text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
+              form={form}
+              id={`${sectionPrefix}-tariff-fraction-list`}
+              name={`${sectionPrefix}-tariff-fraction-list`}
               items={tariffFractionList}
               onChange={(event) => {
                 setComissionFeatures({
@@ -141,28 +120,26 @@ const ComissionModal = ({ stationId }: { stationId: number }) => {
                 });
               }}
             />
-            <Label
-              className={`${sectionPrefix}-label block mb-2 text-heading font-semibold`}
-              htmlFor={``}
-              labelText={`Yuzde`}
-            />
-            <Input
-              className={`${sectionPrefix}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
-              id={`${sectionPrefix}-datetime`}
-              name={`${sectionPrefix}-datetime`}
-              type="number"
-              value={comissionFeatures.rate.toString()}
+          </div>
+          <div className={`${sectionPrefix}-start-time-container flex flex-row justify-between`}>
+            <BaseInput
+              containerClassName={`${sectionPrefix}-start-time text-text text-sm rounded-lg block w-2/3 p-2.5 mb-4 focus:ring-primary focus:border-primary`}
+              form={form}
+              id={`${sectionPrefix}-start-time`}
+              name={`${sectionPrefix}-start-time`}
+              type={'datetime-local'}
               onChange={(event) => {
                 setComissionFeatures({
                   ...comissionFeatures,
-                  rate: Number(event.target.value),
+                  time: Number(event.target.value),
                 });
               }}
             />
+          </div>
+          <div className={`${sectionPrefix}-action-button-container flex flex-row justify-between`}>
             <Button
               buttonText="Kaydet"
-              className={`-button bg-primary text-white w-full py-2.5 rounded-lg`}
-              disabled={isDisabled}
+              className={`${sectionPrefix}-submit-button bg-primary text-white w-full py-2.5 rounded-lg`}
               id="addComissionButton"
               type="submit"
             />

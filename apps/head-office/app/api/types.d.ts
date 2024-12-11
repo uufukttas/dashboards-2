@@ -48,3 +48,12 @@ export interface IResponseProps {
     response: IResponseInfoProps;
   };
 }
+
+export interface IComissionRequestProps {
+  forInvestor: comissionFeatures.isResellerForServicePoint;
+  isActive: true;
+  ownerType: comissionFeatures.reseller;
+  rate: comissionFeatures.rate;
+  stationId;
+  tariffSubFractionTypeID: comissionFeatures.tariffFraction;
+}

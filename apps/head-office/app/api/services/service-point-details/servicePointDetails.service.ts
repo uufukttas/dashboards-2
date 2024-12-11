@@ -1,7 +1,7 @@
 import baseApi from '../../baseApi';
 import { ApiServiceMethods } from '../../constant';
 import { ENDPOINTS } from '../../endpoints';
-import { Post } from '../../types';
+import { IComissionRequestProps, Post } from '../../types';
 import {
   IChargeUnitProps,
   IComissionDataProps,
@@ -42,7 +42,7 @@ const authService = baseApi.injectEndpoints({
         url: `${ENDPOINTS.AUTH}${ENDPOINTS.CHARGE_POINT_USER_CREATE}`,
       }),
     }),
-    addComission: builder.mutation<IServicePointDetailResponseProps[], Post>({
+    addComission: builder.mutation<IServicePointDetailResponseProps[], Post<IComissionRequestProps>>({
       query: ({ body }) => ({
         body,
         method: ApiServiceMethods.POST,
@@ -158,6 +158,12 @@ const authService = baseApi.injectEndpoints({
         url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.GET_ENERGY_PRICE}`,
       }),
     }),
+    getFractionType: builder.query({
+      query: () => ({
+        method: ApiServiceMethods.GET,
+        url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.TARIFF_SUB_FRACTION_TYPES}`,
+      }),
+    }),
     getPermissionRequest: builder.mutation<IServicePointPermissionProps[], Post<IStationIdRequestProps>>({
       query: ({ body }) => ({
         body,
@@ -235,6 +241,7 @@ export const {
   useGetComissionDetailsMutation,
   useGetDeviceCodeMutation,
   useGetEnergyPriceDetailsMutation,
+  useGetFractionTypeQuery,
   useGetPermissionRequestMutation,
   useGetServicePointDataMutation,
   useGetServicePointImagesQuery,

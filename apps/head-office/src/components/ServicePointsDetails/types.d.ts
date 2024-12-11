@@ -401,3 +401,11 @@ export interface IConnectorAddModalProps {
   kwh: number;
   ac: boolean;
 }
+
+export interface ICommissionFeaturesProps {
+  reseller: number;
+  isResellerForServicePoint: boolean;
+  tariffFraction: number;
+  rate: string;
+  time: number;
+}

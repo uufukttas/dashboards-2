@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
 import ComissionItem from './ComissionItem';
 import ComissionTableHeader from './ComissionTableHeader';
-import { useGetComissionDetailsMutation } from '../../../../../app/api/services/service-point-details/servicePointDetails.service';
 import { BRAND_PREFIX } from '../../../../constants/constants';
+import { useGetComissionDetailsMutation } from '../../../../../app/api/services/service-point-details/servicePointDetails.service';
 import type { IStationIdProps } from '../../types';
 
 const Comissions: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
@@ -18,7 +18,7 @@ const Comissions: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) =
   }, []);
 
   return (
-    <div className={`${sectionPrefix} items-center py-4 w-full text-black bg-white p-4 rounded-b-md`}>
+    <div className={`${sectionPrefix}-container items-center py-4 w-full text-black bg-white p-4 rounded-b-md`}>
       <div className={`${sectionPrefix}-header-container w-full`}>
         <ComissionTableHeader />
       </div>
