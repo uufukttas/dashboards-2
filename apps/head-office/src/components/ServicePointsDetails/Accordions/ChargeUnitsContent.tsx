@@ -13,10 +13,12 @@ import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import {
   useGetChargePointFeatureStatusQuery,
   useGetChargeUnitsMutation,
+  useUpdateStationSettingsMutation,
 } from '../.././../../app/api/services/service-point-details/servicePointDetails.service';
 import ChargeUnitAddModal from '../Modals/ChargeUnitAddModal';
 import { IBrandItemProps, IChargeUnitProps, IChargeUnitsContentProps } from '../types';
 import ConenctorsList from './ConenctorsList';
+import ConfirmationModal from '../../Modals/ConfirmationModal';
 
 const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: IChargeUnitsContentProps) => {
   const chargeUnitPrefix: string = `${BRAND_PREFIX}-charge-unit`;
@@ -24,6 +26,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
   const sectionPrefix: string = `${BRAND_PREFIX}-charge-units`;
   const [modelId, setModelId] = useState<number>(0);
   const { data: chargePointFeatureStatus } = useGetChargePointFeatureStatusQuery({});
+  const [updateStationSettings] = useUpdateStationSettingsMutation();
   const [getChargeUnits, { data: chargeUnits }] = useGetChargeUnitsMutation();
   const { data: brands } = useGetDeviceBrandsQuery({});
   const { data: model, refetch: getModelById } = useGetDeviceModelByIdQuery(modelId, { skip: modelId === 0 });
@@ -64,6 +67,22 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
     },
   ];
 
+  const setCommandFn = (item) => {
+    switch (item.label) {
+      case 'Guncelle':
+        return () => {
+          openModal('updateChargeUnitModal', <ChargeUnitAddModal stationId={stationId} />);
+        };
+      case 'Sil':
+        return () => {
+          openModal(
+            'confirmationModal',
+            <ConfirmationModal name={'deleteChargeUnit'} onConfirm={() => updateStationSettings({ body: {} })} />,
+          );
+        };
+    }
+  };
+
   const setMenuItems = (chargePointId: number) => {
     return items.map((item) => {
       return {
@@ -76,12 +95,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
             </div>
           );
         },
-        command: (event) => {
-          openModal(
-            'updateChargeUnitModal',
-            <ChargeUnitAddModal stationId={stationId} chargePointId={chargePointId} />,
-          );
-        },
+        command: setCommandFn(item),
       };
     });
   };
@@ -263,7 +277,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
                     </div>
                   </div>
                   <div className={`${chargeUnitPrefix}-connector-list-card-contianer flex w-full w-1/2`}>
-                    <ConenctorsList chargePointId={chargeUnit.chargePointId} deviceCode={chargeUnit.deviceCode}/>
+                    <ConenctorsList chargePointId={chargeUnit.chargePointId} deviceCode={chargeUnit.deviceCode} />
                   </div>
                 </div>
               </div>

@@ -1,7 +1,7 @@
 import baseApi from '../../baseApi';
 import { ApiServiceMethods } from '../../constant';
 import { ENDPOINTS } from '../../endpoints';
-import { Delete, IComissionRequestProps, Post } from '../../types';
+import { Delete, IComissionRequestProps, IConnectorRequestProps, Post } from '../../types';
 import {
   IChargeUnitProps,
   IComissionDataProps,
@@ -71,6 +71,7 @@ const authService = baseApi.injectEndpoints({
         method: ApiServiceMethods.POST,
         url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.ADD_STATION_SETTINGS}`,
       }),
+      invalidatesTags: ['GetStationSettings,'],
     }),
     addWorkingHours: builder.mutation<IServicePointDetailResponseProps[], Post>({
       query: ({ body }) => ({
@@ -119,6 +120,7 @@ const authService = baseApi.injectEndpoints({
         method: ApiServiceMethods.POST,
         url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.GET_STATION_SETTINGS}`,
       }),
+      invalidatesTags: ['GetStationSettings'],
     }),
     getChargePointFeature: builder.mutation<[], Post>({
       query: ({ body }) => ({
@@ -223,11 +225,25 @@ const authService = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['ServicePointImageUpload'],
     }),
+    updateConnectorSettings: builder.mutation<IServicePointDetailResponseProps[], Post<IConnectorRequestProps>>({
+      query: ({ body }) => ({
+        body,
+        method: ApiServiceMethods.POST,
+        url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.UPDATE_CONNECTOR}`,
+      }),
+    }),
     updateWorkingHours: builder.mutation<IServicePointDetailResponseProps[], Post>({
       query: ({ body }) => ({
         body,
         method: ApiServiceMethods.POST,
         url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.UPDATE_WORKING_HOURS}`,
+      }),
+    }),
+    updateStationSettings: builder.mutation<IServicePoinDetailsInfo[], Post>({
+      query: ({ body }) => ({
+        body,
+        method: ApiServiceMethods.POST,
+        url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.UPDATE_STATION_SETTINGS}`,
       }),
     }),
   }),
@@ -260,5 +276,7 @@ export const {
   useGetStationFeatureValuesMutation,
   useGetWorkingHoursMutation,
   useRemoveServicePointImageMutation,
+  useUpdateConnectorSettingsMutation,
+  useUpdateStationSettingsMutation,
   useUpdateWorkingHoursMutation,
 } = authService;

@@ -1,7 +1,7 @@
 import baseApi from '../../baseApi';
 import { ApiServiceMethods } from '../../constant';
 import { ENDPOINTS } from '../../endpoints';
-import { Delete, Get, Post } from '../../types';
+import { Delete, Get, IConnectorAddModalProps, Post } from '../../types';
 import { IDeviceBrandDataProps, IDeviceResponsesProps } from './devices.interface';
 
 const deviceServices = baseApi.injectEndpoints({
@@ -96,7 +96,7 @@ const deviceServices = baseApi.injectEndpoints({
         url: `${ENDPOINTS.VALUES}${ENDPOINTS.GET_CONNECTOR_MODELS}`,
       }),
     }),
-    getConnectors: builder.query<IDeviceResponsesProps[], number>({
+    getConnectors: builder.query<IConnectorAddModalProps[], number>({
       query: (modelId) => ({
         method: ApiServiceMethods.GET,
         url: `${ENDPOINTS.DEVICE}${ENDPOINTS.GET_CONNECTORS}?modelId=${modelId}`,

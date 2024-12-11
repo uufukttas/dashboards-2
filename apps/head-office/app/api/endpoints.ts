@@ -76,6 +76,7 @@ export const ENDPOINTS = {
   STATION_POINT: '/StationPoint',
   STATION_SELECTED_VALUES: '/StationSelectedValues',
   UPDATE_COMISSION_RATE: '/UpdateCommisionRate',
+  UPDATE_CONNECTOR: '/UpdateConnector',
   UPDATE_MULTIPLE: '/UpdateMultiple',
   UPDATE_STATION: '/UpdateStation',
   UPDATE_STATION_INFO: '/UpdateStationInfo',

@@ -37,7 +37,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
     'location',
   ];
   const sectionPrefix: string = `${BRAND_PREFIX}-add-charge-unit-modal`;
-  const formProperties = {
+  const formProperties: IFormDataProps = {
     'brand-id': `${sectionPrefix}-${formName[0]}`,
     'model-id': `${sectionPrefix}-${formName[1]}`,
     'serial-number': `${sectionPrefix}-${formName[2]}`,
@@ -53,7 +53,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
     'access-type': `${sectionPrefix}-${formName[12]}`,
     location: `${sectionPrefix}-${formName[13]}`,
   };
-  const initialChargeUnitFormData = {
+  const initialChargeUnitFormData: { [key: string]: number | string | boolean } = {
     [`${formProperties['access-type']}`]: '1',
     [`${formProperties['serial-number']}`]: '',
     [`${formProperties['brand-id']}`]: 3,
@@ -76,11 +76,12 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
   const [getChargeUnits, { data: chargeUnits }] = useGetChargeUnitsMutation();
   const { data: brands } = useGetDeviceBrandsQuery({});
   const [getDeviceCode] = useGetDeviceCodeMutation();
-  const { data: models, refetch: refetchModels } = useGetDeviceModelsQuery(
-    Number(initialChargeUnitFormData[`${formProperties['brand-id']}`]),
-  );
+
   const [updatedChargeUnit, setUpdatedChargeUnit] = useState<IFormDataProps>(initialChargeUnitFormData);
   const [chargeUnitFormData, setChargeUnitFormData] = useState<IFormDataProps>(updatedChargeUnit);
+  const { data: models, refetch: refetchModels } = useGetDeviceModelsQuery(
+    Number(chargeUnitFormData[`${formProperties['brand-id']}`]),
+  );
   const { closeModal } = useModalManager();
   const [isvisible, setIsVisible] = useState(false);
 
@@ -114,7 +115,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
   const createRequestData = () => {
     return {
       chargePoint: {
-        code: chargeUnitFormData[`${formProperties['charge-unit-code']}`].toString(),
+        code: chargeUnitFormData[`${formProperties['charge-unit-code']}`]?.toString() || '',
         ExternalOCPPAdress: null,
         InternalOCPPAdress: null,
         isFreePoint: chargeUnitFormData[`${formProperties['is-free-usage']}`],
@@ -122,19 +123,19 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
         ocppVersion: chargeUnitFormData[`${formProperties['ocpp-version']}`],
         ownerType: chargeUnitFormData[`${formProperties.investor}`],
         sendRoaming: chargeUnitFormData[`${formProperties['is-roaming']}`],
-        serialNumber: chargeUnitFormData[`${formProperties['serial-number']}`].toString(),
+        serialNumber: chargeUnitFormData[`${formProperties['serial-number']}`]?.toString() || '',
         stationId,
         stationChargePointModelID: chargeUnitFormData[`${formProperties['model-id']}`],
       },
       chargePointFeatures: [
         {
           stationChargePointFeatureType: 1,
-          stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties.status}`].toString(),
+          stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties.status}`]?.toString(),
           // ...(features.length > 0 && { id: features[0].id }),
         },
         {
           stationChargePointFeatureType: 2,
-          stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties['access-type']}`].toString(),
+          stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties['access-type']}`]?.toString(),
           // ...(features.length > 0 && { id: features[1].id }),
         },
         {
@@ -163,6 +164,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
     }
 
     await addStationSettings({ body: createRequestData() });
+
     closeModal('addChargeUnitModal');
   };
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -188,7 +190,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
   }, []);
 
   return (
-    isvisible && (
+    (
       <ModalLayout
         className={`${sectionPrefix}-container`}
         contentClassName={`${sectionPrefix}-content flex-col `}

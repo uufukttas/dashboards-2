@@ -57,3 +57,22 @@ export interface IComissionRequestProps {
   stationId;
   tariffSubFractionTypeID: comissionFeatures.tariffFraction;
 }
+
+export interface IConnectorAddModalProps {
+  id: number;
+  stationChargePointBrandID: number;
+  stationChargePointBrandName: string;
+  stationChargePointModelID: number;
+  stationChargePointModelName: string;
+  stationChargePointConnectorTypeID: number;
+  stationChargePointConnectorTypeName: string;
+  kwh: number;
+  ac: boolean;
+}
+
+export interface IConnectorRequestProps {
+  id: connectorProperty.connectorId;
+  connectorNr: connectorProperty.connectorNumber;
+  stationChargePointID: connectorProperty.chargePointId;
+  stationChargePointModelConnectorID: connectorValue;
+}

@@ -82,6 +82,7 @@ export interface IFeatureItemProps {
 
 export interface IChargeUnitProps {
   accessType: string;
+  brandId: number;
   brandName: string;
   chargePointId: number;
   createdDate: string;

@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import StationImages from './LocationInfo/StationImages';
-import { initialServicePointDataValue, initialServicePointsDetailsInfoStateValue } from '../constants';
-import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../constants/constants';
 import {
   useGetServicePointDataMutation,
   useGetServicePointInformationMutation,
   useGetStationFeatureValuesMutation,
   useGetStationSelectedValuesMutation,
 } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
+import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../constants/constants';
+import { initialServicePointDataValue, initialServicePointsDetailsInfoStateValue } from '../constants';
 import type {
   IFeatureItemProps,
   IInfoItemsProps,
@@ -17,6 +16,7 @@ import type {
   IStationFeatureValuesProps,
   IStationIdProps,
 } from '../types';
+import StationImages from './LocationInfo/StationImages';
 
 const LocationInfo: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
   const sectionPrefix: string = `${BRAND_PREFIX}-service-point-details`;
@@ -106,10 +106,10 @@ const LocationInfo: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps)
       <div className={`${sectionPrefix}-info-container flex flex-col justify-between`}>
         {infoItems.map((item: IInfoItemsProps, index: number) => (
           <div key={index} className={`${sectionPrefix}-info-item flex py-2 justify-start md:items-center md:flex-row`}>
-            <p className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold`}>{item.label}</p>
-            <p className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>
+            <div className={`${sectionPrefix}-info-item-label w-1/3 md:w-1/4 text-lg font-bold`}>{item.label}</div>
+            <div className={`${sectionPrefix}-info-item-value w-2/3 md:w-3/4 text-lg font-normal px-2`}>
               {item.value || item.render}
-            </p>
+            </div>
           </div>
         ))}
       </div>

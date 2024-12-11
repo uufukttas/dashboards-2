@@ -7,10 +7,9 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import { FaPlugCirclePlus, FaQrcode } from 'react-icons/fa6';
 import { TbProgressBolt } from 'react-icons/tb';
-import AddConnectorModal from '../../Devices/DeviceModals/AddConnectorModal';
-import { IConnectorProps } from '../types';
 import ConnectorAddModal from '../Modals/ConnectorAddModal';
 import StationManagementModal from '../Modals/StationManagementModal';
+import { IConnectorProps } from '../types';
 
 const ConenctorsList: React.FC<{ chargePointId: number; deviceCode: number }> = ({ chargePointId, deviceCode }) => {
   const chargeUnitPrefix: string = `${BRAND_PREFIX}-charge-unit`;
@@ -25,7 +24,6 @@ const ConenctorsList: React.FC<{ chargePointId: number; deviceCode: number }> = 
     getChargePointConnectorsList();
   }, []);
 
-  console.log('connectors', connectors);
   return (
     connectors &&
     connectors.map((connectorItem: IConnectorProps, index: number) => {
@@ -111,7 +109,16 @@ const ConenctorsList: React.FC<{ chargePointId: number; deviceCode: number }> = 
                   id={`${chargeUnitPrefix}-connector-add-button`}
                   type={'button'}
                   onClick={() => {
-                    openModal('addConnectorModal', <ConnectorAddModal modelId={connectorItem.modelId} />);
+                    // openModal('addConnectorModal', <ConnectorAddModal modelId={connectorItem.modelId} />);
+                    openModal(
+                      'addConnectorModal',
+                      <ConnectorAddModal
+                      connectorId={connectorItem.RID}
+                      chargePointId={chargePointId}
+                      connectorNumber={connectorItem.connectorNr}
+                      modelId={connectorItem.modelId}
+                      />,
+                    )
                   }}
                 >
                   <FaPlugCirclePlus />
