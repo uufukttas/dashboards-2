@@ -1,38 +1,26 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import { Button } from '@projects/button';
-import { Input } from '@projects/input';
-import { Label } from '@projects/label';
-import { hideAlert, showAlert } from '../../../../app/redux/features/alertInformation';
-import { toggleModalVisibility } from '../../../../app/redux/features/isModalVisible';
-import { toggleServicePointPermissionsUpdated } from '../../../../app/redux/features/isServicePointPermissionsUpdated';
-import { setAddPermission } from '../../../../app/redux/features/setVisibleModal';
+import BaseInput from '../../Base/BaseInput';
+import ModalLayout from '../../Modal/Layouts/ModalLayout';
+import { useAddChargePointUserPermissionMutation } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
-import type { IServicePointPermissionsModalProps, IStationIdProps } from '../types';
-import { useAddChargePointUserPermissionMutation } from 'apps/head-office/app/api/services/service-point-details/servicePointDetails.service';
-import useModalManager from 'apps/head-office/src/hooks/useModalManager';
+import useModalManager from '../../../../src/hooks/useModalManager';
+import type { IStationIdProps } from '../types';
 
 const ServicePointPermissionsModal: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
-  const sectionPrefix = 'service-point-permission';
+  const sectionPrefix: string = `${BRAND_PREFIX}-service-point-permission-modal`;
   const { closeModal } = useModalManager();
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const [addChargePointPermission] = useAddChargePointUserPermissionMutation();
+  const form = useForm();
   const [permissionProperties, setPermissionProperties] = useState({
     name: '',
     surname: '',
     phoneNumber: '',
   });
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
-  const [addChargePointPermission] = useAddChargePointUserPermissionMutation();
 
   const handleFormSubmit = async () => {
-    setIsDisabled(true);
-
-    const response = await addChargePointPermission({
+    await addChargePointPermission({
       body: {
         name: permissionProperties.name,
         surname: permissionProperties.surname,
@@ -40,125 +28,78 @@ const ServicePointPermissionsModal: React.FC<IStationIdProps> = ({ stationId }: 
         stationId,
       },
     });
+
     closeModal('addServicePointPermissionModal');
   };
 
   return (
-    <div className={`${BRAND_PREFIX}-${sectionPrefix}-modal-form-container relative p-6 bg-white rounded-lg`}>
-      <form className={`${BRAND_PREFIX}-add-${sectionPrefix}-form w-full`} onSubmit={handleSubmit(handleFormSubmit)}>
-        <div className={`${sectionPrefix}-container`}>
-          <div className={`${sectionPrefix}-name-lastname-container flex w-full flex-row justify-between`}>
-            <div className={`${sectionPrefix}-name-container w-1/2 mr-2`}>
-              <Label
-                className={`${sectionPrefix}-name-label block mb-2 text-heading font-semibold`}
-                htmlFor={``}
-                labelText={`Yetkili İsim`}
-              >
-                <span className="text-md text-error">*</span>
-              </Label>
-              <Input
-                className={`${sectionPrefix}-name-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
-                id={`${sectionPrefix}-name`}
-                name={`${sectionPrefix}-name`}
-                register={register(`${sectionPrefix}-name`, {
-                  required: `İsim zorunludur.`,
-                  value: permissionProperties.name,
-                  onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                    setPermissionProperties({
-                      ...permissionProperties,
-                      name: event.target.value,
-                    });
-                  },
-                })}
-                type={`text`}
-              />
-              {errors[`${sectionPrefix}-name`] && errors[`${sectionPrefix}-name`]?.message && (
-                <div className={`${sectionPrefix}-name-error-wrapper my-4 font-bold text-error`}>
-                  <p className={`${sectionPrefix}-name-error-message text-error`}>
-                    {errors[`${sectionPrefix}-name`]?.message?.toString()}
-                  </p>
-                </div>
-              )}
-            </div>
-            <div className={`${sectionPrefix}-surname-container w-1/2 ml-2`}>
-              <Label
-                className={`${sectionPrefix}-surname-label block mb-2 text-heading font-semibold`}
-                htmlFor={``}
-                labelText={`Yetkili Soyisim`}
-              >
-                <span className="text-md text-error">*</span>
-              </Label>
-              <Input
-                className={`${sectionPrefix}-surname-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
-                id={`${sectionPrefix}-surname`}
-                name={`${sectionPrefix}-surname`}
-                register={register(`${sectionPrefix}-surname`, {
-                  required: `Soyisim zorunludur.`,
-                  value: permissionProperties.surname,
-                  onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                    setPermissionProperties({
-                      ...permissionProperties,
-                      surname: event.target.value,
-                    });
-                  },
-                })}
-                type={`text`}
-              />
-              {errors[`${sectionPrefix}-surname`] && errors[`${sectionPrefix}-surname`]?.message && (
-                <div className={`${sectionPrefix}-surname-error-wrapper my-4 font-bold text-error`}>
-                  <p className={`${sectionPrefix}-surname-error-message text-error`}>
-                    {errors[`${sectionPrefix}-surname`]?.message?.toString()}
-                  </p>
-                </div>
-              )}
-            </div>
-          </div>
-          <div className={`${sectionPrefix}-phone-container`}>
-            <Label
-              className={`${sectionPrefix}-label block mb-2 text-heading font-semibold`}
-              htmlFor={``}
-              labelText={`Yetkili Telefon Numarasi`}
-            >
-              <span className="text-md text-error">*</span>
-            </Label>
-            <Input
-              className={`${sectionPrefix}-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
-              id={`${sectionPrefix}-phone-number`}
-              name={`${sectionPrefix}-phone-number`}
-              register={register(`${sectionPrefix}-phone-number`, {
-                min: {
-                  value: 10,
-                  message: `Telefon numarasi icin en az 10 karakter girmelisiniz.`,
-                },
-                required: `Telefon numarasi zorunludur.`,
-                value: permissionProperties.phoneNumber,
-                onChange: (event: React.ChangeEvent<HTMLInputElement>): void => {
-                  setPermissionProperties({
-                    ...permissionProperties,
-                    phoneNumber: event.target.value,
-                  });
-                },
-              })}
-              type={`number`}
-            />
-            {errors[`${sectionPrefix}-phone-number`] && errors[`${sectionPrefix}-phone-number`]?.message && (
-              <div className={`${sectionPrefix}-phone-number-error-wrapper my-4 font-bold text-error`}>
-                <p className={`${sectionPrefix}-phone-number-error-message text-error`}>
-                  {errors[`${sectionPrefix}-phone-number`]?.message?.toString()}
-                </p>
+    <ModalLayout className={`${sectionPrefix}-modal`} name="addServicePointPermissionModal" title={`Yeni Yetkili Ekle`}>
+      <div className={`${sectionPrefix}-form-container w-full relative p-6 bg-white rounded-lg`}>
+        <form className={`${sectionPrefix}-form w-full`} onSubmit={form.handleSubmit(handleFormSubmit)}>
+          <div className={`${sectionPrefix}-container`}>
+            <div className={`${sectionPrefix}-name-lastname-container flex w-full flex-row justify-between`}>
+              <div className={`${sectionPrefix}-name-container w-1/2 mr-2`}>
+                <BaseInput
+                  containerClassName={`${sectionPrefix}-name-label block mb-2 text-heading font-semibold`}
+                  form={form}
+                  id={`${sectionPrefix}-name`}
+                  inputClassName={`${sectionPrefix}-name-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
+                  label={`Yetkili İsim`}
+                  name={`${sectionPrefix}-name`}
+                  rules={{ required: `İsim zorunludur.` }}
+                  type={`text`}
+                  onChange={(event) => setPermissionProperties({ ...permissionProperties, name: event.target.value })}
+                />
               </div>
-            )}
+              <div className={`${sectionPrefix}-surname-container w-1/2 ml-2`}>
+                <BaseInput
+                  containerClassName={`${sectionPrefix}-surname-label block mb-2 text-heading font-semibold`}
+                  form={form}
+                  id={`${sectionPrefix}-surname`}
+                  inputClassName={`${sectionPrefix}-surname-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
+                  label={`Yetkili Soyisim`}
+                  name={`${sectionPrefix}-surname`}
+                  rules={{ required: `Soyisim zorunludur.` }}
+                  type={`text`}
+                  onChange={(event) =>
+                    setPermissionProperties({ ...permissionProperties, surname: event.target.value })
+                  }
+                />
+              </div>
+            </div>
+            <div className={`${sectionPrefix}-phone-container`}>
+              <BaseInput
+                containerClassName={`${sectionPrefix}-phone-label block mb-2 text-heading font-semibold`}
+                form={form}
+                id={`${sectionPrefix}-phone-number`}
+                inputClassName={`${sectionPrefix}-phone-input border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
+                label={`Yetkili Telefon Numarasi`}
+                name={`${sectionPrefix}-phone-number`}
+                rules={{
+                  min: {
+                    value: 10,
+                    message: `Telefon numarasi icin en az 10 karakter girmelisiniz.`,
+                  },
+                  required: `Telefon numarasi zorunludur.`,
+                }}
+                type={`number`}
+                onChange={(event) =>
+                  setPermissionProperties({ ...permissionProperties, phoneNumber: event.target.value })
+                }
+              />
+            </div>
+            <div className={`${sectionPrefix}-action-button-container flex items-center gap-2`}>
+              <Button
+                buttonText="Kaydet"
+                className={`${sectionPrefix}-button bg-primary text-white w-full py-2.5 rounded-lg`}
+                id="addPermissionPhoneNmber"
+                type="submit"
+              />
+            </div>
           </div>
-          <Button
-            buttonText="Kaydet"
-            className={`${sectionPrefix}-button bg-primary text-white w-full py-2.5 rounded-lg`}
-            disabled={isDisabled}
-            id="addPermissionPhoneNmber"
-            type="submit"
-          />
-        </div>
-      </form>
-    </div>
+        </form>
+      </div>
+    </ModalLayout>
   );
 };
 

@@ -10,6 +10,7 @@ import { TbProgressBolt } from 'react-icons/tb';
 import AddConnectorModal from '../../Devices/DeviceModals/AddConnectorModal';
 import { IConnectorProps } from '../types';
 import ConnectorAddModal from '../Modals/ConnectorAddModal';
+import StationManagementModal from '../Modals/StationManagementModal';
 
 const ConenctorsList: React.FC<{ chargePointId: number; deviceCode: number }> = ({ chargePointId, deviceCode }) => {
   const chargeUnitPrefix: string = `${BRAND_PREFIX}-charge-unit`;
@@ -107,17 +108,10 @@ const ConenctorsList: React.FC<{ chargePointId: number; deviceCode: number }> = 
                 </Link>
                 <Button
                   className="connector-add-button rounded-md px-2 py-2 mx-4"
-                  // dataAttributes={{
-                  //   'data-charge-point-id': connectorItem.stationChargePointID.toString(),
-                  //   'data-charge-point-model-id': connectorItem.modelId.toString(),
-                  //   'data-connector-nr': connectorItem.connectorNr.toString(),
-                  //   'data-connector-id': connectorItem.RID.toString(),
-                  //   'data-device-code': chargeUnitsList[0].deviceCode.toString(),
-                  // }}
                   id={`${chargeUnitPrefix}-connector-add-button`}
                   type={'button'}
                   onClick={() => {
-                    openModal('addConnectorModal', <ConnectorAddModal modelId={connectorItem.modelId}/>);
+                    openModal('addConnectorModal', <ConnectorAddModal modelId={connectorItem.modelId} />);
                   }}
                 >
                   <FaPlugCirclePlus />
@@ -129,14 +123,10 @@ const ConenctorsList: React.FC<{ chargePointId: number; deviceCode: number }> = 
                   id={`${chargeUnitPrefix}-connector-process-button`}
                   type={'button'}
                   onClick={(event) => {
-                    // dispatch(
-                    //   setManageStation({
-                    //     isVisible: true,
-                    //     unitCode: event.currentTarget.getAttribute('data-device-code') || '',
-                    //     connectorNumber: connectorItem.connectorNr,
-                    //   }),
-                    // );
-                    // dispatch(toggleModalVisibility(true));
+                    openModal(
+                      'stationManagementModal',
+                      <StationManagementModal unitCode={chargePointId} connectorNumber={connectorItem.connectorNr} />,
+                    );
                   }}
                 >
                   <TbProgressBolt />
