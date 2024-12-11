@@ -19,7 +19,7 @@ const DevicesSection: React.FC = () => {
   const { data: deviceModels = [], refetch: refetchModels } = useGetDeviceModelsQuery<IDeviceResponsesProps>(brandId);
   const { data: deviceConnectors = [], refetch: refetchConnectors } =
     useGetConnectorsQuery<IDeviceResponsesProps>(modelId);
-  const { data: deviceBrands = [] } = useGetDeviceBrandsQuery<IDeviceResponsesProps>(null);
+  const { data: deviceBrands = [] } = useGetDeviceBrandsQuery<IDeviceResponsesProps>({});
 
   const createMenuItems = (items: IDeviceBrandDataProps[] | IHeaderProps[] | IConnectorStateProps[], type: string) => {
     const headerName = getHeaderName(type) || '';

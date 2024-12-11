@@ -160,9 +160,11 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
     if (!chargeUnitFormData[`${formProperties['is-charge-unit-code-visibility']}`]) {
       const { data } = await getDeviceCode({ body: { stationId } });
 
+      //  @ts-ignore
       chargeUnitFormData[`${formProperties['charge-unit-code']}`] = data?.data || '';
     }
 
+    // @ts-ignore
     await addStationSettings({ body: createRequestData() });
 
     closeModal('addChargeUnitModal');
@@ -170,6 +172,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setChargeUnitFormData({
       ...chargeUnitFormData,
+      // @ts-ignore
       [event.target.name]: checkboxElementName.includes(event.target.name) ? event.target.checked : event.target.value,
     });
   };
@@ -178,6 +181,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
     refetchModels().then((response) => {
       setChargeUnitFormData({
         ...chargeUnitFormData,
+        // @ts-ignore
         [`${formProperties['model-id']}`]: response?.data[0].id,
       });
     });
@@ -190,192 +194,191 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
   }, []);
 
   return (
-    (
-      <ModalLayout
-        className={`${sectionPrefix}-container`}
-        contentClassName={`${sectionPrefix}-content flex-col `}
-        id={`${sectionPrefix}-container`}
-        name={'addChargeUnitModal'}
-        title={'Şarj Ünitesi Ekle'}
-      >
-        <div className={`${sectionPrefix}-form-container relative p-2 bg-white rounded-lg`}>
-          <form className={`${sectionPrefix}-form w-full`} onSubmit={form.handleSubmit(handleFormSubmit)}>
-            <div className={`${formProperties['brand-id']}-container`}>
-              <BaseSelect
-                className={`${formProperties['brand-id']}-input flex border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
-                form={form}
-                defaultValue={brands?.[0]?.id}
-                id={`${formProperties['brand-id']}`}
-                items={brands}
-                label={'Şarj Ünitesi Markası'}
-                name={`${formProperties['brand-id']}`}
-                onChange={(event) => handleInputChange(event)}
-              />
-            </div>
-            <div className={`${formProperties['model-id']}-container`}>
-              <BaseSelect
-                className={`${formProperties['model-id']}-input flex border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
-                form={form}
-                defaultValue={models?.[0]?.id}
-                id={`${formProperties['model-id']}`}
-                items={models}
-                label={'Şarj Ünitesi Modeli'}
-                name={`${formProperties['model-id']}`}
-                onChange={(event) => handleInputChange(event)}
-              />
-            </div>
-            <div className={`${formProperties['is-charge-unit-code-visibility']}-container`}>
+    <ModalLayout
+      className={`${sectionPrefix}-container`}
+      contentClassName={`${sectionPrefix}-content flex-col `}
+      id={`${sectionPrefix}-container`}
+      name={'addChargeUnitModal'}
+      title={'Şarj Ünitesi Ekle'}
+    >
+      <div className={`${sectionPrefix}-form-container relative p-2 bg-white rounded-lg`}>
+        <form className={`${sectionPrefix}-form w-full`} onSubmit={form.handleSubmit(handleFormSubmit)}>
+          <div className={`${formProperties['brand-id']}-container`}>
+            <BaseSelect
+              className={`${formProperties['brand-id']}-input flex border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
+              form={form}
+              defaultValue={brands?.[0]?.id}
+              id={`${formProperties['brand-id']}`}
+              items={brands}
+              label={'Şarj Ünitesi Markası'}
+              name={`${formProperties['brand-id']}`}
+              onChange={(event) => handleInputChange(event)}
+            />
+          </div>
+          <div className={`${formProperties['model-id']}-container`}>
+            <BaseSelect
+              className={`${formProperties['model-id']}-input flex border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
+              form={form}
+              //  @ts-ignore
+              defaultValue={models?.[0]?.id}
+              id={`${formProperties['model-id']}`}
+              items={models}
+              label={'Şarj Ünitesi Modeli'}
+              name={`${formProperties['model-id']}`}
+              onChange={(event) => handleInputChange(event)}
+            />
+          </div>
+          <div className={`${formProperties['is-charge-unit-code-visibility']}-container`}>
+            <BaseInput
+              form={form}
+              id={`${formProperties['is-charge-unit-code-visibility']}`}
+              label={'Şarj Ünitesi Kodu Gir'}
+              name={`${formProperties['is-charge-unit-code-visibility']}`}
+              type="checkbox"
+              onChange={(event) => handleInputChange(event)}
+            />
+          </div>
+          {chargeUnitFormData[`${formProperties['is-charge-unit-code-visibility']}`] && (
+            <div className={`${formProperties['charge-unit-code']}-container`}>
               <BaseInput
                 form={form}
-                id={`${formProperties['is-charge-unit-code-visibility']}`}
-                label={'Şarj Ünitesi Kodu Gir'}
-                name={`${formProperties['is-charge-unit-code-visibility']}`}
+                id={`${formProperties['charge-unit-code']}`}
+                label={'Şarj Ünitesi Kodu'}
+                name={`${formProperties['charge-unit-code']}`}
+                type="text"
+                onChange={(event) => handleInputChange(event)}
+              />
+            </div>
+          )}
+          <div className={`${formProperties['serial-number']}-container`}>
+            <BaseInput
+              form={form}
+              id={`${formProperties['serial-number']}`}
+              label={'Şarj Ünitesi Seri Numarası'}
+              name={`${formProperties['serial-number']}`}
+              type="text"
+              onChange={(event) => handleInputChange(event)}
+              rules={{ required: `Seri numarasi zorunludur` }}
+            />
+          </div>
+          {}
+          {
+            <div className={`${formProperties['connector-count']}-container`}>
+              <BaseInput
+                form={form}
+                id={`${formProperties['connector-count']}`}
+                label={`Konnektör Sayısı`}
+                name={`${formProperties['connector-count']}`}
+                type="number"
+                onChange={(event) => handleInputChange(event)}
+              />
+            </div>
+          }
+          <div className={`${formProperties['ocpp-version']}-container`}>
+            <BaseSelect
+              className={`${formProperties['ocpp-version']}-input border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
+              form={form}
+              defaultValue={1600}
+              id={`${formProperties['ocpp-version']}`}
+              items={[
+                { id: 1600, name: 'v1.6' },
+                { id: 2100, name: 'v2.1' },
+              ]}
+              label={`OCPP Versiyonu`}
+              name={`${formProperties['ocpp-version']}`}
+              onChange={(event) => handleInputChange(event)}
+            />
+          </div>
+          <div className={`${formProperties.investor}-container`}>
+            <BaseSelect
+              className={`${formProperties.investor}-input border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
+              form={form}
+              defaultValue={investors?.[0]?.id}
+              id={`${formProperties.investor}`}
+              items={investors}
+              label={`Yatırımcı`}
+              name={`${formProperties.investor}`}
+              onChange={(event) => handleInputChange(event)}
+            />
+          </div>
+          <div className={`${formProperties.status}-container`}>
+            <BaseSelect
+              className={`${formProperties.status}-input border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
+              form={form}
+              defaultValue={chargePointFeatureStatus.statusList?.[0]?.id}
+              id={`${formProperties.status}`}
+              items={chargePointFeatureStatus?.statusList}
+              label={`Durum`}
+              name={`${formProperties.status}`}
+              onChange={(event) => handleInputChange(event)}
+            />
+          </div>
+          <div className={`${formProperties['access-type']}-container`}>
+            <BaseSelect
+              className={`${formProperties['access-type']}-input border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
+              form={form}
+              defaultValue={chargePointFeatureStatus.accessTypeList?.[0]?.id}
+              id={`${formProperties['access-type']}`}
+              items={chargePointFeatureStatus?.accessTypeList}
+              label={`Erisim Tipi`}
+              name={`${formProperties['access-type']}`}
+              onChange={(event) => handleInputChange(event)}
+            />
+          </div>
+          <div className={`${formProperties.location}-container`}>
+            <BaseInput
+              form={form}
+              id={`${formProperties.location}`}
+              label={`Konum Tarifi`}
+              name={`${formProperties.location}`}
+              type="text"
+              onChange={(event) => handleInputChange(event)}
+            />
+          </div>
+          <div className={`${sectionPrefix}-options-container flex justify-end`}>
+            <div className={`${formProperties['is-free-usage']}-container inline-flex flex-col w-1/3`}>
+              <BaseInput
+                form={form}
+                id={`${formProperties['is-free-usage']}`}
+                label={'Ücretsiz Kullanım'}
+                name={`${formProperties['is-free-usage']}`}
                 type="checkbox"
                 onChange={(event) => handleInputChange(event)}
               />
             </div>
-            {chargeUnitFormData[`${formProperties['is-charge-unit-code-visibility']}`] && (
-              <div className={`${formProperties['charge-unit-code']}-container`}>
-                <BaseInput
-                  form={form}
-                  id={`${formProperties['charge-unit-code']}`}
-                  label={'Şarj Ünitesi Kodu'}
-                  name={`${formProperties['charge-unit-code']}`}
-                  type="text"
-                  onChange={(event) => handleInputChange(event)}
-                />
-              </div>
-            )}
-            <div className={`${formProperties['serial-number']}-container`}>
+            <div className={`${formProperties['is-limited-usage']}-container inline-flex flex-col w-1/3`}>
               <BaseInput
                 form={form}
-                id={`${formProperties['serial-number']}`}
-                label={'Şarj Ünitesi Seri Numarası'}
-                name={`${formProperties['serial-number']}`}
-                type="text"
-                onChange={(event) => handleInputChange(event)}
-                rules={{ required: `Seri numarasi zorunludur` }}
-              />
-            </div>
-            {}
-            {
-              <div className={`${formProperties['connector-count']}-container`}>
-                <BaseInput
-                  form={form}
-                  id={`${formProperties['connector-count']}`}
-                  label={`Konnektör Sayısı`}
-                  name={`${formProperties['connector-count']}`}
-                  type="number"
-                  onChange={(event) => handleInputChange(event)}
-                />
-              </div>
-            }
-            <div className={`${formProperties['ocpp-version']}-container`}>
-              <BaseSelect
-                className={`${formProperties['ocpp-version']}-input border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
-                form={form}
-                defaultValue={1600}
-                id={`${formProperties['ocpp-version']}`}
-                items={[
-                  { id: 1600, name: 'v1.6' },
-                  { id: 2100, name: 'v2.1' },
-                ]}
-                label={`OCPP Versiyonu`}
-                name={`${formProperties['ocpp-version']}`}
+                id={`${formProperties['is-limited-usage']}`}
+                label={'Sınırlı Kullanım'}
+                name={`${formProperties['is-limited-usage']}`}
+                type="checkbox"
                 onChange={(event) => handleInputChange(event)}
               />
             </div>
-            <div className={`${formProperties.investor}-container`}>
-              <BaseSelect
-                className={`${formProperties.investor}-input border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
-                form={form}
-                defaultValue={investors?.[0]?.id}
-                id={`${formProperties.investor}`}
-                items={investors}
-                label={`Yatırımcı`}
-                name={`${formProperties.investor}`}
-                onChange={(event) => handleInputChange(event)}
-              />
-            </div>
-            <div className={`${formProperties.status}-container`}>
-              <BaseSelect
-                className={`${formProperties.status}-input border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
-                form={form}
-                defaultValue={chargePointFeatureStatus.statusList?.[0]?.id}
-                id={`${formProperties.status}`}
-                items={chargePointFeatureStatus?.statusList}
-                label={`Durum`}
-                name={`${formProperties.status}`}
-                onChange={(event) => handleInputChange(event)}
-              />
-            </div>
-            <div className={`${formProperties['access-type']}-container`}>
-              <BaseSelect
-                className={`${formProperties['access-type']}-input border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
-                form={form}
-                defaultValue={chargePointFeatureStatus.accessTypeList?.[0]?.id}
-                id={`${formProperties['access-type']}`}
-                items={chargePointFeatureStatus?.accessTypeList}
-                label={`Erisim Tipi`}
-                name={`${formProperties['access-type']}`}
-                onChange={(event) => handleInputChange(event)}
-              />
-            </div>
-            <div className={`${formProperties.location}-container`}>
+            <div className={`${formProperties['is-roaming']}-container inline-flex flex-col w-1/3`}>
               <BaseInput
                 form={form}
-                id={`${formProperties.location}`}
-                label={`Konum Tarifi`}
-                name={`${formProperties.location}`}
-                type="text"
+                id={`${formProperties['is-roaming']}`}
+                label={'Roaming'}
+                name={`${formProperties['is-roaming']}`}
+                type="checkbox"
                 onChange={(event) => handleInputChange(event)}
               />
             </div>
-            <div className={`${sectionPrefix}-options-container flex justify-end`}>
-              <div className={`${formProperties['is-free-usage']}-container inline-flex flex-col w-1/3`}>
-                <BaseInput
-                  form={form}
-                  id={`${formProperties['is-free-usage']}`}
-                  label={'Ücretsiz Kullanım'}
-                  name={`${formProperties['is-free-usage']}`}
-                  type="checkbox"
-                  onChange={(event) => handleInputChange(event)}
-                />
-              </div>
-              <div className={`${formProperties['is-limited-usage']}-container inline-flex flex-col w-1/3`}>
-                <BaseInput
-                  form={form}
-                  id={`${formProperties['is-limited-usage']}`}
-                  label={'Sınırlı Kullanım'}
-                  name={`${formProperties['is-limited-usage']}`}
-                  type="checkbox"
-                  onChange={(event) => handleInputChange(event)}
-                />
-              </div>
-              <div className={`${formProperties['is-roaming']}-container inline-flex flex-col w-1/3`}>
-                <BaseInput
-                  form={form}
-                  id={`${formProperties['is-roaming']}`}
-                  label={'Roaming'}
-                  name={`${formProperties['is-roaming']}`}
-                  type="checkbox"
-                  onChange={(event) => handleInputChange(event)}
-                />
-              </div>
-            </div>
-            <div className={`${sectionPrefix}-buttons-container flex justify-end`}>
-              <Button
-                buttonText={'Kaydet'}
-                className={`charge-unit-submit-button bg-primary text-white rounded-md px-4 py-2`}
-                disabled={false}
-                id={`charge-unit-submit-button`}
-                type={'submit'}
-              />
-            </div>
-          </form>
-        </div>
-      </ModalLayout>
-    )
+          </div>
+          <div className={`${sectionPrefix}-buttons-container flex justify-end`}>
+            <Button
+              buttonText={'Kaydet'}
+              className={`charge-unit-submit-button bg-primary text-white rounded-md px-4 py-2`}
+              disabled={false}
+              id={`charge-unit-submit-button`}
+              type={'submit'}
+            />
+          </div>
+        </form>
+      </div>
+    </ModalLayout>
   );
 };
 

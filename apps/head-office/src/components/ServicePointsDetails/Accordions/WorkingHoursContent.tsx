@@ -99,7 +99,8 @@ const WorkingHoursContent: React.FC<IWorkingHoursContentProps> = ({ stationId })
   };
   const getTimes = async (): Promise<void> => {
     try {
-      const response = await getWorkingHours({ body: { stationId: stationId } });
+      const response = await getWorkingHours({ body: { stationId } });
+      // @ts-ignore
       const getTimesByDay: ITimeFromAPIProps[] = response.data.data;
       const updatedSchedule = [...schedule];
 

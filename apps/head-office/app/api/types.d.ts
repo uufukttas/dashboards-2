@@ -18,16 +18,6 @@ export interface Delete {
 interface IResponseDataProps {
   message: string;
 }
-export interface IConnectorProps {
-  RID: number;
-  connectorName: string;
-  connectorNr: number;
-  id: number;
-  isAC: boolean;
-  kw: number;
-  stationChargePointID: number;
-  epdkSocketNumber: number;
-}
 export interface IDeleteUserRequestResponseProps {
   message: string;
   success: boolean;

@@ -115,7 +115,7 @@ const deviceServices = baseApi.injectEndpoints({
         url: `${ENDPOINTS.DEVICE}${ENDPOINTS.GET_BRAND_BY_ID}?brandId=${brandId}`,
       }),
     }),
-    getDeviceBrands: builder.query<IDeviceResponsesProps[], Get<{}>>({
+    getDeviceBrands: builder.query<IDeviceBrandDataProps[], Get<null>>({
       query: () => ({
         method: ApiServiceMethods.GET,
         url: `${ENDPOINTS.VALUES}${ENDPOINTS.GET_BRANDS}`,

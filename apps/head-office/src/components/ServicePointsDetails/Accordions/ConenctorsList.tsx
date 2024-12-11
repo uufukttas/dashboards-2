@@ -11,7 +11,7 @@ import ConnectorAddModal from '../Modals/ConnectorAddModal';
 import StationManagementModal from '../Modals/StationManagementModal';
 import { IConnectorProps } from '../types';
 
-const ConenctorsList: React.FC<{ chargePointId: number; deviceCode: number }> = ({ chargePointId, deviceCode }) => {
+const ConenctorsList: React.FC<{ chargePointId: number; deviceCode: string }> = ({ chargePointId, deviceCode }) => {
   const chargeUnitPrefix: string = `${BRAND_PREFIX}-charge-unit`;
   const [getChargePointConnetors, { data: connectors }] = useGetChargePointConnetorsV2Mutation();
   const { openModal } = useModalManager();
@@ -26,6 +26,7 @@ const ConenctorsList: React.FC<{ chargePointId: number; deviceCode: number }> = 
 
   return (
     connectors &&
+    // @ts-ignore
     connectors.map((connectorItem: IConnectorProps, index: number) => {
       return (
         <Card

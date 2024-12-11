@@ -4,6 +4,7 @@ import { ENDPOINTS } from '../../endpoints';
 import { Delete, IComissionRequestProps, IConnectorRequestProps, Post } from '../../types';
 import {
   IChargeUnitProps,
+  IChargeUnitRequestProps,
   IComissionDataProps,
   IConnectorProps,
   IDeleteComissionRequestProps,
@@ -65,7 +66,7 @@ const authService = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['ServicePointImageUpload'],
     }),
-    addStationSettings: builder.mutation<IServicePoinDetailsInfo[], Post>({
+    addStationSettings: builder.mutation<IServicePoinDetailsInfo[], Post<IChargeUnitRequestProps>>({
       query: ({ body }) => ({
         body,
         method: ApiServiceMethods.POST,
@@ -73,7 +74,19 @@ const authService = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['GetStationSettings,'],
     }),
-    addWorkingHours: builder.mutation<IServicePointDetailResponseProps[], Post>({
+    addWorkingHours: builder.mutation<
+      IServicePointDetailResponseProps[],
+      Post<
+        {
+          stationID: number;
+          dayOfTheWeek: number;
+          openingTime: string;
+          closingTime: string;
+          isClosed: boolean;
+          isDeleted: boolean;
+        }[]
+      >
+    >({
       query: ({ body }) => ({
         body,
         method: ApiServiceMethods.POST,
@@ -211,7 +224,7 @@ const authService = baseApi.injectEndpoints({
         url: `${ENDPOINTS.STATION_FEATURE}${ENDPOINTS.GET_FEATURE_VALUES}`,
       }),
     }),
-    getWorkingHours: builder.mutation<IServicePointDetailResponseProps[], Post>({
+    getWorkingHours: builder.mutation<IServicePointDetailResponseProps[], Post<{ stationId: number }>>({
       query: ({ body }) => ({
         body,
         method: ApiServiceMethods.POST,
@@ -232,7 +245,18 @@ const authService = baseApi.injectEndpoints({
         url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.UPDATE_CONNECTOR}`,
       }),
     }),
-    updateWorkingHours: builder.mutation<IServicePointDetailResponseProps[], Post>({
+    updateWorkingHours: builder.mutation<
+      IServicePointDetailResponseProps[],
+      Post<
+        {
+          rid: number;
+          isClosed: boolean;
+          openingTime: string;
+          closingTime: string;
+          isDeleted: boolean;
+        }[]
+      >
+    >({
       query: ({ body }) => ({
         body,
         method: ApiServiceMethods.POST,

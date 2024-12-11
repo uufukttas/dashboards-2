@@ -67,7 +67,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
     },
   ];
 
-  const setCommandFn = (item) => {
+  const setCommandFn = (item: MenuItem) => {
     switch (item.label) {
       case 'Guncelle':
         return () => {
@@ -77,6 +77,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
         return () => {
           openModal(
             'confirmationModal',
+            // @ts-ignore
             <ConfirmationModal name={'deleteChargeUnit'} onConfirm={() => updateStationSettings({ body: {} })} />,
           );
         };

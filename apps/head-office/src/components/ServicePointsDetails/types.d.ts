@@ -9,24 +9,24 @@ interface IConnectorPropertyProps {
   connectorId: number;
 }
 export interface IConnectorProps {
-  chargingStatus: number;
-  chargingStatusMessage: string;
+  chargingStatus: number | null;
+  chargingStatusMessage: string | null;
   connectorNr: number;
-  energyUsed: number;
+  energyUsed: number | null;
   epdkSocketNumber: string;
   isActive: boolean;
-  meterStartDate: string;
+  meterStartDate: string | null;
   modelId: number;
   RID: number;
   stationChargePointID: number;
-  stationConnectorAC: boolean;
-  stationConnectorKW: number;
-  stationConnectorName: string;
+  stationConnectorAC: boolean | null;
+  stationConnectorKW: number | null;
+  stationConnectorName: string | null;
   status: number;
   statusName: string;
-  tariffId: number;
-  tariffName: string;
-  tariffSaleUnitPrice: number;
+  tariffId: number | null;
+  tariffName: string | null;
+  tariffSaleUnitPrice: number | null;
 }
 interface IConvertedStructure {
   stationID: number;

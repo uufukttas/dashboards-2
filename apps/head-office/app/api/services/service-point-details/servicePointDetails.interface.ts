@@ -109,24 +109,24 @@ export interface IChargeUnitProps {
 }
 
 export interface IConnectorProps {
-  chargingStatus: number;
-  chargingStatusMessage: string;
+  chargingStatus: number | null;
+  chargingStatusMessage: string | null;
   connectorNr: number;
-  energyUsed: number;
+  energyUsed: number | null;
   epdkSocketNumber: string;
   isActive: boolean;
-  meterStartDate: string;
+  meterStartDate: string | null;
   modelId: number;
   RID: number;
   stationChargePointID: number;
-  stationConnectorAC: boolean;
-  stationConnectorKW: number;
-  stationConnectorName: string;
+  stationConnectorAC: boolean | null;
+  stationConnectorKW: number | null;
+  stationConnectorName: string | null;
   status: number;
   statusName: string;
-  tariffId: number;
-  tariffName: string;
-  tariffSaleUnitPrice: number;
+  tariffId: number | null;
+  tariffName: string | null;
+  tariffSaleUnitPrice: number | null;
 }
 
 export interface IEnergyPricesDataProps {
@@ -169,4 +169,28 @@ export interface IServicePointPermissionProps {
   surName: string;
   userId: number;
   userName: string;
+}
+
+export interface IChargeUnitRequestProps {
+  chargePoint: {
+    code: string;
+    ExternalOCPPAdress: null;
+    InternalOCPPAdress: null;
+    isFreePoint: boolean;
+    isOnlyDefinedUserCards: boolean;
+    ocppVersion: number;
+    ownerType: number;
+    sendRoaming: boolean;
+    serialNumber: string;
+    stationId: number;
+    stationChargePointModelID: number;
+  };
+  chargePointFeatures: IChargePointFeatures[];
+  connectorCount: number;
+}
+
+export interface IChargePointFeatures {
+  stationChargePointFeatureType: number;
+  stationChargePointFeatureTypeValue: string;
+  id?: number;
 }
