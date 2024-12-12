@@ -7,8 +7,8 @@ import { BRAND_PREFIX } from '../../../constants/constants';
 import useModalManager from '../../../hooks/useModalManager';
 import ModalLayout from '../../Modal/Layouts/ModalLayout';
 import { useAddServicePointImageMutation } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
-import 'react-image-crop/src/ReactCrop.scss';
 import type { IStationIdProps } from '../types';
+import 'react-image-crop/src/ReactCrop.scss';
 
 const ServicePointImageModal: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
   const cropInitialState: Crop = {
