@@ -1,1 +1,8 @@
-export const successResultServices = ['addStation', 'createTariff', 'deleteTariff'];
+export const successResultServices = [
+  'addStation',
+  'createTariff',
+  'deleteTariff',
+  'addNotification',
+  'editNotification',
+  'cancelNotification',
+];

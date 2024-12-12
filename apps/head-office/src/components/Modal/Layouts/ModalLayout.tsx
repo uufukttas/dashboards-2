@@ -1,7 +1,7 @@
-import { cn } from 'apps/head-office/src/utils/common.utils';
 import { FC, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
 import useModalManager from '../../../hooks/useModalManager';
+import { cn } from '../../../utils/common.utils';
 import type { IModalLayoutProps } from './ModalLayout.interface';
 
 const ModalLayout: FC<IModalLayoutProps> = (props) => {

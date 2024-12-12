@@ -2,6 +2,30 @@ import { IBaseTableColumn } from '../BaseTable/BaseTableInterface';
 
 export const NOTIFICATION_TABLE_COLUMNS: IBaseTableColumn[] = [
   {
+    header: 'Bildirim ID',
+    accessor: 'rid',
+    field: 'rid',
+    id: 'rid',
+    isRemovable: false,
+    type: 'number',
+  },
+  {
+    header: 'Bildirim Bilgi İkonu',
+    accessor: 'notificationInfoTypeRID',
+    field: 'notificationInfoTypeRID',
+    id: 'notificationInfoTypeRID',
+    isRemovable: false,
+    type: 'string',
+  },
+  {
+    accessor: 'notificationImage',
+    field: 'notificationImage',
+    header: 'Bildirim Resmi',
+    id: 'notificationImage',
+    isRemovable: false,
+    type: 'custom',
+  },
+  {
     header: 'Bildirim Tipi',
     accessor: 'notificationType',
     field: 'notificationType',
@@ -11,9 +35,9 @@ export const NOTIFICATION_TABLE_COLUMNS: IBaseTableColumn[] = [
   },
   {
     header: 'Kategori',
-    accessor: 'category',
-    field: 'category',
-    id: 'category',
+    accessor: 'notificationPushCategoryName',
+    field: 'notificationPushCategoryName',
+    id: 'notificationPushCategoryName',
     isRemovable: false,
     type: 'string',
   },
@@ -27,9 +51,9 @@ export const NOTIFICATION_TABLE_COLUMNS: IBaseTableColumn[] = [
   },
   {
     header: 'İçerik',
-    accessor: 'content',
-    field: 'content',
-    id: 'content',
+    accessor: 'message',
+    field: 'message',
+    id: 'message',
     isRemovable: false,
     type: 'string',
   },
@@ -39,7 +63,7 @@ export const NOTIFICATION_TABLE_COLUMNS: IBaseTableColumn[] = [
     field: 'startedDate',
     id: 'startedDate',
     isRemovable: false,
-    type: 'date'
+    type: 'date',
   },
   {
     header: 'İşlem Tarihi',
@@ -47,7 +71,7 @@ export const NOTIFICATION_TABLE_COLUMNS: IBaseTableColumn[] = [
     field: 'processedDate',
     id: 'processedDate',
     isRemovable: false,
-    type: 'date'
+    type: 'date',
   },
   {
     header: 'Oluşturulma Tarihi',
@@ -55,7 +79,7 @@ export const NOTIFICATION_TABLE_COLUMNS: IBaseTableColumn[] = [
     field: 'createdDate',
     id: 'createdDate',
     isRemovable: false,
-    type: 'date'
+    type: 'date',
   },
   {
     header: 'Teslim Durumu',
@@ -63,30 +87,15 @@ export const NOTIFICATION_TABLE_COLUMNS: IBaseTableColumn[] = [
     field: 'isDelivery',
     id: 'isDelivery',
     isRemovable: false,
-    type: 'boolean'
+    type: 'boolean',
   },
   {
-    header: 'Teslim Tarihi',
-    accessor: 'deliveryDate',
-    field: 'deliveryDate',
-    id: 'deliveryDate',
+    accessor: 'actions',
+    align: 'center',
+    field: 'actions',
+    header: 'Aksiyonlar',
+    id: 'actions',
     isRemovable: false,
-    type: 'date'
+    type: 'custom',
   },
-  {
-    header: 'Teslim Mesaj ID',
-    accessor: 'deliveryMessageID',
-    field: 'deliveryMessageID',
-    id: 'deliveryMessageID',
-    isRemovable: false,
-    type: 'number'
-  },
-  {
-    header: 'Teslim Denemesi',
-    accessor: 'deliveryAttemps',
-    field: 'deliveryAttemps',
-    id: 'deliveryAttemps',
-    isRemovable: false,
-    type: 'number'
-  }
 ];

@@ -49,7 +49,7 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
     className,
     'flex',
   );
-  const containerClasses = cn('h-20 w-full ', containerClassName);
+  const containerClasses = cn(' w-full ', containerClassName);
 
   useEffect(() => {
     if (defaultValue) {
@@ -72,7 +72,11 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
             {...field}
             className={selectClasses}
             disabled={disabled}
+<<<<<<< HEAD
             id={id || name}
+=======
+            id={name}
+>>>>>>> fdf471a5a7f8f22a5128021b719019d300454b0e
             // @ts-ignore
             items={items as unknown as Array<Record<string, unknown>>}
             multiple={multiple}
@@ -82,6 +86,7 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
               onChange && onChange(event);
             }}
             optionClassName={optionClassName}
+            placeholder="Seçiniz"
           />
         )}
       />

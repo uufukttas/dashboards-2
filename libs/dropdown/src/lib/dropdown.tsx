@@ -1,23 +1,22 @@
+import { DropdownChangeEvent, Dropdown as PrimeDropdown } from 'primereact/dropdown';
 import React, { useEffect, useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
+
+interface IDropdownItem {
+  id: null | number;
+  rid: number | string | null;
+  name: string;
+  label?: string;
+  disabled?: boolean;
+  selected?: boolean;
+  render?: React.ReactNode;
+}
 
 interface IDropdownProps {
   className?: string;
   disabled?: boolean;
   id: string;
-  items?: {
-    id: null;
-    rid: number | string;
-    name: string;
-    disabled?: boolean;
-    selected?: boolean;
-  }[] | {
-    name: string,
-    id: number;
-    rid: null;
-    disabled?: boolean;
-    selected?: boolean
-  }[];
+  items?: IDropdownItem[];
   multiple?: boolean;
   name: string;
   optionClassName?: string;
@@ -26,64 +25,78 @@ interface IDropdownProps {
   selectedValue?: string;
   value?: string | number;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-};
+  placeholder?: string;
+}
 
 export function Dropdown({
   className,
   disabled,
   id,
   items,
-  multiple,
   name,
-  optionClassName,
-  register,
   required,
   selectedValue,
   value,
   onChange,
+  placeholder,
+  ...props
 }: IDropdownProps) {
-  const [selectedOption, setSelectedOption] = useState<string>(selectedValue || '1');
+  const [selectedOption, setSelectedOption] = useState<any>(selectedValue || '');
 
-  const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedOption(event.target.value);
-    onChange && onChange(event);
+  const options = items?.map((item) => ({
+    value: item.rid ?? item.id,
+    label: item.name,
+    disabled: item?.disabled,
+    render: item?.render,
+    ...item,
+  }));
+
+  const handleChange = (e: DropdownChangeEvent) => {
+    setSelectedOption(e.value);
+    if (onChange) {
+      onChange({
+        target: {
+          value: e.value,
+          name: name,
+        },
+      } as React.ChangeEvent<HTMLSelectElement>);
+    }
   };
 
   useEffect(() => {
-    if (selectedValue === selectedOption) {
-      setSelectedOption(selectedValue);
-    } else {
-      setSelectedOption(value?.toString() || '');
+    if (value !== undefined) {
+      setSelectedOption(value);
     }
   }, [value]);
 
+  const optionTemplate = (option: IDropdownItem) => {
+    if (option?.render) {
+      return option?.render;
+    }
+
+    return (
+      <div className="flex items-center ">
+        <span>{option?.label || option?.name}</span>
+      </div>
+    );
+  };
+
   return (
-    <select
+    <PrimeDropdown
+      id={id}
+      name={name}
+      value={selectedOption}
+      options={options}
+      onChange={handleChange}
       className={className}
       disabled={disabled}
-      id={id}
-      multiple={multiple}
-      name={name}
       required={required}
-      value={selectedOption}
-      onChange={handleChange}
-      {...register}
-    >
-      {
-        items?.map((item, index) => (
-          <option
-            className={optionClassName}
-            disabled={item.disabled}
-            key={index}
-            value={item?.rid ?? item?.id}
-            selected={item.selected}
-          >
-            {item.name}
-          </option>
-        ))
-      }
-    </select>
+      itemTemplate={optionTemplate}
+      valueTemplate={optionTemplate}
+      placeholder={placeholder}
+      {...props}
+    />
   );
-};
+}
 
 export default Dropdown;
