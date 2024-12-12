@@ -2,12 +2,11 @@ import React, { useRef, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { Button } from 'primereact/button';
 import { BiSolidEvStation } from 'react-icons/bi';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { toggleLoadingVisibility } from '../../../../app/redux/features/isLoadingVisible';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import { ISidebarItemComponentProps } from '../types';
 import { toggleSidebarExpanded } from '../../../../app/redux/features/isSidebarExpand';
-import { RootState } from '../../../../app/redux/store';
 
 const SidebarBodyItem: React.FC<ISidebarItemComponentProps> = ({ item }) => {
   const sidebarPrefix: string = `${BRAND_PREFIX}-sidebar`;
@@ -15,10 +14,6 @@ const SidebarBodyItem: React.FC<ISidebarItemComponentProps> = ({ item }) => {
   const expandMenuButton = useRef(null);
   const router = useRouter();
   const pathname = usePathname();
-  const isSidebarExpanded = useSelector(
-    (state: RootState) => state.isSidebarExpand.isSidebarExpanded
-  );
-
   const [subActive, setSubActive] = useState(false);
 
   const handleClick = (path: string) => {
