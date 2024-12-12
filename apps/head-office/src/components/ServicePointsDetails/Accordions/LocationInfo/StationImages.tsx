@@ -1,10 +1,10 @@
-import Image from 'next/image';
 import React, { FC } from 'react';
+import Image from 'next/image';
 import StationImagesModal from '../../Modals/StationImagesModal';
 import { useGetServicePointImagesQuery } from '../../../../../app/api/services/service-point-details/servicePointDetails.service';
 import { BRAND_PREFIX } from '../../../../../src/constants/constants';
 import useModalManager from '../../../../../src/hooks/useModalManager';
-import { IStationIdProps, IStationImageResponseProps } from '../../types';
+import type { IStationIdProps, IStationImageResponseProps } from '../../types';
 
 const StationImages: FC<IStationIdProps> = ({ stationId }) => {
   const sectionPrefix: string = `${BRAND_PREFIX}-station-image`;
@@ -36,7 +36,7 @@ const StationImages: FC<IStationIdProps> = ({ stationId }) => {
                 data-image-id={image.id}
                 height={250}
                 src={image.cdnUrl}
-                width={'250'}
+                width={250}
               />
             </div>
           );

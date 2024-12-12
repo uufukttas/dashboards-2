@@ -1,7 +1,7 @@
-import { Accordion, AccordionTab } from 'primereact/accordion';
 import React from 'react';
 import { FaChargingStation, FaSackDollar } from 'react-icons/fa6';
-import { BRAND_PREFIX } from '../../../../src/constants/constants';
+import ActionButton from './AccordionHeaderActionButton';
+import AccordionSection from './AccordionSection';
 import ChargeUnitsContent from '../Accordions/ChargeUnitsContent';
 import Comissions from '../Accordions/Comissions/Comissions';
 import EnergyPricesContent from '../Accordions/EnergyPricesContent';
@@ -11,10 +11,10 @@ import WorkingHoursContent from '../Accordions/WorkingHoursContent';
 import ChargeUnitAddModal from '../Modals/ChargeUnitAddModal';
 import ComissionModal from '../Modals/ComissionModal';
 import EnergyPricesModal from '../Modals/EnergyPricesModal';
-import ImageAddModal from '../Modals/ImageAddModal';
+import ServicePointImageModal from '../Modals/ServicePointImageModal';
 import ServicePointPermissionsModal from '../Modals/ServicePointPermissionsModal';
-import { IAccordionSection, IServicePointDetailsContentProps } from '../types';
-import ActionButton from './AccordionHeaderActionButton';
+import { BRAND_PREFIX } from '../../../../src/constants/constants';
+import type { IAccordionSection, IServicePointDetailsContentProps } from '../types';
 
 const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> = ({
   activeTabIndex,
@@ -26,7 +26,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> = 
         <ActionButton
           buttonText="+ İstasyon Resmi Ekle"
           modalName="addServicePointImageModal"
-          ModalComponent={ImageAddModal}
+          ModalComponent={ServicePointImageModal}
           stationId={stationId}
         />
       ),
@@ -55,10 +55,6 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> = 
       title: 'Calisma Saatleri',
     },
     {
-      key: 'energyPrices',
-      title: 'Enerji Fiyat Ayarlari',
-      content: EnergyPricesContent,
-      icon: <FaSackDollar />,
       actionButton: (stationId: number) => (
         <ActionButton
           buttonText="+ Enerji Fiyatı Ekle"
@@ -67,11 +63,12 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> = 
           stationId={stationId}
         />
       ),
+      content: EnergyPricesContent,
+      icon: <FaSackDollar />,
+      key: 'energyPrices',
+      title: 'Enerji Fiyat Ayarlari',
     },
     {
-      key: 'commissions',
-      title: 'Komisyonlar',
-      content: Comissions,
       actionButton: (stationId: number) => (
         <ActionButton
           buttonText="+ Komisyon Ekle"
@@ -80,11 +77,11 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> = 
           stationId={stationId}
         />
       ),
+      content: Comissions,
+      key: 'commissions',
+      title: 'Komisyonlar',
     },
     {
-      key: 'permissions',
-      title: 'İstasyon Yetkisi',
-      content: ServicePointPermissions,
       actionButton: (stationId: number) => (
         <ActionButton
           buttonText="+ İstasyon Yetkisi Ekle"
@@ -93,45 +90,24 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> = 
           stationId={stationId}
         />
       ),
+      content: ServicePointPermissions,
+      key: 'permissions',
+      title: 'İstasyon Yetkisi',
     },
   ];
   const sectionPrefix: string = `${BRAND_PREFIX}-service-point-details-accordion`;
 
   return (
     <div className={`${sectionPrefix}-container`}>
-      {accordionSections.map((section, index) => {
-        const { title, content: Content, actionButton } = section;
-
-        return (
-          <Accordion
-            activeIndex={activeTabIndex}
-            className={`${sectionPrefix} my-4 bg-primary border-gray-300 rounded-md`}
-            key={section.key}
-          >
-            {index === activeTabIndex && (
-              <AccordionTab
-                header={() => (
-                  <div
-                    className={`${sectionPrefix}-header-container w-full flex justify-between items-center text-white h-12`}
-                  >
-                    <div className={`${sectionPrefix}-info-container text-white`}>
-                      {title}
-                    </div>
-                    <div className={`${sectionPrefix}-header-action-container`}>
-                      {actionButton && actionButton(stationId)}
-                    </div>
-                  </div>
-                )}
-                headerClassName={`${sectionPrefix}-header bg-primary border-gray-300 font-bold border rounded-md flex justify-between items-center`}
-              >
-                <div className={`${sectionPrefix}-info-container`}>
-                  <Content stationId={stationId} />
-                </div>
-              </AccordionTab>
-            )}
-          </Accordion>
-        );
-      })}
+      {accordionSections.map((section: IAccordionSection, index: number) => (
+        <AccordionSection
+          activeTabIndex={activeTabIndex}
+          index={index}
+          key={section.key}
+          section={section}
+          stationId={stationId}
+        />
+      ))}
     </div>
   );
 };

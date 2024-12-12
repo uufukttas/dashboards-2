@@ -1,16 +1,16 @@
+import React, { useRef, useState } from 'react';
+import { isNil } from 'lodash';
+import ReactCrop, { Crop } from 'react-image-crop';
 import { Button } from '@projects/button';
 import { Input } from '@projects/input';
-import useModalManager from 'apps/head-office/src/hooks/useModalManager';
-import { isNil } from 'lodash';
-import React, { useRef, useState } from 'react';
-import ReactCrop, { Crop } from 'react-image-crop';
-import 'react-image-crop/src/ReactCrop.scss';
-import { useAddServicePointImageMutation } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
-import { BRAND_PREFIX } from '../../../../src/constants/constants';
+import { BRAND_PREFIX } from '../../../constants/constants';
+import useModalManager from '../../../hooks/useModalManager';
 import ModalLayout from '../../Modal/Layouts/ModalLayout';
-import { IStationIdProps } from '../types';
+import { useAddServicePointImageMutation } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
+import 'react-image-crop/src/ReactCrop.scss';
+import type { IStationIdProps } from '../types';
 
-const FileUpload: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
+const ServicePointImageModal: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
   const cropInitialState: Crop = {
     height: 470,
     unit: 'px',
@@ -155,4 +155,4 @@ const FileUpload: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) =
   );
 };
 
-export default FileUpload;
+export default ServicePointImageModal;

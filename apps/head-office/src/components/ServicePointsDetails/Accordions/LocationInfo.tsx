@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import StationImages from './LocationInfo/StationImages';
+import { initialServicePointDataValue, initialServicePointsDetailsInfoStateValue } from '../constants';
+import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../constants/constants';
 import {
   useGetServicePointDataMutation,
   useGetServicePointInformationMutation,
   useGetStationFeatureValuesMutation,
   useGetStationSelectedValuesMutation,
 } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
-import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../../constants/constants';
-import { initialServicePointDataValue, initialServicePointsDetailsInfoStateValue } from '../constants';
 import type {
   IFeatureItemProps,
   IInfoItemsProps,
@@ -16,7 +17,6 @@ import type {
   IStationFeatureValuesProps,
   IStationIdProps,
 } from '../types';
-import StationImages from './LocationInfo/StationImages';
 
 const LocationInfo: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
   const sectionPrefix: string = `${BRAND_PREFIX}-service-point-details`;

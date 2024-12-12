@@ -1,4 +1,4 @@
-import { FC, ReactNode, useState } from 'react';
+import { FC, useState } from 'react';
 import { Button } from '@projects/button';
 import { Image } from '@projects/image';
 import ConfirmationModal from '../../Modals/ConfirmationModal';
@@ -8,7 +8,7 @@ import {
   useGetServicePointImagesQuery,
   useRemoveServicePointImageMutation,
 } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
-import { IImageDataProps, ImageSliderLayoutProps } from '../types';
+import type { IImageDataProps, ImageSliderLayoutProps } from '../types';
 
 const ImageSliderLayout: FC<ImageSliderLayoutProps> = ({ children, clickedImageId, stationId }) => {
   const sectionPrefix: string = `${BRAND_PREFIX}-image-slider-modal`;
@@ -55,9 +55,9 @@ const ImageSliderLayout: FC<ImageSliderLayoutProps> = ({ children, clickedImageI
         >
           <div className={`${sectionPrefix}-image-container items-center justify-center  overflow-scroll`}>
             <Image
-              src={imagesData[currentIndex].cdnUrl}
               alt={imagesData[currentIndex].fileName}
               className={`${sectionPrefix}-image object-contain rounded-md h-fit`}
+              src={imagesData[currentIndex].cdnUrl}
             />
           </div>
           <Button

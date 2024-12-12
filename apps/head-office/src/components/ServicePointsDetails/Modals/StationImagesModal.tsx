@@ -1,8 +1,7 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import ImageSliderLayout from '../../Modal/Layouts/ImageSliderLayout';
 import ModalLayout from '../../Modal/Layouts/ModalLayout';
-import { useGetServicePointImagesQuery } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
-import { IImageDataProps, IStationIdProps, IStationImagesModalProps } from '../types';
+import type { IStationImagesModalProps } from '../types';
 
 const StationImagesModal: FC<IStationImagesModalProps> = ({ clickedImageId, stationId }) => {
   return (

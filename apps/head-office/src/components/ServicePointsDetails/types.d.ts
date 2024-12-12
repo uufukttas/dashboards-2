@@ -414,3 +414,13 @@ export interface IStationImagesModalProps {
   clickedImageId: number;
   stationId: number;
 }
+export interface ISlugProps { 
+  slug: string;
+}
+
+export interface AccordionSectionProps {
+  section: IAccordionSection;
+  stationId: number;
+  activeTabIndex: number;
+  index: number
+}
