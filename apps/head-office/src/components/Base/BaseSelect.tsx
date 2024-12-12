@@ -72,11 +72,7 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
             {...field}
             className={selectClasses}
             disabled={disabled}
-<<<<<<< HEAD
             id={id || name}
-=======
-            id={name}
->>>>>>> fdf471a5a7f8f22a5128021b719019d300454b0e
             // @ts-ignore
             items={items as unknown as Array<Record<string, unknown>>}
             multiple={multiple}
