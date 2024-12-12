@@ -78,6 +78,7 @@ export interface IChargeUnitsContentProps {
 }
 export interface IChargeUnitProps {
   accessType: string;
+  brandId: number;
   brandName: string;
   chargePointId: number;
   connectorNumber: number;

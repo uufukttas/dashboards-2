@@ -1,7 +1,7 @@
 import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { BaseQueryFn } from '@reduxjs/toolkit/query';
 import axios, { AxiosError, AxiosInstance, HttpStatusCode } from 'axios';
-import { showAlert } from '../redux/features/alertInformation';
+import { hideAlert, showAlert } from '../redux/features/alertInformation';
 import { toggleLoadingVisibility } from '../redux/features/isLoadingVisible';
 import { RootState } from '../redux/store';
 import { BaseQueryFunctionParams } from './ApiRequestManager.interface';
@@ -71,10 +71,15 @@ class ApiRequestManager {
   private pushSuccess = (dispatch: ThunkDispatch<RootState, unknown, Action>, message: string): void => {
     dispatch(
       showAlert({
+        isVisible: true,
         message: message || 'İşlem Başarılı',
         type: 'success',
       }),
     );
+
+    setTimeout(() => {
+      dispatch(hideAlert());
+    }, 3000);
   };
 
   public request =
