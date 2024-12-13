@@ -30,7 +30,7 @@ const MarketPlaceSection: React.FC = () => {
         },
     ]);
 
-    const actionColumn = (selectedFeedback) => {
+    const actionColumn = (selectedFeedback: { feedbackId: number; isFeedbackReaded: boolean }) => {
         return (
             <div className={`${sectionPrefix}-data-table-actions-button-container flex justify-center items-start`}>
                 <BaseInput
