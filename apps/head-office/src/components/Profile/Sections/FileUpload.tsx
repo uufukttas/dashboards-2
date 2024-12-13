@@ -65,7 +65,7 @@ const FileUploadSection: React.FC = () => {
                                     {file.size}
                                 </span>
                                 <button
-                                    onClick={() => openModal('deleteFileModal', <ConfirmationModal name={'confirmationModal'} onConfirm={(event) => { event.preventDefault() }} />)}
+                                    onClick={() => openModal('deleteFileModal', <ConfirmationModal name={'confirmationModal'} onConfirm={() => { }} />)}
                                     className="text-gray-400 hover:text-red-500 transition-colors"
                                     title="Delete file"
                                 >
