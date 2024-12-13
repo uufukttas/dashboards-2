@@ -79,6 +79,7 @@ export const sidebarItems = [
     path: '/devices',
   },
   { label: 'Market', icon: 'pi pi-shopping-cart', path: '/marketplace' },
+  { label: 'Feedbacks', icon: 'pi pi-comment', path: '/feedbacks' },
   { label: 'FAQ', icon: 'pi pi-question-circle', path: '/faq' },
 ];
 export const stylesProps = {
