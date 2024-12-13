@@ -65,7 +65,7 @@ const MarketPlaceSection: React.FC = () => {
     <BaseTable
       columns={MARKETPLACE_TABLE_COLUMNS.map((column) => {
         if (column.accessor === 'actions') {
-          column.bodyTemplate = actionColumn;
+          column.bodyTemplate = actionColumn as any;
         }
 
         return column;
