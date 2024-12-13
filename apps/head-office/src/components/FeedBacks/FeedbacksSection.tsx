@@ -65,7 +65,6 @@ const MarketPlaceSection: React.FC = () => {
             id={`${BRAND_PREFIX}-marketplace-table`}
             tableHeader={() => <></>}
             rowClassName={(data) => {
-                console.log(data);
                 return data.isFeedbackReaded ? 'line-through opacity-50' : '';
             }}
         />

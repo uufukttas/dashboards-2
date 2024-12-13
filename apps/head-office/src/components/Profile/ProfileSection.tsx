@@ -6,6 +6,7 @@ import InfoSection from './Sections/InfoSection';
 import LogoSection from './Sections/LogoSection';
 import PasswordSection from './Sections/PasswordSection';
 import { BRAND_PREFIX } from '../../constants/constants';
+import FileUploadSection from './Sections/FileUpload';
 
 const ProfileSection: React.FC = () => {
   const profilePagePrefix: string = `${BRAND_PREFIX}-profile`;
@@ -66,6 +67,18 @@ const ProfileSection: React.FC = () => {
                 <PasswordSection />
               </Card>
             </div>
+          </div>
+        </div>
+        <div className={`${profilePagePrefix}-row-container flex flex-row w-full`}
+        >
+          <div className={`${profilePagePrefix}-file-upload-card-container w-1/2 h-1/2 flex-1 my-4 justify-between`}
+          >
+            <Card
+              BRAND_PREFIX={BRAND_PREFIX}
+              containerClassName={`${profilePagePrefix}-file-upload-card p-8 bg-white shadow-md rounded-md`}
+            >
+              <FileUploadSection />
+            </Card>
           </div>
         </div>
       </div>
