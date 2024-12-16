@@ -110,7 +110,6 @@ const ConenctorsList: React.FC<{ chargePointId: number; deviceCode: string }> = 
                   id={`${chargeUnitPrefix}-connector-add-button`}
                   type={'button'}
                   onClick={() => {
-                    // openModal('addConnectorModal', <ConnectorAddModal modelId={connectorItem.modelId} />);
                     openModal(
                       'addConnectorModal',
                       <ConnectorAddModal
