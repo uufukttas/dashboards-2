@@ -1,6 +1,6 @@
 import React from 'react';
-import { BRAND_PREFIX, userInfo } from '../../../constants/constants';
 import { Image } from '@projects/image';
+import { BRAND_PREFIX, userInfo } from '../../../constants/constants';
 
 const CardHeader: React.FC = () => {
     const loginPrefix: string = `${BRAND_PREFIX}-login-card`;
