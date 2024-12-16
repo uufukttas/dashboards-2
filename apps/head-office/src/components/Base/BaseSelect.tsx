@@ -44,12 +44,12 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
     fieldState: { error },
   } = useController({ name, control: form.control, rules });
   const selectClasses = cn(
-    `${prefix}-select w-full flex mt-1 border border-gray-400 h-12 rounded-lg text-text text-sm focus:ring-primary focus:border-primary `,
+    `${prefix}-select w-full flex mt-1 border border-gray-400 rounded-lg text-text text-sm focus:ring-primary focus:border-primary `,
     error && 'border-error',
     className,
     'flex',
   );
-  const containerClasses = cn(' w-full ', containerClassName);
+  const containerClasses = cn(' w-full h-20', containerClassName);
 
   useEffect(() => {
     if (defaultValue) {
