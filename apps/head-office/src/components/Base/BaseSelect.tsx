@@ -1,10 +1,10 @@
-import { Dropdown } from '@projects/dropdown';
-import { Label } from '@projects/label';
 import { FC, useEffect } from 'react';
 import { Controller, FieldValues, useController } from 'react-hook-form';
+import { Dropdown } from '@projects/dropdown';
+import { Label } from '@projects/label';
+import BaseFormError from './BaseFormError';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { cn } from '../../utils/common.utils';
-import BaseFormError from './BaseFormError';
 
 interface IBaseSelectProps {
   form: FieldValues;
