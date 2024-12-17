@@ -55,7 +55,7 @@ const AddNotificationModal = () => {
   ];
 
   return (
-    <ModalLayout name="addNotification" title="Bildirim Ekle" buttons={buttons} className="md:w-[700px]">
+    <ModalLayout name="addNotification" title="Bildirim Ekle" buttons={buttons} className="md:w-[700px]" footerVisible>
       <NotificationForm
         form={form}
         notificationTypes={notificationTypes}

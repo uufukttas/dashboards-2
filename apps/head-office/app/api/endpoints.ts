@@ -12,6 +12,7 @@ export const ENDPOINTS = {
   ADD_TARIFF: '/AddTariff',
   ADD_WORKING_HOURS: '/AddWorkHours',
   AUTH: '/Auth',
+  AGGREMENT: '/Agreement',
   CHARGE_POINT_USER_CREATE: '/ChargePointUserCreate',
   CHARGE_POINT_USER_DELETE: '/ChargePointUserDelete',
   CHARGE_POINT_USERS: '/ChargePointUsers',
@@ -94,4 +95,5 @@ export const ENDPOINTS = {
   CANCEL_NOTIFICATION: '/CancelNotification',
   GET_NOTIFICATION_INFO_COLOR_LIST: '/GetNotificationInfoColorList',
   GET_NOTIFICATION_INFO_TYPE_LIST: '/GetNotificationInfoTypeList',
+  GET_AGREEMENT_DEFINITION_LIST: '/get-agreement-definition-list',
 };
