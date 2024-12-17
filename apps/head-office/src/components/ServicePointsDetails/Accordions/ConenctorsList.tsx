@@ -50,10 +50,10 @@ const ConenctorsList: React.FC<{ chargePointId: number; deviceCode: string }> = 
                 <div className={`${chargeUnitPrefix}-info-content-row-item-label text-text font-medium`}>
                   EPDK Socket Numarasi:
                 </div>
-              </div>
-              <div className={`${chargeUnitPrefix}-info-content-row-item text-text flex`}>
-                <div className={`${chargeUnitPrefix}-info-content-row-item-value text-text font-bolder`}>
-                  {connectorItem.epdkSocketNumber}
+                <div className={`${chargeUnitPrefix}-info-content-row-item text-text flex`}>
+                  <div className={`${chargeUnitPrefix}-info-content-row-item-value text-text font-bolder`}>
+                    {connectorItem.epdkSocketNumber}
+                  </div>
                 </div>
               </div>
               <div className={`${chargeUnitPrefix}-info-content-row-item text-text flex`}>
@@ -97,9 +97,8 @@ const ConenctorsList: React.FC<{ chargePointId: number; deviceCode: string }> = 
               <div className={`${chargeUnitPrefix}-info-edit-actions flex justify-between items-center w-full`}>
                 <Link
                   className={`${chargeUnitPrefix}-qr-code-button rounded-md px-2 py-2 mx-4`}
-                  href={`${
-                    process.env.NEXT_PUBLIC_BASE_URL
-                  }/Values/QRCodeCreate?text=${deviceCode}&connectorNr=${connectorItem.connectorNr.toString()}`}
+                  href={`${process.env.NEXT_PUBLIC_BASE_URL
+                    }/Values/QRCodeCreate?text=${deviceCode}&connectorNr=${connectorItem.connectorNr.toString()}`}
                   id={`${chargeUnitPrefix}-qr-code-button`}
                   target="_blank"
                 >
@@ -113,10 +112,10 @@ const ConenctorsList: React.FC<{ chargePointId: number; deviceCode: string }> = 
                     openModal(
                       'addConnectorModal',
                       <ConnectorAddModal
-                      connectorId={connectorItem.RID}
-                      chargePointId={chargePointId}
-                      connectorNumber={connectorItem.connectorNr}
-                      modelId={connectorItem.modelId}
+                        connectorId={connectorItem.RID}
+                        chargePointId={chargePointId}
+                        connectorNumber={connectorItem.connectorNr}
+                        modelId={connectorItem.modelId}
                       />,
                     )
                   }}

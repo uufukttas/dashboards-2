@@ -324,6 +324,7 @@ export interface IBrandItemProps {
 
 export interface IChargeUnitAddModalProps {
   chargePointId?: number;
+  modalName: string;
   stationId: number;
 }
 export interface IStationIdProps {

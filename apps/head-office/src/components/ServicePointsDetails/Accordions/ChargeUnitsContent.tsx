@@ -1,16 +1,14 @@
 import { Button } from '@projects/button';
-import useModalManager from 'apps/head-office/src/hooks/useModalManager';
+import useModalManager from '../../../../src/hooks/useModalManager';
 import Image from 'next/image';
 import { MenuItem } from 'primereact/menuitem';
 import { Tag } from 'primereact/tag';
 import { TieredMenu } from 'primereact/tieredmenu';
-import React, { useEffect, useRef, useState } from 'react';
-import {
-  useGetDeviceBrandsQuery,
-  useGetDeviceModelByIdQuery,
-} from '../../../../app/api/services/devices/devices.service';
+import React, { useEffect, useRef } from 'react';
+import { useGetDeviceBrandsQuery, useGetDeviceModelsQuery } from '../../../../app/api/services/devices/devices.service';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import {
+  useGetChargePointFeatureMutation,
   useGetChargePointFeatureStatusQuery,
   useGetChargeUnitsMutation,
   useUpdateStationSettingsMutation,
@@ -24,12 +22,10 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
   const chargeUnitPrefix: string = `${BRAND_PREFIX}-charge-unit`;
   const connectorPrefix: string = `${BRAND_PREFIX}-connector-item`;
   const sectionPrefix: string = `${BRAND_PREFIX}-charge-units`;
-  const [modelId, setModelId] = useState<number>(0);
   const { data: chargePointFeatureStatus } = useGetChargePointFeatureStatusQuery({});
   const [updateStationSettings] = useUpdateStationSettingsMutation();
   const [getChargeUnits, { data: chargeUnits }] = useGetChargeUnitsMutation();
   const { data: brands } = useGetDeviceBrandsQuery({});
-  const { data: model, refetch: getModelById } = useGetDeviceModelByIdQuery(modelId, { skip: modelId === 0 });
   const menu = useRef(null);
 
   const { openModal } = useModalManager();
@@ -37,9 +33,9 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
     await getChargeUnits({ body: { stationId, PageNumber: 1, PageSize: 10 } }).unwrap();
   };
   const getBrandLogoUrl = (brandId: number): string => {
-    const brand = brands?.filter((brand: IBrandItemProps) => brand.id === brandId)[0];
+    const model = brands?.filter((brand: IBrandItemProps) => brand.id === brandId)[0];
 
-    return `${brand?.imageCdnUrl}?h=80&w=80&scale=both&mode=max` || '';
+    return `${model?.imageCdnUrl}?h=80&w=80&scale=both&mode=max` || '';
   };
   const getStatus = (statusId: number): string => {
     const status = chargePointFeatureStatus?.statusList?.filter(
@@ -67,18 +63,61 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
     },
   ];
 
-  const setCommandFn = (item: MenuItem) => {
+  const [getChargePointFeature] = useGetChargePointFeatureMutation();
+
+  const handleDeleteChargeUnit = async (chargePointId: number) => {
+    const { data: features } = await getChargePointFeature({ body: { StationChargePointID: chargePointId } })
+    const chargeUnit = chargeUnits?.filter(chargeUnit => chargeUnit.chargePointId === chargePointId)[0];
+
+    const requestData = {
+      chargePoint: {
+        code: chargeUnit?.deviceCode,
+        ExternalOCPPAdress: null,
+        InternalOCPPAdress: null,
+        isFreePoint: chargeUnit?.isFreePoint,
+        isOnlyDefinedUserCards: chargeUnit?.limitedUsage,
+        ocppVersion: chargeUnit?.ocppVersion,
+        ownerType: Number(chargeUnit?.investor) || 10,
+        sendRoaming: chargeUnit?.sendRoaming,
+        serialNumber: chargeUnit?.serialNumber,
+        stationId,
+        stationChargePointModelID: Number(chargeUnit?.modelId),
+        isDeleted: true,
+      },
+      chargePointFeatures: [
+        {
+          stationChargePointFeatureType: 1,
+          stationChargePointFeatureTypeValue: chargeUnit?.status.toString(),
+          id: features.filter(feature => feature.stationChargePointFeatureType === 1)[0]?.id,
+        },
+        {
+          stationChargePointFeatureType: 2,
+          stationChargePointFeatureTypeValue: "4",
+          id: features.filter(feature => feature.stationChargePointFeatureType === 2)[0]?.id,
+        },
+        {
+          stationChargePointFeatureType: 3,
+          stationChargePointFeatureTypeValue: chargeUnit?.location || '',
+          id: features.filter(feature => feature.stationChargePointFeatureType === 3)[0]?.id,
+        },
+      ],
+      connectorCount: chargeUnit?.connectorNumber,
+    };
+
+    await updateStationSettings({ body: requestData });
+  };
+
+  const setCommandFn = (item: MenuItem, chargePointId: number) => {
     switch (item.label) {
       case 'Guncelle':
         return () => {
-          openModal('updateChargeUnitModal', <ChargeUnitAddModal stationId={stationId} />);
+          openModal('updateChargeUnitModal', <ChargeUnitAddModal modalName={'updateChargeUnitModal'} stationId={stationId} chargePointId={chargePointId} />);
         };
       case 'Sil':
         return () => {
           openModal(
             'confirmationModal',
-            // @ts-ignore
-            <ConfirmationModal name={'deleteChargeUnit'} onConfirm={() => updateStationSettings({ body: {} })} />,
+            <ConfirmationModal name={'deleteChargeUnit'} onConfirm={() => handleDeleteChargeUnit(chargePointId)} />,
           );
         };
     }
@@ -96,7 +135,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
             </div>
           );
         },
-        command: setCommandFn(item),
+        command: setCommandFn(item, chargePointId),
       };
     });
   };
@@ -141,7 +180,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
                       alt={`${chargeUnit.model}`}
                       className={`${chargeUnitPrefix}-brand-logo`}
                       height={100}
-                      src={`${getBrandLogoUrl(chargeUnit.modelId)}`}
+                      src={`${getBrandLogoUrl(chargeUnit.brandId)}`}
                       width={100}
                     />
                   </div>
@@ -165,8 +204,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
                       />
                       <Button
                         type="button"
-                        // @ts-ignore
-                        onClick={(e) => menu?.current?.toggle(e)}
+                        onClick={(e) => menu?.current && (menu.current as any).toggle(e)}
                         id="menu-button"
                         className="w-8 h-8 rounded-full items-center justify-center bg-gray-700 opacity-60 flex ml-4 "
                       >

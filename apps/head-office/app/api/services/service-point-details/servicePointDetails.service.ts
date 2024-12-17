@@ -135,7 +135,7 @@ const authService = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['GetStationSettings'],
     }),
-    getChargePointFeature: builder.mutation<[], Post>({
+    getChargePointFeature: builder.mutation<[], Post<{ StationChargePointID: number }>>({
       query: ({ body }) => ({
         body,
         method: ApiServiceMethods.POST,

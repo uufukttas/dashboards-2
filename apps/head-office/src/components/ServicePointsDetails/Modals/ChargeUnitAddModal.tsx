@@ -4,20 +4,23 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useGetDeviceBrandsQuery, useGetDeviceModelsQuery } from '../../../../app/api/services/devices/devices.service';
 import {
   useAddStationSettingsMutation,
+  useGetChargePointFeatureMutation,
   useGetChargePointFeatureStatusQuery,
   useGetChargePointInvestorsQuery,
   useGetChargeUnitsMutation,
   useGetDeviceCodeMutation,
+  useUpdateStationSettingsMutation,
 } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
 import useModalManager from '../../../../src/hooks/useModalManager';
 import { BRAND_PREFIX } from '../../../constants/constants';
 import BaseInput from '../../Base/BaseInput';
 import BaseSelect from '../../Base/BaseSelect';
 import ModalLayout from '../../Modal/Layouts/ModalLayout';
-import type { IChargeUnitAddModalProps, IFormDataProps } from '../types';
+import type { IChargeUnitAddModalProps, IFormDataProps, IInvestorsProps } from '../types';
 
 const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
   chargePointId = 0,
+  modalName,
   stationId,
 }: IChargeUnitAddModalProps) => {
   const formName: string[] = [
@@ -71,48 +74,107 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
   };
   const form = useForm();
   const [addStationSettings] = useAddStationSettingsMutation();
-  const { data: chargePointFeatureStatus } = useGetChargePointFeatureStatusQuery({});
-  const { data: investors } = useGetChargePointInvestorsQuery({});
-  const [getChargeUnits, { data: chargeUnits }] = useGetChargeUnitsMutation();
-  const { data: brands } = useGetDeviceBrandsQuery({});
+  const [getChargeUnits] = useGetChargeUnitsMutation();
   const [getDeviceCode] = useGetDeviceCodeMutation();
-
-  const [updatedChargeUnit, setUpdatedChargeUnit] = useState<IFormDataProps>(initialChargeUnitFormData);
-  const [chargeUnitFormData, setChargeUnitFormData] = useState<IFormDataProps>(updatedChargeUnit);
+  const [updateStationSettings] = useUpdateStationSettingsMutation();
+  const { data: chargePointFeatureStatus } = useGetChargePointFeatureStatusQuery({});
+  const { data: investors } = useGetChargePointInvestorsQuery({})
+  const { data: brands } = useGetDeviceBrandsQuery({});
+  const checkboxElementName = [
+    `${formProperties['is-free-usage']}`,
+    `${formProperties['is-limited-usage']}`,
+    `${formProperties['is-roaming']}`,
+    `${formProperties['is-charge-unit-code-visibility']}`,
+  ];
+  const [selectedFeatures, setSelectedFeatures] = useState([]);
+  const [chargeUnitFormData, setChargeUnitFormData] = useState<IFormDataProps>(initialChargeUnitFormData);
   const { data: models, refetch: refetchModels } = useGetDeviceModelsQuery(
     Number(chargeUnitFormData[`${formProperties['brand-id']}`]),
   );
+  const [getChargePointFeature] = useGetChargePointFeatureMutation();
   const { closeModal } = useModalManager();
-  const [isvisible, setIsVisible] = useState(false);
 
   const getChargeUnit = async (): Promise<void> => {
+    const { data: chargePointFeature } = await getChargePointFeature({ body: { StationChargePointID: chargePointId } })
+    setSelectedFeatures(chargePointFeature);
+
     await getChargeUnits({ body: { stationId, PageNumber: 1, PageSize: 10 } })
       .unwrap()
       .then((chargeUnits) => {
-        const updatedChargeUnit = chargeUnits?.find((chargeUnit) => chargeUnit.chargePointId === chargePointId);
+        const chargeUnit = chargeUnits?.filter(
+          (chargeUnit) => chargeUnit.chargePointId === chargePointId
+        )[0];
 
-        updatedChargeUnit &&
-          setUpdatedChargeUnit({
-            [`${formProperties['access-type']}`]: updatedChargeUnit.accessType,
-            [`${formProperties['serial-number']}`]: updatedChargeUnit.serialNumber,
-            [`${formProperties['brand-id']}`]: updatedChargeUnit.brandId,
-            [`${formProperties['model-id']}`]: updatedChargeUnit.modelId,
-            [`${formProperties['is-charge-unit-code-visibility']}`]: false,
-            [`${formProperties['charge-unit-code']}`]: updatedChargeUnit.deviceCode,
-            [`${formProperties['connector-count']}`]: updatedChargeUnit.connectorNumber,
-            [`${formProperties['is-free-usage']}`]: updatedChargeUnit.isFreePoint,
-            [`${formProperties['is-limited-usage']}`]: updatedChargeUnit.limitedUsage,
-            [`${formProperties['is-roaming']}`]: updatedChargeUnit.sendRoaming,
-            [`${formProperties.investor}`]: updatedChargeUnit.investor,
-            [`${formProperties.location}`]: updatedChargeUnit.location,
-            [`${formProperties['ocpp-version']}`]: updatedChargeUnit.ocppVersion,
-            [`${formProperties.status}`]: updatedChargeUnit.status,
-          });
+        if (chargeUnit) {
+          form.setValue(`${formProperties['serial-number']}`, chargeUnit.serialNumber);
+          form.setValue(`${formProperties['brand-id']}`, chargeUnit.brandId);
+          form.setValue(`${formProperties['model-id']}`, chargeUnit.modelId);
+          form.setValue(`${formProperties['charge-unit-code']}`, chargeUnit.deviceCode);
+          form.setValue(`${formProperties['connector-count']}`, chargeUnit.connectorNumber);
+          form.setValue(`${formProperties['is-free-usage']}`, chargeUnit.isFreePoint);
+          form.setValue(`${formProperties['is-limited-usage']}`, chargeUnit.limitedUsage);
+          form.setValue(`${formProperties['is-roaming']}`, chargeUnit.sendRoaming);
+          form.setValue(`${formProperties['ocpp-version']}`, chargeUnit.ocppVersion);
+        }
+
+        setChargeUnitFormData({
+          [`${formProperties['access-type']}`]: chargeUnit.accessType,
+          [`${formProperties['serial-number']}`]: chargeUnit.serialNumber,
+          [`${formProperties['brand-id']}`]: chargeUnit.brandId,
+          [`${formProperties['model-id']}`]: chargeUnit.modelId,
+          [`${formProperties['is-charge-unit-code-visibility']}`]: false,
+          [`${formProperties['charge-unit-code']}`]: chargeUnit.deviceCode,
+          [`${formProperties['connector-count']}`]: chargeUnit.connectorNumber,
+          [`${formProperties['is-free-usage']}`]: chargeUnit.isFreePoint,
+          [`${formProperties['is-limited-usage']}`]: chargeUnit.limitedUsage,
+          [`${formProperties['is-roaming']}`]: chargeUnit.sendRoaming,
+          [`${formProperties.investor}`]: chargeUnit.investor,
+          [`${formProperties.location}`]: chargeUnit.location,
+          [`${formProperties['ocpp-version']}`]: chargeUnit.ocppVersion,
+          [`${formProperties.status}`]: chargeUnit.status,
+        });
+
       });
-    setIsVisible(true);
-  };
 
-  const createRequestData = () => {
+  };
+  const createUpdateRequestData = async () => {
+    const features = await getChargePointFeature({ body: { StationChargePointID: chargePointId } })
+
+    return {
+      chargePoint: {
+        code: chargeUnitFormData[`${formProperties['charge-unit-code']}`]?.toString() || '',
+        ExternalOCPPAdress: null,
+        InternalOCPPAdress: null,
+        isFreePoint: chargeUnitFormData[`${formProperties['is-free-usage']}`],
+        isOnlyDefinedUserCards: chargeUnitFormData[`${formProperties['is-limited-usage']}`],
+        ocppVersion: chargeUnitFormData[`${formProperties['ocpp-version']}`]?.toString(),
+        ownerType: "10",
+        sendRoaming: chargeUnitFormData[`${formProperties['is-roaming']}`],
+        serialNumber: chargeUnitFormData[`${formProperties['serial-number']}`]?.toString() || '',
+        stationId,
+        stationChargePointModelID: Number(chargeUnitFormData[`${formProperties['model-id']}`]),
+      },
+      chargePointFeatures: [
+        {
+          stationChargePointFeatureType: 1,
+          stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties.status}`]?.toString(),
+          id: features.data.filter(feature => feature.stationChargePointFeatureType === 1)[0]?.id,
+        },
+        {
+          stationChargePointFeatureType: 2,
+          stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties['access-type']}`]?.toString(),
+          id: features.data.filter(feature => feature.stationChargePointFeatureType === 2)[0]?.id,
+        },
+        {
+          stationChargePointFeatureType: 3,
+          stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties.location}`],
+          id: features.data.filter(feature => feature.stationChargePointFeatureType === 3)[0]?.id,
+        },
+      ],
+      connectorCount: chargeUnitFormData[`${formProperties['connector-count']}`],
+    };
+  };
+  const createAddRequestData = async () => {
     return {
       chargePoint: {
         code: chargeUnitFormData[`${formProperties['charge-unit-code']}`]?.toString() || '',
@@ -131,41 +193,40 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
         {
           stationChargePointFeatureType: 1,
           stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties.status}`]?.toString(),
-          // ...(features.length > 0 && { id: features[0].id }),
+          // id: features?.data?.filter(feature => feature.stationChargePointFeatureType === 1)[0]?.id,
         },
         {
           stationChargePointFeatureType: 2,
           stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties['access-type']}`]?.toString(),
-          // ...(features.length > 0 && { id: features[1].id }),
+          // id: features?.data?.filter(feature => feature.stationChargePointFeatureType === 2)[0]?.id,
         },
         {
           stationChargePointFeatureType: 3,
           stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties.location}`],
-          // ...(features.length > 0 && { id: features[2].id }),
+          // id: features?.data?.filter(feature => feature.stationChargePointFeatureType === 3)[0]?.id,
         },
       ],
       connectorCount: chargeUnitFormData[`${formProperties['connector-count']}`],
     };
   };
-
-  const checkboxElementName = [
-    `${formProperties['is-free-usage']}`,
-    `${formProperties['is-limited-usage']}`,
-    `${formProperties['is-roaming']}`,
-    `${formProperties['is-charge-unit-code-visibility']}`,
-  ];
   const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
     event?.preventDefault();
 
-    if (!chargeUnitFormData[`${formProperties['is-charge-unit-code-visibility']}`]) {
-      const { data } = await getDeviceCode({ body: { stationId } });
 
-      //  @ts-ignore
-      chargeUnitFormData[`${formProperties['charge-unit-code']}`] = data?.data || '';
+
+    if (modalName === 'updateChargeUnitModal') {
+      const requestData = await createUpdateRequestData();
+      await updateStationSettings({ body: requestData });
+    } else {
+      if (!chargeUnitFormData[`${formProperties['is-charge-unit-code-visibility']}`]) {
+        const { data } = await getDeviceCode({ body: { stationId } });
+        //  @ts-ignore
+        chargeUnitFormData[`${formProperties['charge-unit-code']}`] = data?.data || '';
+      }
+
+      const requestData = await createAddRequestData();
+      await addStationSettings({ body: requestData });
     }
-
-    // @ts-ignore
-    await addStationSettings({ body: createRequestData() });
 
     closeModal('addChargeUnitModal');
   };
@@ -182,7 +243,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
       setChargeUnitFormData({
         ...chargeUnitFormData,
         // @ts-ignore
-        [`${formProperties['model-id']}`]: response?.data[0].id,
+        [`${formProperties['model-id']}`]: response.data.filter((item) => item.id === chargeUnitFormData[formProperties['model-id']])[0]?.id,
       });
     });
   }, [chargeUnitFormData[`${formProperties['brand-id']}`]]);
@@ -193,12 +254,21 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
     }
   }, []);
 
+  useEffect(() => {
+    if (investors) {
+      setChargeUnitFormData({
+        ...chargeUnitFormData,
+        [`${formProperties.investor}`]: investors?.filter((investor: IInvestorsProps) => investor.name === chargeUnitFormData[`${formProperties.investor}`])[0]?.id,
+      })
+    }
+  }, [investors]);
+
   return (
     <ModalLayout
       className={`${sectionPrefix}-container`}
       contentClassName={`${sectionPrefix}-content flex-col `}
       id={`${sectionPrefix}-container`}
-      name={'addChargeUnitModal'}
+      name={modalName}
       title={'Şarj Ünitesi Ekle'}
     >
       <div className={`${sectionPrefix}-form-container relative p-2 bg-white rounded-lg`}>
@@ -212,6 +282,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               items={brands}
               label={'Şarj Ünitesi Markası'}
               name={`${formProperties['brand-id']}`}
+              value={chargeUnitFormData[`${formProperties['brand-id']}`]}
               onChange={(event) => handleInputChange(event)}
             />
           </div>
@@ -225,6 +296,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               items={models}
               label={'Şarj Ünitesi Modeli'}
               name={`${formProperties['model-id']}`}
+              value={chargeUnitFormData[`${formProperties['model-id']}`]}
               onChange={(event) => handleInputChange(event)}
             />
           </div>
@@ -261,7 +333,6 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               rules={{ required: `Seri numarasi zorunludur` }}
             />
           </div>
-          {}
           {
             <div className={`${formProperties['connector-count']}-container`}>
               <BaseInput
@@ -286,6 +357,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               ]}
               label={`OCPP Versiyonu`}
               name={`${formProperties['ocpp-version']}`}
+              value={chargeUnitFormData[`${formProperties['ocpp-version']}`]}
               onChange={(event) => handleInputChange(event)}
             />
           </div>
@@ -298,6 +370,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               items={investors}
               label={`Yatırımcı`}
               name={`${formProperties.investor}`}
+              value={investors?.filter((investor: IInvestorsProps) => investor.name === chargeUnitFormData[`${formProperties.investor}`])[0]?.id}
               onChange={(event) => handleInputChange(event)}
             />
           </div>
@@ -310,6 +383,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               items={chargePointFeatureStatus?.statusList}
               label={`Durum`}
               name={`${formProperties.status}`}
+              value={selectedFeatures[0]?.stationChargePointFeatureTypeValue}
               onChange={(event) => handleInputChange(event)}
             />
           </div>
@@ -322,6 +396,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               items={chargePointFeatureStatus?.accessTypeList}
               label={`Erisim Tipi`}
               name={`${formProperties['access-type']}`}
+              value={selectedFeatures[1]?.stationChargePointFeatureTypeValue}
               onChange={(event) => handleInputChange(event)}
             />
           </div>
@@ -332,6 +407,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               label={`Konum Tarifi`}
               name={`${formProperties.location}`}
               type="text"
+              value={selectedFeatures[2]?.stationChargePointFeatureTypeValue}
               onChange={(event) => handleInputChange(event)}
             />
           </div>
