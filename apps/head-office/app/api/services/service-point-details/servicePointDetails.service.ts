@@ -203,7 +203,7 @@ const authService = baseApi.injectEndpoints({
       }),
       providesTags: ['ServicePointImageUpload'],
     }),
-    getServicePointInformation: builder.mutation<IServicePoinDetailsInfo[], Post<IStationIdRequestProps>>({
+    getServicePointInformation: builder.mutation<IServicePoinDetailsInfo[], Post<{ body: { stationId: IStationIdRequestProps } }>>({
       query: ({ body }) => ({
         body,
         method: ApiServiceMethods.POST,

@@ -97,7 +97,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
   const getChargeUnit = async (): Promise<void> => {
     const { data: chargePointFeature } = await getChargePointFeature({ body: { StationChargePointID: chargePointId } })
     setSelectedFeatures(chargePointFeature);
-
+    const features = await getChargePointFeature({ body: { StationChargePointID: chargePointId } })
     await getChargeUnits({ body: { stationId, PageNumber: 1, PageSize: 10 } })
       .unwrap()
       .then((chargeUnits) => {
@@ -115,6 +115,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
           form.setValue(`${formProperties['is-limited-usage']}`, chargeUnit.limitedUsage);
           form.setValue(`${formProperties['is-roaming']}`, chargeUnit.sendRoaming);
           form.setValue(`${formProperties['ocpp-version']}`, chargeUnit.ocppVersion);
+          form.setValue(`${formProperties.location}`, features.data?.filter(feature => feature.stationChargePointFeatureType === 3)[0]?.stationChargePointFeatureTypeValue);
         }
 
         setChargeUnitFormData({
@@ -133,7 +134,6 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
           [`${formProperties['ocpp-version']}`]: chargeUnit.ocppVersion,
           [`${formProperties.status}`]: chargeUnit.status,
         });
-
       });
 
   };
@@ -147,8 +147,8 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
         InternalOCPPAdress: null,
         isFreePoint: chargeUnitFormData[`${formProperties['is-free-usage']}`],
         isOnlyDefinedUserCards: chargeUnitFormData[`${formProperties['is-limited-usage']}`],
-        ocppVersion: chargeUnitFormData[`${formProperties['ocpp-version']}`]?.toString(),
-        ownerType: "10",
+        ocppVersion: Number(chargeUnitFormData[`${formProperties['ocpp-version']}`]?.toString()),
+        ownerType: Number(chargeUnitFormData[`${formProperties.investor}`]),
         sendRoaming: chargeUnitFormData[`${formProperties['is-roaming']}`],
         serialNumber: chargeUnitFormData[`${formProperties['serial-number']}`]?.toString() || '',
         stationId,
@@ -171,7 +171,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
           id: features.data.filter(feature => feature.stationChargePointFeatureType === 3)[0]?.id,
         },
       ],
-      connectorCount: chargeUnitFormData[`${formProperties['connector-count']}`],
+      connectorCount: Number(chargeUnitFormData[`${formProperties['connector-count']}`]),
     };
   };
   const createAddRequestData = async () => {
@@ -182,37 +182,32 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
         InternalOCPPAdress: null,
         isFreePoint: chargeUnitFormData[`${formProperties['is-free-usage']}`],
         isOnlyDefinedUserCards: chargeUnitFormData[`${formProperties['is-limited-usage']}`],
-        ocppVersion: chargeUnitFormData[`${formProperties['ocpp-version']}`],
-        ownerType: chargeUnitFormData[`${formProperties.investor}`],
+        ocppVersion: Number(chargeUnitFormData[`${formProperties['ocpp-version']}`]),
+        ownerType: Number(chargeUnitFormData[`${formProperties.investor}`]),
         sendRoaming: chargeUnitFormData[`${formProperties['is-roaming']}`],
         serialNumber: chargeUnitFormData[`${formProperties['serial-number']}`]?.toString() || '',
         stationId,
-        stationChargePointModelID: chargeUnitFormData[`${formProperties['model-id']}`],
+        stationChargePointModelID: Number(chargeUnitFormData[`${formProperties['model-id']}`]),
       },
       chargePointFeatures: [
         {
           stationChargePointFeatureType: 1,
           stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties.status}`]?.toString(),
-          // id: features?.data?.filter(feature => feature.stationChargePointFeatureType === 1)[0]?.id,
         },
         {
           stationChargePointFeatureType: 2,
           stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties['access-type']}`]?.toString(),
-          // id: features?.data?.filter(feature => feature.stationChargePointFeatureType === 2)[0]?.id,
         },
         {
           stationChargePointFeatureType: 3,
           stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties.location}`],
-          // id: features?.data?.filter(feature => feature.stationChargePointFeatureType === 3)[0]?.id,
         },
       ],
-      connectorCount: chargeUnitFormData[`${formProperties['connector-count']}`],
+      connectorCount: Number(chargeUnitFormData[`${formProperties['connector-count']}`]),
     };
   };
   const handleFormSubmit: SubmitHandler<IFormDataProps> = async () => {
     event?.preventDefault();
-
-
 
     if (modalName === 'updateChargeUnitModal') {
       const requestData = await createUpdateRequestData();
@@ -243,7 +238,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
       setChargeUnitFormData({
         ...chargeUnitFormData,
         // @ts-ignore
-        [`${formProperties['model-id']}`]: response.data.filter((item) => item.id === chargeUnitFormData[formProperties['model-id']])[0]?.id,
+        [`${formProperties['model-id']}`]: response.data.filter((item) => item.id === chargeUnitFormData[formProperties['model-id']])[0]?.id || response.data[0]?.id,
       });
     });
   }, [chargeUnitFormData[`${formProperties['brand-id']}`]]);
@@ -352,8 +347,8 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               defaultValue={1600}
               id={`${formProperties['ocpp-version']}`}
               items={[
-                { id: 1600, name: 'v1.6' },
-                { id: 2100, name: 'v2.1' },
+                { id: 1600, name: 'v1.6', value: 1600 },
+                { id: 2100, name: 'v2.1', value: 2100 },
               ]}
               label={`OCPP Versiyonu`}
               name={`${formProperties['ocpp-version']}`}
@@ -407,7 +402,6 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               label={`Konum Tarifi`}
               name={`${formProperties.location}`}
               type="text"
-              value={selectedFeatures[2]?.stationChargePointFeatureTypeValue}
               onChange={(event) => handleInputChange(event)}
             />
           </div>
