@@ -10,3 +10,10 @@ export interface IUserAggrement {
   userAgreementType: string;
   userAgreementTypeRID: number;
 }
+
+export interface IAddNewAggrement {
+  UserAgreementTypeRID: number;
+  Title: string;
+  ConfirmMessage: string;
+  PdfFile: File;
+}

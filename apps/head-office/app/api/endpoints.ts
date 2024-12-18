@@ -96,4 +96,6 @@ export const ENDPOINTS = {
   GET_NOTIFICATION_INFO_COLOR_LIST: '/GetNotificationInfoColorList',
   GET_NOTIFICATION_INFO_TYPE_LIST: '/GetNotificationInfoTypeList',
   GET_AGREEMENT_DEFINITION_LIST: '/get-agreement-definition-list',
+  ADD_NEW_AGREEMENT: '/add-new-agreement',
+  GET_AGREEMENT_DEFINITION_BY_ID: '/get-agreement-definition',
 };

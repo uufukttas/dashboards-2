@@ -15,8 +15,10 @@ const UserAggrementsSection = () => {
     openModal('addUserAggrementModal', <AddUserAggrementModal />);
   };
 
-  const handleOpenUserAggrementModal = (rowData: any) => {
-    openModal('userAggrementDetailModal', <UserAggrementDetailModal />);
+  const handleOpenUserAggrementModal = ({ rowData }: any) => {
+    console.log(rowData);
+
+    openModal('userAggrementDetailModal', <UserAggrementDetailModal agreement={rowData} />);
   };
 
   const tableHeader = () => {
