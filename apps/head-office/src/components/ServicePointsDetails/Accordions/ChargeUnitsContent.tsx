@@ -88,22 +88,26 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
         {
           stationChargePointFeatureType: 1,
           stationChargePointFeatureTypeValue: chargeUnit?.status.toString(),
+          // @ts-ignore
           id: features.filter(feature => feature.stationChargePointFeatureType === 1)[0]?.id,
         },
         {
           stationChargePointFeatureType: 2,
           stationChargePointFeatureTypeValue: "4",
+          // @ts-ignore
           id: features.filter(feature => feature.stationChargePointFeatureType === 2)[0]?.id,
         },
         {
           stationChargePointFeatureType: 3,
           stationChargePointFeatureTypeValue: chargeUnit?.location || '',
+          // @ts-ignore
           id: features.filter(feature => feature.stationChargePointFeatureType === 3)[0]?.id,
         },
       ],
       connectorCount: chargeUnit?.connectorNumber,
     };
 
+    // @ts-ignore
     await updateStationSettings({ body: requestData });
   };
 

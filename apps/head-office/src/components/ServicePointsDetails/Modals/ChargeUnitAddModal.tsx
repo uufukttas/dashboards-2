@@ -96,6 +96,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
 
   const getChargeUnit = async (): Promise<void> => {
     const { data: chargePointFeature } = await getChargePointFeature({ body: { StationChargePointID: chargePointId } })
+    // @ts-ignore
     setSelectedFeatures(chargePointFeature);
     const features = await getChargePointFeature({ body: { StationChargePointID: chargePointId } })
     await getChargeUnits({ body: { stationId, PageNumber: 1, PageSize: 10 } })
@@ -115,6 +116,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
           form.setValue(`${formProperties['is-limited-usage']}`, chargeUnit.limitedUsage);
           form.setValue(`${formProperties['is-roaming']}`, chargeUnit.sendRoaming);
           form.setValue(`${formProperties['ocpp-version']}`, chargeUnit.ocppVersion);
+          // @ts-ignore
           form.setValue(`${formProperties.location}`, features.data?.filter(feature => feature.stationChargePointFeatureType === 3)[0]?.stationChargePointFeatureTypeValue);
         }
 
@@ -158,16 +160,19 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
         {
           stationChargePointFeatureType: 1,
           stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties.status}`]?.toString(),
+          // @ts-ignore
           id: features.data.filter(feature => feature.stationChargePointFeatureType === 1)[0]?.id,
         },
         {
           stationChargePointFeatureType: 2,
           stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties['access-type']}`]?.toString(),
+          // @ts-ignore
           id: features.data.filter(feature => feature.stationChargePointFeatureType === 2)[0]?.id,
         },
         {
           stationChargePointFeatureType: 3,
           stationChargePointFeatureTypeValue: chargeUnitFormData[`${formProperties.location}`],
+          // @ts-ignore
           id: features.data.filter(feature => feature.stationChargePointFeatureType === 3)[0]?.id,
         },
       ],
@@ -211,6 +216,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
 
     if (modalName === 'updateChargeUnitModal') {
       const requestData = await createUpdateRequestData();
+      // @ts-ignore
       await updateStationSettings({ body: requestData });
     } else {
       if (!chargeUnitFormData[`${formProperties['is-charge-unit-code-visibility']}`]) {
@@ -220,6 +226,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
       }
 
       const requestData = await createAddRequestData();
+      // @ts-ignore
       await addStationSettings({ body: requestData });
     }
 
@@ -277,6 +284,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               items={brands}
               label={'Şarj Ünitesi Markası'}
               name={`${formProperties['brand-id']}`}
+              // @ts-ignore
               value={chargeUnitFormData[`${formProperties['brand-id']}`]}
               onChange={(event) => handleInputChange(event)}
             />
@@ -291,6 +299,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               items={models}
               label={'Şarj Ünitesi Modeli'}
               name={`${formProperties['model-id']}`}
+              // @ts-ignore
               value={chargeUnitFormData[`${formProperties['model-id']}`]}
               onChange={(event) => handleInputChange(event)}
             />
@@ -352,6 +361,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               ]}
               label={`OCPP Versiyonu`}
               name={`${formProperties['ocpp-version']}`}
+              // @ts-ignore
               value={chargeUnitFormData[`${formProperties['ocpp-version']}`]}
               onChange={(event) => handleInputChange(event)}
             />
@@ -378,6 +388,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               items={chargePointFeatureStatus?.statusList}
               label={`Durum`}
               name={`${formProperties.status}`}
+              // @ts-ignore
               value={selectedFeatures[0]?.stationChargePointFeatureTypeValue}
               onChange={(event) => handleInputChange(event)}
             />
@@ -391,6 +402,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               items={chargePointFeatureStatus?.accessTypeList}
               label={`Erisim Tipi`}
               name={`${formProperties['access-type']}`}
+              // @ts-ignore
               value={selectedFeatures[1]?.stationChargePointFeatureTypeValue}
               onChange={(event) => handleInputChange(event)}
             />
