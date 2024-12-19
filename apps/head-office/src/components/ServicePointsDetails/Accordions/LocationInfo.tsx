@@ -40,6 +40,7 @@ const LocationInfo: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps)
   }, [getServicePointData, stationId]);
   const fetchServicePointDetails = useCallback(async (): Promise<void> => {
     const [servicePointInfo, servicePointFeatures] = await Promise.all([
+      // @ts-ignore
       getServicePointInformation({ body: { stationId } }).unwrap(),
       getStationSelectedValues({
         body: {

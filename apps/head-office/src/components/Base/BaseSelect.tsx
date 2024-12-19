@@ -20,6 +20,7 @@ interface IBaseSelectProps {
   optionClassName?: string;
   disabled?: boolean;
   defaultValue?: string | number;
+  value?: string | number;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
@@ -38,6 +39,7 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
     optionClassName,
     prefix = BRAND_PREFIX,
     rules,
+    value,
     onChange,
   } = props;
   const {
@@ -83,6 +85,7 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
             }}
             optionClassName={optionClassName}
             placeholder="Seçiniz"
+            value={value}
           />
         )}
       />

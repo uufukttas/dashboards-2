@@ -135,7 +135,7 @@ const authService = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['GetStationSettings'],
     }),
-    getChargePointFeature: builder.mutation<[], Post>({
+    getChargePointFeature: builder.mutation<[], Post<{ StationChargePointID: number }>>({
       query: ({ body }) => ({
         body,
         method: ApiServiceMethods.POST,
@@ -203,7 +203,7 @@ const authService = baseApi.injectEndpoints({
       }),
       providesTags: ['ServicePointImageUpload'],
     }),
-    getServicePointInformation: builder.mutation<IServicePoinDetailsInfo[], Post<IStationIdRequestProps>>({
+    getServicePointInformation: builder.mutation<IServicePoinDetailsInfo[], Post<{ body: { stationId: IStationIdRequestProps } }>>({
       query: ({ body }) => ({
         body,
         method: ApiServiceMethods.POST,

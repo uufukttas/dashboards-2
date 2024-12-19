@@ -39,7 +39,7 @@ const ServicePointsDetailsContent: React.FC<IServicePointDetailsContentProps> = 
         <ActionButton
           buttonText="+ Şarj Ünitesi"
           modalName="addChargeUnitModal"
-          ModalComponent={ChargeUnitAddModal}
+          ModalComponent={() => <ChargeUnitAddModal modalName={'addChargeUnitModal'} stationId={stationId} />}
           stationId={stationId}
         />
       ),
