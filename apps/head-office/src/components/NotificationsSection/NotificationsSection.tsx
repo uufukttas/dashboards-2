@@ -72,11 +72,8 @@ const NotificationsSection: React.FC = () => {
     );
   };
 
-  const handleRowClick = (e: TableRowClickEvent<INoficication>) => {
-    console.log('e', e.rowData.rid);
-
+  const handleRowClick = (e: TableRowClickEvent<INoficication>) =>
     openModal('notification-delivery', <NotificationDeliveryModal notificationId={e.rowData.rid} />);
-  };
 
   const actionsButtonsContainer = (rowData: INoficication): JSX.Element => {
     return (
@@ -131,12 +128,7 @@ const NotificationsSection: React.FC = () => {
     if (notificationImage) {
       return (
         <div className="flex items-center gap-2" onClick={handleImageClick}>
-          <Image
-            src={notificationImage}
-            alt="notification"
-            width={100}
-            height={100}
-          />
+          <Image src={notificationImage} alt="notification" width={100} height={100} />
         </div>
       );
     }

@@ -13,7 +13,7 @@ export interface IInputProps extends React.InputHTMLAttributes<HTMLInputElement>
   required?: boolean;
   value?: string | number | undefined;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-};
+}
 
 export function Input({
   ariaInvalid,
@@ -22,6 +22,7 @@ export function Input({
   disabled,
   id,
   name,
+  accept,
   pattern,
   placeholder,
   register,
@@ -38,6 +39,7 @@ export function Input({
       disabled={disabled}
       id={id}
       name={name}
+      accept={accept}
       type={type}
       pattern={pattern}
       placeholder={placeholder}
@@ -49,6 +51,6 @@ export function Input({
       {...rest}
     />
   );
-};
+}
 
 export default Input;

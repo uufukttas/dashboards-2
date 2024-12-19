@@ -1,0 +1,68 @@
+import { IBaseTableColumn } from '../BaseTable/BaseTableInterface';
+
+export const UserAggrementsTableColumns: IBaseTableColumn[] = [
+  {
+    accessor: 'rid',
+    field: 'rid',
+    header: 'ID',
+    id: 'rid',
+    isRemovable: false,
+    type: 'number',
+  },
+  {
+    accessor: 'title',
+    field: 'title',
+    header: 'Title',
+    id: 'title',
+    isRemovable: false,
+    type: 'string',
+  },
+  {
+    accessor: 'userAgreementType',
+    field: 'userAgreementType',
+    header: 'Agreement Type',
+    id: 'userAgreementType',
+    isRemovable: false,
+    type: 'string',
+  },
+  {
+    accessor: 'confirmMessage',
+    field: 'confirmMessage',
+    header: 'Confirm Message',
+    id: 'confirmMessage',
+    isRemovable: false,
+    type: 'string',
+  },
+  {
+    accessor: 'createDate',
+    field: 'createDate',
+    header: 'Create Date',
+    id: 'createDate',
+    isRemovable: false,
+    type: 'date',
+  },
+  {
+    accessor: 'isTextContent',
+    field: 'isTextContent',
+    header: 'Text Content',
+    id: 'isTextContent',
+    isRemovable: false,
+    type: 'boolean',
+  },
+  {
+    accessor: 'fileCdnUrl',
+    field: 'fileCdnUrl',
+    header: 'File URL',
+    id: 'fileCdnUrl',
+    isRemovable: false,
+    type: 'string',
+  },
+  {
+    accessor: 'path',
+    field: 'path',
+    header: 'Path',
+    id: 'path',
+    isRemovable: false,
+    type: 'string',
+  },
+];
