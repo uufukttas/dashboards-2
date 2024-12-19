@@ -79,7 +79,7 @@ const TariffsModalComponent: React.FC<TariffsModalComponentProps> = ({ tariffDat
   ];
 
   return (
-    <ModalLayout name="addTariff" title="Tarife Ekle" buttons={buttons}>
+    <ModalLayout name="addTariff" title="Tarife Ekle" buttons={buttons} footerVisible>
       <form className={''} onSubmit={handleSubmit(handleFormSubmit)}>
         <div className={`flex flex-col gap-4`}>
           <BaseInput

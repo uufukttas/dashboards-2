@@ -75,7 +75,7 @@ const EditNotificationModal = ({ notificationId, notification }: EditNotificatio
   }, [notification]);
 
   return (
-    <ModalLayout name="editNotification" title="Bildirim Düzenle" buttons={buttons}>
+    <ModalLayout name="editNotification" title="Bildirim Düzenle" buttons={buttons} footerVisible>
       <NotificationForm
         form={form}
         notificationTypes={notificationTypes}
