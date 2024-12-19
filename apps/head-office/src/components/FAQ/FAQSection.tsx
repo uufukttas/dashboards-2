@@ -13,6 +13,7 @@ import { BaseTable } from '../BaseTable/BaseTable';
 import ConfirmationModal from '../Modals/ConfirmationModal';
 import AddFAQModal from './AddFAQModal';
 import { FAQS_TABLE_COLUMNS } from './FAQ.constant';
+import FAQDetailModal from './FAQDetailModal';
 
 const FAQSection: React.FC = () => {
   const sectionPrefix: string = `${BRAND_PREFIX}-faq`;
@@ -21,13 +22,11 @@ const FAQSection: React.FC = () => {
   const { data: categories } = useGetKnowledgeBaseCategoryListQuery({});
   const [removeKnowledgeBase] = useRemoveKnowledgeBaseMutation();
 
-  const handleEditFAQ = (faq: IKnowledgeBase) => {
-    openModal('editFAQModal', <AddFAQModal faqData={faq} />);
-  };
+  const handleEditFAQ = (faq: IKnowledgeBase) => openModal('editFAQModal', <AddFAQModal faqData={faq} />);
 
   const handleDeleteFAQ = (faq: IKnowledgeBase) => {
     openModal(
-      'deleteFAQModal',
+      'confirmationModal',
       <ConfirmationModal
         name={'confirmationModal'}
         onConfirm={() => {
@@ -35,11 +34,7 @@ const FAQSection: React.FC = () => {
             body: {
               knowledgebaseId: faq.rid,
             },
-          })
-            .unwrap()
-            .then(() => {
-              closeModal('deleteFAQModal');
-            });
+          });
         }}
       />,
     );
@@ -50,7 +45,9 @@ const FAQSection: React.FC = () => {
       <div className={`${sectionPrefix}-data-table-actions-button-container flex justify-center items-start`}>
         <a
           className="font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
             handleEditFAQ(faq);
           }}
         >
@@ -58,7 +55,9 @@ const FAQSection: React.FC = () => {
         </a>
         <a
           className="font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
             handleDeleteFAQ(faq);
           }}
         >
@@ -93,6 +92,10 @@ const FAQSection: React.FC = () => {
     return '-';
   };
 
+  const handleRowClick = ({ rowData }) => {
+    openModal('faqDetailModal', <FAQDetailModal faq={rowData} />);
+  };
+
   return (
     <div className={`${sectionPrefix}-container w-full`}>
       <BaseTable
@@ -110,6 +113,7 @@ const FAQSection: React.FC = () => {
         id={`${BRAND_PREFIX}-marketplace-table`}
         tableHeader={tableHeader}
         className={`${sectionPrefix}-table w-full`}
+        onRowClick={handleRowClick}
       />
     </div>
   );
