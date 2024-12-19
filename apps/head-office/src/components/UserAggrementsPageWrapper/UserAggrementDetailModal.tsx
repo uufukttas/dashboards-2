@@ -1,7 +1,7 @@
-import { useLazyGetAgreementDefinitionByIdQuery } from 'apps/head-office/app/api/services/user-aggrements/userAggrement.service';
 import moment from 'moment';
 import { useEffect } from 'react';
 import { IUserAggrement } from '../../../app/api/services/user-aggrements/userAggrement.interface';
+import { useGetAgreementDefinitionByIdQuery } from '../../../app/api/services/user-aggrements/userAggrement.service';
 import ModalLayout from '../Modal/Layouts/ModalLayout';
 
 interface UserAggrementDetailModalProps {
@@ -9,45 +9,51 @@ interface UserAggrementDetailModalProps {
 }
 
 const UserAggrementDetailModal = ({ agreement }: UserAggrementDetailModalProps) => {
-  const [getAgreementDefinitionById, { data: agreementInfo }] = useLazyGetAgreementDefinitionByIdQuery();
+  const { data: agreementInfo } = useGetAgreementDefinitionByIdQuery({
+    params: {
+      agreementId: agreement.rid,
+    },
+  });
 
   const formatDate = (dateString: string) => {
     return moment(new Date(dateString)).format('DD/MM/YYYY HH:mm');
   };
 
   useEffect(() => {
-    const formData = new FormData();
-    formData.append('id', agreement?.rid.toString());
-
-    getAgreementDefinitionById({ params: formData });
-  }, [agreement]);
+    console.log(agreementInfo);
+  }, [agreementInfo]);
 
   return (
-    <ModalLayout name="userAggrementDetailModal" title={agreementInfo?.title} footerVisible={true}>
-      <div className="flex flex-col gap-6 p-4">
+    <ModalLayout
+      name="userAggrementDetailModal"
+      title={agreementInfo?.title || 'Kullanıcı Sözleşmesi'}
+      footerVisible={true}
+      className="w-[800px]"
+    >
+      <div className="flex flex-1 flex-col gap-6 p-4">
         {/* Header Section */}
         <div className="flex justify-between items-start border-b border-b-gray-200 pb-4">
           <div>
             <h2 className="text-xl font-semibold mb-2">{agreementInfo?.title}</h2>
             <p className="text-gray-600">Type: {agreementInfo?.userAgreementType}</p>
           </div>
-          <span className="text-sm text-gray-500">Created: {formatDate(agreementInfo?.createDate)}</span>
+          <span className="text-sm text-gray-500">Created: {formatDate(agreementInfo?.createDate || '')}</span>
         </div>
         {/* Content Section */}
         <div className="space-y-4">
           {agreementInfo?.isTextContent ? (
             <div className="bg-white border rounded-lg p-4">
-              <h3 className="font-medium mb-2">Agreement Text</h3>
               <div className="prose max-w-none">{agreementInfo?.text}</div>
             </div>
           ) : (
             <div className="flex flex-col gap-2">
-              <h3 className="font-medium">Agreement Document</h3>
-              <div className="w-full h-[600px] border border-gray-200 rounded-lg">
+              <div className="w-full h-[70vh] border border-gray-200 rounded-lg">
                 <iframe
-                  src={`${agreementInfo?.fileCdnUrl}#toolbar=0`}
+                  src={`${agreementInfo?.fileCdnUrl}#zoom=90`}
                   className="w-full h-full"
                   title="Agreement PDF Document"
+                  style={{ minHeight: '500px' }}
+                  allowFullScreen
                 />
               </div>
             </div>
@@ -63,7 +69,7 @@ const UserAggrementDetailModal = ({ agreement }: UserAggrementDetailModalProps) 
             </div>
             <div>
               <span className="text-gray-600">Path:</span>
-              <span className="ml-2 font-medium">{agreementInfo?.path}</span>
+              <a className="ml-2 font-medium">{agreementInfo?.path}</a>
             </div>
           </div>
         </div>

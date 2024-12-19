@@ -13,7 +13,7 @@ const userAggrementService = baseApi.injectEndpoints({
       }),
       providesTags: ['UserAggrement'],
     }),
-    getAgreementDefinitionById: builder.query<IUserAggrement, Get>({
+    getAgreementDefinitionById: builder.query<IUserAggrement, Get<{ agreementId: number }>>({
       query: ({ params }) => ({
         url: `${ENDPOINTS.AGGREMENT}${ENDPOINTS.GET_AGREEMENT_DEFINITION_BY_ID}`,
         method: ApiServiceMethods.GET,
@@ -41,5 +41,6 @@ const userAggrementService = baseApi.injectEndpoints({
 export const {
   useGetAgreementDefinitionListQuery,
   useAddNewAggrementMutation,
+  useGetAgreementDefinitionByIdQuery,
   useLazyGetAgreementDefinitionByIdQuery,
 } = userAggrementService;

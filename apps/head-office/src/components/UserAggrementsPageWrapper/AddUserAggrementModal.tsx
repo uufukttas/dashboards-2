@@ -23,6 +23,7 @@ const AddUserAggrementModal = () => {
 
     setPdfFile(file);
   };
+
   const handleAddNewAggrement = async () => {
     const data = form.getValues();
 
@@ -31,6 +32,7 @@ const AddUserAggrementModal = () => {
     formData.append('UserAgreementTypeRID', '1');
     formData.append('Title', data.Title);
     formData.append('ConfirmMessage', data.ConfirmMessage);
+
     pdfFile && formData.append('PdfFile', pdfFile);
 
     addNewAggrement({ body: formData })

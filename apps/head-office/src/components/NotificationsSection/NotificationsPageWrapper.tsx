@@ -3,8 +3,8 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import MainComponent from '../MainComponent/MainComponent';
 import NotificationsSection from './NotificationsSection';
 
-const Notitications: React.FC = () => {
-  const pagePrefix: string = `${BRAND_PREFIX}-faq-page`;
+const NotificationsPageWrapper: React.FC = () => {
+  const pagePrefix: string = `${BRAND_PREFIX}-notifications-page`;
 
   return (
     <div className={`${pagePrefix}-wrapper w-full flex h-screen`}>
@@ -17,4 +17,4 @@ const Notitications: React.FC = () => {
   );
 };
 
-export default Notitications;
+export default NotificationsPageWrapper;

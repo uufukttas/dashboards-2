@@ -1,8 +1,10 @@
 import { Button } from 'primereact/button';
+import { IUserAggrement } from '../../../app/api/services/user-aggrements/userAggrement.interface';
 import { useGetAgreementDefinitionListQuery } from '../../../app/api/services/user-aggrements/userAggrement.service';
 import { BRAND_PREFIX } from '../../constants/constants';
 import useModalManager from '../../hooks/useModalManager';
 import { BaseTable } from '../BaseTable/BaseTable';
+import { TableRowClickEvent } from '../BaseTable/BaseTableInterface';
 import AddUserAggrementModal from './AddUserAggrementModal';
 import { UserAggrementsTableColumns } from './constants';
 import UserAggrementDetailModal from './UserAggrementDetailModal';
@@ -11,15 +13,10 @@ const UserAggrementsSection = () => {
   const { data, isLoading, isError } = useGetAgreementDefinitionListQuery();
   const { openModal } = useModalManager();
 
-  const handleAddUserAggrement = () => {
-    openModal('addUserAggrementModal', <AddUserAggrementModal />);
-  };
+  const handleAddUserAggrement = () => openModal('addUserAggrementModal', <AddUserAggrementModal />);
 
-  const handleOpenUserAggrementModal = ({ rowData }: any) => {
-    console.log(rowData);
-
+  const handleOpenUserAggrementModal = ({ rowData }: TableRowClickEvent<IUserAggrement>) =>
     openModal('userAggrementDetailModal', <UserAggrementDetailModal agreement={rowData} />);
-  };
 
   const tableHeader = () => {
     return (
