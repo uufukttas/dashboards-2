@@ -98,4 +98,5 @@ export const ENDPOINTS = {
   GET_AGREEMENT_DEFINITION_LIST: '/get-agreement-definition-list',
   ADD_NEW_AGREEMENT: '/add-new-agreement',
   GET_AGREEMENT_DEFINITION_BY_ID: '/get-agreement-definition',
+  SET_PASSIVE_STATUS: '/set-passive-status',
 };

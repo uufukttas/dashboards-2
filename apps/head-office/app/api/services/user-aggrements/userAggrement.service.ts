@@ -35,6 +35,17 @@ const userAggrementService = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['UserAggrement'],
     }),
+    setPassiveStatus: builder.mutation<void, Post<{ agreementId: number }>>({
+      query: ({ body }) => ({
+        url: `${ENDPOINTS.AGGREMENT}${ENDPOINTS.SET_PASSIVE_STATUS}`,
+        method: ApiServiceMethods.POST,
+        body,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      }),
+      invalidatesTags: ['UserAggrement'],
+    }),
   }),
 });
 
@@ -43,4 +54,5 @@ export const {
   useAddNewAggrementMutation,
   useGetAgreementDefinitionByIdQuery,
   useLazyGetAgreementDefinitionByIdQuery,
+  useSetPassiveStatusMutation,
 } = userAggrementService;

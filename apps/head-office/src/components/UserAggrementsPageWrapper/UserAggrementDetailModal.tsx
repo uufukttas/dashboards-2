@@ -1,27 +1,54 @@
 import moment from 'moment';
-import { useEffect } from 'react';
 import { IUserAggrement } from '../../../app/api/services/user-aggrements/userAggrement.interface';
-import { useGetAgreementDefinitionByIdQuery } from '../../../app/api/services/user-aggrements/userAggrement.service';
+import {
+  useGetAgreementDefinitionByIdQuery,
+  useSetPassiveStatusMutation,
+} from '../../../app/api/services/user-aggrements/userAggrement.service';
+import useModalManager from '../../hooks/useModalManager';
 import ModalLayout from '../Modal/Layouts/ModalLayout';
+import { IModalLayoutButtonProps } from '../Modal/Layouts/ModalLayout.interface';
+import ConfirmationModal from '../Modals/ConfirmationModal';
 
 interface UserAggrementDetailModalProps {
   agreement: IUserAggrement;
 }
 
 const UserAggrementDetailModal = ({ agreement }: UserAggrementDetailModalProps) => {
+  const { openModal, closeModal } = useModalManager();
   const { data: agreementInfo } = useGetAgreementDefinitionByIdQuery({
     params: {
       agreementId: agreement.rid,
     },
   });
+  const [setPassiveStatus] = useSetPassiveStatusMutation();
 
   const formatDate = (dateString: string) => {
     return moment(new Date(dateString)).format('DD/MM/YYYY HH:mm');
   };
 
-  useEffect(() => {
-    console.log(agreementInfo);
-  }, [agreementInfo]);
+  const handleConfirmDeactivateAgreement = () => {
+    setPassiveStatus({ body: { agreementId: agreement.rid } })
+      .unwrap()
+      .then(() => {
+        closeModal('deactivateAgreementModal');
+        closeModal('userAggrementDetailModal');
+      });
+  };
+
+  const handleDeactivateAgreement = () => {
+    openModal(
+      'deactivateAgreementModal',
+      <ConfirmationModal name="deactivateAgreementModal" onConfirm={handleConfirmDeactivateAgreement} />,
+    );
+  };
+
+  const buttons: IModalLayoutButtonProps[] = [
+    {
+      key: 'deactivate-agreement',
+      label: 'Sözleşmeyi Pasifleştir',
+      onClick: handleDeactivateAgreement,
+    },
+  ];
 
   return (
     <ModalLayout
@@ -29,6 +56,7 @@ const UserAggrementDetailModal = ({ agreement }: UserAggrementDetailModalProps) 
       title={agreementInfo?.title || 'Kullanıcı Sözleşmesi'}
       footerVisible={true}
       className="w-[800px]"
+      buttons={buttons}
     >
       <div className="flex flex-1 flex-col gap-6 p-4">
         {/* Header Section */}
