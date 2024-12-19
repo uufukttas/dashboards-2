@@ -10,6 +10,7 @@ interface IBaseInputProps extends Omit<IInputProps, 'form' | 'className'> {
   form: FieldValues;
   name: string;
   label?: string;
+  labelClassName?: string;
   prefix?: string;
   rules?: Record<string, unknown>;
   inputClassName?: string;
@@ -17,7 +18,7 @@ interface IBaseInputProps extends Omit<IInputProps, 'form' | 'className'> {
   isTextarea?: boolean;
   type?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-};
+}
 
 const BaseInput: FC<IBaseInputProps> = (props) => {
   const {
@@ -26,6 +27,7 @@ const BaseInput: FC<IBaseInputProps> = (props) => {
     inputClassName,
     isTextarea = false,
     label,
+    labelClassName,
     name,
     prefix,
     rules,
@@ -34,7 +36,9 @@ const BaseInput: FC<IBaseInputProps> = (props) => {
     ...rest
   } = props;
 
-  const { fieldState: { error } } = useController({name,control: form.control,rules});
+  const {
+    fieldState: { error },
+  } = useController({ name, control: form.control, rules });
   const inputClasses = cn(
     type === 'checkbox'
       ? 'w-6 h-6 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary'
@@ -48,7 +52,10 @@ const BaseInput: FC<IBaseInputProps> = (props) => {
     <div className={containerClasses}>
       {label && (
         <Label
-          className={cn(`${prefix}-label text-sm font-medium text-gray-600`, type === 'checkbox' ? 'order-2' : 'block')}
+          className={cn(
+            `${prefix}-label text-sm font-medium text-gray-600 ${labelClassName}`,
+            type === 'checkbox' ? 'order-2' : 'block',
+          )}
           htmlFor={name}
           labelText={label}
         />
@@ -70,9 +77,7 @@ const BaseInput: FC<IBaseInputProps> = (props) => {
               {...rest}
               checked={field.value}
               onChange={(event) => {
-                type === 'checkbox'
-                  ? field.onChange(event.target.checked)
-                  : field.onChange(event.target.value);
+                type === 'checkbox' ? field.onChange(event.target.checked) : field.onChange(event.target.value);
                 if (onChange) {
                   onChange(event);
                 }

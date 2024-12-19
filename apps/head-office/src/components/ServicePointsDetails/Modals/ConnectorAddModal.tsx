@@ -1,11 +1,11 @@
-import { Button } from '@projects/button';
-import { useUpdateConnectorSettingsMutation } from 'apps/head-office/app/api/services/service-point-details/servicePointDetails.service';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useGetConnectorsQuery } from '../../../../app/api/services/devices/devices.service';
-import { BRAND_PREFIX } from '../../../../src/constants/constants';
+import { Button } from '@projects/button';
+import { useUpdateConnectorSettingsMutation } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
 import BaseSelect from '../../Base/BaseSelect';
 import ModalLayout from '../../Modal/Layouts/ModalLayout';
+import { useGetConnectorsQuery } from '../../../../app/api/services/devices/devices.service';
+import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import { IConnectorAddModalProps } from '../types';
 
 const ConnectorAddModal: React.FC<{
@@ -27,13 +27,13 @@ const ConnectorAddModal: React.FC<{
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    debugger;
+
     await updateConnectorSettings({
       body: {
         id: connectorId,
         connectorNr: connectorProperty.connectorNumber,
         stationChargePointID: connectorProperty.chargePointId,
-        stationChargePointModelConnectorID: connectorProperty.connectorId,
+        stationChargePointModelConnectorID: connectorProperty.connectorValue,
       },
     });
   };
@@ -69,7 +69,7 @@ const ConnectorAddModal: React.FC<{
                 name="connectorType"
                 items={setDropdownItems(connectors)}
                 defaultValue={setDropdownItems(connectors && connectors)[0].id}
-                onChange={(e) => setConnectorProperty({ ...connectorProperty, connectorId: Number(e.target.value) })}
+                onChange={(e) => setConnectorProperty({ ...connectorProperty, connectorValue: Number(e.target.value) })}
               ></BaseSelect>
               <Button
                 buttonText="Kaydet"

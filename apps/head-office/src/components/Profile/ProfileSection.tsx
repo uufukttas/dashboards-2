@@ -1,23 +1,19 @@
-import React from 'react';
 import { Card } from '@projects/card';
+import React from 'react';
+import { BRAND_PREFIX } from '../../constants/constants';
 import BackgroundSection from './Sections/BackgroundSection';
 import ColorSection from './Sections/ColorSection';
 import InfoSection from './Sections/InfoSection';
 import LogoSection from './Sections/LogoSection';
 import PasswordSection from './Sections/PasswordSection';
-import { BRAND_PREFIX } from '../../constants/constants';
 
 const ProfileSection: React.FC = () => {
   const profilePagePrefix: string = `${BRAND_PREFIX}-profile`;
   // const userProfileInfo = useSelector((state: RootState) => state.userProfileInfo);
 
   return (
-    <div
-      className={`${profilePagePrefix}-container flex justify-between items-start flex-col w-full`}
-    >
-      <div
-        className={`${profilePagePrefix}-summary-info-card-container w-full mb-4`}
-      >
+    <div className={`${profilePagePrefix}-container flex justify-between items-start flex-col w-full`}>
+      <div className={`${profilePagePrefix}-summary-info-card-container w-full mb-4`}>
         <Card
           BRAND_PREFIX={BRAND_PREFIX}
           containerClassName={`${profilePagePrefix}-summary-card p-8 bg-white shadow-md rounded-md w-full`}
@@ -53,12 +49,9 @@ const ProfileSection: React.FC = () => {
             </Card>
           </div>
         </div>
-        <div className={`${profilePagePrefix}-row-container flex flex-row w-full`}
-        >
-          <div className={`${profilePagePrefix}-info-container flex flex-col w-full p-0 `}
-          >
-            <div className={`${profilePagePrefix}-password-card-container w-full h-1/2 justify-between`}
-            >
+        <div className={`${profilePagePrefix}-row-container flex flex-row w-full`}>
+          <div className={`${profilePagePrefix}-info-container flex flex-col w-full p-0 `}>
+            <div className={`${profilePagePrefix}-password-card-container w-full h-1/2 justify-between`}>
               <Card
                 BRAND_PREFIX={BRAND_PREFIX}
                 containerClassName={`${profilePagePrefix}-password-card p-8 bg-white shadow-md rounded-md`}

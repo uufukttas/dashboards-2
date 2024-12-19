@@ -1,10 +1,10 @@
-import { FaCircleInfo } from "react-icons/fa6";
+import { FaCircleInfo } from 'react-icons/fa6';
 
 interface IAlertProps {
   alertText: string;
   alertType: 'error' | 'info' | 'success' | 'warning';
   id: string;
-};
+}
 
 export function Alert({ alertText, alertType, id }: IAlertProps): JSX.Element {
   const alertTypes = {
@@ -16,19 +16,15 @@ export function Alert({ alertText, alertType, id }: IAlertProps): JSX.Element {
 
   return (
     <div
-      className={`alert-container flex items-center p-4 mb-4 border-t-4 absolute top-5 right-0 z-50 ${
-        alertTypes[alertType]
-      }`}
+      className={`alert-container flex items-center p-4 border-t-4 absolute top-10 right-4 z-50 rounded-md ${alertTypes[alertType]}`}
       id={id}
     >
       <FaCircleInfo />
       <div className={`alert-text-container ms-3 text-sm font-medium px-5`}>
-        <span className={`alert-text`}>
-          {alertText}
-        </span>
+        <span className={`alert-text`}>{alertText}</span>
       </div>
     </div>
   );
-};
+}
 
 export default Alert;

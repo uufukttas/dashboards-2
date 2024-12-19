@@ -1,10 +1,10 @@
-import { Dropdown } from '@projects/dropdown';
-import { Label } from '@projects/label';
 import { FC, useEffect } from 'react';
 import { Controller, FieldValues, useController } from 'react-hook-form';
+import { Dropdown } from '@projects/dropdown';
+import { Label } from '@projects/label';
+import BaseFormError from './BaseFormError';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { cn } from '../../utils/common.utils';
-import BaseFormError from './BaseFormError';
 
 interface IBaseSelectProps {
   form: FieldValues;
@@ -44,12 +44,12 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
     fieldState: { error },
   } = useController({ name, control: form.control, rules });
   const selectClasses = cn(
-    `${prefix}-select w-full flex mt-1 border border-gray-400 h-12 rounded-lg text-text text-sm focus:ring-primary focus:border-primary `,
+    `${prefix}-select w-full flex mt-1 border border-gray-400 rounded-lg text-text text-sm focus:ring-primary focus:border-primary `,
     error && 'border-error',
     className,
     'flex',
   );
-  const containerClasses = cn(' w-full ', containerClassName);
+  const containerClasses = cn(' w-full h-20', containerClassName);
 
   useEffect(() => {
     if (defaultValue) {

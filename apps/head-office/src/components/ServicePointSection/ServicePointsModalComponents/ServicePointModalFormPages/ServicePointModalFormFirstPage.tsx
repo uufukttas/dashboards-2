@@ -85,7 +85,7 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
 
   return (
     <form
-      className={`${BRAND_PREFIX}-modal-form-page-1 ${activePage === 1 ? 'block' : 'hidden'}`}
+      className={`${BRAND_PREFIX}-modal-form-page-1 w-full ${activePage === 1 ? 'block' : 'hidden'}`}
       onSubmit={handleSubmit(handleFormSubmit)}
     >
       {
