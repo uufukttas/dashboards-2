@@ -103,6 +103,8 @@ export const ENDPOINTS = {
   REMOVE_KNOWLEDGE_BASE: '/remove-knowledgebase',
   GET_KNOWLEDGEBASE_LIST: '/get-knowledgebase-list',
 
+
+  KNOWLEDGE_CATEGORY:'/KnowledgeCategory',
   ADD_NEW_KNOWLEDGEBASE_CATEGORY: '/add-new-knowledgecategory',
   EDIT_KNOWLEDGEBASE_CATEGORY: '/edit-knowledgecategory',
   GET_KNOWLEDGEBASE_CATEGORY_BY_ID: '/get-knowledgecategory-by-id',

@@ -9,7 +9,7 @@ const FAQ: React.FC = () => {
   return (
     <div className={`${pagePrefix}-wrapper w-full flex h-screen`}>
       <MainComponent headerName="Sıkça Sorular Sorular">
-        <div className={`${pagePrefix}-container justify-center items-center md:pt-6 flex-wrap`}>
+        <div className={`${pagePrefix}-container  w-full`}>
           <FAQSection />
         </div>
       </MainComponent>
