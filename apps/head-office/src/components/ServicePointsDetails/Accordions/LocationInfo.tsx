@@ -41,7 +41,7 @@ const LocationInfo: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps)
   const fetchServicePointDetails = useCallback(async (): Promise<void> => {
     const [servicePointInfo, servicePointFeatures] = await Promise.all([
       // @ts-ignore
-      getServicePointInformation({ body: { stationId } }).unwrap(),
+      getServicePointInformation({ body: { stationId: stationId } }).unwrap(),
       getStationSelectedValues({
         body: {
           featureTypeModel: [{ featureType: 1 }, { featureType: 2 }, { featureType: 8 }],

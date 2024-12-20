@@ -8,6 +8,8 @@ import { FaCircleInfo } from 'react-icons/fa6';
 import BaseInput from '../../Base/BaseInput';
 import ModalLayout from '../../Modal/Layouts/ModalLayout';
 import { IModalLayoutButtonProps } from '../../Modal/Layouts/ModalLayout.interface';
+import { BRAND_PREFIX } from 'apps/head-office/src/constants/constants';
+import { Button } from '@projects/button';
 
 interface TariffsModalComponentProps {
   tariffData?: Tariff;
@@ -204,6 +206,15 @@ const TariffsModalComponent: React.FC<TariffsModalComponentProps> = ({ tariffDat
             </div>
           </div>
         )}
+        <div className={`${BRAND_PREFIX}-tariffs-management-modal-buttons-container flex flex-row gap-4`}>
+          <Button
+            className={`${BRAND_PREFIX}-tariffs-management-modal-buttons-container-button bg-primary text-white text-sm rounded-lg block p-2.5`}
+            id="addTariff"
+            type="button"
+            buttonText="Tarife Ekle"
+            onClick={() => handleSubmit(handleFormSubmit)()}
+          />
+        </div>
       </form>
     </ModalLayout>
   );
