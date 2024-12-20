@@ -1,63 +1,74 @@
-import { Button } from 'primereact/button';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { IKnowledgeBase } from '../../../app/api/services/knowledge,base/knowledgebase.interface';
+import {
+  useAddNewKnowledgeBaseMutation,
+  useEditKnowledgeBaseMutation,
+  useGetKnowledgeBaseCategoryListQuery,
+} from '../../../app/api/services/knowledge,base/knowledgebase.service';
 import { BRAND_PREFIX } from '../../constants/constants';
-import BaseInput from '../Base/BaseInput';
-import BaseSelect from '../Base/BaseSelect';
+import useModalManager from '../../hooks/useModalManager';
 import ModalLayout from '../Modal/Layouts/ModalLayout';
+import { IModalLayoutButtonProps } from '../Modal/Layouts/ModalLayout.interface';
+import FAQForm from './FAQForm';
 
-const AddFAQModal: React.FC = () => {
+interface IAddFAQModalProps {
+  faqData?: IKnowledgeBase;
+}
+
+const AddFAQModal: React.FC<IAddFAQModalProps> = ({ faqData }) => {
   const sectionPrefix: string = `${BRAND_PREFIX}-add-faq-modal`;
-  const [faqInfo, setFaqInfo] = useState({});
-  const form = useForm();
+  const { data: categories } = useGetKnowledgeBaseCategoryListQuery({});
+  const [addNewKnowledgeBase] = useAddNewKnowledgeBaseMutation();
+  const [editKnowledgeBase] = useEditKnowledgeBaseMutation();
 
-  const handleFormSubmit = () => {
-    console.log('Form submitted', faqInfo);
+  const form = useForm();
+  const { closeModal } = useModalManager();
+
+  const handleFormSubmit = (data) => {
+    const categoryId = categories?.find((category) => category.name === data.category);
+
+    if (faqData) {
+      editKnowledgeBase({ body: { ...data, knowledgeBaseCategoryRID: categoryId?.rid, rid: faqData.rid } })
+        .unwrap()
+        .then(() => {
+          closeModal('addFAQModal');
+        });
+      return;
+    }
+    addNewKnowledgeBase({ body: { ...data, knowledgeBaseCategoryRID: categoryId?.rid } })
+      .unwrap()
+      .then(() => {
+        closeModal('addFAQModal');
+      });
   };
 
+  const buttons: IModalLayoutButtonProps[] = [
+    {
+      key: `${sectionPrefix}-add-button`,
+      label: 'Kaydet',
+      onClick: form.handleSubmit(handleFormSubmit),
+    },
+  ];
+
+  useEffect(() => {
+    if (faqData) {
+      form.setValue('question', faqData.question);
+      form.setValue('answer', faqData.answer);
+      form.setValue('category', faqData.knowledgeBaseCategoryRID);
+    }
+  }, [faqData]);
+
   return (
-    <ModalLayout className="w-full" id={`${sectionPrefix}-modal`} name={'AddFAQModal'} title="Ürün Ekle">
-      <div className={`${sectionPrefix}-form-container w-full`}>
-        <form className={`${sectionPrefix}-form`} onSubmit={form.handleSubmit(handleFormSubmit)}>
-          <BaseInput
-            form={form}
-            id={`${sectionPrefix}-question`}
-            label="Soru"
-            name="question"
-            placeholder="Soru"
-            type="text"
-            onChange={(e) => setFaqInfo({ ...faqInfo, question: e.target.value })}
-          />
-          <BaseInput
-            form={form}
-            id={`${sectionPrefix}-answer`}
-            label="Cevap"
-            name="answer"
-            placeholder="Cevap"
-            type="text"
-            onChange={(e) => setFaqInfo({ ...faqInfo, answer: e.target.value })}
-          />
-          <BaseSelect
-            form={form}
-            id={`${sectionPrefix}-category`}
-            items={[
-              { label: 'Kategori 1', value: '1' },
-              { label: 'Kategori 2', value: '2' },
-              { label: 'Kategori 3', value: '3' },
-            ]}
-            label="Kategori"
-            name="category"
-            onChange={(e) => setFaqInfo({ ...faqInfo, category: e.target.value })}
-          />
-          <Button
-            className={`${BRAND_PREFIX}-button my-8 bg-primary text-primary-font-color rounded-lg text-base font-semibold w-full py-2`}
-            id={`${sectionPrefix}-add-button`}
-            label="Soru-Cevap Ekle"
-            rounded
-            type="submit"
-          />
-        </form>
-      </div>
+    <ModalLayout
+      className="w-full"
+      id={`${sectionPrefix}-modal`}
+      name={'AddFAQModal'}
+      title="Sıkça Sorulan Soru Ekle"
+      buttons={buttons}
+      footerVisible
+    >
+      <FAQForm form={form} categories={categories} faqData={faqData} sectionPrefix={sectionPrefix} />
     </ModalLayout>
   );
 };

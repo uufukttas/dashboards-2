@@ -7,4 +7,10 @@ export const successResultServices = [
   'deleteTariff',
   'editNotification',
   'removeServicePointImage',
+  'addNewKnowledgeBase',
+  'editKnowledgeBase',
+  'removeKnowledgeBase',
+  'addNewKnowledgeBaseCategory',
+  'editKnowledgeBaseCategory',
+  'removeKnowledgeBaseCategory',
 ];

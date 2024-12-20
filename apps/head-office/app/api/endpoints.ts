@@ -95,6 +95,21 @@ export const ENDPOINTS = {
   CANCEL_NOTIFICATION: '/CancelNotification',
   GET_NOTIFICATION_INFO_COLOR_LIST: '/GetNotificationInfoColorList',
   GET_NOTIFICATION_INFO_TYPE_LIST: '/GetNotificationInfoTypeList',
+
+  KNOWLEDGEBASE: '/KnowledgeBase',
+  ADD_KNOWLEDGEBASE: '/add-new-knowledgebase',
+  EDIT_KNOWLEDGEBASE: '/edit-knowledgebase',
+  GET_KNOWLEDGEBASE_BY_ID: '/get-knowledgebase-by-id',
+  REMOVE_KNOWLEDGE_BASE: '/remove-knowledgebase',
+  GET_KNOWLEDGEBASE_LIST: '/get-knowledgebase-list',
+
+
+  KNOWLEDGE_CATEGORY:'/KnowledgeCategory',
+  ADD_NEW_KNOWLEDGEBASE_CATEGORY: '/add-new-knowledgecategory',
+  EDIT_KNOWLEDGEBASE_CATEGORY: '/edit-knowledgecategory',
+  GET_KNOWLEDGEBASE_CATEGORY_BY_ID: '/get-knowledgecategory-by-id',
+  REMOVE_KNOWLEDGEBASE_CATEGORY: '/remove-knowledgecategory',
+  GET_KNOWLEDGEBASE_CATEGORY_LIST: '/get-knowledgecategory-list',
   GET_AGREEMENT_DEFINITION_LIST: '/get-agreement-definition-list',
   ADD_NEW_AGREEMENT: '/add-new-agreement',
   GET_AGREEMENT_DEFINITION_BY_ID: '/get-agreement-definition',

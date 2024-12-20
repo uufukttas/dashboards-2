@@ -1,1 +1,1 @@
-export const tagTypes = ['notifications'];
+export const tagTypes = ['notifications', 'knowledgebase', 'knowledgebase_category'];
