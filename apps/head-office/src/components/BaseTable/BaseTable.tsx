@@ -158,7 +158,7 @@ export const BaseTable: FC<IBaseTableProps> = (props) => {
   return (
     <div className="w-full h-full">
       <DataTable
-        className={className}
+        className={`${className} w-full`}
         columnResizeMode={columnResizeMode}
         currentPageReportTemplate={currentPageReportTemplate}
         editingRows={editingRows}
@@ -168,6 +168,7 @@ export const BaseTable: FC<IBaseTableProps> = (props) => {
         id={id}
         paginator={hasPaginator}
         paginatorTemplate={paginatorTemplate}
+        // @ts-ignore
         ref={dataTableRef}
         removableSort={isRemovableSort}
         reorderableColumns={hasReorderableColumns}

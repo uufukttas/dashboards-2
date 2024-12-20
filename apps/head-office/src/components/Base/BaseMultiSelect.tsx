@@ -19,6 +19,7 @@ interface IBaseMultiSelectProps {
   placeholder?: string;
   prefix?: string;
   rules?: Record<string, unknown>;
+  value?: any;
   onChange?: (value: any) => void;
 };
 
@@ -37,6 +38,7 @@ const BaseMultiSelect: FC<IBaseMultiSelectProps> = (props) => {
     optionLabel,
     optionValue,
     onChange,
+    value,
     ...rest
   } = props;
 

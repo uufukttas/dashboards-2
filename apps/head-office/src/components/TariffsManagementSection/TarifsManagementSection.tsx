@@ -156,16 +156,18 @@ const TarifssManagementSection: React.FC = () => {
     return data;
   };
 
-  const actionsButtonsContainer = (rowData: Tariff): JSX.Element => {
+  const createActionsButtonsContainer = (rowData: Tariff): JSX.Element => {
     return (
-      <div className={`${BRAND_PREFIX}-data-table-actions-button-container flex justify-start items-center`}>
-        <a
-          className="font-medium text-red-600 cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
-          data-user-management-id={rowData['id']}
-          onClick={() => handleDeleteTariff(rowData['id'])}
-        >
-          <FaTrashCan />
-        </a>
+      <div className={`${tarifssManagementSectionPrefix}-table-actions-button-container flex justify-start items-center`}>
+        <div className={`${tarifssManagementSectionPrefix}-table-actions-delete-button-container flex justify-end items-start w-1/3`}>
+          <Button
+            className={`${tarifssManagementSectionPrefix}-table-actions-delete-button font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out`}
+            data-user-management-id={rowData['id']}
+            onClick={() => handleDeleteTariff(rowData['id'])}
+          >
+            <FaTrashCan />
+          </Button>
+        </div>
       </div>
     );
   };
@@ -185,7 +187,8 @@ const TarifssManagementSection: React.FC = () => {
         <BaseTable
           columns={visibleColumns.map((column) => {
             if (column.id === 'actions') {
-              column.bodyTemplate = actionsButtonsContainer as unknown as React.ReactElement;
+              // @ts-ignore
+              column.bodyTemplate = createActionsButtonsContainer;
             }
 
             return column;

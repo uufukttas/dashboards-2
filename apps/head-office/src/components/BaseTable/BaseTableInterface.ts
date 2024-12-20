@@ -1,4 +1,5 @@
 import { DataTableFilterMeta } from "primereact/datatable";
+import { IRowDataProps, IServicePointData } from "../ServicePointSection/types";
 export interface IColumnProps {
   filterApplyCallback?: () => void;
   filterClearCallback?: () => void;
@@ -6,7 +7,7 @@ export interface IColumnProps {
 export interface IBaseTableColumn {
   accessor: string;
   align?: 'left' | 'right' | 'center';
-  bodyTemplate?: JSX.Element;
+  bodyTemplate?: (rowData: IRowDataProps) => JSX.Element;
   className?: string;
   field: string;
   header: string,
@@ -26,7 +27,7 @@ export interface IBaseTableProps<T = undefined> {
   columns: IBaseTableColumn[];
   columnResizeMode?: 'expand' | 'fit';
   currentPageReportTemplate?: string;
-  data: Record<string, unknown>[];
+  data: Record<string, unknown>[] | IServicePointData[];
   defaultRowCount?: number;
   expandable?: boolean;
   exportableExcel?: boolean;

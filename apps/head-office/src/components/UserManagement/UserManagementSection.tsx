@@ -228,6 +228,7 @@ const UserManagementSection: React.FC = () => {
           className="w-full shadow"
           columns={visibleColumns.map((column) => {
             if (column.id === 'actions') {
+              // @ts-ignore
               column.bodyTemplate = actionsButtonsContainer as unknown as React.ReactElement;
             }
 

@@ -119,7 +119,7 @@ const servicePointTableHeadData: IBaseTableColumn[] = [
   },
   {
     accessor: 'actions',
-    align: 'right',
+    align: 'center',
     field: 'İşlemler',
     header: 'İşlemler',
     id: 'actions',
