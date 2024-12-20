@@ -27,7 +27,7 @@ export interface ServicePoint {
   resslerId?: number;
   resellerName?: string;
   lat?: number;
-  lng?: number;
+  lon?: number;
   addressDetail?: string;
 }
 
@@ -37,12 +37,13 @@ export interface IDeleteServicePointRequestBody {
 
 export interface IAddStationRequestBody {
   name: string;
-  address?: string;
-  cityId?: number;
-  districtId?: number;
   resellerCompanyId: number;
   companyId: number;
   isActive: boolean;
+}
+
+export interface IAddStationResponse {
+  id: number;
 }
 
 export interface IAddStationInfoRequestBody {
@@ -58,14 +59,20 @@ export interface IAddStationInfoRequestBody {
 }
 
 export interface IUpdateStationRequestBody {
-  id: number;
-  name: string;
-  address: string;
-  cityId: number;
-  districtId: number;
-  resellerCompanyId: number;
   companyId: number;
+  id: number;
   isActive: boolean;
+  name: string;
+  resellerCompanyId: number;
+}
+
+export interface IUpdateStationResponse {
+  "success": true,
+  "pagination": null,
+  message: string;
+  data: null;
+  error: null;
+  count: null;
 }
 
 export interface IUpdateStationInfoRequestBody {
@@ -117,6 +124,6 @@ export interface StationFeature {
   isDeleted: boolean;
   rid: number;
   stationFeatureType: StationFeatureType;
-  stationFeatureValue: number;
+  stationFeatureValue: string;
   stationId: number;
 }

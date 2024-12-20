@@ -4,7 +4,7 @@ export interface IConnectorModel {
 }
 interface IConnectorPropertyProps {
   chargePointId: number;
-  chargePointModelId: number;
+  modelId: number;
   connectorNumber: number;
   connectorId: number;
 }
@@ -176,10 +176,10 @@ export interface IFeatureValueProps {
 }
 export interface IModalConfigProps {
   condition:
-    | boolean
-    | {
-        isVisible: boolean;
-      };
+  | boolean
+  | {
+    isVisible: boolean;
+  };
   headerTitle: string;
   modalId: string;
   content: React.ReactNode;
@@ -416,7 +416,7 @@ export interface IStationImagesModalProps {
   clickedImageId: number;
   stationId: number;
 }
-export interface ISlugProps { 
+export interface ISlugProps {
   slug: string;
 }
 
@@ -425,4 +425,10 @@ export interface AccordionSectionProps {
   stationId: number;
   activeTabIndex: number;
   index: number
+}
+
+export interface IChargePointFeatureProps {
+  id: number;
+  stationChargePointFeatureType: number;
+  stationChargePointFeatureTypeValue: string;
 }

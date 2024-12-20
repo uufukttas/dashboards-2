@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '@projects/button';
 import { useUpdateConnectorSettingsMutation } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
@@ -6,14 +6,9 @@ import BaseSelect from '../../Base/BaseSelect';
 import ModalLayout from '../../Modal/Layouts/ModalLayout';
 import { useGetConnectorsQuery } from '../../../../app/api/services/devices/devices.service';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
-import { IConnectorAddModalProps } from '../types';
+import { IConnectorAddModalProps, IConnectorPropertyProps } from '../types';
 
-const ConnectorAddModal: React.FC<{
-  chargePointId: number;
-  connectorId: number;
-  connectorNumber: number;
-  modelId: number;
-}> = ({ chargePointId, connectorId, connectorNumber, modelId }) => {
+const ConnectorAddModal: React.FC<IConnectorPropertyProps> = ({ chargePointId, connectorId, connectorNumber, modelId }) => {
   const sectionPrefix = 'connector';
   const { data: connectors } = useGetConnectorsQuery(modelId);
   const [connectorProperty, setConnectorProperty] = useState({
@@ -51,6 +46,12 @@ const ConnectorAddModal: React.FC<{
     return items || [];
   };
 
+  useEffect(() => {
+    if (connectorProperty.connectorValue === 0) {
+      setConnectorProperty({ ...connectorProperty, connectorValue: connectors?.[0]?.id || 0 });
+    }
+  }, [connectors]);
+
   return (
     connectors && (
       <ModalLayout
@@ -68,7 +69,7 @@ const ConnectorAddModal: React.FC<{
                 label="Konnektör Tipi"
                 name="connectorType"
                 items={setDropdownItems(connectors)}
-                defaultValue={setDropdownItems(connectors && connectors)[0].id}
+                defaultValue={connectors[0]?.id}
                 onChange={(e) => setConnectorProperty({ ...connectorProperty, connectorValue: Number(e.target.value) })}
               ></BaseSelect>
               <Button

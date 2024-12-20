@@ -66,3 +66,26 @@ export interface IConnectorRequestProps {
   stationChargePointID: connectorProperty.chargePointId;
   stationChargePointModelConnectorID: connectorValue;
 }
+
+export interface IChargeUnitRequestProps {
+  chargePoint: {
+    code: string;
+    ExternalOCPPAdress: null;
+    InternalOCPPAdress: null,
+    isFreePoint: boolean;
+    isOnlyDefinedUserCards: boolean
+    ocppVersion: number
+    ownerType: number;
+    sendRoaming: boolean
+    serialNumber: string;
+    stationId: number;
+    stationChargePointModelID: number;
+  }
+  chargePointFeatures: [
+    {
+      stationChargePointFeatureType: number,
+      stationChargePointFeatureTypeValue: string
+    },
+  ],
+  connectorCount: number;
+};

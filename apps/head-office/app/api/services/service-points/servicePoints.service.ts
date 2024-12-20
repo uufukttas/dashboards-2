@@ -6,11 +6,13 @@ import {
   CompanyResponse,
   IAddStationInfoRequestBody,
   IAddStationRequestBody,
+  IAddStationResponse,
   IDeleteChargePointRequestBody,
   IGetAllServicePointsRequestBody,
   IGetServicePointData,
   IUpdateStationInfoRequestBody,
   IUpdateStationRequestBody,
+  IUpdateStationResponse,
   ServicePoint,
   StationFeature,
 } from './servicePoints.interface';
@@ -33,14 +35,14 @@ const servicePointService = baseApi.injectEndpoints({
         },
       }),
     }),
-    addStation: build.mutation<void, Post<IAddStationRequestBody>>({
+    addStation: build.mutation<IAddStationResponse[], Post<IAddStationRequestBody>>({
       query: ({ body }) => ({
         url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.ADD_STATION}`,
         method: ApiServiceMethods.POST,
         body,
       }),
     }),
-    updateStation: build.mutation<void, Post<IUpdateStationRequestBody>>({
+    updateStation: build.mutation<IUpdateStationResponse, Post<IUpdateStationRequestBody>>({
       query: ({ body }) => ({
         url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.UPDATE_STATION}`,
         method: ApiServiceMethods.POST,

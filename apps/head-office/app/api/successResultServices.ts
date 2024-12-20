@@ -1,6 +1,5 @@
 export const successResultServices = [
   'addServicePointImage',
-  'addStation',
   'addNotification',
   'cancelNotification',
   'createTariff',
