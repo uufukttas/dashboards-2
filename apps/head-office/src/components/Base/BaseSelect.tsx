@@ -47,15 +47,19 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
   const {
     fieldState: { error },
   } = useController({ name, control: form.control, rules });
+
   const selectClasses = cn(
     `${prefix}-select w-full flex mt-1 border border-gray-400 rounded-lg text-text text-sm focus:ring-primary focus:border-primary `,
     error && 'border-error',
     className,
     'flex',
   );
+
   const containerClasses = cn(' w-full h-20', containerClassName);
 
   useEffect(() => {
+    console.log(defaultValue);
+
     if (defaultValue) {
       form.setValue(name, defaultValue);
     }
@@ -89,6 +93,8 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
             multiple={multiple}
             name={name}
             onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
+              console.log('event', event);
+
               field.onChange(event);
               onChange && onChange(event);
             }}

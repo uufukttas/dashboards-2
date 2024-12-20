@@ -2,6 +2,7 @@
 
 import Head from 'next/head';
 import { PrimeReactProvider } from 'primereact/api';
+import '../../app/global.css';
 import UserAggrementsPageWrapper from '../../src/components/UserAggrementsPageWrapper/UserAggrementsPageWrapper';
 import '../../src/styles/style.css';
 import ProviderComponent from './ProviderComponent';

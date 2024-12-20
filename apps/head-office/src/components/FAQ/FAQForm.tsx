@@ -1,10 +1,10 @@
-import {
-  IKnowledgeBase,
-  IKnowledgeBaseCategory,
-} from 'apps/head-office/app/api/services/knowledge,base/knowledgebase.interface';
 import { Button } from 'primereact/button';
 import { FieldValues } from 'react-hook-form';
 import { FaPlus } from 'react-icons/fa';
+import {
+  IKnowledgeBase,
+  IKnowledgeBaseCategory,
+} from '../../../app/api/services/knowledge,base/knowledgebase.interface';
 import useModalManager from '../../hooks/useModalManager';
 import BaseInput from '../Base/BaseInput';
 import BaseSelect from '../Base/BaseSelect';
@@ -49,12 +49,10 @@ const FAQForm = ({ form, categories, faqData, sectionPrefix = 'faq' }: IFAQFormP
       <BaseSelect
         form={form}
         id={`${sectionPrefix}-category`}
-        items={categories?.map((category) => ({ name: category.name, value: category.rid })) || []}
+        items={categories || []}
         label={'Kategori'}
         name={'category'}
         rules={{ required: 'Kategori boş bırakılamaz' }}
-        defaultValue={faqData?.knowledgeBaseCategoryRID}
-        value={faqData?.knowledgeBaseCategoryRID}
         labelPrefix={
           <Button
             onClick={handleAddCategory}

@@ -1,6 +1,6 @@
-import { IKnowledgeBase } from 'apps/head-office/app/api/services/knowledge,base/knowledgebase.interface';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { IKnowledgeBase } from '../../../app/api/services/knowledge,base/knowledgebase.interface';
 import {
   useAddNewKnowledgeBaseMutation,
   useEditKnowledgeBaseMutation,
@@ -10,7 +10,6 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import useModalManager from '../../hooks/useModalManager';
 import ModalLayout from '../Modal/Layouts/ModalLayout';
 import { IModalLayoutButtonProps } from '../Modal/Layouts/ModalLayout.interface';
-import AddFAQCategoryModal from './AddFAQCategoryModal';
 import FAQForm from './FAQForm';
 
 interface IAddFAQModalProps {
@@ -24,9 +23,9 @@ const AddFAQModal: React.FC<IAddFAQModalProps> = ({ faqData }) => {
   const [editKnowledgeBase] = useEditKnowledgeBaseMutation();
 
   const form = useForm();
-  const { openModal, closeModal } = useModalManager();
+  const { closeModal } = useModalManager();
 
-  const handleFormSubmit = (data: any) => {
+  const handleFormSubmit = (data) => {
     const categoryId = categories?.find((category) => category.name === data.category);
 
     if (faqData) {
@@ -51,10 +50,6 @@ const AddFAQModal: React.FC<IAddFAQModalProps> = ({ faqData }) => {
       onClick: form.handleSubmit(handleFormSubmit),
     },
   ];
-
-  const handleAddCategory = () => {
-    openModal('addFAQCategoryModal', <AddFAQCategoryModal />);
-  };
 
   useEffect(() => {
     if (faqData) {

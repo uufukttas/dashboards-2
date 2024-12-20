@@ -36,7 +36,7 @@ const AddFAQCategoryModal = () => {
       className="w-full"
       id={'addFAQCategoryModal'}
       key={'addFAQCategoryModal'}
-      name={'AddFAQCategoryModal'}
+      name={'addFAQCategoryModal'}
       title="Kategori Ekle"
       buttons={buttons}
       footerVisible
@@ -58,6 +58,9 @@ const AddFAQCategoryModal = () => {
           name="description"
           placeholder="Kategori Açıklaması"
           type="text"
+          rules={{
+            required: 'Kategori açıklaması boş bırakılamaz',
+          }}
         />
       </div>
     </ModalLayout>

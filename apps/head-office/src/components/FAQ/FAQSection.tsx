@@ -1,7 +1,7 @@
-import { IKnowledgeBase } from 'apps/head-office/app/api/services/knowledge,base/knowledgebase.interface';
 import { Button } from 'primereact/button';
 import React from 'react';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
+import { IKnowledgeBase } from '../../../app/api/services/knowledge,base/knowledgebase.interface';
 import {
   useGetKnowledgeBaseCategoryListQuery,
   useGetKnowledgeBaseListQuery,
@@ -11,13 +11,14 @@ import { BRAND_PREFIX } from '../../constants/constants';
 import useModalManager from '../../hooks/useModalManager';
 import { BaseTable } from '../BaseTable/BaseTable';
 import ConfirmationModal from '../Modals/ConfirmationModal';
+import AddFAQCategoryModal from './AddFAQCategoryModal';
 import AddFAQModal from './AddFAQModal';
 import { FAQS_TABLE_COLUMNS } from './FAQ.constant';
 import FAQDetailModal from './FAQDetailModal';
 
 const FAQSection: React.FC = () => {
   const sectionPrefix: string = `${BRAND_PREFIX}-faq`;
-  const { openModal, closeModal } = useModalManager();
+  const { openModal } = useModalManager();
   const { data: faqs, isLoading } = useGetKnowledgeBaseListQuery({});
   const { data: categories } = useGetKnowledgeBaseCategoryListQuery({});
   const [removeKnowledgeBase] = useRemoveKnowledgeBaseMutation();
@@ -67,11 +68,15 @@ const FAQSection: React.FC = () => {
     );
   };
 
+  const handleAddFAQCategory = () => {
+    openModal('addFAQCategoryModal', <AddFAQCategoryModal />);
+  };
+
   const tableHeader = (): React.JSX.Element => {
     return (
-      <div className="">
+      <div className="flex justify-end items-center gap-2 ">
         <Button
-          className={`${BRAND_PREFIX}-table-header-add-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
+          className={`${BRAND_PREFIX}-table-header-add-button text-white text-sm flex justify-center items-center bg-primary text-primary-font-color rounded hover:bg-primary-lighter p-2`}
           icon="pi pi-plus text-white"
           id={`${BRAND_PREFIX}-table-header-add-button`}
           rounded
@@ -79,6 +84,16 @@ const FAQSection: React.FC = () => {
           onClick={() => {
             openModal('addFAQModal', <AddFAQModal />);
           }}
+          label="Sıkça Sorulan Soru Ekle"
+        />
+        <Button
+          className={`${BRAND_PREFIX}-table-header-add-button text-white text-sm flex justify-center items-center bg-primary text-primary-font-color rounded hover:bg-primary-lighter p-2`}
+          icon="pi pi-plus text-white"
+          id={`${BRAND_PREFIX}-table-header-add-button`}
+          rounded
+          type="button"
+          onClick={handleAddFAQCategory}
+          label="Sıkça Sorulan Soru Kategorisi Ekle"
         />
       </div>
     );

@@ -1,10 +1,11 @@
-import { IKnowledgeBase } from 'apps/head-office/app/api/services/knowledge,base/knowledgebase.interface';
-import {
-  useGetKnowledgeBaseCategoryListQuery,
-  useRemoveKnowledgeBaseMutation,
-} from 'apps/head-office/app/api/services/knowledge,base/knowledgebase.service';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { IKnowledgeBase } from '../../../../../apps/head-office/app/api/services/knowledge,base/knowledgebase.interface';
+import {
+  useEditKnowledgeBaseMutation,
+  useGetKnowledgeBaseCategoryListQuery,
+  useRemoveKnowledgeBaseMutation,
+} from '../../../../../apps/head-office/app/api/services/knowledge,base/knowledgebase.service';
 import useModalManager from '../../hooks/useModalManager';
 import ModalLayout from '../Modal/Layouts/ModalLayout';
 import { IModalLayoutButtonProps } from '../Modal/Layouts/ModalLayout.interface';
@@ -20,6 +21,7 @@ const FAQDetailModal = ({ faq }: IFAQDetailModalProps) => {
   const form = useForm();
   const { data: categories } = useGetKnowledgeBaseCategoryListQuery({});
   const [removeKnowledgeBase] = useRemoveKnowledgeBaseMutation();
+  const [editKnowledgeBase] = useEditKnowledgeBaseMutation();
 
   const handleDelete = () => {
     openModal(
@@ -42,6 +44,21 @@ const FAQDetailModal = ({ faq }: IFAQDetailModalProps) => {
     );
   };
 
+  const handleEdit = () => {
+    editKnowledgeBase({
+      body: {
+        rid: faq.rid,
+        question: form.getValues('question'),
+        answer: form.getValues('answer'),
+        knowledgeBaseCategoryRID: form.getValues('category') || faq.knowledgeBaseCategoryRID,
+      },
+    })
+      .unwrap()
+      .then(() => {
+        closeModal('faqDetailModal');
+      });
+  };
+
   const buttons: IModalLayoutButtonProps[] = [
     {
       key: 'delete',
@@ -52,15 +69,17 @@ const FAQDetailModal = ({ faq }: IFAQDetailModalProps) => {
     {
       key: 'edit',
       label: 'Düzenle',
-      onClick: () => {
-        closeModal('faqDetailModal');
-      },
+      onClick: handleEdit,
       buttonClassName: 'bg-primary text-white ml-4',
     },
   ];
 
   useEffect(() => {
-    form.reset(faq);
+    form.reset({
+      category: faq.knowledgeBaseCategoryRID,
+      question: faq.question,
+      answer: faq.answer,
+    });
   }, [faq]);
 
   return (
