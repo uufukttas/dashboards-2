@@ -1,5 +1,8 @@
+import React, { useEffect } from 'react';
 import { Button } from '@projects/button';
-import React, { useState } from 'react';
+import BaseInput from '../../../Base/BaseInput';
+import BaseSelect from '../../../Base/BaseSelect';
+import { BRAND_PREFIX } from '../../../../constants/constants';
 import {
   useAddStationMutation,
   useGetCompaniesQuery,
@@ -8,93 +11,85 @@ import {
 } from '../../../../../app/api/services/service-points/servicePoints.service';
 import { EVENTS_EMMITER_CONSTANTS } from '../../../../../src/constants/event.constants';
 import EventManager from '../../../../../src/managers/Event.manager';
-import { BRAND_PREFIX } from '../../../../constants/constants';
-import BaseInput from '../../../Base/BaseInput';
-import BaseSelect from '../../../Base/BaseSelect';
-import { IModalFirstPageInputsProps } from '../../types';
+import { IServicePointModalPageProps } from '../../types';
 
-const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
-  form,
+const ServicePointModalFormFirstPage: React.FC<IServicePointModalPageProps> = ({
   activePage,
+  form,
+  modalName,
   setActivePage,
-}: IModalFirstPageInputsProps) => {
-  const hasStationId: boolean = form.watch(`id`) > 0;
-  const sectionPrefix: string = 'service-point';
+}: IServicePointModalPageProps) => {
+  const hasServicePointId: boolean = form.watch(`id`) > 0;
+  const isDisabled: boolean = modalName === 'addServicePointModal' && hasServicePointId;
+  const sectionPrefix: string = `${BRAND_PREFIX}-service-point-modal-page-1`;
   const { handleSubmit } = form;
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  const hasServicePointDataId: boolean = form.watch(`id`) > 0;
-
+  const [addStation] = useAddStationMutation();
   const { data: resellers } = useGetResellersQuery();
   const { data: companies } = useGetCompaniesQuery();
-
-  const [addStation] = useAddStationMutation();
   const [updateStation] = useUpdateStationMutation();
 
-  const handleDropdownChange = (name: string, event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleDropdownChange = (name: string, event: React.ChangeEvent<HTMLSelectElement>): void => {
     form.setValue(name, Number(event.target.value));
   };
+  const handleFormSubmit = (): void => {
+    handleServicePointOperation();
+  };
+  const handleServicePointOperation = async (): Promise<void> => {
+    if (hasServicePointId) {
+      updateStation({
+        body: {
+          companyId: form.watch(`company-id`),
+          id: form.watch(`id`),
+          isActive: true,
+          name: form.watch('name'),
+          resellerCompanyId: form.watch(`reseller-company-id`),
+        },
+      }).unwrap();
 
-  const handleFormSubmit = () => {
-    setIsDisabled(true);
-
-    if (form.watch(`id`) > 0) {
+      EventManager.emit(EVENTS_EMMITER_CONSTANTS.FIRE_REFECTCH_STATIONS, {});
       setActivePage(activePage + 1);
 
       return;
     }
 
-    handleServicePointOperation();
-  };
-
-  const handleServicePointOperation = async () => {
-    if (hasServicePointDataId) {
-      updateStation({
-        body: {
-          id: form.watch(`id`),
-          address: form.watch(`address`),
-          cityId: form.watch(`cityId`),
-          districtId: form.watch(`districtId`),
-          resellerCompanyId: form.watch(`resslerCompanyId`),
-          companyId: form.watch(`company`),
-          isActive: true,
-          name: form.watch('name'),
-        },
-      }).unwrap();
-      return;
-    }
-
     addStation({
       body: {
-        name: form.watch(`name`),
-        resellerCompanyId: form.watch(`resslerCompanyId`),
-        companyId: form.watch(`company`),
+        companyId: form.watch(`company-id`),
         isActive: true,
-        address: form.watch(`address`),
-        cityId: form.watch(`cityId`),
-        districtId: form.watch(`districtId`),
+        name: form.watch(`name`),
+        resellerCompanyId: form.watch(`reseller-company-id`),
       },
     })
       .unwrap()
-      .then((response) => {
-        form.setValue(`id`, (response?.[0] as unknown as { id: number })?.id || 0);
-      });
+      .then((response) => form.setValue(`id`, (response[0].id || 0)));
 
     EventManager.emit(EVENTS_EMMITER_CONSTANTS.FIRE_REFECTCH_STATIONS, {});
     setActivePage(activePage + 1);
+
+    return;
   };
+
+  useEffect(() => {
+    if (hasServicePointId) {
+      form.setValue(`name`, form.watch(`name`));
+      form.setValue(`reseller-company-id`, form.watch(`reseller-company-id`));
+      form.setValue(`company-id`, form.watch(`company-id`));
+    }
+  }, [form.watch(`id`)]);
 
   return (
     <form
-      className={`${BRAND_PREFIX}-modal-form-page-1 w-full ${activePage === 1 ? 'block' : 'hidden'}`}
+      className={`${sectionPrefix} w-full ${activePage === 1 ? 'block' : 'hidden'}`}
       onSubmit={handleSubmit(handleFormSubmit)}
     >
-      {
-        // @ts-ignore
+      <div className={`${sectionPrefix}-name-input-container`}>
         <BaseInput
+          disabled={isDisabled}
           form={form}
-          name={`name`}
           id={`name`}
+          inputClassName={`${isDisabled ? 'cursor-not-allowed' : ''}`}
           label="İstasyon İsmi"
+          name={`name`}
           rules={{
             required: 'İstasyon İsmi zorunludur',
             minLength: {
@@ -102,30 +97,34 @@ const ServicePointModalFormFirstPage: React.FC<IModalFirstPageInputsProps> = ({
               message: 'İstasyon İsmi en az 3 karakter olmalıdır',
             },
           }}
-          disabled={hasStationId}
         />
-      }
-      <BaseSelect
-        form={form}
-        items={companies || []}
-        name={`company`}
-        label="Şirket"
-        onChange={(event: React.ChangeEvent<HTMLSelectElement>) => handleDropdownChange(`company`, event)}
-        optionClassName="hover:bg-primary-lighter hover:text-black"
-        disabled={hasStationId}
-        rules={{
-          required: 'Şirket seçimi zorunludur',
-        }}
-      />
-      <BaseSelect
-        form={form}
-        items={resellers || []}
-        name={`resslerCompanyId`}
-        label="Bayi"
-        onChange={(event: React.ChangeEvent<HTMLSelectElement>) => handleDropdownChange(`resslerCompanyId`, event)}
-        optionClassName="hover:bg-primary-lighter hover:text-black"
-        disabled={hasStationId}
-      />
+      </div>
+      <div className={`${sectionPrefix}-company-select-container`}>
+        <BaseSelect
+          disabled={isDisabled}
+          form={form}
+          items={companies || []}
+          label="Şirket"
+          name={`company-id`}
+          optionClassName="hover:bg-primary-lighter hover:text-black"
+          rules={{ required: 'Şirket seçimi zorunludur' }}
+          value={form.watch(`company-id`)}
+          onChange={(event: React.ChangeEvent<HTMLSelectElement>) => handleDropdownChange(`company`, event)}
+        />
+      </div>
+      <div className={`${sectionPrefix}-reseller-select-container`}>
+        <BaseSelect
+          disabled={isDisabled}
+          form={form}
+          items={resellers || []}
+          label="Bayi"
+          name={`reseller-company-id`}
+          optionClassName="hover:bg-primary-lighter hover:text-black"
+          rules={{ required: 'Bayi seçimi zorunludur' }}
+          value={form.watch(`reseller-company-id`)}
+          onChange={(event: React.ChangeEvent<HTMLSelectElement>) => handleDropdownChange(`reseller-company-id`, event)}
+        />
+      </div>
       <div className={`${sectionPrefix}-buttons-container flex flex-row-reverse`}>
         <Button
           buttonText="İleri"

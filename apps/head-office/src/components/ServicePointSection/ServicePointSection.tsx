@@ -1,95 +1,77 @@
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from 'primereact/button';
 import { MultiSelect, MultiSelectChangeEvent } from 'primereact/multiselect';
-import 'primereact/resources/primereact.css';
-import 'primereact/resources/themes/lara-light-indigo/theme.css';
-import { Tooltip } from 'primereact/tooltip';
-import React, { useEffect, useState } from 'react';
 import { FaCircleInfo, FaPen, FaTrashCan } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
+import { servicePointTableDefaultFilters, servicePointTableHeadData } from './constants';
+import ServicePointModalForm from './ServicePointsModalComponents/ServicePointModal';
+import { BaseTable } from '../BaseTable/BaseTable';
+import ConfirmationModal from '../Modals/ConfirmationModal';
+import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
+import { EVENTS_EMMITER_CONSTANTS } from '../../constants/event.constants';
+import useModalManager from '../../hooks/useModalManager';
+import EventManager from '../../managers/Event.manager';
 import {
   useDeleteServicePointMutation,
   useGetServicePointsMutation,
 } from '../../../app/api/services/service-points/servicePoints.service';
 import { RootState } from '../../../app/redux/store';
-import { BRAND_PREFIX, CITIES, DISTRICTS } from '../../constants/constants';
-import { EVENTS_EMMITER_CONSTANTS } from '../../constants/event.constants';
-import useModalManager from '../../hooks/useModalManager';
-import EventManager from '../../managers/Event.manager';
-import { BaseTable } from '../BaseTable/BaseTable';
-import ConfirmationModal from '../Modals/ConfirmationModal';
-import { servicePointTableDefaultFilters, servicePointTableHeadData } from './constants';
+import type { IBaseTableColumn, IPayloadProps, IRowDataProps, IServicePointData } from './types';
 import './ServicePointSection.css';
-import ServicePointModalForm from './ServicePointsModalComponents/ServicePointModal';
-import type { IPayloadProps, IRowDataProps } from './types';
+import 'primereact/resources/primereact.css';
+import 'primereact/resources/themes/lara-light-indigo/theme.css';
 
 const ServicePointSection: React.FC = () => {
-  const pagePrefix: string = `${BRAND_PREFIX}-service-point`;
-  const router = useRouter();
-
-  const { openModal } = useModalManager();
-
-  const [getServicePoints, { data: servicePoints }] = useGetServicePointsMutation();
+  const pagePrefix: string = `${BRAND_PREFIX}-service-points`;
   const [deleteServicePoint] = useDeleteServicePointMutation();
-
+  const [getServicePoints, { data: servicePoints }] = useGetServicePointsMutation();
+  const { openModal } = useModalManager();
+  const router = useRouter();
   const searchProperties = useSelector((state: RootState) => state.searchedText);
   const [visibleColumns, setVisibleColumns] = useState(servicePointTableHeadData);
-  const [filters, setFilters] = useState(servicePointTableDefaultFilters);
 
-  const handleAddServicePoint = (): void => {
-    openModal('add-service-point', <ServicePointModalForm />);
-  };
-
-  const handleUpdateServicePoint = (id: number): void => {
-    openModal('add-service-point', <ServicePointModalForm id={id} />);
-  };
-
-  const actionsButtonsContainer = (rowData: IRowDataProps): JSX.Element => {
+  const createActionsButtonsContainer = (rowData: IRowDataProps): JSX.Element => {
     return (
-      <div className={`${pagePrefix}-data-table-actions-button-container flex justify-end items-start`}>
-        <a
-          className="font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
-          data-service-point-id={rowData['id']}
-          onClick={() => handleUpdateServicePoint(rowData['id'])}
-        >
-          <FaPen className="text-primary" />
-        </a>
-        <a
-          className="font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
-          data-service-point-id={rowData['id']}
-          onClick={() => deleteServicePointInfo(rowData['id'])}
-        >
-          <FaTrashCan className="text-red-500" />
-        </a>
-        {rowData?.address && rowData?.districtId && rowData?.cityId && rowData?.phone && (
-          <button
-            className="font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out"
-            onClick={() => {
-              router.push(`/service-points/service-point/${rowData.id}`);
-            }}
+      <div className={`${pagePrefix}-table-actions-buttons-container flex items-start`}>
+        <div className={`${pagePrefix}-table-actions-update-button-container flex justify-end items-start w-1/3`}>
+          <Button
+            className={`${pagePrefix}-table-actions-update-button font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out`}
+            data-service-point-id={rowData['id']}
+            onClick={() => handleUpdateServicePoint(rowData['id'])}
           >
-            <FaCircleInfo className="text-primary" />
-          </button>
+            <FaPen className="text-primary" />
+          </Button>
+        </div>
+        <div className={`${pagePrefix}-table-actions-delete-button-container flex justify-end items-start w-1/3`}>
+          <Button
+            className={`${pagePrefix}-table-actions-delete-button font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out`}
+            data-service-point-id={rowData['id']}
+            onClick={() => deleteServicePointInfo(rowData['id'])}
+          >
+            <FaTrashCan className="text-red-500" />
+          </Button>
+        </div>
+        {rowData?.address && rowData?.districtId && rowData?.cityId && rowData?.phone && (
+          <div className={`${pagePrefix}-table-actions-info-button-container flex justify-end items-start w-1/3`}>
+            <Button
+              className={`${pagePrefix}-table-actions-info-button font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out`}
+              onClick={() => { router.push(`/service-points/service-point/${rowData.id}`); }}
+            >
+              <FaCircleInfo className="text-primary" />
+            </Button>
+          </div>
         )}
       </div>
     );
   };
-
-  const prepareTableData = () => {
-    const newTableData = servicePoints?.map((data) => {
-      return {
-        ...data,
-        city: CITIES[data.cityId?.toString() as keyof typeof CITIES],
-        district: DISTRICTS[(data.districtId?.toString() as keyof typeof DISTRICTS) || '0'],
-      };
-    });
-
-    return newTableData;
-  };
-
   const createGetServicePointsRequestPayload = (): IPayloadProps => {
     const payload: IPayloadProps = {};
 
+    /*
+      This is for the search functionality on the prime react table. This functionality is working on the frontend.
+      We fetch all the data from the backend and then we filter the data on the frontend with the prime react table's search properties.
+    */
     searchProperties.searchedConditions.map((condition: string) => {
       switch (condition) {
         case 'İstasyon Adı':
@@ -118,9 +100,8 @@ const ServicePointSection: React.FC = () => {
 
     return payload;
   };
-
   const dataTableHeader = (): JSX.Element => {
-    const tablePrefix: string = `${pagePrefix}-data-table`;
+    const tablePrefix: string = `${pagePrefix}-table`;
 
     return (
       <div className={`${tablePrefix}-header-container flex justify-between items-center`}>
@@ -139,68 +120,71 @@ const ServicePointSection: React.FC = () => {
         <div className={`${tablePrefix}-header-action-buttons-container flex justify-center items-center`}>
           <div className={`${tablePrefix}-add-button-container mx-4`}>
             <Button
-              className={`${tablePrefix}-add-button flex justify-center items-center bg-primary text-primary-font-color rounded text-base font-semibold hover:bg-primary-lighter p-2`}
-              icon="pi pi-plus text-white"
+              className={`${tablePrefix}-add-button flex justify-center items-center bg-primary text-white rounded text-base font-semibold hover:bg-primary-lighter p-3`}
               id={`${tablePrefix}-add-button`}
+              label="İstasyon Ekle"
               rounded
               type="button"
               onClick={handleAddServicePoint}
-            />
-            <Tooltip
-              className={`${tablePrefix}-add-button-tooltip text-base`}
-              content="İstasyon Ekle"
-              position="bottom"
-              target={`#${tablePrefix}-add-button`}
-              style={{
-                fontSize: '12px',
-                padding: '4px',
-              }}
             />
           </div>
         </div>
       </div>
     );
   };
-
-  const deleteServicePointInfo = (id: number): void => {
+  const deleteServicePointInfo = (stationId: number): void => {
     openModal(
-      'confirmation-modal',
+      'deleteServicePointConfirmationModal',
       <ConfirmationModal
-        name="confirmation-modal"
+        name="deleteServicePointConfirmationModal"
         onConfirm={() => {
-          deleteServicePoint({ id })
+          deleteServicePoint({ id: stationId })
             .unwrap()
-            .then(() => {
-              getServicePoints({
-                body: createGetServicePointsRequestPayload(),
-              });
-            });
+            .then(() => { getServicePoints({ body: createGetServicePointsRequestPayload() }); });
         }}
       />,
     );
   };
+  const handleAddServicePoint = (): void => {
+    openModal('addServicePointModal', <ServicePointModalForm modalName="addServicePointModal" />);
+  };
+  const handleUpdateServicePoint = (stationId: number): void => {
+    openModal(
+      'updateServicePointModal',
+      <ServicePointModalForm modalName="updateServicePointModal" stationId={stationId}
+      />
+    );
+  };
+  const prepareTableData = (): IServicePointData[] | [] => {
+    if (!servicePoints) {
+      return [];
+    }
 
+    const newTableData = servicePoints.map((data) => {
+      return {
+        ...data,
+        city: CITIES[data.cityId?.toString() as keyof typeof CITIES],
+        district: DISTRICTS[(data.districtId?.toString() as keyof typeof DISTRICTS) || '0'],
+      };
+    });
+
+    return newTableData;
+  };
   const onColumnToggle = (event: MultiSelectChangeEvent): void => {
     const selectedColumns = event.target.value;
-    const orderedSelectedColumns = servicePointTableHeadData.filter(
-      // @ts-ignore
-      (col) => selectedColumns.some((sCol) => sCol.field === col.field) || col.field === 'actions',
-    );
+    const orderedSelectedColumns = servicePointTableHeadData
+      .filter((col) => selectedColumns
+        .some((sCol: IBaseTableColumn) => sCol.field === col.field) || col.field === 'actions',
+      );
 
     setVisibleColumns(orderedSelectedColumns);
   };
 
   useEffect(() => {
-    getServicePoints({
-      body: createGetServicePointsRequestPayload(),
-    });
-  }, []);
+    getServicePoints({ body: createGetServicePointsRequestPayload() });
 
-  useEffect(() => {
     EventManager.subscribe(EVENTS_EMMITER_CONSTANTS.FIRE_REFECTCH_STATIONS, () => {
-      getServicePoints({
-        body: createGetServicePointsRequestPayload(),
-      });
+      getServicePoints({ body: createGetServicePointsRequestPayload() });
     });
 
     return () => {
@@ -209,13 +193,14 @@ const ServicePointSection: React.FC = () => {
   }, []);
 
   return (
-    <div className={`w-full`}>
-      <div className={`items-center w-full`}>
+    <div className={`${pagePrefix}-wrapper w-full`}>
+      <div className={`${pagePrefix}-table-container items-center w-full`}>
         <BaseTable
-          className="w-full shadow"
+          className={`${pagePrefix}-table w-full shadow`}
+          columnResizeMode="expand"
           columns={visibleColumns.map((column) => {
             if (column.id === 'actions') {
-              column.bodyTemplate = actionsButtonsContainer as unknown as React.ReactElement;
+              column.bodyTemplate = createActionsButtonsContainer;
             }
 
             return column;
@@ -223,12 +208,11 @@ const ServicePointSection: React.FC = () => {
           data={prepareTableData() || []}
           exportableExcel={true}
           exportableCSV={true}
-          filters={filters}
-          id={`${BRAND_PREFIX}-service-points-list`}
+          filters={servicePointTableDefaultFilters}
+          id={`${BRAND_PREFIX}-service-points`}
           globalFilterFields={visibleColumns.map((column) => column.id)}
           hasFilterMatchModes={false}
           tableHeader={() => dataTableHeader()}
-          columnResizeMode="expand"
         />
       </div>
     </div>

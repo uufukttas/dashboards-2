@@ -3,7 +3,7 @@ import ServicePointSection from '../../../src/components/ServicePointSection/Ser
 import { BRAND_PREFIX } from '../../constants/constants';
 import MainComponent from '../MainComponent/MainComponent';
 
-const ServicePointPage: React.FC = () => {
+const ServicePointPageWrapper: React.FC = () => {
   const servicePointPagePrefix: string = `${BRAND_PREFIX}-service-points-page`;
 
   return (
@@ -15,4 +15,4 @@ const ServicePointPage: React.FC = () => {
   );
 };
 
-export default ServicePointPage;
+export default ServicePointPageWrapper;

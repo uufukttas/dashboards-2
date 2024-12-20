@@ -6,111 +6,110 @@ import { useGetCitiesQuery, useGetDistrictsMutation } from '../../../../../app/a
 import { BRAND_PREFIX } from '../../../../constants/constants';
 import BaseSelect from '../../../Base/BaseSelect';
 import MapComponent from '../../Map';
-import { IFormDataProps, IModalThirdPageInputsProps } from '../../types';
+import { IFormDataProps, IServicePointModalPageProps } from '../../types';
 
-const ServicePointModalFormThirdPage: React.FC<IModalThirdPageInputsProps> = ({
-  form,
+const ServicePointModalFormThirdPage: React.FC<IServicePointModalPageProps> = ({
   activePage,
+  form,
   setActivePage,
-}: IModalThirdPageInputsProps) => {
+}: IServicePointModalPageProps) => {
   const { handleSubmit } = form;
-
+  const sectionPrefix: string = `${BRAND_PREFIX}-service-point-modal-page-3`;
   const { data: cities } = useGetCitiesQuery({});
   const [getDistricts, { data: districts }] = useGetDistrictsMutation();
-
-  const sectionPrefix = 'service-point';
   const [isErrorVisible, setIsErrorVisible] = useState<boolean>(false);
 
-  const handleSelectLocation = (location: { lat: number; lng: number }) => {
-    const { lat, lng } = location;
-
-    form.setValue(`lat`, lat);
-    form.setValue(`lon`, lng);
+  const handleCityChange = async (cityId: number): Promise<void> => {
+    await getDistricts({ body: { plateNumber: cityId } })
+      .unwrap()
+      .then((data) => form.setValue(`district-id`, form.watch(`district-id`) || data[0].id));
   };
-
-  const handleCityChange = (id: string) => id && getDistricts({ body: { plateNumber: Number(id) } }).unwrap();
-
-  const handleFormSubmit: SubmitHandler<IFormDataProps> = () => {
-    if (form.watch(`lat`) === 0 && form.watch(`lon`) === 0) {
+  const handleFormSubmit: SubmitHandler<IFormDataProps> = (): void => {
+    if (form.watch(`lat`) === 0 && form.watch(`lng`) === 0) {
       setIsErrorVisible(true);
+
       return;
     }
 
     setActivePage(activePage + 1);
   };
+  const handleSelectLocation = (location: { lat: number; lng: number }): void => {
+    const { lat, lng } = location;
+
+    form.setValue(`lat`, lat);
+    form.setValue(`lng`, lng);
+  };
 
   useEffect(() => {
-    handleCityChange(form.watch(`cityId`));
-  }, [form.watch(`cityId`)]);
+    handleCityChange(Number(form.watch(`city-id`)) || 1);
+  }, [form.watch(`city-id`)]);
 
   return (
     <form
-      className={`${BRAND_PREFIX}-modal-page-3 ${activePage === 3 ? 'block' : 'hidden'}`}
+      className={`${sectionPrefix} w-full ${activePage === 3 ? 'block' : 'hidden'}`}
       onSubmit={handleSubmit(handleFormSubmit)}
     >
-      <BaseSelect
-        form={form}
-        label="İl"
-        name={`cityId`}
-        items={cities || []}
-        defaultValue={form.watch(`cityId`)}
-        onChange={(e) => {
-          handleCityChange(e.target.value);
-        }}
-      />
-      <BaseSelect
-        form={form}
-        label="İlçe"
-        name={`districtId`}
-        items={districts || []}
-        defaultValue={form.watch(`districtId`)}
-        onChange={(e) => {
-          form.setValue(`districtId`, e.target.value);
-        }}
-      />
+      <div className={`${sectionPrefix}-city-container`}>
+        <BaseSelect
+          defaultValue={form.watch(`city-id`)}
+          form={form}
+          items={cities || []}
+          label="İl"
+          name={`city-id`}
+          onChange={(event: React.ChangeEvent<HTMLSelectElement>) => handleCityChange(Number(event.target.value))}
+        />
+      </div>
+      <div className={`${sectionPrefix}-district-container`}>
+        <BaseSelect
+          defaultValue={form.watch(`district-id`)}
+          form={form}
+          items={districts || []}
+          label="İlçe"
+          name={`district-id`}
+          onChange={(event: React.ChangeEvent<HTMLSelectElement>) => form.setValue(`district-id`, event.target.value)}
+        />
+      </div>
       <div className={`${sectionPrefix}-coordinates-container flex justify-center items-center`}>
-        <div className={`w-1/2 flex flex-col justify-center `}>
+        <div className={`${sectionPrefix}-x-coord-container w-1/2 flex flex-col justify-center `}>
           <Label
-            className={`x-coord-label block mb-2 text-heading font-semibold`}
+            className={`${sectionPrefix}-x-coord-label block mb-2 text-heading font-semibold`}
             htmlFor={`lat`}
             labelText={`X Koordinati`}
           >
             <span className="text-md text-error">*</span>
           </Label>
-          <Label className={`x-coord-label-value block mb-2`} htmlFor={`x-coord-value`} labelText={''}>
-            {(form.watch(`lat`) || '').toString()}
-          </Label>
+          {(form.watch(`lat`) || '').toString()}
         </div>
-        <div className={`w-1/2 flex flex-col justify-center`}>
+        <div className={`${sectionPrefix}-y-coord-container w-1/2 flex flex-col justify-center`}>
           <Label
-            className={`y-coord-label block mb-2 text-heading font-semibold`}
-            htmlFor={`lon`}
+            className={`${sectionPrefix}-y-coord-label block mb-2 text-heading font-semibold`}
+            htmlFor={`lng`}
             labelText={`Y Koordinati`}
           >
             <span className="text-md text-error">*</span>
           </Label>
-          <Label className={`y-coord-label-value block mb-2`} htmlFor={`y-coord-value`} labelText={''}>
-            {(form.watch(`lon`) || '').toString()}
-          </Label>
+          {(form.watch(`lng`) || '').toString()}
         </div>
       </div>
-      <MapComponent
-        cityId={form.watch(`cityId`)}
-        districtId={form.watch(`districtId`)}
-        lat={form.watch(`lat`)}
-        lng={form.watch(`lon`)}
-        onSelectLocation={handleSelectLocation}
-      />
-      {isErrorVisible && (
-        <div className={`coordinates-error-wrapper my-4 font-bold text-error`}>
-          <p className={`coordinates-error-message text-error`}>{'Harita uzerinden lokasyon seciniz.'}</p>
-        </div>
-      )}
-      {form.watch(`lat`) === '' && form.watch(`lon`) === '' && (
-        <div className={`y-coord-error-wrapper mb-4 font-bold text-error`}>
-          <p className={`y-coord-error-message text-error`}>{'Harita uzerinden bir İstasyon Noktasi seciniz.'}</p>
-        </div>
-      )}
+      <div className={`${sectionPrefix}-map-container`}>
+        <MapComponent
+          cityId={form.watch(`city-id`)}
+          districtId={form.watch(`district-id`)}
+          lat={form.watch(`lat`)}
+          lng={form.watch(`lng`)}
+          onSelectLocation={handleSelectLocation}
+        />
+        {isErrorVisible && (
+          <div className={`${sectionPrefix}-coordinates-error-wrapper my-4 font-bold text-error`}>
+            <p className={`${sectionPrefix}-coordinates-error-message text-error`}>{'Harita uzerinden lokasyon seciniz.'}</p>
+          </div>
+        )}
+        {form.watch(`lat`) === '' && form.watch(`lng`) === '' && (
+          <div className={`${sectionPrefix}-y-coord-error-wrapper mb-4 font-bold text-error`}>
+            <p className={`${sectionPrefix}-y-coord-error-message text-error`}>{'Harita uzerinden bir İstasyon Noktasi seciniz.'}</p>
+          </div>
+        )}
+      </div>
       <div className={`${sectionPrefix}-buttons-container flex justify-between items-center mt-4`}>
         <Button
           buttonText="Geri"

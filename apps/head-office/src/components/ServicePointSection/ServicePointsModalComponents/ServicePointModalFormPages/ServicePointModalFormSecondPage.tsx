@@ -1,17 +1,16 @@
-import { Button } from '@projects/button';
 import React from 'react';
-import { BRAND_PREFIX } from '../../../../constants/constants';
+import { Button } from '@projects/button';
 import BaseInput from '../../../Base/BaseInput';
-import { IModalSecondPageInputsProps } from '../../types';
+import { BRAND_PREFIX } from '../../../../constants/constants';
+import { IServicePointModalPageProps } from '../../types';
 
-const ServicePointModalFormSecondPage: React.FC<IModalSecondPageInputsProps> = ({
-  form,
+const ServicePointModalFormSecondPage: React.FC<IServicePointModalPageProps> = ({
   activePage,
+  form,
   setActivePage,
-}: IModalSecondPageInputsProps) => {
+}: IServicePointModalPageProps) => {
+  const sectionPrefix: string = `${BRAND_PREFIX}-service-point-modal-page-2`;
   const { handleSubmit } = form;
-
-  const sectionPrefix = 'service-point';
 
   const handleFormSubmit = () => {
     setActivePage(activePage + 1);
@@ -19,54 +18,57 @@ const ServicePointModalFormSecondPage: React.FC<IModalSecondPageInputsProps> = (
 
   return (
     <form
-      className={`${BRAND_PREFIX}-modal-page-2 ${activePage === 2 ? 'block' : 'hidden'}`}
+      className={`${sectionPrefix} w-full ${activePage === 2 ? 'block' : 'hidden'}`}
       onSubmit={handleSubmit(handleFormSubmit)}
     >
       <div className={`${sectionPrefix}-phone-numbers-container gap-4 mb-4`}>
-        <BaseInput
-          form={form}
-          name={`phone1`}
-          id={`phone1`}
-          label="Birinci Telefon Numarasi"
-          rules={{
-            required: 'Telefon numarasi alani zorunludur.',
-            minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
-            maxLength: { value: 11, message: 'En fazla 11 karakter girebilirsiniz.' },
-          }}
-          type='text'
-        />
-        <BaseInput
-          form={form}
-          name={`phone2`}
-          id={`phone2`}
-          label="İkinci Telefon Numarasi"
-          rules={{
-            required: 'Telefon numarasi alani zorunludur.',
-            minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
-            maxLength: { value: 11, message: 'En fazla 11 karakter girebilirsiniz.' },
-          }}
-          type='text'
-        />
-        <BaseInput
-          form={form}
-          name={`address`}
-          id={`address`}
-          label="Adres"
-          rules={{
-            required: 'Adres alani zorunludur.',
-          }}
-          type={'text'}
-          isTextarea={true}
-        />
-        <BaseInput
-          form={form}
-          name={`address-detail`}
-          id={`address-detail`}
-          label="Adres Tarifi"
-          isTextarea={true}
-          type={'text'}
-          containerClassName="mt-6"
-        />
+        <div className={`${sectionPrefix}-phone-number-1-container`}>
+          <BaseInput
+            form={form}
+            id={`phone1`}
+            label="Birinci Telefon Numarasi"
+            name={`phone1`}
+            rules={{
+              required: 'Telefon numarasi alani zorunludur.',
+              minLength: { value: 10, message: 'En az 10 karakter girmelisiniz.' },
+              maxLength: { value: 11, message: 'En fazla 11 karakter girebilirsiniz.' },
+            }}
+            type='text'
+          />
+        </div>
+        <div className={`${sectionPrefix}-phone-number-2-container`}>
+          <BaseInput
+            form={form}
+            id={`phone2`}
+            label="İkinci Telefon Numarasi"
+            name={`phone2`}
+            type='text'
+          />
+        </div>
+        <div className={`${sectionPrefix}-address-container`}>
+          <BaseInput
+            form={form}
+            id={`address`}
+            isTextarea={true}
+            label="Adres"
+            name={`address`}
+            rules={{
+              required: 'Adres alani zorunludur.',
+            }}
+            type={'text'}
+          />
+        </div>
+        <div className={`${sectionPrefix}-address-detail-container`}>
+          <BaseInput
+            containerClassName="mt-6"
+            form={form}
+            id={`address-detail`}
+            isTextarea={true}
+            label="Adres Tarifi"
+            name={`address-detail`}
+            type={'text'}
+          />
+        </div>
       </div>
       <div className={`${sectionPrefix}-buttons-container flex justify-between items-center`}>
         <Button
