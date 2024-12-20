@@ -73,8 +73,8 @@ const ServicePointModalFormFourthPage: React.FC<IServicePointModalPageProps> = (
       body: {
         address: form.watch('address'),
         addressDetail: form.watch('address-detail'),
-        cityId: Number(form.watch('cityId')),
-        districtId: Number(form.watch('districtId')),
+        cityId: Number(form.watch('city-id')),
+        districtId: Number(form.watch('district-id')),
         lat: form.watch('lat'),
         lon: form.watch('lng'),
         phone1: form.watch('phone1'),
@@ -147,7 +147,7 @@ const ServicePointModalFormFourthPage: React.FC<IServicePointModalPageProps> = (
           onClick={() => setActivePage(activePage - 1)}
         />
         <Button
-          buttonText={form.watch(`id`) > 0 ? 'Güncelle' : 'Kaydet'}
+          buttonText={modalName === 'addServicePointModal' ? 'Kaydet' : 'Güncelle'}
           className={`submit-button bg-primary text-white text-sm rounded-lg block p-2.5`}
           id={`submit-button`}
           type={`submit`}

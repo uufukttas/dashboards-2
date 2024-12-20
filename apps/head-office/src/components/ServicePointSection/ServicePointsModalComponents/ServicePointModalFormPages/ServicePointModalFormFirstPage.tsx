@@ -129,7 +129,6 @@ const ServicePointModalFormFirstPage: React.FC<IServicePointModalPageProps> = ({
         <Button
           buttonText="İleri"
           className={`${sectionPrefix}-submit-button bg-primary text-white text-sm rounded-lg block p-2.5`}
-          disabled={isDisabled}
           id={`${sectionPrefix}-submit-button`}
           type={`submit`}
         />
