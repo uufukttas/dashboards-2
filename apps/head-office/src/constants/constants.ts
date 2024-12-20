@@ -81,7 +81,7 @@ export const sidebarItems = [
   { label: 'Market', icon: 'pi pi-shopping-cart', path: '/marketplace' },
   { label: 'Feedbacks', icon: 'pi pi-comment', path: '/feedbacks' },
   { label: 'FAQ', icon: 'pi pi-question-circle', path: '/faq' },
-  { label: 'Kullanıcı Sözleşmeleri', icon: 'pi pi-file-text', path: '/user-agreements' },
+  { label: 'Kullanıcı Sözleşmeleri', icon: 'pi pi-file-o', path: '/user-agreements' },
 ];
 export const stylesProps = {
   secondaryColor: '#fcaf17',

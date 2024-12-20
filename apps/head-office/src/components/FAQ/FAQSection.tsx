@@ -1,12 +1,12 @@
 import { Button } from 'primereact/button';
 import React from 'react';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
-import { IKnowledgeBase } from '../../../app/api/services/knowledge,base/knowledgebase.interface';
+import { IKnowledgeBase } from '../../../app/api/services/knowledgebase/knowledgebase.interface';
 import {
   useGetKnowledgeBaseCategoryListQuery,
   useGetKnowledgeBaseListQuery,
   useRemoveKnowledgeBaseMutation,
-} from '../../../app/api/services/knowledge,base/knowledgebase.service';
+} from '../../../app/api/services/knowledgebase/knowledgebase.service';
 import { BRAND_PREFIX } from '../../constants/constants';
 import useModalManager from '../../hooks/useModalManager';
 import { BaseTable } from '../BaseTable/BaseTable';

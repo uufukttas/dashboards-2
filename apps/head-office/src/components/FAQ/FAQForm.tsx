@@ -4,7 +4,7 @@ import { FaPlus } from 'react-icons/fa';
 import {
   IKnowledgeBase,
   IKnowledgeBaseCategory,
-} from '../../../app/api/services/knowledge,base/knowledgebase.interface';
+} from '../../../app/api/services/knowledgebase/knowledgebase.interface';
 import useModalManager from '../../hooks/useModalManager';
 import BaseInput from '../Base/BaseInput';
 import BaseSelect from '../Base/BaseSelect';
