@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import useModalManager from '../../../hooks/useModalManager';
 import { cn } from '../../../utils/common.utils';
@@ -20,8 +20,12 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
   } = props;
   const { closeModal } = useModalManager();
 
+  const [isClosing, setIsClosing] = useState(false);
+
   const containerClasses = twMerge(
-    'bg-white w-[95%] md:min-w-[600px] min-h-[300px] max-w-[100%] max-h-[100vh] rounded-md flex flex-col transition-opacity duration-100 shadow-lg',
+    'bg-white w-[95%] md:min-w-[600px] min-h-[300px] max-w-[100%] max-h-[100vh] rounded-md flex flex-col',
+    'transform transition-all duration-200 ease-in-out',
+    isClosing ? 'animate-modal-exit' : 'animate-modal-enter',
     className,
   );
 
@@ -44,11 +48,16 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
   const handleClose = () => {
     if (disableClose) return;
 
+    setIsClosing(true);
     setTimeout(() => {
       onClose && onClose();
       closeModal(props.name);
-    }, 100);
+    }, 200);
   };
+
+  useEffect(() => {
+    setIsClosing(false);
+  }, []);
 
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
@@ -81,7 +90,7 @@ const ModalLayout: FC<IModalLayoutProps> = (props) => {
   return (
     <div className={containerClasses} id={id}>
       <div className={headerClasses}>
-        <h3 className="text-base md:text-lg font-bold text-heading">{title}</h3>
+        <h3 className="text-base md:text-md font-bold text-heading max-w-[90%]">{title}</h3>
         <div className="flex items-center">
           {subTitle && <p className="text-xs md:text-sm text-gray-500">{subTitle}</p>}
           {!disableClose && (
