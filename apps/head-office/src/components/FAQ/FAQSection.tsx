@@ -23,7 +23,7 @@ const FAQSection: React.FC = () => {
   const { data: categories } = useGetKnowledgeBaseCategoryListQuery({});
   const [removeKnowledgeBase] = useRemoveKnowledgeBaseMutation();
 
-  const handleEditFAQ = (faq: IKnowledgeBase) => openModal('editFAQModal', <AddFAQModal faqData={faq} />);
+  const handleEditFAQ = (faq: IKnowledgeBase) => openModal('addFAQModal', <AddFAQModal faqData={faq} />);
 
   const handleDeleteFAQ = (faq: IKnowledgeBase) => {
     openModal(

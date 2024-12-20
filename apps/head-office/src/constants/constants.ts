@@ -96,7 +96,9 @@ export const stylesProps = {
   fontSize: '16px',
   loginPageBackgroundImage: '../../UnivoltBG.jpg',
 };
+
 export const userInfo = {
+  id: 1,
   logo: '/ovolt_logo.png',
   name: 'Erkut Öztürk',
   profileImage: '/Erkut.png',

@@ -31,9 +31,6 @@ const feedbackService = baseApi.injectEndpoints({
         url: `${ENDPOINTS.FEEDBACK}${ENDPOINTS.PASS_FEEDBACK_READ}`,
         method: ApiServiceMethods.POST,
         body,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
       }),
     }),
   }),

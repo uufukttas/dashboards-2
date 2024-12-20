@@ -1,6 +1,11 @@
 import moment from 'moment';
 import 'moment/locale/tr';
-import { useGetFeedbackByIdQuery } from '../../../app/api/services/feedbacks/feedback.service';
+import { useEffect } from 'react';
+import {
+  useGetFeedbackByIdQuery,
+  usePassFeedbackReadMutation,
+} from '../../../app/api/services/feedbacks/feedback.service';
+import { userInfo } from '../../constants/constants';
 import ModalLayout from '../Modal/Layouts/ModalLayout';
 
 interface IFeedbackDetailModalProps {
@@ -9,6 +14,16 @@ interface IFeedbackDetailModalProps {
 
 const FeedbackDetailModal = ({ feedbackId }: IFeedbackDetailModalProps) => {
   const { data: feedback, isLoading } = useGetFeedbackByIdQuery({ params: { messageId: feedbackId } });
+  const [passFeedbackRead] = usePassFeedbackReadMutation();
+
+  useEffect(() => {
+    feedback &&
+      passFeedbackRead({ body: { messageId: feedback.rid, userId: userInfo.id } })
+        .unwrap()
+        .then(() => {
+          console.log('success');
+        });
+  }, [feedback]);
 
   return (
     <ModalLayout name="feedbackDetailModal" title="Geri Bildirim Detayı" footerVisible className="w-full max-w-2xl">
@@ -23,7 +38,12 @@ const FeedbackDetailModal = ({ feedbackId }: IFeedbackDetailModalProps) => {
             <div className="flex items-center gap-4 mb-3">
               <div className="bg-primary/10 rounded-full p-3">
                 <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
                 </svg>
               </div>
               <div>
@@ -54,7 +74,12 @@ const FeedbackDetailModal = ({ feedbackId }: IFeedbackDetailModalProps) => {
           {/* Date Information */}
           <div className="text-sm text-gray-500 flex items-center gap-2">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
             {feedback?.createDate && moment(feedback.createDate).locale('tr').format('DD MMMM YYYY HH:mm')}
           </div>
