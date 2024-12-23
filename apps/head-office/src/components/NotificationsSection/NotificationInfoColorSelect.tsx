@@ -19,7 +19,14 @@ const NotificationInfoColorSelect = ({ form }: INotificationInfoColorSelectProps
     ),
   }));
 
-  return <BaseSelect form={form} label="Bildirim Bilgi Renk" name="notificationInfoColorRID" items={items} />;
+  return <BaseSelect
+    form={form}
+    label="Bildirim Bilgi Renk"
+    name="notificationInfoColorRID"
+    optionValue={'rid'}
+    optionLabel={'name'}
+    items={items}
+  />;
 };
 
 export default NotificationInfoColorSelect;

@@ -19,7 +19,14 @@ const NotificationInfoTypeSelect = ({ form }: INotificationInfoTypeSelectProps) 
     ),
   }));
 
-  return <BaseSelect form={form} label="Bildirim Bilgi İkonu" name="notificationInfoTypeRID" items={items} />;
+  return <BaseSelect
+    form={form}
+    label="Bildirim Bilgi İkonu"
+    name="notificationInfoTypeRID"
+    optionValue={'rid'}
+    optionLabel={'name'}
+    items={items}
+  />;
 };
 
 export default NotificationInfoTypeSelect;

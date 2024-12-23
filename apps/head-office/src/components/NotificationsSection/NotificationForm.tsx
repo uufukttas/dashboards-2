@@ -8,6 +8,7 @@ import BaseSelect from '../Base/BaseSelect';
 import ImageUpload from '../Base/Image/ImageUpload';
 import NotificationInfoColorSelect from './NotificationInfoColorSelect';
 import NotificationInfoTypeSelect from './NotificationInfoTypeSelect';
+import { useEffect } from 'react';
 
 interface NotificationFormProps {
   form: UseFormReturn;
@@ -29,6 +30,8 @@ const NotificationForm = ({
           form={form}
           label="Bildirim Tipi"
           name="notificationTypeRID"
+          optionValue={'rid'}
+          optionLabel={'name'}
           items={notificationTypes}
           defaultValue={notificationTypes?.[0]?.rid}
           rules={{ required: 'Bildirim tipi seçilmedi' }}
@@ -37,6 +40,8 @@ const NotificationForm = ({
           form={form}
           label="Bildirim Kategori"
           name="notificationPushCategoryRID"
+          optionValue={'rid'}
+          optionLabel={'name'}
           items={notificationPushCategories}
           defaultValue={notificationPushCategories?.[0]?.rid}
           rules={{ required: 'Bildirim kategori seçilmedi' }}
