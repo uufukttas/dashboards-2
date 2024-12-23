@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { IKnowledgeBase } from '../../../app/api/services/knowledge,base/knowledgebase.interface';
+import { IKnowledgeBase } from '../../../app/api/services/knowledgebase/knowledgebase.interface';
 import {
   useAddNewKnowledgeBaseMutation,
   useEditKnowledgeBaseMutation,
   useGetKnowledgeBaseCategoryListQuery,
-} from '../../../app/api/services/knowledge,base/knowledgebase.service';
+} from '../../../app/api/services/knowledgebase/knowledgebase.service';
 import { BRAND_PREFIX } from '../../constants/constants';
 import useModalManager from '../../hooks/useModalManager';
 import ModalLayout from '../Modal/Layouts/ModalLayout';

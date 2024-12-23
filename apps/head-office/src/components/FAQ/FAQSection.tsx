@@ -1,12 +1,12 @@
 import { Button } from 'primereact/button';
 import React from 'react';
 import { FaPen, FaTrashCan } from 'react-icons/fa6';
-import { IKnowledgeBase } from '../../../app/api/services/knowledge,base/knowledgebase.interface';
+import { IKnowledgeBase } from '../../../app/api/services/knowledgebase/knowledgebase.interface';
 import {
   useGetKnowledgeBaseCategoryListQuery,
   useGetKnowledgeBaseListQuery,
   useRemoveKnowledgeBaseMutation,
-} from '../../../app/api/services/knowledge,base/knowledgebase.service';
+} from '../../../app/api/services/knowledgebase/knowledgebase.service';
 import { BRAND_PREFIX } from '../../constants/constants';
 import useModalManager from '../../hooks/useModalManager';
 import { BaseTable } from '../BaseTable/BaseTable';
@@ -23,7 +23,7 @@ const FAQSection: React.FC = () => {
   const { data: categories } = useGetKnowledgeBaseCategoryListQuery({});
   const [removeKnowledgeBase] = useRemoveKnowledgeBaseMutation();
 
-  const handleEditFAQ = (faq: IKnowledgeBase) => openModal('editFAQModal', <AddFAQModal faqData={faq} />);
+  const handleEditFAQ = (faq: IKnowledgeBase) => openModal('addFAQModal', <AddFAQModal faqData={faq} />);
 
   const handleDeleteFAQ = (faq: IKnowledgeBase) => {
     openModal(

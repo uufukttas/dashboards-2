@@ -103,8 +103,7 @@ export const ENDPOINTS = {
   REMOVE_KNOWLEDGE_BASE: '/remove-knowledgebase',
   GET_KNOWLEDGEBASE_LIST: '/get-knowledgebase-list',
 
-
-  KNOWLEDGE_CATEGORY:'/KnowledgeCategory',
+  KNOWLEDGE_CATEGORY: '/KnowledgeCategory',
   ADD_NEW_KNOWLEDGEBASE_CATEGORY: '/add-new-knowledgecategory',
   EDIT_KNOWLEDGEBASE_CATEGORY: '/edit-knowledgecategory',
   GET_KNOWLEDGEBASE_CATEGORY_BY_ID: '/get-knowledgecategory-by-id',
@@ -114,4 +113,10 @@ export const ENDPOINTS = {
   ADD_NEW_AGREEMENT: '/add-new-agreement',
   GET_AGREEMENT_DEFINITION_BY_ID: '/get-agreement-definition',
   SET_PASSIVE_STATUS: '/set-passive-status',
+
+  FEEDBACK: '/Feedback',
+  GET_FEEDBACK_LIST: '/get-feedback-list',
+  GET_FEEDBACK_BY_ID: '/get-feedback-by-id',
+  GET_FEEDBACK_TYPE_LIST: '/get-feedback-type-list',
+  PASS_FEEDBACK_READ: '/pass-feedback-read',
 };
