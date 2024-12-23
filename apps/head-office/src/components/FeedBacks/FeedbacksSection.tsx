@@ -20,16 +20,18 @@ const MarketPlaceSection: React.FC = () => {
 
   return (
     <BaseTable
+      // @ts-expect-error
       data={feedbacks || []}
       columns={FEEDBACKS_TABLE_COLUMNS.map((column) => {
         if (column.accessor === 'contactMessageTypeValueAggregates') {
+          // @ts-expect-error
           column.bodyTemplate = renderFeedbackType;
         }
         return column;
       })}
       id={`${BRAND_PREFIX}-marketplace-table`}
       tableHeader={() => <></>}
-      // @ts-ignore
+      // @ts-expect-error
       onRowClick={handleRowClick}
     />
   );
