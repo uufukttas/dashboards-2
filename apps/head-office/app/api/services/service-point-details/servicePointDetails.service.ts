@@ -188,9 +188,9 @@ const authService = baseApi.injectEndpoints({
         url: `${ENDPOINTS.AUTH}${ENDPOINTS.CHARGE_POINT_USERS}`,
       }),
     }),
-    getServicePointData: builder.mutation<IServicePointsDetailResponseProps[], Post<IGetServicePointDataRequestProps>>({
+    getServicePointData: builder.mutation<IServicePointsDetailResponseProps[], Post<number>>({
       query: ({ body }) => ({
-        body,
+        body: { id: body },
         method: ApiServiceMethods.POST,
         url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.GET_STATION_BY_ID}`,
       }),
@@ -203,9 +203,9 @@ const authService = baseApi.injectEndpoints({
       }),
       providesTags: ['ServicePointImageUpload'],
     }),
-    getServicePointInformation: builder.mutation<IServicePoinDetailsInfo[], Post<{ body: { stationId: IStationIdRequestProps } }>>({
+    getServicePointInformation: builder.mutation<IServicePoinDetailsInfo[], Post<number>>({
       query: ({ body }) => ({
-        body,
+        body: { stationId: body },
         method: ApiServiceMethods.POST,
         url: `${ENDPOINTS.STATION_INFO}${ENDPOINTS.GET_BY_STATION_ID}`,
       }),

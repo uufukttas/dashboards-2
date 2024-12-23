@@ -11,6 +11,8 @@ import BaseInput from '../../Base/BaseInput';
 import ModalLayout from '../../Modal/Layouts/ModalLayout';
 import { IModalLayoutButtonProps } from '../../Modal/Layouts/ModalLayout.interface';
 import { IUserRoleProps } from '../types';
+import { Button } from '@projects/button';
+import { BRAND_PREFIX } from 'apps/head-office/src/constants/constants';
 
 interface IUserManagementModalPageProps {
   onSuccess?: () => void;
@@ -65,8 +67,8 @@ const UserManagementModalPage: React.FC<IUserManagementModalPageProps> = ({ onSu
           eMail: data.eMail as string,
           phoneNumber: data.phoneNumber as string,
           roles: roles.filter((role) => role.isChecked).map((role) => role.name),
-          password: '',
-          newPassword: '',
+          password: 'Admin123!',
+          newPassword: 'Admin123!',
         },
       }).unwrap();
       onSuccess && onSuccess();
@@ -211,6 +213,15 @@ const UserManagementModalPage: React.FC<IUserManagementModalPageProps> = ({ onSu
             setRoles(updatedRoles);
           }}
         />
+        <div className={`${BRAND_PREFIX}-user-management-modal-buttons-container flex flex-row gap-4`}>
+          <Button
+            className={`${BRAND_PREFIX}-user-management-modal-buttons-container-button bg-primary text-white text-sm rounded-lg block p-2.5`}
+            id="addTariff"
+            type="button"
+            buttonText="Kullanıcı Ekle"
+            onClick={() => form.handleSubmit(handleFormSubmit)()}
+          />
+        </div>
       </div>
     </ModalLayout>
   );

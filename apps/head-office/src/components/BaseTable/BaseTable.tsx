@@ -1,11 +1,12 @@
+import { FC, useEffect, useRef, useState } from 'react';
 import { Button } from 'primereact/button';
 import { Column } from 'primereact/column';
 import { DataTable, DataTableFilterMeta, DataTableRowClickEvent } from 'primereact/datatable';
 import { InputText } from 'primereact/inputtext';
+import { IBaseTableProps, IColumnProps } from './BaseTableInterface';
 import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
-import { FC, useEffect, useRef, useState } from 'react';
-import { IBaseTableProps, IColumnProps } from './BaseTableInterface';
+import './BaseTable.style.scss';
 
 export const BaseTable: FC<IBaseTableProps> = (props) => {
   const {
@@ -191,7 +192,7 @@ export const BaseTable: FC<IBaseTableProps> = (props) => {
           <Column
             align={column.align || 'left'}
             body={column?.bodyTemplate}
-            className={column.className}
+            className={`${column.className}`}
             field={column.accessor}
             header={column.header}
             filter={column.id !== 'actions'}
