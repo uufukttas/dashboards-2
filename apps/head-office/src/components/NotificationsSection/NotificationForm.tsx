@@ -8,7 +8,6 @@ import BaseSelect from '../Base/BaseSelect';
 import ImageUpload from '../Base/Image/ImageUpload';
 import NotificationInfoColorSelect from './NotificationInfoColorSelect';
 import NotificationInfoTypeSelect from './NotificationInfoTypeSelect';
-import { useEffect } from 'react';
 
 interface NotificationFormProps {
   form: UseFormReturn;

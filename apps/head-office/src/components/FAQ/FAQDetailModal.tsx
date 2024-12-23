@@ -2,9 +2,10 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { IKnowledgeBase } from '../../../app/api/services/knowledgebase/knowledgebase.interface';
 import {
-    useEditKnowledgeBaseMutation,
-    useGetKnowledgeBaseCategoryListQuery,
-    useRemoveKnowledgeBaseMutation,
+  useEditKnowledgeBaseMutation,
+  useGetKnowledgeBaseByIdQuery,
+  useGetKnowledgeBaseCategoryListQuery,
+  useRemoveKnowledgeBaseMutation,
 } from '../../../app/api/services/knowledgebase/knowledgebase.service';
 import useModalManager from '../../hooks/useModalManager';
 import ModalLayout from '../Modal/Layouts/ModalLayout';
@@ -19,6 +20,7 @@ interface IFAQDetailModalProps {
 const FAQDetailModal = ({ faq }: IFAQDetailModalProps) => {
   const { closeModal, openModal } = useModalManager();
   const form = useForm();
+  const { data: faqData } = useGetKnowledgeBaseByIdQuery({ params: { knowledgebaseId: faq.rid } });
   const { data: categories } = useGetKnowledgeBaseCategoryListQuery({});
   const [removeKnowledgeBase] = useRemoveKnowledgeBaseMutation();
   const [editKnowledgeBase] = useEditKnowledgeBaseMutation();
@@ -48,9 +50,9 @@ const FAQDetailModal = ({ faq }: IFAQDetailModalProps) => {
     editKnowledgeBase({
       body: {
         rid: faq.rid,
-        question: form.getValues('question'),
-        answer: form.getValues('answer'),
-        knowledgeBaseCategoryRID: form.getValues('category') || faq.knowledgeBaseCategoryRID,
+        question: form.watch('question'),
+        answer: form.watch('answer'),
+        knowledgeBaseCategoryRID: form.watch('knowledgeBaseCategoryRID') || faq.knowledgeBaseCategoryRID,
       },
     })
       .unwrap()
@@ -73,14 +75,15 @@ const FAQDetailModal = ({ faq }: IFAQDetailModalProps) => {
       buttonClassName: 'bg-primary text-white ml-4',
     },
   ];
-
   useEffect(() => {
-    form.reset({
-      category: faq.knowledgeBaseCategoryRID,
-      question: faq.question,
-      answer: faq.answer,
-    });
-  }, [faq]);
+    if (faqData) {
+      form.reset({
+        question: faqData.question,
+        answer: faqData.answer,
+        knowledgeBaseCategoryRID: faqData.knowledgeBaseCategoryRID,
+      });
+    }
+  }, [faqData]);
 
   return (
     <ModalLayout name="faqDetailModal" title={`${faq.question}`} buttons={buttons} footerVisible>
