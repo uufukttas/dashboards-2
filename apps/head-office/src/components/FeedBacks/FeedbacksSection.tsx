@@ -1,8 +1,6 @@
 import React from 'react';
 import { IFeedback, IFeedbackTypeValue } from '../../../app/api/services/feedbacks/feedback.interface';
 import { useGetFeedbackListQuery } from '../../../app/api/services/feedbacks/feedback.service';
-import { IFeedback, IFeedbackTypeValue } from '../../../app/api/services/feedbacks/feedback.interface';
-import { useGetFeedbackListQuery } from '../../../app/api/services/feedbacks/feedback.service';
 import { BRAND_PREFIX } from '../../constants/constants';
 import useModalManager from '../../hooks/useModalManager';
 import { BaseTable } from '../BaseTable/BaseTable';
