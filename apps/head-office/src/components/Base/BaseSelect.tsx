@@ -5,22 +5,25 @@ import { Controller, FieldValues, useController } from 'react-hook-form';
 import { BRAND_PREFIX } from '../../constants/constants';
 import { cn } from '../../utils/common.utils';
 import BaseFormError from './BaseFormError';
+import { DropdownChangeEvent } from 'primereact/dropdown';
 
 interface IBaseSelectProps {
-  form: FieldValues;
-  name: string;
-  label?: string;
-  labelPrefix?: React.ReactNode;
-  prefix?: string;
-  rules?: Record<string, unknown>;
-  id?: string;
-  items?: Array<unknown>;
-  multiple?: boolean;
   className?: string;
   containerClassName?: string;
-  optionClassName?: string;
-  disabled?: boolean;
   defaultValue?: string | number;
+  disabled?: boolean;
+  form: FieldValues;
+  id?: string;
+  items?: Array<unknown>;
+  label?: string;
+  labelPrefix?: React.ReactNode;
+  multiple?: boolean;
+  name: string;
+  prefix?: string;
+  rules?: Record<string, unknown>;
+  optionClassName?: string;
+  optionLabel?: string;
+  optionValue?: string;
   value?: string | number;
   onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
@@ -39,6 +42,8 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
     multiple,
     name,
     optionClassName,
+    optionLabel,
+    optionValue,
     prefix = BRAND_PREFIX,
     rules,
     value,
@@ -92,15 +97,16 @@ const BaseSelect: FC<IBaseSelectProps> = (props) => {
             items={items as unknown as Array<Record<string, unknown>>}
             multiple={multiple}
             name={name}
-            onChange={(event: React.ChangeEvent<HTMLSelectElement>): void => {
-              console.log('event', event);
-
-              field.onChange(event);
+            optionClassName={optionClassName}
+            optionLabel={optionLabel}
+            optionValue={optionValue}
+            placeholder="Seçiniz"
+            value={field.value}
+            onChange={(event: DropdownChangeEvent): void => {
+              field.onChange(event.value);
+              // @ts-ignore
               onChange && onChange(event);
             }}
-            optionClassName={optionClassName}
-            placeholder="Seçiniz"
-            value={value}
           />
         )}
       />
