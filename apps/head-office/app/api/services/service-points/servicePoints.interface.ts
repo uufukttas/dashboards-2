@@ -56,6 +56,7 @@ export interface IAddStationInfoRequestBody {
   lon?: string;
   phone1?: string;
   phone2?: string;
+  id?: number;
 }
 
 export interface IUpdateStationRequestBody {
@@ -76,8 +77,15 @@ export interface IUpdateStationResponse {
 }
 
 export interface IUpdateStationInfoRequestBody {
-  id: number;
-  stationInfo: Record<string, unknown>;
+  address?: string;
+  addressDetail?: string;
+  cityId?: number;
+  districtId?: number;
+  Id: number;
+  lat?: string;
+  lon?: string;
+  phone1?: string;
+  phone2?: string;
 }
 
 export interface IDeleteChargePointRequestBody {

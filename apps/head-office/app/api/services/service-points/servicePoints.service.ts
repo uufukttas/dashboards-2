@@ -58,9 +58,9 @@ const servicePointService = baseApi.injectEndpoints({
     }),
     updateStationInfo: build.mutation<void, Post<IUpdateStationInfoRequestBody>>({
       query: ({ body }) => ({
-        url: `${ENDPOINTS.STATION_INFO}${ENDPOINTS.UPDATE_STATION_INFO}`,
-        method: ApiServiceMethods.POST,
         body,
+        method: ApiServiceMethods.POST,
+        url: `${ENDPOINTS.STATION_INFO}${ENDPOINTS.ADD_STATION_INFO}`,
       }),
     }),
     deleteChargePoint: build.mutation<void, Post<IDeleteChargePointRequestBody>>({
