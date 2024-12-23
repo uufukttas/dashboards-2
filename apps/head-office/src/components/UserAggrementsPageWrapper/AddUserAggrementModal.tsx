@@ -35,6 +35,7 @@ const AddUserAggrementModal = () => {
 
     pdfFile && formData.append('PdfFile', pdfFile);
 
+    // @ts-expect-error
     addNewAggrement({ body: formData })
       .unwrap()
       .then(() => {

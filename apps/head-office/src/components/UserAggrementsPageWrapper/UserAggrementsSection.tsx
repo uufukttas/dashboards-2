@@ -37,11 +37,12 @@ const UserAggrementsSection = () => {
     <div>
       <BaseTable
         columns={UserAggrementsTableColumns}
-        // @ts-ignore
+        // @ts-expect-error
         data={data || []}
         tableHeader={tableHeader}
         isLoading={isLoading}
         isError={isError}
+        // @ts-expect-error
         onRowClick={handleOpenUserAggrementModal}
       />
     </div>
