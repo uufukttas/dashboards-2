@@ -25,18 +25,27 @@ const AddFAQModal: React.FC<IAddFAQModalProps> = ({ faqData }) => {
   const form = useForm();
   const { closeModal } = useModalManager();
 
-  const handleFormSubmit = (data) => {
+  const handleFormSubmit = (data: Record<string, string>) => {
     const categoryId = categories?.find((category) => category.name === data.category);
 
     if (faqData) {
-      editKnowledgeBase({ body: { ...data, knowledgeBaseCategoryRID: categoryId?.rid, rid: faqData.rid } })
+      editKnowledgeBase({
+        body: {
+          knowledgeBaseCategoryRID: Number(categoryId?.rid),
+          rid: faqData.rid,
+          question: data.question,
+          answer: data.answer,
+        },
+      })
         .unwrap()
         .then(() => {
           closeModal('addFAQModal');
         });
       return;
     }
-    addNewKnowledgeBase({ body: { ...data, knowledgeBaseCategoryRID: categoryId?.rid } })
+    addNewKnowledgeBase({
+      body: { knowledgeBaseCategoryRID: Number(categoryId?.rid), question: data.question, answer: data.answer },
+    })
       .unwrap()
       .then(() => {
         closeModal('addFAQModal');

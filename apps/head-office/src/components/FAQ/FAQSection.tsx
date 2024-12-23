@@ -107,7 +107,7 @@ const FAQSection: React.FC = () => {
     return '-';
   };
 
-  const handleRowClick = ({ rowData }) => {
+  const handleRowClick = ({ rowData }: { rowData: IKnowledgeBase }) => {
     openModal('faqDetailModal', <FAQDetailModal faq={rowData} />);
   };
 
@@ -116,18 +116,22 @@ const FAQSection: React.FC = () => {
       <BaseTable
         columns={FAQS_TABLE_COLUMNS.map((column) => {
           if (column.accessor === 'actions') {
+            // @ts-expect-error
             column.bodyTemplate = actionColumn as unknown as React.ReactElement;
           }
           if (column.accessor === 'category') {
+            // @ts-expect-error
             column.bodyTemplate = categoryColumn as unknown as React.ReactElement;
           }
           return column;
         })}
+        // @ts-expect-error
         data={faqs || []}
         isLoading={isLoading}
         id={`${BRAND_PREFIX}-marketplace-table`}
         tableHeader={tableHeader}
         className={`${sectionPrefix}-table w-full`}
+        // @ts-expect-error
         onRowClick={handleRowClick}
       />
     </div>
