@@ -45,7 +45,8 @@ const UserAggrementDetailModal = ({ agreement }: UserAggrementDetailModalProps) 
   const buttons: IModalLayoutButtonProps[] = [
     {
       key: 'deactivate-agreement',
-      label: 'Sözleşmeyi Pasifleştir',
+      label: 'Sözleşmeyi Sil',
+      buttonClassName: 'bg-red-500',
       onClick: handleDeactivateAgreement,
     },
   ];
