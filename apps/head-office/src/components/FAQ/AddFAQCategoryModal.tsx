@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useAddNewKnowledgeBaseCategoryMutation } from '../../../app/api/services/knowledge,base/knowledgebase.service';
+import { useAddNewKnowledgeBaseCategoryMutation } from '../../../app/api/services/knowledgebase/knowledgebase.service';
 import useModalManager from '../../hooks/useModalManager';
 import BaseInput from '../Base/BaseInput';
 import ModalLayout from '../Modal/Layouts/ModalLayout';
