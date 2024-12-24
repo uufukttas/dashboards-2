@@ -81,7 +81,7 @@ export interface IUpdateStationInfoRequestBody {
   addressDetail?: string;
   cityId?: number;
   districtId?: number;
-  Id: number;
+  id: number;
   lat?: string;
   lon?: string;
   phone1?: string;

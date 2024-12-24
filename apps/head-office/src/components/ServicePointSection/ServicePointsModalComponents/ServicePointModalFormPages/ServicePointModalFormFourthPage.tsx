@@ -9,6 +9,7 @@ import EventManager from '../../../../managers/Event.manager';
 import {
   useAddStationFeatureMutation,
   useAddStationInfoMutation,
+  useGetByStationIdMutation,
   useGetFeatureValuesMutation,
   useGetStationFeaturesMutation,
   useUpdateStationInfoMutation,
@@ -31,6 +32,7 @@ const ServicePointModalFormFourthPage: React.FC<IServicePointModalPageProps> = (
   const [getStationFeatures] = useGetStationFeaturesMutation();
   const [getOpportunities, { data: opportunities = initialFeatureData }] = useGetFeatureValuesMutation();
   const [getPaymentMethods, { data: paymentMethods = initialFeatureData }] = useGetFeatureValuesMutation();
+  const [getByStationId] = useGetByStationIdMutation()
   const [updateStationInfo] = useUpdateStationInfoMutation();
   const { closeModal } = useModalManager();
 
@@ -60,6 +62,7 @@ const ServicePointModalFormFourthPage: React.FC<IServicePointModalPageProps> = (
     form.setValue(fieldName, selectedItems.map((item: IFeatureProps) => item.rid));
   };
   const handleFormSubmit: SubmitHandler<IFormDataProps> = async (): Promise<void> => {
+    const stationInfoData = await getByStationId({ body: { stationId } }).unwrap();
     const requestData = [
       ...createFeatureData(paymentMethods, 1, form.watch('payment-methods')),
       ...createFeatureData(opportunities, 2, form.watch('opportunities')),
@@ -71,7 +74,7 @@ const ServicePointModalFormFourthPage: React.FC<IServicePointModalPageProps> = (
       },
     ];
 
-    if (modalName === 'addServicePointModal') {
+    if (stationInfoData.length === 0) {
       await addStationInfo({
         body: {
           address: form.watch('address'),
@@ -92,7 +95,7 @@ const ServicePointModalFormFourthPage: React.FC<IServicePointModalPageProps> = (
           addressDetail: form.watch('address-detail'),
           cityId: Number(form.watch('city-id')),
           districtId: Number(form.watch('district-id')),
-          id: stationId,
+          id: stationInfoData[0].id || 0,
           lat: form.watch('lat'),
           lon: form.watch('lng'),
           phone1: form.watch('phone1'),
