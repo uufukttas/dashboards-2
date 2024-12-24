@@ -9,6 +9,7 @@ import {
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import useModalManager from '../../../../src/hooks/useModalManager';
 import type { IEnergyPriceDetailsProps, IStationIdProps } from '../types';
+import EventManager from 'apps/head-office/src/managers/Event.manager';
 
 const EnergyPricesContent: FC<IStationIdProps> = ({ stationId }) => {
   const sectionPrefix: string = `${BRAND_PREFIX}-energy-prices-details`;
@@ -22,6 +23,16 @@ const EnergyPricesContent: FC<IStationIdProps> = ({ stationId }) => {
 
   useEffect(() => {
     getEnergyPrice();
+  }, []);
+
+  useEffect(() => {
+    EventManager.subscribe('energy-price-updated', () => {
+      getEnergyPrice();
+    })
+
+    return () => {
+      EventManager.removeAllListeners('energy-price-updated');
+    };
   }, []);
 
   return energyPriceDetails?.map((energyPriceDetail: IEnergyPriceDetailsProps, index: number) => {
@@ -68,12 +79,13 @@ const EnergyPricesContent: FC<IStationIdProps> = ({ stationId }) => {
                         name="deleteEnergyPrice"
                         onConfirm={() => {
                           deleteEnergyPrice({ body: { Id: energyPriceDetail.id } });
+                          EventManager.emit('energy-price-updated', {});
                           closeModal('confirmationModal');
                         }}
                       />,
                     );
                   }
-                }
+                  }
                 >
                   <FaTrashCan />
                 </Button>

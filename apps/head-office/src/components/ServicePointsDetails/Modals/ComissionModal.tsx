@@ -12,6 +12,7 @@ import {
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import useModalManager from '../../../../src/hooks/useModalManager';
 import { ICommissionFeaturesProps, IStationIdProps } from '../types';
+import EventManager from 'apps/head-office/src/managers/Event.manager';
 
 const ComissionModal: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
   const sectionPrefix: string = `${BRAND_PREFIX}-add-comission-modal`;
@@ -41,6 +42,7 @@ const ComissionModal: React.FC<IStationIdProps> = ({ stationId }: IStationIdProp
       },
     });
 
+    EventManager.emit('comission-updated', {});
     closeModal('addComissionModal');
   };
 
@@ -60,7 +62,7 @@ const ComissionModal: React.FC<IStationIdProps> = ({ stationId }: IStationIdProp
         <form className={`${sectionPrefix}-form w-full`} onSubmit={form.handleSubmit(handleFormSubmit)}>
           <div className={`${sectionPrefix}-name-container`}>
             <BaseSelect
-              className={`${sectionPrefix}-comission-name border text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
+              className={`${sectionPrefix}-comission-name border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
               form={form}
               id={`${sectionPrefix}-comission-name`}
               name={`${sectionPrefix}-comission-name`}
@@ -72,11 +74,14 @@ const ComissionModal: React.FC<IStationIdProps> = ({ stationId }: IStationIdProp
                 });
               }}
               defaultValue={comissionFeatures.reseller}
+              label="Lokasyon sahibi cihaz yatirimcisi"
+              optionLabel='name'
+              optionValue='id'
             />
           </div>
           <div className={`${sectionPrefix}-rate`}>
             <BaseInput
-              containerClassName={`${sectionPrefix}-rate text-text text-sm rounded-lg block w-2/3 p-2.5 mb-4 focus:ring-primary focus:border-primary`}
+              containerClassName={`${sectionPrefix}-rate text-text text-sm rounded-lg block w-2/3 focus:ring-primary focus:border-primary`}
               form={form}
               id={`${sectionPrefix}-rate`}
               label="Komisyon Degeri"
@@ -92,7 +97,7 @@ const ComissionModal: React.FC<IStationIdProps> = ({ stationId }: IStationIdProp
           </div>
           <div className={`${sectionPrefix}-is-investor-reseller flex flex-row justify-between`}>
             <BaseInput
-              containerClassName={`${sectionPrefix}-is-investor-reseller text-text text-sm rounded-lg block w-2/3 p-2.5 mb-4 focus:ring-primary focus:border-primary flex`}
+              containerClassName={`${sectionPrefix}-is-investor-reseller text-text text-sm rounded-lg block w-2/3 focus:ring-primary focus:border-primary flex`}
               form={form}
               id={`${sectionPrefix}-is-investor-reseller`}
               label="Lokasyon sahibi cihaz yatirimcisi mi?"
@@ -108,7 +113,7 @@ const ComissionModal: React.FC<IStationIdProps> = ({ stationId }: IStationIdProp
           </div>
           <div className={`${sectionPrefix}-tariff-fraction-list-container`}>
             <BaseSelect
-              containerClassName={`${sectionPrefix}-tariff-fraction-list text-text text-sm rounded-lg block w-full p-2.5 mb-4 focus:ring-primary focus:border-primary`}
+              containerClassName={`${sectionPrefix}-tariff-fraction-list text-text text-sm rounded-lg block w-full focus:ring-primary focus:border-primary`}
               form={form}
               id={`${sectionPrefix}-tariff-fraction-list`}
               name={`${sectionPrefix}-tariff-fraction-list`}
@@ -119,11 +124,15 @@ const ComissionModal: React.FC<IStationIdProps> = ({ stationId }: IStationIdProp
                   tariffFraction: Number(event.target.value),
                 });
               }}
+              defaultValue={comissionFeatures.tariffFraction}
+              label="Tarife fraksiyonu"
+              optionLabel='name'
+              optionValue='id'
             />
           </div>
           <div className={`${sectionPrefix}-start-time-container flex flex-row justify-between`}>
             <BaseInput
-              containerClassName={`${sectionPrefix}-start-time text-text text-sm rounded-lg block w-2/3 p-2.5 mb-4 focus:ring-primary focus:border-primary`}
+              containerClassName={`${sectionPrefix}-start-time text-text text-sm rounded-lg block w-2/3 focus:ring-primary focus:border-primary`}
               form={form}
               id={`${sectionPrefix}-start-time`}
               name={`${sectionPrefix}-start-time`}

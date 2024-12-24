@@ -7,6 +7,7 @@ import { useAddChargePointUserPermissionMutation } from '../../../../app/api/ser
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import useModalManager from '../../../../src/hooks/useModalManager';
 import type { IStationIdProps } from '../types';
+import EventManager from 'apps/head-office/src/managers/Event.manager';
 
 const ServicePointPermissionsModal: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
   const sectionPrefix: string = `${BRAND_PREFIX}-service-point-permission-modal`;
@@ -29,6 +30,7 @@ const ServicePointPermissionsModal: React.FC<IStationIdProps> = ({ stationId }: 
       },
     });
 
+    EventManager.emit('service-point-permission-updated', {});
     closeModal('addServicePointPermissionModal');
   };
 

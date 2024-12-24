@@ -72,7 +72,7 @@ const authService = baseApi.injectEndpoints({
         method: ApiServiceMethods.POST,
         url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.ADD_STATION_SETTINGS}`,
       }),
-      invalidatesTags: ['GetStationSettings,'],
+      invalidatesTags: ['getChargeUnits'],
     }),
     addWorkingHours: builder.mutation<
       IServicePointDetailResponseProps[],
@@ -133,7 +133,7 @@ const authService = baseApi.injectEndpoints({
         method: ApiServiceMethods.POST,
         url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.GET_STATION_SETTINGS}`,
       }),
-      invalidatesTags: ['GetStationSettings'],
+      invalidatesTags: ['getChargeUnits'],
     }),
     getChargePointFeature: builder.mutation<[], Post<{ StationChargePointID: number }>>({
       query: ({ body }) => ({
@@ -269,6 +269,7 @@ const authService = baseApi.injectEndpoints({
         method: ApiServiceMethods.POST,
         url: `${ENDPOINTS.SERVICE_POINT}${ENDPOINTS.UPDATE_STATION_SETTINGS}`,
       }),
+      invalidatesTags: ['getChargeUnits'],
     }),
   }),
 });

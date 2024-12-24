@@ -4,6 +4,7 @@ import ComissionTableHeader from './ComissionTableHeader';
 import { BRAND_PREFIX } from '../../../../constants/constants';
 import { useGetComissionDetailsMutation } from '../../../../../app/api/services/service-point-details/servicePointDetails.service';
 import type { IStationIdProps } from '../../types';
+import EventManager from 'apps/head-office/src/managers/Event.manager';
 
 const Comissions: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
   const sectionPrefix: string = `${BRAND_PREFIX}-comission-details`;
@@ -15,6 +16,16 @@ const Comissions: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) =
 
   useEffect(() => {
     getComissionDetails();
+  }, []);
+
+  useEffect(() => {
+    EventManager.subscribe('comission-updated', () => {
+      getComissionDetails();
+    });
+
+    return () => {
+      EventManager.removeAllListeners('comission-updated');
+    };
   }, []);
 
   return (

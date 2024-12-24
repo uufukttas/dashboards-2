@@ -14,6 +14,7 @@ import type {
   ITimeFromAPIProps,
   IWorkingHoursContentProps,
 } from '../types';
+import EventManager from 'apps/head-office/src/managers/Event.manager';
 
 const WorkingHoursContent: React.FC<IWorkingHoursContentProps> = ({ stationId }) => {
   const [dataLoaded, setDataLoaded] = useState<boolean>(false);

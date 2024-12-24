@@ -7,6 +7,8 @@ import ModalLayout from '../../Modal/Layouts/ModalLayout';
 import { useGetConnectorsQuery } from '../../../../app/api/services/devices/devices.service';
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import { IConnectorAddModalProps, IConnectorPropertyProps } from '../types';
+import EventManager from 'apps/head-office/src/managers/Event.manager';
+import useModalManager from 'apps/head-office/src/hooks/useModalManager';
 
 const ConnectorAddModal: React.FC<IConnectorPropertyProps> = ({ chargePointId, connectorId, connectorNumber, modelId }) => {
   const sectionPrefix = 'connector';
@@ -19,6 +21,7 @@ const ConnectorAddModal: React.FC<IConnectorPropertyProps> = ({ chargePointId, c
   });
   const [updateConnectorSettings] = useUpdateConnectorSettingsMutation();
   const form = useForm();
+  const { closeModal } = useModalManager();
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -31,6 +34,9 @@ const ConnectorAddModal: React.FC<IConnectorPropertyProps> = ({ chargePointId, c
         stationChargePointModelConnectorID: connectorProperty.connectorValue,
       },
     });
+
+    EventManager.emit('connector-updated', {});
+    closeModal('connectorAddModal');
   };
 
   const setDropdownItems = (connectorList: IConnectorAddModalProps[]) => {
@@ -70,6 +76,9 @@ const ConnectorAddModal: React.FC<IConnectorPropertyProps> = ({ chargePointId, c
                 name="connectorType"
                 items={setDropdownItems(connectors)}
                 defaultValue={connectors[0]?.id}
+                optionClassName='w-full'
+                optionLabel='name'
+                optionValue='id'
                 onChange={(e) => setConnectorProperty({ ...connectorProperty, connectorValue: Number(e.target.value) })}
               ></BaseSelect>
               <Button

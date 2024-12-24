@@ -10,6 +10,7 @@ import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import BaseInput from '../../Base/BaseInput';
 import ModalLayout from '../../Modal/Layouts/ModalLayout';
 import type { IEnergyPriceModalProps, IStationIdProps } from '../types';
+import EventManager from 'apps/head-office/src/managers/Event.manager';
 
 const EnergyPricesModal: FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
   const sectionPrefix: string = `${BRAND_PREFIX}-energy-price-modal`;
@@ -40,6 +41,7 @@ const EnergyPricesModal: FC<IStationIdProps> = ({ stationId }: IStationIdProps) 
       },
     });
 
+    EventManager.emit('energy-price-updated', {});
     closeModal('addEnergyPriceModal');
   };
 

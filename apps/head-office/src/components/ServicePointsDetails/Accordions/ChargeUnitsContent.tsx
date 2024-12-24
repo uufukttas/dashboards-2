@@ -17,6 +17,7 @@ import ChargeUnitAddModal from '../Modals/ChargeUnitAddModal';
 import { IBrandItemProps, IChargeUnitProps, IChargeUnitsContentProps } from '../types';
 import ConenctorsList from './ConenctorsList';
 import ConfirmationModal from '../../Modals/ConfirmationModal';
+import EventManager from '../../../../src/managers/Event.manager';
 
 const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: IChargeUnitsContentProps) => {
   const chargeUnitPrefix: string = `${BRAND_PREFIX}-charge-unit`;
@@ -27,6 +28,8 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
   const [getChargeUnits, { data: chargeUnits }] = useGetChargeUnitsMutation();
   const { data: brands } = useGetDeviceBrandsQuery({});
   const menu = useRef(null);
+  const [currentBrandId, setCurrentBrandId] = React.useState<number>(3);
+  const { data: models } = useGetDeviceModelsQuery(currentBrandId);
 
   const { openModal } = useModalManager();
   const getChargeUnitsList = async (): Promise<void> => {
@@ -158,12 +161,35 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
   };
 
   const getModelImage = (modelId: number): string => {
-    return 'https://via.placeholder.com/150';
+    const model = models?.filter((model) => model.id === modelId)[0];
+    return `${model?.imageCdnUrl}?h=150&w=150&scale=both&mode=max` || '';
   };
 
   useEffect(() => {
     getChargeUnitsList();
   }, []);
+
+  useEffect(() => {
+    EventManager.subscribe('charge-unit-updated', () => {
+      getChargeUnitsList();
+    });
+
+    EventManager.subscribe('connector-updated', () => {
+      getChargeUnitsList();
+    });
+
+    return () => {
+      EventManager.removeAllListeners('charge-unit-updated');
+      EventManager.removeAllListeners('connector-updated');
+    };
+  }, []);
+
+  useEffect(() => {
+    if (chargeUnits?.length > 0) {
+      const uniqueBrandIds = chargeUnits?.map(unit => unit.brandId);
+      setCurrentBrandId(uniqueBrandIds[0] || 3);
+    }
+  }, [chargeUnits]);
 
   return (
     <div className={`${sectionPrefix}-content p-4 rounded-b-md`}>
@@ -173,7 +199,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
           chargeUnits?.map((chargeUnit: IChargeUnitProps, index: number) => {
             return (
               <div
-                className={`${chargeUnitPrefix}-container w-[45%] mx-2 my-4 flex flex-col justify-start items-center border border-gray-300 rounded-md shadow`}
+                className={`${chargeUnitPrefix}-container w-[45%] h-[600px] mx-2 my-4 flex flex-col justify-start items-center border border-gray-300 rounded-md shadow`}
                 key={index}
               >
                 <div
@@ -191,7 +217,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
                   <div className={`${chargeUnitPrefix}-device-code-container flex justify-center items-center w-1/3`}>
                     <p className={`${chargeUnitPrefix}-device-code font-bold`}>{chargeUnit?.deviceCode}</p>
                   </div>
-                  <div className={`${chargeUnitPrefix}-info-container flex justify-end items-center w-1/3`}>
+                  <div className={`${chargeUnitPrefix}-info-container flex justify-end items-center w-1/3 h-auto`}>
                     <div className={`${chargeUnitPrefix}-status-tag-container flex items-center justify-end relative`}>
                       <Tag
                         className={`${chargeUnitPrefix}-status-tag`}
@@ -220,7 +246,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
                 <hr className="seperator text-text w-full" />
                 <div className={`${chargeUnitPrefix}-content-container w-full flex flex-col h-full justify-between`}>
                   <div
-                    className={`${chargeUnitPrefix}-charge-unit-info-container border-r-1 w-full m-4 pr-10 flex h-[175px]`}
+                    className={`${chargeUnitPrefix}-charge-unit-info-container border-r-1 w-full m-4 flex`}
                   >
                     <div className={`${connectorPrefix}-charge-unit-info w-2/3`}>
                       <h1 className={`${connectorPrefix}-charge-unit-info-header font-extrabold`}>Ünite Bilgileri</h1>

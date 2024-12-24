@@ -11,8 +11,9 @@ import {
   useGetDeviceCodeMutation,
   useUpdateStationSettingsMutation,
 } from '../../../../app/api/services/service-point-details/servicePointDetails.service';
-import useModalManager from '../../../../src/hooks/useModalManager';
 import { BRAND_PREFIX } from '../../../constants/constants';
+import useModalManager from '../../../../src/hooks/useModalManager';
+import EventManager from '../../../../src/managers/Event.manager';
 import BaseInput from '../../Base/BaseInput';
 import BaseSelect from '../../Base/BaseSelect';
 import ModalLayout from '../../Modal/Layouts/ModalLayout';
@@ -60,7 +61,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
     [`${formProperties['access-type']}`]: '1',
     [`${formProperties['serial-number']}`]: '',
     [`${formProperties['brand-id']}`]: 3,
-    [`${formProperties['model-id']}`]: 1,
+    [`${formProperties['model-id']}`]: 3,
     [`${formProperties['is-charge-unit-code-visibility']}`]: false,
     [`${formProperties['charge-unit-code']}`]: 0,
     [`${formProperties['connector-count']}`]: 1,
@@ -80,7 +81,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
   const { data: chargePointFeatureStatus } = useGetChargePointFeatureStatusQuery({});
   const { data: investors } = useGetChargePointInvestorsQuery({})
   const { data: brands } = useGetDeviceBrandsQuery({});
-  const checkboxElementName = [
+  const checkboxElementName: string[] = [
     `${formProperties['is-free-usage']}`,
     `${formProperties['is-limited-usage']}`,
     `${formProperties['is-roaming']}`,
@@ -241,7 +242,8 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
       await addStationSettings({ body: requestData });
     }
 
-    closeModal('addChargeUnitModal');
+    EventManager.emit('charge-unit-updated', {});
+    closeModal(modalName);
   };
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setChargeUnitFormData({
@@ -295,24 +297,43 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               items={brands}
               label={'Şarj Ünitesi Markası'}
               name={`${formProperties['brand-id']}`}
-              // @ts-ignore
-              value={chargeUnitFormData[`${formProperties['brand-id']}`]}
-              onChange={(event) => handleInputChange(event)}
-            />
+              optionClassName="hover:bg-primary-lighter hover:text-black"
+              optionLabel="name"
+              optionValue="id"
+              rules={{ required: 'Marka seçimi zorunludur' }}
+              onChange={(event) => {
+                const syntheticEvent = {
+                  target: {
+                    name: formProperties['brand-id'],
+                    value: event.target.value
+                  }
+                };
+                handleInputChange(syntheticEvent as React.ChangeEvent<HTMLSelectElement>);
+              }} />
           </div>
           <div className={`${formProperties['model-id']}-container`}>
             <BaseSelect
               className={`${formProperties['model-id']}-input flex border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
               form={form}
               // @ts-ignore
-              defaultValue={models?.[0]?.id}
+              defaultValue={chargeUnitFormData[`${formProperties['model-id']}`] || models?.[0]?.id}
               id={`${formProperties['model-id']}`}
               items={models}
               label={'Şarj Ünitesi Modeli'}
               name={`${formProperties['model-id']}`}
-              // @ts-ignore
-              value={chargeUnitFormData[`${formProperties['model-id']}`]}
-              onChange={(event) => handleInputChange(event)}
+              optionClassName="hover:bg-primary-lighter hover:text-black"
+              optionLabel="name"
+              optionValue="id"
+              rules={{ required: 'Model seçimi zorunludur' }}
+              onChange={(event) => {
+                const syntheticEvent = {
+                  target: {
+                    name: formProperties['model-id'],
+                    value: event.target.value
+                  }
+                };
+                handleInputChange(syntheticEvent as React.ChangeEvent<HTMLSelectElement>);
+              }}
             />
           </div>
           <div className={`${formProperties['is-charge-unit-code-visibility']}-container`}>
@@ -367,55 +388,96 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               defaultValue={1600}
               id={`${formProperties['ocpp-version']}`}
               items={[
-                { id: 1600, name: 'v1.6', value: 1600 },
-                { id: 2100, name: 'v2.1', value: 2100 },
+                { id: 1600, name: 'v1.6' },
+                { id: 2100, name: 'v2.1' },
               ]}
               label={`OCPP Versiyonu`}
               name={`${formProperties['ocpp-version']}`}
-              // @ts-ignore
-              value={chargeUnitFormData[`${formProperties['ocpp-version']}`]}
-              onChange={(event) => handleInputChange(event)}
+              optionClassName="hover:bg-primary-lighter hover:text-black"
+              optionLabel="name"
+              optionValue="id"
+              rules={{ required: 'OCPP Versiyonu seçimi zorunludur' }}
+              onChange={(event) => {
+                const syntheticEvent = {
+                  target: {
+                    name: formProperties['ocpp-version'],
+                    value: event.target.value
+                  }
+                };
+                handleInputChange(syntheticEvent as React.ChangeEvent<HTMLSelectElement>);
+              }}
             />
           </div>
           <div className={`${formProperties.investor}-container`}>
             <BaseSelect
               className={`${formProperties.investor}-input border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
               form={form}
-              defaultValue={investors?.[0]?.id}
+              defaultValue={chargeUnitFormData[`${formProperties.investor}`]?.toString() || investors?.[0]?.id}
               id={`${formProperties.investor}`}
               items={investors}
               label={`Yatırımcı`}
               name={`${formProperties.investor}`}
-              value={investors?.filter((investor: IInvestorsProps) => investor.name === chargeUnitFormData[`${formProperties.investor}`])[0]?.id}
-              onChange={(event) => handleInputChange(event)}
+              optionClassName="hover:bg-primary-lighter hover:text-black"
+              optionLabel="name"
+              optionValue="id"
+              rules={{ required: 'Yatırımcı seçimi zorunludur' }}
+              onChange={(event) => {
+                const syntheticEvent = {
+                  target: {
+                    name: formProperties['investor'],
+                    value: event.target.value
+                  }
+                };
+                handleInputChange(syntheticEvent as React.ChangeEvent<HTMLSelectElement>);
+              }}
             />
           </div>
           <div className={`${formProperties.status}-container`}>
             <BaseSelect
               className={`${formProperties.status}-input border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
               form={form}
-              defaultValue={chargePointFeatureStatus.statusList?.[0]?.id}
+              defaultValue={chargeUnitFormData[`${formProperties.status}`] || chargePointFeatureStatus.statusList?.[0]?.id}
               id={`${formProperties.status}`}
               items={chargePointFeatureStatus?.statusList}
               label={`Durum`}
               name={`${formProperties.status}`}
-              // @ts-ignore
-              value={selectedFeatures[0]?.stationChargePointFeatureTypeValue}
-              onChange={(event) => handleInputChange(event)}
+              optionClassName="hover:bg-primary-lighter hover:text-black"
+              optionLabel="name"
+              optionValue="id"
+              rules={{ required: 'Durum seçimi zorunludur' }}
+              onChange={(event) => {
+                const syntheticEvent = {
+                  target: {
+                    name: formProperties['status'],
+                    value: event.target.value
+                  }
+                };
+                handleInputChange(syntheticEvent as React.ChangeEvent<HTMLSelectElement>);
+              }}
             />
           </div>
           <div className={`${formProperties['access-type']}-container`}>
             <BaseSelect
               className={`${formProperties['access-type']}-input border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
               form={form}
-              defaultValue={chargePointFeatureStatus.accessTypeList?.[0]?.id}
+              defaultValue={chargeUnitFormData[`${formProperties['access-type']}`] || chargePointFeatureStatus.accessTypeList?.[0]?.id}
               id={`${formProperties['access-type']}`}
               items={chargePointFeatureStatus?.accessTypeList}
               label={`Erisim Tipi`}
               name={`${formProperties['access-type']}`}
-              // @ts-ignore
-              value={selectedFeatures[1]?.stationChargePointFeatureTypeValue}
-              onChange={(event) => handleInputChange(event)}
+              optionClassName="hover:bg-primary-lighter hover:text-black"
+              optionLabel="name"
+              optionValue="id"
+              rules={{ required: 'Erisim Tipi seçimi zorunludur' }}
+              onChange={(event) => {
+                const syntheticEvent = {
+                  target: {
+                    name: formProperties['access-type'],
+                    value: event.target.value
+                  }
+                };
+                handleInputChange(syntheticEvent as React.ChangeEvent<HTMLSelectElement>);
+              }}
             />
           </div>
           <div className={`${formProperties.location}-container`}>

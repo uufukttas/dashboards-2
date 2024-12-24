@@ -9,6 +9,7 @@ import {
 import { BRAND_PREFIX } from '../../../../src/constants/constants';
 import useModalManager from '../../../../src/hooks/useModalManager';
 import { IServicePointPermissionProps, IStationIdProps } from '../types';
+import EventManager from 'apps/head-office/src/managers/Event.manager';
 
 const ServicePointPermissions: React.FC<IStationIdProps> = ({ stationId }) => {
   const sectionPrefix: string = `${BRAND_PREFIX}-service-point-permissions`;
@@ -20,6 +21,16 @@ const ServicePointPermissions: React.FC<IStationIdProps> = ({ stationId }) => {
 
   useEffect(() => {
     fetchServicePointPermissions();
+  }, []);
+
+  useEffect(() => {
+    EventManager.subscribe('service-point-permission-updated', () => {
+      fetchServicePointPermissions();
+    });
+
+    return () => {
+      EventManager.removeAllListeners('service-point-permission-updated');
+    };
   }, []);
 
   return (
