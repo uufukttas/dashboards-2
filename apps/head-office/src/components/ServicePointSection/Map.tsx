@@ -56,7 +56,7 @@ const MapComponent: React.FC<IMapProps> = ({ cityId, districtId, lat, lng, onSel
 
       if (location) {
         mapRef.current?.setCenter(location);
-        mapRef.current?.setZoom(6);
+        mapRef.current?.setZoom(16);
       }
     }
   };
