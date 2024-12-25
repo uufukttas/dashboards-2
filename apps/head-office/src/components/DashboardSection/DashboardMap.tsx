@@ -29,6 +29,7 @@ const DashboardMap: React.FC<{ widget: IComponentValueProps }> = ({ widget }) =>
     latitude: 39.92503,
     longitude: 32.83707,
   });
+  const [activeTab, setActiveTab] = useState('istasyon');
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '',
@@ -162,23 +163,73 @@ const DashboardMap: React.FC<{ widget: IComponentValueProps }> = ({ widget }) =>
                 setAddress({ address: '', name: '' });
               }}
             >
-              <div
-                className={`${dashboardMapPrefix}-information-window-container flex items-start justify-center w-full`}
-              >
-                <div
-                  className={`${dashboardMapPrefix}-information-window-content-container mr-2`}
-                >
-                  <p
-                    className={`${dashboardMapPrefix}-information-window-header font-bold`}
+              <div className="bg-white p-4 rounded-lg shadow-md min-w-[200px]">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="flex space-x-4 border-b w-full">
+                    <button
+                      className={`pb-2 px-2 ${
+                        activeTab === 'istasyon'
+                          ? 'border-b-2 border-blue-500 text-blue-500'
+                          : 'text-gray-500'
+                      }`}
+                      onClick={() => setActiveTab('istasyon')}
+                    >
+                      İstasyon
+                    </button>
+                    <button
+                      className={`pb-2 px-2 ${
+                        activeTab === 'lokasyon'
+                          ? 'border-b-2 border-blue-500 text-blue-500'
+                          : 'text-gray-500'
+                      }`}
+                      onClick={() => setActiveTab('lokasyon')}
+                    >
+                      Lokasyon
+                    </button>
+                  </div>
+                  <button 
+                    onClick={() => setSelectedMarker(null)}
+                    className="text-gray-500 hover:text-gray-700 ml-2"
                   >
-                    {address.name}
-                  </p>
-                  <hr />
-                  <p style={{ margin: 0 }}>{address.address}</p>
+                    <IoCloseCircle size={24} />
+                  </button>
                 </div>
-                <button onClick={() => setSelectedMarker(null)}>
-                  <IoCloseCircle className={`${dashboardMapPrefix} text-lg`} />
-                </button>
+                
+                {activeTab === 'istasyon' && (
+                  <div className="space-y-2">
+                    <div className="flex flex-col">
+                      <span className="text-gray-600">Şarj Noktası:</span>
+                      <span className="font-medium">{address.name}</span>
+                    </div>
+                    
+                    <div className="flex flex-col">
+                      <span className="text-gray-600">İstasyon Kodu:</span>
+                      <span className="font-medium">{selectedMarker.id}</span>
+                    </div>
+                    
+                    <div className="flex flex-col">
+                      <span className="text-gray-600">Kullanım Türü:</span>
+                      <span className="font-medium">Halka Açık</span>
+                    </div>
+                    
+                    <div className="flex flex-col">
+                      <span className="text-gray-600">Durum:</span>
+                      <div className="flex items-center">
+                        <div className="w-2 h-2 rounded-full bg-green-500 mr-2"></div>
+                        <span className="font-medium">1 soket kullanıma uygun (Toplam: 2)</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === 'lokasyon' && (
+                  <div className="space-y-2">
+                    <div className="flex flex-col">
+                      <span className="text-gray-600">Adres:</span>
+                      <span className="font-medium">{address.address}</span>
+                    </div>
+                  </div>
+                )}
               </div>
             </InfoWindow>
           )}

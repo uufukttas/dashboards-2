@@ -37,9 +37,8 @@ const DashboardCardContent = ({ widget }: { widget: IDashboardCardComponentProps
                 className={`${dashboardCardContentPrefix}-content-container flex items-center justify-center w-full h-5/6`}
               >
                 <div
-                  className={`${dashboardCardContentPrefix}-icon-container flex items-center justify-center ${
-                    componentValue?.iconName ? 'w-full' : 'w-0'
-                  } h-5/6`}
+                  className={`${dashboardCardContentPrefix}-icon-container flex items-center justify-center ${componentValue?.iconName ? 'w-full' : 'w-0'
+                    } h-5/6`}
                 >
                   <DynamicSVG fileName={componentValue?.iconName} className="" />
                 </div>
@@ -50,8 +49,9 @@ const DashboardCardContent = ({ widget }: { widget: IDashboardCardComponentProps
                     <>
                       <span className={`${BRAND_PREFIX}-active-widget-data text-${componentValue?.valueSizeType} px-1`}>
                         {componentValue?.activeData}
-                      </span>{' '}
-                      /<span className="px-1">{componentValue?.totalData}</span>
+                      </span>
+                      /
+                      <span className="px-1">{componentValue?.totalData}</span>
                     </>
                   }
                 </div>
@@ -63,7 +63,7 @@ const DashboardCardContent = ({ widget }: { widget: IDashboardCardComponentProps
               className={`${dashboardCardContentPrefix}-description-container w-full h-1/6 flex items-end text-xs px-4`}
             >
               <div className={`${dashboardCardContentPrefix}-description w-full flex items-center justify-start`}>
-                <FaCircleInfo className="mx-2" />
+                <FaCircleInfo className="mx-2 text-primary" fontSize={24} />
                 {componentValue?.widgetDescription}
               </div>
             </div>
