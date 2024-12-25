@@ -36,7 +36,7 @@ const ConnectorAddModal: React.FC<IConnectorPropertyProps> = ({ chargePointId, c
     });
 
     EventManager.emit('connector-updated', {});
-    closeModal('connectorAddModal');
+    closeModal('addConnectorModal');
   };
 
   const setDropdownItems = (connectorList: IConnectorAddModalProps[]) => {

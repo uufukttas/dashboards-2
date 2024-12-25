@@ -35,8 +35,8 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
     'is-free-usage',
     'is-limited-usage',
     'is-roaming',
-    'investor',
-    'status',
+    'investor-id',
+    'status-id',
     'access-type',
     'location',
   ];
@@ -52,8 +52,8 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
     'is-free-usage': `${sectionPrefix}-${formName[7]}`,
     'is-limited-usage': `${sectionPrefix}-${formName[8]}`,
     'is-roaming': `${sectionPrefix}-${formName[9]}`,
-    investor: `${sectionPrefix}-${formName[10]}`,
-    status: `${sectionPrefix}-${formName[11]}`,
+    'investor-id': `${sectionPrefix}-${formName[10]}`,
+    'status-id': `${sectionPrefix}-${formName[11]}`,
     'access-type': `${sectionPrefix}-${formName[12]}`,
     location: `${sectionPrefix}-${formName[13]}`,
   };
@@ -68,10 +68,10 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
     [`${formProperties['is-free-usage']}`]: false,
     [`${formProperties['is-limited-usage']}`]: false,
     [`${formProperties['is-roaming']}`]: false,
-    [`${formProperties.investor}`]: 1,
+    [`${formProperties['investor-id']}`]: 1,
     [`${formProperties.location}`]: '',
     [`${formProperties['ocpp-version']}`]: 1600,
-    [`${formProperties.status}`]: '1',
+    [`${formProperties['status-id']}`]: '1',
   };
   const form = useForm();
   const [addStationSettings] = useAddStationSettingsMutation();
@@ -116,6 +116,9 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
           form.setValue(`${formProperties['is-limited-usage']}`, chargeUnit.limitedUsage);
           form.setValue(`${formProperties['is-roaming']}`, chargeUnit.sendRoaming);
           form.setValue(`${formProperties['ocpp-version']}`, chargeUnit.ocppVersion);
+          form.setValue(`${formProperties['investor-id']}`, chargeUnit.investorId);
+          form.setValue(`${formProperties['status-id']}`, chargeUnit.status);
+          form.setValue(`${formProperties['access-type']}`, chargeUnit.accessTypeId);
           form.setValue(`${formProperties.location}`, features.data?.filter((feature: IChargePointFeatureProps) => {
             return feature.stationChargePointFeatureType === 3
             // @ts-ignore
@@ -123,7 +126,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
         }
 
         setChargeUnitFormData({
-          [`${formProperties['access-type']}`]: chargeUnit.accessType,
+          [`${formProperties['access-type']}`]: chargeUnit.accessTypeId,
           [`${formProperties['serial-number']}`]: chargeUnit.serialNumber,
           [`${formProperties['brand-id']}`]: chargeUnit.brandId,
           [`${formProperties['model-id']}`]: chargeUnit.modelId,
@@ -133,13 +136,12 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
           [`${formProperties['is-free-usage']}`]: chargeUnit.isFreePoint,
           [`${formProperties['is-limited-usage']}`]: chargeUnit.limitedUsage,
           [`${formProperties['is-roaming']}`]: chargeUnit.sendRoaming,
-          [`${formProperties.investor}`]: chargeUnit.investor,
+          [`${formProperties['investor-id']}`]: chargeUnit.investorId,
           [`${formProperties.location}`]: chargeUnit.location,
           [`${formProperties['ocpp-version']}`]: chargeUnit.ocppVersion,
-          [`${formProperties.status}`]: chargeUnit.status,
+          [`${formProperties['status-id']}`]: chargeUnit.status,
         });
       });
-
   };
   const createUpdateRequestData = async () => {
     const requestProps = await getChargePointFeature({ body: { StationChargePointID: chargePointId } })
@@ -153,7 +155,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
             isFreePoint: chargeUnitFormData[`${formProperties['is-free-usage']}`],
             isOnlyDefinedUserCards: chargeUnitFormData[`${formProperties['is-limited-usage']}`],
             ocppVersion: Number(chargeUnitFormData[`${formProperties['ocpp-version']}`]?.toString()),
-            ownerType: Number(chargeUnitFormData[`${formProperties.investor}`]),
+            ownerType: Number(chargeUnitFormData[`${formProperties['investor-id']}`]),
             sendRoaming: chargeUnitFormData[`${formProperties['is-roaming']}`],
             serialNumber: chargeUnitFormData[`${formProperties['serial-number']}`]?.toString() || '',
             stationId,
@@ -200,7 +202,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
         isFreePoint: chargeUnitFormData[`${formProperties['is-free-usage']}`],
         isOnlyDefinedUserCards: chargeUnitFormData[`${formProperties['is-limited-usage']}`],
         ocppVersion: Number(chargeUnitFormData[`${formProperties['ocpp-version']}`]),
-        ownerType: Number(chargeUnitFormData[`${formProperties.investor}`]),
+        ownerType: Number(chargeUnitFormData[`${formProperties['investor-id']}`]),
         sendRoaming: chargeUnitFormData[`${formProperties['is-roaming']}`],
         serialNumber: chargeUnitFormData[`${formProperties['serial-number']}`]?.toString() || '',
         stationId,
@@ -269,16 +271,9 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
     }
   }, []);
 
-  useEffect(() => {
-    if (investors) {
-      setChargeUnitFormData({
-        ...chargeUnitFormData,
-        [`${formProperties.investor}`]: investors?.filter((investor: IInvestorsProps) => investor.name === chargeUnitFormData[`${formProperties.investor}`])[0]?.id,
-      })
-    }
-  }, [investors]);
 
   return (
+    chargeUnitFormData && chargePointFeatureStatus &&
     <ModalLayout
       className={`${sectionPrefix}-container`}
       contentClassName={`${sectionPrefix}-content flex-col `}
@@ -408,15 +403,15 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               }}
             />
           </div>
-          <div className={`${formProperties.investor}-container`}>
+          <div className={`${formProperties['investor-id']}-container`}>
             <BaseSelect
-              className={`${formProperties.investor}-input border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
+              className={`${formProperties['investor-id']}-input border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
               form={form}
-              defaultValue={chargeUnitFormData[`${formProperties.investor}`]?.toString() || investors?.[0]?.id}
-              id={`${formProperties.investor}`}
+              defaultValue={investors?.filter((investor: IInvestorsProps) => investor.id === chargeUnitFormData[`${formProperties['investor-id']}`])[0]?.id}
+              id={`${formProperties['investor-id']}`}
               items={investors}
               label={`Yatırımcı`}
-              name={`${formProperties.investor}`}
+              name={`${formProperties['investor-id']}`}
               optionClassName="hover:bg-primary-lighter hover:text-black"
               optionLabel="name"
               optionValue="id"
@@ -424,7 +419,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               onChange={(event) => {
                 const syntheticEvent = {
                   target: {
-                    name: formProperties['investor'],
+                    name: formProperties['investor-id'],
                     value: event.target.value
                   }
                 };
@@ -432,15 +427,17 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               }}
             />
           </div>
-          <div className={`${formProperties.status}-container`}>
+          <div className={`${formProperties['status-id']}-container`}>
             <BaseSelect
-              className={`${formProperties.status}-input border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
+              className={`${formProperties['status-id']}-input border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
               form={form}
-              defaultValue={chargeUnitFormData[`${formProperties.status}`] || chargePointFeatureStatus.statusList?.[0]?.id}
-              id={`${formProperties.status}`}
-              items={chargePointFeatureStatus?.statusList}
+              defaultValue={chargePointFeatureStatus.statusList.filter((status: IChargePointFeatureProps) => {
+                return status.id.toString() === chargeUnitFormData[`${formProperties['status-id']}`] ? status.id.toString() : '1'
+              })[0]?.id}
+              id={`${formProperties['status-id']}`}
+              items={chargePointFeatureStatus.statusList}
               label={`Durum`}
-              name={`${formProperties.status}`}
+              name={`${formProperties['status-id']}`}
               optionClassName="hover:bg-primary-lighter hover:text-black"
               optionLabel="name"
               optionValue="id"
@@ -448,7 +445,7 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
               onChange={(event) => {
                 const syntheticEvent = {
                   target: {
-                    name: formProperties['status'],
+                    name: formProperties['status-id'],
                     value: event.target.value
                   }
                 };
@@ -460,9 +457,11 @@ const ChargeUnitAddModal: React.FC<IChargeUnitAddModalProps> = ({
             <BaseSelect
               className={`${formProperties['access-type']}-input border text-text text-sm rounded-lg block w-full mb-4 focus:ring-primary focus:border-primary`}
               form={form}
-              defaultValue={chargeUnitFormData[`${formProperties['access-type']}`] || chargePointFeatureStatus.accessTypeList?.[0]?.id}
+              defaultValue={chargePointFeatureStatus.accessTypeList?.filter((accessType: IChargePointFeatureProps) => {
+                return accessType.id.toString() === chargeUnitFormData[`${formProperties['access-type']}`] ? accessType.id.toString() : '1'
+              })[0]?.id}
               id={`${formProperties['access-type']}`}
-              items={chargePointFeatureStatus?.accessTypeList}
+              items={chargePointFeatureStatus.accessTypeList}
               label={`Erisim Tipi`}
               name={`${formProperties['access-type']}`}
               optionClassName="hover:bg-primary-lighter hover:text-black"

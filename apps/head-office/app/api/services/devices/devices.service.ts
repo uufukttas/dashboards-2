@@ -1,3 +1,4 @@
+import { IDeviceModelDataProps } from 'apps/head-office/src/components/Devices/types';
 import baseApi from '../../baseApi';
 import { ApiServiceMethods } from '../../constant';
 import { ENDPOINTS } from '../../endpoints';
@@ -129,7 +130,7 @@ const deviceServices = baseApi.injectEndpoints({
       }),
       providesTags: ['DeviceModel'],
     }),
-    getDeviceModels: builder.query<IDeviceResponsesProps[], number>({
+    getDeviceModels: builder.query<IDeviceModelDataProps[], number>({
       query: (brandId) => ({
         method: ApiServiceMethods.GET,
         url: `${ENDPOINTS.VALUES}${ENDPOINTS.GET_MODELS}?brandId=${brandId}`,

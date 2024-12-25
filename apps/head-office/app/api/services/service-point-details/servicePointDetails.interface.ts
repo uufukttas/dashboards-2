@@ -82,6 +82,7 @@ export interface IFeatureItemProps {
 
 export interface IChargeUnitProps {
   accessType: string;
+  accessTypeId: number;
   brandId: number;
   brandName: string;
   chargePointId: number;
@@ -94,6 +95,7 @@ export interface IChargeUnitProps {
   hoStatus: string;
   internalAddress: string;
   investor: string;
+  investorId: number;
   isFreePoint: boolean;
   lastHeartBeat: string;
   limitedUsage: boolean;

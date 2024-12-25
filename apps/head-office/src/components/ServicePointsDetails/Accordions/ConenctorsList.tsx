@@ -31,7 +31,7 @@ const ConenctorsList: React.FC<{ chargePointId: number; deviceCode: string }> = 
       return (
         <Card
           BRAND_PREFIX={BRAND_PREFIX}
-          containerClassName={`${chargeUnitPrefix}-card-container text-text font-bold flex flex-col rounded-md w-1/2 m-4 border border-gray-200 shadow-none`}
+          containerClassName={`${chargeUnitPrefix}-card-container text-text font-bold flex flex-col rounded-md w-[40%] m-4 border border-gray-200 shadow-none`}
           key={index}
         >
           <div className={`${chargeUnitPrefix}-card-content flex flex-col justify-between p-4`}>

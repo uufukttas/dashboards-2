@@ -27,11 +27,11 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
   const [updateStationSettings] = useUpdateStationSettingsMutation();
   const [getChargeUnits, { data: chargeUnits }] = useGetChargeUnitsMutation();
   const { data: brands } = useGetDeviceBrandsQuery({});
-  const menu = useRef(null);
+  const menuRefs = useRef<{ [key: number]: any }>({});
   const [currentBrandId, setCurrentBrandId] = React.useState<number>(3);
   const { data: models } = useGetDeviceModelsQuery(currentBrandId);
 
-  const { openModal } = useModalManager();
+  const { closeModal, openModal } = useModalManager();
   const getChargeUnitsList = async (): Promise<void> => {
     await getChargeUnits({ body: { stationId, PageNumber: 1, PageSize: 10 } }).unwrap();
   };
@@ -80,7 +80,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
         isFreePoint: chargeUnit?.isFreePoint,
         isOnlyDefinedUserCards: chargeUnit?.limitedUsage,
         ocppVersion: chargeUnit?.ocppVersion,
-        ownerType: Number(chargeUnit?.investor) || 10,
+        ownerType: Number(chargeUnit?.investorId) || 10,
         sendRoaming: chargeUnit?.sendRoaming,
         serialNumber: chargeUnit?.serialNumber,
         stationId,
@@ -112,6 +112,8 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
 
     // @ts-ignore
     await updateStationSettings({ body: requestData });
+    EventManager.emit('charge-unit-updated', {});
+    closeModal('confirmationModal');
   };
 
   const setCommandFn = (item: MenuItem, chargePointId: number) => {
@@ -161,7 +163,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
   };
 
   const getModelImage = (modelId: number): string => {
-    const model = models?.filter((model) => model.id === modelId)[0];
+    const model = models?.filter((model: { id: number, imageCdnUrl: string, brandId: number, name: string }) => model.id === modelId)[0];
     return `${model?.imageCdnUrl}?h=150&w=150&scale=both&mode=max` || '';
   };
 
@@ -185,7 +187,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
   }, []);
 
   useEffect(() => {
-    if (chargeUnits?.length > 0) {
+    if (chargeUnits && chargeUnits.length > 0) {
       const uniqueBrandIds = chargeUnits?.map(unit => unit.brandId);
       setCurrentBrandId(uniqueBrandIds[0] || 3);
     }
@@ -197,6 +199,10 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
         {chargeUnits &&
           chargeUnits?.length > 0 &&
           chargeUnits?.map((chargeUnit: IChargeUnitProps, index: number) => {
+            if (!menuRefs.current[chargeUnit.chargePointId]) {
+              menuRefs.current[chargeUnit.chargePointId] = React.createRef();
+            }
+
             return (
               <div
                 className={`${chargeUnitPrefix}-container w-[45%] h-[600px] mx-2 my-4 flex flex-col justify-start items-center border border-gray-300 rounded-md shadow`}
@@ -229,12 +235,11 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
                       <TieredMenu
                         model={setMenuItems(chargeUnit.chargePointId)}
                         popup
-                        ref={menu}
-                        className="ufuk-test"
+                        ref={menuRefs.current[chargeUnit.chargePointId]}
                       />
                       <Button
                         type="button"
-                        onClick={(e) => menu?.current && (menu.current as any).toggle(e)}
+                        onClick={(e) => menuRefs.current[chargeUnit.chargePointId]?.current?.toggle(e)}
                         id="menu-button"
                         className="w-8 h-8 rounded-full items-center justify-center bg-gray-700 opacity-60 flex ml-4 "
                       >
@@ -345,7 +350,7 @@ const ChargeUnitsContent: React.FC<IChargeUnitsContentProps> = ({ stationId }: I
                       />
                     </div>
                   </div>
-                  <div className={`${chargeUnitPrefix}-connector-list-card-contianer flex w-full w-1/2`}>
+                  <div className={`${chargeUnitPrefix}-connector-list-card-contianer flex w-full flex-wrap`}>
                     <ConenctorsList chargePointId={chargeUnit.chargePointId} deviceCode={chargeUnit.deviceCode} />
                   </div>
                 </div>

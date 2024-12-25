@@ -17,16 +17,16 @@ import EventManager from 'apps/head-office/src/managers/Event.manager';
 const ComissionModal: React.FC<IStationIdProps> = ({ stationId }: IStationIdProps) => {
   const sectionPrefix: string = `${BRAND_PREFIX}-add-comission-modal`;
   const form = useForm();
-  const [comissionFeatures, setComissionFeatures] = useState<ICommissionFeaturesProps>({
-    isResellerForServicePoint: false,
-    rate: '0',
-    reseller: 0,
-    tariffFraction: 1,
-    time: new Date().getTime(),
-  });
   const [addComission] = useAddComissionMutation();
   const { data: tariffFractionList } = useGetFractionTypeQuery({});
   const { data: investors } = useGetChargePointInvestorsQuery({});
+  const [comissionFeatures, setComissionFeatures] = useState<ICommissionFeaturesProps>({
+    isResellerForServicePoint: false,
+    rate: '0',
+    reseller: investors?.data?.[0].id,
+    tariffFraction: tariffFractionList?.data?.[0].id,
+    time: new Date().getTime(),
+  });
   const { closeModal } = useModalManager();
 
   const getInvestors = (): void => (comissionFeatures.reseller = investors?.data?.[0].id);
@@ -67,16 +67,16 @@ const ComissionModal: React.FC<IStationIdProps> = ({ stationId }: IStationIdProp
               id={`${sectionPrefix}-comission-name`}
               name={`${sectionPrefix}-comission-name`}
               items={investors}
+              defaultValue={comissionFeatures.reseller}
+              label="Lokasyon sahibi cihaz yatirimcisi"
+              optionLabel='name'
+              optionValue='id'
               onChange={(event) => {
                 setComissionFeatures({
                   ...comissionFeatures,
                   reseller: Number(event.target.value),
                 });
               }}
-              defaultValue={comissionFeatures.reseller}
-              label="Lokasyon sahibi cihaz yatirimcisi"
-              optionLabel='name'
-              optionValue='id'
             />
           </div>
           <div className={`${sectionPrefix}-rate`}>
