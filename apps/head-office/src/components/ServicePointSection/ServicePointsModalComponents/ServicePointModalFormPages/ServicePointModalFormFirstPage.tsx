@@ -5,7 +5,7 @@ import BaseSelect from '../../../Base/BaseSelect';
 import { BRAND_PREFIX } from '../../../../constants/constants';
 import {
   useAddStationMutation,
-  useGetCompaniesQuery,
+  // useGetCompaniesQuery,
   useGetResellersQuery,
   useUpdateStationMutation,
 } from '../../../../../app/api/services/service-points/servicePoints.service';
@@ -25,7 +25,7 @@ const ServicePointModalFormFirstPage: React.FC<IServicePointModalPageProps> = ({
   const { handleSubmit } = form;
   const [addStation] = useAddStationMutation();
   const { data: resellers } = useGetResellersQuery();
-  const { data: companies } = useGetCompaniesQuery();
+  // const { data: companies } = useGetCompaniesQuery();
   const [updateStation] = useUpdateStationMutation();
   const handleFormSubmit = (): void => {
     handleServicePointOperation();
@@ -34,7 +34,8 @@ const ServicePointModalFormFirstPage: React.FC<IServicePointModalPageProps> = ({
     if (hasServicePointId) {
       updateStation({
         body: {
-          companyId: form.watch(`company-id`),
+          // TODO: Company-ID will be changed according to the user's company - There is no any API for this
+          companyId: 2,
           id: form.watch(`id`),
           isActive: true,
           name: form.watch('name'),
@@ -50,7 +51,8 @@ const ServicePointModalFormFirstPage: React.FC<IServicePointModalPageProps> = ({
 
     addStation({
       body: {
-        companyId: form.watch(`company-id`),
+        // TODO: Company-ID will be changed according to the user's company - There is no any API for this
+        companyId: 2,
         isActive: true,
         name: form.watch(`name`),
         resellerCompanyId: form.watch(`reseller-company-id`),
@@ -95,7 +97,7 @@ const ServicePointModalFormFirstPage: React.FC<IServicePointModalPageProps> = ({
           }}
         />
       </div>
-      <div className={`${sectionPrefix}-company-select-container`}>
+      {/* <div className={`${sectionPrefix}-company-select-container`}>
         <BaseSelect
           disabled={isDisabled}
           form={form}
@@ -107,7 +109,7 @@ const ServicePointModalFormFirstPage: React.FC<IServicePointModalPageProps> = ({
           optionValue="id"
           rules={{ required: 'Şirket seçimi zorunludur' }}
         />
-      </div>
+      </div> */}
       <div className={`${sectionPrefix}-reseller-select-container`}>
         <BaseSelect
           disabled={isDisabled}

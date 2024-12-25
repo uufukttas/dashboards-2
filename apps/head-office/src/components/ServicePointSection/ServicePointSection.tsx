@@ -40,7 +40,7 @@ const ServicePointSection: React.FC = () => {
             data-service-point-id={rowData['id']}
             onClick={() => handleUpdateServicePoint(rowData['id'])}
           >
-            <FaPen className="text-primary" />
+            <FaPen className="text-primary" fontSize={24}/>
           </Button>
         </div>
         <div className={`${pagePrefix}-table-actions-delete-button-container flex justify-end items-start w-1/3`}>
@@ -49,7 +49,7 @@ const ServicePointSection: React.FC = () => {
             data-service-point-id={rowData['id']}
             onClick={() => deleteServicePointInfo(rowData['id'])}
           >
-            <FaTrashCan className="text-red-500" />
+            <FaTrashCan className="text-red-500" fontSize={24}/>
           </Button>
         </div>
         {rowData?.address && rowData?.districtId && rowData?.cityId && rowData?.phone && (
@@ -58,7 +58,7 @@ const ServicePointSection: React.FC = () => {
               className={`${pagePrefix}-table-actions-info-button font-medium cursor-pointer hover:scale-125 mx-4 transition-transform duration-300 ease-in-out`}
               onClick={() => { router.push(`/service-points/service-point/${rowData.id}`); }}
             >
-              <FaCircleInfo className="text-primary" />
+              <FaCircleInfo className="text-primary" fontSize={24}/>
             </Button>
           </div>
         )}
