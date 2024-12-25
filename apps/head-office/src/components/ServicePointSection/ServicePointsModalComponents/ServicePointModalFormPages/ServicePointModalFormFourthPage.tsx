@@ -9,8 +9,10 @@ import EventManager from '../../../../managers/Event.manager';
 import {
   useAddStationFeatureMutation,
   useAddStationInfoMutation,
+  useGetByStationIdMutation,
   useGetFeatureValuesMutation,
   useGetStationFeaturesMutation,
+  useUpdateStationInfoMutation,
 } from '../../../../../app/api/services/service-points/servicePoints.service';
 import useModalManager from '../../../../../src/hooks/useModalManager';
 import { IFeatureConfigData, IFeatureProps, IFormDataProps, IServicePointModalPageProps } from '../../types';
@@ -30,6 +32,8 @@ const ServicePointModalFormFourthPage: React.FC<IServicePointModalPageProps> = (
   const [getStationFeatures] = useGetStationFeaturesMutation();
   const [getOpportunities, { data: opportunities = initialFeatureData }] = useGetFeatureValuesMutation();
   const [getPaymentMethods, { data: paymentMethods = initialFeatureData }] = useGetFeatureValuesMutation();
+  const [getByStationId] = useGetByStationIdMutation()
+  const [updateStationInfo] = useUpdateStationInfoMutation();
   const { closeModal } = useModalManager();
 
   const createFeatureData =
@@ -58,6 +62,7 @@ const ServicePointModalFormFourthPage: React.FC<IServicePointModalPageProps> = (
     form.setValue(fieldName, selectedItems.map((item: IFeatureProps) => item.rid));
   };
   const handleFormSubmit: SubmitHandler<IFormDataProps> = async (): Promise<void> => {
+    const stationInfoData = await getByStationId({ body: { stationId } }).unwrap();
     const requestData = [
       ...createFeatureData(paymentMethods, 1, form.watch('payment-methods')),
       ...createFeatureData(opportunities, 2, form.watch('opportunities')),
@@ -69,19 +74,35 @@ const ServicePointModalFormFourthPage: React.FC<IServicePointModalPageProps> = (
       },
     ];
 
-    await addStationInfo({
-      body: {
-        address: form.watch('address'),
-        addressDetail: form.watch('address-detail'),
-        cityId: Number(form.watch('city-id')),
-        districtId: Number(form.watch('district-id')),
-        lat: form.watch('lat'),
-        lon: form.watch('lng'),
-        phone1: form.watch('phone1'),
-        phone2: form.watch('phone2'),
-        stationId,
-      },
-    }).unwrap();
+    if (stationInfoData.length === 0) {
+      await addStationInfo({
+        body: {
+          address: form.watch('address'),
+          addressDetail: form.watch('address-detail'),
+          cityId: Number(form.watch('city-id')),
+          districtId: Number(form.watch('district-id')),
+          lat: form.watch('lat'),
+          lon: form.watch('lng'),
+          phone1: form.watch('phone1'),
+          phone2: form.watch('phone2'),
+          stationId,
+        },
+      }).unwrap();
+    } else {
+      await updateStationInfo({
+        body: {
+          address: form.watch('address'),
+          addressDetail: form.watch('address-detail'),
+          cityId: Number(form.watch('city-id')),
+          districtId: Number(form.watch('district-id')),
+          id: stationInfoData[0].id || 0,
+          lat: form.watch('lat'),
+          lon: form.watch('lng'),
+          phone1: form.watch('phone1'),
+          phone2: form.watch('phone2'),
+        },
+      }).unwrap();
+    }
     await addStationFeature({ body: requestData }).unwrap();
 
     closeModal(modalName);

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { use, useEffect } from 'react';
 import { Button } from '@projects/button';
 import BaseInput from '../../../Base/BaseInput';
 import BaseSelect from '../../../Base/BaseSelect';
@@ -27,10 +27,6 @@ const ServicePointModalFormFirstPage: React.FC<IServicePointModalPageProps> = ({
   const { data: resellers } = useGetResellersQuery();
   const { data: companies } = useGetCompaniesQuery();
   const [updateStation] = useUpdateStationMutation();
-
-  const handleDropdownChange = (name: string, event: React.ChangeEvent<HTMLSelectElement>): void => {
-    form.setValue(name, Number(event.target.value));
-  };
   const handleFormSubmit = (): void => {
     handleServicePointOperation();
   };
@@ -107,9 +103,9 @@ const ServicePointModalFormFirstPage: React.FC<IServicePointModalPageProps> = ({
           label="Şirket"
           name={`company-id`}
           optionClassName="hover:bg-primary-lighter hover:text-black"
+          optionLabel="name"
+          optionValue="id"
           rules={{ required: 'Şirket seçimi zorunludur' }}
-          value={form.watch(`company-id`)}
-          onChange={(event: React.ChangeEvent<HTMLSelectElement>) => handleDropdownChange(`company`, event)}
         />
       </div>
       <div className={`${sectionPrefix}-reseller-select-container`}>
@@ -120,9 +116,9 @@ const ServicePointModalFormFirstPage: React.FC<IServicePointModalPageProps> = ({
           label="Bayi"
           name={`reseller-company-id`}
           optionClassName="hover:bg-primary-lighter hover:text-black"
+          optionLabel="name"
+          optionValue="id"
           rules={{ required: 'Bayi seçimi zorunludur' }}
-          value={form.watch(`reseller-company-id`)}
-          onChange={(event: React.ChangeEvent<HTMLSelectElement>) => handleDropdownChange(`reseller-company-id`, event)}
         />
       </div>
       <div className={`${sectionPrefix}-buttons-container flex flex-row-reverse`}>

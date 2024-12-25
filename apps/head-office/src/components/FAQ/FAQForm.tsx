@@ -51,8 +51,10 @@ const FAQForm = ({ form, categories, faqData, sectionPrefix = 'faq' }: IFAQFormP
         id={`${sectionPrefix}-category`}
         items={categories || []}
         label={'Kategori'}
-        name={'category'}
+        name={'knowledgeBaseCategoryRID'}
         rules={{ required: 'Kategori boş bırakılamaz' }}
+        optionValue={'rid'}
+        optionLabel={'name'}
         labelPrefix={
           <Button
             onClick={handleAddCategory}

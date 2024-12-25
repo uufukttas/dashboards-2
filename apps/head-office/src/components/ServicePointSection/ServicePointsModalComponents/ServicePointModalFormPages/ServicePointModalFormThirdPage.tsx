@@ -56,7 +56,10 @@ const ServicePointModalFormThirdPage: React.FC<IServicePointModalPageProps> = ({
           items={cities || []}
           label="İl"
           name={`city-id`}
-          onChange={(event: React.ChangeEvent<HTMLSelectElement>) => handleCityChange(Number(event.target.value))}
+          optionClassName="hover:bg-primary-lighter hover:text-black"
+          optionLabel="name"
+          optionValue="rid"
+          rules={{ required: 'İl seçimi zorunludur' }}
         />
       </div>
       <div className={`${sectionPrefix}-district-container`}>
@@ -66,7 +69,10 @@ const ServicePointModalFormThirdPage: React.FC<IServicePointModalPageProps> = ({
           items={districts || []}
           label="İlçe"
           name={`district-id`}
-          onChange={(event: React.ChangeEvent<HTMLSelectElement>) => form.setValue(`district-id`, event.target.value)}
+          optionClassName="hover:bg-primary-lighter hover:text-black"
+          optionLabel="name"
+          optionValue="rid"
+          rules={{ required: 'İlçe seçimi zorunludur' }}
         />
       </div>
       <div className={`${sectionPrefix}-coordinates-container flex justify-center items-center`}>
